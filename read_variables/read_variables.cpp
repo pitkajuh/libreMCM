@@ -32,7 +32,8 @@ const string comment="//";
 vector<tuple<string, double>> func_params;
 
 
-tuple<string, int, int> calculate(vector<string> fa, int size_original_equation)
+
+tuple<string, int, int> calculate(vector<string> fa, int size_original_equation, int open_parenthesis_indice, int close_parenthesis_indice)
 {
   /*
     Calculates an equation according to order of operations:
@@ -48,29 +49,41 @@ tuple<string, int, int> calculate(vector<string> fa, int size_original_equation)
   double calc_result;
   vector<int> calculation_done_indices;
   tuple<string, int, int> rt_value;
-
   int element_indices_to_delete=size_original_equation-2;
+  int fa_size=fa.size();
 
-  cout<<"size in calculation "<<fa.size()<<endl;
+// if(fa_size==3)
+//   {
+//     replace whole fa
+//   }
+
+  cout<<"size in calculation "<<fa.size()<<" size original "<<size_original_equation<<" indices "<<open_parenthesis_indice<<" "<<close_parenthesis_indice<<endl;
   // cout<<"######calculate#######"<<endl;
   while(i<=fa.size()-1)
     {
       fchar=fa[i];
-      // cout<<fchar<<endl;
+      cout<<fchar<<" "<<i<<endl;
+
       if(!no_exponents and i==fa.size()-1)
 	{
 	  i=0;
 	  no_exponents=true;
+	  cout<<"no_exponents"<<endl;
+	  continue;
 	}
       else if(!no_division and i==fa.size()-1)
 	{
 	  i=0;
 	  no_division=true;
+	  cout<<"no_division"<<endl;
+	  continue;
 	}
       else if(!no_multiplication and i==fa.size()-1)
 	{
 	  i=0;
 	  no_multiplication=true;
+	  cout<<"no_multi"<<endl;
+	  continue;
 	}
       else if(!no_addition and i==fa.size()-1)
 	{
@@ -86,17 +99,17 @@ tuple<string, int, int> calculate(vector<string> fa, int size_original_equation)
 	{
 	  cout<<"power"<<endl;
 	}
-      else if(fchar==divide and !no_exponents)
+      else if(fchar==divide and no_exponents)
 	{
 	  cout<<"divide"<<endl;
 	}
-      else if(fchar==multiply and !no_exponents)
+      else if(fchar==multiply and no_exponents)
 	{
 	  cout<<"multiply"<<endl;
 	}
-      else if(fchar==add and !no_addition and !no_subtraction)
+      else if(fchar==add and no_exponents and no_multiplication and no_division)
 	{
-	  // cout<<"adding"<<endl;
+	  cout<<"adding"<<endl;
 	  // Replace the elements which have been calculated with the result of the calculation and return the vector, repeat the process until all calculations have been done.
 	  // calculation_done_function(fa, i);
 	  operator_index=i;
@@ -107,13 +120,12 @@ tuple<string, int, int> calculate(vector<string> fa, int size_original_equation)
 	  // return to_string(calc_result);
 	  break;
 	}
-      else if(fchar==subtract and !no_addition and !no_subtraction)
+      else if(fchar==subtract and no_exponents and no_multiplication and no_division)
 	{
 	  cout<<"minus"<<endl;
 	}
       i++;
     }
-  // indeksit ei mene ihan näin, ne voisi laskea alkuperäisestä yhtälön pituudesta.
   return make_tuple(to_string(calc_result), number1_index, number2_index);
 }
 
@@ -159,12 +171,11 @@ void calculate_equation_constants(vector<string> fa)
 	      open_parenthesis_indice=open_parenthesis_indices[0];
 	      close_parenthesis_indice=close_parenthesis_indices[0];
 	      // cout<<"result idasds "<<calculate(get_values_from_vector(fa, open_parenthesis_indice, close_parenthesis_indice))<<endl;
-	      // Pitää hakea arvo/laskea numbers_to_calculate_indices vektorin arvoilla, sillä jos käyttää sen sijaan sulkuja, niin menee väärin.
-	      calculation_result=calculate(get_values_from_vector(fa, open_parenthesis_indice, close_parenthesis_indice), fa.size());
+	      calculation_result=calculate(get_values_from_vector(fa, open_parenthesis_indice, close_parenthesis_indice), fa.size(), open_parenthesis_indice, close_parenthesis_indice);
 	      // cout<<"result idasds "<<calculate(get_values_from_vector(fa, open_parenthesis_indice, close_parenthesis_indice))<<endl;
+
 	      cout<<"calculation result123 "<<get<0>(calculation_result)<<" "<<get<1>(calculation_result)<<" "<<get<2>(calculation_result)<<" sizeee "<<fa.size()<<endl;
 	      // replace_in_vector(fa, stod(get<0>(calculation_result)), get<2>(calculation_result));
-	      // Korvaaminen vektorissa pitää kutsua tässä funktiossa tms. koska halutaan sulut mukaan.
 	      // cout<<fa[]<<endl;
 	      numbers_to_calculate_indices.clear();
 	    }
@@ -199,7 +210,6 @@ void equation_read(string func_name, string func_value)
 	}
       else if(is_operator(fchar2))
 	{
-
 	  if(abb.length()>0)
 	    {
 	      fa.push_back(abb);
@@ -359,7 +369,6 @@ int main()
   return 0;
 }
 
-
 double get_variable_value(string variable)
 {
   int i=0;
@@ -375,7 +384,6 @@ double get_variable_value(string variable)
 	}
       i++;
     }
-
   if(value_found)
     {
       return value_found_return;
