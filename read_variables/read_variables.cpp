@@ -31,135 +31,6 @@ const string close_parenthesis=")";
 const string comment="//";
 vector<tuple<string, double>> func_params;
 
-tuple<string, double> read_variables(string line)
-{
-  int i; // index
-  string ab, empty_str=""; // empty strings used for appending
-  const int line_ln=line.length();
-  bool eq_found=false;
-  string value;
-  tuple<string, double> values1;
-  double variable_value;
-  string variable_name;
-
-  if(line.find(comment)==string::npos) // skips the line if it is commented out
-    {
-      while(i<=line_ln)
-	{
-	  if(line[i]==';')
-	    {
-	      variable_value=stod(ab);
-	    }
-	  if(line[i]=='=')
-	    {
-	      variable_name=ab;
-	      ab=empty_str;
-	      eq_found=true;
-	      i++;
-	    }
-	  if(isblank(line[i]) or line[i]=='\0')
-	    {
-	      i++;
-	      continue;
-	    }
-	  else
-	    {
-	      ab=ab+line[i];
-	    }
-	  i++;
-	}
-      values1=make_tuple(variable_name, variable_value);
-      return values1;
-    }
-}
-
-
-double get_variable_value(string variable)
-{
-  int i=0;
-  bool value_found=false;
-  double value_found_return;
-  while(i<=func_params.size()-1)
-    {
-      if(variable==get<0>(func_params[i]))
-	{
-	  value_found=true;
-	  value_found_return=get<1>(func_params[i]);
-	  break;
-	}
-      i++;
-    }
-
-  if(value_found)
-    {
-      return value_found_return;
-    }
-  else
-    {
-      return NAN;
-    }
-}
-
-vector<string> get_values_from_vector(vector<string> get_values_from, int indice_from, int indice_to)
-{
-  int i=indice_from+1;
-  vector<string> return_values;
-  while(i<=indice_to-1)
-    {
-      return_values.push_back(get_values_from[i]);
-      i++;
-    }
-  return return_values;
-}
-
-void replace_in_vector(vector<string> fa, double result, int operator_indice)
-{
-  int i=0;
-  int j=0;
-  vector<string> fa_edited;
-
-  while(i<=fa.size()-1)
-    {
-      if(fa.size()==3 and fa[0]==open_parenthesis and fa[fa.size()-1]==close_parenthesis)
-	{
-	  fa_edited.push_back(to_string(result));
-	  break;
-	}
-      else if(i==operator_indice-1)
-	{
-	  i++;
-	  continue;
-	}
-      else if(i==operator_indice)
-	{
-	  fa_edited.push_back(to_string(result));
-	}
-      else if(i==operator_indice+1)
-	{
-	  i++;
-	  continue;
-	}
-      else
-	{
-	  fa_edited.push_back(fa[i]);
-	}
-      i++;
-    }
-
-  while(j<=fa_edited.size()-1)
-    {
-
-      j++;
-    }
-}
-
-void calculation_done_function(vector<string> fa, int operator_indice)
-{
-  double calc_result;
-  calc_result=get_math_operator(fa[operator_indice-1], fa[operator_indice+1], fa[operator_indice]);
-
-  replace_in_vector(fa, calc_result, operator_indice);
-}
 
 tuple<string, int, int> calculate(vector<string> fa, int size_original_equation)
 {
@@ -180,12 +51,12 @@ tuple<string, int, int> calculate(vector<string> fa, int size_original_equation)
 
   int element_indices_to_delete=size_original_equation-2;
 
-
-
+  cout<<"size in calculation "<<fa.size()<<endl;
+  // cout<<"######calculate#######"<<endl;
   while(i<=fa.size()-1)
     {
       fchar=fa[i];
-
+      // cout<<fchar<<endl;
       if(!no_exponents and i==fa.size()-1)
 	{
 	  i=0;
@@ -225,10 +96,15 @@ tuple<string, int, int> calculate(vector<string> fa, int size_original_equation)
 	}
       else if(fchar==add and !no_addition and !no_subtraction)
 	{
+	  // cout<<"adding"<<endl;
+	  // Replace the elements which have been calculated with the result of the calculation and return the vector, repeat the process until all calculations have been done.
+	  // calculation_done_function(fa, i);
 	  operator_index=i;
 	  number1_index=i-1;
 	  number2_index=i+1;
 	  calc_result=get_math_operator(fa[number1_index], fa[number2_index], fa[operator_index]);
+
+	  // return to_string(calc_result);
 	  break;
 	}
       else if(fchar==subtract and !no_addition and !no_subtraction)
@@ -237,7 +113,7 @@ tuple<string, int, int> calculate(vector<string> fa, int size_original_equation)
 	}
       i++;
     }
-
+  // indeksit ei mene ihan näin, ne voisi laskea alkuperäisestä yhtälön pituudesta.
   return make_tuple(to_string(calc_result), number1_index, number2_index);
 }
 
@@ -253,12 +129,12 @@ void calculate_equation_constants(vector<string> fa)
   int open_parenthesis_indice, close_parenthesis_indice, number1_index, number2_index;
   vector<int> numbers_to_calculate_indices;
 
-
+  cout<<"######## calculate equaitons constants#######"<<endl;
 
   while(i<=fa.size()-1)
     {
       fchar=fa[i];
-
+      // cout<<i<<" "<<fchar<<endl;
       if(fchar==open_parenthesis)
 	{
 	  open_parenthesis_indices.push_back(i);
@@ -274,7 +150,7 @@ void calculate_equation_constants(vector<string> fa)
       else if(!is_operator(fchar))
 	{
 	  numbers_to_calculate_indices.push_back(i);
-
+	  cout<<numbers_to_calculate_indices.size()<<" nr index "<<i<<endl;
 	}
       else if(parenthesis_open_found and parenthesis_close_found)
 	{
@@ -282,8 +158,14 @@ void calculate_equation_constants(vector<string> fa)
 	    {
 	      open_parenthesis_indice=open_parenthesis_indices[0];
 	      close_parenthesis_indice=close_parenthesis_indices[0];
+	      // cout<<"result idasds "<<calculate(get_values_from_vector(fa, open_parenthesis_indice, close_parenthesis_indice))<<endl;
+	      // Pitää hakea arvo/laskea numbers_to_calculate_indices vektorin arvoilla, sillä jos käyttää sen sijaan sulkuja, niin menee väärin.
 	      calculation_result=calculate(get_values_from_vector(fa, open_parenthesis_indice, close_parenthesis_indice), fa.size());
+	      // cout<<"result idasds "<<calculate(get_values_from_vector(fa, open_parenthesis_indice, close_parenthesis_indice))<<endl;
+	      cout<<"calculation result123 "<<get<0>(calculation_result)<<" "<<get<1>(calculation_result)<<" "<<get<2>(calculation_result)<<" sizeee "<<fa.size()<<endl;
 	      // replace_in_vector(fa, stod(get<0>(calculation_result)), get<2>(calculation_result));
+	      // Korvaaminen vektorissa pitää kutsua tässä funktiossa tms. koska halutaan sulut mukaan.
+	      // cout<<fa[]<<endl;
 	      numbers_to_calculate_indices.clear();
 	    }
 	  parenthesis_close_found=false;
@@ -309,24 +191,24 @@ void equation_read(string func_name, string func_value)
   while(i<=func_value.size()-1)
     {
       fchar2=func_value[i];
-
+      // cout<<fchar2<<endl;
       if(is_operator(fchar2) and i==0)
 	{
 	  fa.push_back(fchar2);
-
+	  // cout<<<<endl;<<"appendign1 :"<<fchar2<<":"<<endl;
 	}
-      else if(is_operator(fchar2) )
+      else if(is_operator(fchar2))
 	{
 
 	  if(abb.length()>0)
 	    {
 	      fa.push_back(abb);
-
+	      // cout<<"appendign :"<<abb<<":"<<" "<<abb.length()<<endl;
 	      abb="";
 	    }
 	  fa.push_back(fchar2);
 	  last_operator_index=i;
-
+	  // cout<<"appendign :"<<fchar2<<":"<<endl;
 	}
       else
 	{
@@ -339,21 +221,21 @@ void equation_read(string func_name, string func_value)
 
   if(last_operator_index!=func_value.size()-1)
     {
-
-
+      // cout<<last_operator_index+1<< func_value.size()-1-last_operator_index<<endl;
+      // cout<<func_value.substr(last_operator_index+1, func_value.size()-1-last_operator_index)<<endl;
 
       fa.push_back(func_value.substr(last_operator_index+1, func_value.size()-1-last_operator_index));
     }
 
-
+  // cout<<last_operator_index<<" "<<func_value.size()-1<<" "<<func_value[last_operator_index]<<endl;
 
   int j=0;
-
+  cout<<"#####printign vector#####"<<endl;
   string tyhja="";
   while(j<=fa.size()-1)
     {
       tyhja=tyhja+fa[j];
-
+      // cout<<fa[j]<<endl;
       j++;
     }
   if(tyhja==func_value)
@@ -362,7 +244,7 @@ void equation_read(string func_name, string func_value)
     }
   else
     {
-      cout<<func_value<<" not ok"<<endl;
+      cout<<func_value<<" ei ok"<<endl;
     }
   calculate_equation_constants(fa);
 }
@@ -382,26 +264,26 @@ void read_equations(string line)
     { // skips the line if it is commented out
       while(i<=line_ln-1)
 	{
-
-
+	  // cout<<line<<" "<<line_ln<<endl;
+	  // cout<<i<<" "<<line[i]<<endl;
 	  if(line[i]==';')
 	    {
-
+	      // cout<<"if 1 "<<i<<endl;
 	      // values.push_back(stod(ab));
-
+	      // cout<<"funcs "<<ab<<endl;
 	      value1=ab;
 	    }
 	  else if(isblank(line[i]) or line[i]=='\0')
 	    {
-
+	      // cout<<"if 3 "<<i<<endl;
 	      i++;
 	      continue;
 	    }
 	  else if(line[i]=='=')
 	    {
-
+	      // cout<<"if 2 "<<i<<endl;
 	      // empty.push_back(ab);
-
+	      // cout<<"funcs "<<ab<<endl;
 	      value=ab;
 	      ab=empty_str;
 	      eq_found=true;
@@ -409,12 +291,12 @@ void read_equations(string line)
 	    }
 	  else
 	    {
-
+	      // cout<<<<endl;<<"else "<<i<<endl;
 	      ab=ab+line[i];
 	    }
 	  i++;
 	}
-
+      cout<<"read eq "<<value<<" "<<value1<<endl;
       equation_read(value, value1);
     }
 }
@@ -432,7 +314,7 @@ int main()
 
   while(getline(variables_loaded, line))
     {
-
+      // cout<<line.empty()<<endl;
       if(line.empty())
 	{
 	  continue;
@@ -472,7 +354,34 @@ int main()
 	    }
 	}
     }
-
+  cout<<"########equation_read end########"<<endl;
 
   return 0;
+}
+
+
+double get_variable_value(string variable)
+{
+  int i=0;
+  bool value_found=false;
+  double value_found_return;
+  while(i<=func_params.size()-1)
+    {
+      if(variable==get<0>(func_params[i]))
+	{
+	  value_found=true;
+	  value_found_return=get<1>(func_params[i]);
+	  break;
+	}
+      i++;
+    }
+
+  if(value_found)
+    {
+      return value_found_return;
+    }
+  else
+    {
+      return NAN;
+    }
 }

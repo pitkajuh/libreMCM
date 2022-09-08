@@ -29,6 +29,116 @@ const string open_parenthesis="(";
 const string close_parenthesis=")";
 const string comment="//";
 
+void calculation_done_function(vector<string> fa, int operator_indice)
+{
+  double calc_result;
+  calc_result=get_math_operator(fa[operator_indice-1], fa[operator_indice+1], fa[operator_indice]);
+  cout<<calc_result<<endl;
+  replace_in_vector(fa, calc_result, operator_indice);
+}
+
+
+void replace_in_vector(vector<string> fa, double result, int operator_indice)
+{
+  int i=0;
+  int j=0;
+  vector<string> fa_edited;
+  cout<<"sdasd "<<fa.size()<<" "<<fa[0]<<" "<<fa[fa.size()-1]<<endl;
+  while(i<=fa.size()-1)
+    {
+      if(fa.size()==3 and fa[0]==open_parenthesis and fa[fa.size()-1]==close_parenthesis)
+	{
+	  fa_edited.push_back(to_string(result));
+	  break;
+	}
+      else if(i==operator_indice-1)
+	{
+	  i++;
+	  continue;
+	}
+      else if(i==operator_indice)
+	{
+	  fa_edited.push_back(to_string(result));
+	}
+      else if(i==operator_indice+1)
+	{
+	  i++;
+	  continue;
+	}
+      else
+	{
+	  fa_edited.push_back(fa[i]);
+	}
+      i++;
+    }
+
+  while(j<=fa_edited.size()-1)
+    {
+      cout<<fa_edited[j]<<endl;
+      j++;
+    }
+  // replace elements corresponding to indices operator_indice, operator_indice+1 and operator_indice-1 with to_string(result)
+}
+
+
+
+vector<string> get_values_from_vector(vector<string> get_values_from, int indice_from, int indice_to)
+{
+  int i=indice_from+1;
+  vector<string> return_values;
+  while(i<=indice_to-1)
+    {
+      return_values.push_back(get_values_from[i]);
+      i++;
+    }
+  return return_values;
+}
+
+tuple<string, double> read_variables(string line)
+{
+  int i; // index
+  string ab, empty_str=""; // empty strings used for appending
+  const int line_ln=line.length();
+  bool eq_found=false;
+  string value;
+  tuple<string, double> values1;
+  double variable_value;
+  string variable_name;
+
+  if(line.find(comment)==string::npos) // skips the line if it is commented out
+    {
+      while(i<=line_ln)
+	{
+	  if(line[i]==';')
+	    {
+	      variable_value=stod(ab);
+	    }
+	  if(line[i]=='=')
+	    {
+	      variable_name=ab;
+	      ab=empty_str;
+	      eq_found=true;
+	      i++;
+	    }
+	  if(isblank(line[i]) or line[i]=='\0')
+	    {
+	      i++;
+	      continue;
+	    }
+	  else
+	    {
+	      ab=ab+line[i];
+	    }
+	  i++;
+	}
+      values1=make_tuple(variable_name, variable_value);
+      return values1;
+    }
+}
+
+
+
+
 bool is_string_numerical_value(string variable)
 {
   // Checks whether there are numbers(0-9) in the equations, not only variables. Returns true, if string is a valid number.

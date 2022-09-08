@@ -14,6 +14,10 @@
 
 using namespace std;
 
+void calculation_done_function(vector<string> fa, int operator_indice);
+void replace_in_vector(vector<string> fa, double result, int operator_indice);
+vector<string> get_values_from_vector(vector<string> get_values_from, int indice_from, int indice_to);
+tuple<string, double> read_variables(string line);
 double get_variable_value (string variable);
 bool is_string_numerical_value (string variable);
 double is_number_or_variable (string ab);
