@@ -15,8 +15,9 @@ variables{
 equations{
   // tb1=10.0*30.02/20.1+500.98;
   // tb1=10*1e-4 // does not work
+  // tb1=aa+c+(e+c+F+R)-F;
   tb1=(e+c)-F;
-  // tb1=(e-c+RR-b)-F;
+  // tb1=(e+c+R);
   // tb2=(c/b+F*RR-e/R)/3;
   // tb2=(e/R)/3;
   // tba2 = e / b;

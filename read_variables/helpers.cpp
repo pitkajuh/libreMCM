@@ -29,38 +29,38 @@ const string open_parenthesis="(";
 const string close_parenthesis=")";
 const string comment="//";
 
-void calculation_done_function(vector<string> fa, int operator_indice)
-{
-  double calc_result;
-  calc_result=get_math_operator(fa[operator_indice-1], fa[operator_indice+1], fa[operator_indice]);
-  cout<<calc_result<<endl;
-  replace_in_vector(fa, calc_result, operator_indice);
-}
+// void calculation_done_function(vector<string> fa, int operator_indice)
+// {
+//   double calc_result;
+//   calc_result=get_math_operator(fa[operator_indice-1], fa[operator_indice+1], fa[operator_indice]);
+//   cout<<calc_result<<endl;
+//   replace_in_vector(fa, calc_result, operator_indice);
+// }
 
-
-void replace_in_vector(vector<string> fa, double result, int operator_indice)
+vector<string> replace_in_vector(vector<string> fa, string result, int index_replace_from, int index_replace_to)
 {
   int i=0;
   int j=0;
   vector<string> fa_edited;
-  cout<<"sdasd "<<fa.size()<<" "<<fa[0]<<" "<<fa[fa.size()-1]<<endl;
+
+  if(index_replace_to-index_replace_from==2 and fa[index_replace_from-1]==open_parenthesis and fa[index_replace_to+1]==close_parenthesis)
+    {
+      index_replace_from=index_replace_from-1;
+      index_replace_to=index_replace_to+1;
+    }
+
   while(i<=fa.size()-1)
     {
-      if(fa.size()==3 and fa[0]==open_parenthesis and fa[fa.size()-1]==close_parenthesis)
+      if(i==index_replace_from)
 	{
-	  fa_edited.push_back(to_string(result));
-	  break;
+	  fa_edited.push_back(result);
 	}
-      else if(i==operator_indice-1)
+      else if(i==index_replace_to)
 	{
 	  i++;
 	  continue;
 	}
-      else if(i==operator_indice)
-	{
-	  fa_edited.push_back(to_string(result));
-	}
-      else if(i==operator_indice+1)
+      else if(i>index_replace_from and i<index_replace_to)
 	{
 	  i++;
 	  continue;
@@ -74,10 +74,10 @@ void replace_in_vector(vector<string> fa, double result, int operator_indice)
 
   while(j<=fa_edited.size()-1)
     {
-      cout<<fa_edited[j]<<endl;
+      cout<<j<<" "<<fa_edited[j]<<endl;
       j++;
     }
-  // replace elements corresponding to indices operator_indice, operator_indice+1 and operator_indice-1 with to_string(result)
+  return fa_edited;
 }
 
 

@@ -15,7 +15,7 @@
 using namespace std;
 
 void calculation_done_function(vector<string> fa, int operator_indice);
-void replace_in_vector(vector<string> fa, double result, int operator_indice);
+vector<string> replace_in_vector(vector<string> fa, string result, int index_replace_from, int index_replace_to);
 vector<string> get_values_from_vector(vector<string> get_values_from, int indice_from, int indice_to);
 tuple<string, double> read_variables(string line);
 double get_variable_value (string variable);
