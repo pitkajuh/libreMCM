@@ -1,0 +1,1 @@
+g++ -v *.cpp -o read_variables && ./read_variables
