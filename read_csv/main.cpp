@@ -4,6 +4,10 @@
   Author: pitkajuh
 */
 
+/*
+Reads a csv file "test.csv" containing a test compartments and transfer functions.
+*/
+
 #include <iostream>
 #include <stdlib.h>
 #include <tuple>
