@@ -8,7 +8,6 @@
 Gets from the variables section from bin file and calculates the equations as described in the equations section of the bin file.
 */
 
-
 #include <iostream>
 #include <stdlib.h>
 #include <tuple>
@@ -36,185 +35,165 @@ const string close_parenthesis=")";
 const string comment="//";
 vector<tuple<string, double>> func_params;
 
-
-
-tuple<string, int, int> calculate(vector<string> fa, int size_original_equation, int open_parenthesis_indice, int close_parenthesis_indice)
+vector<string> print_elem(vector<string> fa, int start, int stop)
 {
-  /*
-    Calculates an equation according to order of operations:
+  int i=start;
+  string emp="";
+  vector<string> rt;
+  while(i<=stop)
+    {
+      rt.push_back(fa[i]);
+      i++;
+    }
+  return rt;
+}
 
-    1. Exponents
-    2. Multiplication and division
-    3. Addition and subtraction
-  */
-
-  int i=0, operator_index, number1_index, number2_index;
+string calc123(vector<string> fa, int size)
+{
+  int i=0, open_parenthesis_index, close_parenthesis_index;
   bool no_exponents=false, no_division=false, no_multiplication=false, no_addition=false, no_subtraction=false;
-  string fchar;
+  string fchar, rt;
   double calc_result;
-  vector<int> calculation_done_indices;
-  tuple<string, int, int> rt_value;
-  int element_indices_to_delete=size_original_equation-2;
-  int fa_size=fa.size();
 
-// if(fa_size==3)
-//   {
-//     replace whole fa
-//   }
-
-  cout<<"size in calculation "<<fa.size()<<" size original "<<size_original_equation<<" indices "<<open_parenthesis_indice<<" "<<close_parenthesis_indice<<endl;
-  // cout<<"######calculate#######"<<endl;
-
-  while(i<=fa.size()-1)
+  while(i<=size)
     {
       fchar=fa[i];
-      // cout<<fchar<<" "<<i<<endl;
-
-      if(!no_exponents and i==fa.size()-1)
+      // cout<<i<<"/"<<size<<" "<<fchar<<endl;
+      if(fa.size()==1)
 	{
-	  i=0;
+	  rt=fa[0];
+	  break;
+	}
+      else if(!no_exponents and i==size)
+	{
 	  no_exponents=true;
-	  // cout<<"no_exponents"<<endl;
+	  i=0;
 	  continue;
 	}
-      else if(!no_division and i==fa.size()-1)
+      else if(!no_division and i==size)
 	{
-	  i=0;
 	  no_division=true;
-	  // cout<<"no_division"<<endl;
+	  i=0;
 	  continue;
 	}
-      else if(!no_multiplication and i==fa.size()-1)
+      else if(!no_multiplication and i==size)
 	{
-	  i=0;
 	  no_multiplication=true;
-	  // cout<<"no_multi"<<endl;
+	  i=0;
 	  continue;
 	}
-      else if(!no_addition and i==fa.size()-1)
+      else if(!no_addition and i==size)
 	{
-	  i=0;
 	  no_addition=true;
-	}
-      else if(!no_subtraction and i==fa.size()-1)
-	{
 	  i=0;
+	  continue;
+	}
+      else if(!no_subtraction and i==size)
+	{
 	  no_subtraction=true;
+	  i=0;
+	  continue;
 	}
       else if(fchar==power)
 	{
-	  operator_index=i;
-	  number1_index=i-1;
-	  number2_index=i+1;
-	  calc_result=get_math_operator(fa[number1_index], fa[number2_index], fa[operator_index]);
-	  break;
+	  calc_result=get_math_operator(fa[i-1], fa[i+1], fa[i]);
+	  fa=replace_in_vector(fa, to_string(calc_result), i-1, i+1);
+	  size=fa.size()-1;
+	  i=0;
+	  continue;
 	}
       else if(fchar==divide and no_exponents)
 	{
-	  operator_index=i;
-	  number1_index=i-1;
-	  number2_index=i+1;
-	  calc_result=get_math_operator(fa[number1_index], fa[number2_index], fa[operator_index]);
-	  break;
+	  calc_result=get_math_operator(fa[i-1], fa[i+1], fa[i]);
+	  fa=replace_in_vector(fa, to_string(calc_result), i-1, i+1);
+	  size=fa.size()-1;
+	  i=0;
+	  continue;
 	}
       else if(fchar==multiply and no_exponents)
 	{
-	  operator_index=i;
-	  number1_index=i-1;
-	  number2_index=i+1;
-	  calc_result=get_math_operator(fa[number1_index], fa[number2_index], fa[operator_index]);
-	  break;
+	  calc_result=get_math_operator(fa[i-1], fa[i+1], fa[i]);
+	  fa=replace_in_vector(fa, to_string(calc_result), i-1, i+1);
+	  size=fa.size()-1;
+	  i=0;
+	  continue;
 	}
       else if(fchar==add and no_exponents and no_multiplication and no_division)
 	{
-	  // Replace the elements which have been calculated with the result of the calculation and return the vector, repeat the process until all calculations have been done.
-	  operator_index=i;
-	  number1_index=i-1;
-	  number2_index=i+1;
-	  calc_result=get_math_operator(fa[number1_index], fa[number2_index], fa[operator_index]);
-	  break;
+	  calc_result=get_math_operator(fa[i-1], fa[i+1], fa[i]);
+	  fa=replace_in_vector(fa, to_string(calc_result), i-1, i+1);
+	  size=fa.size()-1;
+	  i=0;
+	  continue;
 	}
       else if(fchar==subtract and no_exponents and no_multiplication and no_division)
 	{
-	  operator_index=i;
-	  number1_index=i-1;
-	  number2_index=i+1;
-	  calc_result=get_math_operator(fa[number1_index], fa[number2_index], fa[operator_index]);
-	  break;
+	  calc_result=get_math_operator(fa[i-1], fa[i+1], fa[i]);
+	  fa=replace_in_vector(fa, to_string(calc_result), i-1, i+1);
+	  size=fa.size()-1;
+	  i=0;
+	  continue;
 	}
       i++;
     }
-  // cout<<"result "<<calc_result<<" 1st index "<<number1_index<<" 2nd index "<<number2_index<<" fa size "<<fa.size()<<endl;
-  return make_tuple(to_string(calc_result), number1_index, number2_index);
+  return rt;
 }
+
 
 void calculate_equation_constants(vector<string> fa)
 {
-  int i=0, j=0, parenthesis_open_nr=0, parenthesis_close_nr=0, open_parenthesis_indice, close_parenthesis_indice, number1_index, number2_index;
-  vector<int> open_parenthesis_indices, close_parenthesis_indices;
-  bool parenthesis_open_found=false, parenthesis_close_found=false;
-  vector<string> values_for_calculating;
+
+  /*
+    Calculates an equation according to order of operations:
+
+    1. Parentheses
+    2. Exponents
+    3. Multiplication and division
+    4. Addition and subtraction
+  */
+
+  int i=0, j=0;
+  bool no_exponents=false, no_division=false, no_multiplication=false, no_addition=false, no_subtraction=false, no_open_parenthesis=false, no_close_parenthesis=false,  open_parenthesis_found=false, close_parenthesis_found=false;
   string fchar;
-  tuple<string, int, int> calculation_result;
-
-  vector<int> numbers_to_calculate_indices;
-
-  cout<<"######## calculate constants#######"<<endl;
+  double calc_result;
+  vector<string> rt_value;
+  vector<int> parenthesis_open_indices, parenthesis_close_indices;
 
   while(i<=fa.size()-1)
     {
       fchar=fa[i];
-      // cout<<i<<" "<<fchar<<endl;
+      // cout<<"non paran "<<fchar<<endl;
       if(fchar==open_parenthesis)
 	{
-	  open_parenthesis_indices.push_back(i);
-	  parenthesis_open_found=true;
-	  parenthesis_open_nr++;
+	  parenthesis_open_indices.push_back(i);
+	  cout<<"open parenthesis found at index "<<i<<endl;
 	}
       else if(fchar==close_parenthesis)
 	{
-	  close_parenthesis_indices.push_back(i);
-	  parenthesis_close_found=true;
-	  parenthesis_close_nr++;
+	  parenthesis_close_indices.push_back(i);
+	  cout<<"close parenthesis found at index "<<i<<endl;
 	}
-      else if(!is_operator(fchar))
-	{
-	  numbers_to_calculate_indices.push_back(i);
-	  // cout<<numbers_to_calculate_indices.size()<<" nr index "<<i<<endl;
-	}
-      else if(parenthesis_open_found and parenthesis_close_found)
-	{
-	  if(open_parenthesis_indices.size()==1 and close_parenthesis_indices.size()==1)
-	    {
-	      open_parenthesis_indice=open_parenthesis_indices[0];
-	      close_parenthesis_indice=close_parenthesis_indices[0];
-	      // cout<<"result idasds "<<calculate(get_values_from_vector(fa, open_parenthesis_indice, close_parenthesis_indice))<<endl;
-
-	      // cout<<"open_parenthesis_indice "<<open_parenthesis_indice<<" close_parenthesis_indice "<<close_parenthesis_indice<<endl;
-
-	      calculation_result=calculate(get_values_from_vector(fa, open_parenthesis_indice, close_parenthesis_indice), fa.size(), open_parenthesis_indice, close_parenthesis_indice);
-
-	      // cout<<"to replace from index "<<open_parenthesis_indice+1+get<1>(calculation_result)<<" to index "<<open_parenthesis_indice+1+get<2>(calculation_result)<<endl;
-
-
-
-	      // cout<<"result idasds "<<calculate(get_values_from_vector(fa, open_parenthesis_indice, close_parenthesis_indice))<<endl;
-
-	      // cout<<"calculation result "<<get<0>(calculation_result)<<" "<<get<1>(calculation_result)<<" "<<get<2>(calculation_result)<<" size "<<fa.size()<<endl;
-	      fa=replace_in_vector(fa, get<0>(calculation_result), open_parenthesis_indice+1+get<1>(calculation_result), open_parenthesis_indice+1+get<2>(calculation_result));
-	      numbers_to_calculate_indices.clear();
-	      i=0;
-	      continue;
-	    }
-	  parenthesis_close_found=false;
-	  parenthesis_open_found=false;
-	}
-      // else if(parenthesis_open_found and parenthesis_close_found and parenthesis_open_nr>>parenthesis_close_found)
-      // {
-      //   //calculate
-      // }
       i++;
     }
+  cout<<"sizes "<<parenthesis_open_indices.size()<<" "<<parenthesis_close_indices.size()<<endl;
+
+  // int c=0;
+  // int c2=parenthesis_open_indices.size();
+  // while(c<=parenthesis_open_indices.size()-1)
+  //   {
+  //     // cout<<c2-c<<" "<<c<<endl;
+  //     cout<<parenthesis_open_indices[c2-c]<<" "<<parenthesis_close_indices[c]<<endl;
+  //     c++;
+  //   }
+
+  if(parenthesis_open_indices.size()==1 and parenthesis_close_indices.size()==1)
+    {
+      rt_value=print_elem(fa, parenthesis_open_indices[0]+1, parenthesis_close_indices[0]-1);
+      fa=replace_in_vector(fa, calc123(rt_value, rt_value.size()-1), parenthesis_open_indices[0], parenthesis_close_indices[0]);
+    }
+
+  calc123(fa, fa.size()-1);
+
 }
 
 void equation_read(string func_name, string func_value)
@@ -228,23 +207,19 @@ void equation_read(string func_name, string func_value)
   while(i<=func_value.size()-1)
     {
       fchar2=func_value[i];
-      // cout<<fchar2<<endl;
       if(is_operator(fchar2) and i==0)
 	{
 	  fa.push_back(fchar2);
-	  // cout<<<<endl;<<"appendign1 :"<<fchar2<<":"<<endl;
 	}
       else if(is_operator(fchar2))
 	{
 	  if(abb.length()>0)
 	    {
 	      fa.push_back(abb);
-	      // cout<<"appendign :"<<abb<<":"<<" "<<abb.length()<<endl;
 	      abb="";
 	    }
 	  fa.push_back(fchar2);
 	  last_operator_index=i;
-	  // cout<<"appendign :"<<fchar2<<":"<<endl;
 	}
       else
 	{
@@ -255,9 +230,6 @@ void equation_read(string func_name, string func_value)
 
   if(last_operator_index!=func_value.size()-1)
     {
-      // cout<<last_operator_index+1<< func_value.size()-1-last_operator_index<<endl;
-      // cout<<func_value.substr(last_operator_index+1, func_value.size()-1-last_operator_index)<<endl;
-
       fa.push_back(func_value.substr(last_operator_index+1, func_value.size()-1-last_operator_index));
     }
 

@@ -13,12 +13,22 @@ variables{
 }
 
 equations{
-  // tb1=10.0*30.02/20.1+500.98;
-  // tb1=10*1e-4 // does not work
-  // tb1=aa+c+(e+c+F+R)-F;
-  tb1=(e+c)-F;
-  // tb1=(e+c+R);
+  // 1.01587 not ok
+  tf2=(c/(c+F)+RR)/RR;
+  // 137.32 ok
   // tb2=(c/b+F*RR-e/R)/3;
+  // 515.92 ok
+  // tb1=10.0*30.02/20.1+500.98;
+  // 1.5 ok
+  // tb1=c+(e+c+F)-RR;
+  // 2.54 tark, in paren 6.3
+  // tb1=aa+c+(e+c+F+R)-F;
+  // -3.7 ok
+  // tb1=(e+c)-F;
+  // 2.3 ok
+  // tb1=(e+c+R);
+  // 0.0166 ok
   // tb2=(e/R)/3;
+  // 200 ok
   // tba2 = e / b;
 }

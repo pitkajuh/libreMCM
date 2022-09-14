@@ -11,7 +11,7 @@
 #include <assert.h>
 #include <regex>
 #include "helpers.h"
-/* #include "global.h" */
+
 using namespace std;
 
 

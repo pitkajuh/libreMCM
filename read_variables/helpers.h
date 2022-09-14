@@ -10,7 +10,6 @@
 #include <algorithm>
 #include <assert.h>
 #include <regex>
-/* #include "global.h" */
 
 using namespace std;
 

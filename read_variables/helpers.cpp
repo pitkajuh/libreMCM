@@ -17,7 +17,7 @@
 #include <assert.h>
 #include <regex>
 #include "read_variables.h"
-// #include "global.h"
+
 using namespace std;
 
 const string multiply="*";
@@ -29,28 +29,22 @@ const string open_parenthesis="(";
 const string close_parenthesis=")";
 const string comment="//";
 
-// void calculation_done_function(vector<string> fa, int operator_indice)
-// {
-//   double calc_result;
-//   calc_result=get_math_operator(fa[operator_indice-1], fa[operator_indice+1], fa[operator_indice]);
-//   cout<<calc_result<<endl;
-//   replace_in_vector(fa, calc_result, operator_indice);
-// }
-
 vector<string> replace_in_vector(vector<string> fa, string result, int index_replace_from, int index_replace_to)
 {
   int i=0;
   int j=0;
   vector<string> fa_edited;
-
+  string fchar;
   if(index_replace_to-index_replace_from==2 and fa[index_replace_from-1]==open_parenthesis and fa[index_replace_to+1]==close_parenthesis)
     {
+      cout<<"abc123"<<endl;
       index_replace_from=index_replace_from-1;
       index_replace_to=index_replace_to+1;
     }
-
   while(i<=fa.size()-1)
     {
+      fchar=fa[i];
+      // cout<<"replace in vector "<<i<<"/"<<fa.size ()-1<<" "<<fa[i]<<endl;
       if(i==index_replace_from)
 	{
 	  fa_edited.push_back(result);
@@ -67,16 +61,20 @@ vector<string> replace_in_vector(vector<string> fa, string result, int index_rep
 	}
       else
 	{
-	  fa_edited.push_back(fa[i]);
+	  fa_edited.push_back(fchar);
+	  // fa_edited.push_back(fa[i]);
 	}
       i++;
     }
-
+  cout<<"printing edited vector"<<endl;
+  string tyhja;
   while(j<=fa_edited.size()-1)
     {
-      cout<<j<<" "<<fa_edited[j]<<endl;
+      tyhja=tyhja+fa_edited[j];
+      // cout<<"edited "<<j<<"/"<<fa_edited.size()-1<<" "<<fa_edited[j]<<endl;
       j++;
     }
+  cout<<"returning edited vector "<<tyhja<<" "<<fa_edited.size()<<endl;
   return fa_edited;
 }
 
@@ -135,9 +133,6 @@ tuple<string, double> read_variables(string line)
       return values1;
     }
 }
-
-
-
 
 bool is_string_numerical_value(string variable)
 {
