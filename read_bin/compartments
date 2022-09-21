@@ -1,0 +1,39 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+|                               +===========+                                |
+|                               | l         |                                |
+|                               |   i       | M ulti                         |
+|                               |     b     | C ompartment                   |
+|                               |       r   | M odelling                     |
+|                               |         e |                                |
+|                               +===========+                                |
+\*---------------------------------------------------------------------------*/
+
+/*This file is used to define the compartments e.g. what radionuclides they contain.*/
+
+compartments{
+  A{
+    radionuclides{
+      Ag-108m=100;
+      Ar-39=100;
+      Ba-133=100;
+      C-14=100;
+      Ca-41=100;
+      Cl-36=100;
+    }
+  }
+  B{
+    radionuclides{
+      Eu-154=100;
+      H-3=100;
+      Ni-59=100;
+      Ni-63=100;
+    }
+  }
+  C{
+    radionuclides{
+      Co-60=100;
+      Cs-137=100;
+      Eu-152=100;
+    }
+  }
+}
