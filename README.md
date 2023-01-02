@@ -9,4 +9,4 @@ The goal of libreMCM (libre Multi Compartment Modelling) is to be a free (free a
 3. Add the variables (compartment names), constants (if any) and equation/transfer function to the file cfg/bin.
 4. Set simulation settings in sim_params file.
 5. Compile using the following command "g++ -v *.cpp -o main && ./main" (on Debian 11).
-6. The result of the simulation will be writen to file "r.txt".
+6. The result of the simulation will be writen to text files.
