@@ -17,18 +17,19 @@ using namespace std;
 
 vector<string> variables;
 vector<tuple<string, string>> func_params;
-string constants_str="constants", equations_str="equations", variables_str="variables";
 
 vector<string> get_elem(vector<string> fa, int start, int stop)
 {
   int i=start;
   string emp="";
+  string fchar;
   vector<string> rt;
 
   while(i<=stop)
     {
-      rt.push_back(fa[i]);
-      emp=emp+fa[i];
+      fchar=fa[i];
+      rt.push_back(fchar);
+      emp=emp+fchar;
       i++;
     }
   return rt;
@@ -45,10 +46,14 @@ string calculate_equation_constants(vector<string> fa)
     4. Addition and subtraction
   */
 
-  int i=0, fa_size=fa.size(), o_index, c_index;
-  string fchar;
-  vector<string> rt_value;
-  vector<int> parenthesis_open_indices, parenthesis_close_indices;
+  // int i=0;
+  // int fa_size=fa.size();
+  // int o_index;
+  // int c_index;
+  // string fchar;
+  // vector<string> rt_value;
+  // vector<int> parenthesis_open_indices;
+  // vector<int> parenthesis_close_indices;
   // WIP
   // while(i<=fa_size-1)
   //   {
@@ -85,63 +90,79 @@ string calculate_equation_constants(vector<string> fa)
 
 string equation_read(string func_name, string func_value)
 {
-  int i=0, last_operator_index;
+  int i=0;
+  int last_operator_index;
   vector<string> fa;
-  string abb="", fchar;
+  const string empty_str="";
+  string abb=empty_str;
+  string fchar;
+  string read_bin_result;
+  bool is_str_operator;
+  string sub_string;
 
   while(i<=func_value.size()-1)
     {
       fchar=func_value[i];
-      if(is_operator(fchar) and i==0)
+      is_str_operator=is_operator(fchar);
+
+      if(is_str_operator and i==0)
 	{
 	  fa.push_back(fchar);
 	}
-      else if(is_operator(fchar))
+      else if(is_str_operator)
 	{
 	  if(abb.length()>0)
 	    {
 	      fa.push_back(abb);
-	      abb="";
+	      abb=empty_str;
 	    }
 	  fa.push_back(fchar);
 	  last_operator_index=i;
 	}
       else
 	{
-	  abb=abb+func_value[i];
+	  abb=abb+fchar;
 	}
       i++;
     }
 
   if(last_operator_index!=func_value.size()-1)
     {
-      fa.push_back(func_value.substr(last_operator_index+1, func_value.size()-1-last_operator_index));
+      sub_string=func_value.substr(last_operator_index+1, func_value.size()-1-last_operator_index);
+      fa.push_back(sub_string);
     }
 
-  return calculate_equation_constants(fa);
+  read_bin_result=calculate_equation_constants(fa);
+  return read_bin_result;
 }
 
 tuple<string, string> read_equations(string line)
 {
   int i=0;
-  string fchar, ab, empty_str="", equation_name, equation_value;
-  vector<string> empty;
-  vector<double> values;
+  string fchar;
+  string ab;
+  string empty_str="";
+  string equation_name;
+  string equation_value;
   bool eq_found=false;
+  tuple<string, string> rt;
+  const string empty1=" ";
+  const string empty2="\0";
 
   while(i<=line.size()-1)
   {
     fchar=line[i];
+
       if(fchar==delimiter)
 	{
 	  equation_value=ab;
 	}
-      else if(fchar=="\0" or fchar==" " or fchar.empty())
+      else if(fchar==empty2 or fchar==empty1 or fchar.empty())
 	{
 	  i++;
 	  continue;
 	}
-      else if(fchar=="=")
+      else if(fchar==equal_sign)
 	{
 	  equation_name=ab;
 	  ab=empty_str;
@@ -154,23 +175,29 @@ tuple<string, string> read_equations(string line)
       i++;
     }
 
-  return make_tuple(equation_name, equation_read(equation_name, equation_value));
+  rt=make_tuple(equation_name, equation_read(equation_name, equation_value));
+  return rt;
 }
 
 string get_variable(string line)
 {
   int i=0;
-  string fchar, variable, ab;
+  string fchar;
+  string variable;
+  string ab;
+  const string empty1=" ";
+  const string empty2="\0";
 
   while(i<=line.size()-1)
     {
       fchar=line[i];
+
       if(fchar==delimiter)
 	{
 	  variable=ab;
 	  break;
 	}
-      else if(fchar=="\0" or fchar==" " or fchar.empty())
+      else if(fchar==empty2 or fchar==empty1 or fchar.empty())
 	{
 	  i++;
 	  continue;
@@ -181,23 +208,35 @@ string get_variable(string line)
 	}
       i++;
     }
+
   return variable;
 }
 
 vector<tuple<string, string>> read_bin()
 {
-  fstream bin_loaded("cfg/bin", ios_base::in | ios::binary);
+  const string file_name="cfg/bin";
+  fstream bin_loaded(file_name, ios_base::in | ios::binary);
   string line;
-  bool constants_found=false, equations_found=false, variables_found=false, constants_saved=false, equations_saved=false, variables_saved=false;
+  bool constants_found=false;
+  bool equations_found=false;
+  bool variables_found=false;
+  bool constants_saved=false;
+  bool equations_saved=false;
+  bool variables_saved=false;
   vector<tuple<string, string>> rt;
+  const string constants_str="constants";
+  const string equations_str="equations";
+  const string variables_str="variables";
+  tuple<string, string> read_constants_result;
+  tuple<string, string> read_equations_result;
+  string get_variable_result;
+  string line_commented;
 
   while(getline(bin_loaded, line))
     {
-      if(line.empty())
-	{
-	  continue;
-	}
-      else if(line_commented_or_not(line).empty())
+      line_commented=line_commented_or_not(line);
+
+      if(line.empty() or line_commented.empty())
 	{
 	  continue;
 	}
@@ -215,7 +254,8 @@ vector<tuple<string, string>> read_bin()
 	    }
 	  else if(variables_found)
 	    {
-	      variables.push_back(get_variable(line));
+	      get_variable_result=get_variable(line);
+	      variables.push_back(get_variable_result);
 	    }
 	}
       else if(!constants_saved)
@@ -232,7 +272,8 @@ vector<tuple<string, string>> read_bin()
 	    }
 	  else if(constants_found)
 	    {
-	      func_params.push_back(read_constants(line));
+	      read_constants_result=read_constants(line);
+	      func_params.push_back(read_constants_result);
 	    }
 	}
       else if(!equations_saved)
@@ -249,7 +290,8 @@ vector<tuple<string, string>> read_bin()
 	    }
 	  else if(equations_found)
 	    {
-	      rt.push_back(read_equations(line));
+	      read_equations_result=read_equations(line);
+	      rt.push_back(read_equations_result);
 	    }
 	}
     }
@@ -263,13 +305,18 @@ string get_constant_value(string constant)
   bool value_found=false;
   string value_found_return;
   double value_found_return_double;
+  string compare;
+  tuple<string, string> func_params_i;
 
   while(i<=func_params.size()-1)
     {
-      if(constant==get<0>(func_params[i]))
+      func_params_i=func_params[i];
+      compare=get<0>(func_params_i);
+
+      if(constant==compare)
 	{
 	  value_found=true;
-	  value_found_return=get<1>(func_params[i]);
+	  value_found_return=get<1>(func_params_i);
 	  value_found_return_double=stod(value_found_return);
 	  value_found_return=to_string(value_found_return_double);
 	  break;
@@ -282,7 +329,6 @@ string get_constant_value(string constant)
     }
   else
     {
-      cout<<constant<<" not found"<<endl;
       return NULL;
     }
 }

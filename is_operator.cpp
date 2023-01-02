@@ -14,36 +14,40 @@ using namespace std;
 
 bool is_operator(string elem)
 {
+  bool rt=false;
+
   if(elem==add)
     {
-      return true;
+      rt=true;
     }
   else if(elem==subtract)
     {
-      return true;
+      rt=true;
     }
   else if(elem==multiply)
     {
-      return true;
+      rt=true;
     }
   else if(elem==divide)
     {
-      return true;
+      rt=true;
     }
   else if(elem==power)
     {
-      return true;
+      rt=true;
     }
   else if(elem==open_parenthesis)
     {
-      return true;
+      rt=true;
     }
   else if(elem==close_parenthesis)
     {
-      return true;
+      rt=true;
     }
   else
     {
-      return false;
+      rt=false;
     }
+
+  return rt;
 }

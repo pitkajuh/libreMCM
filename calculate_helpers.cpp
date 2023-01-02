@@ -20,17 +20,20 @@ using namespace std;
 vector<string> equation_str_to_vec(string equation)
 {
   int i=0;
-  string empty="", fchar;
+  const string empty_str="";
+  string empty=empty_str;
+  string fchar;
   vector<string> rt;
 
   while(i<=equation.size()-1)
     {
       fchar=equation[i];
+
       if(is_operator(fchar))
 	{
 	  rt.push_back(empty);
 	  rt.push_back(fchar);
-	  empty="";
+	  empty=empty_str;
 	}
       else
 	{
@@ -38,6 +41,7 @@ vector<string> equation_str_to_vec(string equation)
 	}
       i++;
     }
+
   rt.push_back(empty);
 
   return rt;
@@ -45,12 +49,18 @@ vector<string> equation_str_to_vec(string equation)
 
 int get_compartment_index(string compartment_name)
 {
-  int i=0, compartment_index;
+  int i=0;
+  int compartment_index;
   bool found=false;
+  string compartment_name_comp;
+  tuple<string, vector<string>, vector<string>> equation_with_compartment_name;
 
   while(i<=equations_with_compartment_name.size()-1)
     {
-      if(compartment_name==get<0>(equations_with_compartment_name[i]))
+      equation_with_compartment_name=equations_with_compartment_name[i];
+      compartment_name_comp=get<0>(equation_with_compartment_name);
+
+      if(compartment_name==compartment_name_comp)
 	{
 	  compartment_index=i;
 	  found=true;
@@ -59,7 +69,7 @@ int get_compartment_index(string compartment_name)
       i++;
     }
 
-  if(equations_with_compartment_name.size()-1 and !found)
+  if(!found)
     {
       compartment_index=-1;
     }
@@ -69,27 +79,38 @@ int get_compartment_index(string compartment_name)
 
 void calculate_with_parameters(vector<string> equation_vector, int calculate_from_index, int calculate_to_index, string compartment_name)
 {
-  int half_life, j=0, compartment_index=get_compartment_index(compartment_name);
-  string parameter_name, parameter_value, compartment_name_change;
+  int compartment_index=get_compartment_index(compartment_name);
 
   if(compartment_index!=-1)
     {
       int i=compartment_index;
-      string compartment_name_compare=get<0>(all_values[compartment_index]);
-      vector<tuple<string, string, int>> parameters=get<1>(all_values[compartment_index]);
+      int j=0;
+      int half_life;
+      string parameter_name;
+      string parameter_value;
+      string compartment_name_change;
+      tuple<string, vector<tuple<string, string, int>>> all_values_i;
+      vector<tuple<string, string, int>> all_values_i_j;
+      tuple<string, vector<tuple<string, string, int>>> all_values_comp_i=all_values[compartment_index];
+      vector<tuple<string, string, int>> parameters=get<1>(all_values_comp_i);
+      tuple<string, string, int> parameters_j;
 
       while(i<=all_values.size()-1)
 	{
-	  compartment_name_change=get<0>(all_values[i]);
+	  all_values_i=all_values[i];
+	  compartment_name_change=get<0>(all_values_i);
 
 	  if(compartment_name_change==compartment_name)
 	    {
-	      while(j<=get<1>(all_values[i]).size()-1)
+	      all_values_i_j=get<1>(all_values_i);
+
+	      while(j<=all_values_i_j.size()-1)
 		{
-		  compartment_name_change=get<0>(all_values[i]);
-		  parameter_name=get<0>(parameters[j]);
-		  parameter_value=get<1>(parameters[j]);
-		  half_life=get<2>(parameters[j]);
+		  compartment_name_change=get<0>(all_values_i);
+		  parameters_j=parameters[j];
+		  parameter_name=get<0>(parameters_j);
+		  parameter_value=get<1>(parameters_j);
+		  half_life=get<2>(parameters_j);
 		  j++;
 		}
 	      j=0;
@@ -101,14 +122,19 @@ void calculate_with_parameters(vector<string> equation_vector, int calculate_fro
 
 vector<tuple<string, string, int>> get_compartment_elements_by_compartment_name(string compartment_name)
 {
-  int i=0, j=0;
+  int i=0;
   vector<tuple<string, string, int>> compartment_values;
+  tuple<string, vector<tuple<string, string, int>>> all_values_i;
+  string compartment_name_comp;
 
   while(i<=all_values.size()-1)
     {
-      if(compartment_name==get<0>(all_values[i]))
+      all_values_i=all_values[i];
+      compartment_name_comp=get<0>(all_values_i);
+
+      if(compartment_name==compartment_name_comp)
 	{
-	  compartment_values=get<1>(all_values[i]);
+	  compartment_values=get<1>(all_values_i);
 	  break;
 	}
       i++;
@@ -125,25 +151,29 @@ void params4(vector<tuple<string, string, int>> compartments_parameters, int ind
   int i=0;
   string compartment_parameter_name;
   vector<vector<string>> rt;
+  tuple<string, string, int> compartment_parameters_i;
+  vector<string> global_equation;
 
   while(i<=global_equations.size()-1)
     {
-      compartment_parameter_name=get<0>(compartments_parameters[i]);
-      global_equations[i]=replace_in_vector(global_equations[i], compartment_parameter_name, index_replace, index_replace);
+      compartment_parameters_i=compartments_parameters[i];
+      compartment_parameter_name=get<0>(compartment_parameters_i);
+      global_equation=global_equations[i];
+      global_equations[i]=replace_in_vector(global_equation, compartment_parameter_name, index_replace, index_replace);
       i++;
     }
 }
 
 vector<string> params3(vector<tuple<string, string, int>> compartments_parameters, vector<string> equation_vector, int index_replace)
 {
-  int i=0;
-  i=start_from;
+  int i=start_from;
   string compartment_parameter_name;
-  vector<vector<string>> rt;
+  tuple<string, string, int> compartments_parameters_i;
 
   while(i<=compartments_parameters.size()-1)
     {
-      compartment_parameter_name=get<0>(compartments_parameters[i]);
+      compartments_parameters_i=compartments_parameters[i];
+      compartment_parameter_name=get<0>(compartments_parameters_i);
       equation_vector=replace_in_vector(equation_vector, compartment_parameter_name, index_replace, index_replace);
       global_equations.push_back(equation_vector);
       i++;
@@ -155,22 +185,25 @@ int j_global=0;
 
 void params2(vector<int> indices, vector<string> equation_vector, vector<vector<tuple<string, string, int>>> compartments_parameters)
 {
-  int i=0, j=0, equation_vector_size=equation_vector.size ();
-  vector<vector<string>> rt1;
-  vector<tuple<string, string, int>> compartment_values, parameters;
+  int i=0;
   int i_prev;
+  int indice;
+  vector<tuple<string, string, int>> parameters;
+  string equation_i;
 
   while(i<=indices.size()-1)
     {
-      parameters=get_compartment_elements_by_compartment_name(equation_vector[indices[i]]);
+      indice=indices[i];
+      equation_i=equation_vector[indice];
+      parameters=get_compartment_elements_by_compartment_name(equation_i);
 
       if(i!=i_prev and global_equations.size()>=1)
 	{
-	  params4(parameters, indices[i]);
+	  params4(parameters, indice);
 	}
       else
 	{
-	  equation_vector=params3(parameters, equation_vector, indices[i]);
+	  equation_vector=params3(parameters, equation_vector, indice);
 	}
       i_prev=i;
       i++;
@@ -181,32 +214,30 @@ tuple<string, bool, vector<vector<string>>> abc(string equation, bool equation_a
 {
   vector<string> equation_vector=equation_str_to_vec(equation);
   int i=0;
-  int j=index1;
-  int index_get_from_other_compartment; //, equation_vector_size=equation_vector.size();
-  vector<tuple<string, string, int>> compartment_values, parameters;
-
   int compartment_index;
-  string empty2, eq;
+  string eq;
   int found=0;
-  vector<vector<string>> eqs;
-  vector<vector<vector<string>>> eqs1;
   vector<int> indices;
-
+  tuple<string, bool, vector<vector<string>>> rt;
   vector<
     vector<tuple<string, string, int>>
     > compartments_parameters;
-
-  tuple<string, bool, vector<vector<string>>> rt;
+  bool operator_or_not;
+  bool numerical_value_or_not;
 
   while(i<=equation_vector.size()-1)
     {
       eq=equation_vector[i];
-      if(!is_operator(eq) and !is_string_numerical_value(eq))
+      operator_or_not=is_operator(eq);
+      numerical_value_or_not=is_string_numerical_value(eq);
+
+      if(!operator_or_not and !numerical_value_or_not)
 	{
 	  compartment_index=get_compartment_index(eq);
+
 	  if(compartment_index!=-1)
 	    {
-	      indices.push_back (i);
+	      indices.push_back(i);
 	    }
 	}
       i++;
@@ -214,7 +245,8 @@ tuple<string, bool, vector<vector<string>>> abc(string equation, bool equation_a
 
   j_global=0;
   params2(indices, equation_vector, compartments_parameters);
-  rt=make_tuple (compartment_name, equation_add, global_equations);
+  rt=make_tuple(compartment_name, equation_add, global_equations);
   global_equations.clear();
+
   return rt;
 }

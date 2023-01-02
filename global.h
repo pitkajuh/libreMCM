@@ -27,3 +27,4 @@ extern const string void_element;
 extern const string not_found;
 extern const string parm_delim;
 extern const string delimiter;
+extern const string equal_sign;

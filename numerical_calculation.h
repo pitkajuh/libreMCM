@@ -15,6 +15,7 @@
 using namespace std;
 
 void calculate();
+void runge_kutta();
 extern string comp_name_glob;
 extern vector<tuple<
 	     string, // compartment name

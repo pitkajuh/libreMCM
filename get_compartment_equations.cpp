@@ -23,16 +23,22 @@ string get_eq_corresponding_to_eq_name(string eq_name)
 {
   int i=0;
   string rt=not_found;
+  tuple<string, string> fchar;
+  string eq_name_comp;
 
-  if (eq_name.size ()!=0)
+  if(eq_name.size()!=0)
     {
       while(i<=equations.size()-1)
 	{
-	  if(eq_name==get<0>(equations[i]))
+	  fchar=equations[i];
+	  eq_name_comp=get<0>(fchar);
+
+	  if(eq_name==eq_name_comp)
 	    {
-	      rt=get<1>(equations[i]);
+	      rt=get<1>(fchar);
 	    }
 	  i++;
+
 	}
     }
 
@@ -41,9 +47,13 @@ string get_eq_corresponding_to_eq_name(string eq_name)
 
 string get_source_affecting_equation(vector<vector<string>> compartment_vector, int i_start, int j_start, bool get_horizontal)
 {
-  int i, j;
+  int i;
+  int j;
   string equation, rt;
   bool stop=false;
+  vector<string> compartment_vector_i;
+  string compartment_vector_i_j;
+  const string empty_str="";
 
   if(get_horizontal)
     {
@@ -58,21 +68,24 @@ string get_source_affecting_equation(vector<vector<string>> compartment_vector, 
 
   while(i<=compartment_vector.size()-1)
     {
-      while(j<=compartment_vector[i].size()-1)
-	{
-	  equation=get_eq_corresponding_to_eq_name(compartment_vector[i][j]);
+      compartment_vector_i=compartment_vector[i];
 
-	  if(equation==not_found and compartment_vector[i][j]!="")
+      while(j<=compartment_vector_i.size()-1)
+	{
+	  compartment_vector_i_j=compartment_vector[i][j];
+	  equation=get_eq_corresponding_to_eq_name(compartment_vector_i_j);
+
+	  if(equation==not_found and compartment_vector_i_j!=empty_str)
 	    {
 	      if(get_horizontal)
 		{
-		  rt=compartment_vector[i][j];
+		  rt=compartment_vector_i_j;
 		  stop=true;
 		  break;
 		}
 	      else
 		{
-		  rt=compartment_vector[i][j];
+		  rt=compartment_vector_i_j;
 		  stop=true;
 		  break;
 		}
@@ -110,9 +123,13 @@ string get_source_affecting_equation(vector<vector<string>> compartment_vector, 
 
 vector<string> get_equations_from_compartment_csv(vector<vector<string>> compartment_vector, int i_start, int j_start, bool get_horizontal)
 {
-  int i, j;
-  string equation, to_compartment;
+  int i;
+  int j;
+  string equation;
+  string to_compartment;
   vector<string> equations;
+  vector<string> compartment_vector_i;
+  string compartment_vector_i_j;
 
   if(get_horizontal)
     {
@@ -127,9 +144,12 @@ vector<string> get_equations_from_compartment_csv(vector<vector<string>> compart
 
   while(i<=compartment_vector.size()-1)
     {
-      while(j<=compartment_vector[i].size()-1)
+      compartment_vector_i=compartment_vector[i];
+
+      while(j<=compartment_vector_i.size()-1)
 	{
-	  equation=get_eq_corresponding_to_eq_name(compartment_vector[i][j]);
+	  compartment_vector_i_j=compartment_vector[i][j];
+	  equation=get_eq_corresponding_to_eq_name(compartment_vector_i_j);
 
 	  if(equation!=not_found)
 	    {
@@ -169,29 +189,29 @@ vector<string> get_equations_from_compartment_csv(vector<vector<string>> compart
 
 tuple<string, vector<string>, vector<string>> get_equations_compartment(vector<vector<string>> compartment_vector, string compartment, int i_start, int j_start)
 {
-  string equation_subtract, equation_add;
-  vector<string> equations_subtract, equations_add;
-
-  equations_subtract=get_equations_from_compartment_csv(compartment_vector, i_start, j_start, true);
-  equations_add=get_equations_from_compartment_csv(compartment_vector, i_start, j_start, false);
-
-  all_calculation_rules.push_back(make_tuple(compartment, calculation_rules_add_to, calculation_rules_subtract_from));
-
+  vector<string> equations_subtract=get_equations_from_compartment_csv(compartment_vector, i_start, j_start, true);
+  vector<string> equations_add=get_equations_from_compartment_csv(compartment_vector, i_start, j_start, false);
+  tuple<string, vector<string>, vector<string>> calc_rule=make_tuple(compartment, calculation_rules_add_to, calculation_rules_subtract_from);
+  all_calculation_rules.push_back(calc_rule);
   calculation_rules_add_to.clear();
   calculation_rules_subtract_from.clear();
+  tuple<string, vector<string>, vector<string>> rt=make_tuple(compartment, equations_add, equations_subtract);
 
-  return make_tuple(compartment, equations_add, equations_subtract);
+  return rt;
 }
 
 tuple<vector<string>, int> get_target_compartments(string compartment_name, bool add_or_not, int i_start)
 {
-  int i=i_start, i_continue_from;
+  int i=i_start;
   string compartment_name_compare;
   vector<string> target_compartments;
+  tuple<string, vector<string>, vector<string>> calculation_rule;
+  tuple<vector<string>, int> rt;
 
   while(i<=all_calculation_rules.size()-1)
     {
-      compartment_name_compare=get<0>(all_calculation_rules[i]);
+      calculation_rule=all_calculation_rules[i];
+      compartment_name_compare=get<0>(calculation_rule);
 
       if(compartment_name==compartment_name_compare)
 	{
@@ -199,16 +219,18 @@ tuple<vector<string>, int> get_target_compartments(string compartment_name, bool
 
 	  if(add_or_not)
 	    {
-	      target_compartments=get<1>(all_calculation_rules[i]);
+	      target_compartments=get<1>(calculation_rule);
 	    }
 	  else
 	    {
-	      target_compartments=get<2>(all_calculation_rules[i]);
+	      target_compartments=get<2>(calculation_rule);
 	    }
 	  break;
 	}
       i++;
     }
 
-  return make_tuple(target_compartments, i_start);
+  rt=make_tuple(target_compartments, i_start);
+
+  return rt;
 }

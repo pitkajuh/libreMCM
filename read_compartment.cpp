@@ -16,9 +16,15 @@ using namespace std;
 
 vector<string> line_read(string line)
 {
-  int i; // index
-  string ab, empty_str="", fchar; // empty strings used for appending
-  vector<string> empty; // empty vector for appending
+  int i;
+  string ab;
+  const string empty_str_const="";
+  const string str_bug1="\357";
+  const string str_bug2="\273";
+  const string str_bug3="\277";
+  string empty_str=empty_str_const;
+  string fchar;
+  vector<string> empty;
 
   while(i<=line.size()-1)
     {
@@ -27,11 +33,11 @@ vector<string> line_read(string line)
       if(fchar==delimiter)
 	{
 	  empty.push_back(empty_str);
-	  empty_str="";
+	  empty_str=empty_str_const;
 	}
       else
 	{
-	  if(fchar=="\357" or fchar=="\273" or fchar=="\277")
+	  if(fchar==str_bug1 or fchar==str_bug2 or fchar==str_bug3)
 	    {
 	      i++;
 	      continue;
@@ -52,12 +58,13 @@ vector<vector<string>> read_compartment(string csv)
 {
   string line;
   fstream csv_loaded(csv, ios_base::in | ios::binary);
-  int aa;
   vector<vector<string>> compartment_vector;
+  vector<string> line_read_i;
 
   while(getline(csv_loaded, line))
     {
-      compartment_vector.push_back(line_read(line));
+      line_read_i=line_read(line);
+      compartment_vector.push_back(line_read_i);
     }
 
   return compartment_vector;
@@ -65,7 +72,7 @@ vector<vector<string>> read_compartment(string csv)
 
 vector<vector<string>> get_compartment_vector()
 {
-  string csv="cfg/compartment.csv";
+  const string csv="cfg/compartment.csv";
   vector<vector<string>> read=read_compartment(csv);
 
   return read;

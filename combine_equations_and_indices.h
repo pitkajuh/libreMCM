@@ -8,23 +8,11 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include <iostream>
-#include <fstream>
+#include <tuple>
+#include <string>
 #include <vector>
 
 using namespace std;
 
-extern vector<tuple<string, vector<vector<tuple<string, string, int>>>>> compartment_parameters_rt;
-extern vector<tuple<string, // compartment_name
-	     vector<
-	       vector<
-		 tuple<
-		   string, // parameter name
-		   string, // parameter value
-		   int // parameter half-life, is zero if parameter is not a radionuclide
-		   >>
-	       >
-	     >
-       > compartment_parameters;
-string get_compartment_parameter_value(string parameter_wanted);
-tuple<string, string> get_compartment_parameter_value_subroutine(string parameter_wanted);
+vector<tuple<vector<string>, vector<int>, vector<string>>>
+combine_equations_and_indices(vector<tuple<vector<string>, vector<int>, bool, vector<string>>> vector1, string compartment_name);

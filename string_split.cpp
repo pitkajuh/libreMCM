@@ -16,7 +16,11 @@ using namespace std;
 tuple<string, string> split_string_in_two(string str, string splitter)
 {
   int i=0;
-  string empty="", fchar, str1;
+  const string empty_str="";
+  string empty=empty_str;
+  string fchar;
+  string str1;
+  tuple<string, string> rt;
 
   while(i<=str.size()-1)
     {
@@ -25,14 +29,18 @@ tuple<string, string> split_string_in_two(string str, string splitter)
       if(fchar==splitter)
 	{
 	  str1=empty;
-	  empty="";
+	  empty=empty_str;
 	}
       else
 	{
 	  empty=empty+fchar;
 	}
+
       i++;
+
     }
 
-  return make_tuple(str1, empty);
+  rt=make_tuple(str1, empty);
+
+  return rt;
 }

@@ -22,16 +22,18 @@ void numerical_calculation_begin()
 {
   int i=0;
   string compartment_name;
-  vector<vector<string>> equations_adding_to_compartment, equations_subtracting_from_compartment;
+  vector<vector<string>> equations_adding_to_compartment;
+  vector<vector<string>> equations_subtracting_from_compartment;
+  tuple<string, vector<vector<string>>, vector<vector<string>>> final_equations_for_calculation_i;
 
   while(i<=final_equations_for_calculation.size()-1)
     {
-      compartment_name=get<0>(final_equations_for_calculation[i]);
-      equations_adding_to_compartment=get<1>(final_equations_for_calculation[i]);
-      equations_subtracting_from_compartment=get<2>(final_equations_for_calculation[i]);
+      final_equations_for_calculation_i=final_equations_for_calculation[i];
+      compartment_name=get<0>(final_equations_for_calculation_i);
+      equations_adding_to_compartment=get<1>(final_equations_for_calculation_i);
+      equations_subtracting_from_compartment=get<2>(final_equations_for_calculation_i);
       data1=solution_prepare(compartment_name, equations_adding_to_compartment, equations_subtracting_from_compartment);
       for_calculation.push_back(data1);
-
       i++;
     }
 }

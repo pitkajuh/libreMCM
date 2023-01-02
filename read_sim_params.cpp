@@ -14,24 +14,28 @@
 
 using namespace std;
 
-int t_start, t_end, steps;
+int t_start;
+int t_end;
+int steps;
 
 string get_sim_param_name(string str)
 {
   int i=0;
-  string empty="", fchar;
+  string empty="";
+  string fchar;
   bool eq_found=false;
 
   while(i<=str.size()-1)
     {
       fchar=str[i];
-      if(fchar=="=")
+
+      if(fchar==equal_sign)
 	{
 	  break;
 	}
       else
 	{
-	  empty=empty+str[i];
+	  empty=empty+fchar;
 	}
       i++;
     }
@@ -41,19 +45,21 @@ string get_sim_param_name(string str)
 string get_sim_param_value(string str)
 {
   int i=0;
-  string empty="", fchar;
+  string empty="";
+  string fchar;
   bool eq_found=false;
 
   while(i<=str.size()-1)
     {
       fchar=str[i];
-      if(fchar=="=")
+
+      if(fchar==equal_sign)
 	{
 	  eq_found=true;
 	}
       else if(eq_found)
 	{
-	  empty=empty+str[i];
+	  empty=empty+fchar;
 	}
       i++;
     }
@@ -62,23 +68,30 @@ string get_sim_param_value(string str)
 
 void read_sim_params()
 {
-  fstream sim_params_loaded("cfg/sim_params", ios_base::in | ios::binary);
-  string line, name;
+  const string file_name="cfg/sim_params";
+  const string simulation_settings="simulation_settings";
+  const string time_start="time_start";
+  const string time_end="time_end";
+  const string steps_str="steps";
+  fstream sim_params_loaded(file_name, ios_base::in | ios::binary);
+  string line;
+  string name;
   bool sim_settings_found=false;
+  string t_start_str;
+  string t_end_str;
+  string steps_str1;
+  string line_commented;
 
   while(getline(sim_params_loaded, line))
     {
       line=remove_white_space(line);
+      line_commented=line_commented_or_not(line);
 
-      if(line.empty())
+      if(line.empty() or line_commented.empty())
 	{
 	  continue;
 	}
-      else if(line_commented_or_not(line).empty())
-	{
-	  continue;
-	}
-      else if(line=="simulation_settings"+curly_bracket_o)
+      else if(line==simulation_settings+curly_bracket_o)
 	{
 	  sim_settings_found=true;
 	}
@@ -89,17 +102,21 @@ void read_sim_params()
       else if(sim_settings_found)
 	{
 	  name=get_sim_param_name(line);
-	  if(name=="time_start")
+
+	  if(name==time_start)
 	    {
-	      t_start=stod(get_sim_param_value(line));
+	      t_start_str=get_sim_param_value(line);
+	      t_start=stod(t_start_str);
 	    }
-	  else if(name=="time_end")
+	  else if(name==time_end)
 	    {
-	      t_end=stod(get_sim_param_value(line));
+	      t_end_str=get_sim_param_value(line);
+	      t_end=stod(t_end_str);
 	    }
-	  else if(name=="steps")
+	  else if(name==steps_str)
 	    {
-	      steps=stod(get_sim_param_value(line));
+	      steps_str1=get_sim_param_value(line);
+	      steps=stod(steps_str1);
 	    }
 	}
     }
