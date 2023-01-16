@@ -46,45 +46,6 @@ string calculate_equation_constants(vector<string> fa)
     4. Addition and subtraction
   */
 
-  // int i=0;
-  // int fa_size=fa.size();
-  // int o_index;
-  // int c_index;
-  // string fchar;
-  // vector<string> rt_value;
-  // vector<int> parenthesis_open_indices;
-  // vector<int> parenthesis_close_indices;
-  // WIP
-  // while(i<=fa_size-1)
-  //   {
-  //     fchar=fa[i];
-  //     cout<<"i="<<i<<"/"<<fa_size-1<<", "<<fchar<<endl;
-  //     if(fchar==open_parenthesis)
-  // 	{
-  // 	  parenthesis_open_indices.push_back(i);
-  // 	  // cout<<"open "<<i<<" "<<fchar<<endl;
-  // 	}
-  //     else if(fchar==close_parenthesis)
-  // 	{
-  // 	  parenthesis_close_indices.push_back(i);
-  // 	  // cout<<"close "<<i<<" "<<fchar<<endl;
-
-  // 	  if(parenthesis_close_indices.size()==1 and parenthesis_open_indices.size()>=1)
-  // 	    {
-  // 	      o_index=parenthesis_open_indices.back();
-  // 	      c_index=parenthesis_close_indices.back();
-  // 	      rt_value=get_elem(fa, o_index, c_index);
-  // 	      fa=replace_in_vector(fa, calculate_order_of_operations(rt_value, rt_value.size()-1), o_index, c_index);
-  // 	      parenthesis_open_indices.clear();
-  // 	      parenthesis_close_indices.clear();
-  // 	      fa_size=fa.size();
-  // 	      i=0;
-  // 	      continue;
-  // 	    }
-  // 	}
-  //     i++;
-  //   }
-
   return calculate_order_of_operations(fa);
 }
 

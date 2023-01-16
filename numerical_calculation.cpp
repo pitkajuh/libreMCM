@@ -20,10 +20,8 @@
 #include "numerical_calculation_rules.h"
 #include "numerical_calculation_begin.h"
 #include "string_split.h"
-// #include "read_compartment_definition.h"
 #include "equations_sort.h"
 #include <chrono>
-// #include <pthread.h>
 
 using namespace std;
 
@@ -67,11 +65,7 @@ void update_values(vector<string> result)
       while(j<=empty_vec.size()-1)
 	{
 	  result_k=result[k];
-	  // empty_vec_j=empty_vec[j];
-	  // empty_vec_j_1=get<1>(empty_vec_j);
-
 	  get<1>(get<1>(params_graph[i])[j]).push_back(result_k);
-	  // empty_vec_j_1.push_back(result_k);
 	  j++;
 	  k++;
 	}
@@ -81,32 +75,6 @@ void update_values(vector<string> result)
 
   params_graph_up=params_graph;
 }
-
-
-// void update_values(vector<string> result)
-// {
-//   int i=0, j=0, k=0;
-//   string name;
-//   vector<tuple<string, vector<string>>> empty_vec;
-
-//   while(i<=params_graph.size()-1)
-//     {
-//       name=get<0>(params_graph[i]);
-//       empty_vec=get<1>(params_graph[i]);
-
-//       while(j<=empty_vec.size()-1)
-// 	{
-// 	  get<1>(get<1>(params_graph[i])[j]).push_back(result[k]);
-// 	  j++;
-// 	  k++;
-// 	}
-//       j=0;
-//       i++;
-//     }
-
-//   params_graph_up=params_graph;
-// }
-
 
 vector<string> replace_in_equation1(vector<string> equation, int indices, string k_add)
 {
@@ -135,63 +103,6 @@ vector<string> replace_in_equation1(vector<string> equation, int indices, string
 
   return equation;
 }
-
-
-
-
-
-
-// vector<string> replace_in_equation1(vector<string> equation, int indices, string k_add)
-// {
-//   int i=0;
-//   int j=0;
-//   string replace;
-//   string k_add_1st;
-//   int equation_size=equation.size();
-//   string im1;
-//   string ip1;
-//   vector<string> equation_vec;
-
-//   while(i<=equation_size-1)
-//     {
-//       if(indices==i)
-// 	{
-// 	  im1=equation[i-1];
-// 	  ip1=equation[i+1]==multiply;
-
-// 	  if(im1==multiply and ip1==multiply or im1==multiply)
-// 	    {
-// 	      k_add_1st=k_add[0];
-
-// 	      if(k_add_1st==subtract)
-// 		{
-// 		  replace=k_add;
-// 		}
-// 	      else
-// 		{
-// 		  replace=k_add;
-// 		}
-// 	      equation_vec=equation_string_to_equation_vector(replace);
-// 	      replace=calculate_order_of_operations(equation_vec);
-// 	    }
-// 	  equation=replace_in_vector(equation, replace, i, i);
-// 	  equation_size=equation.size();
-// 	}
-//       i++;
-//     }
-
-//   return equation;
-// }
-
-
-
-
-
-
-
-
-
-
 
 string update_equations_sub_sub_routine(string compartment_name_split, vector<string> params)
 {
@@ -358,7 +269,6 @@ vector<vector<string>> param_data_sorted;
 
 void calculate()
 {
-  cout<<"asd"<<endl;
   int i=0;
   int j=0;
   vector<tuple<string, tuple<vector<string>, vector<int>, vector<string>>, vector<int>, vector<string>, vector<string>>> aa;
@@ -373,8 +283,6 @@ void calculate()
   string comp_name_glob;
   vector<vector<string>> param_data;
   vector<int> calc_rules;
-
-  cout<<"Calc"<<endl;
 
   while(i<=for_calculation.size()-1)
     {
@@ -399,8 +307,6 @@ void calculate()
       j=0;
       i++;
     }
-
-  cout<<"Update eqs"<<endl;
 
   tuple<vector<vector<string>>, vector<vector<int>>, vector<vector<int>>, vector<vector<string>>> sorted1=equations_sort(equations, numerical_calculation_order_of_operations, indice_values, param_data);
 

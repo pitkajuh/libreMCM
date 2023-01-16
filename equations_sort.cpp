@@ -102,11 +102,3 @@ tuple<vector<vector<string>>, vector<vector<int>>, vector<vector<int>>, vector<v
   result=make_tuple(equations_sorted, calc_order_sorted, indice_values_sorted, param_data_sorted);
   return result;
 }
-
-
-// tuple<vector<vector<string>>, vector<vector<int>>, vector<vector<int>>, vector<vector<string>>> equations_sorter()
-// {
-//   tuple<vector<vector<string>>, vector<vector<int>>, vector<vector<int>>, vector<vector<string>>> sorted1=equations_sort(equations, numerical_calculation_order_of_operations, indice_values, param_data);
-
-//   return sorted1;
-// }

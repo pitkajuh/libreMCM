@@ -48,18 +48,14 @@ void write_to_file()
       params_graph_up_i=params_graph_up[i];
       compartment_name=get<0>(params_graph_up_i);
       parameters_data=get<1>(params_graph_up_i);
-      // cout<<"############## compartment name "<<compartment_name<<" ##############"<<endl;
       ofstream myfile (compartment_name+file_type);
 
-      // while(j<=parameters_data.size()-1)
       while(!ready)
 	{
 	  parameter=parameters_data[j];
 	  parameter_name=get<0>(parameter);
 	  parameter_values=get<1>(parameter);
 	  parameter_values_k=parameter_values[k];
-	  // cout<<parameter_values.size()-1<<endl;
-	  // cout<<"############## parameter name "<<parameter_name<<" ##############"<<" "<<parameter_values.size()-1<<endl;
 
 	  if(k==parameter_values.size()-1)
 	    {
@@ -67,53 +63,32 @@ void write_to_file()
 	    }
 	  else if(parameters_data.size()-1==0)
 	    {
-	      // cout<<"len=0"<<endl;
-	      // cout<<k<<" "<<j<<"/"<<parameters_data.size()-1<<endl;
 	      t_str=to_string(t);
 	      str=str+t_str+delimiter+parameter_values_k;
 	      str=str+str_new_row;
 	      k++;
 	      t=t+h;
-	      // cout<<str<<endl;
-	      // continue;
-	      // break;
 	    }
 	  else if(j==0 and parameters_data.size()-1!=0)
 	    {
-	      // cout<<"j=0"<<endl;
-	      // k++;
-	      // cout<<k<<" "<<j<<"/"<<parameters_data.size()-1<<endl;
 	      t_str=to_string(t);
 	      str=str+t_str+delimiter+parameter_values_k+delimiter;
-	      // cout<<str<<endl;
-	      // cout<<"##########"<<endl;
 	      j++;
 	    }
 	  else if(j==parameters_data.size()-1)
 	    {
-	      // cout<<"j==parameters_data.size()-1"<<endl;
 	      str=str+parameter_values_k;
-	      // cout<<k<<" "<<j<<"/"<<parameters_data.size()-1<<endl;
-	      // cout<<str<<endl;
 	      str=str+str_new_row;
 	      j=0;
 	      k++;
 	      t=t+h;
-	      // cout<<"##########"<<endl;
 	      continue;
 	    }
 	  else
 	    {
-	      // cout<<"else"<<endl;
-	      // cout<<k<<" "<<j<<"/"<<parameters_data.size()-1<<endl;
 	      str=str+parameter_values_k+delimiter;
-	      // cout<<str<<endl;
-	      // cout<<"##########"<<endl;
 	      j++;
 	    }
-	  // cout<<"increase j"<<endl;
-	  // j++;
-	  //	  t=t+h;
 	}
 
       ready=false;

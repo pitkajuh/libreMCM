@@ -22,16 +22,12 @@ using namespace std;
 int main()
 {
   cout<<"Start"<<endl;
-  auto begin=std::chrono::high_resolution_clock::now();
   get_sim_params ();
-  cout<<"SIm params ok"<<endl;
   parse_compartment_equations();
-  cout<<"parse_compartment_equations(); ok"<<endl;
   parse_compartment_eqs_for_num_calc();
-  cout<<"parse_compartment_eqs_for_num_calc ok"<<endl;
   numerical_calculation_begin();
-  cout<<"numerical_calculation_begin ok"<<endl;
   calculate();
+  auto begin=std::chrono::high_resolution_clock::now();
   runge_kutta();
   auto end=std::chrono::high_resolution_clock::now();
   auto duration=std::chrono::duration_cast<std::chrono::milliseconds>(end-begin);

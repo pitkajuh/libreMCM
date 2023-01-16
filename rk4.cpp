@@ -295,28 +295,18 @@ solution_prepare(string compartment_name, vector<vector<string>> equations_add_a
 
   tuple<vector<string>, vector<int>, vector<string>> final_eq1;
 
-  // vector<string> test;
-
   while(k<=equations_data.size()-1)
     {
-      // cout<<"k "<<k<<"/"<<equations_data.size()-1<<endl;
       final_eq1=equations_data[k];
-
-      // test=get<0>(final_eq1);
-      // print_vector(test);
 
       indices_for_ks=get<1>(final_eq1);
       parameter_data_for_indices=get<2>(final_eq1);
       multiple_last_values=get_multiple_last_values(parameter_data_for_indices);
 
-      // cout<<"multiple_last_values"<<endl;
-
       data1_k=make_tuple(compartment_name, final_eq1, indices_for_ks, multiple_last_values, parameter_data_for_indices);
       data1.push_back(data1_k);
       k++;
     }
-
-  // cout<<"solution_prepare ok"<<endl;
 
   return data1;
 }

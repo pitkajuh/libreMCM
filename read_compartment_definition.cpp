@@ -108,10 +108,6 @@ vector<tuple<string, vector<vector<tuple<string, string, int>>>>> read_compartme
 	{
 	  continue;
 	}
-      // else if(line_commented.empty())
-      // 	{
-      // 	  continue;
-      // 	}
       else if(!compartments_saved)
 	{
 	  if(line==curly_bracket_c and compartments_found)
@@ -143,11 +139,6 @@ vector<tuple<string, vector<vector<tuple<string, string, int>>>>> read_compartme
 		    }
 		  else if(materials_found and line_a!=curly_bracket_c)
 		    {
-		      // cout<<"line_a "<<line_a<<endl;
-		      // element_read=read_compartment_element(line_a, compartment_name);
-		      // compartments_values.push_back(element_read);
-
-
 		      compartments_values.push_back(read_compartment_element(line_a, compartment_name));
 		    }
 		  else if(line_a==curly_bracket_c)
