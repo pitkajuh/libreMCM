@@ -1,0 +1,88 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+|                               +===========+                                |
+|                               | l         |                                |
+|                               |   i       | M ulti                         |
+|                               |     b     | C ompartment                   |
+|                               |       r   | M odelling                     |
+|                               |         e |                                |
+|                               +===========+                                |
+\*---------------------------------------------------------------------------*/
+
+variables{
+  r;
+  f;
+}
+
+constants{
+  a=0.04;
+  b=5e-4;
+  c=0.2;
+  e=0.1;
+  g=1;
+  k=2;
+  o=0.1;
+}
+
+equations{
+  // prey_death=o*g-b*r*f;
+  prey_death=b*r*f;
+  prey_birth=a*r;
+  // prey_birth=a*r;
+
+  predator_birth=e*b*f*r;
+  predator_death=c*f;
+
+  // prey_birth2=a*a*(a*a-a*r);
+  // prey_birth2=a*a*(a*a-r);
+  // prey_birth22=a*a*(a-r);
+  // prey_birth223=a*a*(r-a);
+  // prey_birth2=a*a*(a*a*a-c-r);
+  // prey_birth3=a*a*(a*a*a-c-r)-a*b;
+  // prey_birth4=a*a*(a*a*a-c-r)*a*b;
+  // prey_birth5=a*a*(a*a*a-c-r)*a-a*b;
+  // prey_birth1=a*a*(r-a*a-a);
+  // prey_birth87=g*k-a*k-a*a*(a*a*a-r);
+  // prey_birth=a*a*(a*a*a-r)-c*k-g*k;
+  // prey_birth6=g*k-a*a*a*(a*a*a-c-r);
+  // prey_birth7=(a*a*a-c-r)*a*a*a-g*k;
+
+
+
+  // prey_birth2=a*a/(a*a-a*r);
+  // prey_birth2=a*a/(a*a-r);
+  // prey_birth22=a*a/(a-r);
+  // prey_birth223=a*a/(r-a);
+  // prey_birth2=a*a/(a*a*a-c-r);
+  // prey_birth3=a*a/(a*a*a-c-r)-a*b;
+  // prey_birth4=a*a/(a*a*a-c-r)*a*b;
+  // prey_birth5=a*a/(a*a*a-c-r)*a-a*b;
+  // prey_birth1=a*a/(r-a*a-a);
+  // prey_birth87=g*k-a*k-a*a/(a*a*a-r);
+  // prey_birth=a*a/(a*a*a-r)-c*k-g*k;
+  // prey_birth6=g*k-a*a*a/(a*a*a-c-r);
+  // prey_birth7=(a*a*a-c-r)*a*a*a-g/k;
+
+
+  // prey_birth2=a*a*(a*a+a*r);
+  // prey_birth2=a*a*(a*a+r);
+  // prey_birth22=a*a*(a+r);
+  // prey_birth223=a*a*(r+a);
+  // prey_birth2=a*a*(a*a*a+r+c);
+  // prey_birth3=a*a*(a*a*a+r+c)+a*b;
+  // prey_birth4=a*a*(a*a*a+r+c)*a*b;
+  // prey_birth5=a*a*(a*a*a+r+c)*a+a*b;
+  // prey_birth1=a*a*(r+a*a+a);
+  // prey_birth87=g*k+g*k+a*a*(a*a*a+r);
+  // prey_birth=a*a*(a*a*a+r)+c*k+g*k;
+  // prey_birth6=g*k+a*a*a*(a*a*a+r+c);
+  // prey_birth7=(a*a*a+r+c)*a*a*a+g*k;
+
+  // prey_death=b*(b+r)*(b+f);
+  // predator_birth=e*b*f*r;
+  // predator_death=c*f;
+
+  // prey_birth=a*r;
+  // prey_death=b*r*f;
+  // predator_birth=e*b*f*r;
+  // predator_death=c*f;
+}
