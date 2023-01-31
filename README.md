@@ -4,9 +4,6 @@ The goal of libreMCM (libre Multi Compartment Modelling) is to be a free (free a
 
 ## Quick start
 
-1. Create a compartment to file compartment.csv located in cfg/ directory. You can use a spreadsheet editor such as LibreOffice Calc to create the file easily. The delimiter is ";".
-2. Insert the contents (initial values) of the compartments to the file cfg/compartments.
-3. Add the variables (compartment names), constants (if any) and equation/transfer function to the file cfg/bin.
-4. Set simulation settings in sim_params file.
-5. Compile using the following command "g++ -v *.cpp -o main && ./main" (on Debian 11).
-6. The result of the simulation will be writen to text files.
+1. In order to create a simulation, the following files are required: compartments.csv, compartments, bin and sim_params. Check the contents of the files from the tutorials folder in order to see, how they should created.
+2. The main folder which contains the main.cpp file also contains a file called models_cfg. The directory containing the simulation files are listed in this file. The example file contains one of the tutorial simulations (solution to Lotka-Volterra equations). If multiple directories are added to the file, they will be executed one after another.
+3. The result of the simulation will be writen to text files (named after the compartments) which will be located in the directorie(s) set in the model_cfg file.
