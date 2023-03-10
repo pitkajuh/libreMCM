@@ -13,13 +13,13 @@
 #include <algorithm>
 #include "../class/CompartmentInitialValuesHalfLife.h"
 #include "../class/AllInitialValues.h"
+#include "../global/global.h"
 #include "../rcompartment/read_compartment.h"
 #include "../rcompartment/get_compartment_equations.h"
 #include "../map/create_maps.h"
 #include "../eqs/parse_compartment_equations.h"
 #include "../util/string_split.h"
 #include "../util/is_in_vector.h"
-#include "../debug/debug.h"
 
 using std::map;
 using std::cout;
