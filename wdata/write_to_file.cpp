@@ -57,7 +57,6 @@ void write_to_file(string directory)
   while(begin!=end)
     {
       compartment_name=begin->first;
-      // cout<<compartment_name<<endl;
       save_path=directory+compartment_name+file_type;
       ofstream myfile(save_path);
       initial_value_names=compartment_map_v2[compartment_name];
@@ -86,11 +85,10 @@ void write_to_file(string directory)
 	  initial_value_name=initial_value_names[j];
 	  value_vector=values[initial_value_name];
 	  value=value_vector[k];
-	  // cout<<initial_value_name<<" j="<<j<<"/"<<initial_value_names.size()-1<<" "<<"k="<<k<<"/"<<value_vector.size()-1<<endl;
+
 	  if(initial_value_names.size()==1)
 	    {
 	      // Write result when there are only one initial value in each compartment.
-	      // cout<<" first initial_value_names.size()==1"<<endl;
 	      if(j==initial_value_names.size()-1 and k==value_vector.size()-1)
 		{
 		  ready=true;
@@ -98,11 +96,9 @@ void write_to_file(string directory)
 		}
 	      else if(k<=value_vector.size()-1)
 		{
-		  // cout<<"initial_value_names.size()==1"<<endl;
 		  t_str=to_string(t);
 		  line=line+t_str+delimiter+value+str_new_row;
 		  t=t+h;
-		  // cout<<line<<endl;
 		  k++;
 		  continue;
 		}
@@ -112,7 +108,6 @@ void write_to_file(string directory)
 	      // Write result when there are more than one initial value in each compartment.
 	      if(k==value_vector.size()-1 and j==initial_value_names.size()-1)
 		{
-		  // cout<<"k==value_vector.size()-1"<<endl;
 		  line=line+delimiter+value;
 		  ready=true;
 		}
@@ -120,13 +115,11 @@ void write_to_file(string directory)
 		{
 		  if(j==0)
 		    {
-		      // cout<<"j==0"<<endl;
 		      t_str=to_string(t);
 		      line=line+t_str+delimiter+value;
 		    }
 		  else if(j==initial_value_names.size()-1)
 		    {
-		      // cout<<"j==initial_values_name.size()-1"<<endl;
 		      line=line+delimiter+value+str_new_row;
 		      k++;
 		      t=t+h;
