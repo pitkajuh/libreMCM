@@ -1,6 +1,6 @@
 # libreMCM
 
-The goal of libreMCM (libre Multi Compartment Modelling) is to be a free (free as in freedom) software for modelling the transfer of radionuclides.
+The goal of libreMCM (libre Multi Compartment Modelling) is to be a free (free as in freedom) software for carrying out deterministic and probabilistic modelling.
 
 ## Quick start
 
