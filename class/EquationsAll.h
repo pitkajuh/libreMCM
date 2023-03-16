@@ -18,7 +18,7 @@ class EquationsAll
  public:
   vector<Equations> equations;
 
-  void push_back(Equations equation)
+  void push_back(const Equations equation)
   {
     equations.push_back(equation);
   }
@@ -26,19 +26,18 @@ class EquationsAll
   {
     equations.clear();
   }
-  int get_size()
+  int size()
   {
     int size=equations.size();
     return size;
   }
-  Equations get(int i)
+  Equations& operator[](const int i)
   {
-    Equations result=equations[i];
-    return result;
+    return equations[i];
   }
-  void replace(Equations equation, int i)
+  const Equations& operator[](const int i) const
   {
-    equations[i]=equation;
+    return equations[i];
   }
 };
 

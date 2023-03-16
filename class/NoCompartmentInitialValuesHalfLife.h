@@ -18,7 +18,7 @@ class NoCompartmentInitialValuesHalfLife
  public:
   vector<InitialValuesHalfLife> initial_values;
 
-  void push_back(InitialValuesHalfLife initial_value)
+  void push_back(const InitialValuesHalfLife initial_value)
   {
     initial_values.push_back(initial_value);
   }
@@ -26,19 +26,13 @@ class NoCompartmentInitialValuesHalfLife
   {
     initial_values.clear();
   }
-  int get_size()
+  InitialValuesHalfLife& operator[](const int i)
   {
-    int size=initial_values.size();
-    return size;
+    return initial_values[i];
   }
-  InitialValuesHalfLife get(int i)
+  const InitialValuesHalfLife& operator[](const int i) const
   {
-    InitialValuesHalfLife result=initial_values[i];
-    return result;
-  }
-  void replace(InitialValuesHalfLife initial_value, int i)
-  {
-    initial_values[i]=initial_value;
+    return initial_values[i];
   }
 };
 

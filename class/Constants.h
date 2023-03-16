@@ -21,7 +21,7 @@ class Constants
  public:
   vector<ConstantNameAndValue> constants;
 
-  void push_back(ConstantNameAndValue constant)
+  void push_back(const ConstantNameAndValue constant)
   {
     constants.push_back(constant);
   }
@@ -29,15 +29,18 @@ class Constants
   {
     constants.clear();
   }
-  int get_size()
+  int size()
   {
     int size=constants.size();
     return size;
   }
-  ConstantNameAndValue get(int i)
+  ConstantNameAndValue& operator[](const int i)
   {
-    ConstantNameAndValue result=constants[i];
-    return result;
+    return constants[i];
+  }
+  const ConstantNameAndValue& operator[](const int i) const
+  {
+    return constants[i];
   }
 };
 

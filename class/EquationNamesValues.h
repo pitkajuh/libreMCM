@@ -18,7 +18,7 @@ class EquationNamesValues
  public:
   vector<EquationName> equations;
 
-  void push_back(EquationName equation)
+  void push_back(const EquationName equation)
   {
     equations.push_back(equation);
   }
@@ -26,15 +26,13 @@ class EquationNamesValues
   {
     equations.clear();
   }
-  int get_size()
+  EquationName& operator[](const int i)
   {
-    int size=equations.size();
-    return size;
+    return equations[i];
   }
-  EquationName get(int i)
+  const EquationName& operator[](const int i) const
   {
-    EquationName result=equations[i];
-    return result;
+    return equations[i];
   }
 };
 

@@ -12,14 +12,15 @@
 #define EQUATIONSINDICES_H
 
 #include "EquationsIndicesSub.h"
+#include "../class/SplittedString.h"
 
 class EquationsIndices
 {
  public:
   vector<string> equation;
   vector<int> indices;
-  vector<string> parameter_data;
-  int in_indice;
+  vector<SplittedString> parameter_data;
+  // int in_indice;
 };
 
 #endif

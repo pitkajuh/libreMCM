@@ -18,7 +18,7 @@ class Solutions
  public:
   vector<vector<Solution>> solutions;
 
-  void push_back(vector<Solution> solution)
+  void push_back(const vector<Solution> solution)
   {
     solutions.push_back(solution);
   }
@@ -26,19 +26,18 @@ class Solutions
   {
     solutions.clear();
   }
-  int get_size()
+  int size()
   {
     int size=solutions.size();
     return size;
   }
-  vector<Solution> get(int i)
+  vector<Solution>& operator[](const int i)
   {
-    vector<Solution> result=solutions[i];
-    return result;
+    return solutions[i];
   }
-  void replace(vector<Solution> solution, int i)
+  const vector<Solution>& operator[](const int i) const
   {
-    solutions[i]=solution;
+    return solutions[i];
   }
 };
 

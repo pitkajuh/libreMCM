@@ -21,7 +21,7 @@ class InitialValues
  public:
   vector<InitialValue> initial_values;
 
-  void push_back(InitialValue initial_value)
+  void push_back(const InitialValue initial_value)
   {
     initial_values.push_back(initial_value);
   }
@@ -29,19 +29,18 @@ class InitialValues
   {
     initial_values.clear();
   }
-  int get_size()
+  int size()
   {
     int size=initial_values.size();
     return size;
   }
-  InitialValue get(int i)
+  InitialValue& operator[](const int i)
   {
-    InitialValue result=initial_values[i];
-    return result;
+    return initial_values[i];
   }
-  void replace(InitialValue initial_value, int i)
+  const InitialValue& operator[](const int i) const
   {
-    initial_values[i]=initial_value;
+    return initial_values[i];
   }
 };
 

@@ -18,7 +18,7 @@ class EquationsIndicesAll
  public:
   vector<EquationsIndices> equations;
 
-  void push_back(EquationsIndices equation)
+  void push_back(const EquationsIndices equation)
   {
     equations.push_back(equation);
   }
@@ -26,19 +26,18 @@ class EquationsIndicesAll
   {
     equations.clear();
   }
-  int get_size()
+  int size()
   {
     int size=equations.size();
     return size;
   }
-  EquationsIndices get(int i)
+  EquationsIndices& operator[](const int i)
   {
-    EquationsIndices result=equations[i];
-    return result;
+    return equations[i];
   }
-  void replace(EquationsIndices equation, int i)
+  const EquationsIndices& operator[](const int i) const
   {
-    equations[i]=equation;
+    return equations[i];
   }
 };
 

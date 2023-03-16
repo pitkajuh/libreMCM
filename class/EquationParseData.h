@@ -11,10 +11,9 @@
 #ifndef EQUATIONPARSEDATA_H
 #define EQUATIONPARSEDATA_H
 
-#include <string>
 #include <vector>
+#include "../class/SplittedString.h"
 
-using std::string;
 using std::vector;
 
 class EquationParseData
@@ -22,8 +21,7 @@ class EquationParseData
  public:
   vector<string> equation;
   vector<int> indices;
-  bool add_equation;
-  vector<string> compartments;
+  vector<SplittedString> compartments;
 };
 
 #endif

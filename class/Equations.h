@@ -22,7 +22,7 @@ class Equations
  public:
   vector<vector<string>> equations;
 
-  void push_back(vector<string> equation)
+  void push_back(const vector<string> equation)
   {
     equations.push_back(equation);
   }
@@ -30,19 +30,18 @@ class Equations
   {
     equations.clear();
   }
-  int get_size()
+  int size()
   {
     int size=equations.size();
     return size;
   }
-  vector<string> get(int i)
+  vector<string>& operator[](const int i)
   {
-    vector<string> result=equations[i];
-    return result;
+    return equations[i];
   }
-  void replace(vector<string> equation, int i)
+  const vector<string>& operator[](const int i) const
   {
-    equations[i]=equation;
+    return equations[i];
   }
 };
 

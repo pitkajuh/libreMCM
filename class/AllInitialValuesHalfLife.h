@@ -18,7 +18,7 @@ class AllInitialValuesHalfLife
  public:
   vector<InitialValuesHalfLife> initial_values;
 
-  void push_back(InitialValuesHalfLife initial_value)
+  void push_back(const InitialValuesHalfLife initial_value)
   {
     initial_values.push_back(initial_value);
   }
@@ -26,19 +26,18 @@ class AllInitialValuesHalfLife
   {
     initial_values.clear();
   }
-  int get_size()
+  int size()
   {
     int size=initial_values.size();
     return size;
   }
-  InitialValuesHalfLife get(int i)
+  InitialValuesHalfLife& operator[](const int i)
   {
-    InitialValuesHalfLife result=initial_values[i];
-    return result;
+    return initial_values[i];
   }
-  void replace(InitialValuesHalfLife initial_value, int i)
+  const InitialValuesHalfLife& operator[](const int i) const
   {
-    initial_values[i]=initial_value;
+    return initial_values[i];
   }
 };
 

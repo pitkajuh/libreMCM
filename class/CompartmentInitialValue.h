@@ -8,20 +8,14 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef DATA_H
-#define DATA_H
+#ifndef COMPARTMENTINITIALVALUE_H
+#define COMPARTMENTINITIALVALUE_H
 
-#include "Equations.h"
-#include "VecVecInt.h"
-#include "SplittedStrings.h"
-
-class Data
+class CompartmentInitialValue
 {
  public:
-  Equations equations_sorted;
-  VecVecInt calc_order_sorted;
-  VecVecInt indice_values_sorted;
-  SplittedStrings param_data_sorted;
+  string compartment;
+  string initial_value;
 };
 
 #endif

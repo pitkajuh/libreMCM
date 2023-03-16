@@ -20,27 +20,26 @@ class VecVecInt
  public:
   vector<vector<int>> vec;
 
-  int get_size()
-  {
-    int size=vec.size();
-    return size;
-  }
-  vector<int> get(int i)
-  {
-    vector<int> result=vec[i];
-    return result;
-  }
-  void push_back(vector<int> vec1)
+  void push_back(const vector<int> vec1)
   {
     vec.push_back(vec1);
   }
-  void replace(vector<int> str, int i)
+  vector<int>& operator[](const int i)
   {
-    vec[i]=str;
+    return vec[i];
+  }
+  const vector<int>& operator[](const int i) const
+  {
+    return vec[i];
   }
   void clear()
   {
     vec.clear();
+  }
+  int size()
+  {
+    int size=vec.size();
+    return size;
   }
 };
 

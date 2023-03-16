@@ -18,7 +18,7 @@ class EquationsAddSubtractAll
  public:
   vector<EquationsAddSubtract> vector_all;
 
-  void push_back(EquationsAddSubtract equation)
+  void push_back(const EquationsAddSubtract equation)
   {
     vector_all.push_back(equation);
   }
@@ -26,19 +26,18 @@ class EquationsAddSubtractAll
   {
     vector_all.clear();
   }
-  int get_size()
+  int size()
   {
     int size=vector_all.size();
     return size;
   }
-  EquationsAddSubtract get(int i)
+  EquationsAddSubtract& operator[](const int i)
   {
-    EquationsAddSubtract result=vector_all[i];
-    return result;
+    return vector_all[i];
   }
-  void replace(EquationsAddSubtract equation, int i)
+  const EquationsAddSubtract& operator[](const int i) const
   {
-    vector_all[i]=equation;
+    return vector_all[i];
   }
 };
 

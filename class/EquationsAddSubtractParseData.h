@@ -8,20 +8,16 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef DATA_H
-#define DATA_H
+#ifndef EQUATIONSADDSUBTRACTPARSEDATA_H
+#define EQUATIONSADDSUBTRACTPARSEDATA_H
 
-#include "Equations.h"
-#include "VecVecInt.h"
-#include "SplittedStrings.h"
+#include "EquationsParseData.h"
 
-class Data
+class EquationsAddSubtractParseData
 {
  public:
-  Equations equations_sorted;
-  VecVecInt calc_order_sorted;
-  VecVecInt indice_values_sorted;
-  SplittedStrings param_data_sorted;
+  EquationsParseData equations_add;
+  EquationsParseData equations_subtract;
 };
 
 #endif

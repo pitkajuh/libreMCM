@@ -18,7 +18,7 @@ class CompartmentEquationsAddSubtractAll
  public:
   vector<CompartmentEquationsAddSubtract> equations_all;
 
-  void push_back(CompartmentEquationsAddSubtract equation_add_subtract)
+  void push_back(const CompartmentEquationsAddSubtract equation_add_subtract)
   {
     equations_all.push_back(equation_add_subtract);
   }
@@ -26,15 +26,18 @@ class CompartmentEquationsAddSubtractAll
   {
     equations_all.clear();
   }
-  int get_size()
+  int size()
   {
     int size=equations_all.size();
     return size;
   }
-  CompartmentEquationsAddSubtract get(int i)
+  CompartmentEquationsAddSubtract& operator[](const int i)
   {
-    CompartmentEquationsAddSubtract result=equations_all[i];
-    return result;
+    return equations_all[i];
+  }
+  const CompartmentEquationsAddSubtract& operator[](const int i) const
+  {
+    return equations_all[i];
   }
 };
 

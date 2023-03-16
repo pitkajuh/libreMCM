@@ -12,6 +12,7 @@
 #define SOLUTION_H
 
 #include "EquationsIndices.h"
+#include "SplittedString.h"
 
 class Solution
 {
@@ -20,7 +21,7 @@ class Solution
   EquationsIndices final_eq1;
   vector<int> indices_for_ks;
   vector<string> multiple_last_values;
-  vector<string> parameter_data_for_indices;
+  vector<SplittedString> parameter_data_for_indices;
 };
 
 #endif

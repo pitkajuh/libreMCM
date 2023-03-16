@@ -21,7 +21,7 @@ class CompartmentEquationsAllParse
  public:
   vector<CompartmentEquationsAll> vector_all;
 
-  void push_back(CompartmentEquationsAll equation)
+  void push_back(const CompartmentEquationsAll equation)
   {
     vector_all.push_back(equation);
   }
@@ -29,19 +29,18 @@ class CompartmentEquationsAllParse
   {
     vector_all.clear();
   }
-  int get_size()
+  int size()
   {
     int size=vector_all.size();
     return size;
   }
-  CompartmentEquationsAll get(int i)
+  CompartmentEquationsAll& operator[](const int i)
   {
-    CompartmentEquationsAll result=vector_all[i];
-    return result;
+    return vector_all[i];
   }
-  void replace(CompartmentEquationsAll equation, int i)
+  const CompartmentEquationsAll& operator[](const int i) const
   {
-    vector_all[i]=equation;
+    return vector_all[i];
   }
 };
 

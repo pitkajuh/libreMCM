@@ -8,20 +8,40 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef DATA_H
-#define DATA_H
+#ifndef SPLITTEDSTRINGS_H
+#define SPLITTEDSTRINGS_H
 
-#include "Equations.h"
-#include "VecVecInt.h"
-#include "SplittedStrings.h"
+#include <vector>
+#include "SplittedString.h"
 
-class Data
+using std::vector;
+
+class SplittedStrings
 {
  public:
-  Equations equations_sorted;
-  VecVecInt calc_order_sorted;
-  VecVecInt indice_values_sorted;
-  SplittedStrings param_data_sorted;
+  vector<vector<SplittedString>> vec;
+
+  void push_back(const vector<SplittedString> vec1)
+  {
+    vec.push_back(vec1);
+  }
+  vector<SplittedString>& operator[](const int i)
+  {
+    return vec[i];
+  }
+  const vector<SplittedString>& operator[](const int i) const
+  {
+    return vec[i];
+  }
+  void clear()
+  {
+    vec.clear();
+  }
+  int size()
+  {
+    int size=vec.size();
+    return size;
+  }
 };
 
 #endif

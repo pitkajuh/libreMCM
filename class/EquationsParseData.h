@@ -18,7 +18,7 @@ class EquationsParseData
  public:
   vector<EquationParseData> equations;
 
-  void push_back(EquationParseData equation)
+  void push_back(const EquationParseData equation)
   {
     equations.push_back(equation);
   }
@@ -26,21 +26,20 @@ class EquationsParseData
   {
     equations.clear();
   }
-  int get_size()
+  int size()
   {
     int size=equations.size();
     return size;
   }
-  EquationParseData get(int i)
+  EquationParseData& operator[](const int i)
   {
-    EquationParseData result=equations[i];
-    return result;
+    return equations[i];
   }
-  void replace(EquationParseData equation, int i)
+  const EquationParseData& operator[](const int i) const
   {
-    equations[i]=equation;
+    return equations[i];
   }
-  void erase(int i)
+  void erase(const int i)
   {
     equations.erase(equations.begin()+i);
   }
