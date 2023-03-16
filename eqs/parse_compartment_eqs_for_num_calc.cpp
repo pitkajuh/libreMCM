@@ -23,23 +23,23 @@ Equations equations_subtract_all;
 int int_add=0;
 int int_subtract=0;
 
-void push_to_all_equations(EquationsAll equations, bool add_or_not)
+void push_to_all_equations(EquationsAll equations, const bool add_or_not)
 {
   int i=0;
   int j=0;
-  int size=equations.get_size();
   int equations_size;
+  const int size=equations.size();
   Equations equations_i;
   vector<string> equations_i_j;
 
   while(i<=size-1)
     {
-      equations_i=equations.get(i);
-      equations_size=equations_i.get_size();
+      equations_i=equations[i];
+      equations_size=equations_i.size();
 
       while(j<=equations_size-1)
 	{
-	  equations_i_j=equations_i.get(j);
+	  equations_i_j=equations_i[j];
 
 	  if(add_or_not)
 	    {
@@ -59,7 +59,7 @@ void push_to_all_equations(EquationsAll equations, bool add_or_not)
 void get_equations_for_numerical_calculation()
 {
   int i=0;
-  int size=equations_for_calculation.get_size();
+  const int size=equations_for_calculation.size();
   int equations_add_size;
   int equations_subtract_size;
   string compartment_name;
@@ -72,14 +72,14 @@ void get_equations_for_numerical_calculation()
 
   while(i<=size-1)
     {
-      equations_for_calculation_i=equations_for_calculation.get(i);
+      equations_for_calculation_i=equations_for_calculation[i];
 
       compartment_name=equations_for_calculation_i.compartment;
       equations_add_1=equations_for_calculation_i.equations_add;
       equations_subtract_1=equations_for_calculation_i.equations_subtract;
 
-      equations_add_size=equations_add_1.get_size();
-      equations_subtract_size=equations_subtract_1.get_size();
+      equations_add_size=equations_add_1.size();
+      equations_subtract_size=equations_subtract_1.size();
 
       if(equations_add_size>0 and equations_subtract_size>0)
 	{
@@ -103,7 +103,6 @@ void get_equations_for_numerical_calculation()
 	  final_equation_i.equations_subtract=equations_subtract_all;
 
 	  final_equations_for_calculation.push_back(final_equation_i);
-	  equations_add_all.clear();
 	  equations_subtract_all.clear();
 	}
       else if(equations_add_size>0 and equations_subtract_size==0)
@@ -122,7 +121,7 @@ void get_equations_for_numerical_calculation()
   equations_for_calculation.clear();
 }
 
-void add_equations_for_numerical_calculation(string compartment_name)
+void add_equations_for_numerical_calculation(const string compartment_name)
 {
   CompartmentEquationsAll equations_for_calculation_i1;
   equations_for_calculation_i1.compartment=compartment_name;
@@ -133,7 +132,7 @@ void add_equations_for_numerical_calculation(string compartment_name)
   equations_subtract.clear();
 }
 
-void add_or_subtract_equations(Equations equations, bool add_equation)
+void add_or_subtract_equations(const Equations equations, const bool add_equation)
 {
   if(add_equation)
     {
@@ -152,7 +151,7 @@ void add_or_subtract_equations(Equations equations, bool add_equation)
 void parse_compartment_eqs_for_num_calc()
 {
   int i=0;
-  int size=rt_local_global.get_size();
+  const int size=rt_local_global.size();
   EquationsAddSubtract eqs;
   string compartment_name;
   string compartment_name_previous1;
@@ -164,7 +163,7 @@ void parse_compartment_eqs_for_num_calc()
 
   while(i<=size-1)
     {
-      eqs=rt_local_global.get(i);
+      eqs=rt_local_global[i];
       compartment_name=eqs.compartment;
 
       if(!first_comp)

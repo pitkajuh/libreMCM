@@ -19,6 +19,7 @@
 #include "../rcompartment/read_compartment_definition.h"
 #include "../rcompartment/get_compartment_equations.h"
 #include "../wdata/values_to_graph.h"
+#include "../debug/debug.h"
 
 CompartmentEquationsAddSubtractAll equations_with_compartment_name;
 AllCompartmentInitialValuesHalfLife all_values;
@@ -31,7 +32,7 @@ AllCompartmentInitialValuesHalfLife parse_compartment_equations_subsubroutine()
   int k=0;
   int compartment_parameters_i1_size;
   int compartment_parameters_i1_j_size;
-  int compartment_parameters_rt_size=compartment_parameters_rt.get_size();
+  const int compartment_parameters_rt_size=compartment_parameters_rt.size();
   float half_life;
   string compartment_element_name;
   string compartment_element_value;
@@ -48,18 +49,18 @@ AllCompartmentInitialValuesHalfLife parse_compartment_equations_subsubroutine()
 
   while(i<=compartment_parameters_rt_size-1)
     {
-      compartment_parameters_i=compartment_parameters_rt.get(i);
+      compartment_parameters_i=compartment_parameters_rt[i];
       compartment_parameters_i1=compartment_parameters_i.initial_values;
-      compartment_parameters_i1_size=compartment_parameters_i1.get_size();
+      compartment_parameters_i1_size=compartment_parameters_i1.size();
 
       while(j<=compartment_parameters_i1_size-1)
 	{
-	  compartment_parameters_i1_j=compartment_parameters_i1.get(j);
-	  compartment_parameters_i1_j_size=compartment_parameters_i1_j.get_size();
+	  compartment_parameters_i1_j=compartment_parameters_i1[j];
+	  compartment_parameters_i1_j_size=compartment_parameters_i1_j.size();
 
 	  while(k<=compartment_parameters_i1_j_size-1)
 	    {
-	      compartment_parameters_i1_j_k=compartment_parameters_i1_j.get(k);
+	      compartment_parameters_i1_j_k=compartment_parameters_i1_j[k];
 	      values.push_back(compartment_parameters_i1_j_k);
 	      k++;
 	    }
@@ -83,34 +84,29 @@ AllCompartmentInitialValuesHalfLife parse_compartment_equations_subsubroutine()
 
 void parse_compartment_equations_subroutine()
 {
-  int i=0;
-  int size=compartment_diagonal.size();
-  string diagonal_element;
   string comptset;
   CompartmentEquationsAddSubtract compartment_equations;
   Equations eq1;
   Equations eq2;
 
-  while(i<=size-1)
+  for(const auto&i: compartment_diagonal)
     {
-      diagonal_element=compartment_diagonal[i];
-      compartment_equations=get_equations_compartment(diagonal_element);
+      compartment_equations=get_equations_compartment(i);
 
       comptset=compartment_equations.compartment;
       eq1=compartment_equations.equations_add;
       eq2=compartment_equations.equations_subtract;
+
       equations_with_compartment_name.push_back(compartment_equations);
-      i++;
     }
   parse_compartment_equations_subsubroutine();
 }
 
-void calculate_equation_with(Equations equations, bool equation_add, string compartment_name, int compartment_start_index)
+void calculate_equation_with(Equations equations, const bool equation_add, const string compartment_name)
 {
+  const int size=equations.size();
   const int index_value=0;
   int i=index_value;
-  int j=index_value;
-  int size=equations.get_size();
   int equation_size;
   vector<string> equation;
   EquationsAddSubtract result;
@@ -119,12 +115,12 @@ void calculate_equation_with(Equations equations, bool equation_add, string comp
     {
       while(i<=size-1)
 	{
-	  equation=equations.get(i);
+	  equation=equations[i];
 	  equation_size=equation.size();
 
 	  if(equation_size>0)
 	    {
-	      result=replace_param_eq(equation, equation_add, compartment_name, compartment_start_index, index_value);
+	      result=replace_param_eq(equation, equation_add, compartment_name);
 	      rt_local_global.push_back(result);
 	    }
 	  i++;
@@ -135,34 +131,34 @@ void calculate_equation_with(Equations equations, bool equation_add, string comp
 void parse_compartment_equations()
 {
   int i=0;
-  int size=equations_with_compartment_name.get_size();
+  const int size=equations_with_compartment_name.size();
   int size_equations_add;
   int size_equations_subtract;
+  string compartment_name;
+  const bool adding=true;
+  const bool subtracting=false;
   Equations equations_add;
   Equations equations_subtract;
-  string compartment_name;
   CompartmentEquationsAddSubtract vector;
-  bool adding=true;
-  bool subtracting=false;
 
   while(i<=size-1)
     {
-      vector=equations_with_compartment_name.get(i);
+      vector=equations_with_compartment_name[i];
       compartment_name=vector.compartment;
       equations_add=vector.equations_add;
       equations_subtract=vector.equations_subtract;
-      size_equations_add=equations_add.get_size();
-      size_equations_subtract=equations_subtract.get_size();
+      size_equations_add=equations_add.size();
+      size_equations_subtract=equations_subtract.size();
 
-      if(compartment_name!=void_element and compartment_name!=origin_element)
+      if(compartment_name!=VOID and compartment_name!=ORIGIN)
 	{
 	  if(size_equations_add>0)
 	    {
-	      calculate_equation_with(equations_add, adding, compartment_name, i);
+	      calculate_equation_with(equations_add, adding, compartment_name);
 	    }
 	  if(size_equations_subtract>0)
 	    {
-	      calculate_equation_with(equations_subtract, subtracting, compartment_name, i);
+	      calculate_equation_with(equations_subtract, subtracting, compartment_name);
 	    }
 	}
       i++;

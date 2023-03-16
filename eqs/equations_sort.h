@@ -13,6 +13,6 @@
 
 #include "../class/Data.h"
 
-Data equations_sort(Equations equations, VecVecInt numerical_calculation_order_of_operations, VecVecInt indice_values, VecVecString param_data);
+Data equations_sort(Equations equations, const VecVecInt numerical_calculation_order_of_operations, const VecVecInt indice_values, const SplittedStrings param_data);
 
 #endif

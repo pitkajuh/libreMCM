@@ -13,6 +13,6 @@
 
 #include "../class/EquationsAddSubtract.h"
 
-EquationsAddSubtract replace_param_eq(vector<string> equation_vector, bool equation_add, string compartment_name, int compartment_start_index, int index1);
+EquationsAddSubtract replace_param_eq(const vector<string> equation_vector, const bool equation_add, const string compartment_name);
 
 #endif

@@ -8,6 +8,7 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
+#include "../class/SplittedString.h"
 #include "../class/EquationsAddSubtract.h"
 #include "../global/global.h"
 #include "../math/is_operator.h"
@@ -21,67 +22,71 @@
 #include "../eqs/parse_compartment_equations.h"
 #include "../map/create_maps.h"
 #include "../wdata/values_to_graph.h"
+#include "../debug/debug.h"
 
 Equations global_equations;
 
-void params4(int i_replace)
+void params4(const int i_replace)
 {
   int i=0;
-  int size=global_equations.get_size();
+  const int size=global_equations.size();
   string compartment_parameter_name;
   string compartment_name;
-  vector<vector<string>> rt;
+  string initial_value;
   vector<string> global_equation;
   vector<string> equation;
   vector<string> initial_values;
+  SplittedString compartment_initial_value;
 
   while(i<=size-1)
     {
-      global_equation=global_equations.get(i);
+      global_equation=global_equations[i];
       compartment_name=global_equation[i_replace];
 
       initial_values=compartment_map_v2[compartment_name];
-      compartment_parameter_name=compartment_name+parm_delim+initial_values[i];
+      initial_value=initial_values[i];
+      compartment_initial_value.splitted_string_part1=compartment_name;
+      compartment_initial_value.splitted_string_part2=initial_value;
+      compartment_parameter_name=compartment_name+PARM_DELIM+initial_value;
 
       global_equation[i_replace]=compartment_parameter_name;
-      global_equations.replace(global_equation, i);
-
+      global_equations[i]=global_equation;
       i++;
     }
-  i=0;
 }
 
-vector<string> params3(vector<string> equation_vector, int i_replace)
+void params3(vector<string> equation_vector, const int i_replace)
 {
-  int i=0;
-  string compartment_parameter_name;
+  string name;
   string compartment_name=equation_vector[i_replace];
   vector<string> initial_values=compartment_map_v2[compartment_name];
+  const int size=initial_values.size();
+  SplittedString compartment_initial_value;
 
-  while(i<=initial_values.size()-1)
+  for(const auto&i: initial_values)
     {
-      compartment_parameter_name=initial_values[i];
-      compartment_parameter_name=compartment_name+parm_delim+compartment_parameter_name;
-      equation_vector[i_replace]=compartment_parameter_name;
+      name=compartment_name+PARM_DELIM+i;
+      compartment_initial_value.splitted_string_part1=compartment_name;
+      compartment_initial_value.splitted_string_part2=i;
+      equation_vector[i_replace]=name;
       global_equations.push_back(equation_vector);
-      i++;
     }
-  return equation_vector;
 }
 
-void params2(vector<int> indices, vector<string> equation_vector, string compartment_name)
+void params2(const vector<int> indices, const vector<string> equation_vector)
 {
   int i=0;
   int i_prev;
   int indice;
   int global_equations_size;
+  const int size=indices.size();
   string equation_i;
 
-  while(i<=indices.size()-1)
+  while(i<=size-1)
     {
       indice=indices[i];
       equation_i=equation_vector[indice];
-      global_equations_size=global_equations.get_size();
+      global_equations_size=global_equations.size();
 
       if(i!=i_prev and global_equations_size>0)
 	{
@@ -89,18 +94,18 @@ void params2(vector<int> indices, vector<string> equation_vector, string compart
 	}
       else
 	{
-	  equation_vector=params3(equation_vector, indice);
+	  params3(equation_vector, indice);
 	}
       i_prev=i;
       i++;
     }
 }
 
-EquationsAddSubtract replace_param_eq(vector<string> equation_vector, bool equation_add, string compartment_name, int compartment_start_index, int index1)
+EquationsAddSubtract replace_param_eq(const vector<string> equation, const bool equation_add, const string compartment_name)
 {
   int i=0;
   int compartment_index;
-  int size=equation_vector.size();
+  const int size=equation.size();
   bool operator_or_not;
   bool numerical_value_or_not;
   string eq;
@@ -109,7 +114,7 @@ EquationsAddSubtract replace_param_eq(vector<string> equation_vector, bool equat
 
   while(i<=size-1)
     {
-      eq=equation_vector[i];
+      eq=equation[i];
       operator_or_not=is_operator(eq);
       numerical_value_or_not=is_string_numerical_value(eq);
 
@@ -124,7 +129,7 @@ EquationsAddSubtract replace_param_eq(vector<string> equation_vector, bool equat
 	}
       i++;
     }
-  params2(indices, equation_vector, compartment_name);
+  params2(indices, equation);
   rt.compartment=compartment_name;
   rt.add_equations=equation_add;
   rt.equations=global_equations;
