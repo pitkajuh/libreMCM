@@ -8,47 +8,39 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include <iostream>
 #include <map>
 #include <algorithm>
 #include "../class/CompartmentInitialValuesHalfLife.h"
 #include "../class/AllInitialValues.h"
-#include "../global/global.h"
 #include "../rcompartment/read_compartment.h"
 #include "../rcompartment/get_compartment_equations.h"
 #include "../map/create_maps.h"
+#include "../map/initial_value_map.h"
 #include "../eqs/parse_compartment_equations.h"
-#include "../util/string_split.h"
 #include "../util/is_in_vector.h"
+#include "../debug/debug.h"
 
 using std::map;
-using std::cout;
-using std::endl;
 
 vector<string> all_parameters;
 vector<string> all_compartments;
 AllInitialValues initial_values_all;
 
-void add_to_all_parameters(string parameter_name)
+void add_to_all_parameters(const string parameter_name)
 {
   // Adds parameter to all_parameters vector, if it has not already been added.
-  int i=0;
-  string parameter;
+  const int size=all_parameters.size();
   bool found=false;
 
-  if(all_parameters.size()>0)
+  if(size>0)
     {
-      while(i<=all_parameters.size()-1)
+      for(const auto&i: all_parameters)
 	{
-	  parameter=all_parameters[i];
-
-	  if(parameter==parameter_name)
+	  if(i==parameter_name)
 	    {
 	      found=true;
 	      break;
 	    }
-
-	  i++;
 	}
     }
   if(!found)
@@ -62,7 +54,7 @@ void add_all_values()
   int i=0;
   int j=0;
   int k=0;
-  int size=all_values.get_size();
+  const int size=all_values.size();
   int params_size;
   int values_size;
   string param_name;
@@ -70,31 +62,33 @@ void add_all_values()
   string param_name_splitted_1;
   string compartment_name;
   SplittedString param_name_splitted;
+  SplittedString param_name_splitted1;
   CompartmentAllInitialValuesHalfLife val;
   AllInitialValuesHalfLife params;
   InitialValuesHalfLife params_j;
   InitialValueHalfLife params_k;
-  InitialValue initial_value;
   InitialValues initial_values;
+  InitialValue initial_value;
 
   while(i<=size-1)
     {
-      val=all_values.get(i);
+      val=all_values[i];
       compartment_name=val.compartment;
       params=val.initial_values;
       all_compartments.push_back(compartment_name);
-      params_size=params.get_size();
+      params_size=params.size();
 
       while(j<=params_size-1)
 	{
-	  params_j=params.get(j);
-	  values_size=params_j.get_size();
+	  params_j=params[j];
+	  values_size=params_j.size();
 
 	  while(k<=values_size-1)
 	    {
-	      params_k=params_j.get(k);
+	      params_k=params_j[k];
 	      param_name=params_k.initial_value_name;
-	      param_name_splitted=split_string_in_two(param_name, parm_delim);
+	      param_name_splitted=initial_value_map[param_name];
+
 	      param_name_splitted_1=param_name_splitted.splitted_string_part2;
 	      param_value=params_k.initial_value;
 
@@ -112,5 +106,6 @@ void add_all_values()
       initial_values_all.push_back(initial_values);
       initial_values.clear();
     }
+  create_initial_value_map();
   create_compartment_map();
 }

@@ -17,7 +17,7 @@
 #include "../num/numerical_calculation.h"
 #include "../num/numerical_calculation_begin.h"
 #include "../map/create_maps.h"
-#include "../util/string_split.h"
+#include "../map/initial_value_map.h"
 #include "../eqs/parse_compartment_equations.h"
 #include "../eqs/parse_compartment_eqs_for_num_calc.h"
 #include "../rcompartment/read_compartment.h"
@@ -25,19 +25,20 @@
 #include "../rcompartment/get_compartment_equations.h"
 
 using std::cout;
-using std::endl;
 using std::ofstream;
 using std::to_string;
 
-void write_to_file(string directory)
+void write_to_file(const string directory)
 {
   int i=0;
   int j=0;
   int k=0;
+  int size;
+  int value_vector_size;
   double t=0;
   const string str_new_row="\n";
   const string file_type=".txt";
-  const string header_const="t"+delimiter;
+  const string header_const="t"+DELIMITER;
   string header=header_const;
   string line="";
   string t_str;
@@ -52,7 +53,7 @@ void write_to_file(string directory)
   map<string, map<string, vector<string>>>::reverse_iterator end=compartment_map.rend();
   map<string, vector<string>> values;
 
-  cout<<"Writing results"<<endl;
+  cout<<"Writing results"<<'\n';
 
   while(begin!=end)
     {
@@ -61,43 +62,48 @@ void write_to_file(string directory)
       ofstream myfile(save_path);
       initial_value_names=compartment_map_v2[compartment_name];
       values=compartment_map[compartment_name];
+      size=initial_value_names.size();
 
-      // Create header line containing initial value names (t;iv1;iv2;iv3...)
-      while(i<=initial_value_names.size()-1)
+      while(i<=size-1)
 	{
 	  initial_value_name=initial_value_names[i];
-	  if(initial_value_names.size()==1)
+
+	  if(size==1)
 	    {
 	      header=header+initial_value_name+str_new_row;
 	    }
-	  else if(i==initial_value_names.size()-1)
+	  else if(i==size-1)
 	    {
 	      header=header+initial_value_name+str_new_row;
 	    }
 	  else
 	    {
-	      header=header+initial_value_name+delimiter;
+	      header=header+initial_value_name+DELIMITER;
 	    }
 	  i++;
 	}
+
       while(!ready)
 	{
 	  initial_value_name=initial_value_names[j];
 	  value_vector=values[initial_value_name];
 	  value=value_vector[k];
+	  size=initial_value_names.size();
 
-	  if(initial_value_names.size()==1)
+	  if(size==1)
 	    {
 	      // Write result when there are only one initial value in each compartment.
-	      if(j==initial_value_names.size()-1 and k==value_vector.size()-1)
+	      value_vector_size=value_vector.size();
+
+	      if(j==size-1 and k==value_vector_size-1)
 		{
 		  ready=true;
 		  break;
 		}
-	      else if(k<=value_vector.size()-1)
+	      else if(k<=value_vector_size-1)
 		{
 		  t_str=to_string(t);
-		  line=line+t_str+delimiter+value+str_new_row;
+		  line=line+t_str+DELIMITER+value+str_new_row;
 		  t=t+h;
 		  k++;
 		  continue;
@@ -105,22 +111,24 @@ void write_to_file(string directory)
 	    }
 	  else
 	    {
-	      // Write result when there are more than one initial value in each compartment.
-	      if(k==value_vector.size()-1 and j==initial_value_names.size()-1)
+	      size=initial_value_names.size();
+	      value_vector_size=value_vector.size();
+
+	      if(k==value_vector_size-1 and j==size-1)
 		{
-		  line=line+delimiter+value;
+		  line=line+DELIMITER+value;
 		  ready=true;
 		}
-	      else if(j<=initial_value_names.size()-1)
+	      else if(j<=size-1)
 		{
 		  if(j==0)
 		    {
 		      t_str=to_string(t);
-		      line=line+t_str+delimiter+value;
+		      line=line+t_str+DELIMITER+value;
 		    }
-		  else if(j==initial_value_names.size()-1)
+		  else if(j==size-1)
 		    {
-		      line=line+delimiter+value+str_new_row;
+		      line=line+DELIMITER+value+str_new_row;
 		      k++;
 		      t=t+h;
 		      j=0;
@@ -128,7 +136,7 @@ void write_to_file(string directory)
 		    }
 		  else
 		    {
-		      line=line+delimiter+value;
+		      line=line+DELIMITER+value;
 		    }
 		}
 	    }
@@ -159,6 +167,7 @@ void write_to_file(string directory)
   compartment_map_v2.clear();
   compartment_map.clear();
   compartment_target_map.clear();
+  initial_value_map.clear();
   equations_with_compartment_name.clear();
   all_values.clear();
   rt_local_global.clear();

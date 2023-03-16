@@ -13,6 +13,6 @@
 
 using std::string;
 
-void write_to_file(string model);
+void write_to_file(const string directory);
 
 #endif
