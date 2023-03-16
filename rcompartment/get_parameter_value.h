@@ -13,6 +13,6 @@
 
 using std::string;
 
-string get_compartment_parameter_value(string parameter_wanted);
+string get_compartment_parameter_value(const string parameter_wanted);
 
 #endif

@@ -15,7 +15,6 @@
 
 extern AllCompartmentAllInitialValuesHalfLife compartment_parameters_rt;
 extern AllCompartmentAllInitialValuesHalfLife compartment_parameters;
-string get_compartment_parameter_value(string parameter_wanted);
-void read_compartment_def(string directory);
+void read_compartment_def(const string directory);
 
 #endif

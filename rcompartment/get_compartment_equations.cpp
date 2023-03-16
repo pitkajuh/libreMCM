@@ -15,6 +15,7 @@
 #include "../global/global.h"
 #include "../util/is_in_vector.h"
 #include "../rcfg/read_bin.h"
+#include "../debug/debug.h"
 
 map<string, EquationNamesAddSubtract> compartments_and_equations;
 
@@ -26,7 +27,7 @@ vector<string> get_eq_corresponding_to_eq_name(string eq_name)
 
   if(is_empty)
     {
-      rt={not_found};
+      rt={NOT_FOUND};
     }
   return rt;
 }
@@ -34,19 +35,17 @@ vector<string> get_eq_corresponding_to_eq_name(string eq_name)
 Equations get_equation_values(vector<string> equation_names)
 {
   // Takes equation names as an input and returns their values in a vector.
-  int i=0;
-  string equation_name;
+  // int i=0;
+  const int size=equation_names.size();
   vector<string> equation_value;
   Equations equation_values;
 
-  if(equation_names.size()>0)
+  if(size>0)
     {
-      while(i<=equation_names.size()-1)
+      for(const auto&i: equation_names)
 	{
-	  equation_name=equation_names[i];
-	  equation_value=get_eq_corresponding_to_eq_name(equation_name);
+	  equation_value=get_eq_corresponding_to_eq_name(i);
 	  equation_values.push_back(equation_value);
-	  i++;
 	}
     }
   return equation_values;
@@ -56,6 +55,7 @@ vector<string> get_equations_from_compartment_map(string compartment, map<int, v
 {
   int i=0;
   int compartment_index;
+  int size;
   string compartment_vector_i;
   string compartment_vector_c;
   bool is_str_compartment;
@@ -75,18 +75,16 @@ vector<string> get_equations_from_compartment_map(string compartment, map<int, v
 
       if(is_str_compartment)
 	{
-	  while(i<=compartment_vector.size()-1)
+	  for(const auto&x: compartment_vector)
 	    {
-	      compartment_vector_i=compartment_vector[i];
-	      is_str_compartment_i=is_in_vector_compartment(compartment_diagonal, compartment_vector_i);
+	      is_str_compartment_i=is_in_vector(compartment_diagonal, x);
 	      is_str_compartment=is_str_compartment_i.is_in_vector;
-	      is_empty=compartment_vector_i.empty();
+	      is_empty=x.empty();
 
 	      if(!is_empty and !is_str_compartment)
 		{
-		  rt.push_back(compartment_vector_i);
+		  rt.push_back(x);
 		}
-	      i++;
 	    }
 	}
       is_str_compartment=false;

@@ -15,6 +15,6 @@
 
 using std::string;
 
-void get_compartment_parameters(string directory);
+void get_compartment_parameters(const string directory);
 
 #endif

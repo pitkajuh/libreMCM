@@ -10,7 +10,7 @@
 
 #include "read_compartment_definition.h"
 
-void get_compartment_parameters(string directory)
+void get_compartment_parameters(const string directory)
 {
   read_compartment_def(directory);
 }

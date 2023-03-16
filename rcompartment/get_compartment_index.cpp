@@ -12,21 +12,17 @@
 
 int get_compartment_index(string compartment_name)
 {
-  int i=0;
-  int size=compartment_diagonal.size();
+  int j=0;
   int compartment_index=-1;
-  string compartment;
 
-  while(i<=size-1)
+  for(const auto&i: compartment_diagonal)
     {
-      compartment=compartment_diagonal[i];
-
-      if(compartment==compartment_name)
+      if(i==compartment_name)
 	{
-	  compartment_index=i;
+	  compartment_index=j;
 	  break;
 	}
-      i++;
+      j++;
     }
   return compartment_index;
 }

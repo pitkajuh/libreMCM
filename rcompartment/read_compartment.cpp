@@ -9,12 +9,10 @@
 \*---------------------------------------------------------------------------*/
 
 #include <fstream>
-#include <vector>
 #include <map>
 #include "../global/global.h"
+#include "../debug/debug.h"
 
-using std::string;
-using std::vector;
 using std::map;
 using std::fstream;
 using std::ios_base;
@@ -30,6 +28,7 @@ vector<string> line_read(string line)
 {
   // Takes the line from .csv file as an input (as a string) and converts it to veector form based on the chosen delimiter of the .csv file (; is the default delimiter).
   int i;
+  const int size=line.size();
   const string str_bug1="\357";
   const string str_bug2="\273";
   const string str_bug3="\277";
@@ -37,11 +36,11 @@ vector<string> line_read(string line)
   string fchar;
   vector<string> empty;
 
-  while(i<=line.size()-1)
+  while(i<=size-1)
     {
       fchar=line[i];
 
-      if(fchar==delimiter)
+      if(fchar==DELIMITER)
 	{
 	  empty.push_back(empty_str);
 	  empty_str="";
@@ -68,10 +67,11 @@ void create_column(vector<string> row)
 {
   // Takes compartment row from .csv file as input and converts it to column.
   int i=0;
+  const int size=row.size();
   string row_i;
   vector<string> column_vector;
 
-  while(i<=row.size()-1)
+  while(i<=size-1)
     {
       row_i=row[i];
 
@@ -109,14 +109,12 @@ void read_compartments(string csv)
 
       compartment_diagonal.push_back(diagonal_compartment);
 
-      if(diagonal_compartment!=void_element and diagonal_compartment!=origin_element)
+      if(diagonal_compartment!=VOID and diagonal_compartment!=ORIGIN)
 	{
 	  compartment_diagonal_v2.push_back(diagonal_compartment);
 	}
-
       row_map[line_nr]=line_read_i;
       create_column(line_read_i);
-
       line_nr++;
     }
 }

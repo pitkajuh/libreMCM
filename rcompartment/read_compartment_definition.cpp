@@ -22,6 +22,7 @@
 #include "../util/remove_white_space.h"
 #include "../util/line_remove_comment.h"
 #include "../wdata/values_to_graph.h"
+#include "../map/initial_value_map.h"
 
 using std::fstream;
 using std::ios_base;
@@ -30,9 +31,10 @@ using std::ios;
 AllCompartmentAllInitialValuesHalfLife compartment_parameters_rt;
 AllCompartmentAllInitialValuesHalfLife compartment_parameters;
 
-InitialValuesHalfLife read_compartment_element(string elem, string compartment_name)
+InitialValuesHalfLife read_compartment_element(const string elem, const string compartment_name)
 {
   int i=0;
+  const int size=elem.size();
   float half_life;
   string empty;
   string name;
@@ -40,17 +42,21 @@ InitialValuesHalfLife read_compartment_element(string elem, string compartment_n
   string value;
   InitialValueHalfLife result;
   InitialValuesHalfLife rt;
+  SplittedString compartment_initial_value;
 
-  while(i<=elem.size()-1)
+  while(i<=size-1)
     {
       fchar=elem[i];
 
-      if(fchar==equal_sign)
+      if(fchar==EQUAL_SIGN)
 	{
-	  name=compartment_name+parm_delim+empty;
+	  name=compartment_name+PARM_DELIM+empty;
+	  compartment_initial_value.splitted_string_part1=compartment_name;
+	  compartment_initial_value.splitted_string_part2=empty;
+	  initial_value_map[name]=compartment_initial_value;
 	  empty="";
 	}
-      else if(fchar==delimiter)
+      else if(fchar==DELIMITER)
 	{
 	  value=empty;
 	  // get half life if is radionuclide
@@ -69,11 +75,13 @@ InitialValuesHalfLife read_compartment_element(string elem, string compartment_n
   return rt;
 }
 
-void read_compartment_def(string directory)
+void read_compartment_def(const string directory)
 {
   const string file_name=directory+"compartments";
   const string compartments_str="compartments";
-  const string materials="content";
+  const string initial_values="initial_values";
+  const string compartments_bracket=compartments_str+CURLY_BRACKET_O;
+  const string initial_values_bracket=initial_values+CURLY_BRACKET_O;
   string line;
   string line_a;
   string first_char;
@@ -81,16 +89,17 @@ void read_compartment_def(string directory)
   string compartment_c;
   string line_commented;
   string line_substr;
+  int size_a;
   bool compartments_found=false;
   bool compartments_saved=false;
   bool compartment_name_found=false;
-  bool materials_found=false;
+  bool initial_values_found=false;
   bool line_is_empty;
   bool line_commented_is_empty;
-  fstream bin_loaded(file_name, ios_base::in | ios::binary);
   InitialValuesHalfLife compartment_i;
   AllInitialValuesHalfLife compartments_values;
   CompartmentAllInitialValuesHalfLife compartment_parameters_i;
+  fstream bin_loaded(file_name, ios_base::in | ios::binary);
 
   while(getline(bin_loaded, line))
     {
@@ -104,12 +113,12 @@ void read_compartment_def(string directory)
 	}
       else if(!compartments_saved)
 	{
-	  if(line==curly_bracket_c and compartments_found)
+	  if(line==CURLY_BRACKET_C and compartments_found)
 	    {
 	      compartments_saved=true;
 	      continue;
 	    }
-	  else if(line==compartments_str or line==compartments_str+curly_bracket_o)
+	  else if(line==compartments_str or line==compartments_bracket)
 	    {
 	      compartments_found=true;
 	      continue;
@@ -117,33 +126,35 @@ void read_compartment_def(string directory)
 	  else if(compartments_found)
 	    {
 	      line_a=remove_white_space(line);
-	      first_char=line_a[line_a.size()-1];
-	      line_substr=line_a.substr(0, line_a.size()-1);
+	      size_a=line_a.size();
+	      first_char=line_a[size_a-1];
+	      line_substr=line_a.substr(0, size_a-1);
 
-	      if(first_char==curly_bracket_o and line_substr!=materials)
+	      if(first_char==CURLY_BRACKET_O and line_substr!=initial_values)
 		{
-		  compartment_name=line_a.substr(0, line_a.size()-1);
+		  size_a=line_a.size();
+		  compartment_name=line_a.substr(0, size_a-1);
 		  compartment_name_found=true;
 		}
 	      else if(compartment_name_found)
 		{
-		  if(line_a==materials or line_a==materials+curly_bracket_o)
+		  if(line_a==initial_values or line_a==initial_values_bracket)
 		    {
-		      materials_found=true;
+		      initial_values_found=true;
 		    }
-		  else if(materials_found and line_a!=curly_bracket_c)
+		  else if(initial_values_found and line_a!=CURLY_BRACKET_C)
 		    {
 		      compartment_i=read_compartment_element(line_a, compartment_name);
 		      compartments_values.push_back(compartment_i);
 		    }
-		  else if(line_a==curly_bracket_c)
+		  else if(line_a==CURLY_BRACKET_C)
 		    {
 		      compartment_parameters_i.compartment=compartment_name;
 		      compartment_parameters_i.initial_values=compartments_values;
 		      compartment_parameters.push_back(compartment_parameters_i);
 		      compartments_values.clear();
 		      compartment_name_found=false;
-		      materials_found=false;
+		      initial_values_found=false;
 		    }
 		}
 	    }
