@@ -17,7 +17,7 @@
 using std::string;
 using std::vector;
 
-vector<string> replace_in_vector(vector<string> fa, string result, int index_replace_from, int index_replace_to);
-vector<string> replace_in_vector2(vector<string> fa, string result, int index_replace_from, int index_replace_to);
+vector<string> replace_in_vector(vector<string> fa, const string result, int index_replace_from, int index_replace_to);
+vector<string> replace_in_vector2(vector<string> fa, const string result, int index_replace_from, int index_replace_to);
 
 #endif

@@ -18,7 +18,6 @@
 using std::string;
 using std::vector;
 
-IsInVector is_in_vector_compartment(vector<string> vec, string str_find);
-IsInVector is_in_vector(vector<string> vec, string str_find);
+IsInVector is_in_vector(const vector<string> vec, const string str_find);
 
 #endif

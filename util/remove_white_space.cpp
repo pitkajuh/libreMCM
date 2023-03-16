@@ -12,10 +12,10 @@
 
 using std::string;
 
-string remove_white_space(string line)
+string remove_white_space(const string line)
 {
   int i=0;
-  int size=line.size();
+  const int size=line.size();
   const string empty_str="";
   const string empty_str2=" ";
   const string empty_str3="\0";

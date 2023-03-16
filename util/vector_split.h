@@ -17,6 +17,6 @@
 using std::string;
 using std::vector;
 
-vector<string> vector_split(vector<string> fa, int start, int stop);
+vector<string> vector_split(const vector<string> fa, const int start, const int stop);
 
 #endif

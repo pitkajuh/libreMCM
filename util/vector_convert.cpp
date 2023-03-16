@@ -8,47 +8,53 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include <vector>
 #include "../global/global.h"
 #include "../math/is_operator.h"
 
-using std::string;
-using std::vector;
-
-vector<string> equation_string_to_equation_vector(string equation)
+vector<string> equation_string_to_equation_vector(const string equation)
 {
   int i=0;
+  const int size=equation.size();
   int nr_of_operators=0;
-  const string empty_str="";
-  string empty=empty_str;
+  string empty="";
   string fchar;
   string fchar_prev;
   vector<string> rt;
   bool is_operator_or_not;
+  bool is_empty;
+  fchar=equation[i];
 
-  while(i<=equation.size()-1)
+  if(i==0 and fchar==SUBTRACT)
+    {
+      empty=fchar;
+      i++;
+    }
+
+  while(i<=size-1)
     {
       fchar=equation[i];
       is_operator_or_not=is_operator(fchar);
 
       if(is_operator_or_not)
 	{
-	  if(!empty.empty())
+	  is_empty=empty.empty();
+
+	  if(!is_empty)
 	    {
 	      rt.push_back(empty);
 	    }
 
-	  if(fchar==subtract and i>0)
+	  if(fchar==SUBTRACT and i>0)
 	    {
 	      fchar_prev=fchar;
-	      rt.push_back(add);
-	      empty=subtract;
+	      rt.push_back(ADD);
+	      empty=SUBTRACT;
 	      nr_of_operators++;
 	      i++;
 	      continue;
 	    }
 	  rt.push_back(fchar);
-	  empty=empty_str;
+	  empty="";
 	  nr_of_operators++;
 	}
       else
@@ -63,7 +69,9 @@ vector<string> equation_string_to_equation_vector(string equation)
     }
   else
     {
-      if(!empty.empty())
+      is_empty=empty.empty();
+
+      if(!is_empty)
 	{
 	  rt.push_back(empty);
 	}
@@ -71,21 +79,19 @@ vector<string> equation_string_to_equation_vector(string equation)
   return rt;
 }
 
-string vector_to_string(vector<string> vec)
+string vector_to_string(const vector<string> vec)
 {
-  int i=0;
   string empty;
-  string fchar;
+  bool is_empty;
 
-  while(i<=vec.size()-1)
+  for(const auto&i: vec)
     {
-      fchar=vec[i];
+      is_empty=i.empty();
 
-      if(!fchar.empty())
+      if(!is_empty)
 	{
-	  empty=empty+fchar;
+	  empty=empty+i;
 	}
-      i++;
     }
   return empty;
 }

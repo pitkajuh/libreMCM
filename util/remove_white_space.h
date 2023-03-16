@@ -15,6 +15,6 @@
 
 using std::string;
 
-string remove_white_space(string line);
+string remove_white_space(const string line);
 
 #endif

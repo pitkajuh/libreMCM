@@ -14,54 +14,16 @@
 using std::string;
 using std::vector;
 
-vector<string> combine_vectors_sub(vector<string> vec_from, vector<string> vec_to, int from)
+vector<string> combine_vectors(const vector<string> vec_from, vector<string> vec_to)
 {
-  int i=from;
-  string fchar;
+  const int size=vec_from.size();
 
-  while(i<=vec_from.size()-1)
+  if(size>0)
     {
-      fchar=vec_from[i];
-      vec_to.push_back(fchar);
-      i++;
+      for(const auto&i: vec_from)
+	{
+	  vec_to.push_back(i);
+	}
     }
   return vec_to;
-}
-
-vector<string> combine_vectors(vector<string> vec1, int vec1_from, int vec1_to, vector<string> vec2)
-{
-  int i=0;
-  vector<string> result;
-  string fchar;
-
-  while(i<=vec1.size()-1)
-    {
-      fchar=vec1[i];
-
-      if(i==vec1_from)
-	{
-	  result=combine_vectors_sub(vec1, vec2, vec1_from);
-	  i=vec1_to;
-	}
-      else
-	{
-	  result.push_back(fchar);
-	}
-      i++;
-    }
-  return result;
-}
-
-vector<string> combine_vectors2(vector<string> vec_from, vector<string> vec2_to)
-{
-  int i=0;
-  string fchar;
-
-  while(i<=vec_from.size()-1)
-    {
-      fchar=vec_from[i];
-      vec2_to.push_back(fchar);
-      i++;
-    }
-  return vec2_to;
 }

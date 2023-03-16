@@ -15,6 +15,6 @@
 
 using std::string;
 
-string line_remove_comment(string line);
+string line_remove_comment(const string line);
 
 #endif

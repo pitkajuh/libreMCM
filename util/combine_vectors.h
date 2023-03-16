@@ -17,7 +17,6 @@
 using std::string;
 using std::vector;
 
-vector<string> combine_vectors(vector<string> vec1, int vec1_from, int vec1_to, vector<string> vec2);
-vector<string> combine_vectors2(vector<string> vec_from, vector<string> vec2_to);
+vector<string> combine_vectors(const vector<string> vec_from, vector<string> vec2_to);
 
 #endif

@@ -17,7 +17,7 @@
 using std::string;
 using std::vector;
 
-vector<string> equation_string_to_equation_vector(string equation);
-string vector_to_string(vector<string> vec);
+vector<string> equation_string_to_equation_vector(const string equation);
+string vector_to_string(const vector<string> vec);
 
 #endif
