@@ -136,4 +136,3 @@ EquationsAddSubtract replace_param_eq(const vector<string> equation, const bool 
   global_equations.clear();
   return rt;
 }
-
