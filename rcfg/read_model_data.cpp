@@ -18,10 +18,10 @@ using std::fstream;
 using std::ios_base;
 using std::ios;
 
-string read_model_line(string line)
+string read_model_line(const string line)
 {
   int i=0;
-  int size=line.size();
+  const int size=line.size();
   string result="";
   string fchar;
 
@@ -29,7 +29,7 @@ string read_model_line(string line)
     {
       fchar=line[i];
 
-      if(fchar!=delimiter)
+      if(fchar!=DELIMITER)
 	{
 	  result=result+fchar;
 	}
@@ -64,12 +64,12 @@ vector<string> read_model_data()
 	}
       else if(!model_saved)
 	{
-	  if(line==curly_bracket_c and model_found)
+	  if(line==CURLY_BRACKET_C and model_found)
 	    {
 	      model_saved=true;
 	      continue;
 	    }
-	  else if(line==model_location or line==model_location+curly_bracket_o)
+	  else if(line==model_location or line==model_location+CURLY_BRACKET_O)
 	    {
 	      model_found=true;
 	      continue;

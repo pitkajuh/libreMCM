@@ -18,14 +18,14 @@ using std::fstream;
 using std::ios_base;
 using std::ios;
 
-int t_start;
-int t_end;
-int steps;
+double t_start;
+double t_end;
+double step_size;
 
-string get_sim_param_name(string str)
+string get_sim_param_name(const string str)
 {
   int i=0;
-  int size=str.size();
+  const int size=str.size();
   string empty="";
   string fchar;
   bool eq_found=false;
@@ -34,7 +34,7 @@ string get_sim_param_name(string str)
     {
       fchar=str[i];
 
-      if(fchar==equal_sign)
+      if(fchar==EQUAL_SIGN)
 	{
 	  break;
 	}
@@ -47,10 +47,10 @@ string get_sim_param_name(string str)
   return empty;
 }
 
-string get_sim_param_value(string str)
+string get_sim_param_value(const string str)
 {
   int i=0;
-  int size=str.size();
+  const int size=str.size();
   string empty="";
   string fchar;
   bool eq_found=false;
@@ -59,7 +59,7 @@ string get_sim_param_value(string str)
     {
       fchar=str[i];
 
-      if(fchar==equal_sign)
+      if(fchar==EQUAL_SIGN)
 	{
 	  eq_found=true;
 	}
@@ -72,18 +72,18 @@ string get_sim_param_value(string str)
   return empty;
 }
 
-void read_sim_params(string directory)
+void read_sim_params(const string directory)
 {
   const string file_name=directory+"sim_params";
   const string simulation_settings="simulation_settings";
   const string time_start="time_start";
   const string time_end="time_end";
-  const string steps_str="step_size";
+  const string step_size_str="step_size";
   string line;
   string name;
   string t_start_str;
   string t_end_str;
-  string steps_str1;
+  string step_size_str1;
   string line_commented;
   bool sim_settings_found=false;
   bool line_empty;
@@ -101,11 +101,11 @@ void read_sim_params(string directory)
 	{
 	  continue;
 	}
-      else if(line==simulation_settings+curly_bracket_o)
+      else if(line==simulation_settings+CURLY_BRACKET_O)
 	{
 	  sim_settings_found=true;
 	}
-      else if(sim_settings_found and line==curly_bracket_c)
+      else if(sim_settings_found and line==CURLY_BRACKET_C)
 	{
 	  break;
 	}
@@ -123,10 +123,10 @@ void read_sim_params(string directory)
 	      t_end_str=get_sim_param_value(line);
 	      t_end=stod(t_end_str);
 	    }
-	  else if(name==steps_str)
+	  else if(name==step_size_str)
 	    {
-	      steps_str1=get_sim_param_value(line);
-	      steps=stod(steps_str1);
+	      step_size_str1=get_sim_param_value(line);
+	      step_size=stod(step_size_str1);
 	    }
 	}
     }

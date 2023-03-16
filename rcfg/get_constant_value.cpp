@@ -8,15 +8,16 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include "../global/global.h"
+#include <stdexcept>
 #include "read_bin.h"
+#include "../global/global.h"
 
 using std::to_string;
 
 string get_constant_value(string constant)
 {
   int i=0;
-  int size=constants.get_size();
+  int size=constants.size();
   int constant_size=constant.size();
   bool value_found=false;
   bool constant_negative=false;
@@ -34,7 +35,7 @@ string get_constant_value(string constant)
 
   while(i<=size-1)
     {
-      constants_i=constants.get(i);
+      constants_i=constants[i];
       compare=constants_i.constant_name;
 
       if(constant==compare)
@@ -47,7 +48,7 @@ string get_constant_value(string constant)
 	  if(constant_negative)
 	    {
 	      // Value is negative, adding minus sign.
-	      value=subtract+value;
+	      value=SUBTRACT+value;
 	    }
 	  break;
 	}
@@ -60,6 +61,7 @@ string get_constant_value(string constant)
     }
   else
     {
+      throw std::domain_error("Constant value "+constant+" was not found.");
       return NULL;
     }
 }

@@ -15,6 +15,6 @@
 
 using std::string;
 
-void get_bin(string directory);
+void get_bin(const string directory);
 
 #endif

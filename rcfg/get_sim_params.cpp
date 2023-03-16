@@ -10,7 +10,7 @@
 
 #include "read_sim_params.h"
 
-void get_sim_params(string directory)
+void get_sim_params(const string directory)
 {
   read_sim_params(directory);
 }

@@ -15,9 +15,9 @@
 
 using std::string;
 
-void read_sim_params(string directory);
-extern int t_start;
-extern int t_end;
-extern int steps;
+void read_sim_params(const string directory);
+extern double t_start;
+extern double t_end;
+extern double step_size;
 
 #endif

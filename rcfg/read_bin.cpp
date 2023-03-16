@@ -32,12 +32,12 @@ Constants constants;
 EquationNamesValues equations;
 map<string, vector<string>> equations_map;
 
-vector<string> splitted_vector(vector<string> fa, int from, int to, int move_to)
+vector<string> splitted_vector(vector<string> fa, int from, const int to, const int move_to)
 {
   const int zero_value=0;
+  const int size=fa.size();
   int from_up;
   int difference=to-from;
-  int size=fa.size();
   vector<string> vector_part1;
   vector<string> vector_part2;
   vector<string> combined;
@@ -51,7 +51,7 @@ vector<string> splitted_vector(vector<string> fa, int from, int to, int move_to)
     {
       sign_i=fa[from];
 
-      if(difference==1 and sign_i==add)
+      if(difference==1 and sign_i==ADD)
 	{
 	  from=from+1;
 	  variable=fa[from];
@@ -70,7 +70,7 @@ vector<string> splitted_vector(vector<string> fa, int from, int to, int move_to)
     {
       sign_i=fa[from];
 
-      if(difference==1 and sign_i==add)
+      if(difference==1 and sign_i==ADD)
 	{
 	  from=from+1;
 	  variable=fa[from];
@@ -79,7 +79,7 @@ vector<string> splitted_vector(vector<string> fa, int from, int to, int move_to)
 	  fa[from]=replace;
 	  combined=fa;
 	}
-      else if(sign_i==subtract)
+      else if(sign_i==SUBTRACT)
 	{
 	  combined=fa;
 	}
@@ -91,13 +91,13 @@ vector<string> splitted_vector(vector<string> fa, int from, int to, int move_to)
 	  from_up=from-2;
 	  vector_part2=vector_split(fa, zero_value, from_up);
 	  sign_j=vector_part2[zero_value];
-	  combined=combine_vectors2(vector_part2, fa_splitted_move);
+	  combined=combine_vectors(vector_part2, fa_splitted_move);
 	}
     }
   return combined;
 }
 
-vector<string> variable_has_coefficient_neg_dir(vector<string> fa, int start, int move_to)
+vector<string> variable_has_coefficient_neg_dir(const vector<string> fa, const int start, const int move_to)
 {
   int i_pos=start;
   int i_neg=start;
@@ -119,7 +119,7 @@ vector<string> variable_has_coefficient_neg_dir(vector<string> fa, int start, in
 	}
       fchar=fa[i_neg];
 
-      if(fchar==add or fchar==subtract or fchar==open_parenthesis or fchar==close_parenthesis)
+      if(fchar==ADD or fchar==SUBTRACT or fchar==OPEN_PARENTHESIS or fchar==CLOSE_PARENTHESIS)
 	{
 	  i_stop=i_neg;
 	  rt_stop=start;
@@ -144,7 +144,6 @@ vector<string> equation_set_order_sub(vector<string> fa)
   int fa_size=fa.size();
   string fchar;
   string variable;
-  string replace;
   bool is_fchar_variable;
 
   while(i<=fa_size-1)
@@ -166,6 +165,7 @@ vector<string> equation_set_order_sub(vector<string> fa)
 
 vector<string> equation_set_order(vector<string> fa)
 {
+  const int size=fa.size();
   int i=0;
   int open;
   int close;
@@ -175,15 +175,15 @@ vector<string> equation_set_order(vector<string> fa)
   vector<string> fa_sub;
   vector<string> fa_splitted;
 
-  while(i<=fa.size()-1)
+  while(i<=size-1)
     {
       fchar=fa[i];
 
-      if(fchar==open_parenthesis)
+      if(fchar==OPEN_PARENTHESIS)
 	{
 	  open=i+1;
 	}
-      else if(fchar==close_parenthesis)
+      else if(fchar==CLOSE_PARENTHESIS)
 	{
 	  close=i-1;
 	  fa_splitted=vector_split(fa, open, close);
@@ -219,8 +219,6 @@ vector<string> calculate_equation_constants(vector<string> fa)
   vector<string> result_vec;
   vector<string> rt_value;
   vector<string> ooo_result_vec;
-  vector<string> vector_convert;
-  vector<string> vector_combined;
   vector<int> parenthesis_open_indices;
   vector<int> parenthesis_close_indices;
 
@@ -228,11 +226,11 @@ vector<string> calculate_equation_constants(vector<string> fa)
     {
       fchar=fa[i];
 
-      if(fchar==open_parenthesis)
+      if(fchar==OPEN_PARENTHESIS)
 	{
 	  parenthesis_open_indices.push_back(i);
 	}
-      else if(fchar==close_parenthesis)
+      else if(fchar==CLOSE_PARENTHESIS)
 	{
 	  parenthesis_close_indices.push_back(i);
 
@@ -261,21 +259,21 @@ vector<string> calculate_equation_constants(vector<string> fa)
   return result_vec;
 }
 
-vector<string> equation_read(string func_name, string func_value)
+vector<string> equation_read(const string func_name, const string func_value)
 {
   int i=0;
+  int size=func_value.size();
   int last_operator_index;
   int i_substr_from;
   int i_substr_to;
   vector<string> fa;
   vector<string> read_bin_result;
-  const string empty_str="";
-  string abb=empty_str;
+  string abb="";
   string fchar;
   string sub_string;
   bool is_str_operator;
 
-  while(i<=func_value.size()-1)
+  while(i<=size-1)
     {
       fchar=func_value[i];
       is_str_operator=is_operator(fchar);
@@ -289,7 +287,7 @@ vector<string> equation_read(string func_name, string func_value)
 	  if(abb.length()>0)
 	    {
 	      fa.push_back(abb);
-	      abb=empty_str;
+	      abb="";
 	    }
 	  fa.push_back(fchar);
 	  last_operator_index=i;
@@ -300,10 +298,13 @@ vector<string> equation_read(string func_name, string func_value)
 	}
       i++;
     }
-  if(last_operator_index!=func_value.size()-1)
+
+  size=func_value.size();
+
+  if(last_operator_index!=size-1)
     {
       i_substr_from=last_operator_index+1;
-      i_substr_to=func_value.size()-1-last_operator_index;
+      i_substr_to=size-1-last_operator_index;
       sub_string=func_value.substr(i_substr_from, i_substr_to);
       fa.push_back(sub_string);
     }
@@ -311,10 +312,10 @@ vector<string> equation_read(string func_name, string func_value)
   return read_bin_result;
 }
 
-EquationName read_equations(string line)
+EquationName read_equations(const string line)
 {
   int i=0;
-  int size=line.size();
+  const int size=line.size();
   string fchar;
   string ab;
   string empty_str="";
@@ -332,7 +333,7 @@ EquationName read_equations(string line)
     fchar=line[i];
     is_empty=fchar.empty();
 
-    if(fchar==delimiter)
+    if(fchar==DELIMITER)
       {
 	equation_value=ab;
       }
@@ -341,7 +342,7 @@ EquationName read_equations(string line)
 	i++;
 	continue;
       }
-    else if(fchar==equal_sign)
+    else if(fchar==EQUAL_SIGN)
       {
 	equation_name=ab;
 	ab=empty_str;
@@ -353,6 +354,7 @@ EquationName read_equations(string line)
       }
     i++;
   }
+
   equation_read_result=equation_read(equation_name, equation_value);
   equations_map[equation_name]=equation_read_result;
   rt.equation_name=equation_name;
@@ -360,25 +362,28 @@ EquationName read_equations(string line)
   return rt;
 }
 
-string get_variable(string line)
+string get_variable(const string line)
 {
   int i=0;
+  const int size=line.size();
   string fchar;
   string variable;
   string ab;
   const string empty1=" ";
   const string empty2="\0";
+  bool is_empty;
 
-  while(i<=line.size()-1)
+  while(i<=size-1)
     {
       fchar=line[i];
+      is_empty=fchar.empty();
 
-      if(fchar==delimiter)
+      if(fchar==DELIMITER)
 	{
 	  variable=ab;
 	  break;
 	}
-      else if(fchar==empty2 or fchar==empty1 or fchar.empty())
+      else if(fchar==empty2 or fchar==empty1 or is_empty)
 	{
 	  i++;
 	  continue;
@@ -392,19 +397,22 @@ string get_variable(string line)
   return variable;
 }
 
-void read_bin(string directory)
+void read_bin(const string directory)
 {
   const string file_name=directory+"bin";
   const string constants_str="constants";
   const string equations_str="equations";
+  const string const_bracket=constants_str+CURLY_BRACKET_O;
+  const string eq_bracket=equations_str+CURLY_BRACKET_O;
   fstream bin_loaded(file_name, ios_base::in | ios::binary);
   string line;
-  string get_variable_result;
   string line_commented;
   bool constants_found=false;
   bool equations_found=false;
   bool constants_saved=false;
   bool equations_saved=false;
+  bool is_empty;
+  bool is_empty2;
   ConstantNameAndValue read_constants_result;
   EquationName read_equations_result;
   EquationNamesValues rt;
@@ -412,19 +420,21 @@ void read_bin(string directory)
   while(getline(bin_loaded, line))
     {
       line_commented=line_remove_comment(line);
+      is_empty=line.empty();
+      is_empty2=line_commented.empty();
 
-      if(line.empty() or line_commented.empty())
+      if(is_empty or is_empty2)
 	{
 	  continue;
 	}
       else if(!constants_saved)
 	{
-	  if(line==curly_bracket_c and constants_found)
+	  if(line==CURLY_BRACKET_C and constants_found)
 	    {
 	      constants_saved=true;
 	      continue;
 	    }
-	  else if(line==constants_str or line==constants_str+curly_bracket_o)
+	  else if(line==constants_str or line==const_bracket)
 	    {
 	      constants_found=true;
 	      continue;
@@ -437,12 +447,12 @@ void read_bin(string directory)
 	}
       else if(!equations_saved)
 	{
-	  if(line==curly_bracket_c and equations_found)
+	  if(line==CURLY_BRACKET_C and equations_found)
 	    {
 	      constants_saved=true;
 	      continue;
 	    }
-	  else if(line==equations_str or line==equations_str+curly_bracket_o)
+	  else if(line==equations_str or line==eq_bracket)
 	    {
 	      equations_found=true;
 	      continue;

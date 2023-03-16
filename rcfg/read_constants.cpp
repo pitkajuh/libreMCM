@@ -13,10 +13,10 @@
 #include "../util/line_remove_comment.h"
 #include "../global/global.h"
 
-ConstantNameAndValue read_constants(string line)
+ConstantNameAndValue read_constants(const string line)
 {
   int i;
-  int size=line.size();
+  const int size=line.size();
   string ab;
   string empty_str="";
   string constant_name;

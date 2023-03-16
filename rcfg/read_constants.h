@@ -13,6 +13,6 @@
 
 #include "../class/Constants.h"
 
-ConstantNameAndValue read_constants(string line);
+ConstantNameAndValue read_constants(const string line);
 
 #endif

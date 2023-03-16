@@ -20,6 +20,6 @@ using std::map;
 extern EquationNamesValues equations;
 extern map<string, vector<string>> equations_map;
 extern Constants constants;
-void read_bin(string directory);
+void read_bin(const string directory);
 
 #endif

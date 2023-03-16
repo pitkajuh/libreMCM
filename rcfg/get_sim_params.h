@@ -15,6 +15,6 @@
 
 using std::string;
 
-void get_sim_params(string directory);
+void get_sim_params(const string directory);
 
 #endif

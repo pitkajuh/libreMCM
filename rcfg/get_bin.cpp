@@ -10,7 +10,7 @@
 
 #include "read_bin.h"
 
-void get_bin(string directory)
+void get_bin(const string directory)
 {
   read_bin(directory);
   constants.clear();
