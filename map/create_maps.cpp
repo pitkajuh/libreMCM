@@ -10,12 +10,14 @@
 
 #include <algorithm>
 #include <map>
+#include "initial_value_map.h"
 #include "../class/TargetCompartments.h"
 #include "../global/global.h"
 #include "../rcompartment/read_compartment.h"
 #include "../rcompartment/get_compartment_equations.h"
 #include "../wdata/values_to_graph.h"
 #include "../util/is_in_vector.h"
+#include "../debug/debug.h"
 
 using std::map;
 
@@ -24,7 +26,7 @@ map<string, vector<string>> compartment_map_v2;
 map<string, map<string, vector<string>>> compartment_map;
 map<string, TargetCompartments> compartment_target_map;
 
-string find_compartment(string equation_name, string compartment_name)
+string find_compartment(const string equation_name, const string compartment_name)
 {
   string compartment;
   string result;
@@ -64,35 +66,31 @@ string find_compartment(string equation_name, string compartment_name)
   return result;
 }
 
-vector<string> check_equations(vector<string> equation_names, string compartment_name)
+vector<string> check_equations(const vector<string> equation_names, const string compartment_name)
 {
-  int i=0;
-  int size=equation_names.size();
-  string equation_name;
+  const int size=equation_names.size();
   string compartment;
   vector<string> compartment_list;
 
   if(size>0)
     {
-      while(i<=size-1)
+      for(const auto&i: equation_names)
 	{
-	  equation_name=equation_names[i];
-	  compartment=find_compartment(equation_name, compartment_name);
+	  compartment=find_compartment(i, compartment_name);
 	  compartment_list.push_back(compartment);
-	  i++;
 	}
     }
   return compartment_list;
 }
 
-void target_compartments(string compartment_name)
+void target_compartments(const string compartment_name)
 {
   string compartment;
   vector<string> equation_names_add;
   vector<string> equation_names_subtract;
-  EquationNamesAddSubtract compartment_and_equations;
   vector<string> adding_to_compartments;
   vector<string> subtracting_to_compartments;
+  EquationNamesAddSubtract compartment_and_equations;
   map<string, EquationNamesAddSubtract>::iterator begin=compartments_and_equations.begin();
   map<string, EquationNamesAddSubtract>::iterator end=compartments_and_equations.end();
   TargetCompartments target_compartments_i;
@@ -119,15 +117,9 @@ void target_compartments(string compartment_name)
 
 void create_target_compartment_map()
 {
-  int i=0;
-  int size=compartment_diagonal.size();
-  string compartment;
-
-  while(i<=size-1)
+  for(const auto&i: compartment_diagonal)
     {
-      compartment=compartment_diagonal[i];
-      target_compartments(compartment);
-      i++;
+      target_compartments(i);
     }
 }
 
@@ -139,9 +131,10 @@ void create_compartment_map()
   int l=0;
   int l1=0;
   int compartment_nr=0;
-  int size=compartment_diagonal.size();
-  int all_compartments_size=all_compartments.size();
-  int initial_values_all_size=initial_values_all.get_size();
+  const int size=compartment_diagonal.size();
+  const int all_compartments_size=all_compartments.size();
+  const int initial_values_all_size=initial_values_all.size();
+  const int all_parameters_size=all_parameters.size();
   int initial_values_all_j_size;
   string compartment_name;
   string parameter_with_i_value;
@@ -179,24 +172,24 @@ void create_compartment_map()
 	      compartment_adding=target_compartments.subtract_from_compartments;
 	      compartment_subtracting=target_compartments.add_to_compartments;
 
-	      is_void_i=is_in_vector_compartment(compartment_subtracting, void_element);
-	      is_origin_i=is_in_vector_compartment(compartment_adding, origin_element);
+	      is_void_i=is_in_vector(compartment_subtracting, VOID);
+	      is_origin_i=is_in_vector(compartment_adding, ORIGIN);
 
 	      is_void=is_void_i.is_in_vector;
 	      is_origin=is_origin_i.is_in_vector;
 
 	      while(j<=initial_values_all_size-1)
 		{
-		  initial_values_all_j=initial_values_all.get(j);
-		  initial_values_all_j_size=initial_values_all_j.get_size();
+		  initial_values_all_j=initial_values_all[j];
+		  initial_values_all_j_size=initial_values_all_j.size();
 
 		  while(k<=initial_values_all_j_size-1)
 		    {
-		      initial_value=initial_values_all_j.get(k);
+		      initial_value=initial_values_all_j[k];
 		      parameter_with_i_value=initial_value.initial_value_name;
 		      parameter_initial_value=initial_value.initial_value;
 
-		      while(l<=all_parameters.size()-1)
+		      while(l<=all_parameters_size-1)
 			{
 			  parameter=all_parameters[l];
 
@@ -206,10 +199,10 @@ void create_compartment_map()
 			      parameter_map[parameter_with_i_value]=parameter_values_vector;
 			      parameter_values_vector.clear();
 			      compartment_map_v2_vec.push_back(parameter_with_i_value);
-			      initial_values_all_j_size=initial_values_all_j.get_size();
+			      initial_values_all_j_size=initial_values_all_j.size();
 			      l++;
 
-			      if(k==initial_values_all_j_size-1 and l<=all_parameters.size()-1)
+			      if(k==initial_values_all_j_size-1 and l<=all_parameters_size-1)
 				{
 				  continue;
 				}
@@ -223,6 +216,7 @@ void create_compartment_map()
 			      parameter_values_vector.push_back(zero_value);
 			      parameter_map[parameter]=parameter_values_vector;
 			      parameter_values_vector.clear();
+			      compartment_map_v2_vec.push_back(parameter);
 			    }
 			  l++;
 			}
@@ -252,9 +246,9 @@ void create_compartment_map()
 	}
       if(not_found)
 	{
-	  if(compartment!=void_element and compartment!=origin_element)
+	  if(compartment!=VOID and compartment!=ORIGIN)
 	    {
-	      while(l1<=all_parameters.size()-1)
+	      while(l1<=all_parameters_size-1)
 		{
 		  parameter=all_parameters[l1];
 		  parameter_values_vector.push_back(zero_value);
