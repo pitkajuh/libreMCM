@@ -12,24 +12,28 @@
 #define GLOBAL_H
 
 #include <string>
+#include <vector>
 
 using std::string;
+using std::vector;
 
-extern const string multiply;
-extern const string divide;
-extern const string add;
-extern const string subtract;
-extern const string power;
-extern const string open_parenthesis;
-extern const string close_parenthesis;
-extern const string comment;
-extern const string curly_bracket_o;
-extern const string curly_bracket_c;
-extern const string not_found;
-extern const string parm_delim;
-extern const string delimiter;
-extern const string equal_sign;
-extern const string origin_element;
-extern const string void_element;
+extern const string MULTIPLY;
+extern const string DIVIDE;
+extern const string ADD;
+extern const string SUBTRACT;
+extern const string POWER;
+extern const string OPEN_PARENTHESIS;
+extern const string CLOSE_PARENTHESIS;
+extern const string COMMENT;
+extern const string CURLY_BRACKET_O;
+extern const string CURLY_BRACKET_C;
+extern const string NOT_FOUND;
+extern const string PARM_DELIM;
+extern const string DELIMITER;
+extern const string EQUAL_SIGN;
+extern const string ORIGIN;
+extern const string VOID;
+extern const vector<string> OPERATORS;
+extern const int OPERATORS_SIZE;
 
 #endif

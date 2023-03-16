@@ -9,22 +9,26 @@
 \*---------------------------------------------------------------------------*/
 
 #include <string>
+#include <vector>
 
 using std::string;
+using std::vector;
 
-extern const string multiply="*";
-extern const string divide="/";
-extern const string add="+";
-extern const string subtract="-";
-extern const string power="^";
-extern const string open_parenthesis="(";
-extern const string close_parenthesis=")";
-extern const string comment="//";
-extern const string curly_bracket_o="{";
-extern const string curly_bracket_c="}";
-extern const string not_found="Not found";
-extern const string parm_delim="@";
-extern const string delimiter=";";
-extern const string equal_sign="=";
-extern const string origin_element="origin";
-extern const string void_element="void";
+extern const string MULTIPLY="*";
+extern const string DIVIDE="/";
+extern const string ADD="+";
+extern const string SUBTRACT="-";
+extern const string POWER="^";
+extern const string OPEN_PARENTHESIS="(";
+extern const string CLOSE_PARENTHESIS=")";
+extern const string COMMENT="//";
+extern const string CURLY_BRACKET_O="{";
+extern const string CURLY_BRACKET_C="}";
+extern const string NOT_FOUND="Not found";
+extern const string PARM_DELIM="@";
+extern const string DELIMITER=";";
+extern const string EQUAL_SIGN="=";
+extern const string ORIGIN="origin";
+extern const string VOID="void";
+extern const vector<string> OPERATORS={POWER, DIVIDE, MULTIPLY, ADD};
+extern const int OPERATORS_SIZE=OPERATORS.size();
