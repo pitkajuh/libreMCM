@@ -23,40 +23,36 @@
 
 using std::iostream;
 using std::cout;
-using std::endl;
 
 int main()
 {
-  int i=0;
   vector<string> list_of_models=read_model_data();
-  string model;
   auto begin2=std::chrono::high_resolution_clock::now();
 
-  while(i<=list_of_models.size()-1)
+  for(const auto&i: list_of_models)
     {
-      model=list_of_models[i];
-      cout<<"Running model: "<<model<<endl;
-
-      get_compartments(model);
-      get_compartment_parameters(model);
-      get_bin(model);
-      get_sim_params(model);
+      auto begin=std::chrono::high_resolution_clock::now();
+      cout<<"Starting "<<i<<'\n';
+      get_compartments(i);
+      get_compartment_parameters(i);
+      get_bin(i);
+      get_sim_params(i);
       parse_compartment_equations_subroutine();
       parse_compartment_equations();
       parse_compartment_eqs_for_num_calc();
       get_equations_for_numerical_calculation();
       numerical_calculation_begin();
       calculate();
-      auto begin=std::chrono::high_resolution_clock::now();
       runge_kutta();
+      write_to_file(i);
+
       auto end=std::chrono::high_resolution_clock::now();
       auto duration=std::chrono::duration_cast<std::chrono::milliseconds>(end-begin);
-      cout<<"Runtime: "<<duration.count()<<" milliseconds"<<endl;
-      write_to_file(model);
-      i++;
+      cout<<"Runtime: "<<duration.count()<<" milliseconds"<<'\n';
+      cout<<"################################################################"<<'\n';
     }
   auto end2=std::chrono::high_resolution_clock::now();
   auto duration2=std::chrono::duration_cast<std::chrono::milliseconds>(end2-begin2);
-  cout<<"Total runtime: "<<duration2.count()<<" milliseconds"<<endl;
+  cout<<"Total runtime: "<<duration2.count()<<" milliseconds"<<'\n';
   return 0;
 }
