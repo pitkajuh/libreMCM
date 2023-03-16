@@ -15,25 +15,22 @@
 #include "../util/replace_in_vector.h"
 #include "../util/combine_vectors.h"
 #include "../util/vector_split.h"
+#include "../debug/debug.h"
 
 vector<int> numerical_calculation_rules_rt;
 
-string calculate_order_of_operations3(vector<string> fa, int add_index)
+string calculate_order_of_operations3(vector<string> fa, const int add_index)
 {
   int i=0;
   int j=0;
-  string fchar;
-  string rt;
-  string res;
-  string calc_result;
   int fa_size=fa.size();
   int fa_size_prev;
-  vector<int> indices;
-  const vector<string> operators={power, multiply, divide, add, subtract};
-  string operators_i;
   int result_index;
+  string fchar;
+  string rt;
+  string math_operator;
 
-  while(j<=operators.size()-1)
+  while(j<=OPERATORS_SIZE-1)
     {
       if(i>fa_size-1)
 	{
@@ -42,7 +39,7 @@ string calculate_order_of_operations3(vector<string> fa, int add_index)
 	}
 
       fchar=fa[i];
-      operators_i=operators[j];
+      math_operator=OPERATORS[j];
 
       if(i==fa_size-1)
 	{
@@ -52,7 +49,8 @@ string calculate_order_of_operations3(vector<string> fa, int add_index)
 	  continue;
 	}
 
-      if(fchar==operators_i)
+
+      if(fchar==math_operator)
 	{
 	  result_index=add_index+i;
 	  fa_size_prev=fa.size();
@@ -79,6 +77,8 @@ vector<string> get_parenthesis_calculation_indices(vector<string> fa)
   int fa_size=fa.size();
   int o_index;
   int c_index;
+  int parenthesis_close_indices_size;
+  int parenthesis_open_indices_size;
   string fchar;
   string ooo_result;
   vector<string> rt_value;
@@ -91,15 +91,17 @@ vector<string> get_parenthesis_calculation_indices(vector<string> fa)
     {
       fchar=fa[i];
 
-      if(fchar==open_parenthesis)
+      if(fchar==OPEN_PARENTHESIS)
 	{
 	  parenthesis_open_indices.push_back(i);
 	}
-      else if(fchar==close_parenthesis)
+      else if(fchar==CLOSE_PARENTHESIS)
 	{
 	  parenthesis_close_indices.push_back(i);
+	  parenthesis_close_indices_size=parenthesis_close_indices.size();
+	  parenthesis_open_indices_size=parenthesis_open_indices.size();
 
-	  if(parenthesis_close_indices.size()==1 and parenthesis_open_indices.size()>=1)
+	  if(parenthesis_close_indices_size==1 and parenthesis_open_indices_size>=1)
 	    {
 	      o_index=parenthesis_open_indices.back();
 	      c_index=parenthesis_close_indices.back();
@@ -121,58 +123,51 @@ vector<string> get_parenthesis_calculation_indices(vector<string> fa)
 vector<int> numerical_calculation_rules(vector<string> fa)
 {
   int i=0;
-  int j=0;
   int fa_size=fa.size();
   int im1;
   int ip1;
   string fchar;
-  string math_operator;
   string calculation_result;
   string fa_im1;
   string fa_ip1;
-  const vector<string> operators={power, divide, multiply, add, subtract};
-  vector<string> equation;
   vector<int> return_indices;
-
   fa=get_parenthesis_calculation_indices(fa);
   fa_size=fa.size();
 
-  while(i<=operators.size()-1)
+  for(const auto&math_operator: OPERATORS)
     {
-      math_operator=operators[i];
-
-      while(j<=fa_size-1)
+      while(i<=fa_size-1)
 	{
 	  if(fa_size-1==0)
 	    {
 	      break;
 	    }
 
-	  fchar=fa[j];
+	  fchar=fa[i];
 
 	  if(math_operator==fchar)
 	    {
-	      im1=j-1;
-	      ip1=j+1;
+	      im1=i-1;
+	      ip1=i+1;
 	      fa_im1=fa[im1];
 	      fa_ip1=fa[ip1];
 	      calculation_result=get_math_operator(fa_im1, fa_ip1, math_operator);
 	      fa=replace_in_vector(fa, calculation_result, im1, ip1);
 	      fa_size=fa.size();
-	      numerical_calculation_rules_rt.push_back(j);
+	      numerical_calculation_rules_rt.push_back(i);
 
 	      if(fa_size-1==0)
 		{
 		  break;
 		}
-	      j=0;
+	      i=0;
 	      continue;
 	    }
-	  j++;
+	  i++;
 	}
-      j=0;
-      i++;
+      i=0;
     }
+
   return_indices=numerical_calculation_rules_rt;
   numerical_calculation_rules_rt.clear();
   return return_indices;

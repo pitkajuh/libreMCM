@@ -8,24 +8,22 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include <string>
-#include <vector>
+#include <iostream>
 #include "rk4.h"
 #include "numerical_calculation_rules.h"
 #include "numerical_calculation_begin.h"
-#include "../class/Data.h"
+#include "../class/SplittedStrings.h"
+#include "../global/global.h"
 #include "../rcompartment/read_compartment.h"
 #include "../eqs/equations_sort.h"
 #include "../wdata/values_to_graph.h"
 #include "../map/create_maps.h"
-#include "../global/global.h"
 #include "../util/replace_in_vector.h"
-#include "../util/string_split.h"
 #include "../math/calculate_order_of_operations.h"
 #include "../rcfg/read_sim_params.h"
+#include "../debug/debug.h"
 
-using std::string;
-using std::vector;
+using std::cout;
 using std::to_string;
 
 double h;
@@ -37,9 +35,9 @@ VecVecInt numerical_calculation_order_of_operations;
 VecVecInt numerical_calculation_order_of_operations_sorted;
 VecVecInt indice_values_sorted;
 Equations equations_sorted;
-VecVecString param_data_sorted;
+SplittedStrings param_data_sorted;
 
-void update_values(vector<string> result)
+void update_values(const vector<string> result)
 {
   int i=0;
   string name;
@@ -75,46 +73,42 @@ void update_values(vector<string> result)
     }
 }
 
-string update_equations_sub_sub_routine(string compartment_name_find, vector<string> params)
+string update_equations_sub_sub_routine(const string compartment_name_find, const vector<string> params)
 {
-  int i=0;
+  int j=0;
   int size=compartment_diagonal_v2.size();
   int indice_found;
-  string compartment_name;
   string params_rt;
 
-  while(i<=size-1)
+  for(const auto&i: compartment_diagonal_v2)
     {
-      compartment_name=compartment_diagonal_v2[i];
-
-      if(compartment_name_find==compartment_name)
+      if(compartment_name_find==i)
 	{
-	  indice_found=i;
+	  indice_found=j;
 	  break;
 	}
-      i++;
+      j++;
     }
+
   params_rt=params[indice_found];
   return params_rt;
 }
 
-vector<string> update_equations_subroutine(vector<string> equation, vector<int> indices, vector<string> values_to_add, VecVecString param_data)
+vector<string> update_equations_subroutine(vector<string> equation, const vector<int> indices, const vector<string> values_to_add, const SplittedStrings param_data)
 {
   int i=0;
-  int size=indices.size();
+  int indice;
+  const int size=indices.size();
   string compartment_name_split;
   string equations_updated;
-  vector<string> eq_params=param_data.get(jk);
-  string eq_params_i;
-  int indice;
-  SplittedString string_splitted;
+  SplittedString eq_params_i;
+  vector<SplittedString> eq_params=param_data[jk];
 
   while(i<=size-1)
     {
       indice=indices[i];
       eq_params_i=eq_params[i];
-      string_splitted=split_string_in_two(eq_params_i, parm_delim);
-      compartment_name_split=string_splitted.splitted_string_part1;
+      compartment_name_split=eq_params_i.splitted_string_part1;
 
       equations_updated=update_equations_sub_sub_routine(compartment_name_split, values_to_add);
       equation[indice]=equations_updated;
@@ -124,19 +118,19 @@ vector<string> update_equations_subroutine(vector<string> equation, vector<int> 
   return equation;
 }
 
-Equations update_equations(Equations equations, VecVecInt indices, vector<string> values_to_add, VecVecString param_data)
+Equations update_equations(Equations equations, const VecVecInt indices, const vector<string> values_to_add, const SplittedStrings param_data)
 {
   int i=0;
-  int size=equations.get_size();
-  Equations rt;
+  const int size=equations.size();
   vector<string> update_eq_sub;
   vector<string> equation;
   vector<int> indice;
+  Equations rt;
 
   while(i<=size-1)
     {
-      equation=equations.get(i);
-      indice=indices.get(i);
+      equation=equations[i];
+      indice=indices[i];
       update_eq_sub=update_equations_subroutine(equation, indice, values_to_add, param_data);
       rt.push_back(update_eq_sub);
       i++;
@@ -146,6 +140,7 @@ Equations update_equations(Equations equations, VecVecInt indices, vector<string
 
 vector<string> get_values()
 {
+  int size;
   string parameter_name;
   string compartment_name;
   string value;
@@ -168,7 +163,8 @@ vector<string> get_values()
 	{
 	  parameter_name=parameter_map_begin->first;
 	  vec1=parameter_map_i[parameter_name];
-	  value=vec1[vec1.size()-1];
+	  size=vec1.size()-1;
+	  value=vec1[size];
 	  rt.push_back(value);
 	  parameter_map_begin++;
 	}
@@ -177,10 +173,10 @@ vector<string> get_values()
   return rt;
 }
 
-vector<string> calculate_result(vector<string> k1, vector<string> k2, vector<string> k3, vector<string> k4, double h, vector<string> get_values_up)
+vector<string> calculate_result(const vector<string> k1, const vector<string> k2, const vector<string> k3, const vector<string> k4, const double h, const vector<string> get_values_up)
 {
   int i=0;
-  vector<string> rt;
+  const int size=k1.size(); // k1, k2, k3 and k4 have equal sizes
   string get_values_up_i;
   string result_str;
   string k1_i;
@@ -193,8 +189,9 @@ vector<string> calculate_result(vector<string> k1, vector<string> k2, vector<str
   double k4_i_double;
   double result;
   double value_update;
+  vector<string> rt;
 
-  while(i<=k1.size()-1)
+  while(i<=size-1)
     {
       get_values_up_i=get_values_up[i];
       value_update=stod(get_values_up_i);
@@ -219,23 +216,24 @@ void calculate()
 {
   int i=0;
   int j=0;
-  int size=for_calculation.get_size();
   int size_i;
+  const int size=for_calculation.size();
   string comp_name_glob;
-  vector<Solution> aa;
-  Solution bb;
+  bool get_calculation_rules=false;
   vector<string> equation;
-  vector<string> parameter_data_for_indices;
+  vector<SplittedString> parameter_data_for_indices;
   vector<int> indices_for_ks;
   vector<int> calc_rules;
+  vector<Solution> aa;
+  Solution bb;
   Equations equations;
   VecVecInt indice_values;
-  VecVecString param_data;
+  SplittedStrings param_data;
   EquationsIndices final_eq;
 
   while(i<=size-1)
     {
-      aa=for_calculation.get(i);
+      aa=for_calculation[i];
       comp_name_glob=global_compartment_names[i];
       size_i=aa.size();
 
@@ -248,13 +246,19 @@ void calculate()
 	  indices_for_ks=final_eq.indices;
 	  parameter_data_for_indices=final_eq.parameter_data;
 
-	  calc_rules=numerical_calculation_rules(equation);
+	  if(!get_calculation_rules)
+	    {
+	      calc_rules=numerical_calculation_rules(equation);
+	      get_calculation_rules=true;
+	    }
+
 	  numerical_calculation_order_of_operations.push_back(calc_rules);
 	  equations.push_back(equation);
 	  indice_values.push_back(indices_for_ks);
 	  param_data.push_back(parameter_data_for_indices);
 	  j++;
 	}
+      get_calculation_rules=false;
       j=0;
       i++;
     }
@@ -278,10 +282,12 @@ void runge_kutta()
   const vector<string> empty_vector={" "};
   const string zero_value="0";
   const string half_value="0.5";
-  h=steps;
+  h=step_size;
   double t=t_start;
 
-  while(t<=t_end-h)
+  cout<<"Start calculation"<<'\n';
+
+  while(t<=t_end+h)
     {
       k1=k(equations_sorted, indice_values_sorted, empty_vector, zero_value, param_data_sorted, numerical_calculation_order_of_operations_sorted);
       k2=k(equations_sorted, indice_values_sorted, k1, half_value, param_data_sorted, numerical_calculation_order_of_operations_sorted);
@@ -290,7 +296,6 @@ void runge_kutta()
       get_val=get_values();
       comp=0;
       result=calculate_result(k1, k2, k3, k4, h, get_val);
-
       equations_sorted=update_equations(equations_sorted, indice_values_sorted, result, param_data_sorted);
       update_values(result);
       jk=0;
@@ -305,4 +310,6 @@ void runge_kutta()
   numerical_calculation_order_of_operations_sorted.clear();
   indice_values_sorted.clear();
   param_data_sorted.clear();
+
+  cout<<"Calculation ready"<<'\n';
 }

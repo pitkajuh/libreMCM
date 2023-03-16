@@ -11,9 +11,7 @@
 #ifndef NUMERICALCALCULATION_H
 #define NUMERICALCALCULATION_H
 
-#include <string>
-
-using std::string;
+#include "../util/combine_vectors.h"
 
 void calculate();
 void runge_kutta();
