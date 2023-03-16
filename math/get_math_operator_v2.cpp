@@ -13,30 +13,30 @@
 
 using std::to_string;
 
-string get_math_operator2(string value1_input, string value2_input, string math_operator)
+string get_math_operator2(const string value1_input, const string value2_input, const string math_operator)
 {
-  double value1_input_double=stod(value1_input);
-  double value2_input_double=stod(value2_input);
-  string result;
+  const double value1_input_double=stod(value1_input);
+  const double value2_input_double=stod(value2_input);
   double result_double;
+  string result;
 
-  if(math_operator==multiply)
+  if(math_operator==MULTIPLY)
     {
       result_double=value1_input_double*value2_input_double;
     }
-  else if(math_operator==add)
+  else if(math_operator==ADD)
     {
       result_double=value1_input_double+value2_input_double;
     }
-  else if(math_operator==divide)
+  else if(math_operator==DIVIDE)
     {
       result_double=value1_input_double/value2_input_double;
     }
-  else if(math_operator==subtract)
+  else if(math_operator==SUBTRACT)
     {
       result_double=value1_input_double-value2_input_double;
     }
-  else if(math_operator==power)
+  else if(math_operator==POWER)
     {
       result_double=pow(value1_input_double, value2_input_double);
     }

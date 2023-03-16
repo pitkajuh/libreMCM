@@ -18,6 +18,6 @@ using std::string;
 using std::vector;
 
 vector<string> calculate_order_of_operations2(vector<string> fa);
-vector<string> do_calculation(vector<string> fa, int index);
+vector<string> do_calculation(vector<string> fa, const int index);
 
 #endif

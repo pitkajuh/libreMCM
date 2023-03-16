@@ -15,6 +15,6 @@
 
 using std::string;
 
-bool is_string_numerical_value(string constant);
+bool is_string_numerical_value(const string constant);
 
 #endif

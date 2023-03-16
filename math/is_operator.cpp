@@ -10,35 +10,35 @@
 
 #include "../global/global.h"
 
-bool is_operator(string elem)
+bool is_operator(const string elem)
 {
   bool rt=false;
 
-  if(elem==add)
+  if(elem==ADD)
     {
       rt=true;
     }
-  else if(elem==subtract)
+  else if(elem==SUBTRACT)
     {
       rt=true;
     }
-  else if(elem==multiply)
+  else if(elem==MULTIPLY)
     {
       rt=true;
     }
-  else if(elem==divide)
+  else if(elem==DIVIDE)
     {
       rt=true;
     }
-  else if(elem==power)
+  else if(elem==POWER)
     {
       rt=true;
     }
-  else if(elem==open_parenthesis)
+  else if(elem==OPEN_PARENTHESIS)
     {
       rt=true;
     }
-  else if(elem==close_parenthesis)
+  else if(elem==CLOSE_PARENTHESIS)
     {
       rt=true;
     }
@@ -46,6 +46,5 @@ bool is_operator(string elem)
     {
       rt=false;
     }
-
   return rt;
 }

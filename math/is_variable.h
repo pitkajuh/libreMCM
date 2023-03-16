@@ -15,6 +15,6 @@
 
 using std::string;
 
-bool is_variable(string fchar);
+bool is_variable(const string fchar);
 
 #endif

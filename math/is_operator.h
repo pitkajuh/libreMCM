@@ -15,6 +15,6 @@
 
 using std::string;
 
-bool is_operator(string elem);
+bool is_operator(const string elem);
 
 #endif

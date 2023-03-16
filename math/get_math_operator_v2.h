@@ -15,6 +15,6 @@
 
 using std::string;
 
-string get_math_operator2(string value1_input, string value2_input, string math_operator);
+string get_math_operator2(const string value1_input, const string value2_input, const string math_operator);
 
 #endif
