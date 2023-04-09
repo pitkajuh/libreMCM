@@ -11,4 +11,5 @@
 model_path{
   tutorials/lotka-volterra/;
   tutorials/simple-chemical-reaction/;
+  tutorials/simple-chemical-reaction-v2/;
 }
