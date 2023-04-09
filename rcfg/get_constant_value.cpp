@@ -12,9 +12,18 @@
 #include "../global/global_constants.h"
 #include "../global/constants_map.h"
 
+#include <iostream>
+using std::cout;
+
 const string get_constant_value(string constant, const string iv_specific)
 {
   const bool iv_empty=iv_specific.empty();
+
+  if(iv_empty)
+    {
+      throw std::domain_error("Value for constant "+constant+" was not found.");
+    }
+
   const int size=constant.size()-1;
   bool is_negative=false;
   string sign;
@@ -29,22 +38,13 @@ const string get_constant_value(string constant, const string iv_specific)
     }
 
   const ConstantsMapData data=constants_map[constant];
-
-  if(not iv_empty)
-    {
-      value=data.unspecific_value;
-    }
-  else
-    {
-      map<string, string> specific_value=data.specific_value;
-      value=specific_value[iv_specific];
-    }
-
+  map<string, string> specific_value=data.specific_value;
+  value=specific_value[iv_specific];
   const bool is_empty=value.empty();
 
   if(is_empty)
     {
-      throw std::domain_error("Value for constant "+constant+" was not found.");
+      value=data.unspecific_value;
     }
 
   if(is_negative)
