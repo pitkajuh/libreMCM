@@ -9,6 +9,7 @@ Please note that the program is still WIP.
 - Tools for sensitivity analysis
 - Integrated radioactive decay and reactions
 - Probabilistic modelling
+- Support for Ecolego's file format
 - A lot more
 
 ## How to build
