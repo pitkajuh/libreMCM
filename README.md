@@ -22,8 +22,6 @@ cmake ..
 make
 ```
 
-## Quick start
+## How to use
 
-1. In order to create a simulation, the following files are required: compartments.csv, compartments, bin and sim_params. Check the contents of the files from the tutorials folder in order to see, how they should created.
-2. The main folder which contains the main.cpp file also contains a file called models_cfg. The directory containing the simulation files are listed in this file. The example file contains one of the tutorial simulations (solution to Lotka-Volterra equations). If multiple directories are added to the file, they will be executed one after another.
-3. The result of the simulation will be writen to text files (named after the compartments) which will be located in the directorie(s) set in the model_cfg file.
+The tutorial models can be run immediately by executing the executable after building. For creating a model check the manual pdf file or edit the tutorial files.
