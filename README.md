@@ -2,6 +2,14 @@
 
 The goal of libreMCM (libre Multi Compartment Modelling) is to be a free (free as in freedom) software for carrying out deterministic and probabilistic modelling.
 
+## How to build
+
+In order to build libreMCM for Linux, run the following commands
+   mkdir build
+   cd build/
+   cmake ..
+   make
+
 ## Quick start
 
 1. In order to create a simulation, the following files are required: compartments.csv, compartments, bin and sim_params. Check the contents of the files from the tutorials folder in order to see, how they should created.
