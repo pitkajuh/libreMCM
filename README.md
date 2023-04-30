@@ -5,10 +5,12 @@ The goal of libreMCM (libre Multi Compartment Modelling) is to be a free (free a
 ## How to build
 
 In order to build libreMCM for Linux, run the following commands
-      mkdir build
-      cd build/
-      cmake ..
-      make
+```shell
+mkdir build
+cd build/
+cmake ..
+make
+```
 
 ## Quick start
 
