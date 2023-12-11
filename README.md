@@ -1,6 +1,6 @@
 # libreMCM
 
-The goal of libreMCM (libre Multi Compartment Modelling) is to be a free (free as in freedom) software for carrying out deterministic and probabilistic modelling.
+libreMCM (libre Multi Compartment Modelling) is a free software for carrying out deterministic and probabilistic modelling.
 
 Please note that the program is still WIP.
 
