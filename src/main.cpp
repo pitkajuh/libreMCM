@@ -31,12 +31,14 @@
 
 using std::cout;
 
+bool run_deterministic_sim=false;
+
 enum
 {
   NUM_METHOD_OPTION=CHAR_MAX+1,
-  TIME_START_OPTION=CHAR_MAX+1,
-  TIME_END_OPTION=CHAR_MAX+1,
-  STEP_SIZE_OPTION=CHAR_MAX+1
+  TIME_START_OPTION,
+  TIME_END_OPTION,
+  STEP_SIZE_OPTION
 };
 
 static struct option const long_options[]=
@@ -80,9 +82,6 @@ int main(int argc, char* argv[])
       string directory(buff);
       directory=directory+"/";
 
-      auto begin=std::chrono::high_resolution_clock::now();
-      cout<<"Starting "<<directory<<'\n';
-
      while(true)
 	{
 	  int oi=-1;
@@ -94,12 +93,30 @@ int main(int argc, char* argv[])
 	    {
 	    case 'd':
 	      cout<<"d"<<'\n';
-	      get_and_parse_data(directory);
-	      run_deterministic(directory);
+	      run_deterministic_sim=true;
 	      break;
+	    case NUM_METHOD_OPTION:
+	      break;
+	    case TIME_START_OPTION:
+	      break;
+	    case TIME_END_OPTION:
+	      break;
+	    case STEP_SIZE_OPTION:
+	      break;
+	    default:
+	      exit(0);
 	    }
+
 	}
 
+      auto begin=std::chrono::high_resolution_clock::now();
+      cout<<"Starting "<<directory<<'\n';
+
+      if(run_deterministic_sim)
+	{
+	  get_and_parse_data(directory);
+	  run_deterministic(directory);
+	}
       auto end=std::chrono::high_resolution_clock::now();
       auto duration=std::chrono::duration_cast<std::chrono::microseconds>(end-begin);
       cout<<"Runtime: "<<duration.count()<<" microseconds "<<(double)duration.count()/1000<<" milliseconds"<<'\n';
