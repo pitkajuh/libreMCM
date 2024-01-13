@@ -10,9 +10,10 @@
 
 #include <iostream>
 #include <chrono>
+#include <getopt.h>
+#include <unistd.h>
 #include "global/probabilistic.h"
 #include "bin/run_deterministic.h"
-// #include "rcfg/read_model_data.h"
 #include "rcfg/get_sim_params.h"
 #include "rcfg/get_bin.h"
 #include "eqs/replace_indices.h"
@@ -25,10 +26,16 @@
 #include "eqs/parse_compartment_equations.h"
 #include "wdata/parse_initial_values.h"
 
-#include <unistd.h>
 #define GetCurrentDir getcwd
 
 using std::cout;
+
+static struct option const long_options[]=
+  {
+    {"deterministic", 0, 0, 'd'},
+    // {"probabilistic", 0, 0, 'p'},
+    {0, 0, 0, 0}
+  };
 
 int main(int argc, char* argv[])
 {
@@ -61,21 +68,26 @@ int main(int argc, char* argv[])
       parse_compartment_equations();
       replace_indices();
 
-      string arg;
+     while(true)
+	{
+	  int oi=-1;
+	  int c=getopt_long(argc, argv, "dp", long_options, &oi);
 
-      for(int i=0; i<=argc; i++)
-	{
-	  arg=argv[i];
+	  if(c==-1) break;
+
+	  switch(c)
+	    {
+	    case 'd':
+	      cout<<"d"<<'\n';
+	      run_deterministic(directory);
+	      break;
+	    // case 'p':
+	    //   // For probabilistic.
+	    //   cout<<"p"<<'\n';
+	    //   break;
+	    }
 	}
 
-      if(probabilistic)
-	{
-	  // WIP
-	}
-      else
-	{
-	  run_deterministic(directory);
-	}
       auto end=std::chrono::high_resolution_clock::now();
       auto duration=std::chrono::duration_cast<std::chrono::microseconds>(end-begin);
       cout<<"Runtime: "<<duration.count()<<" microseconds "<<(double)duration.count()/1000<<" milliseconds"<<'\n';
