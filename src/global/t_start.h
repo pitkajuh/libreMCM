@@ -12,5 +12,6 @@
 #define TSTART_H
 
 extern double t_start;
+extern bool time_start_found;
 
 #endif

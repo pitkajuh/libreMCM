@@ -12,5 +12,6 @@
 #define STEPSIZE_H
 
 extern double step_size;
+extern bool step_size_found;
 
 #endif

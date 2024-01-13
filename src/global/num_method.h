@@ -16,5 +16,6 @@
 using std::string;
 
 extern string num_method;
+extern bool num_method_found;
 
 #endif

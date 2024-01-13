@@ -66,11 +66,7 @@ void set_probabilistic(const string value)
 
 void read_sim_params(const string directory)
 {
-  bool num_method_found=false;
   bool sim_settings_found=false;
-  bool time_start_found=false;
-  bool time_end_found=false;
-  bool step_size_found=false;
   bool probabilistic_found=false;
   bool iterations_found=false;
   bool percentile_found=false;
@@ -114,28 +110,28 @@ void read_sim_params(const string directory)
 	  name=splitted.splitted_string_part1;
 	  value=splitted.splitted_string_part2;
 
-	  if(name==TIME_START)
+	  if(name==TIME_START and not time_start_found)
 	    {
 	      t_start_str=value;
 	      value_check(t_start_str);
 	      t_start=stod(t_start_str);
 	      time_start_found=true;
 	    }
-	  else if(name==TIME_END)
+	  else if(name==TIME_END and not time_end_found)
 	    {
 	      t_end_str=value;
 	      value_check(t_end_str);
 	      t_end=stod(t_end_str);
 	      time_end_found=true;
 	    }
-	  else if(name==STEP_SIZE)
+	  else if(name==STEP_SIZE and not step_size_found)
 	    {
 	      step_size_str=value;
 	      value_check(step_size_str);
 	      step_size=stod(step_size_str);
 	      step_size_found=true;
 	    }
-	  else if(name==NUM_METHOD)
+	  else if(name==NUM_METHOD and not num_method_found)
 	    {
 	      num_method=value;
 	      num_method_valid(num_method);

@@ -12,5 +12,6 @@
 #define TEND_H
 
 extern double t_end;
+extern bool time_end_found;
 
 #endif
