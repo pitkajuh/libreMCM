@@ -117,21 +117,28 @@ void read_sim_params(const string directory)
 	  if(name==TIME_START)
 	    {
 	      t_start_str=value;
+	      value_check(t_start_str);
+	      t_start=stod(t_start_str);
 	      time_start_found=true;
 	    }
 	  else if(name==TIME_END)
 	    {
 	      t_end_str=value;
+	      value_check(t_end_str);
+	      t_end=stod(t_end_str);
 	      time_end_found=true;
 	    }
 	  else if(name==STEP_SIZE)
 	    {
 	      step_size_str=value;
+	      value_check(step_size_str);
+	      step_size=stod(step_size_str);
 	      step_size_found=true;
 	    }
 	  else if(name==NUM_METHOD)
 	    {
 	      num_method=value;
+	      num_method_valid(num_method);
 	      num_method_found=true;
 	    }
 	  else if(name==RUN_PROBABILISTIC)
@@ -153,13 +160,4 @@ void read_sim_params(const string directory)
     }
   sim_params_loaded.close();
   settings_defined(sim_settings_found);
-
-  value_check(t_start_str);
-  value_check(t_end_str);
-  value_check(step_size_str);
-  num_method_valid(num_method);
-
-  t_start=stod(t_start_str);
-  t_end=stod(t_end_str);
-  step_size=stod(step_size_str);
 }

@@ -103,8 +103,8 @@ int main(int argc, char* argv[])
 	    case STEP_SIZE_OPTION:
 	      cout<<"STEP_SIZE_OPTION"<<'\n';
 	      break;
-	    default:
-	      exit(0);
+	    // default:
+	    //   exit(1);
 	    }
 	}
 
