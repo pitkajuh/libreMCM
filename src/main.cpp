@@ -12,7 +12,7 @@
 #include <chrono>
 #include "global/probabilistic.h"
 #include "bin/run_deterministic.h"
-#include "rcfg/read_model_data.h"
+// #include "rcfg/read_model_data.h"
 #include "rcfg/get_sim_params.h"
 #include "rcfg/get_bin.h"
 #include "eqs/replace_indices.h"
@@ -25,23 +25,34 @@
 #include "eqs/parse_compartment_equations.h"
 #include "wdata/parse_initial_values.h"
 
+#include <unistd.h>
+#define GetCurrentDir getcwd
+
 using std::cout;
 
-int total_duration;
-
-int main()
+int main(int argc, char* argv[])
 {
-  const vector<string> list_of_models=read_model_data();
-
-  for(const auto&model: list_of_models)
+  if(argc<2)
     {
-      auto begin=std::chrono::high_resolution_clock::now();
-      cout<<"Starting "<<model<<'\n';
+      cout<<"Provide arguments."<<'\n';
+      return 0;
+    }
+  else
+    {
+      // Get current working directory.
+      char buff[FILENAME_MAX];
+      GetCurrentDir(buff, FILENAME_MAX);
+      string directory(buff);
+      directory=directory+"/";
 
-      get_bin(model);
-      get_sim_params(model);
-      get_compartment(model);
-      get_compartment_parameters(model);
+      auto begin=std::chrono::high_resolution_clock::now();
+      cout<<"Starting "<<directory<<'\n';
+
+      get_bin(directory);
+      get_sim_params(directory);
+      get_compartment(directory);
+      get_compartment_parameters(directory);
+
       get_compartment_equations();
       create_target_compartment_map();
       create_initial_value_map();
@@ -50,19 +61,24 @@ int main()
       parse_compartment_equations();
       replace_indices();
 
+      string arg;
+
+      for(int i=0; i<=argc; i++)
+	{
+	  arg=argv[i];
+	}
+
       if(probabilistic)
 	{
 	  // WIP
 	}
       else
 	{
-	  run_deterministic(model);
-	  auto end=std::chrono::high_resolution_clock::now();
-	  auto duration=std::chrono::duration_cast<std::chrono::microseconds>(end-begin);
-	  cout<<"Runtime: "<<duration.count()<<" microseconds "<<(double)duration.count()/1000<<" milliseconds"<<'\n';
-	  total_duration=total_duration+duration.count();
+	  run_deterministic(directory);
 	}
-      cout<<"Total runtime: "<<total_duration<<" microseconds "<<(double)total_duration/1000<<" milliseconds"<<'\n';
+      auto end=std::chrono::high_resolution_clock::now();
+      auto duration=std::chrono::duration_cast<std::chrono::microseconds>(end-begin);
+      cout<<"Runtime: "<<duration.count()<<" microseconds "<<(double)duration.count()/1000<<" milliseconds"<<'\n';
       cout<<"################################################################"<<'\n';
     }
   return 0;

@@ -33,7 +33,7 @@ void equations_defined(const bool found)
 {
   if(not found)
     {
-      throw std::domain_error("Error, equations are not defined in"+BIN+" file.");
+      throw std::domain_error("Error, equations are not defined in "+BIN+" file.");
     }
 }
 
