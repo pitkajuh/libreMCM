@@ -81,14 +81,10 @@ int main(int argc, char* argv[])
       GetCurrentDir(buff, FILENAME_MAX);
       string directory(buff);
       directory=directory+"/";
+      int c;
 
-     while(true)
+      while((c=getopt_long(argc, argv, "dp", long_options, NULL))!=-1)
 	{
-	  int oi=-1;
-	  int c=getopt_long(argc, argv, "dp", long_options, &oi);
-
-	  if(c==-1) break;
-
 	  switch(c)
 	    {
 	    case 'd':
@@ -96,17 +92,20 @@ int main(int argc, char* argv[])
 	      run_deterministic_sim=true;
 	      break;
 	    case NUM_METHOD_OPTION:
+	      cout<<"NUM_METHOD_OPTION"<<'\n';
 	      break;
 	    case TIME_START_OPTION:
+	      cout<<"TIME_START_OPTION"<<'\n';
 	      break;
 	    case TIME_END_OPTION:
+	      cout<<"TIME_END_OPTION"<<'\n';
 	      break;
 	    case STEP_SIZE_OPTION:
+	      cout<<"STEP_SIZE_OPTION"<<'\n';
 	      break;
 	    default:
 	      exit(0);
 	    }
-
 	}
 
       auto begin=std::chrono::high_resolution_clock::now();
