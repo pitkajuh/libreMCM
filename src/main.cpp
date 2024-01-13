@@ -12,6 +12,7 @@
 #include <chrono>
 #include <getopt.h>
 #include <unistd.h>
+#include <climits>
 #include "global/probabilistic.h"
 #include "bin/run_deterministic.h"
 #include "rcfg/get_sim_params.h"
@@ -30,12 +31,39 @@
 
 using std::cout;
 
+enum
+{
+  NUM_METHOD_OPTION=CHAR_MAX+1,
+  TIME_START_OPTION=CHAR_MAX+1,
+  TIME_END_OPTION=CHAR_MAX+1,
+  STEP_SIZE_OPTION=CHAR_MAX+1
+};
+
 static struct option const long_options[]=
   {
     {"deterministic", 0, 0, 'd'},
-    // {"probabilistic", 0, 0, 'p'},
+    {"num-method", 1, 0, NUM_METHOD_OPTION},
+    {"time-start", 1, 0, TIME_START_OPTION},
+    {"time-end", 1, 0, TIME_END_OPTION},
+    {"step-size", 1, 0, STEP_SIZE_OPTION},
     {0, 0, 0, 0}
   };
+
+void get_and_parse_data(const string directory)
+{
+  get_bin(directory);
+  get_sim_params(directory);
+  get_compartment(directory);
+  get_compartment_parameters(directory);
+
+  get_compartment_equations();
+  create_target_compartment_map();
+  create_initial_value_map();
+  parse_initial_values();
+  create_compartment_map();
+  parse_compartment_equations();
+  replace_indices();
+}
 
 int main(int argc, char* argv[])
 {
@@ -55,19 +83,6 @@ int main(int argc, char* argv[])
       auto begin=std::chrono::high_resolution_clock::now();
       cout<<"Starting "<<directory<<'\n';
 
-      get_bin(directory);
-      get_sim_params(directory);
-      get_compartment(directory);
-      get_compartment_parameters(directory);
-
-      get_compartment_equations();
-      create_target_compartment_map();
-      create_initial_value_map();
-      parse_initial_values();
-      create_compartment_map();
-      parse_compartment_equations();
-      replace_indices();
-
      while(true)
 	{
 	  int oi=-1;
@@ -79,12 +94,9 @@ int main(int argc, char* argv[])
 	    {
 	    case 'd':
 	      cout<<"d"<<'\n';
+	      get_and_parse_data(directory);
 	      run_deterministic(directory);
 	      break;
-	    // case 'p':
-	    //   // For probabilistic.
-	    //   cout<<"p"<<'\n';
-	    //   break;
 	    }
 	}
 
