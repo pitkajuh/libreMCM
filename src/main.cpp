@@ -14,6 +14,9 @@
 #include <unistd.h>
 #include <climits>
 #include "global/probabilistic.h"
+#include "global/t_end.h"
+#include "global/step_size.h"
+#include "global/num_method.h"
 #include "bin/run_deterministic.h"
 #include "rcfg/get_sim_params.h"
 #include "rcfg/get_bin.h"
@@ -67,7 +70,7 @@ void get_and_parse_data(const string directory)
   replace_indices();
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char** argv)
 {
   if(argc<2)
     {
@@ -92,10 +95,10 @@ int main(int argc, char* argv[])
 	      run_deterministic_sim=true;
 	      break;
 	    case NUM_METHOD_OPTION:
-	      cout<<"NUM_METHOD_OPTION"<<'\n';
+	      cout<<"NUM_METHOD_OPTION "<<'\n';
 	      break;
 	    case TIME_START_OPTION:
-	      cout<<"TIME_START_OPTION"<<'\n';
+	      cout<<"TIME_START_OPTION "<<optarg<<'\n';
 	      break;
 	    case TIME_END_OPTION:
 	      cout<<"TIME_END_OPTION"<<'\n';
