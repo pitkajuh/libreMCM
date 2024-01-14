@@ -15,7 +15,7 @@ libreMCM (libre Multi Compartment Modelling) is a free software for carrying out
 * Features
 ** Supported numerical formats
 
-LibreMCM supports the following numerical formats (the number of decimals is not restricted)
+libreMCM supports the following numerical formats (the number of decimals is not restricted)
 
 #+begin_src
 - 1
@@ -25,7 +25,7 @@ LibreMCM supports the following numerical formats (the number of decimals is not
 #+end_src
 ** Supported mathematical functions/operators
 
-LibreMCM supports the following mathematical functions in table [[table:functions]].
+libreMCM supports the following mathematical functions in table [[table:functions]].
 
 #+NAME: table:functions
 #+CAPTION: Supported mathematical functions and operators.
@@ -261,7 +261,9 @@ In order to run the model parameters "time_start", "time_end" and "step_size" mu
 
 * Running simulations
 
-In order to run simulation, a file called "models_cfg" must be created to the same directory where the executable is located. By default the content of the file is the following.
+In order to run simulation, use cd to change in to the directory with simulation files.
+
+# In order to run simulation, a file called "models_cfg" must be created to the same directory where the executable is located. By default the content of the file is the following.
 
 #+begin_src C++ -n
 model_path{
