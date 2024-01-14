@@ -12,7 +12,6 @@
 #include <chrono>
 #include <getopt.h>
 #include <unistd.h>
-#include <climits>
 #include "bin/run_deterministic.h"
 #include "global/t_start.h"
 #include "global/t_end.h"
@@ -40,7 +39,7 @@ bool run_deterministic_sim=false;
 
 enum
 {
-  NUM_METHOD_OPTION=CHAR_MAX+1,
+  NUM_METHOD_OPTION,
   TIME_START_OPTION,
   TIME_END_OPTION,
   STEP_SIZE_OPTION
@@ -96,8 +95,7 @@ int main(int argc, char** argv)
 	      run_deterministic_sim=true;
 	      break;
 	    case NUM_METHOD_OPTION:
-	      num_method=optarg;
-	      solver_valid(num_method);
+	      solver_valid(optarg);
 	      num_method_found=true;
 	      break;
 	    case TIME_START_OPTION:
@@ -125,8 +123,10 @@ int main(int argc, char** argv)
 	  get_and_parse_data(directory);
 	  run_deterministic(directory);
 	}
+
       auto end=std::chrono::high_resolution_clock::now();
       auto duration=std::chrono::duration_cast<std::chrono::microseconds>(end-begin);
+
       cout<<"Runtime: "<<duration.count()<<" microseconds "<<(double)duration.count()/1000<<" milliseconds"<<'\n';
       cout<<"################################################################"<<'\n';
     }

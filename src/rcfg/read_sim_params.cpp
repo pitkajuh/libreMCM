@@ -16,7 +16,6 @@
 #include "../global/t_end.h"
 #include "../global/step_size.h"
 #include "../global/num_method.h"
-#include "../util/line_remove_comment.h"
 #include "../util/remove_white_space.h"
 #include "../util/string_split.h"
 #include "../util/valid_value_check.h"
@@ -34,17 +33,14 @@ void settings_defined(const bool found)
     }
 }
 
-void read_sim_params(const string directory)
+void read_sim_params_data(const string directory)
 {
   bool sim_settings_found=false;
-  bool probabilistic_found=false;
-  bool iterations_found=false;
   bool line_empty;
   const string FILE_NAME=directory+SIM_PARAMS;
   const string SIM_BRACKET=SIMULATION_SETTINGS+CURLY_BRACKET_O;
   string line;
   string name;
-  string line_commented;
   string value;
   fstream sim_params_loaded(FILE_NAME, ios_base::in | ios::binary);
   SplittedString splitted;
@@ -52,7 +48,6 @@ void read_sim_params(const string directory)
   while(getline(sim_params_loaded, line))
     {
       line=remove_white_space(line);
-      line_commented=line_remove_comment(line);
       line_empty=line.empty();
 
       if(line_empty)
@@ -97,4 +92,12 @@ void read_sim_params(const string directory)
     }
   sim_params_loaded.close();
   settings_defined(sim_settings_found);
+}
+
+void read_sim_params(const string directory)
+{
+  if(not time_start_found and not time_end_found and not step_size_found and not num_method_found)
+    {
+      read_sim_params_data(directory);
+    }
 }
