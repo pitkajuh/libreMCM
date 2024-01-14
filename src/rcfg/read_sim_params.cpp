@@ -16,17 +16,12 @@
 #include "../global/t_end.h"
 #include "../global/step_size.h"
 #include "../global/num_method.h"
-#include "../global/num_methods.h"
 #include "../util/line_remove_comment.h"
 #include "../util/remove_white_space.h"
-#include "../util/is_in_vector.h"
 #include "../util/string_split.h"
 #include "../util/valid_value_check.h"
+#include "../util/solver_valid.h"
 
-#include <iostream>
-using std::cout;
-
-using std::to_string;
 using std::fstream;
 using std::ios_base;
 using std::ios;
@@ -36,22 +31,6 @@ void settings_defined(const bool found)
   if(not found)
     {
       throw std::domain_error("Error, simulation settings were not found.");
-    }
-}
-
-void num_method_valid(const string value)
-{
-  // Check if the defined numerical method was valid.
-  const bool num_method_defined=is_in_vector(available_num_methods, value);
-
-  if(num_method_defined)
-    {
-      num_method=value;
-    }
-  else
-    {
-      cout<<"Numerical method (num_method) was not defined, using default setting (rk4)."<<'\n';
-      num_method=RK4; // Temporary. At the moment only one numerical method is defined. Will be removed when there are more.
     }
 }
 
@@ -111,8 +90,7 @@ void read_sim_params(const string directory)
 	    }
 	  else if(name==NUM_METHOD and not num_method_found)
 	    {
-	      num_method=value;
-	      num_method_valid(num_method);
+	      solver_valid(value);
 	      num_method_found=true;
 	    }
 	}
