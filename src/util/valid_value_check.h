@@ -15,6 +15,6 @@
 
 using std::string;
 
-void value_check(const string value);
+const double value_check(const string value);
 
 #endif

@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <climits>
 #include "global/probabilistic.h"
+#include "global/t_start.h"
 #include "global/t_end.h"
 #include "global/step_size.h"
 #include "global/num_method.h"
@@ -28,6 +29,7 @@
 #include "map/create_compartment_target_map.h"
 #include "map/create_compartment_maps.h"
 #include "eqs/parse_compartment_equations.h"
+#include "util/valid_value_check.h"
 #include "wdata/parse_initial_values.h"
 
 #define GetCurrentDir getcwd
@@ -96,15 +98,24 @@ int main(int argc, char** argv)
 	      break;
 	    case NUM_METHOD_OPTION:
 	      cout<<"NUM_METHOD_OPTION "<<'\n';
+	      num_method=optarg;
+	      // num_method_valid(num_method);
+	      num_method_found=true;
 	      break;
 	    case TIME_START_OPTION:
 	      cout<<"TIME_START_OPTION "<<optarg<<'\n';
+	      t_start=value_check(optarg);
+	      time_start_found=true;
 	      break;
 	    case TIME_END_OPTION:
 	      cout<<"TIME_END_OPTION"<<'\n';
+	      t_end=value_check(optarg);
+	      time_end_found=true;
 	      break;
 	    case STEP_SIZE_OPTION:
 	      cout<<"STEP_SIZE_OPTION"<<'\n';
+	      step_size=value_check(optarg);
+	      step_size_found=true;
 	      break;
 	    // default:
 	    //   exit(1);

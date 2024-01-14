@@ -13,11 +13,12 @@
 
 using std::cerr;
 
-void value_check(const string value)
+const double value_check(const string value)
 {
   try
     {
-      const double asd=s2d(value);
+      const double value_check=s2d(value);
+      return value_check;
     }
   catch(const std::invalid_argument&)
     {
