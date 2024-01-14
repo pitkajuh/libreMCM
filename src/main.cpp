@@ -21,13 +21,13 @@
 #include "rcfg/get_sim_params.h"
 #include "rcfg/get_bin.h"
 #include "eqs/replace_indices.h"
+#include "eqs/parse_compartment_equations.h"
 #include "rcompartment/get_compartment.h"
 #include "rcompartment/get_compartment_parameters.h"
 #include "rcompartment/get_compartment_equations.h"
 #include "map/create_initial_value_map.h"
 #include "map/create_compartment_target_map.h"
 #include "map/create_compartment_maps.h"
-#include "eqs/parse_compartment_equations.h"
 #include "util/valid_value_check.h"
 #include "util/solver_valid.h"
 #include "wdata/parse_initial_values.h"
@@ -112,8 +112,8 @@ int main(int argc, char** argv)
 	      step_size=value_check(optarg);
 	      step_size_found=true;
 	      break;
-	    // default:
-	    //   exit(1);
+	    default:
+	      exit(1);
 	    }
 	}
 
