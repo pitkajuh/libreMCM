@@ -11,7 +11,6 @@
 #include <stdexcept>
 #include "../global/global_constants.h"
 #include "../global/constants_map.h"
-#include "../global/probabilistic.h"
 
 const string get_constant_value(string constant, const string iv_specific)
 {

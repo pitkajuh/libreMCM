@@ -17,7 +17,6 @@
 #include "../global/step_size.h"
 #include "../global/num_method.h"
 #include "../global/num_methods.h"
-#include "../global/probabilistic.h"
 #include "../util/line_remove_comment.h"
 #include "../util/remove_white_space.h"
 #include "../util/is_in_vector.h"
@@ -56,20 +55,11 @@ void num_method_valid(const string value)
     }
 }
 
-void set_probabilistic(const string value)
-{
-  if(value==PROBABILISTIC_TRUE)
-    {
-      probabilistic=true;
-    }
-}
-
 void read_sim_params(const string directory)
 {
   bool sim_settings_found=false;
   bool probabilistic_found=false;
   bool iterations_found=false;
-  bool percentile_found=false;
   bool line_empty;
   const string FILE_NAME=directory+SIM_PARAMS;
   const string SIM_BRACKET=SIMULATION_SETTINGS+CURLY_BRACKET_O;
@@ -77,9 +67,6 @@ void read_sim_params(const string directory)
   string name;
   string line_commented;
   string value;
-  string probabilistic_value;
-  string iterations_value;
-  string percentile_value;
   fstream sim_params_loaded(FILE_NAME, ios_base::in | ios::binary);
   SplittedString splitted;
 
@@ -127,21 +114,6 @@ void read_sim_params(const string directory)
 	      num_method=value;
 	      num_method_valid(num_method);
 	      num_method_found=true;
-	    }
-	  else if(name==RUN_PROBABILISTIC)
-	    {
-	      probabilistic_value=value;
-	      probabilistic_found=true;
-	    }
-	  else if(name==PROBABILISTIC_ITER)
-	    {
-	      iterations_value=value;
-	      iterations_found=true;
-	    }
-	  else if(name==PERCENTILE)
-	    {
-	      percentile_value=value;
-	      percentile_found=true;
 	    }
 	}
     }

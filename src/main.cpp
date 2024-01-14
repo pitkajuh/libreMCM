@@ -13,7 +13,6 @@
 #include <getopt.h>
 #include <unistd.h>
 #include <climits>
-#include "global/probabilistic.h"
 #include "global/t_start.h"
 #include "global/t_end.h"
 #include "global/step_size.h"
