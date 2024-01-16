@@ -61,10 +61,9 @@ void update_values(const vector<string> result)
 {
   int i=0;
   const int size=result.size()-1;
-  string result_k;
   string compartment_name;
   string parameter_name;
-  vector<string> vec1;
+  vector<string> vec;
   map<string, map<string, vector<string>>>::reverse_iterator compartment_map_begin=compartment_map.rbegin();
   map<string, map<string, vector<string>>>::reverse_iterator compartment_map_end=compartment_map.rend();
   map<string, vector<string>>::iterator parameter_map_begin;
@@ -81,10 +80,9 @@ void update_values(const vector<string> result)
       while(parameter_map_begin!=parameter_map_end)
 	{
 	  parameter_name=parameter_map_begin->first;
-	  vec1=parameter_map_begin->second;
-	  result_k=result[i];
-	  vec1.push_back(result_k);
-	  parameter_map_i[parameter_name]=vec1;
+	  vec=parameter_map_begin->second;
+	  vec.push_back(result[i]);
+	  parameter_map_i[parameter_name]=vec;
 	  parameter_map_begin++;
 	  i++;
 	}
@@ -111,9 +109,8 @@ const vector<string> update_equations_subroutine(vector<string> equation, const 
       compartment_name=eq_params_i.splitted_string_part1;
 
       result=get_value(compartment_name, values_to_add);
-      result=update_iv(result, data, indice);
 
-      equation[indice]=result;
+      equation[indice]=update_iv(result, data, indice);
       i++;
     }
   return equation;
