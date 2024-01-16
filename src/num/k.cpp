@@ -61,19 +61,9 @@ const vector<string> values_to_add_update(vector<double> values_to_add, const do
 
 const double k_subroutine(vector<string> equation, const vector<int> indices, vector<double> values_to_add, const double constant, const vector<int> math_op_indices, const int indice)
 {
-  int i=0;
-  double result;
-  string result_str;
-  const int size=values_to_add.size();
-  vector<string> replace_value;
-
-  if(size>1)
-    {
-      replace_value=values_to_add_update(values_to_add, constant);
-      equation=replace_in_whole_equation(equation, indices, replace_value, param_data, indice);
-    }
-  result_str=order_of_operations(equation, math_op_indices);
-  result=stod(result_str);
+  const vector<string> replace_value=values_to_add_update(values_to_add, constant);
+  equation=replace_in_whole_equation(equation, indices, replace_value, param_data, indice);
+  const double result=stod(order_of_operations(equation, math_op_indices));
   return result;
 }
 
@@ -82,7 +72,6 @@ const vector<double> k0()
   int i=0;
   const int size=equations.size()-1;
   double result;
-  string result_str;
   vector<int> indice;
   vector<int> order_of_operation;
   vector<double> rt;
@@ -105,7 +94,6 @@ const vector<double> k(const vector<double> values_to_add, const double constant
   int i=0;
   const int size=equations.size()-1;
   double result;
-  string result_str;
   vector<int> indice;
   vector<int> order_of_operation;
   vector<double> rt;
