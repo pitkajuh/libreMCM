@@ -30,7 +30,6 @@ using std::to_string;
 
 const vector<double> get_values()
 {
-  double value;
   vector<double> rt;
   vector<string> vec;
   map<string, map<string, vector<string>>>::reverse_iterator compartment_map_begin=compartment_map.rbegin();
@@ -48,8 +47,7 @@ const vector<double> get_values()
       while(parameter_map_begin!=parameter_map_end)
 	{
 	  vec=parameter_map_begin->second;
-	  value=stod(vec.back());
-	  rt.push_back(value);
+	  rt.push_back(stod(vec.back()));
 	  parameter_map_begin++;
 	}
       compartment_map_begin++;
