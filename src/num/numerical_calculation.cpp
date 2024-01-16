@@ -32,7 +32,7 @@ const vector<double> get_values()
 {
   double value;
   vector<double> rt;
-  vector<string> vec1;
+  vector<string> vec;
   map<string, map<string, vector<string>>>::reverse_iterator compartment_map_begin=compartment_map.rbegin();
   map<string, map<string, vector<string>>>::reverse_iterator compartment_map_end=compartment_map.rend();
   map<string, vector<string>>::iterator parameter_map_end;
@@ -47,8 +47,8 @@ const vector<double> get_values()
 
       while(parameter_map_begin!=parameter_map_end)
 	{
-	  vec1=parameter_map_begin->second;
-	  value=stod(vec1.back());
+	  vec=parameter_map_begin->second;
+	  value=stod(vec.back());
 	  rt.push_back(value);
 	  parameter_map_begin++;
 	}
