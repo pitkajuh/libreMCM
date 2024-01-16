@@ -139,20 +139,18 @@ const vector<string> calculate_result(const vector<double> k1, const vector<doub
   double k2_i;
   double k3_i;
   double k4_i;
-  double get_values_up_i;
-  double result_dbl;
+  double value;
   string result;
   vector<string> rt;
 
   while(i<=size)
     {
-      get_values_up_i=get_values_up[i];
+      value=get_values_up[i];
       k1_i=k1[i];
       k2_i=k2[i];
       k3_i=k3[i];
       k4_i=k4[i];
-      result_dbl=get_values_up_i+(k1_i+2*k2_i+2*k3_i+k4_i)/6;
-      result=to_string(result_dbl);
+      result=to_string(value+(k1_i+2*k2_i+2*k3_i+k4_i)/6);
       rt.push_back(result);
       i++;
     }
@@ -161,9 +159,6 @@ const vector<string> calculate_result(const vector<double> k1, const vector<doub
 
 void rk4()
 {
-  const double HALF=0.5;
-  const double ZERO_VALUE=0;
-  const vector<double> EMPTY;
   vector<double> k1;
   vector<double> k2;
   vector<double> k3;
@@ -177,9 +172,9 @@ void rk4()
    while(t<=t_end+h)
     {
       k1=k0();
-      k2=k(k1, HALF);
-      k3=k(k2, HALF);
-      k4=k(k3, ZERO_VALUE);
+      k2=k(k1, 0.5);
+      k3=k(k2, 0.5);
+      k4=k(k3, 0);
       get_val=get_values();
       result=calculate_result(k1, k2, k3, k4, get_val);
       update_equations(result);
