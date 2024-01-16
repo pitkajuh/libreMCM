@@ -182,7 +182,7 @@ void rk4()
 
    while(t<=t_end+h)
     {
-      k1=k(EMPTY, ZERO_VALUE);
+      k1=k0();
       k2=k(k1, HALF);
       k3=k(k2, HALF);
       k4=k(k3, ZERO_VALUE);

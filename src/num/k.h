@@ -16,5 +16,6 @@
 #include "../class/Equations.h"
 
 const vector<double> k(const vector<double> values_to_add, const double constant);
+const vector<double> k0();
 
 #endif

@@ -77,6 +77,29 @@ const double k_subroutine(vector<string> equation, const vector<int> indices, ve
   return result;
 }
 
+const vector<double> k0()
+{
+  int i=0;
+  const int size=equations.size()-1;
+  double result;
+  string result_str;
+  vector<int> indice;
+  vector<int> order_of_operation;
+  vector<double> rt;
+  vector<string> equation;
+
+  while(i<=size)
+    {
+      equation=equations[i];
+      indice=indice_values[i];
+      order_of_operation=math_op_indices[i];
+      result=h*stod(order_of_operations(equation, order_of_operation));
+      rt.push_back(result);
+      i++;
+    }
+  return rt;
+}
+
 const vector<double> k(const vector<double> values_to_add, const double constant)
 {
   int i=0;
