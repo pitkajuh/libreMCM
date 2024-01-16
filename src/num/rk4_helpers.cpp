@@ -13,6 +13,8 @@
 #include "../math/get_math_operator.h"
 #include "../util/get_compartment_index.h"
 
+using std::to_string;
+
 const string get_value(const string compartment_name, const vector<string> params)
 {
   const int i=get_compartment_index(compartment_name);
@@ -24,8 +26,8 @@ const vector<string> replace_in_whole_equation(vector<string> equation, const ve
 {
   int j=0;
   int indice;
-  string replace;
-  string fchar;
+  double val1;
+  double val2;
   string compartment_name;
   const vector<SplittedString> eq_params=param_data[indice_i];
 
@@ -33,10 +35,10 @@ const vector<string> replace_in_whole_equation(vector<string> equation, const ve
     {
       indice=indices[j];
       compartment_name=i.splitted_string_part1;
-      fchar=equation[indice];
-      replace=get_value(compartment_name, params);
-      replace=get_math_operator2(fchar, replace, ADD);
-      equation[indice]=replace;
+      val1=stod(equation[indice]);
+      val2=stod(get_value(compartment_name, params));
+      val1=val1+val2;
+      equation[indice]=to_string(val1);
       j++;
     }
   return equation;
