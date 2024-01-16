@@ -20,28 +20,24 @@ using std::to_string;
 
 const string order_of_operations(vector<string> equation, const vector<int> indices)
 {
-  int indices_ip1;
-  int indices_im1;
+  int i_p;
+  int i_m;
   string math_operator;
   string value1;
   string value2;
-  string result;
-  string eq_elem;
 
   for(const auto&i: indices)
     {
-      indices_ip1=i+1;
-      indices_im1=i-1;
+      i_p=i+1;
+      i_m=i-1;
       math_operator=equation[i];
-      value1=equation[indices_im1];
-      value2=equation[indices_ip1];
-      result=get_math_operator2(value1, value2, math_operator);
+      value1=equation[i_m];
+      value2=equation[i_p];
 
-      equation[indices_ip1]=result;
-      equation.erase(equation.begin()+indices_im1, equation.begin()+indices_ip1);
+      equation[i_p]=get_math_operator2(value1, value2, math_operator);
+      equation.erase(equation.begin()+i_m, equation.begin()+i_p);
     }
-  eq_elem=equation[0];
-  return eq_elem;
+  return equation[0];
 }
 
 const vector<string> values_to_add_update(vector<double> values_to_add, const double constant)
