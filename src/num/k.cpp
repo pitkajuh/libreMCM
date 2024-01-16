@@ -23,18 +23,13 @@ const string order_of_operations(vector<string> equation, const vector<int> indi
   int i_p;
   int i_m;
   string math_operator;
-  string value1;
-  string value2;
 
   for(const auto&i: indices)
     {
       i_p=i+1;
       i_m=i-1;
       math_operator=equation[i];
-      value1=equation[i_m];
-      value2=equation[i_p];
-
-      equation[i_p]=get_math_operator2(value1, value2, math_operator);
+      equation[i_p]=get_math_operator2(equation[i_m], equation[i_p], math_operator);
       equation.erase(equation.begin()+i_m, equation.begin()+i_p);
     }
   return equation[0];
