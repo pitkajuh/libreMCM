@@ -13,6 +13,6 @@
 
 #include "../class/SplittedString.h"
 
-string get_last_value(const SplittedString param);
+const string get_last_value(const SplittedString param);
 
 #endif
