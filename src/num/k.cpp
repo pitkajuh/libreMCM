@@ -38,17 +38,13 @@ const string order_of_operations(vector<string> equation, const vector<int> indi
 const vector<string> values_to_add_update(vector<double> values_to_add, const double constant)
 {
   int j=0;
-  double result;
-  string result_str;
-  vector<string> result1;
+  vector<string> result;
 
   if(constant!=0)
     {
       for(auto const&i: values_to_add)
 	{
-	  result=constant*i;
-	  result_str=to_string(result);
-	  result1.push_back(result_str);
+	  result.push_back(to_string(constant*i));
 	  j++;
 	}
     }
@@ -56,12 +52,11 @@ const vector<string> values_to_add_update(vector<double> values_to_add, const do
     {
       for(auto const&i: values_to_add)
 	{
-	  result_str=to_string(i);
-	  result1.push_back(result_str);
+	  result.push_back(to_string(i));
 	  j++;
 	}
     }
-  return result1;
+  return result;
 }
 
 const double k_subroutine(vector<string> equation, const vector<int> indices, vector<double> values_to_add, const double constant, const vector<int> math_op_indices, const int indice)
