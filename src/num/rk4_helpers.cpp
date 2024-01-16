@@ -26,8 +26,7 @@ const vector<string> replace_in_whole_equation(vector<string> equation, const ve
 {
   int j=0;
   int indice;
-  double val1;
-  double val2;
+  double value;
   string compartment_name;
   const vector<SplittedString> eq_params=param_data[indice_i];
 
@@ -35,10 +34,8 @@ const vector<string> replace_in_whole_equation(vector<string> equation, const ve
     {
       indice=indices[j];
       compartment_name=i.splitted_string_part1;
-      val1=stod(equation[indice]);
-      val2=stod(get_value(compartment_name, params));
-      val1=val1+val2;
-      equation[indice]=to_string(val1);
+      value=stod(equation[indice])+stod(get_value(compartment_name, params));
+      equation[indice]=to_string(value);
       j++;
     }
   return equation;
