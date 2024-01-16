@@ -107,9 +107,7 @@ const vector<string> update_equations_subroutine(vector<string> equation, const 
       indice=indices[i];
       eq_params_i=eq_params[i];
       compartment_name=eq_params_i.splitted_string_part1;
-
       result=get_value(compartment_name, values_to_add);
-
       equation[indice]=update_iv(result, data, indice);
       i++;
     }
@@ -121,7 +119,6 @@ void update_equations(const vector<string> values_to_add)
   int i=0;
   const int size=equations.size()-1;
   vector<int> indice;
-  vector<string> update_eq_sub;
   vector<string> equation;
   Equations rt;
 
