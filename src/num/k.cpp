@@ -11,7 +11,6 @@
 #include "rk4_helpers.h"
 #include "../class/VecVecInt.h"
 #include "../class/SplittedStrings.h"
-// #include "../class/Equations.h"
 #include "../global/h.h"
 #include "../global/odes.h"
 #include "../math/get_math_operator.h"

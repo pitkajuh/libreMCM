@@ -237,6 +237,60 @@ const vector<string> calculate_result(const vector<double> k1, const vector<doub
 //   }
 // };
 
+
+
+class MathOperator
+{
+public:
+  const double value1;
+  const double value2;
+
+  virtual const double math_operator()=0;
+};
+
+class Add:public MathOperator
+{
+public:
+  const double math_operator()
+  {
+    return value1+value2;
+  }
+};
+
+class Subtract:public MathOperator
+{
+public:
+  const double math_operator()
+  {
+    return value1-value2;
+  }
+};
+
+class Multiply:public MathOperator
+{
+public:
+  const double math_operator()
+  {
+    return value1*value2;
+  }
+};
+
+class Divide:public MathOperator
+{
+public:
+  const double math_operator()
+  {
+    return value1/value2;
+  }
+};
+
+
+class Eq1
+{
+  vector<MathOperator> eq;
+};
+
+
 void rk4()
 {
   vector<double> k1;
