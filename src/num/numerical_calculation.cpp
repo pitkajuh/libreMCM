@@ -89,7 +89,7 @@ void update_values(const vector<string> result)
     }
 }
 
-const vector<string> update_equations_subroutine(vector<string> equation, const vector<int> indices, const vector<string> values_to_add, const int index)
+const vector<string> update_equations_subroutine(vector<string> equation, const vector<int> indices, const vector<string> add, const int index)
 {
   int i=0;
   int indice;
@@ -105,26 +105,25 @@ const vector<string> update_equations_subroutine(vector<string> equation, const 
       indice=indices[i];
       eq_params_i=eq_params[i];
       compartment_name=eq_params_i.splitted_string_part1;
-      result=get_value(compartment_name, values_to_add);
+      result=get_value(compartment_name, add);
       equation[indice]=update_iv(result, data, indice);
       i++;
     }
   return equation;
 }
 
-void update_equations(const vector<string> values_to_add)
+void update_equations(const vector<string> add)
 {
   int i=0;
   const int size=equations.size()-1;
   vector<int> indice;
   vector<string> equation;
-  Equations rt;
 
   while(i<=size)
     {
       equation=equations[i];
       indice=indice_values[i];
-      equations[i]=update_equations_subroutine(equation, indice, values_to_add, i);
+      equations[i]=update_equations_subroutine(equation, indice, add, i);
       i++;
     }
 }
