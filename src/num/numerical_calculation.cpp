@@ -146,7 +146,7 @@ void rk4()
       k3.t1=k(k2, 0.5);
       k4.t1=k(k3, 0);
       w1.t1=get_values();
-      w1=w1+(k1+k2*2+k3*2+k4)/6;
+      w1=w1+(k1+(k2+k3)*2+k4)/6;
       result=w1.to_str();
       update_equations(result);
       update_values(result);
