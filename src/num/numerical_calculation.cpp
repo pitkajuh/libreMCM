@@ -155,6 +155,88 @@ const vector<string> calculate_result(const vector<double> k1, const vector<doub
   return rt;
 }
 
+// struct K
+// {
+//   K_vec k1;
+//   K_vec k2;
+//   K_vec k3;
+//   K_vec k4;
+//   K_vec add_to;
+
+// }
+
+// struct K_vec
+// {
+//   vector<double> t1;
+
+//   K_vec operator+(K_vec t)
+//   {
+//     const int size=t1.size();
+//     K_vec result;
+
+//     for(int i=0; i<=size; i++)
+//       {
+// 	result.t1.push_back(t1[i]+t.t1[i]);
+//       }
+//     return result;
+//   }
+//   K_vec operator+(double t)
+//   {
+//     const int size=t1.size();
+//     K_vec result;
+
+//     for(int i=0; i<=size; i++)
+//       {
+// 	result.t1.push_back(t1[i]+t);
+//       }
+//     return result;
+//   }
+//   K_vec operator*(K_vec t)
+//   {
+//     const int size=t1.size();
+//     K_vec result;
+
+//     for(int i=0; i<=size; i++)
+//       {
+// 	result.t1.push_back(t1[i]*t.t1[i]);
+//       }
+//     return result;
+//   }
+//   K_vec operator*(double t)
+//   {
+//     const int size=t1.size();
+//     K_vec result;
+
+//     for(int i=0; i<=size; i++)
+//       {
+// 	result.t1.push_back(t1[i]*t);
+//       }
+//     return result;
+//   }
+//   K_vec operator/(K_vec t)
+//   {
+//     const int size=t1.size();
+//     K_vec result;
+
+//     for(int i=0; i<=size; i++)
+//       {
+// 	result.t1.push_back(t1[i]/t.t1[i]);
+//       }
+//     return result;
+//   }
+//   K_vec operator/(double t)
+//   {
+//     const int size=t1.size();
+//     K_vec result;
+
+//     for(int i=0; i<=size; i++)
+//       {
+// 	result.t1.push_back(t1[i]/t);
+//       }
+//     return result;
+//   }
+// };
+
 void rk4()
 {
   vector<double> k1;
@@ -164,7 +246,11 @@ void rk4()
   vector<double> get_val;
   vector<string> result;
   h=step_size;
-
+  // K_vec k11;
+  // K_vec k22;
+  // K_vec k33;
+  // K_vec k44;
+  // K_vec w1;
   cout<<"Start calculation"<<'\n';
 
    while(t<=t_end+h)
@@ -173,7 +259,20 @@ void rk4()
       k2=k(k1, 0.5);
       k3=k(k2, 0.5);
       k4=k(k3, 0);
+
+      // k11.t1=k1;
+      // k22.t1=k2;
+      // k33.t1=k3;
+      // k44.t1=k4;
+
+
+
       get_val=get_values();
+
+      // w1.t1=get_val;
+
+      // w1+(k11+k22*2+k33*2+k44)/6;
+
       result=calculate_result(k1, k2, k3, k4, get_val);
       update_equations(result);
       update_values(result);
