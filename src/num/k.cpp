@@ -11,6 +11,7 @@
 #include "rk4_helpers.h"
 #include "../class/VecVecInt.h"
 #include "../class/SplittedStrings.h"
+#include "../class/K_vec.h"
 #include "../global/h.h"
 #include "../global/odes.h"
 #include "../math/get_math_operator.h"
@@ -88,7 +89,7 @@ const vector<double> k0()
   return rt;
 }
 
-const vector<double> k(const vector<double> values_to_add, const double constant)
+const vector<double> k(K_vec values_to_add, const double constant)
 {
   int i=0;
   const int size=equations.size()-1;
@@ -103,7 +104,7 @@ const vector<double> k(const vector<double> values_to_add, const double constant
       equation=equations[i];
       indice=indice_values[i];
       order_of_operation=math_op_indices[i];
-      result=h*k_subroutine(equation, indice, values_to_add, constant, order_of_operation, i);
+      result=h*k_subroutine(equation, indice, values_to_add.t1, constant, order_of_operation, i);
       rt.push_back(result);
       i++;
     }

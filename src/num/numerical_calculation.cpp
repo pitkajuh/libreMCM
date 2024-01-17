@@ -129,205 +129,26 @@ void update_equations(const vector<string> values_to_add)
     }
 }
 
-const vector<string> calculate_result(const vector<double> k1, const vector<double> k2, const vector<double> k3, const vector<double> k4, const vector<double> get_values_up)
-{
-  int i=0;
-  const int size=k1.size()-1; // k1, k2, k3 and k4 have equal sizes.
-  double k1_i;
-  double k2_i;
-  double k3_i;
-  double k4_i;
-  double value;
-  string result;
-  vector<string> rt;
-
-  while(i<=size)
-    {
-      value=get_values_up[i];
-      k1_i=k1[i];
-      k2_i=k2[i];
-      k3_i=k3[i];
-      k4_i=k4[i];
-      result=to_string(value+(k1_i+2*k2_i+2*k3_i+k4_i)/6);
-      rt.push_back(result);
-      i++;
-    }
-  return rt;
-}
-
-// struct K
-// {
-//   K_vec k1;
-//   K_vec k2;
-//   K_vec k3;
-//   K_vec k4;
-//   K_vec add_to;
-
-// }
-
-// struct K_vec
-// {
-//   vector<double> t1;
-
-//   K_vec operator+(K_vec t)
-//   {
-//     const int size=t1.size();
-//     K_vec result;
-
-//     for(int i=0; i<=size; i++)
-//       {
-// 	result.t1.push_back(t1[i]+t.t1[i]);
-//       }
-//     return result;
-//   }
-//   K_vec operator+(double t)
-//   {
-//     const int size=t1.size();
-//     K_vec result;
-
-//     for(int i=0; i<=size; i++)
-//       {
-// 	result.t1.push_back(t1[i]+t);
-//       }
-//     return result;
-//   }
-//   K_vec operator*(K_vec t)
-//   {
-//     const int size=t1.size();
-//     K_vec result;
-
-//     for(int i=0; i<=size; i++)
-//       {
-// 	result.t1.push_back(t1[i]*t.t1[i]);
-//       }
-//     return result;
-//   }
-//   K_vec operator*(double t)
-//   {
-//     const int size=t1.size();
-//     K_vec result;
-
-//     for(int i=0; i<=size; i++)
-//       {
-// 	result.t1.push_back(t1[i]*t);
-//       }
-//     return result;
-//   }
-//   K_vec operator/(K_vec t)
-//   {
-//     const int size=t1.size();
-//     K_vec result;
-
-//     for(int i=0; i<=size; i++)
-//       {
-// 	result.t1.push_back(t1[i]/t.t1[i]);
-//       }
-//     return result;
-//   }
-//   K_vec operator/(double t)
-//   {
-//     const int size=t1.size();
-//     K_vec result;
-
-//     for(int i=0; i<=size; i++)
-//       {
-// 	result.t1.push_back(t1[i]/t);
-//       }
-//     return result;
-//   }
-// };
-
-
-
-class MathOperator
-{
-public:
-  const double value1;
-  const double value2;
-
-  virtual const double math_operator()=0;
-};
-
-class Add:public MathOperator
-{
-public:
-  const double math_operator()
-  {
-    return value1+value2;
-  }
-};
-
-class Subtract:public MathOperator
-{
-public:
-  const double math_operator()
-  {
-    return value1-value2;
-  }
-};
-
-class Multiply:public MathOperator
-{
-public:
-  const double math_operator()
-  {
-    return value1*value2;
-  }
-};
-
-class Divide:public MathOperator
-{
-public:
-  const double math_operator()
-  {
-    return value1/value2;
-  }
-};
-
-
-class Eq1
-{
-  vector<MathOperator> eq;
-};
-
-
 void rk4()
 {
-  vector<double> k1;
-  vector<double> k2;
-  vector<double> k3;
-  vector<double> k4;
-  vector<double> get_val;
+  K_vec k1;
+  K_vec k2;
+  K_vec k3;
+  K_vec k4;
+  K_vec w1;
   vector<string> result;
   h=step_size;
-  // K_vec k11;
-  // K_vec k22;
-  // K_vec k33;
-  // K_vec k44;
-  // K_vec w1;
   cout<<"Start calculation"<<'\n';
 
-   while(t<=t_end+h)
+  while(t<=t_end+h)
     {
-      k1=k0();
-      k2=k(k1, 0.5);
-      k3=k(k2, 0.5);
-      k4=k(k3, 0);
-
-      // k11.t1=k1;
-      // k22.t1=k2;
-      // k33.t1=k3;
-      // k44.t1=k4;
-
-
-
-      get_val=get_values();
-
-      // w1.t1=get_val;
-
-      // w1+(k11+k22*2+k33*2+k44)/6;
-
-      result=calculate_result(k1, k2, k3, k4, get_val);
+      k1.t1=k0();
+      k2.t1=k(k1, 0.5);
+      k3.t1=k(k2, 0.5);
+      k4.t1=k(k3, 0);
+      w1.t1=get_values();
+      w1=w1+(k1+k2*2+k3*2+k4)/6;
+      result=w1.to_str();
       update_equations(result);
       update_values(result);
       t=t+h;
