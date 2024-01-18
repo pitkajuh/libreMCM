@@ -32,25 +32,25 @@ const vector<double> get_values()
 {
   vector<double> rt;
   vector<string> vec;
-  map<string, map<string, vector<string>>>::reverse_iterator compartment_map_begin=compartment_map.rbegin();
-  map<string, map<string, vector<string>>>::reverse_iterator compartment_map_end=compartment_map.rend();
-  map<string, vector<string>>::iterator parameter_map_end;
-  map<string, vector<string>>::iterator parameter_map_begin;
-  map<string, vector<string>> parameter_map_i;
+  map<string, map<string, vector<string>>>::reverse_iterator c_map_begin=compartment_map.rbegin();
+  map<string, map<string, vector<string>>>::reverse_iterator c_map_end=compartment_map.rend();
+  map<string, vector<string>>::iterator p_map_end;
+  map<string, vector<string>>::iterator p_map_begin;
+  map<string, vector<string>> p_map_i;
 
-  while(compartment_map_begin!=compartment_map_end)
+  while(c_map_begin!=c_map_end)
     {
-      parameter_map_i=compartment_map_begin->second;
-      parameter_map_end=parameter_map_i.end();
-      parameter_map_begin=parameter_map_i.begin();
+      p_map_i=c_map_begin->second;
+      p_map_end=p_map_i.end();
+      p_map_begin=p_map_i.begin();
 
-      while(parameter_map_begin!=parameter_map_end)
+      while(p_map_begin!=p_map_end)
 	{
-	  vec=parameter_map_begin->second;
+	  vec=p_map_begin->second;
 	  rt.push_back(stod(vec.back()));
-	  parameter_map_begin++;
+	  p_map_begin++;
 	}
-      compartment_map_begin++;
+      c_map_begin++;
     }
   return rt;
 }
@@ -58,34 +58,33 @@ const vector<double> get_values()
 void update_values(const vector<string> result)
 {
   int i=0;
-  const int size=result.size()-1;
   string compartment_name;
   string parameter_name;
   vector<string> vec;
-  map<string, map<string, vector<string>>>::reverse_iterator compartment_map_begin=compartment_map.rbegin();
-  map<string, map<string, vector<string>>>::reverse_iterator compartment_map_end=compartment_map.rend();
-  map<string, vector<string>>::iterator parameter_map_begin;
-  map<string, vector<string>>::iterator parameter_map_end;
-  map<string, vector<string>> parameter_map_i;
+  map<string, map<string, vector<string>>>::reverse_iterator c_map_begin=compartment_map.rbegin();
+  map<string, map<string, vector<string>>>::reverse_iterator c_map_end=compartment_map.rend();
+  map<string, vector<string>>::iterator p_map_begin;
+  map<string, vector<string>>::iterator p_map_end;
+  map<string, vector<string>> p_map_i;
 
-  while(compartment_map_begin!=compartment_map_end)
+  while(c_map_begin!=c_map_end)
     {
-      compartment_name=compartment_map_begin->first;
-      parameter_map_i=compartment_map_begin->second;
-      parameter_map_end=parameter_map_i.end();
-      parameter_map_begin=parameter_map_i.begin();
+      compartment_name=c_map_begin->first;
+      p_map_i=c_map_begin->second;
+      p_map_end=p_map_i.end();
+      p_map_begin=p_map_i.begin();
 
-      while(parameter_map_begin!=parameter_map_end)
+      while(p_map_begin!=p_map_end)
 	{
-	  parameter_name=parameter_map_begin->first;
-	  vec=parameter_map_begin->second;
+	  parameter_name=p_map_begin->first;
+	  vec=p_map_begin->second;
 	  vec.push_back(result[i]);
-	  parameter_map_i[parameter_name]=vec;
-	  parameter_map_begin++;
+	  p_map_i[parameter_name]=vec;
+	  p_map_begin++;
 	  i++;
 	}
-      compartment_map[compartment_name]=parameter_map_i;
-      compartment_map_begin++;
+      compartment_map[compartment_name]=p_map_i;
+      c_map_begin++;
     }
 }
 
