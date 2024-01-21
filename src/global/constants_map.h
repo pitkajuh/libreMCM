@@ -13,6 +13,6 @@
 
 #include "../class/ConstantsMapData.h"
 
-extern map<string, ConstantsMapData> constants_map;
+extern unordered_map<string, ConstantsMapData> constants_map;
 
 #endif

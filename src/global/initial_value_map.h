@@ -11,11 +11,11 @@
 #ifndef INITIALVALUEMAP_H
 #define INITIALVALUEMAP_H
 
-#include <map>
+#include <unordered_map>
 #include "../class/SplittedString.h"
 
-using std::map;
+using std::unordered_map;
 
-extern map<string, SplittedString> initial_value_map;
+extern unordered_map<string, SplittedString> initial_value_map;
 
 #endif

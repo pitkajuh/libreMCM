@@ -10,4 +10,4 @@
 
 #include "../class/ConstantsMapData.h"
 
-map<string, ConstantsMapData> constants_map;
+unordered_map<string, ConstantsMapData> constants_map;

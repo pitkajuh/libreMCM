@@ -12,26 +12,18 @@
 
 const string update_iv(string iv, const vector<IndiceOperatorData> data, const int index)
 {
-  const int size=data.size()-1;
+  int index_i;
+  IndiceOperatorData data_i;
 
-  if(size>=0)
+  for(const auto&i: data)
     {
-      int i=0;
-      int index_i;
-      IndiceOperatorData data_i;
+      index_i=i.index;
 
-      while(i<=size)
+      if(index==index_i)
 	{
-	  data_i=data[i];
-	  index_i=data_i.index;
-
-	  if(index==index_i)
-	    {
-	      data_i.index_value=iv;
-	      iv=data_i.get_result();
-	      break;
-	    }
-	  i++;
+	  data_i.index_value=iv;
+	  iv=data_i.get_result();
+	  break;
 	}
     }
   return iv;

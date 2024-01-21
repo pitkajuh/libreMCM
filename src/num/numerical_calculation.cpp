@@ -32,25 +32,17 @@ const vector<double> get_values()
 {
   vector<double> rt;
   vector<string> vec;
-  map<string, map<string, vector<string>>>::reverse_iterator c_map_begin=compartment_map.rbegin();
-  map<string, map<string, vector<string>>>::reverse_iterator c_map_end=compartment_map.rend();
-  map<string, vector<string>>::iterator p_map_end;
-  map<string, vector<string>>::iterator p_map_begin;
-  map<string, vector<string>> p_map_i;
+  unordered_map<string, vector<string>> p_map_i;
 
-  while(c_map_begin!=c_map_end)
+  for(auto i=compartment_map.begin(); i!=compartment_map.end(); i++)
     {
-      p_map_i=c_map_begin->second;
-      p_map_end=p_map_i.end();
-      p_map_begin=p_map_i.begin();
+      p_map_i=i->second;
 
-      while(p_map_begin!=p_map_end)
+      for(auto j=p_map_i.begin(); j!=p_map_i.end(); j++)
 	{
-	  vec=p_map_begin->second;
+	  vec=j->second;
 	  rt.push_back(stod(vec.back()));
-	  p_map_begin++;
 	}
-      c_map_begin++;
     }
   return rt;
 }
@@ -61,30 +53,22 @@ void update_values(const vector<string> result)
   string compartment_name;
   string parameter_name;
   vector<string> vec;
-  map<string, map<string, vector<string>>>::reverse_iterator c_map_begin=compartment_map.rbegin();
-  map<string, map<string, vector<string>>>::reverse_iterator c_map_end=compartment_map.rend();
-  map<string, vector<string>>::iterator p_map_begin;
-  map<string, vector<string>>::iterator p_map_end;
-  map<string, vector<string>> p_map_i;
+  unordered_map<string, vector<string>> p_map_i;
 
-  while(c_map_begin!=c_map_end)
+  for(auto j=compartment_map.begin(); j!=compartment_map.end(); j++)
     {
-      compartment_name=c_map_begin->first;
-      p_map_i=c_map_begin->second;
-      p_map_end=p_map_i.end();
-      p_map_begin=p_map_i.begin();
+      compartment_name=j->first;
+      p_map_i=j->second;
 
-      while(p_map_begin!=p_map_end)
+      for(auto k=p_map_i.begin(); k!=p_map_i.end(); k++)
 	{
-	  parameter_name=p_map_begin->first;
-	  vec=p_map_begin->second;
+	  parameter_name=k->first;
+	  vec=k->second;
 	  vec.push_back(result[i]);
 	  p_map_i[parameter_name]=vec;
-	  p_map_begin++;
 	  i++;
 	}
       compartment_map[compartment_name]=p_map_i;
-      c_map_begin++;
     }
 }
 
@@ -149,7 +133,7 @@ void rk4()
       result=w1.to_str();
       update_equations(result);
       update_values(result);
-      t=t+h;
+      t+=h;
     }
   t=0;
   math_op_indices.clear();

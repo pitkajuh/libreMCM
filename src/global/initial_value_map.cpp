@@ -8,9 +8,9 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include <map>
+#include <unordered_map>
 #include "../class/SplittedString.h"
 
-using std::map;
+using std::unordered_map;
 
-map<string, SplittedString> initial_value_map;
+unordered_map<string, SplittedString> initial_value_map;

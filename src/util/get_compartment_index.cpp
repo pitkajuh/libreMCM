@@ -8,19 +8,15 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
+#include <algorithm>
+#include <iterator>
 #include "../global/compartment_diagonal_v2.h"
+
+using std::find;
+using std::distance;
 
 const int get_compartment_index(const string compartment_name)
 {
-  int j=0;
-
-  for(const auto&i: compartment_diagonal_v2)
-    {
-      if(i==compartment_name)
-	{
-	  break;
-	}
-      j++;
-    }
+  const int j=distance(compartment_diagonal_v2.begin(), find(compartment_diagonal_v2.begin(), compartment_diagonal_v2.end(), compartment_name));
   return j;
 }

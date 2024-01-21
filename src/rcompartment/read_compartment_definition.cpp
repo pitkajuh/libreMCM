@@ -8,6 +8,7 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
+#include <algorithm>
 #include <fstream>
 #include "../class/AllCompartmentInitialValuesHalfLife.h"
 #include "../class/AllInitialValuesHalfLife.h"
@@ -21,6 +22,7 @@
 #include "../util/remove_white_space.h"
 #include "../util/is_commented.h"
 
+using std::find;
 using std::fstream;
 using std::ios_base;
 using std::ios;
@@ -64,21 +66,8 @@ void parse_initial_value(CompartmentAllInitialValuesHalfLife compartment_paramet
 void add_to_all_parameters(const string parameter_name)
 {
   // Adds parameter to all_parameters vector, if it has not already been added.
-  const int size=all_parameters.size();
-  bool found=false;
 
-  if(size>0)
-    {
-      for(const auto&i: all_parameters)
-	{
-	  if(i==parameter_name)
-	    {
-	      found=true;
-	      break;
-	    }
-	}
-    }
-  if(not found)
+  if(find(all_parameters.begin(), all_parameters.end(), parameter_name)==all_parameters.end())
     {
       all_parameters.push_back(parameter_name);
     }
@@ -122,7 +111,7 @@ InitialValuesHalfLife read_compartment_element(const string elem, const string c
 	}
       else
 	{
-	  empty=empty+fchar;
+	  empty+=fchar;
 	}
       i++;
     }

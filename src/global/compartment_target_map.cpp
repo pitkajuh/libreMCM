@@ -8,9 +8,9 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include <map>
+#include <unordered_map>
 #include "../class/TargetCompartments.h"
 
-using std::map;
+using std::unordered_map;
 
-map<string, TargetCompartments> compartment_target_map;
+unordered_map<string, TargetCompartments> compartment_target_map;

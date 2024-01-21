@@ -12,13 +12,13 @@
 #define CONSTANTSPROBDATAMAP_H
 
 #include <string>
-#include <map>
+#include <unordered_map>
 
 using std::string;
-using std::map;
+using std::unordered_map;
 
 #include "../class/ConstantProbabilisticData.h"
 
-extern map<string, ConstantProbabilisticData> constants_prob_data_map;
+extern unordered_map<string, ConstantProbabilisticData> constants_prob_data_map;
 
 #endif

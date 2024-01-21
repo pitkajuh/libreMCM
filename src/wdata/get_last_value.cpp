@@ -16,7 +16,7 @@ const string get_last_value(const SplittedString param)
 {
   const string compartment_name_wanted=param.splitted_string_part1;
   const string parameter_name_wanted=param.splitted_string_part2;
-  map<string, vector<string>> vec_map=compartment_map[compartment_name_wanted];
+  unordered_map<string, vector<string>> vec_map=compartment_map[compartment_name_wanted];
   const vector<string> vec=vec_map[parameter_name_wanted];
   return vec.back();
 }

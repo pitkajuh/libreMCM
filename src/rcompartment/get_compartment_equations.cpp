@@ -85,22 +85,18 @@ vector<string> split_equation_names(const string names)
   return rt;
 }
 
-vector<string> get_equations_from_compartment_map(const string compartment, map<int, vector<string>> compartment_map)
+vector<string> get_equations_from_compartment_map(const string compartment, unordered_map<int, vector<string>> compartment_map)
 {
   int compartment_index;
-  int i_size;
   bool is_compartment;
   bool is_empty;
-  string fchar;
   vector<string> compartment_vector;
   vector<string> rt;
   vector<string> names;
-  map<int, vector<string>>::iterator begin=compartment_map.begin();
-  map<int, vector<string>>::iterator end=compartment_map.end();
 
-  while(begin!=end)
+  for(auto i=compartment_map.begin(); i!=compartment_map.end(); i++)
     {
-      compartment_index=begin->first;
+      compartment_index=i->first;
       compartment_vector=compartment_map[compartment_index];
       is_compartment=is_in_vector(compartment_vector, compartment);
 
@@ -119,17 +115,16 @@ vector<string> get_equations_from_compartment_map(const string compartment, map<
 	    }
 	}
       is_compartment=false;
-      begin++;
     }
   return rt;
 }
 
 CompartmentEquationsAddSubtract get_equations_compartment(const string compartment)
 {
-  vector<string> equations_names_subtract=get_equations_from_compartment_map(compartment, row_map);
+  const vector<string> equations_names_subtract=get_equations_from_compartment_map(compartment, row_map);
   Equations equations_subtract=get_equation_values(equations_names_subtract);
 
-  vector<string> equations_names_add=get_equations_from_compartment_map(compartment, column_map);
+  const vector<string> equations_names_add=get_equations_from_compartment_map(compartment, column_map);
   Equations equations_add=get_equation_values(equations_names_add);
 
   EquationNamesAddSubtract equations_add_subtract;

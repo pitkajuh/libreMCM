@@ -25,12 +25,10 @@ string find_compartment(const string equation_name, const string compartment_nam
   vector<string> equations_add;
   vector<string> equations_subtract;
   EquationNamesAddSubtract compartment_and_equations;
-  map<string, EquationNamesAddSubtract>::iterator begin=compartments_and_equations.begin();
-  map<string, EquationNamesAddSubtract>::iterator end=compartments_and_equations.end();
 
-  while(begin!=end)
+  for(auto i=compartments_and_equations.begin(); i!=compartments_and_equations.end(); i++)
     {
-      compartment=begin->first;
+      compartment=i->first;
 
       if(compartment_name!=compartment)
 	{
@@ -46,7 +44,6 @@ string find_compartment(const string equation_name, const string compartment_nam
 	      result=compartment;
 	    }
 	}
-      begin++;
     }
   return result;
 }
@@ -76,13 +73,11 @@ void target_compartments(const string compartment_name)
   vector<string> adding_to_compartments;
   vector<string> subtracting_to_compartments;
   EquationNamesAddSubtract compartment_and_equations;
-  map<string, EquationNamesAddSubtract>::iterator begin=compartments_and_equations.begin();
-  map<string, EquationNamesAddSubtract>::iterator end=compartments_and_equations.end();
   TargetCompartments target_compartments_i;
 
-  while(begin!=end)
+  for(auto i=compartments_and_equations.begin(); i!=compartments_and_equations.end(); i++)
     {
-      compartment=begin->first;
+      compartment=i->first;
 
       compartment_and_equations=compartments_and_equations[compartment];
       equation_names_add=compartment_and_equations.equation_names_add;
@@ -96,7 +91,6 @@ void target_compartments(const string compartment_name)
 	  target_compartments_i.subtract_from_compartments=adding_to_compartments;
 	  compartment_target_map[compartment_name]=target_compartments_i;
 	}
-      begin++;
     }
 }
 

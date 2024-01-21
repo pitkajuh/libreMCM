@@ -15,20 +15,13 @@
 const bool is_variable(string fchar)
 {
   // Checks if string is variable (compartment).
-  int i=0;
-  const int size=fchar.size()-1;
-  string fc;
+  const size_t f=fchar.find(PARM_DELIM);
+  const size_t f1=string::npos;
 
-  while(i<=size)
+  if(f!=f1)
     {
-      fc=fchar[i];
-
-      if(fc==PARM_DELIM)
-	{
-	  fchar=fchar.substr(0, i);
-	  break;
-	}
-      i++;
+      const int i=static_cast<int>(f);
+      fchar=fchar.substr(0, i);
     }
 
   const bool result=is_in_vector(compartment_diagonal_v2, fchar);

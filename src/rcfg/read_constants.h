@@ -12,11 +12,11 @@
 #define READCONSTANTS_H
 
 #include <string>
-#include <map>
+#include <unordered_map>
 
 using std::string;
-using std::map;
+using std::unordered_map;
 
-void read_constants(const string line, map<string, string> specific_values);
+void read_constants(const string line, const unordered_map<string, string> specific_values);
 
 #endif

@@ -11,14 +11,14 @@
 #ifndef PARAMETERMAP_H
 #define PARAMETERMAP_H
 
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 
-using std::map;
+using std::unordered_map;
 using std::string;
 using std::vector;
 
-extern map<string, vector<string>> parameter_map;
+extern unordered_map<string, vector<string>> parameter_map;
 
 #endif

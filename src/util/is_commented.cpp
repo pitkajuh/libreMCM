@@ -10,10 +10,6 @@
 
 #include "../global/global_constants.h"
 
-#include <iostream>
-
-using std::cout;
-
 const bool is_commented(const string line)
 {
   const int size=line.size()-1;

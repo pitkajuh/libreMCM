@@ -10,10 +10,10 @@
 
 #include <string>
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 using std::string;
 using std::vector;
-using std::map;
+using std::unordered_map;
 
-map<int, vector<string>> row_map;
+unordered_map<int, vector<string>> row_map;

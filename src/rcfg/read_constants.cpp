@@ -20,7 +20,7 @@
 
 using std::to_string;
 
-void read_constants(const string line, const map<string, string> specific_values)
+void read_constants(const string line, const unordered_map<string, string> specific_values)
 {
   const SplittedString splitted=string_split(line, EQUAL_SIGN);
   const string constant_name=splitted.splitted_string_part1;

@@ -11,14 +11,14 @@
 #ifndef COMPARTMENTMAPV2_H
 #define COMPARTMENTMAPV2_H
 
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 
-using std::map;
+using std::unordered_map;
 using std::string;
 using std::vector;
 
-extern map<string, vector<string>> compartment_map_v2;
+extern unordered_map<string, vector<string>> compartment_map_v2;
 
 #endif

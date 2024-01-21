@@ -34,7 +34,7 @@ const string get_constant_value(string constant, const string iv_specific)
     }
 
   const ConstantsMapData data=constants_map[constant];
-  map<string, string> specific_value=data.specific_value;
+  unordered_map<string, string> specific_value=data.specific_value;
   string value=specific_value[iv_specific];
   const bool is_empty=value.empty();
 

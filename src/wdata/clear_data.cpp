@@ -37,9 +37,6 @@
 #include "../global/ode_indice_operator_prev.h"
 #include "../global/ode_indice_operator.h"
 
-#include <iostream>
-using std::cout;
-
 void clear_data()
 {
   constants_map.clear();

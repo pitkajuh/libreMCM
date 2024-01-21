@@ -11,11 +11,11 @@
 #ifndef COMPARTMENTTARGETMAP_H
 #define COMPARTMENTTARGETMAP_H
 
-#include <map>
+#include <unordered_map>
 #include "../class/TargetCompartments.h"
 
-using std::map;
+using std::unordered_map;
 
-extern map<string, TargetCompartments> compartment_target_map;
+extern unordered_map<string, TargetCompartments> compartment_target_map;
 
 #endif

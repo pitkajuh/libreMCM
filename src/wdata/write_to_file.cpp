@@ -32,6 +32,48 @@
 using std::ofstream;
 using std::to_string;
 
+const string NEW_ROW="\n";
+const string HEADER_CONST="t"+DELIMITER;
+
+const string create_save_path(const string directory, const string compartment_name, const int run_no)
+{
+  const string file_type=".txt";
+
+  if(probabilistic)
+    {
+      return directory+compartment_name+to_string(run_no)+file_type;
+    }
+  else
+    {
+      return directory+compartment_name+file_type;
+    }
+}
+
+const string create_header(const vector<string> initial_value_names)
+{
+  // Create header line containing initial value names (t;iv1;iv2;iv3...)
+  int i=0;
+  const int size=initial_value_names.size()-1;
+  string initial_value_name;
+  string header=HEADER_CONST;
+
+  while(i<=size)
+    {
+      initial_value_name=initial_value_names[i];
+
+      if(size==0 or i==size)
+	{
+	  header+=initial_value_name+NEW_ROW;
+	}
+      else
+	{
+	  header+=initial_value_name+DELIMITER;
+	}
+      i++;
+    }
+  return header;
+}
+
 void write_to_file(const string directory, const int run_no)
 {
   int i=0;
@@ -39,62 +81,27 @@ void write_to_file(const string directory, const int run_no)
   int k=0;
   int size;
   int value_vector_size;
+  bool ready=false;
   double t=0;
-  const string str_new_row="\n";
-  const string file_type=".txt";
-  const string header_const="t"+DELIMITER;
-  string header=header_const;
+  string header;
   string line="";
   string t_str;
-  string save_path;
   string compartment_name;
   string initial_value_name;
   string value;
-  string run_no_str;
-  bool ready=false;
+  string save_path;
   vector<string> initial_value_names;
   vector<string> value_vector;
-  map<string, map<string, vector<string>>>::reverse_iterator begin=compartment_map.rbegin();
-  map<string, map<string, vector<string>>>::reverse_iterator end=compartment_map.rend();
-  map<string, vector<string>> values;
+  unordered_map<string, vector<string>> values;
 
-  while(begin!=end)
+  for(auto n=compartment_map.begin(); n!=compartment_map.end(); n++)
     {
-      compartment_name=begin->first;
-
-      if(probabilistic)
-	{
-	  run_no_str=to_string(run_no);
-	  save_path=directory+compartment_name+run_no_str+file_type;
-	}
-      else
-	{
-	  save_path=directory+compartment_name+file_type;
-	}
-      ofstream myfile(save_path);
+      compartment_name=n->first;
+      save_path=create_save_path(directory, compartment_name, run_no);
+      ofstream file_save(save_path);
       initial_value_names=compartment_map_v2[compartment_name];
       values=compartment_map[compartment_name];
-      size=initial_value_names.size()-1;
-
-      // Create header line containing initial value names (t;iv1;iv2;iv3...)
-      while(i<=size)
-	{
-	  initial_value_name=initial_value_names[i];
-
-	  if(size==0)
-	    {
-	      header=header+initial_value_name+str_new_row;
-	    }
-	  else if(i==size)
-	    {
-	      header=header+initial_value_name+str_new_row;
-	    }
-	  else
-	    {
-	      header=header+initial_value_name+DELIMITER;
-	    }
-	  i++;
-	}
+      header=create_header(initial_value_names);
 
       while(not ready)
 	{
@@ -115,8 +122,8 @@ void write_to_file(const string directory, const int run_no)
 	      else if(k<=value_vector_size)
 		{
 		  t_str=to_string(t);
-		  line=line+t_str+DELIMITER+value+str_new_row;
-		  t=t+h;
+		  line+=t_str+DELIMITER+value+NEW_ROW;
+		  t+=h;
 		  k++;
 		  continue;
 		}
@@ -129,7 +136,7 @@ void write_to_file(const string directory, const int run_no)
 
 	      if(k==value_vector_size and j==size)
 		{
-		  line=line+DELIMITER+value;
+		  line+=DELIMITER+value;
 		  ready=true;
 		}
 	      else if(j<=size)
@@ -137,35 +144,34 @@ void write_to_file(const string directory, const int run_no)
 		  if(j==0)
 		    {
 		      t_str=to_string(t);
-		      line=line+t_str+DELIMITER+value;
+		      line+=t_str+DELIMITER+value;
 		    }
 		  else if(j==size)
 		    {
-		      line=line+DELIMITER+value+str_new_row;
+		      line+=DELIMITER+value+NEW_ROW;
 		      k++;
-		      t=t+h;
+		      t+=h;
 		      j=0;
 		      continue;
 		    }
 		  else
 		    {
-		      line=line+DELIMITER+value;
+		      line+=DELIMITER+value;
 		    }
 		}
 	    }
 	  j++;
 	}
       // Write header and results to file
-      myfile<<header;
-      myfile<<line;
-      myfile.close();
+      file_save<<header;
+      file_save<<line;
+      file_save.close();
       ready=false;
       i=0;
       j=0;
       k=0;
       t=0;
       line="";
-      header=header_const;
-      begin++;
+      header=HEADER_CONST;
     }
 }

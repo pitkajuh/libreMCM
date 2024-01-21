@@ -8,14 +8,14 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 
-using std::map;
+using std::unordered_map;
 using std::string;
 using std::vector;
 
 // Contains equation name (e.g. f(x)) as string and its value as vector (e.g. {"a", "*", "x"}).
 
-map<string, vector<string>> equations_map;
+unordered_map<string, vector<string>> equations_map;

@@ -8,12 +8,12 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 
-using std::map;
+using std::unordered_map;
 using std::string;
 using std::vector;
 
-map<string, vector<string>> compartment_map_v2;
+unordered_map<string, vector<string>> compartment_map_v2;

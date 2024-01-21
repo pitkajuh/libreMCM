@@ -12,9 +12,6 @@
 #include "../global/equation_constants.h"
 #include "../util/is_in_vector.h"
 
-#include <iostream>
-using std::cout;
-
 const bool is_constant(string fchar)
 {
   bool result=false;

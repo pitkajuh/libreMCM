@@ -11,11 +11,11 @@
 #ifndef COMPARTMENTSANDEQUATIONSMAP_H
 #define COMPARTMENTSANDEQUATIONSMAP_H
 
-#include <map>
+#include <unordered_map>
 #include "../class/EquationNamesAddSubtract.h"
 
-using std::map;
+using std::unordered_map;
 
-extern map<string, EquationNamesAddSubtract> compartments_and_equations;
+extern unordered_map<string, EquationNamesAddSubtract> compartments_and_equations;
 
 #endif

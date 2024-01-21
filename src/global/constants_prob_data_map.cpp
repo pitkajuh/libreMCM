@@ -9,11 +9,11 @@
 \*---------------------------------------------------------------------------*/
 
 #include <string>
-#include <map>
+#include <unordered_map>
 
 using std::string;
-using std::map;
+using std::unordered_map;
 
 #include "../class/ProbabilisticDistribution.h"
 
-// map<string, ProbabilisticDistribution> constants_prob_data_map;
+// unordered_map<string, ProbabilisticDistribution> constants_prob_data_map;

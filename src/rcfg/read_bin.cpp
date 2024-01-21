@@ -112,7 +112,7 @@ void read_bin(const string directory)
   vector<SplittedString> specific_value_lines;
   SplittedString splitted;
   fstream bin_loaded(FILE_NAME, ios_base::in | ios::binary);
-  map<string, string> constant_specific_map;
+  unordered_map<string, string> constant_specific_map;
   double value_d;
 
   while(getline(bin_loaded, line))

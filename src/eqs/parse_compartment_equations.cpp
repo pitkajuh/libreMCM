@@ -71,7 +71,7 @@ vector<string> reverse_sign(const vector<string> fa)
 	      fa_ip1=SUBTRACT+fa_ip1;
 	      vec_new.push_back(fa_ip1);
 	    }
-	  i=i+2;
+	  i+=2;
 	  continue;
 	}
       else if(i<size and i>0)
@@ -99,7 +99,6 @@ vector<string> reverse_sign(const vector<string> fa)
 	      fchar=SUBTRACT+fchar;
 	      subtract_begin=true;
 	    }
-
 	  vec_new.push_back(fchar);
 	}
       i++;

@@ -149,11 +149,11 @@ vector<string> update_constants(vector<string> equation, const string compartmen
   const IndicesData indices_data=constant_indice_data[equation_i];
   const vector<int> constant_indices=indices_data.indices;
 
-  for(const auto &index: constant_indices)
+  for(const auto &i: constant_indices)
     {
-      fchar=equation[index];
-      value=constant_value_update(fchar, initial_value_name, index, equation_i);
-      equation[index]=value;
+      fchar=equation[i];
+      value=constant_value_update(fchar, initial_value_name, i, equation_i);
+      equation[i]=value;
     }
   return equation;
 }

@@ -13,12 +13,12 @@
 
 #include <string>
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 using std::string;
 using std::vector;
-using std::map;
+using std::unordered_map;
 
-extern map<int, vector<string>> column_map;
+extern unordered_map<int, vector<string>> column_map;
 
 #endif

@@ -8,9 +8,9 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include <map>
+#include <unordered_map>
 #include "../class/EquationNamesAddSubtract.h"
 
-using std::map;
+using std::unordered_map;
 
-map<string, EquationNamesAddSubtract> compartments_and_equations;
+unordered_map<string, EquationNamesAddSubtract> compartments_and_equations;

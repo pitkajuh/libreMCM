@@ -30,11 +30,14 @@ void create_compartment_map()
   int l=0;
   int l1=0;
   int compartment_nr=0;
+  int initial_values_all_j_size;
   const int size=compartment_diagonal.size();
   const int compartment_diagonal_v2_size=compartment_diagonal_v2.size();
   const int initial_values_all_size=initial_values_all.size();
   const int all_parameters_size=all_parameters.size();
-  int initial_values_all_j_size;
+  bool is_void;
+  bool is_origin;
+  bool not_found=false;
   string compartment_name;
   string parameter_with_i_value;
   string parameter_initial_value;
@@ -47,9 +50,6 @@ void create_compartment_map()
   vector<string> compartment_adding;
   vector<string> compartment_subtracting;
   vector<string> compartment_map_v2_vec;
-  bool is_void;
-  bool is_origin;
-  bool not_found=false;
 
   sort(all_parameters.begin(), all_parameters.end());
 
