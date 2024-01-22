@@ -9,38 +9,10 @@
 \*---------------------------------------------------------------------------*/
 
 #include "../global/global_constants.h"
+#include "../util/is_in_vector.h"
 
 const bool is_operator(const string elem)
 {
-  bool rt=false;
-
-  if(elem==ADD)
-    {
-      rt=true;
-    }
-  else if(elem==SUBTRACT)
-    {
-      rt=true;
-    }
-  else if(elem==MULTIPLY)
-    {
-      rt=true;
-    }
-  else if(elem==DIVIDE)
-    {
-      rt=true;
-    }
-  else if(elem==POWER)
-    {
-      rt=true;
-    }
-  else if(elem==OPEN_PARENTHESIS)
-    {
-      rt=true;
-    }
-  else if(elem==CLOSE_PARENTHESIS)
-    {
-      rt=true;
-    }
-  return rt;
+  const vector<string> ops{ADD, SUBTRACT, MULTIPLY, DIVIDE, OPEN_PARENTHESIS, CLOSE_PARENTHESIS};
+  return is_in_vector(ops, elem);
 }

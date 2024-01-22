@@ -50,10 +50,7 @@ vector<string> line_read(string line)
 	      i++;
 	      continue;
 	    }
-	  else
-	    {
-	      empty_str=empty_str+fchar;
-	    }
+	  else{empty_str+=fchar;}
 	}
       i++;
     }

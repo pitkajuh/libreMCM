@@ -30,9 +30,8 @@
 
 using std::to_string;
 
-class Values
+struct Values
 {
-public:
   vector<string> values;
 };
 

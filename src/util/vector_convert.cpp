@@ -48,7 +48,7 @@ const vector<string> equation_string_to_equation_vector2(const string equation)
 
 	  split_to=i_to-i;
 	  str=equation.substr(i, split_to);
-	  empty=empty+str;
+	  empty+=str;
 	  i=i_to;
 	  op2_check=false;
 	  continue;
@@ -61,17 +61,11 @@ const vector<string> equation_string_to_equation_vector2(const string equation)
 	    {
 	      is_empty=empty.empty();
 
-	      if(not is_empty)
-		{
-		  rt.push_back(empty);
-		}
+	      if(not is_empty){rt.push_back(empty);}
 
 	      if(fchar==SUBTRACT and i>0)
 		{
-		  if(fchar_prev==POWER)
-		    {
-		      empty=SUBTRACT;
-		    }
+		  if(fchar_prev==POWER){empty=SUBTRACT;}
 		  else
 		    {
 		      rt.push_back(ADD);
@@ -87,29 +81,20 @@ const vector<string> equation_string_to_equation_vector2(const string equation)
 	    }
 	  else
 	    {
-	      empty=empty+fchar;
+	      empty+=fchar;
 
-	      if(empty==MATH_OP_PREFIX)
-		{
-		  op2_check=true;
-		}
+	      if(empty==MATH_OP_PREFIX){op2_check=true;}
 	    }
 	}
       i++;
       fchar_prev=fchar;
     }
-  if(nr_of_operators==0)
-    {
-      rt.push_back(equation);
-    }
+  if(nr_of_operators==0){rt.push_back(equation);}
   else
     {
       is_empty=empty.empty();
 
-      if(not is_empty)
-	{
-	  rt.push_back(empty);
-	}
+      if(not is_empty){rt.push_back(empty);}
     }
   return rt;
 }
@@ -142,17 +127,11 @@ const vector<string> equation_string_to_equation_vector(const string equation)
 	{
 	  is_empty=empty.empty();
 
-	  if(not is_empty)
-	    {
-	      rt.push_back(empty);
-	    }
+	  if(not is_empty){rt.push_back(empty);}
 
 	  if(fchar==SUBTRACT and i>0)
 	    {
-	      if(fchar_prev==POWER)
-		{
-		  empty=SUBTRACT;
-		}
+	      if(fchar_prev==POWER){empty=SUBTRACT;}
 	      else
 		{
 		  rt.push_back(ADD);
@@ -166,25 +145,16 @@ const vector<string> equation_string_to_equation_vector(const string equation)
 	  empty="";
 	  nr_of_operators++;
 	}
-      else
-	{
-	  empty=empty+fchar;
-	}
+      else{empty+=fchar;}
       i++;
       fchar_prev=fchar;
     }
-  if(nr_of_operators==0)
-    {
-      rt.push_back(equation);
-    }
+  if(nr_of_operators==0){rt.push_back(equation);}
   else
     {
       is_empty=empty.empty();
 
-      if(not is_empty)
-	{
-	  rt.push_back(empty);
-	}
+      if(not is_empty){rt.push_back(empty);}
     }
   return rt;
 }
@@ -198,10 +168,7 @@ const string vector_to_string(const vector<string> vec)
     {
       is_empty=i.empty();
 
-      if(not is_empty)
-	{
-	  empty=empty+i;
-	}
+      if(not is_empty){empty+=i;}
     }
   return empty;
 }

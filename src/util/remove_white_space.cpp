@@ -24,10 +24,7 @@ const string remove_white_space(const string line)
   string rt;
   string fchar;
 
-  if(size==0)
-    {
-      rt=line;
-    }
+  if(size==0){rt=line;}
   else
     {
       while(i<=size)
@@ -40,10 +37,7 @@ const string remove_white_space(const string line)
 	      i++;
 	      continue;
 	    }
-	  else
-	    {
-	      rt=rt+fchar;
-	    }
+	  else{rt+=fchar;}
 	  i++;
 	}
     }

@@ -27,10 +27,7 @@ vector<string> get_eq_corresponding_to_eq_name(const string eq_name)
   vector<string> rt=equations_map[eq_name];
   bool is_empty=rt.empty();
 
-  if(is_empty)
-    {
-      throw std::domain_error("ERROR! EQUATION "+eq_name+" WAS NOT FOUND!");
-    }
+  if(is_empty){throw std::domain_error("ERROR! EQUATION "+eq_name+" WAS NOT FOUND!");}
   return rt;
 }
 
@@ -74,10 +71,7 @@ vector<string> split_equation_names(const string names)
 	      rt.push_back(empty);
 	      empty="";
 	    }
-	  else
-	    {
-	      empty=empty+fchar;
-	    }
+	  else{empty+=fchar;}
 	}
       i++;
     }
@@ -98,13 +92,13 @@ vector<string> get_equations_from_compartment_map(const string compartment, unor
     {
       compartment_index=i->first;
       compartment_vector=compartment_map[compartment_index];
-      is_compartment=is_in_vector(compartment_vector, compartment);
+      is_compartment=is_in_vector<string>(compartment_vector, compartment);
 
       if(is_compartment)
 	{
 	  for(const auto&i: compartment_vector)
 	    {
-	      is_compartment=is_in_vector(compartment_diagonal, i);
+	      is_compartment=is_in_vector<string>(compartment_diagonal, i);
 	      is_empty=i.empty();
 
 	      if(!is_empty and !is_compartment)

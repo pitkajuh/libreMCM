@@ -21,11 +21,8 @@ const bool is_constant(string fchar)
   neg=fchar[0];
 
   // Check if trying to get a negative value of a constant.
-  if(neg==SUBTRACT)
-    {
-      fchar=fchar.substr(1, size);
-    }
+  if(neg==SUBTRACT){fchar=fchar.substr(1, size);}
 
-  result=is_in_vector(equation_constants, fchar);
+  result=is_in_vector<string>(equation_constants, fchar);
   return result;
 }

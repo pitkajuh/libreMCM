@@ -36,10 +36,7 @@ const VectorReplaceFromTo update_indices(int from, int to, const vector<string> 
 
 vector<string> replace_in_vector2(vector<string> fa, const string result, int from, int to)
 {
-  if(from==to)
-    {
-      fa[from]=result;
-    }
+  if(from==to){fa[from]=result;}
   else
     {
       fa[to]=result;
@@ -55,10 +52,7 @@ vector<string> replace_in_vector(vector<string> fa, const string result, int fro
   from=updated_indices.index_from;
   to=updated_indices.index_to;
 
-  if(from==to)
-    {
-      fa[from]=result;
-    }
+  if(from==to){fa[from]=result;}
   else
     {
       fa[to]=result;

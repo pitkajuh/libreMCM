@@ -50,10 +50,7 @@ vector<string> do_calculation(vector<string> fa, const int index)
       ip1=im1;
       fa=replace_in_vector(fa, fa_im1, im1, ip1);
     }
-  else if(fa_im1==OPEN_PARENTHESIS or fa_ip1==CLOSE_PARENTHESIS or fa_im1==CLOSE_PARENTHESIS or fa_ip1==OPEN_PARENTHESIS)
-    {
-      return fa;
-    }
+  else if(fa_im1==OPEN_PARENTHESIS or fa_ip1==CLOSE_PARENTHESIS or fa_im1==CLOSE_PARENTHESIS or fa_ip1==OPEN_PARENTHESIS){return fa;}
   else if(not fa_ip1_var and not fa_im1_var)
     {
       fa_size=fa.size();
@@ -66,17 +63,11 @@ vector<string> do_calculation(vector<string> fa, const int index)
 
 	  if(fa_ip3==OPEN_PARENTHESIS and fa_ip2==MULTIPLY or fa_ip2==DIVIDE)
 	    {
-	      if(math_operator==ADD or math_operator==SUBTRACT)
-		{
-		  return fa;
-		}
+	      if(math_operator==ADD or math_operator==SUBTRACT){return fa;}
 	    }
 	  else if(math_operator==ADD or math_operator==SUBTRACT and fa_ip2==MULTIPLY or fa_ip2==DIVIDE)
 	    {
-	      if(is_value_variable)
-		{
-		  return fa;
-		}
+	      if(is_value_variable){return fa;}
 	    }
 	}
       if(im2>=0 and im3>=0)
@@ -142,10 +133,7 @@ vector<string> calculate_order_of_operations(vector<string> fa)
 	  fa_size=fa.size();
 	  i=i-fa_size_prev+fa_size;
 
-	  if(fa_size==1)
-	    {
-	      break;
-	    }
+	  if(fa_size==1){break;}
 	}
       i++;
     }

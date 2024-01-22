@@ -17,6 +17,6 @@ using std::distance;
 
 const int get_compartment_index(const string compartment_name)
 {
-  const int j=distance(compartment_diagonal_v2.begin(), find(compartment_diagonal_v2.begin(), compartment_diagonal_v2.end(), compartment_name));
-  return j;
+  const int i=distance(compartment_diagonal_v2.begin(), find(compartment_diagonal_v2.begin(), compartment_diagonal_v2.end(), compartment_name));
+  return i;
 }

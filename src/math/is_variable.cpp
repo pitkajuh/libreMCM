@@ -24,6 +24,6 @@ const bool is_variable(string fchar)
       fchar=fchar.substr(0, i);
     }
 
-  const bool result=is_in_vector(compartment_diagonal_v2, fchar);
+  bool result=is_in_vector<string>(compartment_diagonal_v2, fchar);
   return result;
 }

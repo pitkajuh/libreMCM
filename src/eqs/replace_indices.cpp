@@ -29,10 +29,7 @@ vector<string> replace_variable(vector<string> equation, const string dummy)
       fchar=equation[i];
       variable_check=is_variable(fchar);
 
-      if(variable_check)
-	{
-	  equation[i]=dummy;
-	}
+      if(variable_check){equation[i]=dummy;}
       i++;
     }
   return equation;
@@ -50,10 +47,7 @@ vector<string> replace_constant(vector<string> equation, const string dummy)
       fchar=equation[i];
       constant_check=is_constant(fchar);
 
-      if(constant_check)
-	{
-	  equation[i]=dummy;
-	}
+      if(constant_check){equation[i]=dummy;}
       i++;
     }
   return equation;

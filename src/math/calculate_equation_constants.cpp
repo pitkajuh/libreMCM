@@ -39,7 +39,7 @@ vector<string> splitted_vector(vector<string> fa, int from, const int to, const 
 
       if(difference==1 and sign_i==ADD)
 	{
-	  from=from+1;
+	  from+=1;
 	  variable=fa[from];
 	  replace=fa[move_to];
 	  fa[move_to]=variable;
@@ -58,20 +58,17 @@ vector<string> splitted_vector(vector<string> fa, int from, const int to, const 
 
       if(difference==1 and sign_i==ADD)
 	{
-	  from=from+1;
+	  from+=1;
 	  variable=fa[from];
 	  replace=fa[move_to];
 	  fa[move_to]=variable;
 	  fa[from]=replace;
 	  combined=fa;
 	}
-      else if(sign_i==SUBTRACT)
-	{
-	  combined=fa;
-	}
+      else if(sign_i==SUBTRACT){combined=fa;}
       else
 	{
-	  from=from+1;
+	  from+=1;
 	  fa_splitted_move=vector_split(fa, from, to);
 	  fa_splitted_move.push_back(sign_i);
 	  from_up=from-2;
@@ -97,10 +94,7 @@ vector<string> variable_has_coefficient_neg_dir(const vector<string> fa, const i
 
   while(!stop_neg_dir)
     {
-      if(i_neg<=0)
-	{
-	  break;
-	}
+      if(i_neg<=0){break;}
       fchar=fa[i_neg];
 
       if(fchar==ADD or fchar==SUBTRACT or fchar==OPEN_PARENTHESIS or fchar==CLOSE_PARENTHESIS)
@@ -114,10 +108,7 @@ vector<string> variable_has_coefficient_neg_dir(const vector<string> fa, const i
 	}
       i_neg--;
     }
-  if(!stop_neg_dir)
-    {
-      combined_vector=fa;
-    }
+  if(!stop_neg_dir){combined_vector=fa;}
   return combined_vector;
 }
 
@@ -163,10 +154,7 @@ vector<string> equation_set_order(vector<string> fa)
     {
       fchar=fa[i];
 
-      if(fchar==OPEN_PARENTHESIS)
-	{
-	  open=i+1;
-	}
+      if(fchar==OPEN_PARENTHESIS){open=i+1;}
       else if(fchar==CLOSE_PARENTHESIS)
 	{
 	  close=i-1;
@@ -256,10 +244,7 @@ vector<string> calculate_equation_constants(vector<string> fa)
       i++;
     }
 
-  if(has_open_parenthesis and has_close_parenthesis)
-    {
-      fa=equation_set_order(fa);
-    }
+  if(has_open_parenthesis and has_close_parenthesis){fa=equation_set_order(fa);}
   fa=calculate_order_of_operations(fa);
   return fa;
 }

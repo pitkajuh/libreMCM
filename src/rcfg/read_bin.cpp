@@ -31,10 +31,7 @@ using std::to_string;
 
 void equations_defined(const bool found)
 {
-  if(not found)
-    {
-      throw std::domain_error("Error, equations are not defined in "+BIN+" file.");
-    }
+  if(not found){throw std::domain_error("Error, equations are not defined in "+BIN+" file.");}
 }
 
 const vector<string> equation_change_order(vector<string> equation)
@@ -59,10 +56,7 @@ const vector<string> equation_change_order(vector<string> equation)
 	  im1=i-1;
 	  ip1=i+1;
 
-	  if(ip1>size)
-	    {
-	      break;
-	    }
+	  if(ip1>size){break;}
 
 	  fchar_ip1=equation[ip1];
 	  operator_check=is_operator(fchar_ip1);
@@ -126,10 +120,7 @@ void read_bin(const string directory)
 	  is_empty=line.empty();
 	  line_size=line.size();
 
-	  if(is_empty)
-	    {
-	      continue;
-	    }
+	  if(is_empty){continue;}
 	  else if(not constants_saved)
 	    {
 	      if(line==CONSTANTS or line==CONST_BRACKET)
@@ -142,10 +133,7 @@ void read_bin(const string directory)
 		  constants_saved=true;
 		  continue;
 		}
-	      else if(line==OPEN_PARENTHESIS)
-		{
-		  constants_spec_found=true;
-		}
+	      else if(line==OPEN_PARENTHESIS){constants_spec_found=true;}
 	      else if(line==CLOSE_PARENTHESIS)
 		{
 		  read_constants(constant_line, constant_specific_map);
@@ -154,10 +142,7 @@ void read_bin(const string directory)
 		}
 	      else if(constants_found and line_size>1)
 		{
-		  if(not constants_spec_found)
-		    {
-		      constant_line=line;
-		    }
+		  if(not constants_spec_found){constant_line=line;}
 
 		  if(constants_spec_found)
 		    {
@@ -172,10 +157,7 @@ void read_bin(const string directory)
 		      value_check(initial_value);
 		      constant_specific_map[initial_value_name]=initial_value;
 		    }
-		  else
-		    {
-		      read_constants(line, constant_specific_map);
-		    }
+		  else{read_constants(line, constant_specific_map);}
 		}
 	    }
 	  else if(not equations_saved)
@@ -190,10 +172,7 @@ void read_bin(const string directory)
 		  constants_saved=true;
 		  continue;
 		}
-	      else if(equations_found and line_size>1)
-		{
-		  read_equation(line);
-		}
+	      else if(equations_found and line_size>1){read_equation(line);}
 	    }
 	}
     }

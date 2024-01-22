@@ -36,13 +36,10 @@ string find_compartment(const string equation_name, const string compartment_nam
 	  equations_add=compartment_and_equations.equation_names_add;
 	  equations_subtract=compartment_and_equations.equation_names_subtract;
 
-	  adding=is_in_vector(equations_add, equation_name);
-	  subtracting=is_in_vector(equations_subtract, equation_name);
+	  adding=is_in_vector<string>(equations_add, equation_name);
+	  subtracting=is_in_vector<string>(equations_subtract, equation_name);
 
-	  if(adding or subtracting)
-	    {
-	      result=compartment;
-	    }
+	  if(adding or subtracting){result=compartment;}
 	}
     }
   return result;
@@ -96,8 +93,5 @@ void target_compartments(const string compartment_name)
 
 void create_target_compartment_map()
 {
-  for(const auto&i: compartment_diagonal)
-    {
-      target_compartments(i);
-    }
+  for(const auto&i: compartment_diagonal){target_compartments(i);}
 }

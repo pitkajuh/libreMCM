@@ -39,14 +39,8 @@ const string create_save_path(const string directory, const string compartment_n
 {
   const string file_type=".txt";
 
-  if(probabilistic)
-    {
-      return directory+compartment_name+to_string(run_no)+file_type;
-    }
-  else
-    {
-      return directory+compartment_name+file_type;
-    }
+  if(probabilistic){return directory+compartment_name+to_string(run_no)+file_type;}
+  else{return directory+compartment_name+file_type;}
 }
 
 const string create_header(const vector<string> initial_value_names)
@@ -61,14 +55,8 @@ const string create_header(const vector<string> initial_value_names)
     {
       initial_value_name=initial_value_names[i];
 
-      if(size==0 or i==size)
-	{
-	  header+=initial_value_name+NEW_ROW;
-	}
-      else
-	{
-	  header+=initial_value_name+DELIMITER;
-	}
+      if(size==0 or i==size){header+=initial_value_name+NEW_ROW;}
+      else{header+=initial_value_name+DELIMITER;}
       i++;
     }
   return header;
@@ -154,10 +142,7 @@ void write_to_file(const string directory, const int run_no)
 		      j=0;
 		      continue;
 		    }
-		  else
-		    {
-		      line+=DELIMITER+value;
-		    }
+		  else{line+=DELIMITER+value;}
 		}
 	    }
 	  j++;

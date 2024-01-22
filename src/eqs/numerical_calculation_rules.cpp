@@ -58,10 +58,7 @@ string calculate_order_of_operations3(vector<string> fa, const int add_index)
 	  i=i-fa_size_prev+fa_size;
 	  numerical_calculation_rules_rt.push_back(result_index);
 
-	  if(fa_size-1==0)
-	    {
-	      break;
-	    }
+	  if(fa_size-1==0){break;}
 	}
       i++;
     }
@@ -89,10 +86,7 @@ vector<string> get_parenthesis_calculation_indices(vector<string> fa)
     {
       fchar=fa[i];
 
-      if(fchar==OPEN_PARENTHESIS)
-	{
-	  parenthesis_open_indices.push_back(i);
-	}
+      if(fchar==OPEN_PARENTHESIS){parenthesis_open_indices.push_back(i);}
       else if(fchar==CLOSE_PARENTHESIS)
 	{
 	  parenthesis_close_indices.push_back(i);
@@ -136,10 +130,7 @@ vector<int> numerical_calculation_rules(vector<string> fa)
     {
       while(i<=fa_size-1)
 	{
-	  if(fa_size-1==0)
-	    {
-	      break;
-	    }
+	  if(fa_size-1==0){break;}
 
 	  fchar=fa[i];
 
@@ -154,10 +145,7 @@ vector<int> numerical_calculation_rules(vector<string> fa)
 	      fa_size=fa.size();
 	      numerical_calculation_rules_rt.push_back(i);
 
-	      if(fa_size-1==0)
-		{
-		  break;
-		}
+	      if(fa_size-1==0){break;}
 	      i=0;
 	      continue;
 	    }

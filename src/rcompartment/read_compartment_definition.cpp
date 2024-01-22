@@ -67,10 +67,7 @@ void add_to_all_parameters(const string parameter_name)
 {
   // Adds parameter to all_parameters vector, if it has not already been added.
 
-  if(find(all_parameters.begin(), all_parameters.end(), parameter_name)==all_parameters.end())
-    {
-      all_parameters.push_back(parameter_name);
-    }
+  if(find(all_parameters.begin(), all_parameters.end(), parameter_name)==all_parameters.end()){all_parameters.push_back(parameter_name);}
 }
 
 InitialValuesHalfLife read_compartment_element(const string elem, const string compartment_name)
@@ -109,10 +106,7 @@ InitialValuesHalfLife read_compartment_element(const string elem, const string c
 	  rt.push_back(result);
 	  empty="";
 	}
-      else
-	{
-	  empty+=fchar;
-	}
+      else{empty+=fchar;}
       i++;
     }
   return rt;
@@ -149,10 +143,7 @@ void read_compartment_def(const string directory)
       commented_or_not=is_commented(line);
       line_is_empty=line.empty();
 
-      if(line_is_empty or commented_or_not)
-	{
-	  continue;
-	}
+      if(line_is_empty or commented_or_not){continue;}
       else if(not compartments_saved)
 	{
 	  if(bin_loaded.eof())
@@ -179,10 +170,7 @@ void read_compartment_def(const string directory)
 		}
 	      else if(compartment_name_found)
 		{
-		  if(line==initial_values or line==initial_values_bracket)
-		    {
-		      initial_values_found=true;
-		    }
+		  if(line==initial_values or line==initial_values_bracket){initial_values_found=true;}
 		  else if(initial_values_found and line!=CURLY_BRACKET_C)
 		    {
 		      compartment_i=read_compartment_element(line, compartment_name);

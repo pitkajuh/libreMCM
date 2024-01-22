@@ -29,10 +29,7 @@ void read_constants(const string line, const unordered_map<string, string> speci
   equation_constants.push_back(constant_name);
   const bool is_constant_compartment=is_in_vector(compartment_diagonal, constant_name);
 
-  if(is_constant_compartment)
-    {
-      throw std::domain_error("Constant "+constant_name+" cannot be defined. "+constant_name+" is already defined as a compartment.");
-    }
+  if(is_constant_compartment){throw std::domain_error("Constant "+constant_name+" cannot be defined. "+constant_name+" is already defined as a compartment.");}
 
   // Constant values might be given in scientific form. Converting the values from string to double and back to string will change them to decimal form.
   const double constant_value_num=s2d(constant_value);

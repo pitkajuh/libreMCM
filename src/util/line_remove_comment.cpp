@@ -24,10 +24,7 @@ const string line_remove_comment(const string line)
   bool is_empty=line.empty();
   bool is_empty2;
 
-  if(is_empty)
-    {
-      result=line_return;
-    }
+  if(is_empty){result=line_return;}
   else
     {
       while(i<=size-1)
@@ -36,19 +33,13 @@ const string line_remove_comment(const string line)
 	  fchar_p1=line[i+1];
 	  is_empty2=fchar.empty();
 
-	  if(fchar==DIVIDE and fchar_p1==DIVIDE)
-	    {
-	      break;
-	    }
+	  if(fchar==DIVIDE and fchar_p1==DIVIDE){break;}
 	  else if(fchar==empty_string2 or fchar==empty_string3 or is_empty2)
 	    {
 	      i++;
 	      continue;
 	    }
-	  else
-	    {
-	      line_return=line_return+fchar;
-	    }
+	  else{line_return+=fchar;}
 	  i++;
 	}
       result=line_return;

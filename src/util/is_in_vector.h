@@ -11,12 +11,20 @@
 #ifndef ISINVECTORF_H
 #define ISINVECTORF_H
 
-#include <string>
 #include <vector>
+#include <algorithm>
 
-using std::string;
 using std::vector;
+using std::find;
 
-const bool is_in_vector(const vector<string> vec, const string str_find);
-const bool is_in_vector_int(const vector<int> vec, const int str_find);
+template<typename T> bool is_in_vector(const vector<T> vec, const T f)
+{
+  // Checks if a string is in a string of vectors and return true/false.
+  bool rt=false;
+
+  if(find(vec.begin(), vec.end(), f)!=vec.end()){rt=true;}
+
+  return rt;
+}
+
 #endif

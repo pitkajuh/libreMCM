@@ -67,8 +67,8 @@ void create_compartment_map()
 	      compartment_adding=target_compartments.subtract_from_compartments;
 	      compartment_subtracting=target_compartments.add_to_compartments;
 
-	      is_void=is_in_vector(compartment_subtracting, VOID);
-	      is_origin=is_in_vector(compartment_adding, ORIGIN);
+	      is_void=is_in_vector<string>(compartment_subtracting, VOID);
+	      is_origin=is_in_vector<string>(compartment_adding, ORIGIN);
 
 	      while(j<=initial_values_all_size-1)
 		{
@@ -94,14 +94,8 @@ void create_compartment_map()
 			      initial_values_all_j_size=initial_values_all_j.size();
 			      l++;
 
-			      if(k==initial_values_all_j_size-1 and l<=all_parameters_size-1)
-				{
-				  continue;
-				}
-			      else
-				{
-				  break;
-				}
+			      if(k==initial_values_all_j_size-1 and l<=all_parameters_size-1){continue;}
+			      else{break;}
 			    }
 			  else if(!is_origin and !is_void)
 			    {

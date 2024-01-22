@@ -146,8 +146,5 @@ void rk4()
 void numerical_calculation_start()
 {
   // Select numerical calculation method.
-  if(num_method==RK4)
-    {
-      rk4();
-    }
+  if(num_method==RK4){rk4();}
 }

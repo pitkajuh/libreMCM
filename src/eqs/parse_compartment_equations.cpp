@@ -42,10 +42,7 @@ vector<string> reverse_sign(const vector<string> fa)
       fchar=fa[i];
       fchar_sign=fchar[0];
 
-      if(fchar==OPEN_PARENTHESIS or fchar==CLOSE_PARENTHESIS)
-	{
-	  vec_new.push_back(fchar);
-	}
+      if(fchar==OPEN_PARENTHESIS or fchar==CLOSE_PARENTHESIS){vec_new.push_back(fchar);}
       else if(fchar_sign==SUBTRACT)
 	{
 	  fchar.erase(fchar.begin()+zero_value);
@@ -85,10 +82,7 @@ vector<string> reverse_sign(const vector<string> fa)
 	      ip1=i+1;
 	      fa_ip1=fa[ip1];
 
-	      if(fa_ip1==ADD and not subtract_begin)
-		{
-		  fchar=SUBTRACT+fchar;
-		}
+	      if(fa_ip1==ADD and not subtract_begin){fchar=SUBTRACT+fchar;}
 	    }
 	  vec_new.push_back(fchar);
 	}
@@ -113,20 +107,14 @@ vector<string> parse(Equations equations)
   vector<string> equation;
   vector<string> equation_total;
 
-  if(size==0)
-    {
-      equation_total=equations[0];
-    }
+  if(size==0){equation_total=equations[0];}
   else
     {
       while(i<=size)
 	{
 	  equation=equations[i];
 
-	  if(i<size)
-	    {
-	      equation.push_back(ADD);
-	    }
+	  if(i<size){equation.push_back(ADD);}
 	  equation_total=combine_vectors(equation, equation_total);
 	  i++;
 	}
@@ -140,10 +128,7 @@ const bool is_math_operator(const string str)
   const int index=str.find(MATH_OP_PREFIX);
   const int negative=-1;
 
-  if(index!=negative)
-    {
-      result=true;
-    }
+  if(index!=negative){result=true;}
   return result;
 }
 
@@ -184,26 +169,11 @@ const string parse_operator(string op, const int index1)
       operator_data.operator_data=new IndiceOperatorPower;
       operator_data.operator_data->set_expvec(exponent);
     }
-  else if(op_p1==EXP)
-    {
-      operator_data.operator_data=new IndiceOperatorExp;
-    }
-  else if(op_p1==LOG)
-    {
-      operator_data.operator_data=new IndiceOperatorLog;
-    }
-  else if(op_p1==SQRT)
-    {
-      operator_data.operator_data=new IndiceOperatorSqrt;
-    }
-  else if(op_p1==SIN)
-    {
-      operator_data.operator_data=new IndiceOperatorSin;
-    }
-  else if(op_p1==COS)
-    {
-      operator_data.operator_data=new IndiceOperatorCos;
-    }
+  else if(op_p1==EXP){operator_data.operator_data=new IndiceOperatorExp;}
+  else if(op_p1==LOG){operator_data.operator_data=new IndiceOperatorLog;}
+  else if(op_p1==SQRT){operator_data.operator_data=new IndiceOperatorSqrt;}
+  else if(op_p1==SIN){operator_data.operator_data=new IndiceOperatorSin;}
+  else if(op_p1==COS){operator_data.operator_data=new IndiceOperatorCos;}
 
   operator_data.index=index1;
   operator_data.is_negative=is_neg;
@@ -224,10 +194,7 @@ const vector<string> parse_math_operators(vector<string> equation)
       fchar=equation[i];
       operator_check=is_math_operator(fchar);
 
-      if(operator_check)
-	{
-	  equation[i]=parse_operator(fchar, i);
-	}
+      if(operator_check){equation[i]=parse_operator(fchar, i);}
       i++;
     }
   ode_indice_operator_prev.push_back(indice_operator_vec);
@@ -245,10 +212,7 @@ vector<string> combine(Equations equations_add_all, Equations equations_subtract
   vector<string> equation_add;
   vector<string> equation_subtract;
 
-  if(add_size>0 and subtract_size==0)
-    {
-      equation_total=parse(equations_add_all);
-    }
+  if(add_size>0 and subtract_size==0){equation_total=parse(equations_add_all);}
   else if(add_size==0 and subtract_size>0)
     {
       equation_total=parse(equations_subtract_all);

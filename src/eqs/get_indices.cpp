@@ -25,10 +25,7 @@ const bool vec_check_variable(const vector<string> vec)
     {
       result=is_variable(i);
 
-      if(result)
-	{
-	  break;
-	}
+      if(result){break;}
     }
   return result;
 }
@@ -41,10 +38,7 @@ const bool vec_check_constant(const vector<string> vec)
     {
       result=is_constant(i);
 
-      if(result)
-	{
-	  break;
-	}
+      if(result){break;}
     }
   return result;
 }
