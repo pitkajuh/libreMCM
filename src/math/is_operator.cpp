@@ -13,6 +13,6 @@
 
 const bool is_operator(const string elem)
 {
-  const vector<string> ops{ADD, SUBTRACT, MULTIPLY, DIVIDE, OPEN_PARENTHESIS, CLOSE_PARENTHESIS};
+  const vector<string> ops{ADD, SUBTRACT, MULTIPLY, DIVIDE, OPEN, CLOSE};
   return is_in_vector(ops, elem);
 }

@@ -23,7 +23,7 @@ const VectorReplaceFromTo update_indices(int from, int to, const vector<string> 
       const string fa_im1=fa[from_updated];
       const string fa_ip1=fa[to_updated];
 
-      if(to-from==2 and fa_im1==OPEN_PARENTHESIS and fa_ip1==CLOSE_PARENTHESIS)
+      if(to-from==2 and fa_im1==OPEN and fa_ip1==CLOSE)
 	{
 	  from=from_updated;
 	  to=to_updated;

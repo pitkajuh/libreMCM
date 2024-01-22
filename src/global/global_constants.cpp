@@ -12,8 +12,6 @@
 #include <vector>
 #include<limits>
 
-// #include <cmath>
-
 using std::string;
 using std::vector;
 using std::numeric_limits;
@@ -23,8 +21,8 @@ extern const string DIVIDE="/";
 extern const string ADD="+";
 extern const string SUBTRACT="-";
 extern const string POWER="^";
-extern const string OPEN_PARENTHESIS="(";
-extern const string CLOSE_PARENTHESIS=")";
+extern const string OPEN="(";
+extern const string CLOSE=")";
 extern const string COMMENT="//";
 extern const string CURLY_BRACKET_O="{";
 extern const string CURLY_BRACKET_C="}";

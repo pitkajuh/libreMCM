@@ -97,7 +97,7 @@ vector<string> variable_has_coefficient_neg_dir(const vector<string> fa, const i
       if(i_neg<=0){break;}
       fchar=fa[i_neg];
 
-      if(fchar==ADD or fchar==SUBTRACT or fchar==OPEN_PARENTHESIS or fchar==CLOSE_PARENTHESIS)
+      if(fchar==ADD or fchar==SUBTRACT or fchar==OPEN or fchar==CLOSE)
 	{
 	  i_stop=i_neg;
 	  rt_stop=start;
@@ -154,8 +154,8 @@ vector<string> equation_set_order(vector<string> fa)
     {
       fchar=fa[i];
 
-      if(fchar==OPEN_PARENTHESIS){open=i+1;}
-      else if(fchar==CLOSE_PARENTHESIS)
+      if(fchar==OPEN){open=i+1;}
+      else if(fchar==CLOSE)
 	{
 	  close=i-1;
 	  fa_splitted=vector_split(fa, open, close);
@@ -202,12 +202,12 @@ vector<string> calculate_equation_constants(vector<string> fa)
     {
       fchar=fa[i];
 
-      if(fchar==OPEN_PARENTHESIS)
+      if(fchar==OPEN)
 	{
 	  has_open_parenthesis=true;
 	  parenthesis_open_indices.push_back(i);
 	}
-      else if(fchar==CLOSE_PARENTHESIS)
+      else if(fchar==CLOSE)
 	{
 	  has_close_parenthesis=true;
 	  parenthesis_close_indices.push_back(i);

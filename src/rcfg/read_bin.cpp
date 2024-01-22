@@ -133,8 +133,8 @@ void read_bin(const string directory)
 		  constants_saved=true;
 		  continue;
 		}
-	      else if(line==OPEN_PARENTHESIS){constants_spec_found=true;}
-	      else if(line==CLOSE_PARENTHESIS)
+	      else if(line==OPEN){constants_spec_found=true;}
+	      else if(line==CLOSE)
 		{
 		  read_constants(constant_line, constant_specific_map);
 		  constant_specific_map.clear();

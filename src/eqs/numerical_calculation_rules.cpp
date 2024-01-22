@@ -86,8 +86,8 @@ vector<string> get_parenthesis_calculation_indices(vector<string> fa)
     {
       fchar=fa[i];
 
-      if(fchar==OPEN_PARENTHESIS){parenthesis_open_indices.push_back(i);}
-      else if(fchar==CLOSE_PARENTHESIS)
+      if(fchar==OPEN){parenthesis_open_indices.push_back(i);}
+      else if(fchar==CLOSE)
 	{
 	  parenthesis_close_indices.push_back(i);
 	  parenthesis_close_indices_size=parenthesis_close_indices.size();

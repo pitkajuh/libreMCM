@@ -42,7 +42,7 @@ const vector<string> equation_string_to_equation_vector2(const string equation)
 
       if(op2_check)
 	{
-	  split_to=equation_temp.find(CLOSE_PARENTHESIS);
+	  split_to=equation_temp.find(CLOSE);
 	  equation_temp[split_to]=dummy;
 	  i_to=split_to+1;
 

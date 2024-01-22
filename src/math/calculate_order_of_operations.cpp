@@ -45,12 +45,12 @@ vector<string> do_calculation(vector<string> fa, const int index)
       im1=ip1;
       fa=replace_in_vector(fa, fa_ip1, im1, ip1);
     }
-  else if(fa_ip1==OPEN_PARENTHESIS)
+  else if(fa_ip1==OPEN)
     {
       ip1=im1;
       fa=replace_in_vector(fa, fa_im1, im1, ip1);
     }
-  else if(fa_im1==OPEN_PARENTHESIS or fa_ip1==CLOSE_PARENTHESIS or fa_im1==CLOSE_PARENTHESIS or fa_ip1==OPEN_PARENTHESIS){return fa;}
+  else if(fa_im1==OPEN or fa_ip1==CLOSE or fa_im1==CLOSE or fa_ip1==OPEN){return fa;}
   else if(not fa_ip1_var and not fa_im1_var)
     {
       fa_size=fa.size();
@@ -61,7 +61,7 @@ vector<string> do_calculation(vector<string> fa, const int index)
 	  fa_ip3=fa[ip3];
 	  is_value_variable=is_variable(fa_ip3);
 
-	  if(fa_ip3==OPEN_PARENTHESIS and fa_ip2==MULTIPLY or fa_ip2==DIVIDE)
+	  if(fa_ip3==OPEN and fa_ip2==MULTIPLY or fa_ip2==DIVIDE)
 	    {
 	      if(math_operator==ADD or math_operator==SUBTRACT){return fa;}
 	    }
@@ -75,7 +75,7 @@ vector<string> do_calculation(vector<string> fa, const int index)
 	  fa_im2=fa[im2];
 	  fa_im3=fa[im3];
 
-	  if(fa_im3==CLOSE_PARENTHESIS and fa_im2==MULTIPLY or fa_im2==DIVIDE)
+	  if(fa_im3==CLOSE and fa_im2==MULTIPLY or fa_im2==DIVIDE)
 	    {
 	      if(math_operator==ADD or math_operator==SUBTRACT)
 		{

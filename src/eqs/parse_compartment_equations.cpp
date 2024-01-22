@@ -42,7 +42,7 @@ vector<string> reverse_sign(const vector<string> fa)
       fchar=fa[i];
       fchar_sign=fchar[0];
 
-      if(fchar==OPEN_PARENTHESIS or fchar==CLOSE_PARENTHESIS){vec_new.push_back(fchar);}
+      if(fchar==OPEN or fchar==CLOSE){vec_new.push_back(fchar);}
       else if(fchar_sign==SUBTRACT)
 	{
 	  fchar.erase(fchar.begin()+zero_value);
@@ -149,7 +149,7 @@ const string parse_operator(string op, const int index1)
       size=op.size();
     }
 
-  const int index=op.find(OPEN_PARENTHESIS);
+  const int index=op.find(OPEN);
   const int index2=size-index-2;
   const string op_p1=op.substr(0, index);
   string op_p2=op.substr(index+1, index2);
