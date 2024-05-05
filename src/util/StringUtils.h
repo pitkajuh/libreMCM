@@ -8,15 +8,15 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef GETBIN_H
-#define GETBIN_H
+#ifndef STRINGUTILS_H
+#define STRINGUTILS_H
 
 #include <string>
+#include "../types/StringSplit.h"
 
 using std::string;
 
-void GetBin(const string directory);
-void GetSettings(const string directory);
-void GetInitialValues(const string directory);
+const string ParseLine(string line);
+StringSplit LineSplit(string line);
 
 #endif

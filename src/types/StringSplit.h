@@ -8,15 +8,17 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef GETBIN_H
-#define GETBIN_H
+#ifndef STRINGSPLIT_H
+#define STRINGSPLIT_H
 
 #include <string>
 
 using std::string;
 
-void GetBin(const string directory);
-void GetSettings(const string directory);
-void GetInitialValues(const string directory);
+struct StringSplit
+{
+  string name;
+  string value;
+};
 
 #endif
