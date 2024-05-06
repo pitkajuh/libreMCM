@@ -42,9 +42,9 @@ static struct option const long_options[]=
 
 void ReadInitialData(const string directory)
 {
-  // GetBin(directory);
+  GetBin(directory);
   // GetSettings(directory);
-  GetInitialValues(directory);
+  // GetInitialValues(directory);
 
 //   get_sim_params(directory);
 //   get_compartment(directory);
