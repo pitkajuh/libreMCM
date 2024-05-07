@@ -30,7 +30,7 @@ enum
   STEP_SIZE_OPTION
 };
 
-static struct option const long_options[]=
+static struct option const options[]=
   {
     {"deterministic", 0, 0, 'd'},
     {"num-method", 1, 0, NUM_METHOD_OPTION},
@@ -43,8 +43,11 @@ static struct option const long_options[]=
 void ReadInitialData(const string directory)
 {
   GetBin(directory);
-  // GetSettings(directory);
-  // GetInitialValues(directory);
+  cout<<" "<<'\n';
+  GetSettings(directory);
+  cout<<" "<<'\n';
+  GetInitialValues(directory);
+  // cout<<" "<<'\n';
 
 //   get_sim_params(directory);
 //   get_compartment(directory);
@@ -75,7 +78,7 @@ int main(int argc, char** argv)
       directory=directory+"/";
       int c;
 
-      while((c=getopt_long(argc, argv, "dp", long_options, NULL))!=-1)
+      while((c=getopt_long(argc, argv, "dp", options, NULL))!=-1)
 	{
 	  switch(c)
 	    {

@@ -21,13 +21,13 @@ struct LinePosition
   streampos position;
 };
 
-const string ParseName(string line)
-{
-  const int size=line.size();
-  const int at=1+line.find("{");
-  if(size==at) line=line.substr(0, size-1);
-  return line;
-}
+// const string ParseName(string line)
+// {
+//   const int size=line.size();
+//   const int at=1+line.find("{");
+//   if(size==at) line=line.substr(0, size-1);
+//   return line;
+// }
 
 LinePosition Get(ifstream &f, const streampos from, const string find, ReadFile *ftype)
 {
@@ -48,9 +48,10 @@ LinePosition Get(ifstream &f, const streampos from, const string find, ReadFile 
 
       if(!empty)
 	{
+	  // cout<<"line "<<line<<" "<<pos<<'\n';
 	  result=ftype->GetFunction(f, line, find, line_prev);
 	  // pos=result.position;
-	  // // cout<<"line "<<line<<" "<<pos<<'\n';
+
 	  // result1=result.line;
 
 	  // res.line=result1;
@@ -99,13 +100,15 @@ LinePosition  ReadSection(ifstream &bin, streampos from, const string section)
   ReadFile *typedata=new FData;
   LinePosition aa=GetPosition(bin, from, section, type);
   // string line=GetName(bin, aa);
-  cout<<"LINE :"<<": aa "<<aa.line<<" "<<aa.position<<'\n';
+  cout<<"RESULT "<<aa.line<<'\n';
+
   // aa=GetPosition(bin, from, "{", type);
   // cout<<"aa "<<aa<<" "<<'\n';
   // LineForward(bin, aa);
   // cout<<"aa "<<aa<<" "<<'\n';
-  cout<<"GET CONTENT"<<'\n';
-  LinePosition aa1=Get(bin, aa.position, "}", typedata);
+  // cout<<"GET CONTENT "<<aa.position<<'\n';
+  // LinePosition aa1=Get(bin, aa.position, "}", typedata);
+  LinePosition aa1=GetPosition(bin, aa.position, "}", typedata);
   // cout<<"aa "<<aa<<" "<<'\n';
   delete type;
   delete typedata;
@@ -117,25 +120,31 @@ void GetBin(const string directory)
   const string FILE_NAME=directory+"bin";
   ifstream bin(FILE_NAME);
   LinePosition aa=ReadSection(bin, 0, "{");
-  cout<<"RESULT "<<aa.line<<" "<<aa.position<<'\n';
+  cout<<"RESULT "<<aa.line<<'\n';
   cout<<" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"<<'\n';
   aa=ReadSection(bin, aa.position, "{");
-  cout<<"RESULT "<<aa.line<<" "<<aa.position<<'\n';
+  // cout<<"RESULT "<<aa.line<<" "<<aa.position<<'\n';
   bin.close();
 }
 
-// void GetSettings(const string directory)
-// {
-//   const string FILE_NAME=directory+"sim_params";
-//   ifstream bin(FILE_NAME);
-//   streampos aa=ReadSection(bin, 0, "simulation_settings");
-//   bin.close();
-// }
+void GetSettings(const string directory)
+{
+  const string FILE_NAME=directory+"sim_params";
+  ifstream bin(FILE_NAME);
+  LinePosition aa=ReadSection(bin, 0, "{");
+  cout<<"RESULT "<<aa.line<<'\n';
+  bin.close();
+}
 
-// void GetInitialValues(const string directory)
-// {
-//   const string FILE_NAME=directory+"compartments2";
-//   ifstream bin(FILE_NAME);
+void GetInitialValues(const string directory)
+{
+  const string FILE_NAME=directory+"compartments2";
+  ifstream bin(FILE_NAME);
+  LinePosition aa=ReadSection(bin, 0, "{");
+
+
+  while(!bin.eof()) aa=ReadSection(bin, aa.position, "{");
+
 
 
 //   ReadFile *type=new FName;
@@ -175,5 +184,5 @@ void GetBin(const string directory)
 //   // while(!bin.eof()) aa=ReadSection(bin, aa, "{");
 
 
-//   bin.close();
-// }
+  bin.close();
+}

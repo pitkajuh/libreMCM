@@ -35,49 +35,40 @@ class ReadFile
 {
 public:
 
-  virtual Type GetFunction(ifstream &f, const string line, const string find, string str_prev)=0;
+  virtual Type GetFunction(ifstream &f, const string line, const string find, const string line_prev)=0;
 };
+
+const string NameSelect(string now, const string prev)
+{
+  const int sizenow=now.size();
+  const int at=1+now.find("{");
+
+  if(sizenow==1 and now=="{") now=prev;
+  else if(sizenow>1 and sizenow==at) now=now.substr(0, sizenow-1);
+
+  return now;
+}
 
 class FName: public ReadFile
 {
 public:
 
-  Type GetFunction(ifstream &f, const string line, const string find, string str_prev)
+  Type GetFunction(ifstream &f, const string line, const string find, const string line_prev)
   {
     const int size=line.size();
     bool stop=false;
     size_t  o=line.find(find);
     streampos  read_pos;
     Type result;
-    // cout<<read_pos<<" "<<find<<" "<<from<<" "<<o<<"/"<<size<<" "<<read_pos<<" "<<line<<'\n';
 
-    std::cout<<"now :"<<line<<" prev "<<str_prev<<": "<<'\n';
-    //   }
-
-    // std::cout<<"size "<<size<<" :"<<line<<": o "<<o<<'\n';
-    // std::cout<<o<<"<"<<size<<'\n';
     if(o<size)
-    // if(o!=size)
       {
 	read_pos = f.tellg()-streampos(size+1);
-	// read_pos = f.tellg();
-	// read_pos = pos_prev;
-
-	// getline(f, line2);
-
-	// std::cout<<"now "<<read_pos<<" "<<line2<<'\n';
-	// read_pos = f.tellg();
-	// cout<<"STOP "<<line<<'\n';
-
-
-
-
 	stop=true;
-	result.Set(stop, read_pos, str_prev);
-	// cout<<"STOP "<<read_pos<<" "<<find<<" "<<from<<" "<<o<<"/"<<size<<" "<<read_pos<<" "<<line<<'\n';
-	// break;
+	string newline=NameSelect(line, line_prev);
+	// std::cout<<"now "<<line<<" prev "<<line_prev<<'\n';
+	result.Set(stop, read_pos, newline);
       }
-    std::cout<<"   "<<'\n';
     return result;
   }
 };
@@ -86,7 +77,7 @@ class FData: public ReadFile
 {
 public:
 
-  Type GetFunction(ifstream &f, const string line, const string find, string str_prev)
+  Type GetFunction(ifstream &f, const string line, const string find, const string line_prev)
   {
     const int size=line.size();
     bool stop=false;
@@ -94,14 +85,12 @@ public:
     streampos  read_pos;
     Type result;
     StringSplit split;
-    // cout<<read_pos<<" "<<find<<" "<<from<<" "<<o<<"/"<<size<<" "<<read_pos<<" "<<line<<'\n';
 
     if(o<size)
       {
 	read_pos = f.tellg();
-	// cout<<read_pos<<" "<<find<<" "<<from<<" "<<o<<"/"<<size<<" "<<read_pos<<" "<<line<<'\n';
 	stop=true;
-	result.Set(stop, read_pos, str_prev);
+	result.Set(stop, read_pos, line_prev);
       }
     split=LineSplit(line);
     return result;
