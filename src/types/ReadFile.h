@@ -12,10 +12,14 @@
 #define READFILE_H
 
 #include <fstream>
+#include <vector>
 #include "StringSplit.h"
+#include <unordered_map>
 
+using std::unordered_map;
 using std::ifstream;
 using std::streampos;
+using std::vector;
 #include <iostream>
 struct Type
 {
@@ -31,13 +35,6 @@ struct Type
   }
 };
 
-class ReadFile
-{
-public:
-
-  virtual Type GetFunction(ifstream &f, const string line, const string find, const string line_prev)=0;
-};
-
 const string NameSelect(string now, const string prev)
 {
   const int sizenow=now.size();
@@ -48,6 +45,13 @@ const string NameSelect(string now, const string prev)
 
   return now;
 }
+
+class ReadFile
+{
+public:
+  unordered_map<string, vector<string>> data;
+  virtual Type GetFunction(ifstream &f, const string line, const string find, const string line_prev)=0;
+};
 
 class FName: public ReadFile
 {
@@ -60,15 +64,17 @@ public:
     size_t  o=line.find(find);
     streampos  read_pos;
     Type result;
+    string newline;
 
     if(o<size)
       {
 	read_pos = f.tellg()-streampos(size+1);
 	stop=true;
-	string newline=NameSelect(line, line_prev);
+	newline=NameSelect(line, line_prev);
 	// std::cout<<"now "<<line<<" prev "<<line_prev<<'\n';
-	result.Set(stop, read_pos, newline);
+	// result.Set(stop, read_pos, newline);
       }
+    result.Set(stop, read_pos, newline);
     return result;
   }
 };
@@ -90,8 +96,8 @@ public:
       {
 	read_pos = f.tellg();
 	stop=true;
-	result.Set(stop, read_pos, line_prev);
       }
+    result.Set(stop, read_pos, line_prev);
     split=LineSplit(line);
     return result;
   }

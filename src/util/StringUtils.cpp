@@ -42,7 +42,7 @@ StringSplit LineSplit(string line)
       name=line.substr(0, at);
       value=line.substr(at+1, line.size());
 
-      std::cout<<at<<" "<<SIZE<<" name "<<name<<" value "<<value<<'\n';
+      std::cout<<"name "<<name<<" value "<<value<<'\n';
     }
   StringSplit r;
   r.name=name;
