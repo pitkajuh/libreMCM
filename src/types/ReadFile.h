@@ -49,7 +49,6 @@ const string NameSelect(string now, const string prev)
 class ReadFile
 {
 public:
-  unordered_map<string, vector<string>> data;
   virtual Type GetFunction(ifstream &f, const string line, const string find, const string line_prev)=0;
 };
 
@@ -60,8 +59,8 @@ public:
   Type GetFunction(ifstream &f, const string line, const string find, const string line_prev)
   {
     const int size=line.size();
+    const size_t  o=line.find(find);
     bool stop=false;
-    size_t  o=line.find(find);
     streampos  read_pos;
     Type result;
     string newline;
@@ -82,15 +81,28 @@ public:
 class FData: public ReadFile
 {
 public:
+  // unordered_map<string, vector<string>> data;
+  vector<StringSplit> test;
+
+  void PushTo(const string line, const int size)
+  {
+    const size_t  o=line.find("=");
+
+    if(size>1 and o<size)
+      {
+	StringSplit split=LineSplit(line);
+	test.push_back(split);
+	std::cout<<"TEST "<<test.size()<<" "<<line<<'\n';
+      }
+  }
 
   Type GetFunction(ifstream &f, const string line, const string find, const string line_prev)
   {
     const int size=line.size();
+    const size_t  o=line.find(find);
     bool stop=false;
-    size_t  o=line.find(find);
     streampos  read_pos;
     Type result;
-    StringSplit split;
 
     if(o<size)
       {
@@ -98,7 +110,8 @@ public:
 	stop=true;
       }
     result.Set(stop, read_pos, line_prev);
-    split=LineSplit(line);
+    PushTo(line, size);
+
     return result;
   }
 };
