@@ -15,21 +15,20 @@
 using std::ifstream;
 using std::cout;
 
-struct LinePosition
-{
-  string line;
-  streampos position;
-};
+// struct LinePosition
+// {
+//   string line;
+//   streampos position;
+// };
 
-LinePosition Get(ifstream &f, const streampos from, const string find, ReadFile *ftype)
+ReadFile *Get(ifstream &f, const streampos from, const string find, ReadFile *ftype)
 {
   string line;
   string line_prev;
   string result1;
   bool empty=false;
   bool stop=false;
-  Type result;
-  LinePosition res;
+  ReadFile *result;
 
   while(getline(f, line) and !stop)
     {
@@ -38,21 +37,45 @@ LinePosition Get(ifstream &f, const streampos from, const string find, ReadFile 
 
       if(!empty)
 	{
-	  result=ftype->GetFunction(f, line, find, line_prev);
-	  stop=result.stop;
+	  ftype=ftype->GetFunction(f, line, find, line_prev);
+	  stop=ftype->stop;
 	  line_prev=line;
 	}
     }
-  result1=result.line;
-  res.line=result1;
-  res.position=result.position;
-  return res;
+  // result1=result.line;
+  // res.line=result1;
+  // res.position=result.position;
+  // result->Set(stop, position, stop);
+  return ftype;
 }
 
-LinePosition GetPosition(ifstream &bin, const streampos from, const string find, ReadFile * ftype)
+ReadFile *GetPosition(ifstream &bin, const streampos from, const string find, ReadFile *ftype)
 {
   bin.seekg(from, bin.beg);
-  return Get(bin, from, find, ftype);
+  ftype=Get(bin, from, find, ftype);
+  return ftype;
+}
+
+// LinePosition  ReadSection(ifstream &bin, streampos from)
+// {
+//   ReadFile *type=new FName;
+//   ReadFile *typedata=new FData;
+//   LinePosition aa=GetPosition(bin, from, "{", type);
+//   cout<<"RESULT1 "<<aa.line<<'\n';
+//   typedata=GetPosition(bin, aa.position, "}", typedata);
+//   delete type;
+//   delete typedata;
+//   return aa1;
+// }
+
+ReadFile  *GetName(ifstream &bin, streampos from)
+{
+  ReadFile *type=new FName;
+  type=GetPosition(bin, from, "{", type);
+  // const string line=type->line;
+  cout<<"RESULT1 "<<type->line<<'\n';
+  // delete type;
+  return type;
 }
 
 LinePosition  ReadSection(ifstream &bin, streampos from)
@@ -61,7 +84,7 @@ LinePosition  ReadSection(ifstream &bin, streampos from)
   ReadFile *typedata=new FData;
   LinePosition aa=GetPosition(bin, from, "{", type);
   cout<<"RESULT1 "<<aa.line<<'\n';
-  LinePosition aa1=GetPosition(bin, aa.position, "}", typedata);
+  typedata=GetPosition(bin, aa.position, "}", typedata);
   delete type;
   delete typedata;
   return aa1;

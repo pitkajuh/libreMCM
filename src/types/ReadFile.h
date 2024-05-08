@@ -21,19 +21,19 @@ using std::ifstream;
 using std::streampos;
 using std::vector;
 #include <iostream>
-struct Type
-{
-  bool stop=false;
-  streampos position;
-  string line;
+// struct Type
+// {
+//   bool stop=false;
+//   streampos position;
+//   string line;
 
-  void Set(const bool v1, const streampos v2, const string str)
-  {
-    stop=v1;
-    position=v2;
-    line=str;
-  }
-};
+//   void Set(const bool v1, const streampos v2, const string str)
+//   {
+//     stop=v1;
+//     position=v2;
+//     line=str;
+//   }
+// };
 
 const string NameSelect(string now, const string prev)
 {
@@ -49,20 +49,31 @@ const string NameSelect(string now, const string prev)
 class ReadFile
 {
 public:
-  virtual Type GetFunction(ifstream &f, const string line, const string find, const string line_prev)=0;
+  bool stop=false;
+  streampos position;
+  string line;
+  virtual ReadFile *GetFunction(ifstream &f, const string line, const string find, const string line_prev)=0;
+
+  void Set(const bool v1, const streampos v2, const string str)
+  {
+    stop=v1;
+    position=v2;
+    line=str;
+  }
 };
 
 class FName: public ReadFile
 {
 public:
 
-  Type GetFunction(ifstream &f, const string line, const string find, const string line_prev)
+  FName *GetFunction(ifstream &f, const string line, const string find, const string line_prev)
   {
     const int size=line.size();
     const size_t  o=line.find(find);
     bool stop=false;
     streampos  read_pos;
-    Type result;
+    // Type result;
+    FName *result=new FName;
     string newline;
 
     if(o<size)
@@ -73,7 +84,7 @@ public:
 	// std::cout<<"now "<<line<<" prev "<<line_prev<<'\n';
 	// result.Set(stop, read_pos, newline);
       }
-    result.Set(stop, read_pos, newline);
+    result->Set(stop, read_pos, newline);
     return result;
   }
 };
@@ -96,20 +107,20 @@ public:
       }
   }
 
-  Type GetFunction(ifstream &f, const string line, const string find, const string line_prev)
+  FData *GetFunction(ifstream &f, const string line, const string find, const string line_prev)
   {
     const int size=line.size();
     const size_t  o=line.find(find);
     bool stop=false;
     streampos  read_pos;
-    Type result;
+    FData *result=new FData;
 
     if(o<size)
       {
 	read_pos = f.tellg();
 	stop=true;
       }
-    result.Set(stop, read_pos, line_prev);
+    result->Set(stop, read_pos, line_prev);
     PushTo(line, size);
 
     return result;
