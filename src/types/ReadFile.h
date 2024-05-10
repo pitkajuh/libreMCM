@@ -39,7 +39,8 @@ public:
   bool stop=false;
   streampos position;
   string line;
-  virtual ReadFile *GetFunction(ifstream &f, const string line, const string find, const string line_prev)=0;
+
+  virtual void GetFunction(ifstream &f, const string line, const string find, const string line_prev, ReadFile *res)=0;
 
   void Set(const bool v1, const streampos v2, const string str)
   {
@@ -52,14 +53,13 @@ public:
 class FName: public ReadFile
 {
 public:
-
-  FName *GetFunction(ifstream &f, const string line, const string find, const string line_prev)
+  void GetFunction(ifstream &f, const string line, const string find, const string line_prev, ReadFile*res)
   {
     const int size=line.size();
     const size_t  o=line.find(find);
     bool stop=false;
     streampos  read_pos;
-    FName *result=new FName;
+    // FName *result=new FName;
     string newline;
 
     if(o<size)
@@ -70,8 +70,8 @@ public:
 	// std::cout<<"now "<<line<<" prev "<<line_prev<<'\n';
 	// result.Set(stop, read_pos, newline);
       }
-    result->Set(stop, read_pos, newline);
-    return result;
+    res->Set(stop, read_pos, newline);
+    // return result;
   }
 };
 
@@ -79,9 +79,9 @@ class FData: public ReadFile
 {
 public:
   vector<StringSplit> test;
-  vector<string> *test2=new vector<string>;
+  // vector<string> *test2=new vector<string>;
 
-  // void PushTo(const string line1, const int size)
+
   void PushTo()
   {
     const int size=line.size();
@@ -89,31 +89,31 @@ public:
 
     if(size>1 and o<size)
       {
-	// StringSplit split=LineSplit(line);
-	// test.push_back(split);
-	test2->push_back("a");
-	// std::cout<<"TEST "<<test.size()<<" "<<line<<'\n';
-	std::cout<<"TEST "<<test2->size()<<" "<<line<<'\n';
+	StringSplit split=LineSplit(line);
+	test.push_back(split);
+	// test2->push_back("a");
+	std::cout<<"TEST "<<test.size()<<" "<<line<<'\n';
+	// std::cout<<"TEST "<<test2->size()<<" "<<line<<'\n';
       }
   }
 
-  FData *GetFunction(ifstream &f, const string line, const string find, const string line_prev)
+
+  void GetFunction(ifstream &f, const string line, const string find, const string line_prev, ReadFile *res)
   {
     const int size=line.size();
     const size_t  o=line.find(find);
     bool stop=false;
     streampos  read_pos;
-    static FData *result=new FData;
+    // static FData *result=new FData;
 
     if(o<size)
       {
 	read_pos = f.tellg();
 	stop=true;
       }
-    result->Set(stop, read_pos, line_prev);
-    // PushTo(line, size);
-    result->PushTo();
-    return result;
+    res->Set(stop, read_pos, line_prev);
+    res->PushTo();
+    // return result;
   }
 };
 
