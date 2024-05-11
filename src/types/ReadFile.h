@@ -41,6 +41,7 @@ public:
   string line;
 
   virtual void GetFunction(ifstream &f, const string line, const string find, const string line_prev, ReadFile *res)=0;
+  virtual void PushTo(){}
 
   void Set(const bool v1, const streampos v2, const string str)
   {
@@ -80,7 +81,6 @@ class FData: public ReadFile
 public:
   vector<StringSplit> test;
   // vector<string> *test2=new vector<string>;
-
 
   void PushTo()
   {

@@ -15,83 +15,33 @@
 using std::ifstream;
 using std::cout;
 
-// void Get(ifstream &f, const streampos from, const string find, ReadFile *ftype)
-// {
-//   string line;
-//   string line_prev;
-//   bool empty=false;
-//   bool stop=false;
-//   // ReadFile *result=ftype;
+void Get(ifstream &f, const streampos from, const string find, ReadFile *ftype)
+{
+  string line;
+  string line_prev;
+  bool empty=false;
+  bool stop=false;
 
-//   while(getline(f, line) and !stop)
-//     {
-//       line=ParseLine(line);
-//       empty=line.empty();
+  while(getline(f, line) and !stop)
+    {
+      line=ParseLine(line);
+      empty=line.empty();
 
-//       if(!empty)
-// 	{
-// 	  // ftype->GetFunction(f, line, find, line_prev, ftype);
-// 	  stop=ftype->stop;
-// 	  // result=result->GetFunction(f, line, find, line_prev);
-// 	  // // result->PushTo();
-// 	  // stop=result->stop;
-// 	  line_prev=line;
-// 	}
-//     }
-//   // return ftype;
-//   // return result;
-// }
+      if(!empty)
+	{
+	  ftype->GetFunction(f, line, find, line_prev, ftype);
+	  stop=ftype->stop;
+	  line_prev=line;
+	}
+    }
+}
 
-// void GetPosition(ifstream &bin, const streampos from, const string find, ReadFile *ftype)
-// {
-//   bin.seekg(from, bin.beg);
-//   Get(bin, from, find, ftype);
-//   // return ftype;
-// }
-
-// // LinePosition  ReadSection(ifstream &bin, streampos from)
-// // {
-// //   ReadFile *type=new FName;
-// //   ReadFile *typedata=new FData;
-// //   LinePosition aa=GetPosition(bin, from, "{", type);
-// //   cout<<"RESULT1 "<<aa.line<<'\n';
-// //   typedata=GetPosition(bin, aa.position, "}", typedata);
-// //   delete type;
-// //   delete typedata;
-// //   return aa1;
-// // }
-
-// void GetName(ifstream &bin, streampos from, ReadFile *type)
-// {
-//   // ReadFile *type=new FName;
-// GetPosition(bin, from, "{", type);
-//   // const string line=type->line;
-//   cout<<"RESULT1 "<<type->line<<'\n';
-//   // delete type;
-//   // return type;
-// }
-
-// ReadFile  *GetContent(ifstream &bin, streampos from, ReadFile *type)
-// {
-//   // ReadFile *type=new FData;
-//   GetPosition(bin, from, "}", type);
-//   // const string line=type->line;
-//   cout<<"RESULT1 "<<type->line<<'\n';
-//   // delete type;
-//   return type;
-// }
-
-// LinePosition  ReadSection(ifstream &bin, streampos from)
-// {
-//   ReadFile *type=new FName;
-//   ReadFile *typedata=new FData;
-//   LinePosition aa=GetPosition(bin, from, "{", type);
-//   cout<<"RESULT1 "<<aa.line<<'\n';
-//   typedata=GetPosition(bin, aa.position, "}", typedata);
-//   delete type;
-//   delete typedata;
-//   return aa1;
-// }
+void GetLine(ifstream &bin, streampos from, ReadFile *type, const string find)
+{
+  bin.seekg(from, bin.beg);
+  Get(bin, from, find, type);
+  cout<<"RESULT1 "<<type->line<<'\n';
+}
 
 void GetBin(const string directory)
 {
@@ -99,44 +49,48 @@ void GetBin(const string directory)
   ifstream bin(FILE_NAME);
 
   ReadFile *constants=new FName;
-  // GetName(bin, 0, constants);
+  GetLine(bin, 0, constants, "{");
+  FData *constants_content=new FData;
+  GetLine(bin, constants->position, constants_content, "}");
+  cout<<constants_content->test.size()<<'\n';
 
-  // ReadFile *constants_content=new FData;
-  // GetName(bin, constants->position, constants_content);
+  ReadFile *equations=new FName;
+  GetLine(bin, 0, equations, "{");
+  FData *equations_content=new FData;
+  GetLine(bin, equations->position, equations_content, "}");
+  cout<<equations_content->test.size()<<'\n';
 
-  // ReadFile *constants=GetName(bin, 0);
-  // ReadFile *constants_content=GetContent(bin, constants->position);
-
-  // constants_content->Clear();
-  // LinePosition aa=ReadSection(bin, 0);
-  cout<<" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"<<'\n';
-  //   ReadFile *equations=GetName(bin, constants_content->position);
-  // ReadFile *equations_content=GetContent(bin, equations->position);
-
-
-  // aa=ReadSection(bin, aa.position);
-  // delete constants;
-  // delete constants_content;
-  //   delete equations;
-  // delete equations_content;
+  delete constants;
+  delete constants_content;
+  delete equations;
+  delete equations_content;
   bin.close();
 }
 
 void GetSettings(const string directory)
 {
-  // const string FILE_NAME=directory+"sim_params";
-  // ifstream bin(FILE_NAME);
-  // LinePosition aa=ReadSection(bin, 0);
-  // bin.close();
+  const string FILE_NAME=directory+"sim_params";
+  ifstream bin(FILE_NAME);
+
+  ReadFile *settings=new FName;
+  GetLine(bin, 0, settings, "{");
+  FData *settings_content=new FData;
+  GetLine(bin, settings->position, settings_content, "}");
+  cout<<settings_content->test.size()<<'\n';
+
+  delete settings;
+  bin.close();
 }
 
 void GetInitialValues(const string directory)
 {
-  // const string FILE_NAME=directory+"compartments2";
-  // ifstream bin(FILE_NAME);
-  // LinePosition aa=ReadSection(bin, 0);
+  const string FILE_NAME=directory+"compartments2";
+  ifstream bin(FILE_NAME);
 
-  // while(!bin.eof()) aa=ReadSection(bin, aa.position);
-
-  // bin.close();
+  ReadFile *compartments=new FName;
+  GetLine(bin, 0, compartments, "{");
+  FData *compartments_content=new FData;
+  GetLine(bin, compartments->position, compartments_content, "}");
+  cout<<compartments_content->test.size()<<'\n';
+  bin.close();
 }
