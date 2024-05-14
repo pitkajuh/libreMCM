@@ -15,6 +15,7 @@
 #include <vector>
 #include "StringSplit.h"
 #include <unordered_map>
+#include <memory>
 
 using std::unordered_map;
 using std::ifstream;
@@ -37,7 +38,7 @@ class ReadFile
 {
 public:
   bool stop=false;
-  streampos position;
+  streampos position=0;
   string line;
 
   virtual void GetFunction(ifstream &f, const string line, const string find, const string line_prev, ReadFile *res)=0;
@@ -60,7 +61,6 @@ public:
     const size_t  o=line.find(find);
     bool stop=false;
     streampos  read_pos;
-    // FName *result=new FName;
     string newline;
 
     if(o<size)
@@ -68,11 +68,8 @@ public:
 	read_pos = f.tellg()-streampos(size+1);
 	stop=true;
 	newline=NameSelect(line, line_prev);
-	// std::cout<<"now "<<line<<" prev "<<line_prev<<'\n';
-	// result.Set(stop, read_pos, newline);
       }
     res->Set(stop, read_pos, newline);
-    // return result;
   }
 };
 
@@ -80,7 +77,6 @@ class FData: public ReadFile
 {
 public:
   vector<StringSplit> test;
-  // vector<string> *test2=new vector<string>;
 
   void PushTo()
   {
@@ -91,12 +87,9 @@ public:
       {
 	StringSplit split=LineSplit(line);
 	test.push_back(split);
-	// test2->push_back("a");
 	std::cout<<"TEST "<<test.size()<<" "<<line<<'\n';
-	// std::cout<<"TEST "<<test2->size()<<" "<<line<<'\n';
       }
   }
-
 
   void GetFunction(ifstream &f, const string line, const string find, const string line_prev, ReadFile *res)
   {
@@ -104,7 +97,6 @@ public:
     const size_t  o=line.find(find);
     bool stop=false;
     streampos  read_pos;
-    // static FData *result=new FData;
 
     if(o<size)
       {
@@ -113,7 +105,38 @@ public:
       }
     res->Set(stop, read_pos, line_prev);
     res->PushTo();
-    // return result;
+  }
+};
+
+class FileData
+{
+public:
+  ReadFile *name=new FName;
+  FData *data=new FData;
+
+  FileData(){}
+
+  FileData(FileData& d)
+  {
+    name=new FName;
+    data=new FData;
+    name=d.name;
+    data=d.data;
+  }
+
+  FileData& operator =(const FileData& d)
+  {
+    if(this == &d)
+      {
+	return *this;
+      }
+    return *this;
+  }
+
+  ~FileData()
+  {
+    delete name;
+    delete data;
   }
 };
 

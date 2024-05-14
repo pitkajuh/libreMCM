@@ -15,6 +15,9 @@
 using std::ifstream;
 using std::cout;
 
+const string open="{";
+const string close="}";
+
 void Get(ifstream &f, const streampos from, const string find, ReadFile *ftype)
 {
   string line;
@@ -43,27 +46,22 @@ void GetLine(ifstream &bin, streampos from, ReadFile *type, const string find)
   cout<<"RESULT1 "<<type->line<<'\n';
 }
 
+FileData RR(ifstream &bin, streampos from)
+{
+  FileData r;
+  GetLine(bin, from, r.name, open);
+  GetLine(bin, r.name->position, r.data, close);
+  return r;
+}
+
 void GetBin(const string directory)
 {
   const string FILE_NAME=directory+"bin";
   ifstream bin(FILE_NAME);
 
-  ReadFile *constants=new FName;
-  GetLine(bin, 0, constants, "{");
-  FData *constants_content=new FData;
-  GetLine(bin, constants->position, constants_content, "}");
-  cout<<constants_content->test.size()<<'\n';
-
-  ReadFile *equations=new FName;
-  GetLine(bin, 0, equations, "{");
-  FData *equations_content=new FData;
-  GetLine(bin, equations->position, equations_content, "}");
-  cout<<equations_content->test.size()<<'\n';
-
-  delete constants;
-  delete constants_content;
-  delete equations;
-  delete equations_content;
+  FileData constants_new=RR(bin, 0);
+  FileData equations_new=RR(bin, constants_new.data->position);
+  cout<<"                  "<<'\n';
   bin.close();
 }
 
@@ -71,14 +69,7 @@ void GetSettings(const string directory)
 {
   const string FILE_NAME=directory+"sim_params";
   ifstream bin(FILE_NAME);
-
-  ReadFile *settings=new FName;
-  GetLine(bin, 0, settings, "{");
-  FData *settings_content=new FData;
-  GetLine(bin, settings->position, settings_content, "}");
-  cout<<settings_content->test.size()<<'\n';
-
-  delete settings;
+  FileData settings_new=RR(bin, 0);
   bin.close();
 }
 
@@ -86,11 +77,10 @@ void GetInitialValues(const string directory)
 {
   const string FILE_NAME=directory+"compartments2";
   ifstream bin(FILE_NAME);
+  FileData compartment_new=RR(bin, 0);
 
-  ReadFile *compartments=new FName;
-  GetLine(bin, 0, compartments, "{");
-  FData *compartments_content=new FData;
-  GetLine(bin, compartments->position, compartments_content, "}");
-  cout<<compartments_content->test.size()<<'\n';
+  while(!bin.eof())  compartment_new=RR(bin, compartment_new.data->position);
+
+  cout<<"aoea"<<'\n';
   bin.close();
 }
