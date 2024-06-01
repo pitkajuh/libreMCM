@@ -31,12 +31,14 @@ public:
 
   void GetDiagonal()
   {
-  for(int i=0; i<rows.size(); i++)
-    {
-      // TODO Check that diagonal element is not empty.
-      diagonal.push_back(rows[i][i]);
-      cout<<"Digonal "<<rows[i][i]<<'\n';
-    }
+    string compartment;
+
+    for(int i=0; i<rows.size(); i++)
+      {
+	compartment=rows[i][i];
+	// TODO Check that diagonal element is not empty.
+	if(compartment!="void" or compartment!="origin") diagonal.push_back(compartment);
+      }
   }
 
   vector<string> GetColumn(const int i) const
@@ -60,7 +62,6 @@ public:
     while(columns.size()!=row.size()) columns.push_back(c);
 
     // TODO:  Add error check here, which checks that the there are an equal amount of rows and columns i.e. csv is symmetrical.
-    // cout<<"SIZES "<<rows_size<<" "<<columns_size<<'\n';
   }
 
   void CreateColumn(const vector<string> row)

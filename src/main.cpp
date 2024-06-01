@@ -79,7 +79,7 @@ void ReadInitialData(const string directory)
 
 
 
-   EquationAddSubtract(equations_map, csv);
+   EquationAddSubtract(csv);
 
   // GetBin(directory);
   // cout<<" "<<'\n';

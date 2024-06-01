@@ -8,8 +8,10 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include <unordered_map>
 #include "../types/Csv.h"
+#include "../types/AddSubtract.h"
+
+#include <unordered_map>
 
 using std::unordered_map;
 
@@ -17,18 +19,6 @@ using std::unordered_map;
 using std::cout;
 
 const string EMPTY=" ";
-
-struct AddSubtract
-{
-  vector<string> add;
-  vector<string> subtract;
-
-  AddSubtract(const vector<string> v1, const vector<string> v2)
-  {
-    add=v1;
-    subtract=v2;
-  }
-};
 
 vector<string> GetUp(const vector<string> v, int i)
 {
@@ -44,7 +34,7 @@ vector<string> GetDown(const vector<string> v, int i)
   return r;
 }
 
-AddSubtract GetEquations(const unordered_map<string, string> equations_map, const Csv csv, const int j)
+AddSubtract GetEquations(const Csv csv, const int j)
 {
   const vector<string> column=csv.GetColumn(j);
   const vector<string> row=csv.rows[j];
@@ -61,10 +51,9 @@ AddSubtract GetEquations(const unordered_map<string, string> equations_map, cons
   return r;
 }
 
-void EquationAddSubtract(const unordered_map<string, string> equations_map, const Csv csv)
+unordered_map<string, AddSubtract> EquationAddSubtract(const Csv csv)
 {
-  for(int i=0; i<csv.diagonal.size(); i++)
-    {
-      GetEquations(equations_map, csv, i);
-    }
+  unordered_map<string, AddSubtract> map;
+  for(int i=0; i<csv.diagonal.size(); i++) map[csv.diagonal[i]]=GetEquations(csv, i);
+  return map;
 }

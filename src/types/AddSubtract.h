@@ -8,15 +8,20 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef EQUATIONADDSUBTRACT_H
-#define EQUATIONADDSUBTRACT_H
+#ifndef ADDSUBTRACT_H
+#define ADDSUBTRACT_H
 
-#include "../types/Csv.h"
-#include "../types/AddSubtract.h"
-#include <unordered_map>
+struct AddSubtract
+{
+  vector<string> add;
+  vector<string> subtract;
 
-
-
-unordered_map<string, AddSubtract> EquationAddSubtract(const Csv csv);
+  AddSubtract(){}
+  AddSubtract(const vector<string> v1, const vector<string> v2)
+  {
+    add=v1;
+    subtract=v2;
+  }
+};
 
 #endif
