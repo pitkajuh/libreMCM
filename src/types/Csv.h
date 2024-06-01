@@ -28,9 +28,13 @@ public:
   vector<Row> rows;
   vector<Column> columns;
 
-  void GetColumn(const int i) const
+  vector<string> GetColumn(const int i) const
   {
-    for(int j=0; j<=columns.size()-1; j++) cout<<j<<" "<<columns[i][j]<<'\n';
+    vector<string> c;
+
+    for(int j=0; j<columns.size(); j++) c.push_back(columns[i][j]);
+
+    return c;
   }
 
   void PrintColumn() const
@@ -52,7 +56,7 @@ public:
   {
     UpdateColumns(row);
 
-    for(int i=0; i<=row.size()-1; i++) columns[i].push_back(row[i]);
+    for(int i=0; i<row.size(); i++) columns[i].push_back(row[i]);
   }
 
   void AddCsv(const vector<string> row)
