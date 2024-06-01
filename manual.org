@@ -1,0 +1,274 @@
+#+TITLE: libreMCM documentation
+#+AUTHOR: pitkajuh
+#+LANGUAGE: en
+#+OPTIONS: ^:nil
+#+LATEX_HEADER: \usepackage[AUTO]{babel}
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \usepackage{hyphenat}
+
+\newpage
+
+* Introduction
+
+libreMCM (libre Multi Compartment Modelling) is a free software for carrying out deterministic and probabilistic modelling.
+
+* Features
+** Supported numerical formats
+
+LibreMCM supports the following numerical formats (the number of decimals is not restricted)
+
+#+begin_src
+- 1
+- 1.0
+- 1e1
+- 1E1
+#+end_src
+** Supported mathematical functions/operators
+
+LibreMCM supports the following mathematical functions in table [[table:functions]].
+
+#+NAME: table:functions
+#+CAPTION: Supported mathematical functions and operators.
+| Function/Operator | Command         |
+|-------------------+-----------------|
+| $x^y$             | mcm.power(x, y) |
+| sin($x$)          | mcm.sin(x)      |
+| cos($x$)          | mcm.cos(x)      |
+| sqrt($x$)         | mcm.sqrt(x)     |
+| log($x$)          | mcm.log(x)      |
+| exp($x$)          | mcm.exp(x)      |
+|                   |                 |
+
+The mathematical functions/operators can be used when creating transfer equations (see section [[sec:equations]]).
+** Supported numerical solvers for time dependent ODEs
+
+At the moment only 4th Order Runge-Kutta method is supported.
+** Supported modelling methods
+
+At the moment the program can only solve models deterministically.
+
+* Creating a model
+
+
+** How to create model files
+<<sec:howto>>
+
+Creaing a model requires four files, which called "bins", "compartments", "sim_params" and "compartment.csv". All the files must be located in the same directory.
+
+All the model files are saved in text form (without extension) so they can be created, viewed and edited on any device supporting text files. The user can use any text editor of their choosing. The file syntax of libreMCM's files is somewhat similar to the syntax of C++ code e.g. text blocks are separated with curly brackets ({ and }).
+
+Let us create an example of a text block called "compartments".
+
+#+begin_src C++ -n
+compartments
+  {
+   // Insert the content between the curly brackets.
+  }
+#+end_src
+
+The name of the text block is on line 1 and the curly brackets on lines 2 and 4 enclose the content of this block. The placement of curly brackets and empty spaces in the text block is flexible and it is up to the user how to place them. For example all examples below are fine
+
+#+begin_src C++ -n
+compartments{
+   // Insert the content between the curly brackets.
+}
+#+end_src
+
+#+begin_src C++ -n
+compartments
+{
+// Insert the content between the curly brackets.
+}
+#+end_src
+
+and
+
+#+begin_src C++ -n
+compartments{
+// Insert the content between the curly brackets.
+}
+#+end_src
+
+** Creating compartments
+
+*** Compartment types
+
+**** origin
+<<sec:origin>>
+
+This is a compartment type which is used as an "infinite source of quantity" of which the differential equations can draw values. This type of compartment can only be subtracted from. Section [[sec:compdef]] does not apply to this compartment type.
+
+**** void
+<<sec:void>>
+
+This is a compartment type which is an opposite to the origin compartment type (see section [[sec:origin]]), i.e. it can receive an infinite amount of "quantity". This type of compartment can only be added to. Section [[sec:compdef]] does not apply to this compartment type.
+
+**** compartment
+
+This is a regular compartment type of which the quantity can be subtracted from and added to. The initial values of this compartment type must be defined separately (see section [[sec:compdef]]).
+
+*** Creating model matrix
+<<sec:compcsv>>
+
+The compartments used in the model are defined in a csv file called compartment.csv which uses the semicolon (;) as the delimiter. The compartments must be located on the diagonal axis and the transfer equations can be located on any cells around the diagonal axis. An easy way to create and edit the file is to use a spreadsheet editor. An example file is presented in figure \ref{fig:compartment1}, which has been created using LibreOffice Calc.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\linewidth]{manual/compartment1.jpg}
+\caption{A simple compartment definition csv file using LibreOffice Calc.}
+\label{fig:compartment1}
+\end{figure}
+
+In figure \ref{fig:compartment1} there are two compartments on the diagonal axis (Compartment1 and Compartment2) and the transfer equations t_eq1 and t_eq2 (cells A2 and B1) are acting on these compartments.
+
+If there are more than one transfer equation acting on the same compartment, multiple transfer equations can be added by separating them with a comma ",", see figure \ref{fig:compartment2}.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\linewidth]{manual/compartment2.jpg}
+\caption{A simple compartment definition csv file with multiple transfer equations in one cell using LibreOffice Calc.}
+\label{fig:compartment2}
+\end{figure}
+
+\newpage
+
+*** Creating compartment definitions
+<<sec:compdef>>
+
+The definitions of the compartments are described in file called "compartments". Let us continue from where we were left on in section [[sec:howto]]. Now the compartments text block has been created and the next step is to create the individual compartments, which were presented in section [[sec:compcsv]]. Individual compartment can be created by first creating a text block with the compartment name (see below).
+
+#+begin_src C++ -n
+Compartment1{
+
+}
+#+end_src
+
+All compartments must have some initial values which are used for calculating. Initial values can be defined by first creating a text block called "initial_values" inside the compartment text block. This text block must always be called "initial_values".
+
+#+begin_src C++ -n
+Compartment1{
+  initial_values{
+    iv1=5;
+  }
+}
+#+end_src
+
+Now the text block can be copied to the text block with the compartment name and the result will be
+
+#+begin_src C++ -n
+compartments
+{
+  Compartment1{
+    initial_values{
+      iv1=5;
+    }
+  }
+}
+#+end_src
+
+The second compartment can be created in similar manner, thus
+
+#+begin_src C++ -n
+compartments
+{
+  Compartment1{
+    initial_values{
+      iv1=5;
+    }
+  }
+  Compartment2{
+    initial_values{
+      iv2=8;
+    }
+  }
+}
+#+end_src
+
+
+
+** Creating transfer equations
+<<sec:equations>>
+A file called "bin" is used to define the transfer equations of the model. In order to run the model, the file is required to have at least equation defining text block i.e.
+
+#+begin_src C++ -n
+equations
+{
+  dydt_1=-2*x;
+  dydt_2=3*x;
+}
+#+end_src
+
+If the equations contain many constant values, which one does not want to substitute into the equations, a text block containing definitions of the constant values can be defined.
+
+#+begin_src C++ -n
+constants
+{
+  a=-2;
+  b=3;
+}
+#+end_src
+
+The section containing the constant values is not necessary to run the model. A file having both blocks could look something like this.
+
+#+begin_src C++ -n
+constants
+{
+  a=-2;
+  b=3;
+}
+
+equations
+{
+  dydt_1=a*x;
+  dydt_2=b*x;
+}
+#+end_src
+
+*** Specific constant values
+
+If the equations have constants which depend of the initial value (for example the equations describe some chemical reaction but the constant values depend on the element), the constants text block can be written in the following form
+
+#+begin_src C++ -n
+constants
+{
+  a=-2;
+  (
+   iv1=5;
+   iv2=16;
+  )
+  b=3;
+}
+#+end_src
+
+The values defined between parentheses (line 4 and 7) are so called specific values of constant $a$. The values between parentheses are names of the initial values, which are defined in the "compartments" file. When the differential equations are formed, the differential equation describing the initial value "iv1" will use the constant value $a=1$ instead of $a=-2$. If the specific value has not been defined for the initial value, the default value will be used, which is -2 for $a$.
+
+** Simulation settings
+
+The simulation parameters (settings) are described in file called sim_params. Below is an example of simulation settings.
+
+#+begin_src C++ -n
+simulation_settings
+{
+  time_start=0;
+  time_end=300;
+  step_size=5;
+  num_method=rk4;
+}
+#+end_src
+
+In order to run the model parameters "time_start", "time_end" and "step_size" must be defined. These parameters are used to defined the start and end time of the simulation and the step size used in the numerical calculation. The parameter "num_method" defines the used numerical method, but it is optional (i.e. it is not necessary to have the line) at the moment due to the fact, that at the moment only 4th Order Runge-Kutta method is supported.
+
+
+* Running simulations
+
+In order to run simulation, a file called "models_cfg" must be created to the same directory where the executable is located. By default the content of the file is the following.
+
+#+begin_src C++ -n
+model_path{
+  tutorials/lotka-volterra/;
+  tutorials/simple-chemical-reaction/;
+  tutorials/simple-chemical-reaction-v2/;
+}
+#+end_src
+
+In other words this file is used to list the locations of the models the user wants to run. By default libreMCM runs all the tutorial simulations. The user can add the path to the model they want to run. The tutorial models can be commented out or removed from the file anytime.
