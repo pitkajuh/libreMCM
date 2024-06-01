@@ -11,12 +11,9 @@
 #ifndef GETBIN_H
 #define GETBIN_H
 
-#include <string>
+#include "../types/ReadFile.h"
 
-using std::string;
-
-void GetBin(const string directory);
-void GetSettings(const string directory);
-void GetInitialValues(const string directory);
+Pair GetData(ifstream &bin, streampos from);
+FileData Read(ifstream &bin, streampos from);
 
 #endif

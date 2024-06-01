@@ -8,15 +8,9 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-r
-{
-    r0=400;
-    n1=5;
-    g1=6;
-}
+#include <fstream>
+#include "../types/Csv.h"
 
-f{
-  f0=2;
-  d1=6;
-  h3=4;
-}
+using std::ifstream;
+
+Csv GetCompartment(ifstream &f);

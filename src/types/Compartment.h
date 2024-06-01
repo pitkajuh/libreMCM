@@ -8,15 +8,38 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-r
-{
-    r0=400;
-    n1=5;
-    g1=6;
-}
+#ifndef COMPARTMENT_H
+#define COMPARTMENT_H
 
-f{
-  f0=2;
-  d1=6;
-  h3=4;
-}
+#include <unordered_map>
+/* #include "Equation.h" */
+
+using std::unordered_map;
+
+class Compartment
+{
+public:
+
+/* private: */
+/*   vector<string> initial_values; */
+/*   //equations add */
+/*   //equations subtract */
+/*   //equation total (combine add and subtract) */
+/* public: */
+/*   string name; */
+};
+
+/* class Void: public Compartment */
+/* { */
+/* public: */
+
+/* }; */
+
+/* class Origin: public Compartment */
+/* { */
+/* public: */
+
+/* }; */
+
+
+#endif

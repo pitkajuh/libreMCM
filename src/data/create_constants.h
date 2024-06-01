@@ -8,15 +8,11 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-r
-{
-    r0=400;
-    n1=5;
-    g1=6;
-}
+#ifndef CREATECONSTANTS_H
+#define CREATECONSTANTS_H
 
-f{
-  f0=2;
-  d1=6;
-  h3=4;
-}
+// #include "../types/ReadFile.h"
+
+// Pair GetData(ifstream &bin, streampos from);
+
+#endif

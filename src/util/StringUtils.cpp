@@ -20,7 +20,6 @@ const string RemoveComment(string line)
   const string COMMENT="//";
   const string comment=line.substr(0, 2);
 
-  // Line is commented in the beginning.
   if(comment==COMMENT) line="";
   else
     {
@@ -30,12 +29,12 @@ const string RemoveComment(string line)
   return line;
 }
 
-StringSplit LineSplit(string line)
+StringSplit LineSplit(const string line)
 {
   const int SIZE=line.size();
   const int at=distance(line.begin(), find(line.begin(), line.end(), '='));
-  string name="";
-  string value="";
+  string name;
+  string value;
 
   if(at!=SIZE and line.back()==';')
     {
@@ -44,9 +43,7 @@ StringSplit LineSplit(string line)
 
       std::cout<<"name "<<name<<" value "<<value<<'\n';
     }
-  StringSplit r;
-  r.name=name;
-  r.value=value;
+  StringSplit r(name, value);
   return r;
 }
 

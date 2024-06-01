@@ -8,15 +8,33 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-r
+#include "../util/StringUtils.h"
+#include "../types/ReadFile.h"
+#include <unordered_map>
+
+using std::unordered_map;
+
+unordered_map<string, string> AddToMap(Pair pair, unordered_map<string, string> map)
 {
-    r0=400;
-    n1=5;
-    g1=6;
+  StringSplit split;
+
+  for(const auto&i: pair.list)
+    {
+      split=LineSplit(i);
+      map[split.name]=split.value;
+    }
+  return map;
 }
 
-f{
-  f0=2;
-  d1=6;
-  h3=4;
+unordered_map<string, string> CreatePairMap(Pair pair)
+{
+  StringSplit split;
+  unordered_map<string, string> map;
+
+  for(const auto&i: pair.list)
+    {
+      split=LineSplit(i);
+      map[split.name]=split.value;
+    }
+  return map;
 }

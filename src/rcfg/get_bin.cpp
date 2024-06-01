@@ -43,10 +43,10 @@ void GetLine(ifstream &bin, streampos from, ReadFile *type, const string find)
 {
   bin.seekg(from, bin.beg);
   Get(bin, from, find, type);
-  cout<<"RESULT1 "<<type->line<<'\n';
+  // cout<<"RESULT1 "<<type->line<<'\n';
 }
 
-FileData RR(ifstream &bin, streampos from)
+FileData Read(ifstream &bin, streampos from)
 {
   FileData r;
   GetLine(bin, from, r.name, open);
@@ -54,33 +54,20 @@ FileData RR(ifstream &bin, streampos from)
   return r;
 }
 
-void GetBin(const string directory)
+Pair GetData(ifstream &bin, streampos from)
 {
-  const string FILE_NAME=directory+"bin";
-  ifstream bin(FILE_NAME);
-
-  FileData constants_new=RR(bin, 0);
-  FileData equations_new=RR(bin, constants_new.data->position);
-  cout<<"                  "<<'\n';
-  bin.close();
-}
-
-void GetSettings(const string directory)
-{
-  const string FILE_NAME=directory+"sim_params";
-  ifstream bin(FILE_NAME);
-  FileData settings_new=RR(bin, 0);
-  bin.close();
+  const FileData result=Read(bin, from);
+  const Pair r(result.name->line, result.data->v, result.data->position);
+  return r;
 }
 
 void GetInitialValues(const string directory)
 {
   const string FILE_NAME=directory+"compartments2";
   ifstream bin(FILE_NAME);
-  FileData compartment_new=RR(bin, 0);
+  FileData compartment=Read(bin, 0);
 
-  while(!bin.eof())  compartment_new=RR(bin, compartment_new.data->position);
+  while(!bin.eof())  compartment=Read(bin, compartment.data->position);
 
-  cout<<"aoea"<<'\n';
   bin.close();
 }

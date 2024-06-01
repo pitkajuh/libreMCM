@@ -8,15 +8,14 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-r
-{
-    r0=400;
-    n1=5;
-    g1=6;
-}
+#ifndef MAPUTILS_H
+#define MAPUTILS_H
 
-f{
-  f0=2;
-  d1=6;
-  h3=4;
-}
+#include <unordered_map>
+
+using std::unordered_map;
+
+unordered_map<string, string> AddToMap(Pair pair, unordered_map<string, string> map);
+unordered_map<string, string> CreatePairMap(Pair pair);
+
+#endif

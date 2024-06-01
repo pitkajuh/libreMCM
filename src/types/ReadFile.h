@@ -23,16 +23,7 @@ using std::streampos;
 using std::vector;
 #include <iostream>
 
-const string NameSelect(string now, const string prev)
-{
-  const int sizenow=now.size();
-  const int at=1+now.find("{");
-
-  if(sizenow==1 and now=="{") now=prev;
-  else if(sizenow>1 and sizenow==at) now=now.substr(0, sizenow-1);
-
-  return now;
-}
+const string OPEN="{";
 
 class ReadFile
 {
@@ -41,7 +32,7 @@ public:
   streampos position=0;
   string line;
 
-  virtual void GetFunction(ifstream &f, const string line, const string find, const string line_prev, ReadFile *res)=0;
+  virtual void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)=0;
   virtual void PushTo(){}
 
   void Set(const bool v1, const streampos v2, const string str)
@@ -50,12 +41,23 @@ public:
     position=v2;
     line=str;
   }
+
+  const string SelectName(string now, const string prev)
+  {
+    const int sizenow=now.size();
+    const int at=1+now.find(OPEN);
+
+    if(sizenow==1 and now==OPEN) now=prev;
+    else if(sizenow>1 and sizenow==at) now=now.substr(0, sizenow-1);
+
+    return now;
+  }
 };
 
 class FName: public ReadFile
 {
 public:
-  void GetFunction(ifstream &f, const string line, const string find, const string line_prev, ReadFile*res)
+  void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)
   {
     const int size=line.size();
     const size_t  o=line.find(find);
@@ -67,7 +69,7 @@ public:
       {
 	read_pos = f.tellg()-streampos(size+1);
 	stop=true;
-	newline=NameSelect(line, line_prev);
+	newline=SelectName(line, previous);
       }
     res->Set(stop, read_pos, newline);
   }
@@ -76,7 +78,7 @@ public:
 class FData: public ReadFile
 {
 public:
-  vector<StringSplit> test;
+  vector<string> v;
 
   void PushTo()
   {
@@ -85,13 +87,12 @@ public:
 
     if(size>1 and o<size)
       {
-	StringSplit split=LineSplit(line);
-	test.push_back(split);
-	std::cout<<"TEST "<<test.size()<<" "<<line<<'\n';
+	v.push_back(line);
+	std::cout<<"TEST "<<v.size()<<" "<<line<<'\n';
       }
   }
 
-  void GetFunction(ifstream &f, const string line, const string find, const string line_prev, ReadFile *res)
+  void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)
   {
     const int size=line.size();
     const size_t  o=line.find(find);
@@ -103,7 +104,7 @@ public:
 	read_pos = f.tellg();
 	stop=true;
       }
-    res->Set(stop, read_pos, line_prev);
+    res->Set(stop, read_pos, previous);
     res->PushTo();
   }
 };
@@ -126,10 +127,6 @@ public:
 
   FileData& operator =(const FileData& d)
   {
-    if(this == &d)
-      {
-	return *this;
-      }
     return *this;
   }
 
@@ -137,6 +134,20 @@ public:
   {
     delete name;
     delete data;
+  }
+};
+
+struct Pair
+{
+  string name;
+  vector<string> list;
+  streampos position;
+
+  Pair(const string s, const vector<string> v, const int p)
+  {
+    name=s;
+    list=v;
+    position=p;
   }
 };
 

@@ -14,6 +14,8 @@
 #include <getopt.h>
 #include <unistd.h>
 #include "rcfg/get_bin.h"
+#include "util/MapUtils.h"
+#include "comp/GetCompartment.h"
 
 #define GetCurrentDir getcwd
 
@@ -42,12 +44,48 @@ static struct option const options[]=
 
 void ReadInitialData(const string directory)
 {
-  GetBin(directory);
-  cout<<" "<<'\n';
-  GetSettings(directory);
-  cout<<" "<<'\n';
-  GetInitialValues(directory);
+  ifstream bin(directory+"bin");
+  Pair constants=GetData(bin, 0);
+  unordered_map<string, string> constants_map=CreatePairMap(constants);
+  Pair equations=GetData(bin, constants.position);
+  unordered_map<string, string> equations_map=CreatePairMap(equations);
+  bin.close();
+
+  ifstream sim(directory+"sim_params");
+  Pair settings=GetData(sim, 0);
+   sim.close();
+
+   ifstream compartments(directory+"compartments");
+   FileData c=Read(compartments, 0);
+   Pair compartment_i(c.name->line, c.data->v, c.data->position);
+   cout<<"NAME "<<c.name->line<<'\n';
+   unordered_map<string, string> compartment_map=CreatePairMap(compartment_i);
+
+   while(!compartments.eof())
+     {
+       c=Read(compartments, c.data->position);
+       Pair compartment_i(c.name->line, c.data->v, c.data->position);
+       cout<<"NAME "<<c.name->line<<'\n';
+       compartment_map=AddToMap(compartment_i, compartment_map);
+     }
+
+   compartments.close();
+
+   ifstream compartment(directory+"compartment.csv");
+   GetCompartment(compartment);
+   compartment.close();
+
+
+
+  // GetBin(directory);
   // cout<<" "<<'\n';
+  // GetSettings(directory);
+  // cout<<" "<<'\n';
+  // GetInitialValues(directory);
+  // // cout<<" "<<'\n';
+
+
+
 
 //   get_sim_params(directory);
 //   get_compartment(directory);

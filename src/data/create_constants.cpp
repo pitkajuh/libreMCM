@@ -8,15 +8,27 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-r
-{
-    r0=400;
-    n1=5;
-    g1=6;
-}
+#include "../util/StringUtils.h"
+#include "../types/ReadFile.h"
+#include <iostream>
+#include <unordered_map>
 
-f{
-  f0=2;
-  d1=6;
-  h3=4;
-}
+using std::ifstream;
+using std::cout;
+using std::unordered_map;
+
+// void CreateConstants(Pair constants)
+// {
+//   StringSplit split("", "");
+//   string name;
+//   string value;
+//   unordered_map<string, string> map;
+
+//   for(const auto&i: constants.list)
+//     {
+//       split=LineSplit(i);
+//       name=split.name;
+//       value=split.value;
+//       map[name]=value;
+//     }
+// }
