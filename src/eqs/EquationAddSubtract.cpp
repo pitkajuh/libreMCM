@@ -8,11 +8,13 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef CREATECONSTANTS_H
-#define CREATECONSTANTS_H
+#include <unordered_map>
+#include "../types/Csv.h"
 
-// #include "../types/ReadFile.h"
+using std::unordered_map;
 
-// Pair GetData(ifstream &bin, streampos from);
+void EquationAddSubtract(const unordered_map<string, string> equations_map, const Csv csv)
+{
 
-#endif
+
+}

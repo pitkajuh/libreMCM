@@ -16,6 +16,7 @@
 #include "rcfg/get_bin.h"
 #include "util/MapUtils.h"
 #include "comp/GetCompartment.h"
+#include "eqs/EquationAddSubtract.h"
 
 #define GetCurrentDir getcwd
 
@@ -72,7 +73,7 @@ void ReadInitialData(const string directory)
    compartments.close();
 
    ifstream compartment(directory+"compartment.csv");
-   GetCompartment(compartment);
+   Csv csv=GetCompartment(compartment);
    compartment.close();
 
 

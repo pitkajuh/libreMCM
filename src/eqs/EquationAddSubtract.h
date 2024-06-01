@@ -8,27 +8,14 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include "../util/StringUtils.h"
-#include "../types/ReadFile.h"
-#include <iostream>
-#include <unordered_map>
+#ifndef EQUATIONADDSUBTRACT_H
+#define EQUATIONADDSUBTRACT_H
 
-using std::ifstream;
-using std::cout;
+#include <unordered_map>
+#include "../types/Csv.h"
+
 using std::unordered_map;
 
-// void CreateConstants(Pair constants)
-// {
-//   StringSplit split("", "");
-//   string name;
-//   string value;
-//   unordered_map<string, string> map;
+void EquationAddSubtract(const unordered_map<string, string> equations_map, const Csv csv);
 
-//   for(const auto&i: constants.list)
-//     {
-//       split=LineSplit(i);
-//       name=split.name;
-//       value=split.value;
-//       map[name]=value;
-//     }
-// }
+#endif
