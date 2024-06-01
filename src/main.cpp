@@ -74,6 +74,7 @@ void ReadInitialData(const string directory)
 
    ifstream compartment(directory+"compartment.csv");
    Csv csv=GetCompartment(compartment);
+   csv.GetDiagonal();
    compartment.close();
 
 

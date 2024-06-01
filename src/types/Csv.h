@@ -27,6 +27,17 @@ class Csv
 public:
   vector<Row> rows;
   vector<Column> columns;
+  vector<string> diagonal;
+
+  void GetDiagonal()
+  {
+  for(int i=0; i<rows.size(); i++)
+    {
+      // TODO Check that diagonal element is not empty.
+      diagonal.push_back(rows[i][i]);
+      cout<<"Digonal "<<rows[i][i]<<'\n';
+    }
+  }
 
   vector<string> GetColumn(const int i) const
   {
