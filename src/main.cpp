@@ -18,6 +18,7 @@
 #include "util/CreateInitialValues.h"
 #include "comp/GetCompartment.h"
 #include "eqs/EquationAddSubtract.h"
+#include "eqs/ParseEquations.h"
 
 #define GetCurrentDir getcwd
 
@@ -78,6 +79,8 @@ void ReadInitialData(const string directory)
 
   unordered_map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
   vector<string> AllInitialValueNames=CreateAllInitialValues(iv);
+
+  ParseEquations(equations_map);
 
 //   get_sim_params(directory);
 //   get_compartment(directory);

@@ -10,13 +10,9 @@
 
 #include "../types/Csv.h"
 #include "../types/AddSubtract.h"
-
 #include <unordered_map>
 
 using std::unordered_map;
-
-#include <iostream>
-using std::cout;
 
 const string EMPTY=" ";
 
