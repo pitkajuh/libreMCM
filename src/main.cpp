@@ -22,7 +22,7 @@
 
 using std::cout;
 using std::string;
-
+using InitialValues=unordered_map<string, string>;
 bool run_deterministic_sim=false;
 
 enum
@@ -66,25 +66,9 @@ void ReadInitialData(const string directory)
   ifstream compartments(directory+"compartments");
   from=new streampos;
   *from=0;
-  // unordered_map<string, string> initial_values_map;
-  GetInitialValues(compartments, from);
-
+  unordered_map<string, InitialValues> iv=GetInitialValues(compartments, from);
+  compartments.close();
   delete from;
-   // ifstream compartments(directory+"compartments");
-   // FileData c=Read(compartments, 0);
-   // Pair compartment_i(c.name->line, c.data->v, c.data->position);
-   // cout<<"NAME "<<c.name->line<<'\n';
-   // unordered_map<string, string> compartment_map=CreatePairMap(compartment_i);
-
-   // while(!compartments.eof())
-   //   {
-   //     c=Read(compartments, c.data->position);
-   //     Pair compartment_i(c.name->line, c.data->v, c.data->position);
-   //     cout<<"NAME "<<c.name->line<<'\n';
-   //     compartment_map=AddToMap(compartment_i, compartment_map);
-   //   }
-
-   // compartments.close();
 
    ifstream compartment(directory+"compartment.csv");
    Csv csv=GetCompartment(compartment);

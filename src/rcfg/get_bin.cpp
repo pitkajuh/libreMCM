@@ -15,7 +15,7 @@
 
 using std::ifstream;
 using std::cout;
-
+using InitialValues=unordered_map<string, string>;
 const string open="{";
 const string close="}";
 
@@ -61,36 +61,19 @@ Pair GetData(ifstream &bin, streampos from)
   return r;
 }
 
-const unordered_map<string, string> GetBin(ifstream &bin, streampos *from)
+const unordered_map<string, string> GetBin(ifstream &bin, streampos *from, string *name=nullptr)
 {
   const Pair pair=GetData(bin, *from);
+  if(name!=nullptr) *name=pair.name;
   const unordered_map<string, string> map=CreatePairMap(pair);
   *from=pair.position;
   return map;
 }
 
-void GetInitialValues(ifstream &bin, streampos *from)
+unordered_map<string, InitialValues> GetInitialValues(ifstream &bin, streampos *from)
 {
-  // const string FILE_NAME=directory+"compartments2";
-  // ifstream bin(FILE_NAME);
-  // FileData compartment=Read(bin, 0);
-
-  // while(!bin.eof())  compartment=Read(bin, compartment.data->position);
-
-  unordered_map<string, string> map_new;
-  cout<<"get in val "<<*from<<'\n';
-  while(!bin.eof())
-    {
-      map_new=GetBin(bin, from);
-      cout<<"from "<<*from<<'\n';
-      // GetInitialValues(bin, from);
-    }
-
-  // bin.close();
-  // ifstream compartments(directory+"compartments");
-  // streampos *from=new streampos;
-  // from=new streampos;
-  // *from=0;
-  // unordered_map<string, string> map=GetBin(compartments, from);
-      // return map_new;
+  unordered_map<string, InitialValues> map;
+  string *name=new string;
+  while(!bin.eof())  map[*name]=GetBin(bin, from, name);
+  return map;
 }

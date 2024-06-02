@@ -15,7 +15,6 @@
 
 using std::unordered_map;
 
-unordered_map<string, string> AddToMap(Pair pair, unordered_map<string, string> map);
 unordered_map<string, string> CreatePairMap(Pair pair);
 
 #endif
