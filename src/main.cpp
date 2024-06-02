@@ -46,15 +46,22 @@ static struct option const options[]=
 void ReadInitialData(const string directory)
 {
   ifstream bin(directory+"bin");
-  Pair constants=GetData(bin, 0);
-  unordered_map<string, string> constants_map=CreatePairMap(constants);
-  Pair equations=GetData(bin, constants.position);
-  unordered_map<string, string> equations_map=CreatePairMap(equations);
+  streampos *from=new streampos;
+  *from=0;
+  const unordered_map<string, string> constants_map=GetBin(bin, from);
+  cout<<" "<<'\n';
+  const unordered_map<string, string> equations_map=GetBin(bin, from);
+  cout<<" "<<'\n';
   bin.close();
+  delete from;
 
   ifstream sim(directory+"sim_params");
-  Pair settings=GetData(sim, 0);
-   sim.close();
+  from=new streampos;
+  *from=0;
+  const unordered_map<string, string> settings_map=GetBin(sim, from);
+  cout<<" "<<'\n';
+  sim.close();
+  delete from;
 
    ifstream compartments(directory+"compartments");
    FileData c=Read(compartments, 0);
@@ -77,9 +84,7 @@ void ReadInitialData(const string directory)
    csv.GetDiagonal();
    compartment.close();
 
-
-
-   EquationAddSubtract(csv);
+   unordered_map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
 
   // GetBin(directory);
   // cout<<" "<<'\n';

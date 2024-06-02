@@ -10,6 +10,7 @@
 
 #include "../util/StringUtils.h"
 #include "../types/ReadFile.h"
+#include "../util/MapUtils.h"
 #include <iostream>
 
 using std::ifstream;
@@ -43,7 +44,6 @@ void GetLine(ifstream &bin, streampos from, ReadFile *type, const string find)
 {
   bin.seekg(from, bin.beg);
   Get(bin, from, find, type);
-  // cout<<"RESULT1 "<<type->line<<'\n';
 }
 
 FileData Read(ifstream &bin, streampos from)
@@ -61,13 +61,24 @@ Pair GetData(ifstream &bin, streampos from)
   return r;
 }
 
+const unordered_map<string, string> GetBin(ifstream &bin, streampos *from)
+{
+  const Pair pair=GetData(bin, *from);
+  const unordered_map<string, string> map=CreatePairMap(pair);
+  *from=pair.position;
+  return map;
+}
+
 void GetInitialValues(const string directory)
 {
-  const string FILE_NAME=directory+"compartments2";
-  ifstream bin(FILE_NAME);
-  FileData compartment=Read(bin, 0);
+  // const string FILE_NAME=directory+"compartments2";
+  // ifstream bin(FILE_NAME);
+  // FileData compartment=Read(bin, 0);
 
-  while(!bin.eof())  compartment=Read(bin, compartment.data->position);
+  // while(!bin.eof())  compartment=Read(bin, compartment.data->position);
 
-  bin.close();
+  // bin.close();
+  ifstream compartments(directory+"compartments");
+  from=new streampos;
+  *from=0;
 }

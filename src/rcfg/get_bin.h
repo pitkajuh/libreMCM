@@ -15,5 +15,7 @@
 
 Pair GetData(ifstream &bin, streampos from);
 FileData Read(ifstream &bin, streampos from);
+const unordered_map<string, string> GetBin(ifstream &bin, streampos *from);
+void GetInitialValues(const string directory);
 
 #endif
