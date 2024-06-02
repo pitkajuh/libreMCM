@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include "rcfg/get_bin.h"
 #include "util/MapUtils.h"
+#include "util/CreateInitialValues.h"
 #include "comp/GetCompartment.h"
 #include "eqs/EquationAddSubtract.h"
 
@@ -70,22 +71,13 @@ void ReadInitialData(const string directory)
   compartments.close();
   delete from;
 
-   ifstream compartment(directory+"compartment.csv");
-   Csv csv=GetCompartment(compartment);
-   csv.GetDiagonal();
-   compartment.close();
+  ifstream compartment(directory+"compartment.csv");
+  Csv csv=GetCompartment(compartment);
+  csv.GetDiagonal();
+  compartment.close();
 
-   unordered_map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
-
-  // GetBin(directory);
-  // cout<<" "<<'\n';
-  // GetSettings(directory);
-  // cout<<" "<<'\n';
-  // GetInitialValues(directory);
-  // // cout<<" "<<'\n';
-
-
-
+  unordered_map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
+  vector<string> AllInitialValueNames=CreateAllInitialValues(iv);
 
 //   get_sim_params(directory);
 //   get_compartment(directory);

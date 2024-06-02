@@ -8,17 +8,16 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-r
-{
-    r0=400;
-    n1=5;
-    g1=6;
-}
+#ifndef CREATEINITIALVALUES_H
+#define CREATEINITIALVALUES_H
 
-f{
-  f0=2;
-  d1=6;
-  h3=4;
-  n1=1;
-  r0=2;
-}
+#include <string>
+#include <unordered_map>
+#include <vector>
+using std::unordered_map;
+using std::vector;
+using std::string;
+
+vector<string> CreateAllInitialValues(const unordered_map<string, InitialValues> iv);
+
+#endif
