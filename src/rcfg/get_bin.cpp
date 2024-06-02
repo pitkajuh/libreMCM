@@ -11,13 +11,8 @@
 #include "../util/StringUtils.h"
 #include "../types/ReadFile.h"
 #include "../util/MapUtils.h"
-#include <iostream>
 
-using std::ifstream;
-using std::cout;
 using InitialValues=unordered_map<string, string>;
-const string open="{";
-const string close="}";
 
 void Get(ifstream &f, const streampos from, const string find, ReadFile *ftype)
 {
@@ -49,8 +44,8 @@ void GetLine(ifstream &bin, streampos from, ReadFile *type, const string find)
 FileData Read(ifstream &bin, streampos from)
 {
   FileData r;
-  GetLine(bin, from, r.name, open);
-  GetLine(bin, r.name->position, r.data, close);
+  GetLine(bin, from, r.name, "{");
+  GetLine(bin, r.name->position, r.data, "}");
   return r;
 }
 
@@ -75,5 +70,6 @@ unordered_map<string, InitialValues> GetInitialValues(ifstream &bin, streampos *
   unordered_map<string, InitialValues> map;
   string *name=new string;
   while(!bin.eof())  map[*name]=GetBin(bin, from, name);
+  delete name;
   return map;
 }
