@@ -69,7 +69,7 @@ const unordered_map<string, string> GetBin(ifstream &bin, streampos *from)
   return map;
 }
 
-void GetInitialValues(const string directory)
+void GetInitialValues(ifstream &bin, streampos *from)
 {
   // const string FILE_NAME=directory+"compartments2";
   // ifstream bin(FILE_NAME);
@@ -77,8 +77,20 @@ void GetInitialValues(const string directory)
 
   // while(!bin.eof())  compartment=Read(bin, compartment.data->position);
 
+  unordered_map<string, string> map_new;
+  cout<<"get in val "<<*from<<'\n';
+  while(!bin.eof())
+    {
+      map_new=GetBin(bin, from);
+      cout<<"from "<<*from<<'\n';
+      // GetInitialValues(bin, from);
+    }
+
   // bin.close();
-  ifstream compartments(directory+"compartments");
-  from=new streampos;
-  *from=0;
+  // ifstream compartments(directory+"compartments");
+  // streampos *from=new streampos;
+  // from=new streampos;
+  // *from=0;
+  // unordered_map<string, string> map=GetBin(compartments, from);
+      // return map_new;
 }
