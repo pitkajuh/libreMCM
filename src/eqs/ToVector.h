@@ -8,23 +8,15 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include "ToVector.h"
-// #include "../types/AddSubtract.h"
-#include <unordered_map>
+#ifndef TOVECTOR_H
+#define TOVECTOR_H
+
 #include <string>
+#include <vector>
 
-using std::unordered_map;
 using std::string;
+using std::vector;
 
-void ParseEquations(const unordered_map<string, string> equations_map)
-{
-  string name;
-  string equation;
+vector<string> ToVector(string v);
 
-  for(auto i=equations_map.begin(); i!=equations_map.end(); i++)
-    {
-      name=i->first;
-      equation=i->second;
-      ToVector(equation);
-    }
-}
+#endif
