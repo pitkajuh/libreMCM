@@ -8,37 +8,71 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef COMPARTMENT_H
-#define COMPARTMENT_H
+#ifndef VALUE_H
+#define VALUE_H
 
-#include <unordered_map>
-/* #include "Equation.h" */
+#include <string>
+#include <vector>
 
-using std::unordered_map;
+using std::string;
 
-class Compartment
+// template<typename T>
+class Value
+{
+public:
+  string name;
+  double value;
+
+
+
+  // Value(string s, double v)
+  // {
+  //   name=s;
+  //   value=v;
+  // }
+  void SetName(string s) name=s;
+  void SetValue(double v value=v;
+  /* ~Value(){} */
+};
+
+// template<typename T>
+class Constant: public Value
 {
 public:
 
-/*   vector<string> initial_values; */
-/*   //equations add */
-/*   //equations subtract */
-/*   //equation total (combine add and subtract) */
-/* public: */
-/*   string name; */
+  Constant(string s, double v=0)
+  {
+    name=s;
+    value=v;
+  }
+
 };
 
-/* class Void: public Compartment */
-/* { */
-/* public: */
+// template<typename T>
+class Variable: public Value
+{
+public:
 
-/* }; */
 
-/* class Origin: public Compartment */
-/* { */
-/* public: */
+};
 
-/* }; */
+class InitialValue: public Value
+{
+public:
 
+  // InitialValue(string s, double v=0)
+  // {
+  //   name=s;
+  //   value=v;
+  // }
+
+};
+
+class RadioNuclide: public InitialValue
+{
+private:
+  double halflife;
+
+};
 
 #endif
