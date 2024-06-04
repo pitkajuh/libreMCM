@@ -17,9 +17,8 @@ constants{
 
 equations
 {
-  // prey_birth=a*r;
-  // prey_death=b*r*f;
-  // predator_birth=d*b*f*r;
-  // predator_death=c*f;
-  test1=a*r+(a+b)*f;
+  prey_birth=a*r;
+  prey_death=b*r*f;
+  predator_birth=d*b*f*r;
+  predator_death=c*f;
 }
