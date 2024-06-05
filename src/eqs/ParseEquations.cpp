@@ -9,6 +9,7 @@
 \*---------------------------------------------------------------------------*/
 
 #include "ToVector.h"
+#include "test.h"
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>
@@ -17,31 +18,36 @@ using std::unordered_map;
 using std::to_string;
 using std::cout;
 
-vector<string> GetEquation(const vector<string> equation, const int open, const int close)
-{
-  vector<string> r;
-  const vector<string> tmp2={equation.begin(), equation.begin()+open};
-  const vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
-  const vector<string> tmp3={equation.begin()+close+1, equation.end()};
-  r.insert(r.begin(), tmp2.begin(), tmp2.end());
-  r.insert(r.end(), tmp.begin(), tmp.end());
-  r.insert(r.end(), tmp3.begin(), tmp3.end());
-  return r;
-}
+const string OPEN="(";
+const string CLOSE=")";
+int k=0;
 
-bool IsOpen(vector<string> equation, int open, const int close)
+void print_vector2(vector<string> vec)
 {
-  bool result=false;
-  vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
-  open=distance(tmp.begin(), find(tmp.begin(), tmp.end(), "("));
-  if(open==tmp.size()) result=true;
-  return result;
+  int i=0;
+  string empty="";
+
+  if(vec.size()>0)
+    {
+      while(i<=vec.size()-1)
+	{
+	  if(i==0)
+	    {
+	      empty=vec[i];
+	    }
+	  else
+	    {
+	      empty=empty+";"+vec[i];
+	    }
+	  i++;
+	}
+      cout<<empty<<'\n';
+    }
 }
 
 vector<string> FindOperator(vector<string> equation, const string find)
 {
   int i=0;
-  static int k=0;
   // MathOperation op;
 
   while(i<equation.size())
@@ -52,7 +58,6 @@ vector<string> FindOperator(vector<string> equation, const string find)
 	   // op.SetValue2(equation[i+1]);
 	   // op.SetMathOp(equation[i]);
 	   // op.id="T"+to_string(k);
-
 	   // MathOperation op(equation[i-1], equation[i], equation[i+1]);
 	   // Do something with op;
 
@@ -67,8 +72,6 @@ vector<string> FindOperator(vector<string> equation, const string find)
 	 }
        i++;
      }
-  // delete op;
-  // op.~MathOperation();
   return equation;
 }
 
@@ -79,76 +82,27 @@ vector<string> GetOrder(vector<string> equation)
   return equation;
 }
 
-vector<string> test33(vector<string> equation, int open, int close)
+vector<string> RemoveOpenClose(vector<string> equation)
 {
-  vector<string> tmp;
-  int open4;
-  int open3=open;
-  bool end=false;
-
-  while(end==false)
-    {
-      tmp={equation.begin()+open+1, equation.begin()+close};
-      open4=distance(tmp.begin(), find(tmp.begin(), tmp.end(), "("));
-
-      if(open4<tmp.size())
-	{
-	  open=distance(equation.begin()+open3+1, find(equation.begin()+open3+1, equation.end(), "("))+open3+1;
-	  equation=GetEquation(equation, open, close);
-	  open=distance(equation.begin(), find(equation.begin(), equation.end(), "("));
-	  close=distance(equation.begin(), find(equation.begin(), equation.end(), ")"));
-	}
-      else
-	{
-	  end=true;
-	  continue;
-	}
-    }
-  // print_vector2(equation);
-  // cout<<"test33 end"<<'\n';
+  // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
+  const int open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
+  const int close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
+  if(open!=equation.size() and close!=equation.size())  equation=Remove(equation, open, close);
   return equation;
 }
 
-vector<string> test3(vector<string> equation)
+vector<string> GetParenthesis(vector<string> equation, const int open, const int close)
 {
-  bool end=false;
-  bool is=false;
-  int close;
-  int open;
-  // equation=RemoveOpenClose(equation);
-
-  // cout<<"test3"<<'\n';
-  while(end==false)
-    {
-      // cout<<"test3 "<<close<<" "<<open<<'\n';
-      // print_vector2(equation);
-      close=distance(equation.begin(), find(equation.begin(), equation.end(), ")"));
-      open=distance(equation.begin(), find(equation.begin(), equation.end(), "("));
-
-      if(open>=equation.size()) break;
-
-      is=IsOpen(equation, open, close);
-
-      if(is)
-	{
-	  // cout<<is<<'\n';
-	  equation=GetEquation(equation, open, close);
-	  continue;
-	}
-      else
-	{
-	  // cout<<"ELSE"<<'\n';
-	  // print_vector2(equation);
-	  equation=test33(equation, open, close);
-	  // cout<<"test3"<<'\n';
-	  // print_vector2(equation);
-	}
-    }
-  // cout<<"test3 loop end"<<'\n';
-  equation=GetOrder(equation);
-  // cout<<"RESULT"<<'\n';
-  // print_vector2(equation);
-  return equation;
+  vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
+  tmp=test(tmp);
+  tmp=GetOrder(tmp);
+  vector<string> tmp4;
+  const vector<string> tmp2={equation.begin(), equation.begin()+open};
+  const vector<string> tmp3={equation.begin()+close+1, equation.end()};
+  tmp4.insert(tmp4.begin(), tmp2.begin(), tmp2.end());
+  tmp4.insert(tmp4.end(), tmp.begin(), tmp.end());
+  tmp4.insert(tmp4.end(), tmp3.begin(), tmp3.end());
+  return tmp4;
 }
 
 void ParseEquations(const unordered_map<string, string> equations_map)
@@ -162,7 +116,15 @@ void ParseEquations(const unordered_map<string, string> equations_map)
       name=i->first;
       equation=i->second;
       v=ToVector(equation);
-      cout<<"EQUATION "<<equation<<'\n';
-      v=test3(v);
+      cout<<"EQUATION "<<'\n';
+      print_vector2(v);
+      cout<<"1-------------"<<'\n';
+      v=RemoveOpenClose(v);
+      cout<<"EQUATION "<<'\n';
+      print_vector2(v);
+      cout<<"2-------------"<<'\n';
+      v=test(v);
+      v=GetOrder(v);
+      cout<<" "<<'\n';
     }
 }
