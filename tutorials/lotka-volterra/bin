@@ -17,8 +17,23 @@ constants{
 
 equations
 {
-  prey_birth=a*r;
-  prey_death=b*r*f;
-  predator_birth=d*b*f*r;
-  predator_death=c*f;
+  // prey_birth=a*r;
+  // prey_death=b*r*f;
+  // predator_birth=d*b*f*r;
+  // predator_death=c*f;
+  test1=a*r+(a+b)*f;
+  test2=a*r+((a+b))*f;
+  test3=a*r+(((a+b)))*f;
+  test4=a*r+(a+b+c)*f;
+  test5=a*r+(1+(a+b))*f;
+  test6=a*r+(((a+b)))*f;
+  test7=d*b*f*r+(a+b)+((d+r));
+  test8=a+e-b*r+a+b;
+  test9=b*r+(a+b)+a+b;
+  test10=b*r+(a+b);
+  test11=a*r+(a+b)+(b+r);
+  test12=b*r+(a+(b+a*c));
+  test13=d*b*f*r+(a+b)+(a+(d+r))+d*b*f*r;
+  test14=(((b+r)));
+  test15=b*r+((a+(b+a*c)));
 }

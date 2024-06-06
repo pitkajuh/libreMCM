@@ -85,9 +85,11 @@ vector<string> GetOrder(vector<string> equation)
 vector<string> RemoveOpenClose(vector<string> equation)
 {
   // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
+  // cout<<"RemoveOpenClose start"<<'\n';
   const int open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
   const int close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
   if(open!=equation.size() and close!=equation.size())  equation=Remove(equation, open, close);
+  // cout<<"RemoveOpenClose stop"<<'\n';
   return equation;
 }
 
@@ -116,9 +118,9 @@ void ParseEquations(const unordered_map<string, string> equations_map)
       name=i->first;
       equation=i->second;
       v=ToVector(equation);
-      cout<<"EQUATION "<<'\n';
-      print_vector2(v);
-      cout<<"1-------------"<<'\n';
+      // cout<<"EQUATION "<<'\n';
+      // print_vector2(v);
+      // cout<<"1-------------"<<'\n';
       v=RemoveOpenClose(v);
       cout<<"EQUATION "<<'\n';
       print_vector2(v);
