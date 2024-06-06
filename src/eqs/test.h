@@ -18,4 +18,4 @@ using std::to_string;
 using std::cout;
 
 vector<string> test(vector<string> equation);
-vector<string> Remove(vector<string> equation,  int open,  int close);
+vector<string> Remove(vector<string> equation,  const int open,  const int close);

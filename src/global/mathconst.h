@@ -8,33 +8,24 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-constants{
-  a=0.08;
-  b=1E-3;
-  c=0.23;
-  d=0.15;
-}
+#ifndef MATHCONST_H
+#define MATHCONST_H
 
-equations
-{
-  // prey_birth=a*r;
-  // prey_death=b*r*f;
-  // predator_birth=d*b*f*r;
-  // predator_death=c*f;
-  test1=a*r+(a+b)*f;
-  test2=a*r+((a+b))*f;
-  test3=a*r+(((a+b)))*f;
-  test4=a*r+(a+b+c)*f;
-  test5=a*r+(1+(a+b))*f;
-  test6=a*r+(((a+b)))*f;
-  test7=d*b*f*r+(a+b)+((d+r));
-  test8=a+e-b*r+a+b;
-  test9=b*r+(a+b)+a+b;
-  test10=b*r+(a+b);
-  test11=a*r+(a+b)+(b+r);
-  test12=b*r+(a+(b+a*c));
-  test13=d*b*f*r+(a+b)+(a+(d+r))+d*b*f*r;
-  test14=(((b+r)));
-  test15=b*r+((a+(b+a*c)));
-  test16=a*r+(a+b)*f^2;
-}
+#include <string>
+#include <vector>
+
+using std::string;
+using std::vector;
+
+const string DIVIDE="/";
+const string MULTIPLY="*";
+const string ADD="+";
+const string SUBTRACT="-";
+const string OPEN="(";
+const string CLOSE=")";
+const string EXP="^";
+
+const vector<string> OPERATORS={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT};
+const vector<string> OPERATORS2={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT, OPEN, CLOSE};
+
+#endif

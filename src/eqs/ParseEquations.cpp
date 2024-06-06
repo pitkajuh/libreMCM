@@ -10,6 +10,7 @@
 
 #include "ToVector.h"
 #include "test.h"
+#include "../global/mathconst.h"
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>
@@ -17,10 +18,6 @@
 using std::unordered_map;
 using std::to_string;
 using std::cout;
-
-const string OPEN="(";
-const string CLOSE=")";
-int k=0;
 
 void print_vector2(vector<string> vec)
 {
@@ -48,6 +45,7 @@ void print_vector2(vector<string> vec)
 vector<string> FindOperator(vector<string> equation, const string find)
 {
   int i=0;
+  static int k=0;
   // MathOperation op;
 
   while(i<equation.size())
@@ -77,23 +75,20 @@ vector<string> FindOperator(vector<string> equation, const string find)
 
 vector<string> GetOrder(vector<string> equation)
 {
-  const vector<string> operators={"/", "*", "+", "-"};
-  for(const auto&i: operators) equation=FindOperator(equation, i);
+  for(const auto&i: OPERATORS) equation=FindOperator(equation, i);
   return equation;
 }
 
 vector<string> RemoveOpenClose(vector<string> equation)
 {
   // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
-  // cout<<"RemoveOpenClose start"<<'\n';
   const int open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
   const int close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
   if(open!=equation.size() and close!=equation.size())  equation=Remove(equation, open, close);
-  // cout<<"RemoveOpenClose stop"<<'\n';
   return equation;
 }
 
-vector<string> GetParenthesis(vector<string> equation, const int open, const int close)
+vector<string> GetParenthesis(const vector<string> equation, const int open, const int close)
 {
   vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
   tmp=test(tmp);
@@ -109,14 +104,19 @@ vector<string> GetParenthesis(vector<string> equation, const int open, const int
 
 void ParseEquations(const unordered_map<string, string> equations_map)
 {
-  string name;
-  string equation;
+    /*
+    Set calculation order of  an equation according to order of operations:
+
+    1. Parentheses
+    2. Exponents
+    3. Multiplication and division
+    4. Addition and subtraction
+  */
+
   vector<string> v;
 
-  for(auto i=equations_map.begin(); i!=equations_map.end(); i++)
+  for(const auto& [name, equation]: equations_map)
     {
-      name=i->first;
-      equation=i->second;
       v=ToVector(equation);
       // cout<<"EQUATION "<<'\n';
       // print_vector2(v);

@@ -58,16 +58,13 @@ public:
   void UpdateColumns(const vector<string> row)
   {
     const Column c={};
-
     while(columns.size()!=row.size()) columns.push_back(c);
-
     // TODO:  Add error check here, which checks that the there are an equal amount of rows and columns i.e. csv is symmetrical.
   }
 
   void CreateColumn(const vector<string> row)
   {
     UpdateColumns(row);
-
     for(int i=0; i<row.size(); i++) columns[i].push_back(row[i]);
   }
 

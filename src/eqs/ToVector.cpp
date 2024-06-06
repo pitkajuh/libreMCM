@@ -8,6 +8,7 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
+#include "../global/mathconst.h"
 #include <algorithm>
 #include <unordered_map>
 #include <string>
@@ -21,17 +22,15 @@ using std::vector;
 using std::find;
 using std::cout;
 
-const vector<string> OPERATORS={"/", "*", "+", "-", "(", ")"};
-
 int FindIndex(const string s)
 {
   int found;
   int r=-1;
   int i=0;
 
-  while(i<OPERATORS.size())
+  while(i<OPERATORS2.size())
     {
-      found=s.find(OPERATORS[i]);
+      found=s.find(OPERATORS2[i]);
 
       if(found==-1)
 	{
@@ -63,7 +62,7 @@ vector<string> ToVector(string v)
 	  mathop=v[i];
 	  v=v.substr(i+1, distance(v.begin()+1,v.end()));
 	  if(!s.empty()) r.push_back(s);
-	  if(find(OPERATORS.begin(), OPERATORS.end(), mathop) !=OPERATORS.end()) r.push_back(mathop);
+	  if(find(OPERATORS2.begin(), OPERATORS2.end(), mathop) !=OPERATORS2.end()) r.push_back(mathop);
 	  size=v.size();
 	}
       else if(size==1)
