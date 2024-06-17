@@ -30,9 +30,9 @@ string UpdateValue(const string str)
 
 vector<string> LineToVector(string s)
 {
-  int size=s.size();
-  int size2;
-  int delimiter_i;
+  unsigned int size=s.size();
+  unsigned int size2;
+  unsigned int delimiter_i;
   bool end=false;
   vector<string> r;
   string str;
@@ -68,13 +68,11 @@ vector<string> LineToVector(string s)
 Csv GetCompartment(ifstream &f)
 {
   string line;
-  vector<string> a;
   Csv csv;
 
   while(getline(f, line))
     {
-      a=LineToVector(line);
-      csv.AddCsv(a);
+      csv.AddCsv(LineToVector(line));
       // row_i++;
       // cout<<"row "<<row_i<<'\n';
       // cout<<"@@@@@@@@@@@@@@@@@@@@@"<<'\n';

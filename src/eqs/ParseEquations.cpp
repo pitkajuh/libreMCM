@@ -42,10 +42,9 @@ void print_vector2(vector<string> vec)
     }
 }
 
-vector<string> FindOperator(vector<string> equation, const string find)
+vector<string> FindOperator(vector<string> equation, const string find, unsigned int &k)
 {
-  int i=0;
-  static int k=0;
+  unsigned int i=0;
   // MathOperation op;
 
   while(i<equation.size())
@@ -73,26 +72,26 @@ vector<string> FindOperator(vector<string> equation, const string find)
   return equation;
 }
 
-vector<string> GetOrder(vector<string> equation)
+vector<string> GetOrder(vector<string> equation, unsigned int &k)
 {
-  for(const auto&i: OPERATORS) equation=FindOperator(equation, i);
+  for(const auto&i: OPERATORS) equation=FindOperator(equation, i, k);
   return equation;
 }
 
 vector<string> RemoveOpenClose(vector<string> equation)
 {
   // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
-  const int open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
-  const int close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
+  const unsigned int open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
+  const unsigned int close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
   if(open!=equation.size() and close!=equation.size())  equation=Remove(equation, open, close);
   return equation;
 }
 
-vector<string> GetParenthesis(const vector<string> equation, const int open, const int close)
+vector<string> GetParenthesis(const vector<string> equation, const int open, const int close, unsigned int &k)
 {
   vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
-  tmp=test(tmp);
-  tmp=GetOrder(tmp);
+  tmp=test(tmp, k);
+  tmp=GetOrder(tmp, k);
   vector<string> tmp4;
   const vector<string> tmp2={equation.begin(), equation.begin()+open};
   const vector<string> tmp3={equation.begin()+close+1, equation.end()};
@@ -104,16 +103,15 @@ vector<string> GetParenthesis(const vector<string> equation, const int open, con
 
 void ParseEquations(const unordered_map<string, string> equations_map)
 {
-    /*
-    Set calculation order of  an equation according to order of operations:
+    // Set calculation order of  an equation according to order of operations:
 
-    1. Parentheses
-    2. Exponents
-    3. Multiplication and division
-    4. Addition and subtraction
-  */
+    // 1. Parentheses
+    // 2. Exponents
+    // 3. Multiplication and division
+    // 4. Addition and subtraction
 
   vector<string> v;
+  unsigned int k=0;
 
   for(const auto& [name, equation]: equations_map)
     {
@@ -125,8 +123,8 @@ void ParseEquations(const unordered_map<string, string> equations_map)
       cout<<"EQUATION "<<'\n';
       print_vector2(v);
       cout<<"2-------------"<<'\n';
-      v=test(v);
-      v=GetOrder(v);
+      v=test(v, k);
+      v=GetOrder(v, k);
       cout<<" "<<'\n';
     }
 }

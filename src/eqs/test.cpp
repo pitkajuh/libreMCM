@@ -30,20 +30,19 @@ vector<string> Remove(vector<string> equation, const int open, const int close)
   return equation;
 }
 
-bool IsOpen(vector<string> equation, const int open, const int close, const vector<string> tmp)
+bool IsOpen(vector<string> equation, const unsigned int open, const unsigned int close, const vector<string> tmp)
 {
-  const int size=tmp.size();
   bool result=false;
-  int open1=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
-  if(open1==size) result=true;
+  unsigned int open1=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
+  if(open1==tmp.size()) result=true;
   return result;
 }
 
-vector<string> test2(vector<string> equation, int open, int close)
+vector<string> test2(vector<string> equation, unsigned int open, unsigned int close, unsigned int &k)
 {
   vector<string> tmp;
-  int open2;
-  const int open3=open;
+  unsigned int open2;
+  const unsigned int open3=open;
   bool end=false;
 
   while(!end)
@@ -54,7 +53,7 @@ vector<string> test2(vector<string> equation, int open, int close)
       if(open2<tmp.size())
 	{
 	  open=distance(equation.begin()+open3+1, find(equation.begin()+open3+1, equation.end(), OPEN))+open3+1;
-	  equation=GetParenthesis(equation, open, close);
+	  equation=GetParenthesis(equation, open, close, k);
 	  open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
 	  close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
 	}
@@ -63,12 +62,12 @@ vector<string> test2(vector<string> equation, int open, int close)
   return equation;
 }
 
-vector<string> test(vector<string> equation)
+vector<string> test(vector<string> equation, unsigned int &k)
 {
   bool end=false;
   bool is;
-  int open;
-  int close;
+  unsigned int open;
+  unsigned int close;
   vector<string> tmp;
 
   while(!end)
@@ -81,8 +80,8 @@ vector<string> test(vector<string> equation)
       tmp={equation.begin()+open+1, equation.begin()+close};
       is=IsOpen(equation, open, close, tmp);
 
-      if(is) equation=GetParenthesis(equation, open, close);
-      else equation=test2(equation, open, close);
+      if(is) equation=GetParenthesis(equation, open, close, k);
+      else equation=test2(equation, open, close, k);
     }
   return equation;
 }

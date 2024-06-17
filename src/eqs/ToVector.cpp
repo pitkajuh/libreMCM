@@ -24,9 +24,9 @@ using std::cout;
 
 int FindIndex(const string s)
 {
-  int found;
   int r=-1;
-  int i=0;
+  unsigned int i=0;
+  unsigned int found;
 
   while(i<OPERATORS2.size())
     {
@@ -47,7 +47,7 @@ vector<string> ToVector(string v)
 {
   int i;
   bool end=false;
-  int size=v.size();
+  unsigned int size=v.size();
   string s;
   string mathop;
   vector<string> r;

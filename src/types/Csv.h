@@ -33,7 +33,7 @@ public:
   {
     string compartment;
 
-    for(int i=0; i<rows.size(); i++)
+    for(unsigned int i=0; i<rows.size(); i++)
       {
 	compartment=rows[i][i];
 	// TODO Check that diagonal element is not empty.
@@ -41,18 +41,16 @@ public:
       }
   }
 
-  vector<string> GetColumn(const int i) const
+  vector<string> GetColumn(const unsigned int i) const
   {
     vector<string> c;
-
-    for(int j=0; j<columns.size(); j++) c.emplace_back(columns[i][j]);
-
+    for(unsigned int j=0; j<columns.size(); j++) c.emplace_back(columns[i][j]);
     return c;
   }
 
   void PrintColumn() const
   {
-    for(int i=0;i<columns.size(); i++) GetColumn(i);
+    for(unsigned int i=0;i<columns.size(); i++) GetColumn(i);
   }
 
   void UpdateColumns(const vector<string> row)
@@ -65,7 +63,7 @@ public:
   void CreateColumn(const vector<string> row)
   {
     UpdateColumns(row);
-    for(int i=0; i<row.size(); i++) columns[i].emplace_back(row[i]);
+    for(unsigned int i=0; i<row.size(); i++) columns[i].emplace_back(row[i]);
   }
 
   void AddCsv(const vector<string> row)

@@ -17,5 +17,5 @@ using std::unordered_map;
 using std::to_string;
 using std::cout;
 
-vector<string> test(vector<string> equation);
+vector<string> test(vector<string> equation,  unsigned int &k);
 vector<string> Remove(vector<string> equation,  const int open,  const int close);

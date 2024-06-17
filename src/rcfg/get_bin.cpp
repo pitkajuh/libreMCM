@@ -8,8 +8,8 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include "../util/StringUtils.h"
 #include "../types/ReadFile.h"
+#include "../util/StringUtils.h"
 #include "../util/MapUtils.h"
 
 using InitialValues=unordered_map<string, string>;

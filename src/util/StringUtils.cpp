@@ -31,8 +31,8 @@ const string RemoveComment(string line)
 
 StringSplit LineSplit(const string line)
 {
-  const int SIZE=line.size();
-  const int at=distance(line.begin(), find(line.begin(), line.end(), '='));
+  const unsigned int SIZE=line.size();
+  const unsigned int at=distance(line.begin(), find(line.begin(), line.end(), '='));
   string name;
   string value;
 
