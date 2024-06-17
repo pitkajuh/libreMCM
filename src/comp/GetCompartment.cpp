@@ -44,14 +44,14 @@ vector<string> LineToVector(string s)
 
        if(size==0)
 	 {
-	   r.push_back(EMPTY);
+	   r.emplace_back(EMPTY);
 	   // cout<<"s1: "<<": "<<size<<" "<<size2<<" "<<delimiter_i<<'\n';
 	   end=true;
 	   continue;
 	 }
        else if(delimiter_i==size2)
 	 {
-	   r.push_back(s);
+	   r.emplace_back(s);
 	   // cout<<"s2:"<<s<<": "<<size<<" "<<size2<<" "<<delimiter_i<<'\n';
 	   break;
 	 }
@@ -59,7 +59,7 @@ vector<string> LineToVector(string s)
        str=s.substr(0, delimiter_i+1);
        s=s.substr(delimiter_i+1, size);
        size=s.size();
-       r.push_back(UpdateValue(str));
+       r.emplace_back(UpdateValue(str));
        // cout<<"s :"<<s<<":"<<size<<" "<<size2<<" "<<delimiter_i<<'\n';
      }
    return r;

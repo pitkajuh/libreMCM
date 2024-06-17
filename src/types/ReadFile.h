@@ -87,7 +87,7 @@ public:
 
     if(size>1 and o<size)
       {
-	v.push_back(line);
+	v.emplace_back(line);
 	std::cout<<"TEST "<<v.size()<<" "<<line<<'\n';
       }
   }

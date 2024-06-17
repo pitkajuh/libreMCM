@@ -37,7 +37,7 @@ public:
       {
 	compartment=rows[i][i];
 	// TODO Check that diagonal element is not empty.
-	if(compartment!="void" or compartment!="origin") diagonal.push_back(compartment);
+	if(compartment!="void" or compartment!="origin") diagonal.emplace_back(compartment);
       }
   }
 
@@ -45,7 +45,7 @@ public:
   {
     vector<string> c;
 
-    for(int j=0; j<columns.size(); j++) c.push_back(columns[i][j]);
+    for(int j=0; j<columns.size(); j++) c.emplace_back(columns[i][j]);
 
     return c;
   }
@@ -58,19 +58,19 @@ public:
   void UpdateColumns(const vector<string> row)
   {
     const Column c={};
-    while(columns.size()!=row.size()) columns.push_back(c);
+    while(columns.size()!=row.size()) columns.emplace_back(c);
     // TODO:  Add error check here, which checks that the there are an equal amount of rows and columns i.e. csv is symmetrical.
   }
 
   void CreateColumn(const vector<string> row)
   {
     UpdateColumns(row);
-    for(int i=0; i<row.size(); i++) columns[i].push_back(row[i]);
+    for(int i=0; i<row.size(); i++) columns[i].emplace_back(row[i]);
   }
 
   void AddCsv(const vector<string> row)
   {
-    rows.push_back(row);
+    rows.emplace_back(row);
     CreateColumn(row);
   }
 };

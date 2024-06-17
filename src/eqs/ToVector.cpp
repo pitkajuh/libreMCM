@@ -61,19 +61,19 @@ vector<string> ToVector(string v)
 	  s=v.substr(0, i);
 	  mathop=v[i];
 	  v=v.substr(i+1, distance(v.begin()+1,v.end()));
-	  if(!s.empty()) r.push_back(s);
-	  if(find(OPERATORS2.begin(), OPERATORS2.end(), mathop) !=OPERATORS2.end()) r.push_back(mathop);
+	  if(!s.empty()) r.emplace_back(s);
+	  if(find(OPERATORS2.begin(), OPERATORS2.end(), mathop) !=OPERATORS2.end()) r.emplace_back(mathop);
 	  size=v.size();
 	}
       else if(size==1)
 	{
-	  r.push_back(v);
+	  r.emplace_back(v);
 	  end=true;
 	}
       else
 	{
 	  s=v[i];
-	  r.push_back(s);
+	  r.emplace_back(s);
 	  end=true;
 	}
     }
