@@ -23,7 +23,7 @@ public:
   double value;
 
   void SetName(string s) name=s;
-  void SetValue(double v value=v;
+  void SetValue(double v) value=v;
 };
 
 class Constant: public Value
