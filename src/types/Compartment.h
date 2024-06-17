@@ -15,11 +15,14 @@
 /* #include "Equation.h" */
 
 using std::unordered_map;
+using InitialValues=unordered_map<string, string>;
 
 class Compartment
 {
 public:
-
+  vector<string> equations_add;
+  vector<string> equations_subtract;
+  InitialValues ivs;
 /*   vector<string> initial_values; */
 /*   //equations add */
 /*   //equations subtract */

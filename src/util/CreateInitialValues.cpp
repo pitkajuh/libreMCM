@@ -19,9 +19,9 @@ using std::vector;
 using std::find;
 using InitialValues=unordered_map<string, string>;
 
-void GetIv(const InitialValues iv,  vector<string> *IvNames)
+void GetIv(const InitialValues iv, vector<string> *IvNames)
 {
-    for(auto i=iv.begin(); i!=iv.end(); i++)  if(find(IvNames->begin(), IvNames->end(), i->first)==IvNames->end())  IvNames->push_back(i->first);
+  for(const auto& [name, value]: iv) if(find(IvNames->begin(), IvNames->end(), name)==IvNames->end()) IvNames->push_back(name);
 }
 
 vector<string> CreateAllInitialValues(const unordered_map<string, InitialValues> iv)
