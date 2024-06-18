@@ -62,19 +62,19 @@ public:
   MathOperator* math_op;
   double result;
 
-  // void SetValue1(const string x)
-  // {
-  //   bool variable=is_in_vector(Matrix.diagonal2, x);
-  //   if(variable) v1=new Variable;
-  //   else v1=new Constant(x);
-  // }
+  void SetValue1(const string x)
+  {
+    bool variable=is_in_vector(Matrix.diagonal2, x);
+    if(variable) v1=new Variable;
+    else v1=new Constant(x);
+  }
 
-  // void SetValue2(const string x)
-  // {
-  //   bool variable=is_in_vector(Matrix.diagonal2, x);
-  //   if(variable) v2=new Variable;
-  //   else v2=new Constant(x);
-  // }
+  void SetValue2(const string x)
+  {
+    bool variable=is_in_vector(Matrix.diagonal2, x);
+    if(variable) v2=new Variable;
+    else v2=new Constant(x);
+  }
 
   void SetMathOp(const string m)
   {
