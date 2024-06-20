@@ -13,6 +13,7 @@
 
 #include <string>
 #include <vector>
+#include <math.h>
 
 using std::string;
 
@@ -51,8 +52,13 @@ public:
 
 class RadioNuclide: public InitialValue
 {
-private:
+public:
   double halflife;
+
+  double ExpDecay(const double t)
+  {
+    return value*exp(-log(2)*t/halflife);
+  }
 
 };
 
