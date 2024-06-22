@@ -11,6 +11,8 @@
 #include "ToVector.h"
 #include "test.h"
 #include "../global/mathconst.h"
+#include "../types/Value.h"
+#include "../types/MathOperation.h"
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>

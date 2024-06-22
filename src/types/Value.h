@@ -23,8 +23,8 @@ public:
   string name;
   double value;
 
-  void SetName(string s) name=s;
-  void SetValue(double v) value=v;
+  void SetName(const string s) {name=s;}
+  void SetValue(const double v) {value=v;}
 };
 
 class Constant: public Value
