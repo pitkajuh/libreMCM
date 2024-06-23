@@ -25,28 +25,25 @@ void print_vector2(vector<string> vec)
   int i=0;
   string empty="";
 
-  if(vec.size()>0)
+  while(i<=vec.size()-1 && vec.size()>0)
     {
-      while(i<=vec.size()-1)
-	{
-	  if(i==0)
-	    {
-	      empty=vec[i];
-	    }
-	  else
-	    {
-	      empty=empty+";"+vec[i];
-	    }
-	  i++;
-	}
-      cout<<empty<<'\n';
+      if(i==0)  empty=vec[i];
+      else empty=empty+";"+vec[i];
+      i++;
     }
+  cout<<empty<<'\n';
 }
 
 struct Eq
 {
   vector<string> eq;
   vector<OpTmp> operation;
+  Eq(){}
+  Eq(const vector<string> &e, const vector<OpTmp> &o)
+  {
+    eq=e;
+    operation=o;
+  }
 };
 
 vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, vector<OpTmp> &ooo)
@@ -75,10 +72,10 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 
 Eq GetOrder(vector<string> equation, unsigned int &k, vector<OpTmp> &ooo)
 {
-  Eq r;
   for(const auto&i: OPERATORS) equation=FindOperator(equation, i, k, ooo);
-  r.eq=equation;
-  r.operation=ooo;
+  Eq r(equation, ooo);
+  // r.eq=equation;
+  // r.operation=ooo;
   return r;
 }
 
