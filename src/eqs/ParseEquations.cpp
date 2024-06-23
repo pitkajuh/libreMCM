@@ -44,7 +44,30 @@ void print_vector2(vector<string> vec)
     }
 }
 
-vector<string> FindOperator(vector<string> equation, const string find, unsigned int &k)
+// bool IsNumerical(const string &s)
+// {
+//   bool r=false;
+//   for(const auto &i: s)
+//     if(isdigit(i))
+//       {
+// 	r=true;
+//       }
+//   return r;
+// }
+
+bool IsConstant(const string &s, const unordered_map<string, string> &constants_map)
+{
+  bool r=false;
+  return r;
+}
+
+bool IsVariable(const string &s, const vector<string> &diagonal)
+{
+  bool r=false;
+  return r;
+}
+
+vector<string> FindOperator(vector<string> &equation, const string &find, unsigned int &k)
 {
   unsigned int i=0;
   // MathOperation op;

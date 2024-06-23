@@ -77,6 +77,8 @@ void ReadInitialData(const string directory)
   csv.GetDiagonal();
   compartment.close();
 
+  const vector<string> diagonal=csv.diagonal;
+
   unordered_map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
   vector<string> AllInitialValueNames=CreateAllInitialValues(iv);
 

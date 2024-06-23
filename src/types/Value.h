@@ -23,8 +23,8 @@ public:
   string name;
   double value;
 
-  void SetName(const string s) {name=s;}
-  void SetValue(const double v) {value=v;}
+  void SetName(const string &s) {name=s;}
+  void SetValue(const double &v) {value=v;}
 };
 
 class Constant: public Value
@@ -55,7 +55,7 @@ class RadioNuclide: public InitialValue
 public:
   double halflife;
 
-  double ExpDecay(const double t)
+  double ExpDecay(const double &t)
   {
     return value*exp(-log(2)*t/halflife);
   }

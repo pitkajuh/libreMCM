@@ -41,7 +41,7 @@ public:
       }
   }
 
-  vector<string> GetColumn(const unsigned int i) const
+  vector<string> GetColumn(const unsigned int &i) const
   {
     vector<string> c;
     for(unsigned int j=0; j<columns.size(); j++) c.emplace_back(columns[i][j]);
@@ -53,20 +53,20 @@ public:
     for(unsigned int i=0;i<columns.size(); i++) GetColumn(i);
   }
 
-  void UpdateColumns(const vector<string> row)
+  void UpdateColumns(const vector<string> &row)
   {
     const Column c={};
     while(columns.size()!=row.size()) columns.emplace_back(c);
     // TODO:  Add error check here, which checks that the there are an equal amount of rows and columns i.e. csv is symmetrical.
   }
 
-  void CreateColumn(const vector<string> row)
+  void CreateColumn(const vector<string> &row)
   {
     UpdateColumns(row);
     for(unsigned int i=0; i<row.size(); i++) columns[i].emplace_back(row[i]);
   }
 
-  void AddCsv(const vector<string> row)
+  void AddCsv(const vector<string> &row)
   {
     rows.emplace_back(row);
     CreateColumn(row);

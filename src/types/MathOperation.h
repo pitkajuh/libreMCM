@@ -40,7 +40,7 @@ public:
   //   else v2=new Constant(x);
   // }
 
-  void SetMathOp(const string m)
+  void SetMathOp(const string &m)
   {
     if(m==ADD) math_op=new Add;
     else if(m==SUBTRACT) math_op=new Sub;

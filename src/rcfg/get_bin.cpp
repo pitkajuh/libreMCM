@@ -14,7 +14,7 @@
 
 using InitialValues=unordered_map<string, string>;
 
-void Get(ifstream &f, const streampos from, const string find, ReadFile *ftype)
+void Get(ifstream &f, const streampos &from, const string &find, ReadFile *ftype)
 {
   string line;
   string line_prev;
@@ -35,13 +35,13 @@ void Get(ifstream &f, const streampos from, const string find, ReadFile *ftype)
     }
 }
 
-void GetLine(ifstream &bin, streampos from, ReadFile *type, const string find)
+void GetLine(ifstream &bin, streampos &from, ReadFile *type, const string &find)
 {
   bin.seekg(from, bin.beg);
   Get(bin, from, find, type);
 }
 
-FileData Read(ifstream &bin, streampos from)
+FileData Read(ifstream &bin, streampos &from)
 {
   FileData r;
   GetLine(bin, from, r.name, "{");
@@ -49,7 +49,7 @@ FileData Read(ifstream &bin, streampos from)
   return r;
 }
 
-Pair GetData(ifstream &bin, streampos from)
+Pair GetData(ifstream &bin, streampos &from)
 {
   const FileData result=Read(bin, from);
   const Pair r(result.name->line, result.data->v, result.data->position);
