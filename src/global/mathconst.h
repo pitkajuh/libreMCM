@@ -24,6 +24,7 @@ const string SUBTRACT="-";
 const string OPEN="(";
 const string CLOSE=")";
 const string EXP="^";
+const string BOPEN="{";
 
 const vector<string> OPERATORS={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT};
 const vector<string> OPERATORS2={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT, OPEN, CLOSE};

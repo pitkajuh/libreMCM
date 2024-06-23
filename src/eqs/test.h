@@ -9,6 +9,7 @@
 \*---------------------------------------------------------------------------*/
 
 #include "ToVector.h"
+#include "../types/MathOperation.h"
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>
@@ -17,5 +18,5 @@ using std::unordered_map;
 using std::to_string;
 using std::cout;
 
-vector<string> test(vector<string> equation,  unsigned int &k);
+vector<string> test(vector<string> equation,  unsigned int &k, vector<OpTmp> &ooo);
 vector<string> Remove(vector<string> equation,  const int &open,  const int &close);

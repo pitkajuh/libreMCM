@@ -11,7 +11,6 @@
 #include "ToVector.h"
 #include "test.h"
 #include "../global/mathconst.h"
-#include "../types/Value.h"
 #include "../types/MathOperation.h"
 #include <unordered_map>
 #include <algorithm>
@@ -44,63 +43,43 @@ void print_vector2(vector<string> vec)
     }
 }
 
-// bool IsNumerical(const string &s)
-// {
-//   bool r=false;
-//   for(const auto &i: s)
-//     if(isdigit(i))
-//       {
-// 	r=true;
-//       }
-//   return r;
-// }
-
-bool IsConstant(const string &s, const unordered_map<string, string> &constants_map)
+struct Eq
 {
-  bool r=false;
-  return r;
-}
+  vector<string> eq;
+  vector<OpTmp> operation;
+};
 
-bool IsVariable(const string &s, const vector<string> &diagonal)
-{
-  bool r=false;
-  return r;
-}
-
-vector<string> FindOperator(vector<string> &equation, const string &find, unsigned int &k)
+vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, vector<OpTmp> &ooo)
 {
   unsigned int i=0;
-  // MathOperation op;
+  OpTmp operation;
 
   while(i<equation.size())
-     {
-       if(find==equation[i])
-	 {
-	   // op.SetValue1(equation[i-1]);
-	   // op.SetValue2(equation[i+1]);
-	   // op.SetMathOp(equation[i]);
-	   // op.id="T"+to_string(k);
-	   // MathOperation op(equation[i-1], equation[i], equation[i+1]);
-	   // Do something with op;
-
-	   cout<<"T"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<'\n';
-	   equation[i]="T"+to_string(k);
-	   // equation_map1["T"+to_string(k)]=op;
-	   equation.erase(equation.begin()+i+1);
-	   equation.erase(equation.begin()+i-1);
-	   k++;
-	   i=0;
-	   continue;
-	 }
-       i++;
-     }
+    {
+      if(find==equation[i])
+	{
+	  operation.Set(equation[i-1], equation[i], equation[i+1]);
+	  ooo.emplace_back(operation);
+	  cout<<"Adding "<<"T"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
+	  equation[i]="T"+to_string(k);
+	  equation.erase(equation.begin()+i+1);
+	  equation.erase(equation.begin()+i-1);
+	  k++;
+	  i=0;
+	  continue;
+	}
+      i++;
+    }
   return equation;
 }
 
-vector<string> GetOrder(vector<string> equation, unsigned int &k)
+Eq GetOrder(vector<string> equation, unsigned int &k, vector<OpTmp> &ooo)
 {
-  for(const auto&i: OPERATORS) equation=FindOperator(equation, i, k);
-  return equation;
+  Eq r;
+  for(const auto&i: OPERATORS) equation=FindOperator(equation, i, k, ooo);
+  r.eq=equation;
+  r.operation=ooo;
+  return r;
 }
 
 vector<string> RemoveOpenClose(vector<string> equation)
@@ -108,25 +87,26 @@ vector<string> RemoveOpenClose(vector<string> equation)
   // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
   const unsigned int open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
   const unsigned int close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
-  if(open!=equation.size() and close!=equation.size())  equation=Remove(equation, open, close);
+  if(open!=equation.size() and close!=equation.size()) equation=Remove(equation, open, close);
   return equation;
 }
 
-vector<string> GetParenthesis(const vector<string> equation, const int open, const int close, unsigned int &k)
+vector<string> GetParenthesis(const vector<string> equation, const int &open, const int &close, unsigned int &k, vector<OpTmp> &ooo)
 {
   vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
-  tmp=test(tmp, k);
-  tmp=GetOrder(tmp, k);
-  vector<string> tmp4;
+  Eq r=GetOrder(tmp, k, ooo);
+  tmp=test(tmp, k, ooo);
+  // tmp=r.eq;
   const vector<string> tmp2={equation.begin(), equation.begin()+open};
   const vector<string> tmp3={equation.begin()+close+1, equation.end()};
+  vector<string> tmp4;
   tmp4.insert(tmp4.begin(), tmp2.begin(), tmp2.end());
   tmp4.insert(tmp4.end(), tmp.begin(), tmp.end());
   tmp4.insert(tmp4.end(), tmp3.begin(), tmp3.end());
   return tmp4;
 }
 
-void ParseEquations(const unordered_map<string, string> equations_map)
+void ParseEquations(const unordered_map<string, string> &equations_map)
 {
     // Set calculation order of  an equation according to order of operations:
 
@@ -136,7 +116,9 @@ void ParseEquations(const unordered_map<string, string> equations_map)
     // 4. Addition and subtraction
 
   vector<string> v;
+  Eq ooo;
   unsigned int k=0;
+  vector<OpTmp> op;
 
   for(const auto& [name, equation]: equations_map)
     {
@@ -148,8 +130,10 @@ void ParseEquations(const unordered_map<string, string> equations_map)
       cout<<"EQUATION "<<'\n';
       print_vector2(v);
       cout<<"2-------------"<<'\n';
-      v=test(v, k);
-      v=GetOrder(v, k);
+      v=test(v, k, op);
+      ooo=GetOrder(v, k, op);
+      k=0;
+      op.clear();
       cout<<" "<<'\n';
     }
 }

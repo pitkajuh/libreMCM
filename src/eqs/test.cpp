@@ -8,6 +8,7 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
+#include "../types/MathOperation.h"
 #include "../global/mathconst.h"
 #include "ToVector.h"
 #include "ParseEquations.h"
@@ -38,7 +39,7 @@ bool IsOpen(const unsigned int &open, const unsigned int &close, const vector<st
   return result;
 }
 
-vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &close, unsigned int &k)
+vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &close, unsigned int &k, vector<OpTmp> &ooo)
 {
   vector<string> tmp;
   unsigned int open2;
@@ -53,7 +54,7 @@ vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &
       if(open2<tmp.size())
 	{
 	  open=distance(equation.begin()+open3+1, find(equation.begin()+open3+1, equation.end(), OPEN))+open3+1;
-	  equation=GetParenthesis(equation, open, close, k);
+	  equation=GetParenthesis(equation, open, close, k, ooo);
 	  open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
 	  close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
 	}
@@ -62,7 +63,7 @@ vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &
   return equation;
 }
 
-vector<string> test(vector<string> equation, unsigned int &k)
+vector<string> test(vector<string> equation, unsigned int &k, vector<OpTmp> &ooo)
 {
   bool end=false;
   bool is;
@@ -80,8 +81,8 @@ vector<string> test(vector<string> equation, unsigned int &k)
       tmp={equation.begin()+open+1, equation.begin()+close};
       is=IsOpen(open, close, tmp);
 
-      if(is) equation=GetParenthesis(equation, open, close, k);
-      else equation=test2(equation, open, close, k);
+      if(is) equation=GetParenthesis(equation, open, close, k, ooo);
+      else equation=test2(equation, open, close, k, ooo);
     }
   return equation;
 }

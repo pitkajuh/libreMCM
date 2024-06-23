@@ -16,13 +16,12 @@
 #include <unordered_map>
 #include <memory>
 #include "StringSplit.h"
+#include "../global/mathconst.h"
 
 using std::unordered_map;
 using std::ifstream;
 using std::streampos;
 using std::vector;
-
-const string OPEN="{";
 
 class ReadFile
 {
@@ -44,9 +43,9 @@ public:
   const string SelectName(string now, const string &prev)
   {
     const int sizenow=now.size();
-    const int at=1+now.find(OPEN);
+    const int at=1+now.find(BOPEN);
 
-    if(sizenow==1 and now==OPEN) now=prev;
+    if(sizenow==1 and now==BOPEN) now=prev;
     else if(sizenow>1 and sizenow==at) now=now.substr(0, sizenow-1);
 
     return now;
