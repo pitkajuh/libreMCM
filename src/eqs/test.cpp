@@ -19,7 +19,7 @@ using std::unordered_map;
 using std::to_string;
 using std::cout;
 
-vector<string> Remove(vector<string> equation, const int open, const int close)
+vector<string> Remove(vector<string> equation, const int &open, const int &close)
 {
   if(equation[open+1]==OPEN and equation[close+1]==CLOSE)
     {
@@ -30,7 +30,7 @@ vector<string> Remove(vector<string> equation, const int open, const int close)
   return equation;
 }
 
-bool IsOpen(vector<string> equation, const unsigned int open, const unsigned int close, const vector<string> tmp)
+bool IsOpen(const unsigned int &open, const unsigned int &close, const vector<string> &tmp)
 {
   bool result=false;
   unsigned int open1=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
@@ -38,7 +38,7 @@ bool IsOpen(vector<string> equation, const unsigned int open, const unsigned int
   return result;
 }
 
-vector<string> test2(vector<string> equation, unsigned int open, unsigned int close, unsigned int &k)
+vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &close, unsigned int &k)
 {
   vector<string> tmp;
   unsigned int open2;
@@ -78,7 +78,7 @@ vector<string> test(vector<string> equation, unsigned int &k)
 
       close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
       tmp={equation.begin()+open+1, equation.begin()+close};
-      is=IsOpen(equation, open, close, tmp);
+      is=IsOpen(open, close, tmp);
 
       if(is) equation=GetParenthesis(equation, open, close, k);
       else equation=test2(equation, open, close, k);

@@ -16,21 +16,21 @@ using std::unordered_map;
 
 const string EMPTY=" ";
 
-vector<string> GetUp(const vector<string> v, int i)
+vector<string> GetUp(const vector<string> &v, int i)
 {
   vector<string> r;
   for(i=i-1; i>=0; i--) if(v[i]!=EMPTY) r.emplace_back(v[i]);
   return r;
 }
 
-vector<string> GetDown(const vector<string> v, unsigned int i)
+vector<string> GetDown(const vector<string> &v, unsigned int i)
 {
   vector<string> r;
   for(i=i+1; i<v.size(); i++) if(v[i]!=EMPTY) r.emplace_back(v[i]);
   return r;
 }
 
-AddSubtract GetEquations(const Csv csv, const int j)
+AddSubtract GetEquations(const Csv &csv, const int &j)
 {
   const vector<string> column=csv.GetColumn(j);
   const vector<string> row=csv.rows[j];
@@ -47,7 +47,7 @@ AddSubtract GetEquations(const Csv csv, const int j)
   return r;
 }
 
-unordered_map<string, AddSubtract> EquationAddSubtract(const Csv csv)
+unordered_map<string, AddSubtract> EquationAddSubtract(const Csv &csv)
 {
   unordered_map<string, AddSubtract> map;
   for(unsigned int i=0; i<csv.diagonal.size(); i++) map[csv.diagonal[i]]=GetEquations(csv, i);

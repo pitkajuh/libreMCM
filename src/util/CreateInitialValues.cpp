@@ -24,7 +24,7 @@ void GetIv(const InitialValues iv, vector<string> *IvNames)
   for(const auto& [name, value]: iv) if(find(IvNames->begin(), IvNames->end(), name)==IvNames->end()) IvNames->emplace_back(name);
 }
 
-vector<string> CreateAllInitialValues(const unordered_map<string, InitialValues> iv)
+vector<string> CreateAllInitialValues(const unordered_map<string, InitialValues> &iv)
 {
   vector<string> *IvNames=new vector<string>;
   for(auto i=iv.begin(); i!=iv.end(); i++) GetIv(i->second, IvNames);

@@ -21,7 +21,7 @@ struct StringSplit
   string value;
 
   StringSplit(){}
-  StringSplit(const string s1, const string s2)
+  StringSplit(const string &s1, const string &s2)
   {
     name=s1;
     value=s2;

@@ -18,6 +18,6 @@ using std::unordered_map;
 using std::vector;
 using std::string;
 
-vector<string> CreateAllInitialValues(const unordered_map<string, InitialValues> iv);
+vector<string> CreateAllInitialValues(const unordered_map<string, InitialValues> &iv);
 
 #endif

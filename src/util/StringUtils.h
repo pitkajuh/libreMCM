@@ -16,7 +16,7 @@
 
 using std::string;
 
-const string ParseLine(string line);
-StringSplit LineSplit(const string line);
+const string ParseLine(string &line);
+StringSplit LineSplit(const string &line);
 
 #endif

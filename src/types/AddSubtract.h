@@ -17,7 +17,7 @@ struct AddSubtract
   vector<string> subtract;
 
   AddSubtract(){}
-  AddSubtract(const vector<string> v1, const vector<string> v2)
+  AddSubtract(const vector<string> &v1, const vector<string> &v2)
   {
     add=v1;
     subtract=v2;

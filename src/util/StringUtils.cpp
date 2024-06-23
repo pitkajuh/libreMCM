@@ -15,7 +15,7 @@
 using std::distance;
 using std::find;
 
-const string RemoveComment(string line)
+const string RemoveComment(string &line)
 {
   const string COMMENT="//";
   const string comment=line.substr(0, 2);
@@ -29,7 +29,7 @@ const string RemoveComment(string line)
   return line;
 }
 
-StringSplit LineSplit(const string line)
+StringSplit LineSplit(const string &line)
 {
   const unsigned int SIZE=line.size();
   const unsigned int at=distance(line.begin(), find(line.begin(), line.end(), '='));
@@ -47,7 +47,7 @@ StringSplit LineSplit(const string line)
   return r;
 }
 
-const string ParseLine(string line)
+const string ParseLine(string &line)
 {
   line.erase(remove(line.begin(), line.end(), ' '), line.end());
   // std::cout<<"size "<<line.size()<<'\n';

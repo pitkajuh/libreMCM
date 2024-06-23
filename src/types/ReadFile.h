@@ -13,15 +13,14 @@
 
 #include <fstream>
 #include <vector>
-#include "StringSplit.h"
 #include <unordered_map>
 #include <memory>
+#include "StringSplit.h"
 
 using std::unordered_map;
 using std::ifstream;
 using std::streampos;
 using std::vector;
-#include <iostream>
 
 const string OPEN="{";
 
@@ -32,17 +31,17 @@ public:
   streampos position=0;
   string line;
 
-  virtual void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)=0;
+  virtual void GetFunction(ifstream &f, const string &line, const string &find, const string &previous, ReadFile *res)=0;
   virtual void PushTo(){}
 
-  void Set(const bool v1, const streampos v2, const string str)
+  void Set(const bool &v1, const streampos &v2, const string &str)
   {
     stop=v1;
     position=v2;
     line=str;
   }
 
-  const string SelectName(string now, const string prev)
+  const string SelectName(string now, const string &prev)
   {
     const int sizenow=now.size();
     const int at=1+now.find(OPEN);
@@ -57,7 +56,7 @@ public:
 class FName: public ReadFile
 {
 public:
-  void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)
+  void GetFunction(ifstream &f, const string &line, const string &find, const string &previous, ReadFile *res)
   {
     const int size=line.size();
     const size_t  o=line.find(find);
@@ -83,16 +82,12 @@ public:
   void PushTo()
   {
     const int size=line.size();
-    const size_t  o=line.find("=");
+    const size_t o=line.find("=");
 
-    if(size>1 and o<size)
-      {
-	v.emplace_back(line);
-	std::cout<<"TEST "<<v.size()<<" "<<line<<'\n';
-      }
+    if(size>1 and o<size) v.emplace_back(line);
   }
 
-  void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)
+  void GetFunction(ifstream &f, const string &line, const string &find, const string &previous, ReadFile *res)
   {
     const int size=line.size();
     const size_t  o=line.find(find);
@@ -117,7 +112,7 @@ public:
 
   FileData(){}
 
-  FileData(FileData& d)
+  FileData(FileData &d)
   {
     name=new FName;
     data=new FData;
@@ -125,7 +120,7 @@ public:
     data=d.data;
   }
 
-  FileData& operator =(const FileData& d)
+  FileData& operator =(const FileData &d)
   {
     return *this;
   }
@@ -143,7 +138,7 @@ struct Pair
   vector<string> list;
   streampos position;
 
-  Pair(const string s, const vector<string> v, const int p)
+  Pair(const string &s, const vector<string> &v, const int &p)
   {
     name=s;
     list=v;

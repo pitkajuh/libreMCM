@@ -8,9 +8,9 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
+#include "../types/Csv.h"
 #include <algorithm>
 #include <fstream>
-#include "../types/Csv.h"
 #include <iostream>
 
 using std::cout;
@@ -21,14 +21,14 @@ using std::distance;
 const char DELIMITER=';';
 const string EMPTY=" ";
 
-string UpdateValue(const string str)
+string UpdateValue(const string &str)
 {
   string r=EMPTY;
   if(str.back()==DELIMITER and str.size()>1) r=str.substr(0, str.size()-1);
   return r;
 }
 
-vector<string> LineToVector(string s)
+vector<string> LineToVector(string &s)
 {
   unsigned int size=s.size();
   unsigned int size2;

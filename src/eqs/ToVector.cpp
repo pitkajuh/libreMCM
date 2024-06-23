@@ -22,7 +22,7 @@ using std::vector;
 using std::find;
 using std::cout;
 
-int FindIndex(const string s)
+int FindIndex(const string &s)
 {
   int r=-1;
   unsigned int i=0;

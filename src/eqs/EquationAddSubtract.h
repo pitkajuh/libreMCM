@@ -15,8 +15,6 @@
 #include "../types/AddSubtract.h"
 #include <unordered_map>
 
-
-
-unordered_map<string, AddSubtract> EquationAddSubtract(const Csv csv);
+unordered_map<string, AddSubtract> EquationAddSubtract(const Csv &csv);
 
 #endif
