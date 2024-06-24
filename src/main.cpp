@@ -60,7 +60,7 @@ void ReadInitialData(const string directory)
   ifstream sim(directory+"sim_params");
   from=new streampos;
   *from=0;
-  const unordered_map<string, string> settings_map=GetBin(sim, from);
+  unordered_map<string, string> settings_map=GetBin(sim, from);
   cout<<" "<<'\n';
   sim.close();
   delete from;

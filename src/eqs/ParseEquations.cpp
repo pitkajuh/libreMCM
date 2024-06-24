@@ -67,7 +67,7 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	}
       i++;
     }
-  cout<<"end"<<'\n';
+  // cout<<"end"<<'\n';
   return equation;
 }
 

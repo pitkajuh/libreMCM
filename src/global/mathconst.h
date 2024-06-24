@@ -12,10 +12,10 @@
 #define MATHCONST_H
 
 #include <string>
-#include <vector>
+#include <array>
 
 using std::string;
-using std::vector;
+using std::array;
 
 const string DIVIDE="/";
 const string MULTIPLY="*";
@@ -26,7 +26,7 @@ const string CLOSE=")";
 const string EXP="^";
 const string BOPEN="{";
 
-const vector<string> OPERATORS={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT};
-const vector<string> OPERATORS2={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT, OPEN, CLOSE};
+const array<string, 5> OPERATORS={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT};
+const array<string, 7> OPERATORS2={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT, OPEN, CLOSE};
 
 #endif
