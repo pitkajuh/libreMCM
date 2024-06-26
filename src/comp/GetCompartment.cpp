@@ -83,6 +83,5 @@ Csv GetCompartment(ifstream &f)
       // 	}
     }
   cout<<" "<<'\n';
-  csv.PrintColumn();
   return csv;
 }

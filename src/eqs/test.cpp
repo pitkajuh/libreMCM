@@ -12,11 +12,9 @@
 #include "../global/mathconst.h"
 #include "ToVector.h"
 #include "ParseEquations.h"
-#include <unordered_map>
 #include <algorithm>
 #include <iostream>
 
-using std::unordered_map;
 using std::to_string;
 using std::cout;
 
@@ -41,10 +39,10 @@ bool IsOpen(const unsigned int &open, const unsigned int &close, const vector<st
 
 vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &close, unsigned int &k, vector<OpTmp> &ooo)
 {
+  bool end=false;
   vector<string> tmp;
   unsigned int open2;
   const unsigned int open3=open;
-  bool end=false;
 
   while(!end)
     {

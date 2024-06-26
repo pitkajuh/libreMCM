@@ -89,12 +89,13 @@ vector<string> RemoveOpenClose(vector<string> equation)
 
 vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, vector<OpTmp> &ooo)
 {
-  vector<string> v1={equation.begin()+open+1, equation.begin()+close};
+  vector<string> v1{equation.begin()+open+1, equation.begin()+close};
   const Eq r=GetOrder(v1, k, ooo);
   v1=test(r.eq, k, ooo);
-  const vector<string> v2={equation.begin(), equation.begin()+open};
-  const vector<string> v3={equation.begin()+close+1, equation.end()};
+  const vector<string> v2{equation.begin(), equation.begin()+open};
+  const vector<string> v3{equation.begin()+close+1, equation.end()};
   vector<string> result;
+  result.reserve(v1.size()+v2.size()+v3.size());
   result.insert(result.begin(), v2.begin(), v2.end());
   result.insert(result.end(), v1.begin(), v1.end());
   result.insert(result.end(), v3.begin(), v3.end());
@@ -115,6 +116,7 @@ void ParseEquations(const unordered_map<string, string> &equations_map)
   unsigned int k=0;
   vector<OpTmp> op;
   unordered_map<string, vector<OpTmp>> equations_map2;
+  equations_map2.reserve(equations_map.size());
   int i=1;
   for(const auto& [name, equation]: equations_map)
     {
@@ -123,7 +125,7 @@ void ParseEquations(const unordered_map<string, string> &equations_map)
       // print_vector2(v);
       // cout<<"1-------------"<<'\n';
       v=RemoveOpenClose(v);
-      cout<<"EQUATION "<<i<<'\n';
+      cout<<" EQUATION "<<i<<'\n';
       print_vector2(v);
       v=test(v, k, op);
       ooo=GetOrder(v, k, op);

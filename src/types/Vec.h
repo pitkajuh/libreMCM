@@ -8,22 +8,27 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include "../util/StringUtils.h"
-#include "../types/ReadFile.h"
-#include <unordered_map>
+#ifndef VEC_H
+#define VEC_H
 
-using std::unordered_map;
+#include <vector>
 
-unordered_map<string, string> CreatePairMap(Pair pair)
+using std::vector;
+
+template<typename T>
+class Vec
 {
-  StringSplit split;
-  unordered_map<string, string> map;
-  map.reserve(pair.list.size());
+public:
+  vector<T> v;
+  int size;
 
-  for(const auto&i: pair.list)
-    {
-      split=LineSplit(i);
-      map[split.name]=split.value;
-    }
-  return map;
-}
+  Vec(vector<T> &v1)
+  {
+    v=v1;
+    size=v1.size();
+  }
+};
+
+
+
+#endif
