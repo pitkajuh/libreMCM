@@ -65,12 +65,15 @@ unordered_map<string, string> GetBin(ifstream &bin, streampos *from, string *nam
   return map;
 }
 
-unordered_map<string, InitialValues> GetInitialValues(ifstream &bin, streampos *from)
+unordered_map<string, InitialValues> GetInitialValues(ifstream &bin)
 {
   unordered_map<string, InitialValues> map;
   string *name=new string;
+  streampos *from=new streampos;
+  *from=0;
   while(!bin.eof())  map[*name]=GetBin(bin, from, name);
   delete name;
+  delete from;
   return map;
 }
 

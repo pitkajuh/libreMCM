@@ -16,6 +16,7 @@
 #include "rcfg/get_bin.h"
 #include "util/MapUtils.h"
 #include "util/CreateInitialValues.h"
+#include "util/ParseInitialValues.h"
 #include "comp/GetCompartment.h"
 #include "eqs/EquationAddSubtract.h"
 #include "eqs/ParseEquations.h"
@@ -54,6 +55,7 @@ void ReadInitialData(const string directory)
   cout<<" "<<'\n';
   unordered_map<string, string> equations_map=GetMap(bin, f);
   bin.close();
+  delete f;
 
   cout<<" "<<'\n';
   ifstream sim(directory+"sim_params");
@@ -62,25 +64,22 @@ void ReadInitialData(const string directory)
 
   cout<<" "<<'\n';
 
-  streampos *from=new streampos;
   ifstream compartments(directory+"compartments");
-  from=new streampos;
-  *from=0;
-  unordered_map<string, InitialValues> iv=GetInitialValues(compartments, from);
+  unordered_map<string, InitialValues> ivs=GetInitialValues(compartments);
   compartments.close();
-  delete from;
 
   ifstream compartment(directory+"compartment.csv");
   Csv csv=GetCompartment(compartment);
   csv.GetDiagonal();
   compartment.close();
 
-  const vector<string> diagonal=csv.diagonal;
-
   unordered_map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
-  vector<string> AllInitialValueNames=CreateAllInitialValues(iv);
-
   unordered_map<string, MathOperations> equations_map2=ParseEquations(equations_map);
+
+  vector<string> iv_names=CreateAllInitialValues(ivs);
+  unordered_map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
+
+
 
 //   get_sim_params(directory);
 //   get_compartment(directory);

@@ -23,25 +23,6 @@ public:
   vector<string> equations_add;
   vector<string> equations_subtract;
   InitialValues ivs;
-/*   vector<string> initial_values; */
-/*   //equations add */
-/*   //equations subtract */
-/*   //equation total (combine add and subtract) */
-/* public: */
-/*   string name; */
 };
-
-/* class Void: public Compartment */
-/* { */
-/* public: */
-
-/* }; */
-
-/* class Origin: public Compartment */
-/* { */
-/* public: */
-
-/* }; */
-
 
 #endif
