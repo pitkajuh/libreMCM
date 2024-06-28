@@ -73,3 +73,19 @@ unordered_map<string, InitialValues> GetInitialValues(ifstream &bin, streampos *
   delete name;
   return map;
 }
+
+unordered_map<string, string> GetMap(ifstream &bin, streampos *from=nullptr)
+{
+  unordered_map<string, string> map;
+  if(from==nullptr)
+    {
+      from=new streampos;
+      *from=0;
+      map=GetBin(bin, from);
+      delete from;
+    }
+  else map=GetBin(bin, from);
+
+
+  return map;
+}

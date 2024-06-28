@@ -48,23 +48,21 @@ static struct option const options[]=
 void ReadInitialData(const string directory)
 {
   ifstream bin(directory+"bin");
-  streampos *from=new streampos;
-  *from=0;
-  const unordered_map<string, string> constants_map=GetBin(bin, from);
+  streampos *f=new streampos;
+  *f=0;
+  unordered_map<string, string> constants_map=GetMap(bin, f);
   cout<<" "<<'\n';
-  const unordered_map<string, string> equations_map=GetBin(bin, from);
-  cout<<" "<<'\n';
+  unordered_map<string, string> equations_map=GetMap(bin, f);
   bin.close();
-  delete from;
 
-  ifstream sim(directory+"sim_params");
-  from=new streampos;
-  *from=0;
-  unordered_map<string, string> settings_map=GetBin(sim, from);
   cout<<" "<<'\n';
+  ifstream sim(directory+"sim_params");
+  unordered_map<string, string> test=GetMap(sim);
   sim.close();
-  delete from;
 
+  cout<<" "<<'\n';
+
+  streampos *from=new streampos;
   ifstream compartments(directory+"compartments");
   from=new streampos;
   *from=0;
