@@ -121,9 +121,6 @@ unordered_map<string, MathOperations> ParseEquations(const unordered_map<string,
   for(const auto& [name, equation]: equations_map)
     {
       v=ToVector(equation);
-      // cout<<"EQUATION "<<'\n';
-      // print_vector2(v);
-      // cout<<"1-------------"<<'\n';
       v=RemoveOpenClose(v);
       cout<<" EQUATION"<<'\n';
       print_vector2(v);
