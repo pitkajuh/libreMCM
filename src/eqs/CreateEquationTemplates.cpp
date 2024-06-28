@@ -8,63 +8,22 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef VALUE_H
-#define VALUE_H
+#include "ToVector.h"
+#include "test.h"
+#include "../util/IsIn.h"
+#include "../global/mathconst.h"
+#include "../types/MathOperation.h"
+#include "../types/EquationTemplate.h"
+#include "../types/Csv.h"
+#include <iostream>
 
-#include <string>
-#include <vector>
-#include <math.h>
+using std::cout;
+using MathOperations=vector<OpTmp>;
 
-using std::string;
-
-class Value
+void CreateEquationTemplates(const unordered_map<string, MathOperations> &equations_map, const Csv &csv, const unordered_map<string, string> &constants_map)
 {
-public:
-  string name;
-  double value;
+  const vector<string> diagonal=csv.diagonal;
 
-  void Init(const string &name, const double &value)
-  {
+  cout<<"aoe "<<IsIn("void", diagonal)<<'\n';
 
-  }
-
-  // void SetName(const string &s) {name=s;}
-  // void SetValue(const double &v) {value=v;}
-};
-
-class Constant: public Value
-{
- public:
-
-  Constant(string s, double v=0)
-    {
-      name=s;
-      value=v;
-    }
-};
-
-class Variable: public Value
-{
-public:
-
-};
-
-class InitialValue: public Value
-{
-public:
-
-};
-
-class RadioNuclide: public InitialValue
-{
-public:
-  double halflife;
-
-  double ExpDecay(const double &t)
-  {
-    return value*exp(-log(2)*t/halflife);
-  }
-
-};
-
-#endif
+}

@@ -8,63 +8,15 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef VALUE_H
-#define VALUE_H
-
 #include <string>
 #include <vector>
-#include <math.h>
+#include <algorithm>
 
 using std::string;
+using std::vector;
+using std::find;
 
-class Value
+bool IsIn(const string &s, const vector<string> &f)
 {
-public:
-  string name;
-  double value;
-
-  void Init(const string &name, const double &value)
-  {
-
-  }
-
-  // void SetName(const string &s) {name=s;}
-  // void SetValue(const double &v) {value=v;}
-};
-
-class Constant: public Value
-{
- public:
-
-  Constant(string s, double v=0)
-    {
-      name=s;
-      value=v;
-    }
-};
-
-class Variable: public Value
-{
-public:
-
-};
-
-class InitialValue: public Value
-{
-public:
-
-};
-
-class RadioNuclide: public InitialValue
-{
-public:
-  double halflife;
-
-  double ExpDecay(const double &t)
-  {
-    return value*exp(-log(2)*t/halflife);
-  }
-
-};
-
-#endif
+  return find(f.begin(), f.end(), s)!=f.end();
+}

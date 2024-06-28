@@ -20,6 +20,7 @@
 #include "comp/GetCompartment.h"
 #include "eqs/EquationAddSubtract.h"
 #include "eqs/ParseEquations.h"
+#include "eqs/CreateEquationTemplates.h"
 
 #define GetCurrentDir getcwd
 
@@ -75,6 +76,7 @@ void ReadInitialData(const string directory)
 
   unordered_map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
   unordered_map<string, MathOperations> equations_map2=ParseEquations(equations_map);
+  CreateEquationTemplates(equations_map2, csv, constants_map);
 
   vector<string> iv_names=CreateAllInitialValues(ivs);
   unordered_map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
