@@ -117,7 +117,7 @@ unordered_map<string, MathOperations> ParseEquations(const unordered_map<string,
   MathOperations op;
   unordered_map<string, MathOperations> equations_map2;
   equations_map2.reserve(equations_map.size());
-  int i=1;
+
   for(const auto& [name, equation]: equations_map)
     {
       v=ToVector(equation);
@@ -125,7 +125,7 @@ unordered_map<string, MathOperations> ParseEquations(const unordered_map<string,
       // print_vector2(v);
       // cout<<"1-------------"<<'\n';
       v=RemoveOpenClose(v);
-      cout<<" EQUATION "<<i<<'\n';
+      cout<<" EQUATION"<<'\n';
       print_vector2(v);
       v=test(v, k, op);
       ooo=GetOrder(v, k, op);
@@ -133,7 +133,6 @@ unordered_map<string, MathOperations> ParseEquations(const unordered_map<string,
       k=0;
       op.clear();
       cout<<" "<<'\n';
-      i++;
     }
   return equations_map2;
 }

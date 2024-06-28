@@ -59,6 +59,7 @@ Pair GetData(ifstream &bin, streampos &from)
 unordered_map<string, string> GetBin(ifstream &bin, streampos *from, string *name=nullptr)
 {
   const Pair pair=GetData(bin, *from);
+
   if(name!=nullptr) *name=pair.name;
   const unordered_map<string, string> map=CreatePairMap(pair);
   *from=pair.position;
@@ -71,6 +72,7 @@ unordered_map<string, InitialValues> GetInitialValues(ifstream &bin)
   string *name=new string;
   streampos *from=new streampos;
   *from=0;
+
   while(!bin.eof())  map[*name]=GetBin(bin, from, name);
   delete name;
   delete from;
@@ -80,6 +82,7 @@ unordered_map<string, InitialValues> GetInitialValues(ifstream &bin)
 unordered_map<string, string> GetMap(ifstream &bin, streampos *from=nullptr)
 {
   unordered_map<string, string> map;
+
   if(from==nullptr)
     {
       from=new streampos;
@@ -88,7 +91,5 @@ unordered_map<string, string> GetMap(ifstream &bin, streampos *from=nullptr)
       delete from;
     }
   else map=GetBin(bin, from);
-
-
   return map;
 }
