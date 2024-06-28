@@ -24,6 +24,6 @@ void CreateEquationTemplates(const unordered_map<string, MathOperations> &equati
 {
   const vector<string> diagonal=csv.diagonal;
 
-  cout<<"aoe "<<IsIn("void", diagonal)<<'\n';
-
+  // cout<<"aoe "<<IsIn("void", diagonal)<<" "<<IsIn("void", constants_map)<<'\n';
+  cout<<"aoe "<<IsIn("a", constants_map)<<'\n';
 }

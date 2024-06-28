@@ -11,13 +11,7 @@
 #ifndef ISIN_H
 #define ISIN_H
 
-#include <string>
-// #include "../types/StringSplit.h"
-
-using std::string;
-
+bool IsIn(const string &s, const unordered_map<string, string> &f);
 bool IsIn(const string &s, const vector<string> &f);
-// const string ParseLine(string &line);
-// StringSplit LineSplit(const string &line);
 
 #endif
