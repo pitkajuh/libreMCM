@@ -80,7 +80,7 @@ void ReadInitialData(const string directory)
   unordered_map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
   vector<string> AllInitialValueNames=CreateAllInitialValues(iv);
 
-  ParseEquations(equations_map);
+  unordered_map<string, MathOperations> equations_map2=ParseEquations(equations_map);
 
 //   get_sim_params(directory);
 //   get_compartment(directory);

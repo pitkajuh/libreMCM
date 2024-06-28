@@ -19,6 +19,7 @@
 using std::unordered_map;
 using std::to_string;
 using std::cout;
+using MathOperations=vector<OpTmp>;
 
 void print_vector2(vector<string> vec)
 {
@@ -37,16 +38,16 @@ void print_vector2(vector<string> vec)
 struct Eq
 {
   vector<string> eq;
-  vector<OpTmp> operation;
+  MathOperations operation;
   Eq(){}
-  Eq(const vector<string> &e, const vector<OpTmp> &o)
+  Eq(const vector<string> &e, const MathOperations &o)
   {
     eq=e;
     operation=o;
   }
 };
 
-vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, vector<OpTmp> &ooo)
+vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, MathOperations &ooo)
 {
   unsigned int i=0;
   OpTmp operation;
@@ -71,11 +72,10 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
   return equation;
 }
 
-Eq GetOrder(vector<string> &equation, unsigned int &k, vector<OpTmp> &ooo)
+Eq GetOrder(vector<string> &equation, unsigned int &k, MathOperations &ooo)
 {
   for(const auto&i: OPERATORS) equation=FindOperator(equation, i, k, ooo);
-  Eq r(equation, ooo);
-  return r;
+  return {equation, ooo};
 }
 
 vector<string> RemoveOpenClose(vector<string> equation)
@@ -87,7 +87,7 @@ vector<string> RemoveOpenClose(vector<string> equation)
   return equation;
 }
 
-vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, vector<OpTmp> &ooo)
+vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
   const Eq r=GetOrder(v1, k, ooo);
@@ -102,7 +102,7 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
   return result;
 }
 
-void ParseEquations(const unordered_map<string, string> &equations_map)
+unordered_map<string, MathOperations> ParseEquations(const unordered_map<string, string> &equations_map)
 {
     // Set calculation order of  an equation according to order of operations:
 
@@ -114,8 +114,8 @@ void ParseEquations(const unordered_map<string, string> &equations_map)
   vector<string> v;
   Eq ooo;
   unsigned int k=0;
-  vector<OpTmp> op;
-  unordered_map<string, vector<OpTmp>> equations_map2;
+  MathOperations op;
+  unordered_map<string, MathOperations> equations_map2;
   equations_map2.reserve(equations_map.size());
   int i=1;
   for(const auto& [name, equation]: equations_map)
@@ -135,4 +135,5 @@ void ParseEquations(const unordered_map<string, string> &equations_map)
       cout<<" "<<'\n';
       i++;
     }
+  return equations_map2;
 }

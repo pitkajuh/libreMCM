@@ -23,17 +23,18 @@ const string EMPTY=" ";
 
 string UpdateValue(const string &str)
 {
+  const int size=str.size();
   string r=EMPTY;
-  if(str.back()==DELIMITER and str.size()>1) r=str.substr(0, str.size()-1);
+  if(str.back()==DELIMITER and size>1) r=str.substr(0, size-1);
   return r;
 }
 
 vector<string> LineToVector(string &s)
 {
+  bool end=false;
   unsigned int size=s.size();
   unsigned int size2;
   unsigned int delimiter_i;
-  bool end=false;
   vector<string> r;
   string str;
 
@@ -70,18 +71,8 @@ Csv GetCompartment(ifstream &f)
   string line;
   Csv csv;
 
-  while(getline(f, line))
-    {
-      csv.AddCsv(LineToVector(line));
-      // row_i++;
-      // cout<<"row "<<row_i<<'\n';
-      // cout<<"@@@@@@@@@@@@@@@@@@@@@"<<'\n';
-      // for(int u=0; u<a.size(); u++)
-      // 	{
-      // 	  cout<<a[u]<<" "<<u+1<<"/"<<a.size()<<'\n';
-      // 	  cout<<"-----------------------------------------------------------"<<'\n';
-      // 	}
-    }
+  while(getline(f, line)) csv.AddCsv(LineToVector(line));
+
   cout<<" "<<'\n';
   return csv;
 }

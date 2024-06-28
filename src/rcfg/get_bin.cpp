@@ -56,7 +56,7 @@ Pair GetData(ifstream &bin, streampos &from)
   return r;
 }
 
-const unordered_map<string, string> GetBin(ifstream &bin, streampos *from, string *name=nullptr)
+unordered_map<string, string> GetBin(ifstream &bin, streampos *from, string *name=nullptr)
 {
   const Pair pair=GetData(bin, *from);
   if(name!=nullptr) *name=pair.name;

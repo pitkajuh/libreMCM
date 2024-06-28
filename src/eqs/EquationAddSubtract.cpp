@@ -48,8 +48,7 @@ AddSubtract GetEquations(const Csv &csv, const int &j)
   add_total.insert(add_total.end(), add_up.begin(), add_up.end());
   subtract_total.insert(subtract_total.end(), subtract_right.begin(), subtract_right.end());
   subtract_total.insert(subtract_total.end(), subtract_left.begin(), subtract_left.end());
-  AddSubtract r(add_total, subtract_total);
-  return r;
+  return {add_total, subtract_total};
 }
 
 unordered_map<string, AddSubtract> EquationAddSubtract(const Csv &csv)
