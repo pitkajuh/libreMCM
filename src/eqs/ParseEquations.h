@@ -15,7 +15,7 @@
 #include "../types/MathOperation.h"
 
 using std::unordered_map;
-using MathOperations=vector<OpTmp>;
+using MathOperations=unordered_map<string, OpTmp>;
 
 unordered_map<string, MathOperations> ParseEquations(const unordered_map<string, string> &equations_map);
 vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo);

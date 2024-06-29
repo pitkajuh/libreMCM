@@ -15,7 +15,7 @@
 #include <stdexcept>
 
 using std::cout;
-using MathOperations=vector<OpTmp>;
+using MathOperations=unordered_map<string, OpTmp>;
 
 Value* ValueCheck(const string &s, const vector<string> diagonal, const unordered_map<string, string> &constants_map)
 {
@@ -45,21 +45,26 @@ Value* ValueCheck(const string &s, const vector<string> diagonal, const unordere
     }
 }
 
-MathOperation GetValue(const vector<OpTmp> &v, const vector<string> diagonal, const unordered_map<string, string> &constants_map)
+MathOperation GetValue(const MathOperations &v, const vector<string> diagonal, const unordered_map<string, string> &constants_map)
 {
   Value *v1;
   Value *v2;
   MathOperation op;
 
-  for(const auto &i: v)
+  for(const auto &[key, value]: v)
     {
-      v1=ValueCheck(i.value1, diagonal, constants_map);
-      v2=ValueCheck(i.value2, diagonal, constants_map);
-      op.v1=v1;
-      op.v2=v2;
-      delete v1;
-      delete v2;
+
     }
+
+  // for(const auto &i: v)
+  //   {
+  //     v1=ValueCheck(i.value1, diagonal, constants_map);
+  //     v2=ValueCheck(i.value2, diagonal, constants_map);
+  //     op.v1=v1;
+  //     op.v2=v2;
+  //     delete v1;
+  //     delete v2;
+  //   }
   return op;
 }
 

@@ -19,7 +19,8 @@
 using std::unordered_map;
 using std::to_string;
 using std::cout;
-using MathOperations=vector<OpTmp>;
+// using MathOperations=vector<OpTmp>;
+using MathOperations=unordered_map<string, OpTmp>;
 
 void print_vector2(vector<string> vec)
 {
@@ -57,7 +58,8 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
       if(find==equation[i])
 	{
 	  operation.Set(equation[i-1], equation[i], equation[i+1]);
-	  ooo.emplace_back(operation);
+	  // ooo.emplace_back(operation);
+	  ooo["T"+to_string(k)]=operation;
 	  cout<<"Adding "<<"T"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
 	  equation[i]="T"+to_string(k);
 	  equation.erase(equation.begin()+i+1);

@@ -17,6 +17,7 @@
 using std::unordered_map;
 using std::to_string;
 using std::cout;
+using MathOperations=unordered_map<string, OpTmp>;
 
-vector<string> test(vector<string> equation,  unsigned int &k, vector<OpTmp> &ooo);
+vector<string> test(vector<string> equation,  unsigned int &k, MathOperations &ooo);
 vector<string> Remove(vector<string> equation,  const int &open,  const int &close);
