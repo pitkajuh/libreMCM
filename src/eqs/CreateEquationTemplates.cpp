@@ -41,7 +41,9 @@ Value* ValueCheck(const string &s, const vector<string> diagonal, const unordere
     }
   else
     {
-       throw std::invalid_argument("Value "+s+" is not a constant, variable or numerical value.");
+       // throw std::invalid_argument("Value "+s+" is not a constant, variable or numerical value.");
+       Value *v=new Value(s);
+       return v;
     }
 }
 
@@ -53,7 +55,12 @@ MathOperation GetValue(const MathOperations &v, const vector<string> diagonal, c
 
   for(const auto &[key, value]: v)
     {
-
+      v1=ValueCheck(value.value1, diagonal, constants_map);
+      v2=ValueCheck(value.value2, diagonal, constants_map);
+      op.v1=v1;
+      op.v2=v2;
+      delete v1;
+      delete v2;
     }
 
   // for(const auto &i: v)
