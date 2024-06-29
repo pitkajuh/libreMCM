@@ -13,8 +13,11 @@
 #include <algorithm>
 #include <unordered_map>
 #include <stdexcept>
+#include "../types/MathOperation.h"
 
 using std::string;
+using std::unordered_map;
+using MathOperations=unordered_map<string, OpTmp>;
 
 bool IsNumerical(const string &s)
 {
@@ -33,6 +36,11 @@ bool IsNumerical(const string &s)
 }
 
 bool IsIn(const string &s, const std::unordered_map<string, string> &f)
+{
+  return f.find(s)!=f.end();
+}
+
+bool IsIn(const string &s, const MathOperations &f)
 {
   return f.find(s)!=f.end();
 }

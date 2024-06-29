@@ -18,6 +18,6 @@
 using std::unordered_map;
 using MathOperations=unordered_map<string, OpTmp>;
 
-void CreateEquationTemplates(const unordered_map<string, MathOperations> &equations_map, const Csv &csv, const unordered_map<string, string> &constants_map);
+void CreateEquationTemplates(const unordered_map<string, MathOperations> &equations_map, const Csv &csv, unordered_map<string, string> &constants_map);
 
 #endif

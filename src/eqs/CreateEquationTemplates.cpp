@@ -17,10 +17,11 @@
 using std::cout;
 using MathOperations=unordered_map<string, OpTmp>;
 
-Value* ValueCheck(const string &s, const vector<string> diagonal, const unordered_map<string, string> &constants_map)
+Value* ValueCheck(const string &s, const vector<string> &diagonal, unordered_map<string, string> &constants_map, const MathOperations &v)
 {
   const bool is_variable=IsIn(s, diagonal);
   const bool is_constant=IsIn(s, constants_map);
+  const bool is_math=IsIn(s, v);
   const bool is_numerical=IsNumerical(s);
 
   if(is_variable)
@@ -30,63 +31,50 @@ Value* ValueCheck(const string &s, const vector<string> diagonal, const unordere
     }
   else if(is_constant)
     {
-      Value *v=new Constant(s);
+      Value *v=new Constant(s, std::stod(constants_map[s]));
       return v;
     }
   else if(is_numerical)
     {
-      cout<<"num "<<s<<'\n';
-      Value *v=new Value(s);
+      Value *v=new Value(s, std::stod(s));
       return v;
     }
-  else
+  else if(is_math)
     {
-       // throw std::invalid_argument("Value "+s+" is not a constant, variable or numerical value.");
-       Value *v=new Value(s);
-       return v;
+      Value *v=new Value(s, 0);
+      return v;
     }
+  else throw std::invalid_argument("Value "+s+" is not a constant, variable or numerical value.");
 }
 
-MathOperation GetValue(const MathOperations &v, const vector<string> diagonal, const unordered_map<string, string> &constants_map)
+MathOperation *GetValue(const MathOperations &v, const vector<string> &diagonal, unordered_map<string, string> &constants_map)
 {
   Value *v1;
   Value *v2;
-  MathOperation op;
+  MathOperation *op=new MathOperation;
 
   for(const auto &[key, value]: v)
     {
-      v1=ValueCheck(value.value1, diagonal, constants_map);
-      v2=ValueCheck(value.value2, diagonal, constants_map);
-      op.v1=v1;
-      op.v2=v2;
+      v1=ValueCheck(value.value1, diagonal, constants_map, v);
+      v2=ValueCheck(value.value2, diagonal, constants_map, v);
+      // cout<<v1->value<<value.math_operator<<v2->value<<'\n';
+      op->v1=v1;
+      op->SetMathOp(value.math_operator);
+      op->v2=v2;
       delete v1;
       delete v2;
     }
-
-  // for(const auto &i: v)
-  //   {
-  //     v1=ValueCheck(i.value1, diagonal, constants_map);
-  //     v2=ValueCheck(i.value2, diagonal, constants_map);
-  //     op.v1=v1;
-  //     op.v2=v2;
-  //     delete v1;
-  //     delete v2;
-  //   }
   return op;
 }
 
-void CreateEquationTemplates(const unordered_map<string, MathOperations> &equations_map, const Csv &csv, const unordered_map<string, string> &constants_map)
+void CreateEquationTemplates(const unordered_map<string, MathOperations> &equations_map, const Csv &csv, unordered_map<string, string> &constants_map)
 {
   const vector<string> diagonal=csv.diagonal;
-  MathOperation op;
-  // Value *v1=new Value;
+  MathOperation *op;
 
   for(const auto &[key, value]: equations_map)
     {
-      // v1=GetValue(value, diagonal, constants_map);
       op=GetValue(value, diagonal, constants_map);
+      delete op;
     }
-  // delete v1;
-  // cout<<"aoe "<<IsIn("void", diagonal)<<" "<<IsIn("void", constants_map)<<'\n';
-  cout<<"aoe "<<IsIn("a", constants_map)<<'\n';
 }

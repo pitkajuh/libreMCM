@@ -20,15 +20,15 @@ using std::string;
 class Value
 {
 public:
-  string name;
-  // double value;
+  string name="";
+  double value=0;
 
   Value(){};
 
-  Value(const string &n)
+  Value(const string &n, const double &v)
   {
     name=n;
-    // value=v;
+    value=v;
   }
 
   // void Init(const string &name, const double &value)
@@ -44,9 +44,10 @@ class Constant: public Value
 {
  public:
 
-  Constant(const string &n)
+  Constant(const string &n, const double &v)
     {
       name=n;
+      value=v;
     }
 };
 
