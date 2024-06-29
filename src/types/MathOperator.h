@@ -18,7 +18,6 @@ class MathOperator
 {
 public:
   virtual double Calculate(const double &v1, const double &v2)=0;
-  ~MathOperator(){}
 };
 
 class Add:public MathOperator

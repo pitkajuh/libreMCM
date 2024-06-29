@@ -33,9 +33,9 @@ class MathOperation
 {
 public:
   string id;
-  // Value* v1;
-  // Value* v2;
-  // MathOperator* math_op;
+  Value* v1;
+  Value* v2;
+  MathOperator* math_op;
   double result;
 
   // void SetValue1(const string x)
