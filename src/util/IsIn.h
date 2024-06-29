@@ -11,6 +11,7 @@
 #ifndef ISIN_H
 #define ISIN_H
 
+bool IsNumerical(const string &s);
 bool IsIn(const string &s, const unordered_map<string, string> &f);
 bool IsIn(const string &s, const vector<string> &f);
 

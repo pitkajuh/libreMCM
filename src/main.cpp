@@ -82,7 +82,6 @@ void ReadInitialData(const string directory)
   unordered_map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
 
 
-
 //   get_sim_params(directory);
 //   get_compartment(directory);
 //   get_compartment_parameters(directory);
