@@ -23,42 +23,40 @@ public:
   string name="";
   double value=0;
 
-  Value(){};
-
-  Value(const string &n, const double &v)
-  {
-    name=n;
-    value=v;
-  }
+  // Value(const string &n, const double &v)
+  // {
+  //   name=n;
+  //   value=v;
+  // }
 
   // void Init(const string &name, const double &value)
   // {
 
   // }
 
-  // void SetName(const string &s) {name=s;}
-  // void SetValue(const double &v) {value=v;}
+  void SetName(const string &s) {name=s;}
+  void SetValue(const double &v) {value=v;}
 };
 
 class Constant: public Value
 {
  public:
 
-  Constant(const string &n, const double &v)
-    {
-      name=n;
-      value=v;
-    }
+  // Constant(const string &n, const double &v)
+  //   {
+  //     name=n;
+  //     value=v;
+  //   }
 };
 
 class Variable: public Value
 {
 public:
 
-  Variable(const string &n)
-    {
-      name=n;
-    }
+  // Variable(const string &n)
+  //   {
+  //     name=n;
+  //   }
 
 };
 

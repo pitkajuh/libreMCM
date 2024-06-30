@@ -17,7 +17,13 @@
 using std::cout;
 using MathOperations=unordered_map<string, OpTmp>;
 
-Value* ValueCheck(const string &s, const vector<string> &diagonal, unordered_map<string, string> &constants_map, const MathOperations &v)
+Value *CreateLinked(const MathOperations &v, const string &s)
+{
+
+
+}
+
+Value *ValueCheck(const string &s, const vector<string> &diagonal, unordered_map<string, string> &constants_map, const MathOperations &v)
 {
   const bool is_variable=IsIn(s, diagonal);
   const bool is_constant=IsIn(s, constants_map);
@@ -26,25 +32,28 @@ Value* ValueCheck(const string &s, const vector<string> &diagonal, unordered_map
 
   if(is_variable)
     {
-      Value *v=new Variable(s);
+      Value *v=new Variable;
+      v->SetName(s);
       return v;
     }
   else if(is_constant)
     {
-      Value *v=new Constant(s, std::stod(constants_map[s]));
+      Value *v=new Constant;
+      v->SetName(s);
       return v;
     }
   else if(is_numerical)
     {
-      Value *v=new Value(s, std::stod(s));
+      Value *v=new Value;
+      v->SetValue(std::stod(s));
       return v;
     }
   else if(is_math)
     {
-      Value *v=new Value(s, 0);
+      Value *v=new Value;
       return v;
     }
-  else throw std::invalid_argument("Value "+s+" is not a constant, variable or numerical value.");
+  else throw std::invalid_argument("Value "+s+" is not a constant, variable/compartment or numerical value.");
 }
 
 MathOperation *GetValue(const MathOperations &v, const vector<string> &diagonal, unordered_map<string, string> &constants_map)
