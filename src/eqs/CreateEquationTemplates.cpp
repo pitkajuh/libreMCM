@@ -17,12 +17,6 @@
 using std::cout;
 using MathOperations=unordered_map<string, OpTmp>;
 
-Value *CreateLinked(const MathOperations &v, const string &s)
-{
-
-
-}
-
 Value *ValueCheck(const string &s, const vector<string> &diagonal, unordered_map<string, string> &constants_map, const MathOperations &v)
 {
   const bool is_variable=IsIn(s, diagonal);
