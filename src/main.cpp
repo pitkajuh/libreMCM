@@ -13,6 +13,7 @@
 #include <chrono>
 #include <getopt.h>
 #include <unistd.h>
+#include "inc/namespace.h"
 #include "rcfg/get_bin.h"
 #include "util/MapUtils.h"
 #include "util/CreateInitialValues.h"
@@ -26,7 +27,8 @@
 
 using std::cout;
 using std::string;
-using InitialValues=unordered_map<string, string>;
+using namespace libremcm;
+using InitialValues=smap;
 bool run_deterministic_sim=false;
 
 enum
@@ -52,15 +54,15 @@ void ReadInitialData(const string directory)
   ifstream bin(directory+"bin");
   streampos *f=new streampos;
   *f=0;
-  unordered_map<string, string> constants_map=GetMap(bin, f);
+  smap constants_map=GetMap(bin, f);
   cout<<" "<<'\n';
-  unordered_map<string, string> equations_map=GetMap(bin, f);
+  smap equations_map=GetMap(bin, f);
   bin.close();
   delete f;
 
   cout<<" "<<'\n';
   ifstream sim(directory+"sim_params");
-  unordered_map<string, string> test=GetMap(sim);
+  smap test=GetMap(sim);
   sim.close();
 
   cout<<" "<<'\n';

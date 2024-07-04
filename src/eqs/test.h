@@ -8,16 +8,18 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include "ToVector.h"
-#include "../types/MathOperation.h"
-#include <unordered_map>
-#include <algorithm>
-#include <iostream>
+#ifndef TEST_H
+#define TEST_H
 
-using std::unordered_map;
-using std::to_string;
-using std::cout;
+#include "ToVector.h"
+#include "../inc/namespace.h"
+#include "../types/MathOperation.h"
+#include <algorithm>
+
+using namespace libremcm;
 using MathOperations=unordered_map<string, OpTmp>;
 
 vector<string> test(vector<string> equation,  unsigned int &k, MathOperations &ooo);
 vector<string> Remove(vector<string> equation,  const int &open,  const int &close);
+
+#endif

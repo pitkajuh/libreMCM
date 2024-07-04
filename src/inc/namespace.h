@@ -8,14 +8,19 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef CREATEEQUATIONTEMPLATES_H
-#define CREATEEQUATIONTEMPLATES_H
+#ifndef NAMESPACE_H
+#define NAMESPACE_H
 
-#include "../types/MathOperation.h"
-#include "../types/Csv.h"
+#include <string>
+#include <unordered_map>
 
-using MathOperations=unordered_map<string, OpTmp>;
+using std::string;
+using std::unordered_map;
 
-void CreateEquationTemplates(const unordered_map<string, MathOperations> &equations_map, const Csv &csv, smap &constants_map);
+namespace libremcm
+{
+  template<typename T, typename U> using map= unordered_map<T, U>;
+  using smap=map<string, string>;
+}
 
 #endif

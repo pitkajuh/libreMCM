@@ -11,9 +11,11 @@
 #ifndef EQUATIONADDSUBTRACT_H
 #define EQUATIONADDSUBTRACT_H
 
+#include "../inc/namespace.h"
 #include "../types/Csv.h"
 #include "../types/AddSubtract.h"
-#include <unordered_map>
+
+using namespace libremcm;
 
 unordered_map<string, AddSubtract> EquationAddSubtract(const Csv &csv);
 
