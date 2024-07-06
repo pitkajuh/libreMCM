@@ -11,15 +11,14 @@
 #ifndef PARSEINITIALVALUES_H
 #define PARSEINITIALVALUES_H
 
-#include <string>
-#include <unordered_map>
 #include <vector>
-using std::unordered_map;
-using std::vector;
-using std::string;
-using InitialValues=unordered_map<string, string>;
-using DInitialValues=unordered_map<string, double>;
+#include "../inc/namespace.h"
 
-unordered_map<string, DInitialValues> ParseInitialValues(unordered_map<string, InitialValues> &ivs, const vector<string> &iv_names);
+using namespace libremcm;
+using std::vector;
+using InitialValues=smap;
+using DInitialValues=map<string, double>;
+
+map<string, DInitialValues> ParseInitialValues(map<string, InitialValues> &ivs, const vector<string> &iv_names);
 
 #endif

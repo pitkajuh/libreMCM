@@ -8,19 +8,16 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include <unordered_map>
-#include <string>
 #include <vector>
 #include <iostream>
+#include "../inc/namespace.h"
 
-using std::unordered_map;
-using std::string;
+using namespace libremcm;
 using std::vector;
-using std::find;
 using std::cout;
 using std::stod;
-using InitialValues=unordered_map<string, string>;
-using DInitialValues=unordered_map<string, double>;
+using InitialValues=smap;
+using DInitialValues=map<string, double>;
 
 DInitialValues ParseIv(InitialValues ivs, const vector<string> &iv_names)
 {
@@ -35,10 +32,10 @@ DInitialValues ParseIv(InitialValues ivs, const vector<string> &iv_names)
   return ivs_sorted;
 }
 
-unordered_map<string, DInitialValues> ParseInitialValues(unordered_map<string, InitialValues> &ivs, const vector<string> &iv_names)
+map<string, DInitialValues> ParseInitialValues(map<string, InitialValues> &ivs, const vector<string> &iv_names)
 {
   // Takes the iv map and unique iv names as an input. Sorts the map values alphabetically and initializes the values with zero, if it is not found in the map. Also the values are changed from string to double.
-  unordered_map<string, DInitialValues> ivs_sorted;
+  map<string, DInitialValues> ivs_sorted;
   ivs_sorted.reserve(ivs.size());
 
   for(const auto &[name, iv]: ivs) ivs_sorted[name]=ParseIv(iv, iv_names);
