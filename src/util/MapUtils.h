@@ -11,10 +11,10 @@
 #ifndef MAPUTILS_H
 #define MAPUTILS_H
 
-#include <unordered_map>
+#include "../inc/namespace.h"
 
-using std::unordered_map;
+using namespace libremcm;
 
-unordered_map<string, string> CreatePairMap(Pair pair);
+smap CreatePairMap(Pair pair);
 
 #endif

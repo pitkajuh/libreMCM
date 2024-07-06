@@ -8,16 +8,14 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include <string>
 #include <vector>
 #include <algorithm>
-#include <unordered_map>
 #include <stdexcept>
 #include "../types/MathOperation.h"
+#include "../inc/namespace.h"
 
-using std::string;
-using std::unordered_map;
-using MathOperations=unordered_map<string, OpTmp>;
+using namespace libremcm;
+using MathOperations=map<string, OpTmp>;
 
 bool IsNumerical(const string &s)
 {
@@ -35,7 +33,7 @@ bool IsNumerical(const string &s)
   return r;
 }
 
-bool IsIn(const string &s, const std::unordered_map<string, string> &f)
+bool IsIn(const string &s, const smap &f)
 {
   return f.find(s)!=f.end();
 }

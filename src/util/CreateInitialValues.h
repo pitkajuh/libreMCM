@@ -11,13 +11,12 @@
 #ifndef CREATEINITIALVALUES_H
 #define CREATEINITIALVALUES_H
 
-#include <string>
-#include <unordered_map>
 #include <vector>
-using std::unordered_map;
-using std::vector;
-using std::string;
+#include "../inc/namespace.h"
 
-vector<string> CreateAllInitialValues(const unordered_map<string, InitialValues> &iv);
+using namespace libremcm;
+using std::vector;
+
+vector<string> CreateAllInitialValues(const map<string, InitialValues> &iv);
 
 #endif

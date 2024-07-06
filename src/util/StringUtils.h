@@ -11,10 +11,7 @@
 #ifndef STRINGUTILS_H
 #define STRINGUTILS_H
 
-#include <string>
 #include "../types/StringSplit.h"
-
-using std::string;
 
 const string ParseLine(string &line);
 StringSplit LineSplit(const string &line);

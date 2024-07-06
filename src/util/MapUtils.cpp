@@ -10,14 +10,14 @@
 
 #include "../util/StringUtils.h"
 #include "../types/ReadFile.h"
-#include <unordered_map>
+#include "../inc/namespace.h"
 
-using std::unordered_map;
+using namespace libremcm;
 
-unordered_map<string, string> CreatePairMap(Pair pair)
+smap CreatePairMap(Pair pair)
 {
   StringSplit split;
-  unordered_map<string, string> map;
+  smap map;
   map.reserve(pair.list.size());
 
   for(const auto&i: pair.list)

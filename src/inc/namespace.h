@@ -19,7 +19,7 @@ using std::unordered_map;
 
 namespace libremcm
 {
-  template<typename T, typename U> using map= unordered_map<T, U>;
+  template<typename T, typename U> using map=unordered_map<T, U>;
   using smap=map<string, string>;
 }
 

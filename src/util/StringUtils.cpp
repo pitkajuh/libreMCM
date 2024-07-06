@@ -43,15 +43,12 @@ StringSplit LineSplit(const string &line)
       value.pop_back();
       std::cout<<"name "<<name<<" value split "<<value<<'\n';
     }
-  StringSplit r(name, value);
-  return r;
+
+  return {name, value};
 }
 
 const string ParseLine(string &line)
 {
   line.erase(remove(line.begin(), line.end(), ' '), line.end());
-  // std::cout<<"size "<<line.size()<<'\n';
-  line=RemoveComment(line);
-  // LineSplit(line);
-  return line;
+  return RemoveComment(line);
 }
