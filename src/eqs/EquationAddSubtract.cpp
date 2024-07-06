@@ -10,9 +10,9 @@
 
 #include "../types/Csv.h"
 #include "../types/AddSubtract.h"
-#include <unordered_map>
+#include "../inc/namespace.h"
 
-using std::unordered_map;
+using namespace libremcm;
 
 const string EMPTY=" ";
 
@@ -51,9 +51,9 @@ AddSubtract GetEquations(const Csv &csv, const int &j)
   return {add_total, subtract_total};
 }
 
-unordered_map<string, AddSubtract> EquationAddSubtract(const Csv &csv)
+map<string, AddSubtract> EquationAddSubtract(const Csv &csv)
 {
-  unordered_map<string, AddSubtract> map;
+  map<string, AddSubtract> map;
   for(unsigned int i=0; i<csv.diagonal.size(); i++) map[csv.diagonal[i]]=GetEquations(csv, i);
   return map;
 }

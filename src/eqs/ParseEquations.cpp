@@ -103,7 +103,7 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
   return result;
 }
 
-map<string, MathOperations> ParseEquations(const map<string, string> &equations_map)
+map<string, MathOperations> ParseEquations(const smap &equations_map)
 {
     // Set calculation order of  an equation according to order of operations:
 

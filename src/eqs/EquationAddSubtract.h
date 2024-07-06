@@ -17,6 +17,6 @@
 
 using namespace libremcm;
 
-unordered_map<string, AddSubtract> EquationAddSubtract(const Csv &csv);
+map<string, AddSubtract> EquationAddSubtract(const Csv &csv);
 
 #endif

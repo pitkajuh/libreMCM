@@ -13,11 +13,13 @@
 #include "../types/Csv.h"
 #include <iostream>
 #include <stdexcept>
+#include "../inc/namespace.h"
 
+using namespace libremcm;
 using std::cout;
-using MathOperations=unordered_map<string, OpTmp>;
+using MathOperations=map<string, OpTmp>;
 
-Value *ValueCheck(const string &s, const vector<string> &diagonal, unordered_map<string, string> &constants_map, const MathOperations &v)
+Value *ValueCheck(const string &s, const vector<string> &diagonal, map<string, string> &constants_map, const MathOperations &v)
 {
   const bool is_variable=IsIn(s, diagonal);
   const bool is_constant=IsIn(s, constants_map);
@@ -50,7 +52,7 @@ Value *ValueCheck(const string &s, const vector<string> &diagonal, unordered_map
   else throw std::invalid_argument("Value "+s+" is not a constant, variable/compartment or numerical value.");
 }
 
-MathOperation *GetValue(const MathOperations &v, const vector<string> &diagonal, unordered_map<string, string> &constants_map)
+MathOperation *GetValue(const MathOperations &v, const vector<string> &diagonal, smap &constants_map)
 {
   Value *v1;
   Value *v2;
@@ -70,7 +72,7 @@ MathOperation *GetValue(const MathOperations &v, const vector<string> &diagonal,
   return op;
 }
 
-void CreateEquationTemplates(const unordered_map<string, MathOperations> &equations_map, const Csv &csv, unordered_map<string, string> &constants_map)
+void CreateEquationTemplates(const map<string, MathOperations> &equations_map, const Csv &csv, smap &constants_map)
 {
   const vector<string> diagonal=csv.diagonal;
   MathOperation *op;
