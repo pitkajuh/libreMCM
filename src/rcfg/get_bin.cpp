@@ -11,8 +11,10 @@
 #include "../types/ReadFile.h"
 #include "../util/StringUtils.h"
 #include "../util/MapUtils.h"
+#include "../inc/namespace.h"
 
-using InitialValues=map<string, string>;
+using namespace libremcm;
+using InitialValues=smap;
 
 void Get(ifstream &f, const streampos &from, const string &find, ReadFile *ftype)
 {

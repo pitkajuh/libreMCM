@@ -19,7 +19,7 @@ using namespace libremcm;
 using std::cout;
 using MathOperations=map<string, OpTmp>;
 
-Value *ValueCheck(const string &s, const vector<string> &diagonal, map<string, string> &constants_map, const MathOperations &v)
+Value *ValueCheck(const string &s, const vector<string> &diagonal, smap &constants_map, const MathOperations &v)
 {
   const bool is_variable=IsIn(s, diagonal);
   const bool is_constant=IsIn(s, constants_map);
