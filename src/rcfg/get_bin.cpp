@@ -12,7 +12,7 @@
 #include "../util/StringUtils.h"
 #include "../util/MapUtils.h"
 
-using InitialValues=unordered_map<string, string>;
+using InitialValues=map<string, string>;
 
 void Get(ifstream &f, const streampos &from, const string &find, ReadFile *ftype)
 {
@@ -56,19 +56,19 @@ Pair GetData(ifstream &bin, streampos &from)
   return r;
 }
 
-unordered_map<string, string> GetBin(ifstream &bin, streampos *from, string *name=nullptr)
+smap GetBin(ifstream &bin, streampos *from, string *name=nullptr)
 {
   const Pair pair=GetData(bin, *from);
 
   if(name!=nullptr) *name=pair.name;
-  const unordered_map<string, string> map=CreatePairMap(pair);
+  const smap map=CreatePairMap(pair);
   *from=pair.position;
   return map;
 }
 
-unordered_map<string, InitialValues> GetInitialValues(ifstream &bin)
+map<string, InitialValues> GetInitialValues(ifstream &bin)
 {
-  unordered_map<string, InitialValues> map;
+  map<string, InitialValues> map;
   string *name=new string;
   streampos *from=new streampos;
   *from=0;
@@ -79,9 +79,9 @@ unordered_map<string, InitialValues> GetInitialValues(ifstream &bin)
   return map;
 }
 
-unordered_map<string, string> GetMap(ifstream &bin, streampos *from=nullptr)
+smap GetMap(ifstream &bin, streampos *from=nullptr)
 {
-  unordered_map<string, string> map;
+  smap map;
 
   if(from==nullptr)
     {

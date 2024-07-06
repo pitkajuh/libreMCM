@@ -12,12 +12,15 @@
 #define GETBIN_H
 
 #include "../types/ReadFile.h"
-using InitialValues=unordered_map<string, string>;
+#include "../inc/namespace.h"
+
+using namespace libremcm;
+using InitialValues=smap;
 
 Pair GetData(ifstream &bin, streampos &from);
 FileData Read(ifstream &bin, streampos &from);
-unordered_map<string, string> GetBin(ifstream &bin, streampos *from, string *name=nullptr);
-unordered_map<string, InitialValues> GetInitialValues(ifstream &bin);
-unordered_map<string, string> GetMap(ifstream &bin, streampos *from=nullptr);
+smap GetBin(ifstream &bin, streampos *from, string *name=nullptr);
+map<string, InitialValues> GetInitialValues(ifstream &bin);
+smap GetMap(ifstream &bin, streampos *from=nullptr);
 
 #endif
