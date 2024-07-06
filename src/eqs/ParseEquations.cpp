@@ -12,15 +12,14 @@
 #include "test.h"
 #include "../global/mathconst.h"
 #include "../types/MathOperation.h"
-#include <unordered_map>
 #include <algorithm>
 #include <iostream>
+#include "../inc/namespace.h"
 
-using std::unordered_map;
+using namespace libremcm;
 using std::to_string;
 using std::cout;
-// using MathOperations=vector<OpTmp>;
-using MathOperations=unordered_map<string, OpTmp>;
+using MathOperations=map<string, OpTmp>;
 
 void print_vector2(vector<string> vec)
 {
@@ -104,7 +103,7 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
   return result;
 }
 
-unordered_map<string, MathOperations> ParseEquations(const unordered_map<string, string> &equations_map)
+map<string, MathOperations> ParseEquations(const map<string, string> &equations_map)
 {
     // Set calculation order of  an equation according to order of operations:
 
@@ -117,7 +116,7 @@ unordered_map<string, MathOperations> ParseEquations(const unordered_map<string,
   Eq ooo;
   unsigned int k=0;
   MathOperations op;
-  unordered_map<string, MathOperations> equations_map2;
+  map<string, MathOperations> equations_map2;
   equations_map2.reserve(equations_map.size());
 
   for(const auto& [name, equation]: equations_map)

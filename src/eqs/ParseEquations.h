@@ -13,7 +13,7 @@
 
 #include "../types/MathOperation.h"
 
-using MathOperations=unordered_map<string, OpTmp>;
+using MathOperations=map<string, OpTmp>;
 
 unordered_map<string, MathOperations> ParseEquations(const smap &equations_map);
 vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo);
