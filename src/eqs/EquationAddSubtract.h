@@ -17,6 +17,6 @@
 
 using namespace libremcm;
 
-map<string, AddSubtract> EquationAddSubtract(const Csv &csv);
+Map<string, AddSubtract> EquationAddSubtract(const Csv &csv);
 
 #endif

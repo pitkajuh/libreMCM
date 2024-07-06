@@ -15,6 +15,6 @@
 
 using namespace libremcm;
 
-smap CreatePairMap(Pair pair);
+SMap CreatePairMap(Pair pair);
 
 #endif

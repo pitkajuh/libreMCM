@@ -14,7 +14,7 @@
 #include "../inc/namespace.h"
 
 using namespace libremcm;
-using InitialValues=smap;
+using InitialValues=SMap;
 
 void Get(ifstream &f, const streampos &from, const string &find, ReadFile *ftype)
 {
@@ -58,40 +58,40 @@ Pair GetData(ifstream &bin, streampos &from)
   return r;
 }
 
-smap GetBin(ifstream &bin, streampos *from, string *name=nullptr)
+SMap GetBin(ifstream &bin, streampos *from, string *name=nullptr)
 {
   const Pair pair=GetData(bin, *from);
 
   if(name!=nullptr) *name=pair.name;
-  const smap map=CreatePairMap(pair);
+  const SMap Map=CreatePairMap(pair);
   *from=pair.position;
-  return map;
+  return Map;
 }
 
-map<string, InitialValues> GetInitialValues(ifstream &bin)
+Map<string, InitialValues> GetInitialValues(ifstream &bin)
 {
-  map<string, InitialValues> map;
+  Map<string, InitialValues> Map;
   string *name=new string;
   streampos *from=new streampos;
   *from=0;
 
-  while(!bin.eof())  map[*name]=GetBin(bin, from, name);
+  while(!bin.eof())  Map[*name]=GetBin(bin, from, name);
   delete name;
   delete from;
-  return map;
+  return Map;
 }
 
-smap GetMap(ifstream &bin, streampos *from=nullptr)
+SMap GetMap(ifstream &bin, streampos *from=nullptr)
 {
-  smap map;
+  SMap Map;
 
   if(from==nullptr)
     {
       from=new streampos;
       *from=0;
-      map=GetBin(bin, from);
+      Map=GetBin(bin, from);
       delete from;
     }
-  else map=GetBin(bin, from);
-  return map;
+  else Map=GetBin(bin, from);
+  return Map;
 }

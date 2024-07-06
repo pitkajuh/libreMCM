@@ -15,7 +15,7 @@
 #include "../inc/namespace.h"
 
 using namespace libremcm;
-using MathOperations=map<string, OpTmp>;
+using MathOperations=Map<string, OpTmp>;
 
 bool IsNumerical(const string &s)
 {
@@ -33,7 +33,7 @@ bool IsNumerical(const string &s)
   return r;
 }
 
-bool IsIn(const string &s, const smap &f)
+bool IsIn(const string &s, const SMap &f)
 {
   return f.find(s)!=f.end();
 }

@@ -19,7 +19,7 @@
 using namespace libremcm;
 using std::to_string;
 using std::cout;
-using MathOperations=map<string, OpTmp>;
+using MathOperations=Map<string, OpTmp>;
 
 void print_vector2(vector<string> vec)
 {
@@ -103,7 +103,7 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
   return result;
 }
 
-map<string, MathOperations> ParseEquations(const smap &equations_map)
+Map<string, MathOperations> ParseEquations(const SMap &equations_Map)
 {
     // Set calculation order of  an equation according to order of operations:
 
@@ -116,10 +116,10 @@ map<string, MathOperations> ParseEquations(const smap &equations_map)
   Eq ooo;
   unsigned int k=0;
   MathOperations op;
-  map<string, MathOperations> equations_map2;
-  equations_map2.reserve(equations_map.size());
+  Map<string, MathOperations> equations_Map2;
+  equations_Map2.reserve(equations_Map.size());
 
-  for(const auto& [name, equation]: equations_map)
+  for(const auto& [name, equation]: equations_Map)
     {
       v=ToVector(equation);
       v=RemoveOpenClose(v);
@@ -127,10 +127,10 @@ map<string, MathOperations> ParseEquations(const smap &equations_map)
       print_vector2(v);
       v=test(v, k, op);
       ooo=GetOrder(v, k, op);
-      equations_map2[name]=op;
+      equations_Map2[name]=op;
       k=0;
       op.clear();
       cout<<" "<<'\n';
     }
-  return equations_map2;
+  return equations_Map2;
 }

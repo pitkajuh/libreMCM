@@ -14,16 +14,16 @@
 
 using namespace libremcm;
 
-smap CreatePairMap(Pair pair)
+SMap CreatePairMap(Pair pair)
 {
   StringSplit split;
-  smap map;
-  map.reserve(pair.list.size());
+  SMap Map;
+  Map.reserve(pair.list.size());
 
   for(const auto&i: pair.list)
     {
       split=LineSplit(i);
-      map[split.name]=split.value;
+      Map[split.name]=split.value;
     }
-  return map;
+  return Map;
 }

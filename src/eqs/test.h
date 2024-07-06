@@ -17,7 +17,7 @@
 #include <algorithm>
 
 using namespace libremcm;
-using MathOperations=map<string, OpTmp>;
+using MathOperations=Map<string, OpTmp>;
 
 vector<string> test(vector<string> equation,  unsigned int &k, MathOperations &ooo);
 vector<string> Remove(vector<string> equation,  const int &open,  const int &close);

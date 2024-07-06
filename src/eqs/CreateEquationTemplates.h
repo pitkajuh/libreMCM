@@ -16,8 +16,8 @@
 #include "../inc/namespace.h"
 
 using namespace libremcm;
-using MathOperations=map<string, OpTmp>;
+using MathOperations=Map<string, OpTmp>;
 
-void CreateEquationTemplates(const map<string, MathOperations> &equations_map, const Csv &csv, smap &constants_map);
+void CreateEquationTemplates(const Map<string, MathOperations> &equations_Map, const Csv &csv, SMap &constants_Map);
 
 #endif

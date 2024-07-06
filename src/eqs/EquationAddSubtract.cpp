@@ -51,9 +51,9 @@ AddSubtract GetEquations(const Csv &csv, const int &j)
   return {add_total, subtract_total};
 }
 
-map<string, AddSubtract> EquationAddSubtract(const Csv &csv)
+Map<string, AddSubtract> EquationAddSubtract(const Csv &csv)
 {
-  map<string, AddSubtract> map;
-  for(unsigned int i=0; i<csv.diagonal.size(); i++) map[csv.diagonal[i]]=GetEquations(csv, i);
-  return map;
+  Map<string, AddSubtract> Map;
+  for(unsigned int i=0; i<csv.diagonal.size(); i++) Map[csv.diagonal[i]]=GetEquations(csv, i);
+  return Map;
 }

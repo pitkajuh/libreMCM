@@ -14,7 +14,7 @@
 #include "../inc/namespace.h"
 
 using namespace libremcm;
-using InitialValues=smap;
+using InitialValues=SMap;
 
 class Compartment
 {

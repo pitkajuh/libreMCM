@@ -16,9 +16,9 @@
 
 using namespace libremcm;
 using std::vector;
-using InitialValues=smap;
-using DInitialValues=map<string, double>;
+using InitialValues=SMap;
+using DInitialValues=Map<string, double>;
 
-map<string, DInitialValues> ParseInitialValues(map<string, InitialValues> &ivs, const vector<string> &iv_names);
+Map<string, DInitialValues> ParseInitialValues(Map<string, InitialValues> &ivs, const vector<string> &iv_names);
 
 #endif

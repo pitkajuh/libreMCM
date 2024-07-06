@@ -16,8 +16,8 @@ using namespace libremcm;
 using std::vector;
 using std::cout;
 using std::stod;
-using InitialValues=smap;
-using DInitialValues=map<string, double>;
+using InitialValues=SMap;
+using DInitialValues=Map<string, double>;
 
 DInitialValues ParseIv(InitialValues ivs, const vector<string> &iv_names)
 {
@@ -32,10 +32,10 @@ DInitialValues ParseIv(InitialValues ivs, const vector<string> &iv_names)
   return ivs_sorted;
 }
 
-map<string, DInitialValues> ParseInitialValues(map<string, InitialValues> &ivs, const vector<string> &iv_names)
+Map<string, DInitialValues> ParseInitialValues(Map<string, InitialValues> &ivs, const vector<string> &iv_names)
 {
-  // Takes the iv map and unique iv names as an input. Sorts the map values alphabetically and initializes the values with zero, if it is not found in the map. Also the values are changed from string to double.
-  map<string, DInitialValues> ivs_sorted;
+  // Takes the iv Map and unique iv names as an input. Sorts the Map values alphabetically and initializes the values with zero, if it is not found in the Map. Also the values are changed from string to double.
+  Map<string, DInitialValues> ivs_sorted;
   ivs_sorted.reserve(ivs.size());
 
   for(const auto &[name, iv]: ivs) ivs_sorted[name]=ParseIv(iv, iv_names);

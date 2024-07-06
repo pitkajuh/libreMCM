@@ -28,7 +28,7 @@
 using std::cout;
 using std::string;
 using namespace libremcm;
-using InitialValues=smap;
+using InitialValues=SMap;
 bool run_deterministic_sim=false;
 
 enum
@@ -54,21 +54,21 @@ void ReadInitialData(const string directory)
   ifstream bin(directory+"bin");
   streampos *f=new streampos;
   *f=0;
-  smap constants_map=GetMap(bin, f);
+  SMap constants_Map=GetMap(bin, f);
   cout<<" "<<'\n';
-  smap equations_map=GetMap(bin, f);
+  SMap equations_Map=GetMap(bin, f);
   bin.close();
   delete f;
 
   cout<<" "<<'\n';
   ifstream sim(directory+"sim_params");
-  smap test=GetMap(sim);
+  SMap test=GetMap(sim);
   sim.close();
 
   cout<<" "<<'\n';
 
   ifstream compartments(directory+"compartments");
-  map<string, InitialValues> ivs=GetInitialValues(compartments);
+  Map<string, InitialValues> ivs=GetInitialValues(compartments);
   compartments.close();
 
   ifstream compartment(directory+"compartment.csv");
@@ -76,12 +76,12 @@ void ReadInitialData(const string directory)
   csv.GetDiagonal();
   compartment.close();
 
-  map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
-  map<string, MathOperations> equations_map2=ParseEquations(equations_map);
-  CreateEquationTemplates(equations_map2, csv, constants_map);
+  Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
+  Map<string, MathOperations> equations_Map2=ParseEquations(equations_Map);
+  CreateEquationTemplates(equations_Map2, csv, constants_Map);
 
   vector<string> iv_names=CreateAllInitialValues(ivs);
-  map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
+  Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
 
 
 //   get_sim_params(directory);
@@ -89,10 +89,10 @@ void ReadInitialData(const string directory)
 //   get_compartment_parameters(directory);
 
 //   get_compartment_equations();
-//   create_target_compartment_map();
-//   create_initial_value_map();
+//   create_target_compartment_Map();
+//   create_initial_value_Map();
 //   parse_initial_values();
-//   create_compartment_map();
+//   create_compartment_Map();
 //   parse_compartment_equations();
 //   replace_indices();
 }

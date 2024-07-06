@@ -15,9 +15,9 @@
 #include "../inc/namespace.h"
 
 using namespace libremcm;
-using MathOperations=map<string, OpTmp>;
+using MathOperations=Map<string, OpTmp>;
 
-map<string, MathOperations> ParseEquations(const smap &equations_map);
+Map<string, MathOperations> ParseEquations(const SMap &equations_Map);
 vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo);
 vector<string> RemoveOpenClose(vector<string> equation);
 
