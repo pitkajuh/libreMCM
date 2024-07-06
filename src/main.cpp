@@ -68,7 +68,7 @@ void ReadInitialData(const string directory)
   cout<<" "<<'\n';
 
   ifstream compartments(directory+"compartments");
-  unordered_map<string, InitialValues> ivs=GetInitialValues(compartments);
+  map<string, InitialValues> ivs=GetInitialValues(compartments);
   compartments.close();
 
   ifstream compartment(directory+"compartment.csv");
@@ -76,12 +76,12 @@ void ReadInitialData(const string directory)
   csv.GetDiagonal();
   compartment.close();
 
-  unordered_map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
-  unordered_map<string, MathOperations> equations_map2=ParseEquations(equations_map);
+  map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
+  map<string, MathOperations> equations_map2=ParseEquations(equations_map);
   CreateEquationTemplates(equations_map2, csv, constants_map);
 
   vector<string> iv_names=CreateAllInitialValues(ivs);
-  unordered_map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
+  map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
 
 
 //   get_sim_params(directory);

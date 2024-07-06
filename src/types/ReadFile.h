@@ -13,12 +13,10 @@
 
 #include <fstream>
 #include <vector>
-#include <unordered_map>
 #include <memory>
 #include "StringSplit.h"
 #include "../global/mathconst.h"
 
-using std::unordered_map;
 using std::ifstream;
 using std::streampos;
 using std::vector;

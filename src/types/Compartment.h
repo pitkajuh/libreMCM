@@ -11,11 +11,10 @@
 #ifndef COMPARTMENT_H
 #define COMPARTMENT_H
 
-#include <unordered_map>
-/* #include "Equation.h" */
+#include "../inc/namespace.h"
 
-using std::unordered_map;
-using InitialValues=unordered_map<string, string>;
+using namespace libremcm;
+using InitialValues=smap;
 
 class Compartment
 {

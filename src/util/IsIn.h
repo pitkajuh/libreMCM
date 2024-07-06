@@ -17,7 +17,7 @@
 
 using namespace libremcm;
 using std::vector;
-using MathOperations=unordered_map<string, OpTmp>;
+using MathOperations=map<string, OpTmp>;
 
 bool IsNumerical(const string &s);
 bool IsIn(const string &s, const smap &f);
