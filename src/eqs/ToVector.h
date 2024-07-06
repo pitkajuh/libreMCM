@@ -11,10 +11,10 @@
 #ifndef TOVECTOR_H
 #define TOVECTOR_H
 
-#include "../inc/namespace.h"
+#include <string>
 #include <vector>
 
-using namespace libremcm;
+using std::string;
 using std::vector;
 
 vector<string> ToVector(string v);

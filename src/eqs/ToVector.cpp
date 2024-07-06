@@ -9,15 +9,12 @@
 \*---------------------------------------------------------------------------*/
 
 #include "../global/mathconst.h"
-#include <algorithm>
-#include <unordered_map>
 #include <string>
+#include <algorithm>
 #include <vector>
 #include <iostream>
 
-using std::unordered_map;
 using std::string;
-using std::distance;
 using std::vector;
 using std::find;
 using std::cout;
@@ -60,7 +57,7 @@ vector<string> ToVector(string v)
 	{
 	  s=v.substr(0, i);
 	  mathop=v[i];
-	  v=v.substr(i+1, distance(v.begin()+1,v.end()));
+	  v=v.substr(i+1, std::distance(v.begin()+1,v.end()));
 	  if(!s.empty()) r.emplace_back(s);
 	  if(find(OPERATORS2.begin(), OPERATORS2.end(), mathop) !=OPERATORS2.end()) r.emplace_back(mathop);
 	  size=v.size();

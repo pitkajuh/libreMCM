@@ -15,8 +15,6 @@
 
 using std::cout;
 using std::ifstream;
-using std::find;
-using std::distance;
 
 const char DELIMITER=';';
 const string EMPTY=" ";
@@ -41,19 +39,17 @@ vector<string> LineToVector(string &s)
   while(!end)
      {
        size2=s.size();
-       delimiter_i=distance(s.begin(), find(s.begin(), s.end(), DELIMITER));
+       delimiter_i=std::distance(s.begin(), std::find(s.begin(), s.end(), DELIMITER));
 
        if(size==0)
 	 {
 	   r.emplace_back(EMPTY);
-	   // cout<<"s1: "<<": "<<size<<" "<<size2<<" "<<delimiter_i<<'\n';
 	   end=true;
 	   continue;
 	 }
        else if(delimiter_i==size2)
 	 {
 	   r.emplace_back(s);
-	   // cout<<"s2:"<<s<<": "<<size<<" "<<size2<<" "<<delimiter_i<<'\n';
 	   break;
 	 }
 
@@ -61,7 +57,6 @@ vector<string> LineToVector(string &s)
        s=s.substr(delimiter_i+1, size);
        size=s.size();
        r.emplace_back(UpdateValue(str));
-       // cout<<"s :"<<s<<":"<<size<<" "<<size2<<" "<<delimiter_i<<'\n';
      }
    return r;
 }
@@ -72,7 +67,6 @@ Csv GetCompartment(ifstream &f)
   Csv csv;
 
   while(getline(f, line)) csv.AddCsv(LineToVector(line));
-
   cout<<" "<<'\n';
   return csv;
 }
