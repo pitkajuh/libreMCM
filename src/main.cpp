@@ -55,7 +55,7 @@ void ReadInitialData(const string directory)
   streampos *f=new streampos;
   *f=0;
   SMap constants_map=GetMap(bin, f);
-  cout<<" "<<'\n';
+  // cout<<" "<<'\n';
   SMap equations_map=GetMap(bin, f);
   bin.close();
   delete f;
@@ -65,7 +65,7 @@ void ReadInitialData(const string directory)
   SMap test=GetMap(sim);
   sim.close();
 
-  cout<<" "<<'\n';
+  // cout<<" "<<'\n';
 
   ifstream compartments(directory+"compartments");
   Map<string, InitialValues> ivs=GetInitialValues(compartments);

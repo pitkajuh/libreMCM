@@ -47,13 +47,10 @@ public:
     delete math_op;
   }
 
-  // ~MathOperation()
-  // {
-  //   // delete math_op;
-  //   // delete v1;
-  //   delete v2;
-  // }
+  void LinkMathOp()
+  {
 
+  }
 };
 
 #endif

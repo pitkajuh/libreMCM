@@ -58,9 +58,9 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	{
 	  operation.Set(equation[i-1], equation[i], equation[i+1]);
 	  // ooo.emplace_back(operation);
-	  ooo["T"+to_string(k)]=operation;
-	  cout<<"Adding "<<"T"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
-	  equation[i]="T"+to_string(k);
+	  ooo["@"+to_string(k)]=operation;
+	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
+	  equation[i]="@"+to_string(k);
 	  equation.erase(equation.begin()+i+1);
 	  equation.erase(equation.begin()+i-1);
 	  k++;

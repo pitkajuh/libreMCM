@@ -40,35 +40,40 @@ Value *ValueCheck(const string &s, const vector<string> &diagonal, SMap &constan
     }
   else if(is_numerical)
     {
-      Value *v=new Value;
+      // No name will be set, only value such as 1,2,3 etc.
+      Value *v=new Numeric;
       v->SetValue(std::stod(s));
       return v;
     }
   else if(is_math)
     {
-      Value *v=new Value;
+      Value *v=new MathOperationValue;
       return v;
     }
   else throw std::invalid_argument("Value "+s+" is not a constant, variable/compartment or numerical value.");
 }
 
-MathOperation *GetValue(const MathOperations &v, const vector<string> &diagonal, SMap &constants_map)
+MathOperation *GetValue(MathOperations v, const vector<string> &diagonal, SMap &constants_map)
 {
+  string s;
   Value *v1;
   Value *v2;
   MathOperation *op=new MathOperation;
 
-  for(const auto &[key, value]: v)
+  for(unsigned i=0; i<v.size(); i++)
     {
-      v1=ValueCheck(value.value1, diagonal, constants_map, v);
-      v2=ValueCheck(value.value2, diagonal, constants_map, v);
-      // cout<<v1->value<<value.math_operator<<v2->value<<'\n';
+      s="@"+std::to_string(i);
+      v1=ValueCheck(v[s].value1, diagonal, constants_map, v);
+      v2=ValueCheck(v[s].value2, diagonal, constants_map, v);
+      cout<<v.size()<<" "<<s<<" "<<v[s].value1<<v[s].math_operator<<v[s].value2<<'\n';
       op->v1=v1;
-      op->SetMathOp(value.math_operator);
+      op->SetMathOp(v[s].math_operator);
       op->v2=v2;
+      op->LinkMathOp();
       delete v1;
       delete v2;
     }
+  cout<<""<<'\n';
   return op;
 }
 
@@ -79,6 +84,7 @@ void CreateEquationTemplates(const Map<string, MathOperations> &equations_map, c
 
   for(const auto &[key, value]: equations_map)
     {
+      cout<<key<<'\n';
       op=GetValue(value, diagonal, constants_map);
       delete op;
     }

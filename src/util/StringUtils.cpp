@@ -41,7 +41,7 @@ StringSplit LineSplit(const string &line)
       name=line.substr(0, at);
       value=line.substr(at+1, SIZE-1);
       value.pop_back();
-      std::cout<<"name "<<name<<" value split "<<value<<'\n';
+      // std::cout<<"name "<<name<<" value split "<<value<<'\n';
     }
 
   return {name, value};
