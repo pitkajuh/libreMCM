@@ -18,6 +18,6 @@
 using namespace libremcm;
 using MathOperations=Map<string, OpTmp>;
 
-void CreateEquationTemplates(const Map<string, MathOperations> &equations_Map, const Csv &csv, SMap &constants_Map);
+void CreateEquationTemplates(const Map<string, MathOperations> &equations_map, const Csv &csv, SMap &constants_map);
 
 #endif

@@ -100,10 +100,11 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
   result.insert(result.begin(), v2.begin(), v2.end());
   result.insert(result.end(), v1.begin(), v1.end());
   result.insert(result.end(), v3.begin(), v3.end());
+  print_vector2(result);
   return result;
 }
 
-Map<string, MathOperations> ParseEquations(const SMap &equations_Map)
+Map<string, MathOperations> ParseEquations(const SMap &equations_map)
 {
     // Set calculation order of  an equation according to order of operations:
 
@@ -116,10 +117,10 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_Map)
   Eq ooo;
   unsigned int k=0;
   MathOperations op;
-  Map<string, MathOperations> equations_Map2;
-  equations_Map2.reserve(equations_Map.size());
+  Map<string, MathOperations> equations_map2;
+  equations_map2.reserve(equations_map.size());
 
-  for(const auto& [name, equation]: equations_Map)
+  for(const auto& [name, equation]: equations_map)
     {
       v=ToVector(equation);
       v=RemoveOpenClose(v);
@@ -127,10 +128,10 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_Map)
       print_vector2(v);
       v=test(v, k, op);
       ooo=GetOrder(v, k, op);
-      equations_Map2[name]=op;
+      equations_map2[name]=op;
       k=0;
       op.clear();
       cout<<" "<<'\n';
     }
-  return equations_Map2;
+  return equations_map2;
 }

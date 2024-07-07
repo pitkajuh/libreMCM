@@ -17,7 +17,7 @@
 using namespace libremcm;
 using MathOperations=Map<string, OpTmp>;
 
-Map<string, MathOperations> ParseEquations(const SMap &equations_Map);
+Map<string, MathOperations> ParseEquations(const SMap &equations_map);
 vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo);
 vector<string> RemoveOpenClose(vector<string> equation);
 

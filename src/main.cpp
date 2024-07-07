@@ -54,9 +54,9 @@ void ReadInitialData(const string directory)
   ifstream bin(directory+"bin");
   streampos *f=new streampos;
   *f=0;
-  SMap constants_Map=GetMap(bin, f);
+  SMap constants_map=GetMap(bin, f);
   cout<<" "<<'\n';
-  SMap equations_Map=GetMap(bin, f);
+  SMap equations_map=GetMap(bin, f);
   bin.close();
   delete f;
 
@@ -77,8 +77,8 @@ void ReadInitialData(const string directory)
   compartment.close();
 
   Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
-  Map<string, MathOperations> equations_Map2=ParseEquations(equations_Map);
-  CreateEquationTemplates(equations_Map2, csv, constants_Map);
+  Map<string, MathOperations> equations_map2=ParseEquations(equations_map);
+  CreateEquationTemplates(equations_map2, csv, constants_map);
 
   vector<string> iv_names=CreateAllInitialValues(ivs);
   Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
