@@ -56,9 +56,9 @@ public:
   void GetFunction(ifstream &f, const string &line, const string &find, const string &previous, ReadFile *res)
   {
     const int size=line.size();
-    const size_t  o=line.find(find);
+    const size_t o=line.find(find);
     bool stop=false;
-    streampos  read_pos;
+    streampos read_pos;
     string newline;
 
     if(o<size)
@@ -87,9 +87,9 @@ public:
   void GetFunction(ifstream &f, const string &line, const string &find, const string &previous, ReadFile *res)
   {
     const int size=line.size();
-    const size_t  o=line.find(find);
+    const size_t o=line.find(find);
     bool stop=false;
-    streampos  read_pos;
+    streampos read_pos;
 
     if(o<size)
       {

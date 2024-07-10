@@ -64,11 +64,6 @@ class RadioNuclide: public InitialValue
 public:
   double halflife;
   void Link(){}
-  // double ExpDecay(const double &t)
-  // {
-  //   return value*exp(-log(2)*t/halflife);
-  // }
-
 };
 
 #endif
