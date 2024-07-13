@@ -73,33 +73,162 @@ Value *ValueCheck(const string &s, const Data &data, MathOperations &op, const i
   else throw std::invalid_argument("Value "+s+" is not a constant, variable/compartment or numerical value.");
 }
 
-// MathOperation *GetValue(MathOperations v, const Data &data)
-// {
-//   string s;
-//   Value *v1;
-//   Value *v2;
-//   MathOperation *op=new MathOperation;
-//   vector<MathOperation*> ops;
+void Val(const vector<string> &equation, const unsigned int i, const Data &data, MathOperations &op, const int k)
+{
+  const string s1=equation[i-1];
+  const string s2=equation[i+1];
+  const string o=equation[i];
+  const bool s1_variable=IsIn(s1, data.diagonal);
+  const bool s1_constant=IsIn(s1, data.constants_map);
+  const bool s1_numerical=IsNumerical(s1);
+  const bool s1_math=(s1.substr(0, 1)=="@") ? true : false;
+  const bool s2_variable=IsIn(s2, data.diagonal);
+  const bool s2_constant=IsIn(s2, data.constants_map);
+  const bool s2_numerical=IsNumerical(s2);
+  const bool s2_math=(s2.substr(0, 1)=="@") ? true : false;
 
-//   for(unsigned int i=0; i<v.size(); i++)
-//     {
-//       s="@"+std::to_string(i);
-//       v1=ValueCheck(v[s].value1, data, v, ops);
-//       v2=ValueCheck(v[s].value2, data, v, ops);
-//       // cout<<v.size()<<" "<<s<<" "<<v[s].value1<<v[s].math_operator<<v[s].value2<<'\n';
-//       cout<<v.size()<<" "<<s<<" "<<v[s].value1<<" "<<v[s].math_operator<<" "<<v[s].value2<<'\n';
-//       cout<<" "<<'\n';
-//       op->v1=v1;
-//       // op->v[s].math_operator;//SetMathOp(v[s].math_operator);
-//       op->SetMathOp(v[s].math_operator);
-//       op->v2=v2;
-//       ops.emplace_back(op);
-//       delete v1;
-//       delete v2;
-//     }
-//   cout<<""<<'\n';
-//   return op;
-// }
+  if(s1_variable and s2_variable)
+    {
+      cout<<"s1_variable and s2_variable"<<'\n';
+      Value *v1=new Variable;
+      v1->SetName(s1);
+      Value *v2=new Variable;
+      v2->SetName(s2);
+    }
+  else if(s1_variable and s2_constant)
+      {
+      cout<<"s1_variable and s2_constant"<<'\n';
+      Value *v1=new Variable;
+      v1->SetName(s1);
+      Value *v2=new Constant;
+      v2->SetName(s2);
+    }
+  else if(s1_variable and s2_numerical)
+    {
+      cout<<"s1_variable and s2_numerical"<<'\n';
+      Value *v1=new Variable;
+      v1->SetName(s1);
+      Value *v2=new Numeric;
+      v2->SetName(s2);
+    }
+    else if(s1_variable and s2_math)
+    {
+      cout<<"s1_variable and s2_math"<<'\n';
+      Value *v1=new Variable;
+      v1->SetName(s1);
+      Value *v2=new MathOperationValue;
+      v2->SetName(s2);
+    }
+  else if(s1_constant and s2_variable)
+    {
+      cout<<"s1_constant and s2_variable"<<'\n';
+      Value *v1=new Constant;
+      v1->SetName(s1);
+      Value *v2=new Variable;
+      v2->SetName(s2);
+    }
+  else if(s1_constant and s2_constant)
+      {
+      cout<<"s1_constant and s2_constant"<<'\n';
+      Value *v1=new Constant;
+      v1->SetName(s1);
+      Value *v2=new Constant;
+      v2->SetName(s2);
+    }
+  else if(s1_constant and s2_numerical)
+    {
+      cout<<"s1_constant and s2_numerical"<<'\n';
+      Value *v1=new Numeric;
+      v1->SetName(s1);
+      Value *v2=new Constant;
+      v2->SetName(s2);
+    }
+  else if(s1_constant and s2_math)
+    {
+      cout<<"s1_constant and s2_math"<<'\n';
+      Value *v1=new Constant;
+      v1->SetName(s1);
+      Value *v2=new MathOperationValue;
+      v2->SetName(s2);
+    }
+  else if(s1_numerical and s2_variable)
+    {
+      cout<<"s1_numerical and s2_varible"<<'\n';
+      Value *v1=new Numeric;
+      v1->SetName(s1);
+      Value *v2=new Variable;
+      v2->SetName(s2);
+      MathOperation *m=new NumericMathOperation;
+      delete m;
+    }
+   else if(s1_numerical and s2_constant)
+    {
+      cout<<"s1_numerical and s2_constant"<<'\n';
+      Value *v1=new Numeric;
+      v1->SetName(s1);
+      Value *v2=new Constant;
+      MathOperation *m=new NumericMathOperation;
+      delete m;
+    }
+   else if(s1_numerical and s2_numerical)
+    {
+      cout<<"s1_numerical and s2_numerical"<<'\n';
+      Value *v1=new Numeric;
+      v1->SetName(s1);
+      Value *v2=new Numeric;
+      MathOperation *m=new NumericMathOperation;
+      delete m;
+    }
+   else if(s1_numerical and s2_math)
+    {
+      cout<<"s1_numerical and s2_math"<<'\n';
+      Value *v1=new Numeric;
+      v1->SetName(s1);
+      Value *v2=new MathOperationValue;
+      MathOperation *m=new NumericMathOperation;
+      delete m;
+    }
+  else if(s1_math and s2_variable)
+    {
+      cout<<"s1_math and s2_variable"<<'\n';
+      Value *v1=new MathOperationValue;
+      v1->SetName(s1);
+      Value *v2=new Variable;
+      v2->SetName(s2);
+    }
+  else if(s1_math and s2_constant)
+      {
+      cout<<"s1_math and s2_constant"<<'\n';
+      Value *v1=new MathOperationValue;
+      v1->SetName(s1);
+      Value *v2=new Constant;
+      v2->SetName(s2);
+    }
+  else if(s1_math and s2_numerical)
+    {
+      cout<<"s1_math and s2_numerical"<<'\n';
+      Value *v1=new MathOperationValue;
+      v1->SetName(s1);
+      Value *v2=new Numeric;
+      v2->SetName(s2);
+    }
+  else if(s1_math and s2_math)
+    {
+      cout<<"s1_math and s2_math"<<'\n';
+      Value *v1=new MathOperationValue;
+      v1->SetName(s1);
+      Value *v2=new MathOperationValue;
+      v2->SetName(s2);
+    }
+  else if(!s1_variable && !s1_constant && !s1_numerical && !s1_math)
+    {
+      throw std::invalid_argument("Value "+s1+" is not a constant, variable/compartment or numerical value.");
+    }
+  else
+    {
+      throw std::invalid_argument("Value "+s2+" is not a constant, variable/compartment or numerical value.");
+    }
+}
 
 vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, MathOperations &ooo, const Data &data)
 {
@@ -117,6 +246,7 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	  // v2=ValueCheck(equation[i+1], data, ooo, k);
 	  // operation->SetValues(v1, v2);
 	  // ooo.emplace_back(operation);
+	  Val(equation, i, data, ooo, k);
 	  // ooo["@"+to_string(k)]=operation;
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
 	  equation[i]="@"+to_string(k);
