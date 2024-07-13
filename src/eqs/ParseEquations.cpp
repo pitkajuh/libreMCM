@@ -12,11 +12,10 @@
 #include "test.h"
 #include "../global/mathconst.h"
 #include "../types/MathOperation.h"
+#include "../types/Data.h"
 #include <algorithm>
 #include <iostream>
-#include "../inc/namespace.h"
 
-using namespace libremcm;
 using std::to_string;
 using std::cout;
 using MathOperations=Map<string, OpTmp>;
@@ -47,7 +46,7 @@ struct Eq
   }
 };
 
-vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, MathOperations &ooo)
+vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, MathOperations &ooo, const Data &data)
 {
   unsigned int i=0;
   OpTmp operation;
@@ -73,9 +72,9 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
   return equation;
 }
 
-Eq GetOrder(vector<string> &equation, unsigned int &k, MathOperations &ooo)
+Eq GetOrder(vector<string> &equation, unsigned int &k, MathOperations &ooo, const Data &data)
 {
-  for(const auto&i: OPERATORS) equation=FindOperator(equation, i, k, ooo);
+  for(const auto&i: OPERATORS) equation=FindOperator(equation, i, k, ooo, data);
   return {equation, ooo};
 }
 
@@ -88,11 +87,11 @@ vector<string> RemoveOpenClose(vector<string> equation)
   return equation;
 }
 
-vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo)
+vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo, const Data &data)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
-  const Eq r=GetOrder(v1, k, ooo);
-  v1=test(r.eq, k, ooo);
+  const Eq r=GetOrder(v1, k, ooo, data);
+  v1=test(r.eq, k, ooo, data);
   const vector<string> v2{equation.begin(), equation.begin()+open};
   const vector<string> v3{equation.begin()+close+1, equation.end()};
   vector<string> result;
@@ -104,7 +103,7 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
   return result;
 }
 
-Map<string, MathOperations> ParseEquations(const SMap &equations_map)
+Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data &data)
 {
     // Set calculation order of  an equation according to order of operations:
 
@@ -126,8 +125,8 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map)
       v=RemoveOpenClose(v);
       cout<<" EQUATION"<<'\n';
       print_vector2(v);
-      v=test(v, k, op);
-      ooo=GetOrder(v, k, op);
+      v=test(v, k, op, data);
+      ooo=GetOrder(v, k, op, data);
       equations_map2[name]=op;
       k=0;
       op.clear();

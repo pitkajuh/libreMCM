@@ -37,7 +37,7 @@ bool IsOpen(const unsigned int &open, const unsigned int &close, const vector<st
   return result;
 }
 
-vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &close, unsigned int &k, MathOperations &ooo)
+vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &close, unsigned int &k, MathOperations &ooo, const Data &data)
 {
   bool end=false;
   vector<string> tmp;
@@ -52,7 +52,7 @@ vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &
       if(open2<tmp.size())
 	{
 	  open=distance(equation.begin()+open3+1, find(equation.begin()+open3+1, equation.end(), OPEN))+open3+1;
-	  equation=GetParenthesis(equation, open, close, k, ooo);
+	  equation=GetParenthesis(equation, open, close, k, ooo, data);
 	  open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
 	  close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
 	}
@@ -61,7 +61,7 @@ vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &
   return equation;
 }
 
-vector<string> test(vector<string> equation, unsigned int &k, MathOperations &ooo)
+vector<string> test(vector<string> equation, unsigned int &k, MathOperations &ooo, const Data &data)
 {
   bool end=false;
   bool is;
@@ -79,8 +79,8 @@ vector<string> test(vector<string> equation, unsigned int &k, MathOperations &oo
       tmp={equation.begin()+open+1, equation.begin()+close};
       is=IsOpen(open, close, tmp);
 
-      if(is) equation=GetParenthesis(equation, open, close, k, ooo);
-      else equation=test2(equation, open, close, k, ooo);
+      if(is) equation=GetParenthesis(equation, open, close, k, ooo, data);
+      else equation=test2(equation, open, close, k, ooo, data);
     }
   return equation;
 }

@@ -11,14 +11,13 @@
 #ifndef PARSEQUATIONS_H
 #define PARSEQUATIONS_H
 
+#include "../types/Data.h"
 #include "../types/MathOperation.h"
-#include "../inc/namespace.h"
 
-using namespace libremcm;
 using MathOperations=Map<string, OpTmp>;
 
-Map<string, MathOperations> ParseEquations(const SMap &equations_map);
-vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo);
+Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data &data);
+vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo, const Data &data);
 vector<string> RemoveOpenClose(vector<string> equation);
 
 #endif

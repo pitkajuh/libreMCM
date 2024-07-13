@@ -80,7 +80,7 @@ void ReadInitialData(const string directory)
   Data data(csv.diagonal, constants_map);
 
   Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
-  Map<string, MathOperations> equations_map2=ParseEquations(equations_map);
+  Map<string, MathOperations> equations_map2=ParseEquations(equations_map, data);
   CreateEquationTemplates(equations_map2, data);
 
   vector<string> iv_names=CreateAllInitialValues(ivs);
