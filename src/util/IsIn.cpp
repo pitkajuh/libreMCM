@@ -15,7 +15,7 @@
 #include "../inc/namespace.h"
 
 using namespace libremcm;
-using MathOperations=Map<string, OpTmp>;
+using MathOperations=Map<string, MathOperation>;
 
 bool IsNumerical(const string &s)
 {

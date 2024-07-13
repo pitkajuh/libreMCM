@@ -14,7 +14,7 @@
 #include "../types/MathOperation.h"
 #include "../types/Data.h"
 
-using MathOperations=Map<string, OpTmp>;
+using MathOperations=Map<string, MathOperation>;
 
 void CreateEquationTemplates(const Map<string, MathOperations> &equations_map, const Data &data);
 
