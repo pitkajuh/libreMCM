@@ -18,7 +18,7 @@
 
 using std::vector;
 class MathOperation;
-using MathOperations=vector<MathOperation>;
+using MathOperations=vector<MathOperation*>;
 
 class MathOperation
 {
@@ -45,15 +45,15 @@ public:
   }
 
   // void Calculate() {result=math_operator->Calculate(v1->value, v2->value);}
-  // virtual double Calculate()=0;
+  virtual double Calculate()=0;
 };
 
 class NumericMathOperation: public MathOperation
 {
-  // double Calculate()
-  // {
-  //   return 0;
-  // }
+  double Calculate()
+  {
+    return math_operator->Calculate(v1->value, v2->value);
+  }
 };
 
 #endif
