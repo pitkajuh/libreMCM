@@ -25,6 +25,7 @@ const string OPEN="(";
 const string CLOSE=")";
 const string EXP="^";
 const string BOPEN="{";
+const string EQUAL="=";
 
 const array<string, 5> OPERATORS={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT};
 const array<string, 7> OPERATORS2={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT, OPEN, CLOSE};

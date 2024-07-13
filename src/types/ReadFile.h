@@ -79,7 +79,7 @@ public:
   void PushTo()
   {
     const int size=line.size();
-    const size_t o=line.find("=");
+    const size_t o=line.find(EQUAL);
 
     if(size>1 and o<size) v.emplace_back(line);
   }

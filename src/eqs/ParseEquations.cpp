@@ -19,7 +19,6 @@
 
 using std::to_string;
 using std::cout;
-using MathOperations=vector<MathOperation>;
 
 void print_vector2(vector<string> vec)
 {
@@ -105,7 +104,7 @@ Value *ValueCheck(const string &s, const Data &data, MathOperations &op, const i
 vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, MathOperations &ooo, const Data &data)
 {
   unsigned int i=0;
-  MathOperation operation;
+  // MathOperation operation;
   Value *v1;
   Value *v2;
 
@@ -113,11 +112,11 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
     {
       if(find==equation[i])
 	{
-	  operation.SetMathOp(equation[i]);
-	  v1=ValueCheck(equation[i-1], data, ooo, k);
-	  v2=ValueCheck(equation[i+1], data, ooo, k);
-	  operation.SetValues(v1, v2);
-	  ooo.emplace_back(operation);
+	  // operation->SetMathOp(equation[i]);
+	  // v1=ValueCheck(equation[i-1], data, ooo, k);
+	  // v2=ValueCheck(equation[i+1], data, ooo, k);
+	  // operation->SetValues(v1, v2);
+	  // ooo.emplace_back(operation);
 	  // ooo["@"+to_string(k)]=operation;
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
 	  equation[i]="@"+to_string(k);
@@ -125,8 +124,9 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	  equation.erase(equation.begin()+i-1);
 	  k++;
 	  i=0;
-	  delete v1;
-	  delete v2;
+	  // delete operation;
+	  // delete v1;
+	  // delete v2;
 	  continue;
 	}
       i++;

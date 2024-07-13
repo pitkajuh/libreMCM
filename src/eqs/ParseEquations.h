@@ -14,8 +14,6 @@
 #include "../types/Data.h"
 #include "../types/MathOperation.h"
 
-using MathOperations=vector<MathOperation>;
-
 Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data &data);
 vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo, const Data &data);
 vector<string> RemoveOpenClose(vector<string> equation);
