@@ -36,57 +36,57 @@ void print_vector2(vector<string> vec)
   cout<<empty<<'\n';
 }
 
-struct Eq
-{
-  vector<string> eq;
-  MathOperations operation;
-  Eq(){}
-  Eq(const vector<string> &e, const MathOperations &o)
-  {
-    eq=e;
-    operation=o;
-  }
-};
+// struct Eq
+// {
+//   vector<string> eq;
+//   MathOperations operation;
+//   Eq(){}
+//   Eq(const vector<string> &e, const MathOperations &o)
+//   {
+//     eq=e;
+//     operation=o;
+//   }
+// };
 
-Value *ValueCheck(const string &s, const Data &data, vector<MathOperation*> &ops)
-{
-  // const bool is_variable=IsIn(s, data.diagonal);
-  // const bool is_constant=IsIn(s, data.constants_map);
-  // const bool is_numerical=IsNumerical(s);
-  // const bool is_math=IsIn(s, ops);
+// Value *ValueCheck(const string &s, const Data &data, vector<MathOperation*> &ops)
+// {
+//   // const bool is_variable=IsIn(s, data.diagonal);
+//   // const bool is_constant=IsIn(s, data.constants_map);
+//   // const bool is_numerical=IsNumerical(s);
+//   // const bool is_math=IsIn(s, ops);
 
-  // if(is_variable)
-  //   {
-  //     // No value will be set yet. Depend on the initial values.
-  //     Value *v=new Variable;
-  //     v->SetName(s);
-  //     return v;
-  //   }
-  // else if(is_constant)
-  //   {
-  //     // No value will be set yet. Value will change in probabilistic simulation.
-  //     Value *v=new Constant;
-  //     v->SetName(s);
-  //     return v;
-  //   }
-  // else if(is_numerical)
-  //   {
-  //     // No name will be set, only value such as 1,2,3 etc.
-  //     Value *v=new Numeric;
-  //     v->SetValue(std::stod(s));
-  //     return v;
-  //   }
-  // else if(is_math)
-  //   {
-  //     // Is a math operation.
-  //     const unsigned int i=std::stoi(s.substr(1, s.size()));
-  //     cout<<"is math "<<i<<" "<<ops.size()<<" "<<'\n';
-  //     MathOperation *op=ops[i];
-  //     Value *v=new MathOperationValue;
-  //     return v;
-  //   }
-  // else throw std::invalid_argument("Value "+s+" is not a constant, variable/compartment or numerical value.");
-}
+//   // if(is_variable)
+//   //   {
+//   //     // No value will be set yet. Depend on the initial values.
+//   //     Value *v=new Variable;
+//   //     v->SetName(s);
+//   //     return v;
+//   //   }
+//   // else if(is_constant)
+//   //   {
+//   //     // No value will be set yet. Value will change in probabilistic simulation.
+//   //     Value *v=new Constant;
+//   //     v->SetName(s);
+//   //     return v;
+//   //   }
+//   // else if(is_numerical)
+//   //   {
+//   //     // No name will be set, only value such as 1,2,3 etc.
+//   //     Value *v=new Numeric;
+//   //     v->SetValue(std::stod(s));
+//   //     return v;
+//   //   }
+//   // else if(is_math)
+//   //   {
+//   //     // Is a math operation.
+//   //     const unsigned int i=std::stoi(s.substr(1, s.size()));
+//   //     cout<<"is math "<<i<<" "<<ops.size()<<" "<<'\n';
+//   //     MathOperation *op=ops[i];
+//   //     Value *v=new MathOperationValue;
+//   //     return v;
+//   //   }
+//   // else throw std::invalid_argument("Value "+s+" is not a constant, variable/compartment or numerical value.");
+// }
 
 // MathOperation *GetValue(MathOperations v, const Data &data)
 // {
@@ -150,10 +150,11 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
   return equation;
 }
 
-Eq GetOrder(vector<string> &equation, unsigned int &k, MathOperations &ooo, const Data &data)
+void GetOrder(vector<string> &equation, unsigned int &k, MathOperations &ooo, const Data &data)
 {
   for(const auto&i: OPERATORS) equation=FindOperator(equation, i, k, ooo, data);
-  return {equation, ooo};
+  // return {equation, ooo};
+    // return equation, ooo;
 }
 
 vector<string> RemoveOpenClose(vector<string> equation)
@@ -168,8 +169,8 @@ vector<string> RemoveOpenClose(vector<string> equation)
 vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo, const Data &data)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
-  const Eq r=GetOrder(v1, k, ooo, data);
-  v1=test(r.eq, k, ooo, data);
+  GetOrder(v1, k, ooo, data);
+  v1=test(v1, k, ooo, data);
   const vector<string> v2{equation.begin(), equation.begin()+open};
   const vector<string> v3{equation.begin()+close+1, equation.end()};
   vector<string> result;
@@ -191,7 +192,7 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data
     // 4. Addition and subtraction
 
   vector<string> v;
-  Eq ooo;
+  // Eq ooo;
   unsigned int k=0;
   MathOperations op;
   Map<string, MathOperations> equations_map2;
@@ -204,7 +205,7 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data
       cout<<" EQUATION"<<'\n';
       print_vector2(v);
       v=test(v, k, op, data);
-      ooo=GetOrder(v, k, op, data);
+      GetOrder(v, k, op, data);
       equations_map2[name]=op;
       k=0;
       op.clear();
