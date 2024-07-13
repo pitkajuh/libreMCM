@@ -19,7 +19,6 @@
 
 using std::to_string;
 using std::cout;
-// using MathOperations=Map<string, OpTmp>;
 using MathOperations=Map<string, MathOperation>;
 
 void print_vector2(vector<string> vec)
@@ -35,18 +34,6 @@ void print_vector2(vector<string> vec)
     }
   cout<<empty<<'\n';
 }
-
-// struct Eq
-// {
-//   vector<string> eq;
-//   MathOperations operation;
-//   Eq(){}
-//   Eq(const vector<string> &e, const MathOperations &o)
-//   {
-//     eq=e;
-//     operation=o;
-//   }
-// };
 
 // Value *ValueCheck(const string &s, const Data &data, vector<MathOperation*> &ops)
 // {
@@ -119,11 +106,9 @@ void print_vector2(vector<string> vec)
 vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, MathOperations &ooo, const Data &data)
 {
   unsigned int i=0;
-  // OpTmp operation;
   MathOperation operation;
   Value *v1;
   Value *v2;
-  // vector<MathOperation*> ops;
 
   while(i<equation.size())
     {
@@ -153,8 +138,6 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 void GetOrder(vector<string> &equation, unsigned int &k, MathOperations &ooo, const Data &data)
 {
   for(const auto&i: OPERATORS) equation=FindOperator(equation, i, k, ooo, data);
-  // return {equation, ooo};
-    // return equation, ooo;
 }
 
 vector<string> RemoveOpenClose(vector<string> equation)
@@ -192,7 +175,6 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data
     // 4. Addition and subtraction
 
   vector<string> v;
-  // Eq ooo;
   unsigned int k=0;
   MathOperations op;
   Map<string, MathOperations> equations_map2;
