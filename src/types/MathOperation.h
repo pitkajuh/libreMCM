@@ -19,13 +19,23 @@ struct OpTmp
 {
   string value1;
   string value2;
-  string math_operator;
+  MathOperator* math_operator;
+
+  void SetMathOp(const string &m)
+  {
+    if(m==ADD) math_operator=new Add;
+    else if(m==SUBTRACT) math_operator=new Sub;
+    else if(m==MULTIPLY) math_operator=new Mul;
+    else if(m==DIVIDE) math_operator=new Div;
+    else if(m==EXP) math_operator=new Exp;
+    delete math_operator;
+  }
 
   void Set(const string &v1, const string &op, const string &v2)
   {
     value1=v1;
     value2=v2;
-    math_operator=op;
+    SetMathOp(op);
   }
 };
 
@@ -37,14 +47,9 @@ public:
   MathOperator* math_op;
   double result;
 
-  void SetMathOp(const string &m)
+  void SetMathOp(MathOperator* o)
   {
-    if(m==ADD) math_op=new Add;
-    else if(m==SUBTRACT) math_op=new Sub;
-    else if(m==MULTIPLY) math_op=new Mul;
-    else if(m==DIVIDE) math_op=new Div;
-    else if(m==EXP) math_op=new Exp;
-    delete math_op;
+    math_op=o;
   }
 
   void Calculate() {result=math_op->Calculate(v1->value, v2->value);}

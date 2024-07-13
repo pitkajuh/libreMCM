@@ -8,12 +8,13 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include <string>
+// #include <string>
 #include <iostream>
 #include <chrono>
 #include <getopt.h>
 #include <unistd.h>
 #include "inc/namespace.h"
+#include "types/Data.h"
 #include "rcfg/get_bin.h"
 #include "util/MapUtils.h"
 #include "util/CreateInitialValues.h"
@@ -76,9 +77,11 @@ void ReadInitialData(const string directory)
   csv.GetDiagonal();
   compartment.close();
 
+  Data data(csv.diagonal, constants_map);
+
   Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
   Map<string, MathOperations> equations_map2=ParseEquations(equations_map);
-  CreateEquationTemplates(equations_map2, csv, constants_map);
+  CreateEquationTemplates(equations_map2, data);
 
   vector<string> iv_names=CreateAllInitialValues(ivs);
   Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);

@@ -10,25 +10,18 @@
 
 #include "../util/IsIn.h"
 #include "../types/MathOperation.h"
-#include "../types/Csv.h"
+#include "../types/Data.h"
 #include "../inc/namespace.h"
 #include <iostream>
 #include <stdexcept>
 
-using namespace libremcm;
 using std::cout;
 using MathOperations=Map<string, OpTmp>;
 
-void Simplify(MathOperation *op)
+Value *ValueCheck(const string &s, const Data &data, const MathOperations &v,  vector<MathOperation*> &ops)
 {
-  // op->Calculate();
-  // cout<<"res "<<op->result<<'\n';
-}
-
-Value *ValueCheck(const string &s, const vector<string> &diagonal, SMap &constants_map, const MathOperations &v,  vector<MathOperation*> &ops)
-{
-  const bool is_variable=IsIn(s, diagonal);
-  const bool is_constant=IsIn(s, constants_map);
+  const bool is_variable=IsIn(s, data.diagonal);
+  const bool is_constant=IsIn(s, data.constants_map);
   const bool is_math=IsIn(s, v);
   const bool is_numerical=IsNumerical(s);
 
@@ -59,14 +52,13 @@ Value *ValueCheck(const string &s, const vector<string> &diagonal, SMap &constan
       const unsigned int i=std::stoi(s.substr(1, s.size()));
       cout<<"is math "<<i<<" "<<ops.size()<<" "<<'\n';
       MathOperation *op=ops[i];
-      Simplify(op);
       Value *v=new MathOperationValue;
       return v;
     }
   else throw std::invalid_argument("Value "+s+" is not a constant, variable/compartment or numerical value.");
 }
 
-MathOperation *GetValue(MathOperations v, const vector<string> &diagonal, SMap &constants_map)
+MathOperation *GetValue(MathOperations v, const Data &data)
 {
   string s;
   Value *v1;
@@ -77,14 +69,13 @@ MathOperation *GetValue(MathOperations v, const vector<string> &diagonal, SMap &
   for(unsigned int i=0; i<v.size(); i++)
     {
       s="@"+std::to_string(i);
-
-      // TT(v[s], diagonal, constants_map, v, ops);
-
-      v1=ValueCheck(v[s].value1, diagonal, constants_map, v, ops);
-      v2=ValueCheck(v[s].value2, diagonal, constants_map, v, ops);
-      cout<<v.size()<<" "<<s<<" "<<v[s].value1<<v[s].math_operator<<v[s].value2<<'\n';
+      v1=ValueCheck(v[s].value1, data, v, ops);
+      v2=ValueCheck(v[s].value2, data, v, ops);
+      // cout<<v.size()<<" "<<s<<" "<<v[s].value1<<v[s].math_operator<<v[s].value2<<'\n';
+      cout<<v.size()<<" "<<s<<" "<<v[s].value1<<" "<<v[s].math_operator<<" "<<v[s].value2<<'\n';
       cout<<" "<<'\n';
       op->v1=v1;
+      // op->v[s].math_operator;//SetMathOp(v[s].math_operator);
       op->SetMathOp(v[s].math_operator);
       op->v2=v2;
       ops.emplace_back(op);
@@ -95,15 +86,14 @@ MathOperation *GetValue(MathOperations v, const vector<string> &diagonal, SMap &
   return op;
 }
 
-void CreateEquationTemplates(const Map<string, MathOperations> &equations_map, const Csv &csv, SMap &constants_map)
+void CreateEquationTemplates(const Map<string, MathOperations> &equations_map, const Data &data)
 {
-  const vector<string> diagonal=csv.diagonal;
   MathOperation *op;
 
   for(const auto &[key, value]: equations_map)
     {
       cout<<key<<'\n';
-      op=GetValue(value, diagonal, constants_map);
+      op=GetValue(value, data);
       delete op;
     }
 }

@@ -8,14 +8,25 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef CREATEEQUATIONTEMPLATES_H
-#define CREATEEQUATIONTEMPLATES_H
+#ifndef DATA_H
+#define DATA_H
 
-#include "../types/MathOperation.h"
-#include "../types/Data.h"
+#include <vector>
+#include "../inc/namespace.h"
 
-using MathOperations=Map<string, OpTmp>;
+using namespace libremcm;
+using InitialValues=SMap;
 
-void CreateEquationTemplates(const Map<string, MathOperations> &equations_map, const Data &data);
+struct Data
+{
+  std::vector<string> diagonal;
+  SMap constants_map;
+
+  Data(const std::vector<string> &d, const SMap &cm)
+  {
+    diagonal=d;
+    constants_map=cm;
+  }
+};
 
 #endif
