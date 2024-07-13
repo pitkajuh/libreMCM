@@ -19,6 +19,12 @@ using namespace libremcm;
 using std::cout;
 using MathOperations=Map<string, OpTmp>;
 
+void Simplify()
+{
+
+
+}
+
 Value *ValueCheck(const string &s, const vector<string> &diagonal, SMap &constants_map, const MathOperations &v,  vector<MathOperation*> &ops)
 {
   const bool is_variable=IsIn(s, diagonal);
@@ -28,12 +34,14 @@ Value *ValueCheck(const string &s, const vector<string> &diagonal, SMap &constan
 
   if(is_variable)
     {
+      // No value will be set yet. Depend on the initial values.
       Value *v=new Variable;
       v->SetName(s);
       return v;
     }
   else if(is_constant)
     {
+      // No value will be set yet. Value will change in probabilistic simulation.
       Value *v=new Constant;
       v->SetName(s);
       return v;
@@ -47,6 +55,7 @@ Value *ValueCheck(const string &s, const vector<string> &diagonal, SMap &constan
     }
   else if(is_math)
     {
+      // Is a math operation.
       const unsigned int i=std::stoi(s.substr(1, s.size()));
       cout<<"is math "<<i<<" "<<ops.size()<<" "<<'\n';
       MathOperation *op=ops[i];
