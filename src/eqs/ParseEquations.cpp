@@ -80,11 +80,11 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
   const string o=equation[i];
   const bool s1_variable=IsIn(s1, data.diagonal);
   const bool s1_constant=IsIn(s1, data.constants_map);
-  const bool s1_numerical=IsNumerical(s1);
+  const bool s1_numeric=IsNumerical(s1);
   const bool s1_math=(s1.substr(0, 1)=="@") ? true : false;
   const bool s2_variable=IsIn(s2, data.diagonal);
   const bool s2_constant=IsIn(s2, data.constants_map);
-  const bool s2_numerical=IsNumerical(s2);
+  const bool s2_numeric=IsNumerical(s2);
   const bool s2_math=(s2.substr(0, 1)=="@") ? true : false;
 
   if(s1_variable and s2_variable)
@@ -94,6 +94,8 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
       v1->SetName(s1);
       Value *v2=new Variable;
       v2->SetName(s2);
+      // MathOperation *m=new NumericMathOperation;
+      // delete m;
     }
   else if(s1_variable and s2_constant)
       {
@@ -103,9 +105,9 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
       Value *v2=new Constant;
       v2->SetName(s2);
     }
-  else if(s1_variable and s2_numerical)
+  else if(s1_variable and s2_numeric)
     {
-      cout<<"s1_variable and s2_numerical"<<'\n';
+      cout<<"s1_variable and s2_numeric"<<'\n';
       Value *v1=new Variable;
       v1->SetName(s1);
       Value *v2=new Numeric;
@@ -135,9 +137,9 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
       Value *v2=new Constant;
       v2->SetName(s2);
     }
-  else if(s1_constant and s2_numerical)
+  else if(s1_constant and s2_numeric)
     {
-      cout<<"s1_constant and s2_numerical"<<'\n';
+      cout<<"s1_constant and s2_numeric"<<'\n';
       Value *v1=new Numeric;
       v1->SetName(s1);
       Value *v2=new Constant;
@@ -151,9 +153,9 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
       Value *v2=new MathOperationValue;
       v2->SetName(s2);
     }
-  else if(s1_numerical and s2_variable)
+  else if(s1_numeric and s2_variable)
     {
-      cout<<"s1_numerical and s2_varible"<<'\n';
+      cout<<"s1_numeric and s2_varible"<<'\n';
       Value *v1=new Numeric;
       v1->SetName(s1);
       Value *v2=new Variable;
@@ -161,27 +163,27 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
       MathOperation *m=new NumericMathOperation;
       delete m;
     }
-   else if(s1_numerical and s2_constant)
+   else if(s1_numeric and s2_constant)
     {
-      cout<<"s1_numerical and s2_constant"<<'\n';
+      cout<<"s1_numeric and s2_constant"<<'\n';
       Value *v1=new Numeric;
       v1->SetName(s1);
       Value *v2=new Constant;
       MathOperation *m=new NumericMathOperation;
       delete m;
     }
-   else if(s1_numerical and s2_numerical)
+   else if(s1_numeric and s2_numeric)
     {
-      cout<<"s1_numerical and s2_numerical"<<'\n';
+      cout<<"s1_numeric and s2_numeric"<<'\n';
       Value *v1=new Numeric;
       v1->SetName(s1);
       Value *v2=new Numeric;
       MathOperation *m=new NumericMathOperation;
       delete m;
     }
-   else if(s1_numerical and s2_math)
+   else if(s1_numeric and s2_math)
     {
-      cout<<"s1_numerical and s2_math"<<'\n';
+      cout<<"s1_numeric and s2_math"<<'\n';
       Value *v1=new Numeric;
       v1->SetName(s1);
       Value *v2=new MathOperationValue;
@@ -204,9 +206,9 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
       Value *v2=new Constant;
       v2->SetName(s2);
     }
-  else if(s1_math and s2_numerical)
+  else if(s1_math and s2_numeric)
     {
-      cout<<"s1_math and s2_numerical"<<'\n';
+      cout<<"s1_math and s2_numeric"<<'\n';
       Value *v1=new MathOperationValue;
       v1->SetName(s1);
       Value *v2=new Numeric;
@@ -220,13 +222,13 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
       Value *v2=new MathOperationValue;
       v2->SetName(s2);
     }
-  else if(!s1_variable && !s1_constant && !s1_numerical && !s1_math)
+  else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)
     {
-      throw std::invalid_argument("Value "+s1+" is not a constant, variable/compartment or numerical value.");
+      throw std::invalid_argument("Value "+s1+" is not a constant, variable/compartment or numeric value.");
     }
   else
     {
-      throw std::invalid_argument("Value "+s2+" is not a constant, variable/compartment or numerical value.");
+      throw std::invalid_argument("Value "+s2+" is not a constant, variable/compartment or numeric value.");
     }
 }
 
