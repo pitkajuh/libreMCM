@@ -35,7 +35,7 @@ void print_vector2(vector<string> vec)
   cout<<empty<<'\n';
 }
 
-Value *ValueCheck(const string &s, const Data &data, MathOperations &op, const unsigned int i)
+Value *ValueCheck(const string &s, const Data &data, MathOperations &op, const int i)
 {
   const bool is_variable=IsIn(s, data.diagonal);
   const bool is_constant=IsIn(s, data.constants_map);
@@ -126,6 +126,8 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	  equation.erase(equation.begin()+i-1);
 	  k++;
 	  i=0;
+	  delete v1;
+	  delete v2;
 	  continue;
 	}
       i++;
