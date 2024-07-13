@@ -40,10 +40,12 @@ bool IsIn(const string &s, const SMap &f)
   return f.find(s)!=f.end();
 }
 
-// bool IsIn(const string &s, const MathOperations &f)
-// {
-//   return f.find(s)!=f.end();
-// }
+bool IsIn(const unsigned int &s, const MathOperations &f)
+{
+  bool r=false;
+  if(s<f.size()) r=true;
+  return r;
+}
 
 bool IsIn(const string &s, const std::vector<string> &f)
 {

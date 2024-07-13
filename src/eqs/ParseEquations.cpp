@@ -13,13 +13,12 @@
 #include "../global/mathconst.h"
 #include "../types/MathOperation.h"
 #include "../types/Data.h"
-// #include "../util/IsIn.h"
+#include "../util/IsIn.h"
 #include <algorithm>
 #include <iostream>
 
 using std::to_string;
 using std::cout;
-// using MathOperations=vector<MathOperation>;
 using MathOperations=vector<MathOperation>;
 
 void print_vector2(vector<string> vec)
@@ -36,45 +35,46 @@ void print_vector2(vector<string> vec)
   cout<<empty<<'\n';
 }
 
-// Value *ValueCheck(const string &s, const Data &data, vector<MathOperation*> &ops)
-// {
-//   // const bool is_variable=IsIn(s, data.diagonal);
-//   // const bool is_constant=IsIn(s, data.constants_map);
-//   // const bool is_numerical=IsNumerical(s);
-//   // const bool is_math=IsIn(s, ops);
+Value *ValueCheck(const string &s, const Data &data, MathOperations &op, const unsigned int i)
+{
+  const bool is_variable=IsIn(s, data.diagonal);
+  const bool is_constant=IsIn(s, data.constants_map);
+  const bool is_numerical=IsNumerical(s);
+  cout<<"i "<<i-1<<" size "<<op.size()<<'\n';
+  const bool is_math=IsIn(i-1, op);
 
-//   // if(is_variable)
-//   //   {
-//   //     // No value will be set yet. Depend on the initial values.
-//   //     Value *v=new Variable;
-//   //     v->SetName(s);
-//   //     return v;
-//   //   }
-//   // else if(is_constant)
-//   //   {
-//   //     // No value will be set yet. Value will change in probabilistic simulation.
-//   //     Value *v=new Constant;
-//   //     v->SetName(s);
-//   //     return v;
-//   //   }
-//   // else if(is_numerical)
-//   //   {
-//   //     // No name will be set, only value such as 1,2,3 etc.
-//   //     Value *v=new Numeric;
-//   //     v->SetValue(std::stod(s));
-//   //     return v;
-//   //   }
-//   // else if(is_math)
-//   //   {
-//   //     // Is a math operation.
-//   //     const unsigned int i=std::stoi(s.substr(1, s.size()));
-//   //     cout<<"is math "<<i<<" "<<ops.size()<<" "<<'\n';
-//   //     MathOperation *op=ops[i];
-//   //     Value *v=new MathOperationValue;
-//   //     return v;
-//   //   }
-//   // else throw std::invalid_argument("Value "+s+" is not a constant, variable/compartment or numerical value.");
-// }
+  if(is_variable)
+    {
+      // No value will be set yet. Depend on the initial values.
+      Value *v=new Variable;
+      v->SetName(s);
+      return v;
+    }
+  else if(is_constant)
+    {
+      // No value will be set yet. Value will change in probabilistic simulation.
+      Value *v=new Constant;
+      v->SetName(s);
+      return v;
+    }
+  else if(is_numerical)
+    {
+      // No name will be set, only value such as 1,2,3 etc.
+      Value *v=new Numeric;
+      v->SetValue(std::stod(s));
+      return v;
+    }
+  else if(is_math)
+    {
+      // Is a math operation.
+      const unsigned int i=std::stoi(s.substr(1, s.size()));
+      cout<<"is math "<<i<<" "<<op.size()<<" "<<'\n';
+      // MathOperation *op=op[i];
+      Value *v=new MathOperationValue;
+      return v;
+    }
+  else throw std::invalid_argument("Value "+s+" is not a constant, variable/compartment or numerical value.");
+}
 
 // MathOperation *GetValue(MathOperations v, const Data &data)
 // {
@@ -117,10 +117,10 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	{
 	  // operation.Set(equation[i-1], equation[i], equation[i+1]);
 	  operation.SetMathOp(equation[i]);
-	  // v1=ValueCheck(equation[i-1], data, ops);
-	  // v2=ValueCheck(equation[i+1], data, ops);
+	  v1=ValueCheck(equation[i-1], data, ooo, k);
+	  v2=ValueCheck(equation[i+1], data, ooo, k);
 
-	  // ooo.emplace_back(operation);
+	  ooo.emplace_back(operation);
 	  // ooo["@"+to_string(k)]=operation;
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
 	  equation[i]="@"+to_string(k);
