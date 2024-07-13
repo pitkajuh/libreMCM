@@ -17,7 +17,6 @@
 
 using namespace libremcm;
 using std::vector;
-using MathOperations=vector<MathOperation>;
 
 bool IsNumerical(const string &s)
 {
@@ -38,13 +37,6 @@ bool IsNumerical(const string &s)
 bool IsIn(const string &s, const SMap &f)
 {
   return f.find(s)!=f.end();
-}
-
-bool IsIn(const unsigned int &s, const MathOperations &f)
-{
-  bool r=false;
-  if(s<f.size()) r=true;
-  return r;
 }
 
 bool IsIn(const string &s, const std::vector<string> &f)

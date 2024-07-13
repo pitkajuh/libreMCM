@@ -40,8 +40,6 @@ Value *ValueCheck(const string &s, const Data &data, MathOperations &op, const u
   const bool is_variable=IsIn(s, data.diagonal);
   const bool is_constant=IsIn(s, data.constants_map);
   const bool is_numerical=IsNumerical(s);
-  cout<<"i "<<i-1<<" size "<<op.size()<<'\n';
-  const bool is_math=IsIn(i-1, op);
 
   if(is_variable)
     {
@@ -64,7 +62,7 @@ Value *ValueCheck(const string &s, const Data &data, MathOperations &op, const u
       v->SetValue(std::stod(s));
       return v;
     }
-  else if(is_math)
+  else if(i-1<op.size())
     {
       // Is a math operation.
       const unsigned int i=std::stoi(s.substr(1, s.size()));

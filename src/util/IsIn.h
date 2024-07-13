@@ -17,11 +17,9 @@
 
 using namespace libremcm;
 using std::vector;
-using MathOperations=vector<MathOperation>;
 
 bool IsNumerical(const string &s);
 bool IsIn(const string &s, const SMap &f);
-bool IsIn(const unsigned int &s, const MathOperations &f);
 bool IsIn(const string &s, const vector<string> &f);
 
 #endif
