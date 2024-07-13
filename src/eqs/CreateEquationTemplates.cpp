@@ -16,7 +16,7 @@
 #include <stdexcept>
 
 using std::cout;
-// using MathOperations=Map<string, MathOperation>;
+// using MathOperations=vector<MathOperation>;
 
 // Value *ValueCheck(const string &s, const Data &data, const MathOperations &v,  vector<MathOperation*> &ops)
 // {

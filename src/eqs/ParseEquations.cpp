@@ -19,7 +19,8 @@
 
 using std::to_string;
 using std::cout;
-using MathOperations=Map<string, MathOperation>;
+// using MathOperations=vector<MathOperation>;
+using MathOperations=vector<MathOperation>;
 
 void print_vector2(vector<string> vec)
 {
@@ -120,7 +121,7 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	  // v2=ValueCheck(equation[i+1], data, ops);
 
 	  // ooo.emplace_back(operation);
-	  ooo["@"+to_string(k)]=operation;
+	  // ooo["@"+to_string(k)]=operation;
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
 	  equation[i]="@"+to_string(k);
 	  equation.erase(equation.begin()+i+1);

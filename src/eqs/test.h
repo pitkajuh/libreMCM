@@ -16,7 +16,7 @@
 #include "../types/Data.h"
 #include <algorithm>
 
-using MathOperations=Map<string, MathOperation>;
+using MathOperations=vector<MathOperation>;
 
 vector<string> test(vector<string> equation,  unsigned int &k, MathOperations &ooo, const Data &data);
 vector<string> Remove(vector<string> equation,  const int &open,  const int &close);

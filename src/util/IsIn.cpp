@@ -11,11 +11,13 @@
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
+#include <vector>
 #include "../types/MathOperation.h"
 #include "../inc/namespace.h"
 
 using namespace libremcm;
-using MathOperations=Map<string, MathOperation>;
+using std::vector;
+using MathOperations=vector<MathOperation>;
 
 bool IsNumerical(const string &s)
 {
@@ -38,10 +40,10 @@ bool IsIn(const string &s, const SMap &f)
   return f.find(s)!=f.end();
 }
 
-bool IsIn(const string &s, const MathOperations &f)
-{
-  return f.find(s)!=f.end();
-}
+// bool IsIn(const string &s, const MathOperations &f)
+// {
+//   return f.find(s)!=f.end();
+// }
 
 bool IsIn(const string &s, const std::vector<string> &f)
 {
