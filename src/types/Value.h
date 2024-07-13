@@ -26,44 +26,37 @@ public:
 
   void SetName(const string &s) {name=s;}
   void SetValue(const double &v) {value=v;}
-  virtual void Link()=0;
 };
 
 class Constant: public Value
 {
  public:
-  void Link(){}
 };
 
 class Variable: public Value
 {
 public:
-  void Link(){}
 };
 
 class Numeric: public Value
 {
 public:
-  void Link(){}
 };
 
 class InitialValue: public Value
 {
 public:
-  void Link(){}
 };
 
 class MathOperationValue: public Value
 {
 public:
-  void Link(){}
 };
 
 class RadioNuclide: public InitialValue
 {
 public:
   double halflife;
-  void Link(){}
 };
 
 #endif

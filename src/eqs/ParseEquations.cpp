@@ -113,11 +113,10 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
     {
       if(find==equation[i])
 	{
-	  // operation.Set(equation[i-1], equation[i], equation[i+1]);
 	  operation.SetMathOp(equation[i]);
 	  v1=ValueCheck(equation[i-1], data, ooo, k);
 	  v2=ValueCheck(equation[i+1], data, ooo, k);
-
+	  operation.SetValues(v1, v2);
 	  ooo.emplace_back(operation);
 	  // ooo["@"+to_string(k)]=operation;
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
