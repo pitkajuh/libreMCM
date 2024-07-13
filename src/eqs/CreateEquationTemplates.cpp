@@ -19,10 +19,10 @@ using namespace libremcm;
 using std::cout;
 using MathOperations=Map<string, OpTmp>;
 
-void Simplify()
+void Simplify(MathOperation *op)
 {
-
-
+  // op->Calculate();
+  // cout<<"res "<<op->result<<'\n';
 }
 
 Value *ValueCheck(const string &s, const vector<string> &diagonal, SMap &constants_map, const MathOperations &v,  vector<MathOperation*> &ops)
@@ -59,6 +59,7 @@ Value *ValueCheck(const string &s, const vector<string> &diagonal, SMap &constan
       const unsigned int i=std::stoi(s.substr(1, s.size()));
       cout<<"is math "<<i<<" "<<ops.size()<<" "<<'\n';
       MathOperation *op=ops[i];
+      Simplify(op);
       Value *v=new MathOperationValue;
       return v;
     }
@@ -76,6 +77,9 @@ MathOperation *GetValue(MathOperations v, const vector<string> &diagonal, SMap &
   for(unsigned int i=0; i<v.size(); i++)
     {
       s="@"+std::to_string(i);
+
+      // TT(v[s], diagonal, constants_map, v, ops);
+
       v1=ValueCheck(v[s].value1, diagonal, constants_map, v, ops);
       v2=ValueCheck(v[s].value2, diagonal, constants_map, v, ops);
       cout<<v.size()<<" "<<s<<" "<<v[s].value1<<v[s].math_operator<<v[s].value2<<'\n';
@@ -83,7 +87,6 @@ MathOperation *GetValue(MathOperations v, const vector<string> &diagonal, SMap &
       op->v1=v1;
       op->SetMathOp(v[s].math_operator);
       op->v2=v2;
-      // op->LinkMathOp();
       ops.emplace_back(op);
       delete v1;
       delete v2;

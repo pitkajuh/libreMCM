@@ -47,10 +47,7 @@ public:
     delete math_op;
   }
 
-  void LinkMathOp()
-  {
-
-  }
+  void Calculate() {result=math_op->Calculate(v1->value, v2->value);}
 };
 
 #endif
