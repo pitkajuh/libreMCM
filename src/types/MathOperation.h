@@ -18,7 +18,6 @@
 
 class MathOperation;
 class Value;
-// class VVMathOperation: public MathOperation;
 using MathOperations=std::vector<MathOperation*>;
 
 class MathOperation
@@ -100,7 +99,8 @@ public:
   {
     MathOperation *m=op[i];
     Value *v1=m->GetV1();
-    // cout<<<<'\n';
+    string s=v1->GetValue();
+    cout<<s<<'\n';
   }
 };
 
@@ -110,34 +110,6 @@ private:
   double halflife;
 public:
 };
-
-// class MathOperation
-// {
-// private:
-//   Value *v1;
-//   Value *v2;
-//   MathOperator *math_operator;
-// public:
-//   double result;
-
-//   void Set(Value *v, const string &m, Value *w)
-//   {
-//     v1=v;
-//     v2=w;
-
-//     if(m==ADD) math_operator=new Add;
-//     else if(m==SUBTRACT) math_operator=new Sub;
-//     else if(m==MULTIPLY) math_operator=new Mul;
-//     else if(m==DIVIDE) math_operator=new Div;
-//     else if(m==EXP) math_operator=new Exp;
-//     delete math_operator;
-//   }
-
-//   MathOperator *GetOp() {return math_operator;}
-//   Value *GetV1() {return v1;}
-//   Value *GetV2() {return v2;}
-//   virtual double Calculate()=0;
-// };
 
 class VVMathOperation: public MathOperation
 {
