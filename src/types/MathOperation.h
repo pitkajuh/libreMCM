@@ -16,16 +16,15 @@
 #include "MathOperator.h"
 #include "../global/mathconst.h"
 
-using std::vector;
 class MathOperation;
-using MathOperations=vector<MathOperation*>;
+using MathOperations=std::vector<MathOperation*>;
 
 class MathOperation
 {
 private:
-  Value* v1;
-  Value* v2;
-  MathOperator* math_operator;
+  Value *v1;
+  Value *v2;
+  MathOperator *math_operator;
 public:
   double result;
 
@@ -39,13 +38,13 @@ public:
     delete math_operator;
   }
 
-  void SetValues(Value* v, Value* w)
+  void SetValues(Value *v, Value *w)
   {
     v1=v;
     v2=w;
   }
 
-  MathOperator* GetOp() {return math_operator;}
+  MathOperator *GetOp() {return math_operator;}
   Value *GetV1() {return v1;}
   Value *GetV2() {return v2;}
 
@@ -53,9 +52,90 @@ public:
   virtual double Calculate()=0;
 };
 
+class VVMathOperation: public MathOperation
+{
+  // Variable-variable math operation
+  double Calculate()
+  {
+    return 0;
+  }
+};
+
+class CVMathOperation: public MathOperation
+{
+  // Constant-variable math operation
+  double Calculate()
+  {
+    return 0;
+  }
+};
+
+class CCMathOperation: public MathOperation
+{
+  // Constant-variable math operation
+  double Calculate()
+  {
+    return 0;
+  }
+};
+
+class NVMathOperation: public MathOperation
+{
+  // Constant-variable math operation
+  double Calculate()
+  {
+    return 0;
+  }
+};
+
+class NCMathOperation: public MathOperation
+{
+  // Constant-variable math operation
+  double Calculate()
+  {
+    return 0;
+  }
+};
+
+class CMMathOperation: public MathOperation
+{
+  // Constant-variable math operation
+  double Calculate()
+  {
+    return 0;
+  }
+};
+
+class NMMathOperation: public MathOperation
+{
+  // Constant-variable math operation
+  double Calculate()
+  {
+    return 0;
+  }
+};
+
+class MVMathOperation: public MathOperation
+{
+  // Constant-variable math operation
+  double Calculate()
+  {
+    return 0;
+  }
+};
+
+class MMMathOperation: public MathOperation
+{
+  // Constant-variable math operation
+  double Calculate()
+  {
+    return 0;
+  }
+};
+
 class NumericMathOperation: public MathOperation
 {
-  // For purely numeric values;
+  // For purely numeric values
   double Calculate()
   {
     result=GetOp()->Calculate(GetV1()->GetValue(), GetV2()->GetValue());

@@ -12,7 +12,6 @@
 #define VALUE_H
 
 #include <string>
-#include <vector>
 #include <math.h>
 #include "MathOperation.h"
 
@@ -21,8 +20,8 @@ using std::string;
 class Value
 {
 private:
-  string name="";
-  double value=0;
+  string name;
+  double value;
 public:
   void SetName(const string &s) {name=s;}
   void SetValue(const double &v) {value=v;}
