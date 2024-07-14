@@ -53,7 +53,7 @@ class NumericMathOperation: public MathOperation
   // For purely numeric values;
   double Calculate()
   {
-    result=math_operator->Calculate(v1->value, v2->value);
+    result=math_operator->Calculate(v1->GetValue(), v2->GetValue());
     return result;
   }
 };

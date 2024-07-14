@@ -20,12 +20,14 @@ using std::string;
 
 class Value
 {
-public:
+private:
   string name="";
   double value=0;
-
+public:
   void SetName(const string &s) {name=s;}
-  void SetValue(const string &v) {value=std::stod(v);}
+  void SetValue(const double &v) {value=v;}
+  string GetName() {return name;}
+  double GetValue() {return value;}
 };
 
 class Constant: public Value

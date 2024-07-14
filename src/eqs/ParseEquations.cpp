@@ -19,6 +19,7 @@
 
 using std::to_string;
 using std::cout;
+using std::stod;
 
 void print_vector2(vector<string> vec)
 {
@@ -113,7 +114,7 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
     {
       cout<<"s1_variable and s2_numeric "<<s2<<'\n';
       Value *v1=new Numeric;
-      v1->SetValue(s2);
+      v1->SetValue(stod(s2));
       Value *v2=new Variable;
       v2->SetName(s1);
       delete v1;
@@ -153,7 +154,7 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
     {
       cout<<"s1_constant and s2_numeric "<<s2<<'\n';
       Value *v1=new Numeric;
-      v1->SetValue(s2);
+      v1->SetValue(stod(s2));
       Value *v2=new Constant;
       v2->SetName(s1);
       delete v1;
@@ -173,7 +174,7 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
     {
       cout<<"s1_numeric and s2_varible"<<'\n';
       Value *v1=new Numeric;
-      v1->SetValue(s1);
+      v1->SetValue(stod(s1));
       Value *v2=new Variable;
       v2->SetName(s2);
       MathOperation *m=new NumericMathOperation;
@@ -185,8 +186,9 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
     {
       cout<<"s1_numeric and s2_constant"<<'\n';
       Value *v1=new Numeric;
-      v1->SetValue(s1);
+      v1->SetValue(stod(s1));
       Value *v2=new Constant;
+      v1->SetName(s2);
       MathOperation *m=new NumericMathOperation;
       delete m;
       delete v1;
@@ -196,9 +198,9 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
     {
       cout<<"s1_numeric and s2_numeric "<<s1<<" "<<s2<<'\n';
       Value *v1=new Numeric;
-      v1->SetValue(s1);
+      v1->SetValue(stod(s1));
       Value *v2=new Numeric;
-      v2->SetValue(s2);
+      v2->SetValue(stod(s2));
       MathOperation *m=new NumericMathOperation;
       delete m;
       delete v1;
@@ -208,7 +210,7 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
     {
       cout<<"s1_numeric and s2_math "<<s1<<'\n';
       Value *v1=new Numeric;
-      v1->SetValue(s1);
+      v1->SetValue(stod(s1));
       Value *v2=new MathOperationValue;
       v2->SetName(s2);
       MathOperation *m=new NumericMathOperation;
@@ -240,7 +242,7 @@ void Val(const vector<string> &equation, const unsigned int i, const Data &data,
     {
       cout<<"s1_math and s2_numeric "<<s2<<'\n';
       Value *v1=new Numeric;
-      v1->SetValue(s2);
+      v1->SetValue(stod(s2));
       Value *v2=new MathOperationValue;
       v2->SetName(s1);
       delete v1;
