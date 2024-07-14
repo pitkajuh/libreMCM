@@ -25,7 +25,7 @@ public:
   double value=0;
 
   void SetName(const string &s) {name=s;}
-  void SetValue(const double &v) {value=v;}
+  void SetValue(const string &v) {value=std::stod(v);}
 };
 
 class Constant: public Value
