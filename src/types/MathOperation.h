@@ -22,10 +22,11 @@ using MathOperations=vector<MathOperation*>;
 
 class MathOperation
 {
-public:
+private:
   Value* v1;
   Value* v2;
   MathOperator* math_operator;
+public:
   double result;
 
   void SetMathOp(const string &m)
@@ -44,7 +45,11 @@ public:
     v2=w;
   }
 
-  // void Calculate() {result=math_operator->Calculate(v1->value, v2->value);}
+  MathOperator* GetOp() {return math_operator;}
+  Value *GetV1() {return v1;}
+  Value *GetV2() {return v2;}
+
+
   virtual double Calculate()=0;
 };
 
@@ -53,7 +58,7 @@ class NumericMathOperation: public MathOperation
   // For purely numeric values;
   double Calculate()
   {
-    result=math_operator->Calculate(v1->GetValue(), v2->GetValue());
+    result=GetOp()->Calculate(GetV1()->GetValue(), GetV2()->GetValue());
     return result;
   }
 };
