@@ -35,45 +35,6 @@ void print_vector2(vector<string> vec)
   cout<<empty<<'\n';
 }
 
-// Value *ValueCheck(const string &s, const Data &data, MathOperations &op, const int i)
-// {
-//   const bool is_variable=IsIn(s, data.diagonal);
-//   const bool is_constant=IsIn(s, data.constants_map);
-//   const bool is_numerical=IsNumerical(s);
-
-//   if(is_variable)
-//     {
-//       // No value will be set yet. Depend on the initial values.
-//       Value *v=new Variable;
-//       v->SetName(s);
-//       return v;
-//     }
-//   else if(is_constant)
-//     {
-//       // No value will be set yet. Value will change in probabilistic simulation.
-//       Value *v=new Constant;
-//       v->SetName(s);
-//       return v;
-//     }
-//   else if(is_numerical)
-//     {
-//       // No name will be set, only value such as 1,2,3 etc.
-//       Value *v=new Numeric;
-//       v->SetValue(std::stod(s));
-//       return v;
-//     }
-//   else if(i-1<op.size())
-//     {
-//       // Is a math operation.
-//       const unsigned int i=std::stoi(s.substr(1, s.size()));
-//       cout<<"is math "<<i<<" "<<op.size()<<" "<<'\n';
-//       // MathOperation *op=op[i];
-//       Value *v=new MathOperationValue;
-//       return v;
-//     }
-//   else throw std::invalid_argument("Value "+s+" is not a constant, variable/compartment or numerical value.");
-// }
-
 MathOperation *Val(const vector<string> &equation, const unsigned int i, const Data &data, MathOperations &op, const unsigned int k)
 {
   const string s1=equation[i-1];
@@ -87,15 +48,14 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   const bool s2_constant=IsIn(s2, data.constants_map);
   const bool s2_numeric=IsNumerical(s2);
   const bool s2_math=(s2.substr(0, 1)=="@") ? true : false;
-
+  cout<<"Math operation "<<op.size()<<'\n';
   if(s1_variable and s2_variable)
     {
       cout<<"s1_variable and s2_variable"<<'\n';
-      Value *v1=new Variable;
-      v1->SetName(s1);
-      Value *v2=new Variable;
-      v2->SetName(s2);
+      Value *v1=new Variable(s1);
+      Value *v2=new Variable(s2);
       MathOperation *m=new VVMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -104,11 +64,10 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_variable and s2_constant)
       {
       cout<<"s1_variable and s2_constant"<<'\n';
-      Value *v1=new Constant;
-      v1->SetName(s2);
-      Value *v2=new Variable;
-      v2->SetName(s1);
+      Value *v1=new Constant(s2);
+      Value *v2=new Variable(s1);
       MathOperation *m=new CVMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -117,24 +76,23 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_variable and s2_numeric)
     {
       cout<<"s1_variable and s2_numeric "<<s2<<'\n';
-      Value *v1=new Numeric;
-      v1->SetValue(stod(s2));
-      Value *v2=new Variable;
-      v2->SetName(s1);
+      Value *v1=new Numeric(stod(s2));
+      Value *v2=new Variable(s1);
       MathOperation *m=new NVMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
       return m;
     }
-    else if(s1_variable and s2_math)
+  else if(s1_variable and s2_math)
     {
       cout<<"s1_variable and s2_math"<<'\n';
       Value *v1=new MathOperationValue;
       v1->SetName(s2);
-      Value *v2=new Variable;
-      v2->SetName(s1);
+      Value *v2=new Variable(s1);
       MathOperation *m=new MVMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -143,11 +101,10 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_constant and s2_variable)
     {
       cout<<"s1_constant and s2_variable"<<'\n';
-      Value *v1=new Constant;
-      v1->SetName(s1);
-      Value *v2=new Variable;
-      v2->SetName(s2);
+      Value *v1=new Constant(s1);
+      Value *v2=new Variable(s2);
       MathOperation *m=new CVMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -156,11 +113,10 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_constant and s2_constant)
       {
       cout<<"s1_constant and s2_constant"<<'\n';
-      Value *v1=new Constant;
-      v1->SetName(s1);
-      Value *v2=new Constant;
-      v2->SetName(s2);
+      Value *v1=new Constant(s1);
+      Value *v2=new Constant(s2);
       MathOperation *m=new CCMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -169,11 +125,10 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_constant and s2_numeric)
     {
       cout<<"s1_constant and s2_numeric "<<s2<<'\n';
-      Value *v1=new Numeric;
-      v1->SetValue(stod(s2));
-      Value *v2=new Constant;
-      v2->SetName(s1);
+      Value *v1=new Numeric(stod(s2));
+      Value *v2=new Constant(s1);
       MathOperation *m=new NCMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -182,11 +137,11 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_constant and s2_math)
     {
       cout<<"s1_constant and s2_math"<<'\n';
-      Value *v1=new Constant;
-      v1->SetName(s1);
+      Value *v1=new Constant(s1);
       Value *v2=new MathOperationValue;
       v2->SetName(s2);
       MathOperation *m=new CMMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -195,11 +150,10 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_numeric and s2_variable)
     {
       cout<<"s1_numeric and s2_varible"<<'\n';
-      Value *v1=new Numeric;
-      v1->SetValue(stod(s1));
-      Value *v2=new Variable;
-      v2->SetName(s2);
+      Value *v1=new Numeric(stod(s1));
+      Value *v2=new Variable(s2);
       MathOperation *m=new NVMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -208,11 +162,10 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
    else if(s1_numeric and s2_constant)
     {
       cout<<"s1_numeric and s2_constant"<<'\n';
-      Value *v1=new Numeric;
-      v1->SetValue(stod(s1));
-      Value *v2=new Constant;
-      v1->SetName(s2);
+      Value *v1=new Numeric(stod(s1));
+      Value *v2=new Constant(s2);
       MathOperation *m=new NCMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -221,11 +174,10 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
    else if(s1_numeric and s2_numeric)
     {
       cout<<"s1_numeric and s2_numeric "<<s1<<" "<<s2<<'\n';
-      Value *v1=new Numeric;
-      v1->SetValue(stod(s1));
-      Value *v2=new Numeric;
-      v2->SetValue(stod(s2));
+      Value *v1=new Numeric(stod(s1));
+      Value *v2=new Numeric(stod(s2));
       MathOperation *m=new NumericMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -233,12 +185,12 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
     }
    else if(s1_numeric and s2_math)
     {
-      cout<<"s1_numeric and s2_math "<<s1<<'\n';
-      Value *v1=new Numeric;
-      v1->SetValue(stod(s1));
+      cout<<"s1_numeric and s2_math "<<k-1<<'\n';
+      Value *v1=new Numeric(stod(s1));
       Value *v2=new MathOperationValue;
       v2->SetName(s2);
       MathOperation *m=new NMMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -249,9 +201,9 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       cout<<"s1_math and s2_variable"<<'\n';
       Value *v1=new MathOperationValue;
       v1->SetName(s1);
-      Value *v2=new Variable;
-      v2->SetName(s2);
+      Value *v2=new Variable(s2);
       MathOperation *m=new MVMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -260,11 +212,11 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_math and s2_constant)
       {
       cout<<"s1_math and s2_constant"<<'\n';
-      Value *v1=new Constant;
-      v1->SetName(s2);
+      Value *v1=new Constant(s2);
       Value *v2=new MathOperationValue;
       v2->SetName(s1);
       MathOperation *m=new CMMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -273,11 +225,11 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_math and s2_numeric)
     {
       cout<<"s1_math and s2_numeric "<<s2<<'\n';
-      Value *v1=new Numeric;
-      v1->SetValue(stod(s2));
+      Value *v1=new Numeric(stod(s2));
       Value *v2=new MathOperationValue;
       v2->SetName(s1);
       MathOperation *m=new NMMathOperation;
+      m->Set(v1, o, v2);
       delete m;
       delete v1;
       delete v2;
@@ -285,12 +237,14 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
     }
   else if(s1_math and s2_math)
     {
-      cout<<"s1_math and s2_math"<<'\n';
+      cout<<"s1_math and s2_math "<<s1<<" "<<s2<<'\n';
       Value *v1=new MathOperationValue;
       v1->SetName(s1);
       Value *v2=new MathOperationValue;
       v2->SetName(s2);
       MathOperation *m=new MMMathOperation;
+      m->Set(v1, o, v2);
+
       delete m;
       delete v1;
       delete v2;
@@ -309,35 +263,23 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
 vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, MathOperations &ooo, const Data &data)
 {
   unsigned int i=0;
-  // MathOperation operation;
-  Value *v1;
-  Value *v2;
 
   while(i<equation.size())
     {
       if(find==equation[i])
 	{
-	  // operation->SetMathOp(equation[i]);
-	  // v1=ValueCheck(equation[i-1], data, ooo, k);
-	  // v2=ValueCheck(equation[i+1], data, ooo, k);
-	  // operation->SetValues(v1, v2);
-	  // ooo.emplace_back(operation);
-	  Val(equation, i, data, ooo, k);
-	  // ooo["@"+to_string(k)]=operation;
+	  ooo.emplace_back(Val(equation, i, data, ooo, k));
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
 	  equation[i]="@"+to_string(k);
 	  equation.erase(equation.begin()+i+1);
 	  equation.erase(equation.begin()+i-1);
 	  k++;
 	  i=0;
-	  // delete operation;
-	  // delete v1;
-	  // delete v2;
+	  cout<<" "<<'\n';
 	  continue;
 	}
       i++;
     }
-  // cout<<"end"<<'\n';
   return equation;
 }
 

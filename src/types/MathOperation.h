@@ -18,6 +18,7 @@
 
 class MathOperation;
 using MathOperations=std::vector<MathOperation*>;
+// typedef MathOperations std::vector<MathOperation*>;
 
 class MathOperation
 {
@@ -28,8 +29,11 @@ private:
 public:
   double result;
 
-  void SetMathOp(const string &m)
+  void Set(Value *v, const string &m, Value *w)
   {
+    v1=v;
+    v2=w;
+
     if(m==ADD) math_operator=new Add;
     else if(m==SUBTRACT) math_operator=new Sub;
     else if(m==MULTIPLY) math_operator=new Mul;
@@ -38,17 +42,9 @@ public:
     delete math_operator;
   }
 
-  void SetValues(Value *v, Value *w)
-  {
-    v1=v;
-    v2=w;
-  }
-
   MathOperator *GetOp() {return math_operator;}
   Value *GetV1() {return v1;}
   Value *GetV2() {return v2;}
-
-
   virtual double Calculate()=0;
 };
 
@@ -72,7 +68,7 @@ class CVMathOperation: public MathOperation
 
 class CCMathOperation: public MathOperation
 {
-  // Constant-variable math operation
+  // Constant-constant math operation
   double Calculate()
   {
     return 0;
@@ -81,7 +77,7 @@ class CCMathOperation: public MathOperation
 
 class NVMathOperation: public MathOperation
 {
-  // Constant-variable math operation
+  // Numeric-variable math operation
   double Calculate()
   {
     return 0;
@@ -90,7 +86,7 @@ class NVMathOperation: public MathOperation
 
 class NCMathOperation: public MathOperation
 {
-  // Constant-variable math operation
+  // Numeric-constant math operation
   double Calculate()
   {
     return 0;
@@ -99,7 +95,7 @@ class NCMathOperation: public MathOperation
 
 class CMMathOperation: public MathOperation
 {
-  // Constant-variable math operation
+  // Constant-math math operation
   double Calculate()
   {
     return 0;
@@ -108,7 +104,7 @@ class CMMathOperation: public MathOperation
 
 class NMMathOperation: public MathOperation
 {
-  // Constant-variable math operation
+  // Numeric-math math operation
   double Calculate()
   {
     return 0;
@@ -117,7 +113,7 @@ class NMMathOperation: public MathOperation
 
 class MVMathOperation: public MathOperation
 {
-  // Constant-variable math operation
+  // Math-variable math operation
   double Calculate()
   {
     return 0;
@@ -126,7 +122,7 @@ class MVMathOperation: public MathOperation
 
 class MMMathOperation: public MathOperation
 {
-  // Constant-variable math operation
+  // Math-math math operation
   double Calculate()
   {
     return 0;
@@ -135,7 +131,7 @@ class MMMathOperation: public MathOperation
 
 class NumericMathOperation: public MathOperation
 {
-  // For purely numeric values
+  // Numeric-numeric math operation
   double Calculate()
   {
     result=GetOp()->Calculate(GetV1()->GetValue(), GetV2()->GetValue());

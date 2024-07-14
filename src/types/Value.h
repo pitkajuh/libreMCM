@@ -14,7 +14,8 @@
 #include <string>
 #include <math.h>
 #include "MathOperation.h"
-
+// using MathOperations=std::vector<MathOperation*>;
+// typedef MathOperations std::vector<MathOperation*>;
 using std::string;
 
 class Value
@@ -32,16 +33,28 @@ public:
 class Constant: public Value
 {
  public:
+  Constant(const string &s)
+  {
+    SetName(s);
+  }
 };
 
 class Variable: public Value
 {
 public:
+  Variable(const string &s)
+  {
+    SetName(s);
+  }
 };
 
 class Numeric: public Value
 {
 public:
+  Numeric(const double &v)
+  {
+    SetValue(v);
+  }
 };
 
 class InitialValue: public Value
@@ -52,12 +65,17 @@ public:
 class MathOperationValue: public Value
 {
 public:
+  // void Test(MathOperations &op, const unsigned int i)
+  // {
+  //   // MathOperation *m=op[i];
+  // }
 };
 
 class RadioNuclide: public InitialValue
 {
-public:
+private:
   double halflife;
+public:
 };
 
 #endif
