@@ -11,7 +11,7 @@
 #ifndef MATHOPERATOR_H
 #define MATHOPERATOR_H
 
-#include "Value.h"
+#include "MathOperation.h"
 #include "../global/mathconst.h"
 
 class MathOperator

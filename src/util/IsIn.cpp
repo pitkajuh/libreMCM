@@ -12,7 +12,6 @@
 #include <algorithm>
 #include <stdexcept>
 #include <vector>
-#include "../types/MathOperation.h"
 #include "../inc/namespace.h"
 
 using namespace libremcm;
