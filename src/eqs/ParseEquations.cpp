@@ -73,7 +73,7 @@ Value *ValueCheck(const string &s, const Data &data, MathOperations &op, const i
   else throw std::invalid_argument("Value "+s+" is not a constant, variable/compartment or numerical value.");
 }
 
-void Val(const vector<string> &equation, const unsigned int i, const Data &data, MathOperations &op, const int k)
+void Val(const vector<string> &equation, const unsigned int i, const Data &data, MathOperations &op, const unsigned int k)
 {
   const string s1=equation[i-1];
   const string s2=equation[i+1];

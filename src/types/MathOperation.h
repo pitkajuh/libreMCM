@@ -50,7 +50,7 @@ public:
 
 class NumericMathOperation: public MathOperation
 {
-  // For purely numerical values;
+  // For purely numeric values;
   double Calculate()
   {
     result=math_operator->Calculate(v1->value, v2->value);
