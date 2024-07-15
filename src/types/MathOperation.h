@@ -13,13 +13,14 @@
 
 #include <vector>
 #include <math.h>
+#include "Value.h"
 #include "MathOperator.h"
 #include "../global/mathconst.h"
 
 class MathOperation;
-class Value;
 using MathOperations=std::vector<MathOperation*>;
-
+#include <iostream>
+using std::cout;
 class MathOperation
 {
 private:
@@ -28,6 +29,13 @@ private:
   MathOperator *math_operator;
 public:
   double result;
+
+  ~MathOperation()
+  {
+    delete v1;
+    delete v2;
+    delete math_operator;
+  }
 
   void Set(Value *v, const string &m, Value *w)
   {
@@ -39,69 +47,23 @@ public:
     else if(m==MULTIPLY) math_operator=new Mul;
     else if(m==DIVIDE) math_operator=new Div;
     else if(m==EXP) math_operator=new Exp;
-    delete math_operator;
+    // delete math_operator;
   }
 
   MathOperator *GetOp() {return math_operator;}
   Value *GetV1() {return v1;}
   Value *GetV2() {return v2;}
-  virtual double Calculate()=0;
-};
-
-class Value
-{
-private:
-  string name;
-  double value;
-public:
-  void SetName(const string &s) {name=s;}
-  void SetValue(const double &v) {value=v;}
-  string GetName() {return name;}
-  double GetValue() {return value;}
-};
-
-class Constant: public Value
-{
- public:
-  Constant(const string &s)
+  double GetV1Value() {return v1->GetValue();}
+  double GetV2Value() {return v2->GetValue();}
+  void CalculateResult()
   {
-    SetName(s);
+    // result=GetOp()->Calculate1(GetV1()->GetValue(), GetV2()->GetValue());
+    double s1=GetV1Value();
+    double s2=GetV2Value();
+    // result=GetOp()->Calculate1(GetV1Value(), GetV2Value());
+    result=GetOp()->Calculate1(s1, s2);
   }
-};
-
-class Variable: public Value
-{
-public:
-  Variable(const string &s)
-  {
-    SetName(s);
-  }
-};
-
-class Numeric: public Value
-{
-public:
-  Numeric(const double &v)
-  {
-    SetValue(v);
-  }
-};
-
-class InitialValue: public Value
-{
-public:
-};
-
-class MathOperationValue: public Value
-{
-public:
-  void Test(MathOperations &op, const unsigned int i)
-  {
-    MathOperation *m=op[i];
-    Value *v1=m->GetV1();
-    string s=v1->GetValue();
-    cout<<s<<'\n';
-  }
+  virtual void Calculate()=0;
 };
 
 class RadioNuclide: public InitialValue
@@ -114,91 +76,93 @@ public:
 class VVMathOperation: public MathOperation
 {
   // Variable-variable math operation
-  double Calculate()
+  void Calculate()
   {
-    return 0;
+
   }
 };
 
 class CVMathOperation: public MathOperation
 {
   // Constant-variable math operation
-  double Calculate()
+  void Calculate()
   {
-    return 0;
+
   }
 };
 
 class CCMathOperation: public MathOperation
 {
   // Constant-constant math operation
-  double Calculate()
+  void Calculate()
   {
-    return 0;
+
   }
 };
 
 class NVMathOperation: public MathOperation
 {
   // Numeric-variable math operation
-  double Calculate()
+  void Calculate()
   {
-    return 0;
+
   }
 };
 
 class NCMathOperation: public MathOperation
 {
   // Numeric-constant math operation
-  double Calculate()
+  void Calculate()
   {
-    return 0;
+
   }
 };
 
 class CMMathOperation: public MathOperation
 {
   // Constant-math math operation
-  double Calculate()
+  void Calculate()
   {
-    return 0;
+
   }
 };
 
 class NMMathOperation: public MathOperation
 {
   // Numeric-math math operation
-  double Calculate()
+  void Calculate()
   {
-    return 0;
+
   }
 };
 
 class MVMathOperation: public MathOperation
 {
   // Math-variable math operation
-  double Calculate()
+  void Calculate()
   {
-    return 0;
+
   }
 };
 
 class MMMathOperation: public MathOperation
 {
   // Math-math math operation
-  double Calculate()
+  void Calculate()
   {
-    return 0;
+
   }
 };
 
 class NumericMathOperation: public MathOperation
 {
   // Numeric-numeric math operation
-  double Calculate()
+  void Calculate()
   {
-    result=GetOp()->Calculate(GetV1()->GetValue(), GetV2()->GetValue());
-    return result;
+    // result=GetOp()->Calculate1(GetV1()->GetValue(), GetV2()->GetValue());
+    // return result;
+    // return CalculateResult();
+    CalculateResult();
   }
 };
 
