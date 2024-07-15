@@ -30,12 +30,12 @@ private:
 public:
   double result;
 
-  ~MathOperation()
-  {
-    delete v1;
-    delete v2;
-    delete math_operator;
-  }
+  // ~MathOperation()
+  // {
+  //   delete v1;
+  //   delete v2;
+  //   delete math_operator;
+  // }
 
   void Set(Value *v, const string &m, Value *w)
   {
@@ -55,6 +55,11 @@ public:
   Value *GetV2() {return v2;}
   double GetV1Value() {return v1->GetValue();}
   double GetV2Value() {return v2->GetValue();}
+  void SetV1Value(const double &d) {v1->SetValue(d);}
+  void SetV2Value(const double &d) {v2->SetValue(d);}
+  void SetV1(Value *v) {v1=v;}
+  void SetV2(Value *v) {v2=v;}
+
   void CalculateResult()
   {
     // result=GetOp()->Calculate1(GetV1()->GetValue(), GetV2()->GetValue());

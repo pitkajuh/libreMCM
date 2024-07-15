@@ -187,13 +187,17 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
     {
       cout<<"s1_numeric and s2_math "<<k-1<<" "<<op.size()<<'\n';
       Value *v1=new Numeric(stod(s1));
+      Value *v2=new MathOperationValue;
+
       MathOperation *mk=op[k-1];
       mk->CalculateResult();
       cout<<mk->result<<'\n';
-      Value *v2=new MathOperationValue;
-      v2->SetName(s2);
+      op.erase(op.begin()+k-1);
+
+      // v2->SetName(s2);
       MathOperation *m=new NMMathOperation;
-      m->Set(v1, o, v2);
+      // m->Set(v1, o, v2);
+
       // delete m;
       // delete v1;
       // delete v2;
