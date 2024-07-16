@@ -178,6 +178,12 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       Value *v2=new Numeric(stod(s2));
       MathOperation *m=new NumericMathOperation;
       m->Set(v1, o, v2);
+
+      // MathOperation *mk=op[k-1];
+      m->CalculateResult();
+      cout<<m->result<<'\n';
+      // op.erase(op.begin()+k-1);
+
       // delete m;
       // delete v1;
       // delete v2;
@@ -185,17 +191,19 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
     }
    else if(s1_numeric and s2_math)
     {
-      cout<<"s1_numeric and s2_math "<<k-1<<" "<<op.size()<<'\n';
+      const unsigned int s2d=std::stoi(s2.substr(1, s2.size()));
+      cout<<"s1_numeric and s2_math "<<k-1<<" "<<op.size()<<" "<<s2<<" "<<s2d<<'\n';
       Value *v1=new Numeric(stod(s1));
-      Value *v2=new MathOperationValue;
+      MathOperation *m=op[s2d];
+      // Value *v2=new MathOperationValue;
 
-      MathOperation *mk=op[k-1];
-      mk->CalculateResult();
-      cout<<mk->result<<'\n';
-      op.erase(op.begin()+k-1);
+      // MathOperation *mk=op[k-1];
+      m->CalculateResult();
+      cout<<"Res "<<m->result<<'\n';
+      // op.erase(op.begin()+k-1);
 
       // v2->SetName(s2);
-      MathOperation *m=new NMMathOperation;
+      // MathOperation *m=new NMMathOperation;
       // m->Set(v1, o, v2);
 
       // delete m;
@@ -257,14 +265,14 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       // delete v2;
       return m;
     }
-  else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)
-    {
-      throw std::invalid_argument("Value "+s1+" is not a constant, variable/compartment or numeric value.");
-    }
-  else
-    {
-      throw std::invalid_argument("Value "+s2+" is not a constant, variable/compartment or numeric value.");
-    }
+  // else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)
+  //   {
+  //     throw std::invalid_argument("Value "+s1+" is not a constant, variable/compartment or numeric value.");
+  //   }
+  // else
+  //   {
+  //     throw std::invalid_argument("Value "+s2+" is not a constant, variable/compartment or numeric value.");
+  //   }
 }
 
 vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, MathOperations &ooo, const Data &data)

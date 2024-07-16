@@ -135,6 +135,8 @@ class CMMathOperation: public MathOperation
 class NMMathOperation: public MathOperation
 {
   // Numeric-math math operation
+  MathOperation *next;
+
   void Calculate()
   {
 
@@ -161,7 +163,9 @@ class MMMathOperation: public MathOperation
 
 class NumericMathOperation: public MathOperation
 {
+public:
   // Numeric-numeric math operation
+
   void Calculate()
   {
     // result=GetOp()->Calculate1(GetV1()->GetValue(), GetV2()->GetValue());

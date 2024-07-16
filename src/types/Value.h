@@ -32,28 +32,19 @@ public:
 class Constant: public Value
 {
  public:
-  Constant(const string &s)
-  {
-    SetName(s);
-  }
+  Constant(const string &s) {SetName(s);}
 };
 
 class Variable: public Value
 {
 public:
-  Variable(const string &s)
-  {
-    SetName(s);
-  }
+  Variable(const string &s) {SetName(s);}
 };
 
 class Numeric: public Value
 {
 public:
-  Numeric(const double &v)
-  {
-    SetValue(v);
-  }
+  Numeric(const double &v) {SetValue(v);}
 };
 
 class InitialValue: public Value
@@ -64,22 +55,6 @@ public:
 class MathOperationValue: public Value
 {
 public:
-  // MathOperation *m;
-  // MathOperationValue()
-  // {
-  //   cout<<"size "<<i<<"/"<<op.size()<<'\n';
-  //   MathOperation *m=op[i];
-  //   // Value *v1=m->GetV1();
-  //   // Value *v2=m->GetV2();
-  //    // const double s1=v1->GetValue();
-  //    // const double s2=v2->GetValue();
-
-  //    cout<<"Value "<<m->GetV1()->GetValue()<<" "<<m->GetV2()->GetValue()<<'\n';
-  //   // const double s=m->Calculate();
-  //    m->Calculate();
-  //    // cout<<m->Calculate()<<'\n';
-  //    delete m;
-  // }
 };
 
 #endif
