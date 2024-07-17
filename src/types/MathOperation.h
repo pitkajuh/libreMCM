@@ -30,24 +30,21 @@ private:
 public:
   double result;
 
-  // ~MathOperation()
-  // {
-  //   delete v1;
-  //   delete v2;
-  //   delete math_operator;
-  // }
-
-  void Set(Value *v, const string &m, Value *w)
+  void SetOperator(const string &m)
   {
-    v1=v;
-    v2=w;
-
     if(m==ADD) math_operator=new Add;
     else if(m==SUBTRACT) math_operator=new Sub;
     else if(m==MULTIPLY) math_operator=new Mul;
     else if(m==DIVIDE) math_operator=new Div;
     else if(m==EXP) math_operator=new Exp;
     // delete math_operator;
+  }
+
+  void Set(Value *v, const string &m, Value *w)
+  {
+    v1=v;
+    v2=w;
+    SetOperator(m);
   }
 
   MathOperator *GetOp() {return math_operator;}
@@ -60,27 +57,27 @@ public:
   void SetV1(Value *v) {v1=v;}
   void SetV2(Value *v) {v2=v;}
 
-  void CalculateResult()
-  {
-    // result=GetOp()->Calculate1(GetV1()->GetValue(), GetV2()->GetValue());
-    double s1=GetV1Value();
-    double s2=GetV2Value();
-    // result=GetOp()->Calculate1(GetV1Value(), GetV2Value());
-    result=GetOp()->Calculate1(s1, s2);
-  }
+  void CalculateResult() {result=GetOp()->Calculate1(GetV1Value(), GetV2Value());}
   virtual void Calculate()=0;
-};
+  virtual void Simplify()=0;
 
-class RadioNuclide: public InitialValue
-{
-private:
-  double halflife;
-public:
+  ~MathOperation()
+  {
+    delete v1;
+    delete v2;
+    delete math_operator;
+  }
 };
 
 class VVMathOperation: public MathOperation
 {
   // Variable-variable math operation
+
+  void Simplify()
+  {
+
+  }
+
   void Calculate()
   {
 
@@ -90,6 +87,12 @@ class VVMathOperation: public MathOperation
 class CVMathOperation: public MathOperation
 {
   // Constant-variable math operation
+
+  void Simplify()
+  {
+
+  }
+
   void Calculate()
   {
 
@@ -99,6 +102,12 @@ class CVMathOperation: public MathOperation
 class CCMathOperation: public MathOperation
 {
   // Constant-constant math operation
+
+  void Simplify()
+  {
+
+  }
+
   void Calculate()
   {
 
@@ -108,6 +117,12 @@ class CCMathOperation: public MathOperation
 class NVMathOperation: public MathOperation
 {
   // Numeric-variable math operation
+
+  void Simplify()
+  {
+
+  }
+
   void Calculate()
   {
 
@@ -117,6 +132,12 @@ class NVMathOperation: public MathOperation
 class NCMathOperation: public MathOperation
 {
   // Numeric-constant math operation
+
+  void Simplify()
+  {
+
+  }
+
   void Calculate()
   {
 
@@ -126,6 +147,12 @@ class NCMathOperation: public MathOperation
 class CMMathOperation: public MathOperation
 {
   // Constant-math math operation
+
+  void Simplify()
+  {
+
+  }
+
   void Calculate()
   {
 
@@ -135,17 +162,38 @@ class CMMathOperation: public MathOperation
 class NMMathOperation: public MathOperation
 {
   // Numeric-math math operation
-  MathOperation *next;
-
-  void Calculate()
+private:
+  MathOperation *previous;
+public:
+  void Simplify()
   {
-
+    // previous->CalculateResult();
+    previous->Simplify();
+    SetV2(previous->GetV2());
+    SetV2Value(previous->result);
+    // cout<<"Values "<<previous->GetV1Value()<<" "<<previous->GetV2Value()<<" result "<<previous->result<<"....."<<GetV1Value()<<" "<<GetV2Value()<<'\n';
   }
+
+  NMMathOperation(MathOperation *m, Value *w, const string &s)
+  {
+    previous=m;
+    SetOperator(s);
+    SetV1(w);
+    Simplify();
+  }
+
+  void Calculate() {}
 };
 
 class MVMathOperation: public MathOperation
 {
   // Math-variable math operation
+
+  void Simplify()
+  {
+
+  }
+
   void Calculate()
   {
 
@@ -155,24 +203,25 @@ class MVMathOperation: public MathOperation
 class MMMathOperation: public MathOperation
 {
   // Math-math math operation
+
+  void Simplify()
+  {
+
+  }
+
   void Calculate()
   {
 
   }
 };
 
-class NumericMathOperation: public MathOperation
+class NNMathOperation: public MathOperation
 {
 public:
   // Numeric-numeric math operation
 
-  void Calculate()
-  {
-    // result=GetOp()->Calculate1(GetV1()->GetValue(), GetV2()->GetValue());
-    // return result;
-    // return CalculateResult();
-    CalculateResult();
-  }
+  void Calculate() {CalculateResult();}
+  void Simplify() {Calculate();}
 };
 
 #endif
