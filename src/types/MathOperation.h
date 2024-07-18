@@ -138,8 +138,15 @@ public:
   void Simplify()
   {
     previous->Simplify();
-    Value *v2=previous->GetV2();
+
+
+    // Value *v2=previous->GetV2();
     const double v2d=previous->result;
+    // SetV2(v2);
+    // SetV2Value(v2d);
+
+
+    Value *v2=previous->GetV2()->Clone();
     SetV2(v2);
     SetV2Value(v2d);
     cout<<v2<<'\n';
@@ -162,11 +169,10 @@ public:
  virtual ~NMMathOperation()
   {
     cout<<"~NMMathOperation"<<'\n';
-    previous->DV1();
-    previous->DM();
-
+    // previous->DV1();
+    // previous->DM();
     // previous->DV2();
-    // delete previous;
+    delete previous;
     // DV1();
     // DV2();
     // DM();

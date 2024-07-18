@@ -27,6 +27,7 @@ public:
   void SetValue(const double &v) {value=v;}
   string GetName() {return name;}
   double GetValue() {return value;}
+  virtual Value *Clone()=0;
 };
 
 class Constant: public Value
@@ -45,6 +46,7 @@ class Numeric: public Value
 {
 public:
   Numeric(const double &v) {SetValue(v);}
+  Numeric *Clone(){return new Numeric(*this);}
 };
 
 class InitialValue: public Value
