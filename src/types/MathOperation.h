@@ -183,6 +183,16 @@ public:
   }
 
   void Calculate() {}
+
+  ~NMMathOperation()
+  {
+    // delete v1;
+    // delete v2;
+    // delete math_operator;
+    delete previous;
+    MathOperation::~MathOperation();
+  }
+
 };
 
 class MVMathOperation: public MathOperation
