@@ -55,6 +55,9 @@ public:
   void SetV2Value(const double &d) {v2->SetValue(d);}
   void SetV1(Value *v) {v1=v;}
   void SetV2(Value *v) {v2=v;}
+  void DV1() {delete v1;}
+  void DV2() {delete v2;}
+  void DM() {delete math_operator;}
   // void Destructor()
   // {
   //   delete v1;
@@ -184,9 +187,18 @@ public:
   void Simplify()
   {
     Calculate();
+    DV1();
+    // DV2();
+    DM();
     // MathOperation::~MathOperation();
     // Destructor();
   }
+  // ~NNMathOperation()
+  // {
+  //   DV1();
+  //   DV2();
+  //   DM();
+  // }
 };
 
 #endif
