@@ -195,6 +195,7 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       cout<<"s1_numeric and s2_math "<<op.size()<<" "<<s1<<" "<<s2<<" "<<s2d<<'\n';
       Value *v1=new Numeric(stod(s1));
       MathOperation *m=new NMMathOperation(op[s2d], v1, o);
+      op.erase(op.begin()+s2d);
       // delete m;
       // delete v1;
       // delete v2;
@@ -343,15 +344,16 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data
       v=test(v, k, op, data);
       GetOrder(v, k, op, data);
       equations_map2[name]=op;
+      cout<<"size "<<op.size()<<'\n';
       k=0;
       op.clear();
       cout<<" "<<'\n';
     }
-  for(auto i: op)
-    {
-      delete i;
-      // free(i);
-    }
-  op.clear();
+  // for(auto i: op)
+  //   {
+  //     delete i;
+  //     // free(i);
+  //   }
+  // op.clear();
   return equations_map2;
 }

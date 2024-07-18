@@ -57,8 +57,13 @@ using std::cout;
 //   else throw std::invalid_argument("Value "+s+" is not a constant, variable/compartment or numerical value.");
 // }
 
-// MathOperation *GetValue(MathOperations v, const Data &data)
-// {
+void GetValue(MathOperations v, const Data &data)
+{
+  for(const auto &i: v)
+    {
+      i->CalculateResult();
+      cout<<i->GetV1Value()<<" "<<i->GetV2Value()<<" "<<i->result<<'\n';
+    }
 //   string s;
 //   Value *v1;
 //   Value *v2;
@@ -83,16 +88,16 @@ using std::cout;
 //     }
 //   cout<<""<<'\n';
 //   return op;
-// }
+}
 
 void CreateEquationTemplates(const Map<string, MathOperations> &equations_map, const Data &data)
 {
   // MathOperation *op;
 
-  // for(const auto &[key, value]: equations_map)
-  //   {
-  //     cout<<key<<'\n';
-  //     // op=GetValue(value, data);
+  for(const auto &[key, value]: equations_map)
+    {
+      cout<<key<<'\n';
+      GetValue(value, data);
   //     // delete op;
-  //   }
+    }
 }

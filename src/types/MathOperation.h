@@ -12,7 +12,6 @@
 #define MATHOPERATION_H
 
 #include <vector>
-#include <math.h>
 #include "Value.h"
 #include "MathOperator.h"
 #include "../global/mathconst.h"
@@ -56,6 +55,12 @@ public:
   void SetV2Value(const double &d) {v2->SetValue(d);}
   void SetV1(Value *v) {v1=v;}
   void SetV2(Value *v) {v2=v;}
+  // void Destructor()
+  // {
+  //   delete v1;
+  //   // delete v2;
+  //   delete math_operator;
+  // }
 
   void CalculateResult() {result=GetOp()->Calculate1(GetV1Value(), GetV2Value());}
   virtual void Calculate()=0;
@@ -63,6 +68,7 @@ public:
 
   ~MathOperation()
   {
+    // Destructor();
     delete v1;
     delete v2;
     delete math_operator;
@@ -73,90 +79,48 @@ class VVMathOperation: public MathOperation
 {
   // Variable-variable math operation
 
-  void Simplify()
-  {
-
-  }
-
-  void Calculate()
-  {
-
-  }
+  void Simplify() {} // Cannot be simplified.
+  void Calculate() {}
 };
 
 class CVMathOperation: public MathOperation
 {
   // Constant-variable math operation
 
-  void Simplify()
-  {
-
-  }
-
-  void Calculate()
-  {
-
-  }
+  void Simplify() {} // Cannot be simplified.
+  void Calculate() {}
 };
 
 class CCMathOperation: public MathOperation
 {
   // Constant-constant math operation
 
-  void Simplify()
-  {
-
-  }
-
-  void Calculate()
-  {
-
-  }
+  void Simplify() {}
+  void Calculate() {}
 };
 
 class NVMathOperation: public MathOperation
 {
   // Numeric-variable math operation
 
-  void Simplify()
-  {
-
-  }
-
-  void Calculate()
-  {
-
-  }
+  void Simplify() {} // Cannot be simplified.
+  void Calculate() {}
 };
 
 class NCMathOperation: public MathOperation
 {
   // Numeric-constant math operation
 
-  void Simplify()
-  {
-
-  }
-
-  void Calculate()
-  {
-
-  }
+  void Simplify() {}
+  void Calculate() {}
 };
 
 class CMMathOperation: public MathOperation
 {
   // Constant-math math operation
 
-  void Simplify()
-  {
-
-  }
-
-  void Calculate()
-  {
-
-  }
+  void Simplify() {}
+  void Calculate() {}
 };
 
 class NMMathOperation: public MathOperation
@@ -184,14 +148,14 @@ public:
 
   void Calculate() {}
 
-  ~NMMathOperation()
-  {
-    // delete v1;
-    // delete v2;
-    // delete math_operator;
-    delete previous;
-    MathOperation::~MathOperation();
-  }
+  // ~NMMathOperation()
+  // {
+  //   // delete v1;
+  //   // delete v2;
+  //   // delete math_operator;
+  //   // delete previous;
+  //   MathOperation::~MathOperation();
+  // }
 
 };
 
@@ -199,30 +163,16 @@ class MVMathOperation: public MathOperation
 {
   // Math-variable math operation
 
-  void Simplify()
-  {
-
-  }
-
-  void Calculate()
-  {
-
-  }
+  void Simplify() {}
+  void Calculate() {}
 };
 
 class MMMathOperation: public MathOperation
 {
   // Math-math math operation
 
-  void Simplify()
-  {
-
-  }
-
-  void Calculate()
-  {
-
-  }
+  void Simplify() {}
+  void Calculate() {}
 };
 
 class NNMathOperation: public MathOperation
@@ -231,7 +181,12 @@ public:
   // Numeric-numeric math operation
 
   void Calculate() {CalculateResult();}
-  void Simplify() {Calculate();}
+  void Simplify()
+  {
+    Calculate();
+    // MathOperation::~MathOperation();
+    // Destructor();
+  }
 };
 
 #endif
