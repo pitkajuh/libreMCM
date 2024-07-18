@@ -11,11 +11,9 @@
 #ifndef VALUE_H
 #define VALUE_H
 
-#include <iostream>
 #include <string>
 
 using std::string;
-using std::cout;
 
 class Value
 {

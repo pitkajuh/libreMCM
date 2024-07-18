@@ -35,7 +35,7 @@ void print_vector2(vector<string> vec)
   cout<<empty<<'\n';
 }
 
-MathOperation *Val(const vector<string> &equation, const unsigned int i, const Data &data, MathOperations &op)
+MathOperation *Val(const vector<string> &equation, const unsigned int i, const Data &data, MathOperations &op, unsigned int &k)
 {
   const string s1=equation[i-1];
   const string s2=equation[i+1];
@@ -180,7 +180,6 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       cout<<"s1_numeric and s2_numeric "<<s1<<" "<<s2<<'\n';
       Value *v1=new Numeric(stod(s1));
       Value *v2=new Numeric(stod(s2));
-      cout<<v2<<'\n';
       MathOperation *m=new NNMathOperation;
       m->Set(v1, o, v2);
       return m;
@@ -188,10 +187,18 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
    else if(s1_numeric and s2_math)
     {
       const unsigned int s2d=std::stoi(s2.substr(1, s2.size()));
-      cout<<"s1_numeric and s2_math "<<op.size()<<" "<<s1<<" "<<s2<<" "<<s2d<<'\n';
+      cout<<"s1_numeric and s2_math ops size "<<op.size()<<" s1 value"<<s1<<" s2 value "<<s2<<" s2 index"<<s2d<<" k-1 "<<k-1<<'\n';
       Value *v1=new Numeric(stod(s1));
       MathOperation *m=new NMMathOperation(op[s2d], v1, o);
-      op.erase(op.begin()+s2d);
+
+
+      // op.erase(op.begin()+s2d);
+
+
+
+      // MathOperation *m=new NMMathOperation(op[k-1], v1, o);
+      // op.erase(op.begin()+k-1);
+      // k-=1;
       return m;
     }
   // else if(s1_math and s2_variable)
@@ -266,14 +273,13 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
     {
       if(find==equation[i])
 	{
-	 // Val(equation, i, data, ooo);
-	 // ooo.emplace_back(vvv);
-	  ooo.emplace_back(Val(equation, i, data, ooo));
+	  ooo.emplace_back(Val(equation, i, data, ooo, k));
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
 	  equation[i]="@"+to_string(k);
 	  equation.erase(equation.begin()+i+1);
 	  equation.erase(equation.begin()+i-1);
 	  k++;
+	  cout<<" k="<<k<<'\n';
 	  i=0;
 	  cout<<" "<<'\n';
 	  continue;

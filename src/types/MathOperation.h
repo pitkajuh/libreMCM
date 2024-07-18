@@ -64,22 +64,11 @@ public:
   virtual MathOperation *Clone()=0;
   virtual ~MathOperation()
   {
-    cout<<"~MathOperation"<<'\n';
     delete v1;
     delete v2;
     delete math_operator;
   }
 };
-
-// template <class T>
-// class Clone: public MathOperation
-// {
-// public:
-//   virtual MathOperation *clone() const
-//   {
-//     return new T(static_cast<const T&>(*this));
-//   }
-// };
 
 class VVMathOperation: public MathOperation
 {
@@ -138,26 +127,10 @@ public:
   void Simplify()
   {
     previous->Simplify();
-
-
-    // Value *v2=previous->GetV2();
-    const double v2d=previous->result;
-    // SetV2(v2);
-    // SetV2Value(v2d);
-
-
     Value *v2=previous->GetV2()->Clone();
     SetV2(v2);
-    SetV2Value(v2d);
-    cout<<v2<<'\n';
-    // previous->DV1();
-    // previous->DM();
-    // previous->DV2();
-
-    // delete previous;
-    // DV2();
+    SetV2Value(previous->result);
   }
-  NMMathOperation *Clone(){return new NMMathOperation(*this);}
   NMMathOperation(MathOperation *m, Value *w, const string &s)
   {
     previous=m;
@@ -165,20 +138,9 @@ public:
     SetV1(w);
     Simplify();
   }
-
- virtual ~NMMathOperation()
-  {
-    cout<<"~NMMathOperation"<<'\n';
-    // previous->DV1();
-    // previous->DM();
-    // previous->DV2();
-    delete previous;
-    // DV1();
-    // DV2();
-    // DM();
-  }
-
+  NMMathOperation *Clone(){return new NMMathOperation(*this);}
   void Calculate(){}
+  virtual ~NMMathOperation(){delete previous;}
 };
 
 class MVMathOperation: public MathOperation
@@ -203,21 +165,8 @@ public:
   // Numeric-numeric math operation
 
   void Calculate(){CalculateResult();}
-  void Simplify()
-  {
-    Calculate();
-    // DV1();
-    // // DV2();
-    // DM();
-  }
+  void Simplify(){Calculate();}
   NNMathOperation *Clone(){return new NNMathOperation(*this);}
-  virtual ~NNMathOperation()
-  {
-    cout<<"NNMathOperation"<<'\n';
-    // DV1();
-    // DV2();
-    // DM();
-  }
 };
 
 #endif
