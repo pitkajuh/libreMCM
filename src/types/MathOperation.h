@@ -55,9 +55,6 @@ public:
   void SetV2Value(const double &d){v2->SetValue(d);}
   void SetV1(Value *v){v1=v;}
   void SetV2(Value *v){v2=v;}
-  void DV1(){delete v1;}
-  void DV2(){delete v2;}
-  void DM(){delete math_operator;}
   void CalculateResult(){result=GetOp()->Calculate1(GetV1Value(), GetV2Value());}
   virtual void Calculate()=0;
   virtual void Simplify()=0;
