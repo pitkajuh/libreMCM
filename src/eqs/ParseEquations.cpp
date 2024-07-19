@@ -35,6 +35,37 @@ void print_vector2(vector<string> vec)
   cout<<empty<<'\n';
 }
 
+MathOperation *NewNMMathOperation(const string &s1, const string &s2, const string &o, MathOperations &op, unsigned int &k)
+{
+      const unsigned int s2d=std::stoi(s2.substr(1, s2.size()));
+      // if(s2d>op.size()-1)
+      // 	{
+      // 	  k--;
+      // 	  s2d--;
+      // 	}
+      cout<<"s1_numeric and s2_math ops size "<<op.size()<<" s1 value"<<s1<<" s2 value "<<s2<<" s2 index"<<s2d<<" k-1 "<<k-1<<'\n';
+      Value *v1=new Numeric(stod(s1));
+      // Value *v2=op[s2d]->GetV2()->Clone();
+      // v2->SetValue(op[s2d]->result);
+      // MathOperation *m=new NMMathOperation(v2, v1, o);
+      MathOperation *m=new NMMathOperation(op[s2d], v1, o);
+
+
+      // op.erase(op.begin()+s2d);
+
+      return m;
+}
+
+MathOperation *NewNNMathOperation(const string &s1, const string &s2, const string &o)
+{
+      cout<<"s1_numeric and s2_numeric "<<s1<<" "<<s2<<'\n';
+      Value *v1=new Numeric(stod(s1));
+      Value *v2=new Numeric(stod(s2));
+      MathOperation *m=new NNMathOperation;
+      m->Set(v1, o, v2);
+      return m;
+}
+
 MathOperation *Val(const vector<string> &equation, const unsigned int i, const Data &data, MathOperations &op, unsigned int &k)
 {
   const string s1=equation[i-1];
@@ -175,32 +206,8 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
    //    delete v2;
    //    return m;
    //  }
-   if(s1_numeric and s2_numeric)
-    {
-      cout<<"s1_numeric and s2_numeric "<<s1<<" "<<s2<<'\n';
-      Value *v1=new Numeric(stod(s1));
-      Value *v2=new Numeric(stod(s2));
-      MathOperation *m=new NNMathOperation;
-      m->Set(v1, o, v2);
-      return m;
-    }
-   else if(s1_numeric and s2_math)
-    {
-      const unsigned int s2d=std::stoi(s2.substr(1, s2.size()));
-      cout<<"s1_numeric and s2_math ops size "<<op.size()<<" s1 value"<<s1<<" s2 value "<<s2<<" s2 index"<<s2d<<" k-1 "<<k-1<<'\n';
-      Value *v1=new Numeric(stod(s1));
-      MathOperation *m=new NMMathOperation(op[s2d], v1, o);
-
-
-      // op.erase(op.begin()+s2d);
-
-
-
-      // MathOperation *m=new NMMathOperation(op[k-1], v1, o);
-      // op.erase(op.begin()+k-1);
-      // k-=1;
-      return m;
-    }
+   if(s1_numeric and s2_numeric){return NewNNMathOperation(s1, s2, o);}
+   else if(s1_numeric and s2_math){return NewNMMathOperation(s1, s2, o, op, k);}
   // else if(s1_math and s2_variable)
   //   {
   //     cout<<"s1_math and s2_variable"<<'\n';

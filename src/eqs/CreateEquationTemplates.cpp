@@ -16,11 +16,13 @@ using std::cout;
 
 void GetValue(MathOperations v, const Data &data)
 {
+  int j=0;
   for(const auto &i: v)
     {
       i->CalculateResult();
-      cout<<i->GetV1Value()<<" "<<i->GetV2Value()<<" "<<i->result<<'\n';
+      cout<<j<<" "<<i->GetV1Value()<<" "<<i->GetV2Value()<<" "<<i->result<<'\n';
       delete i;
+      j++;
     }
 }
 

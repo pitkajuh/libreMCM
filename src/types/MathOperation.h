@@ -45,7 +45,10 @@ public:
     v2=w;
     SetOperator(m);
   }
-
+void Print()
+  {
+    cout<<v1<<" "<<v2<<" "<<math_operator<<'\n';
+  }
   MathOperator *GetOp(){return math_operator;}
   Value *GetV1(){return v1;}
   Value *GetV2(){return v2;}
@@ -61,10 +64,22 @@ public:
   virtual MathOperation *Clone()=0;
   virtual ~MathOperation()
   {
+    cout<<"Cleaning ~MathOperation()"<<'\n';
+    Print();
     delete v1;
     delete v2;
     delete math_operator;
+    cout<<"Cleaned  ~MathOperation()"<<'\n';
   }
+  // virtual ~MathOperation()=0;
+  // {
+  //   cout<<"Cleaning ~MathOperation()"<<'\n';
+  //   Print();
+  //   delete v1;
+  //   delete v2;
+  //   delete math_operator;
+  //   cout<<"Cleaned  ~MathOperation()"<<'\n';
+  // }
 };
 
 class VVMathOperation: public MathOperation
@@ -121,23 +136,57 @@ class NMMathOperation: public MathOperation
 private:
   MathOperation *previous;
 public:
+  // void Simplify()
+  // {
+  //   previous->Simplify();
+  //   Value *v2=previous->GetV2()->Clone();
+  //   SetV2(v2);
+  //   SetV2Value(previous->result);
+  // }
   void Simplify()
   {
     previous->Simplify();
     Value *v2=previous->GetV2()->Clone();
+    // cout<<"v2->GetValue() "<<v2->GetValue()<<'\n';
     SetV2(v2);
     SetV2Value(previous->result);
   }
+  // NMMathOperation(MathOperation *m, Value *w, const string &s)
+  // {
+  //   // previous=m;
+  //   previous=m->Clone();
+  //   previous->SetV1(m->GetV1());
+  //   previous->SetV2(m->GetV2());
+  //   previous->SetOperator(s);
+  //   SetOperator(s);
+  //   SetV1(w);
+  //   Simplify();
+  // }
   NMMathOperation(MathOperation *m, Value *w, const string &s)
   {
     previous=m;
+    // previous=m->Clone();
     SetOperator(s);
     SetV1(w);
     Simplify();
   }
+  // NMMathOperation(MathOperation *m, Value *w, const string &s)
+  // {
+  //   // previous=m;
+  //   previous=m->Clone();
+  //   SetOperator(s);
+  //   SetV1(w);
+  //   Simplify();
+  // }
   NMMathOperation *Clone(){return new NMMathOperation(*this);}
   void Calculate(){}
-  virtual ~NMMathOperation(){delete previous;}
+  virtual ~NMMathOperation()
+  {
+    cout<<"Cleaning ~NMMathOperation()"<<'\n';
+    Print();
+    delete previous;
+    cout<<"Cleaned  ~NMMathOperation()"<<'\n';
+  }
 };
 
 class MVMathOperation: public MathOperation
@@ -164,6 +213,12 @@ public:
   void Calculate(){CalculateResult();}
   void Simplify(){Calculate();}
   NNMathOperation *Clone(){return new NNMathOperation(*this);}
+  // ~NNMathOperation()
+  // {
+  //   delete v1;
+  //   delete v2;
+  //   delete math_operator;
+  // }
 };
 
 #endif
