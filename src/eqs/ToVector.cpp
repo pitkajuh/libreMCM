@@ -69,10 +69,7 @@ vector<string> ToVector(string v)
 	  r.emplace_back(s);
 	  end=true;
 	}
-      else
-	{
-	  end=true;
-	}
+      else end=true;
     }
   return r;
 }

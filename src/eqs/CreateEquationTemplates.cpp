@@ -20,9 +20,12 @@ void GetValue(MathOperations v, const Data &data)
   for(const auto &i: v)
     {
       // i->CalculateResult();
+      i->Type();
+      i->Simplify();
       // cout<<j<<" "<<i->GetV1Value()<<" "<<i->GetV2Value()<<" "<<i->result<<'\n';
       // cout<<j<<" "<<i->GetV1()<<" "<<i->GetV2()<<" "<<'\n';
       cout<<j<<" "<<" "<<'\n';
+      cout<<" "<<'\n';
       // delete i;
       j++;
     }
@@ -34,7 +37,7 @@ void CreateEquationTemplates(const Map<string, MathOperations> &equations_map, c
 
   for(const auto &[key, value]: equations_map)
     {
-      cout<<key<<'\n';
+      cout<<"key "<<key<<'\n';
       GetValue(value, data);
     }
 }

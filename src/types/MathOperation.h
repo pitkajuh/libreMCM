@@ -55,10 +55,15 @@ void Print()
   double GetV1Value(){return v1->GetValue();}
   double GetV2Value(){return v2->GetValue();}
   void SetV1Value(const double &d){v1->SetValue(d);}
-  void SetV2Value(const double &d){v2->SetValue(d);}
+  void SetV2Value(const double &d)
+  {
+    cout<<"d="<<d<<'\n';
+    v2->SetValue(d);
+  }
   void SetV1(Value *v){v1=v;}
   void SetV2(Value *v){v2=v;}
   void CalculateResult(){result=GetOp()->Calculate1(GetV1Value(), GetV2Value());}
+  virtual void Type()=0;
   virtual void Calculate()=0;
   virtual void Simplify()=0;
   virtual MathOperation *Clone()=0;
@@ -83,53 +88,53 @@ void Print()
   // }
 };
 
-class VVMathOperation: public MathOperation
-{
-  // Variable-variable math operation
+// class VVMathOperation: public MathOperation
+// {
+//   // Variable-variable math operation
 
-  void Simplify(){} // Cannot be simplified.
-  void Calculate(){}
-};
+//   void Simplify(){} // Cannot be simplified.
+//   void Calculate(){}
+// };
 
-class CVMathOperation: public MathOperation
-{
-  // Constant-variable math operation
+// class CVMathOperation: public MathOperation
+// {
+//   // Constant-variable math operation
 
-  void Simplify(){} // Cannot be simplified.
-  void Calculate(){}
-};
+//   void Simplify(){} // Cannot be simplified.
+//   void Calculate(){}
+// };
 
-class CCMathOperation: public MathOperation
-{
-  // Constant-constant math operation
+// class CCMathOperation: public MathOperation
+// {
+//   // Constant-constant math operation
 
-  void Simplify(){}
-  void Calculate(){}
-};
+//   void Simplify(){}
+//   void Calculate(){}
+// };
 
-class NVMathOperation: public MathOperation
-{
-  // Numeric-variable math operation
+// class NVMathOperation: public MathOperation
+// {
+//   // Numeric-variable math operation
 
-  void Simplify(){} // Cannot be simplified.
-  void Calculate(){}
-};
+//   void Simplify(){} // Cannot be simplified.
+//   void Calculate(){}
+// };
 
-class NCMathOperation: public MathOperation
-{
-  // Numeric-constant math operation
+// class NCMathOperation: public MathOperation
+// {
+//   // Numeric-constant math operation
 
-  void Simplify(){}
-  void Calculate(){}
-};
+//   void Simplify(){}
+//   void Calculate(){}
+// };
 
-class CMMathOperation: public MathOperation
-{
-  // Constant-math math operation
+// class CMMathOperation: public MathOperation
+// {
+//   // Constant-math math operation
 
-  void Simplify(){}
-  void Calculate(){}
-};
+//   void Simplify(){}
+//   void Calculate(){}
+// };
 
 class NMMathOperation: public MathOperation
 {
@@ -148,10 +153,13 @@ public:
   void Simplify()
   {
     // previous->Simplify();
-    // Value *v2=previous->GetV2()->Clone();
+    cout<<"setting v2"<<'\n';
+    Value *v2=previous->GetV2()->Clone();
     // // cout<<"v2->GetValue() "<<v2->GetValue()<<'\n';
-    // SetV2(v2);
-    // SetV2Value(previous->result);
+    SetV2(v2);
+    SetV2Value(previous->result);
+    // cout<<"v2->GetValue() "<<v2->GetValue()<<'\n';
+    cout<<"v2->result "<<previous->result<<'\n';
   }
 
   // NMMathOperation(MathOperation *m, Value *w, const string &s)
@@ -184,7 +192,10 @@ public:
     SetOperator(s);
     SetV1(w);
   }
-
+  void Type()
+  {
+    cout<<"NMMath"<<'\n';
+  }
 
   // NMMathOperation(MathOperation *m, Value *w, const string &s)
   // {
@@ -205,21 +216,21 @@ public:
   // }
 };
 
-class MVMathOperation: public MathOperation
-{
-  // Math-variable math operation
+// class MVMathOperation: public MathOperation
+// {
+//   // Math-variable math operation
 
-  void Simplify(){}
-  void Calculate(){}
-};
+//   void Simplify(){}
+//   void Calculate(){}
+// };
 
-class MMMathOperation: public MathOperation
-{
-  // Math-math math operation
+// class MMMathOperation: public MathOperation
+// {
+//   // Math-math math operation
 
-  void Simplify(){}
-  void Calculate(){}
-};
+//   void Simplify(){}
+//   void Calculate(){}
+// };
 
 class NNMathOperation: public MathOperation
 {
@@ -227,13 +238,21 @@ public:
   // Numeric-numeric math operation
 
   void Calculate(){CalculateResult();}
-  void Simplify(){Calculate();}
+  void Simplify()
+  {
+    Calculate();
+    cout<<"result "<<result<<'\n';
+  }
   NNMathOperation *Clone(){return new NNMathOperation(*this);}
   NNMathOperation(Value *v, const string &m, Value *w)
   {
     SetV1(v);
     SetV2(w);
     SetOperator(m);
+  }
+  void Type()
+  {
+    cout<<"NNMath"<<'\n';
   }
   // ~NNMathOperation()
   // {
