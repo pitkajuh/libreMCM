@@ -9,15 +9,11 @@
 \*---------------------------------------------------------------------------*/
 
 #include "../global/mathconst.h"
-#include <string>
 #include <algorithm>
 #include <vector>
-#include <iostream>
 
-using std::string;
 using std::vector;
 using std::find;
-using std::cout;
 
 int FindIndex(const string &s)
 {
@@ -67,10 +63,14 @@ vector<string> ToVector(string v)
 	  r.emplace_back(v);
 	  end=true;
 	}
-      else
+      else if(i>-1 and size!=1)
 	{
 	  s=v[i];
 	  r.emplace_back(s);
+	  end=true;
+	}
+      else
+	{
 	  end=true;
 	}
     }

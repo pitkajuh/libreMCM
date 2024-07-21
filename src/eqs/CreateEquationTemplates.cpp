@@ -19,9 +19,11 @@ void GetValue(MathOperations v, const Data &data)
   int j=0;
   for(const auto &i: v)
     {
-      i->CalculateResult();
-      cout<<j<<" "<<i->GetV1Value()<<" "<<i->GetV2Value()<<" "<<i->result<<'\n';
-      delete i;
+      // i->CalculateResult();
+      // cout<<j<<" "<<i->GetV1Value()<<" "<<i->GetV2Value()<<" "<<i->result<<'\n';
+      // cout<<j<<" "<<i->GetV1()<<" "<<i->GetV2()<<" "<<'\n';
+      cout<<j<<" "<<" "<<'\n';
+      // delete i;
       j++;
     }
 }

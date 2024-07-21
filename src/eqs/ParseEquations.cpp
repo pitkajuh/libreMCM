@@ -37,33 +37,26 @@ void print_vector2(vector<string> vec)
 
 MathOperation *NewNMMathOperation(const string &s1, const string &s2, const string &o, MathOperations &op, unsigned int &k)
 {
-      const unsigned int s2d=std::stoi(s2.substr(1, s2.size()));
-      // if(s2d>op.size()-1)
-      // 	{
-      // 	  k--;
-      // 	  s2d--;
-      // 	}
-      cout<<"s1_numeric and s2_math ops size "<<op.size()<<" s1 value"<<s1<<" s2 value "<<s2<<" s2 index"<<s2d<<" k-1 "<<k-1<<'\n';
-      Value *v1=new Numeric(stod(s1));
-      // Value *v2=op[s2d]->GetV2()->Clone();
-      // v2->SetValue(op[s2d]->result);
-      // MathOperation *m=new NMMathOperation(v2, v1, o);
-      MathOperation *m=new NMMathOperation(op[s2d], v1, o);
+  const unsigned int s2d=std::stoi(s2.substr(1, s2.size()));
+  cout<<"s1_numeric and s2_math ops size "<<op.size()<<" s1 value"<<s1<<" s2 value "<<s2<<" s2 index "<<s2d<<" k-1 "<<k-1<<'\n';
+  Value *v1=new Numeric(stod(s1));
+  // Value *v2=op[s2d]->GetV2()->Clone();
+  // v2->SetValue(op[s2d]->result);
+  // MathOperation *m=new NMMathOperation(v2, v1, o);
+  MathOperation *m=new NMMathOperation(op[s2d], v1, o);
 
+  // op.erase(op.begin()+s2d);
 
-      // op.erase(op.begin()+s2d);
-
-      return m;
+  return m;
 }
 
 MathOperation *NewNNMathOperation(const string &s1, const string &s2, const string &o)
 {
-      cout<<"s1_numeric and s2_numeric "<<s1<<" "<<s2<<'\n';
-      Value *v1=new Numeric(stod(s1));
-      Value *v2=new Numeric(stod(s2));
-      MathOperation *m=new NNMathOperation;
-      m->Set(v1, o, v2);
-      return m;
+  cout<<"s1_numeric and s2_numeric "<<s1<<" "<<s2<<'\n';
+  Value *v1=new Numeric(stod(s1));
+  Value *v2=new Numeric(stod(s2));
+  MathOperation *m=new NNMathOperation(v1, o, v2);
+  return m;
 }
 
 MathOperation *Val(const vector<string> &equation, const unsigned int i, const Data &data, MathOperations &op, unsigned int &k)
@@ -80,6 +73,8 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   const bool s2_numeric=IsNumerical(s2);
   const bool s2_math=(s2.substr(0, 1)=="@") ? true : false;
   cout<<"Math operation "<<op.size()<<'\n';
+  cout<<"s1 "<<s1_variable<<" "<<s1_constant<<" "<<s1_numeric<<" "<<s1_math<<'\n';
+  cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
   // if(s1_variable and s2_variable)
   //   {
   //     cout<<"s1_variable and s2_variable"<<'\n';
@@ -285,8 +280,9 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	  equation[i]="@"+to_string(k);
 	  equation.erase(equation.begin()+i+1);
 	  equation.erase(equation.begin()+i-1);
+	  cout<<" k="<<k<<" size "<<ooo.size()<<'\n';
 	  k++;
-	  cout<<" k="<<k<<'\n';
+
 	  i=0;
 	  cout<<" "<<'\n';
 	  continue;
@@ -345,7 +341,7 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data
     {
       v=ToVector(equation);
       v=RemoveOpenClose(v);
-      cout<<" EQUATION"<<'\n';
+      cout<<"EQUATION"<<'\n';
       print_vector2(v);
       v=test(v, k, op, data);
       GetOrder(v, k, op, data);
