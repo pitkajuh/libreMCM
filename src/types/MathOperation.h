@@ -142,70 +142,43 @@ class NMMathOperation: public MathOperation
 private:
   MathOperation *previous;
 public:
-  // void Simplify()
-  // {
-  //   previous->Simplify();
-  //   Value *v2=previous->GetV2()->Clone();
-  //   SetV2(v2);
-  //   SetV2Value(previous->result);
-  // }
-
+  void SetPrevious(MathOperation *m)
+  {
+    previous=m;
+    previous->Type();
+    cout<<"Previous Set"<<'\n';
+  }
   void Simplify()
   {
     // previous->Simplify();
     cout<<"setting v2"<<'\n';
     Value *v2=previous->GetV2()->Clone();
     // // cout<<"v2->GetValue() "<<v2->GetValue()<<'\n';
+    cout<<"v2 set"<<'\n';
     SetV2(v2);
+    cout<<"Setting v2 value"<<'\n';
     SetV2Value(previous->result);
+    cout<<"v2 value set"<<'\n';
     // cout<<"v2->GetValue() "<<v2->GetValue()<<'\n';
     cout<<"v2->result "<<previous->result<<'\n';
   }
-
-  // NMMathOperation(MathOperation *m, Value *w, const string &s)
-  // {
-  //   // previous=m;
-  //   previous=m->Clone();
-  //   previous->SetV1(m->GetV1());
-  //   cout<<"previous->GetV1Value() "<<previous->GetV1Value()<<'\n';
-  //   previous->SetV2(m->GetV2());
-  //   // cout<<"previous->GetV2Value() "<<previous->GetV2Value()<<'\n';
-  //   previous->SetOperator(s);
-  //   SetOperator(s);
-  //   SetV1(w);
-  //   Simplify();
-  // }
-
-  // NMMathOperation(MathOperation *m, Value *w, const string &s)
-  // {
-  //   previous=m;
-  //   // previous=m->Clone();
-  //   SetOperator(s);
-  //   SetV1(w);
-  //   Simplify();
-  // }
-
-
   NMMathOperation(MathOperation *m, Value *w, const string &s)
   {
-    previous=m;
+    cout<<"setting previous=m"<<'\n';
+    SetPrevious(m);
+    previous->Type();
     SetOperator(s);
     SetV1(w);
   }
   void Type()
   {
-    cout<<"NMMath"<<'\n';
+    cout<<"Type is NMMath"<<'\n';
   }
-
-  // NMMathOperation(MathOperation *m, Value *w, const string &s)
-  // {
-  //   // previous=m;
-  //   previous=m->Clone();
-  //   SetOperator(s);
-  //   SetV1(w);
-  //   Simplify();
-  // }
-  NMMathOperation *Clone(){return new NMMathOperation(*this);}
+  NMMathOperation *Clone()
+  {
+    cout<<"Cloning NMMathOperation"<<'\n';
+    return new NMMathOperation(*this);
+  }
   void Calculate(){}
   // virtual ~NMMathOperation()
   // {
@@ -226,7 +199,7 @@ public:
 
 // class MMMathOperation: public MathOperation
 // {
-//   // Math-math math operation
+ //   // Math-math math operation
 
 //   void Simplify(){}
 //   void Calculate(){}
@@ -243,7 +216,11 @@ public:
     Calculate();
     cout<<"result "<<result<<'\n';
   }
-  NNMathOperation *Clone(){return new NNMathOperation(*this);}
+  NNMathOperation *Clone()
+  {
+    cout<<"Cloning NMMathOperation"<<'\n';
+    return new NNMathOperation(*this);
+  }
   NNMathOperation(Value *v, const string &m, Value *w)
   {
     SetV1(v);
@@ -252,7 +229,7 @@ public:
   }
   void Type()
   {
-    cout<<"NNMath"<<'\n';
+    cout<<"Type is NNMath"<<'\n';
   }
   // ~NNMathOperation()
   // {

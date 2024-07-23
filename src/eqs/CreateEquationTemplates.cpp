@@ -34,7 +34,7 @@ void GetValue(MathOperations v, const Data &data)
 void CreateEquationTemplates(const Map<string, MathOperations> &equations_map, const Data &data)
 {
   // MathOperation *op;
-
+  cout<<"--------------------------------------"<<'\n';
   for(const auto &[key, value]: equations_map)
     {
       cout<<"key "<<key<<'\n';
