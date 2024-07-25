@@ -170,10 +170,7 @@ public:
     SetOperator(s);
     SetV1(w);
   }
-  void Type()
-  {
-    cout<<"Type is NMMath"<<'\n';
-  }
+  void Type(){cout<<"Type is NMMath"<<'\n';}
   NMMathOperation *Clone()
   {
     cout<<"Cloning NMMathOperation"<<'\n';
@@ -227,10 +224,7 @@ public:
     SetV2(w);
     SetOperator(m);
   }
-  void Type()
-  {
-    cout<<"Type is NNMath"<<'\n';
-  }
+  void Type(){cout<<"Type is NNMath"<<'\n';}
   // ~NNMathOperation()
   // {
   //   delete v1;
