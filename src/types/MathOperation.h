@@ -28,7 +28,7 @@ private:
   Value *v2;
   MathOperator *math_operator;
 public:
-  double result;
+  double result=NAN;
 
   void SetOperator(const string &m)
   {
@@ -150,13 +150,12 @@ public:
   }
   void Simplify()
   {
-    // previous->Simplify();
+    previous->Simplify();
     cout<<"setting v2"<<'\n';
     Value *v2=previous->GetV2()->Clone();
-    // // cout<<"v2->GetValue() "<<v2->GetValue()<<'\n';
     cout<<"v2 set"<<'\n';
     SetV2(v2);
-    cout<<"Setting v2 value"<<'\n';
+    cout<<"Setting v2 value "<<previous->result<<'\n';
     SetV2Value(previous->result);
     cout<<"v2 value set"<<'\n';
     // cout<<"v2->GetValue() "<<v2->GetValue()<<'\n';

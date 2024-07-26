@@ -44,6 +44,7 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, Ma
   // v2->SetValue(op[s2d]->result);
   // MathOperation *m=new NMMathOperation(v2, v1, o);
   MathOperation *m=new NMMathOperation(op[s2d], v1, o);
+  m->Simplify();
   return m;
 }
 

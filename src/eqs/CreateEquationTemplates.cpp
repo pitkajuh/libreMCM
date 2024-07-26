@@ -21,7 +21,7 @@ void GetValue(MathOperations v, const Data &data)
     {
       // i->CalculateResult();
       i->Type();
-      i->Simplify();
+      // i->Simplify();
       // cout<<j<<" "<<i->GetV1Value()<<" "<<i->GetV2Value()<<" "<<i->result<<'\n';
       // cout<<j<<" "<<i->GetV1()<<" "<<i->GetV2()<<" "<<'\n';
       cout<<j<<" "<<" "<<'\n';
