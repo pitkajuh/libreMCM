@@ -26,7 +26,7 @@ void GetValue(MathOperations v, const Data &data)
       // cout<<j<<" "<<i->GetV1()<<" "<<i->GetV2()<<" "<<'\n';
       cout<<j<<" "<<" "<<'\n';
       cout<<" "<<'\n';
-      // delete i;
+      delete i;
       j++;
     }
 }

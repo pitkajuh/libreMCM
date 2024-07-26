@@ -47,7 +47,7 @@ public:
   }
 void Print()
   {
-    // cout<<v1<<" "<<v2<<" "<<math_operator<<'\n';
+    cout<<v1<<" "<<v2<<" "<<math_operator<<'\n';
   }
   MathOperator *GetOp(){return math_operator;}
   Value *GetV1(){return v1;}
@@ -57,7 +57,7 @@ void Print()
   void SetV1Value(const double &d){v1->SetValue(d);}
   void SetV2Value(const double &d)
   {
-    cout<<"d="<<d<<'\n';
+    // cout<<"d="<<d<<'\n';
     v2->SetValue(d);
   }
   void SetV1(Value *v){v1=v;}
@@ -145,25 +145,38 @@ public:
   void SetPrevious(MathOperation *m)
   {
     previous=m;
-    previous->Type();
-    cout<<"Previous Set"<<'\n';
+    // previous->Type();
+    // cout<<"Previous Set"<<'\n';
+  }
+  void Calculate()
+  {
+    CalculateResult();
+    cout<<"result calculated "<<result<<'\n';
   }
   void Simplify()
   {
     previous->Simplify();
-    cout<<"setting v2"<<'\n';
+    // cout<<"setting v2"<<'\n';
     Value *v2=previous->GetV2()->Clone();
-    cout<<"v2 set"<<'\n';
+    // cout<<"v2 set"<<'\n';
     SetV2(v2);
-    cout<<"Setting v2 value "<<previous->result<<'\n';
-    SetV2Value(previous->result);
-    cout<<"v2 value set"<<'\n';
-    // cout<<"v2->GetValue() "<<v2->GetValue()<<'\n';
-    cout<<"v2->result "<<previous->result<<'\n';
+
+    if(previous->result!=NAN)
+      {
+	// cout<<"Setting v2 value "<<previous->result<<'\n';
+	SetV2Value(previous->result);
+	// cout<<"v2 value set "<<previous->result<<'\n';
+	Calculate();
+      }
+    else
+      {
+	cout<<"is nan"<<'\n';
+      }
+    // Simplify();
   }
   NMMathOperation(MathOperation *m, Value *w, const string &s)
   {
-    cout<<"setting previous=m"<<'\n';
+    // cout<<"setting previous=m"<<'\n';
     SetPrevious(m);
     previous->Type();
     SetOperator(s);
@@ -172,10 +185,10 @@ public:
   void Type(){cout<<"Type is NMMath"<<'\n';}
   NMMathOperation *Clone()
   {
-    cout<<"Cloning NMMathOperation"<<'\n';
+    // cout<<"Cloning NMMathOperation"<<'\n';
     return new NMMathOperation(*this);
   }
-  void Calculate(){}
+
   // virtual ~NMMathOperation()
   // {
   //   cout<<"Cleaning ~NMMathOperation()"<<'\n';
@@ -214,7 +227,7 @@ public:
   }
   NNMathOperation *Clone()
   {
-    cout<<"Cloning NMMathOperation"<<'\n';
+    // cout<<"Cloning NMMathOperation"<<'\n';
     return new NNMathOperation(*this);
   }
   NNMathOperation(Value *v, const string &m, Value *w)

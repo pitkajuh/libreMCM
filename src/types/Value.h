@@ -26,7 +26,7 @@ public:
   void SetName(const string &s){name=s;}
   void SetValue(const double &v)
   {
-    cout<<"SetValue"<<'\n';
+    // cout<<"SetValue"<<'\n';
     value=v;
   }
   string GetName(){return name;}
@@ -52,7 +52,7 @@ public:
   Numeric(const double &v){SetValue(v);}
   Numeric *Clone()
   {
-    cout<<"Cloning Numeric"<<'\n';
+    // cout<<"Cloning Numeric"<<'\n';
     return new Numeric(*this);
   }
 };
