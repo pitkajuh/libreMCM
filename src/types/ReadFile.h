@@ -107,20 +107,15 @@ public:
   ReadFile *name=new FName;
   FData *data=new FData;
 
-  FileData(){}
+  FileData()=default;
 
-  FileData(FileData &d)
+  FileData(const FileData &d)
   {
-    name=new FName;
-    data=new FData;
     name=d.name;
     data=d.data;
   }
 
-  FileData& operator =(const FileData &d)
-  {
-    return *this;
-  }
+  FileData& operator =(const FileData &d){return *this;}
 
   ~FileData()
   {

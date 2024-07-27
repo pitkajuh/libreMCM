@@ -34,14 +34,14 @@ public:
   double GetValue(){return value;}
   virtual Value *Clone()=0;
   virtual void Type()=0;
-  ~Value()
-  {
-    cout<<"~Value()"<<'\n';
-    // free(name);
-    // free(value);
-    // name="";
-    // value=NAN;
-  }
+  // ~Value()
+  // {
+  //   cout<<"~Value()"<<'\n';
+  //   // free(name);
+  //   // free(value);
+  //   // name="";
+  //   // value=NAN;
+  // }
 };
 
 // class Constant: public Value
