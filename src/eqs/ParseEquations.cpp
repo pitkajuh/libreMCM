@@ -38,11 +38,8 @@ void print_vector2(vector<string> vec)
 MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, MathOperations &op, unsigned int &k)
 {
   const unsigned int s2d=std::stoi(s2.substr(1, s2.size()));
-  cout<<"s1_numeric and s2_math ops size "<<op.size()<<" s1 value"<<s1<<" s2 value "<<s2<<" s2 index "<<s2d<<" k-1 "<<k-1<<'\n';
+  // cout<<"s1_numeric and s2_math ops size "<<op.size()<<" s1 value"<<s1<<" s2 value "<<s2<<" s2 index "<<s2d<<" k-1 "<<k-1<<'\n';
   Value *v1=new Numeric(stod(s1));
-  // Value *v2=op[s2d]->GetV2()->Clone();
-  // v2->SetValue(op[s2d]->result);
-  // MathOperation *m=new NMMathOperation(v2, v1, o);
   MathOperation *m=new NMMathOperation(op[s2d], v1, o);
   m->Simplify();
   return m;
@@ -50,7 +47,7 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, Ma
 
 MathOperation *NewNNMath(const string &s1, const string &s2, const string &o)
 {
-  cout<<"s1_numeric and s2_numeric "<<s1<<" "<<s2<<'\n';
+  // cout<<"s1_numeric and s2_numeric "<<s1<<" "<<s2<<'\n';
   Value *v1=new Numeric(stod(s1));
   Value *v2=new Numeric(stod(s2));
   MathOperation *m=new NNMathOperation(v1, o, v2);
@@ -71,10 +68,11 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   const bool s2_constant=IsIn(s2, data.constants_map);
   const bool s2_numeric=IsNumerical(s2);
   const bool s2_math=(s2.substr(0, 1)=="@") ? true : false;
-  cout<<"Math operation "<<op.size()<<'\n';
-  cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
-  cout<<"s1 "<<s1_variable<<" "<<s1_constant<<" "<<s1_numeric<<" "<<s1_math<<'\n';
-  cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
+  // cout<<"Math operation "<<op.size()<<'\n';
+  // cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
+  // cout<<"s1 "<<s1_variable<<" "<<s1_constant<<" "<<s1_numeric<<" "<<s1_math<<'\n';
+  // cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
+
   // if(s1_variable and s2_variable)
   //   {
   //     cout<<"s1_variable and s2_variable"<<'\n';

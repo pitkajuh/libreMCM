@@ -24,9 +24,9 @@ using std::cout;
 class MathOperation
 {
 private:
-  Value *v1;
-  Value *v2;
-  MathOperator *math_operator;
+  Value *v1=nullptr;
+  Value *v2=nullptr;
+  MathOperator *math_operator=nullptr;
 public:
   double result=NAN;
 
@@ -45,32 +45,24 @@ public:
     v2=w;
     SetOperator(m);
   }
-  void Print()
-  {
-    cout<<"v1 "<<v1<<" v2 "<<v2<<" mathop "<<math_operator<<'\n';
-  }
   MathOperator *GetOp(){return math_operator;}
   Value *GetV1(){return v1;}
   Value *GetV2(){return v2;}
   double GetV1Value(){return v1->GetValue();}
   double GetV2Value(){return v2->GetValue();}
   void SetV1Value(const double &d){v1->SetValue(d);}
-  void SetV2Value(const double &d)
-  {
-    // cout<<"d="<<d<<'\n';
-    v2->SetValue(d);
-  }
+  void SetV2Value(const double &d){v2->SetValue(d);}
   void SetV1(Value *v){v1=v;}
   void SetV2(Value *v){v2=v;}
   void CalculateResult(){result=GetOp()->Calculate1(GetV1Value(), GetV2Value());}
   void DeleteOperator(){delete math_operator;}
   void DeleteV1(){delete v1;}
   void DeleteV2(){delete v2;}
+  void Print(){cout<<"v1 "<<v1<<" "<<GetV1Value()<<" v2 "<<v2<<" "<<GetV2Value()<<" mathop "<<math_operator<<'\n';}
   virtual void Type()=0;
   virtual void Calculate()=0;
   virtual void Simplify()=0;
   virtual MathOperation *Clone()=0;
-  // virtual ~MathOperation();
   virtual ~MathOperation()
   {
     cout<<"Cleaning ~MathOperation()"<<'\n';
@@ -81,28 +73,6 @@ public:
     cout<<"Cleaned ~MathOperation()"<<'\n';
     cout<<" "<<'\n';
   }
-
-  // MathOperation(MathOperation &m)
-  // {
-  //   v1=m.v1;
-  //   v2=m.v2;
-  //   math_operator=m.math_operator;
-  // }
-  // MathOperation& operator =(const MathOperation &m)
-  // {
-  //   v1=m.v1;
-  //   v2=m.v2;
-  //   return *this;
-  // }
-  // virtual ~MathOperation()=0;
-  // {
-  //   cout<<"Cleaning ~MathOperation()"<<'\n';
-  //   Print();
-  //   delete v1;
-  //   delete v2;
-  //   delete math_operator;
-  //   cout<<"Cleaned  ~MathOperation()"<<'\n';
-  // }
 };
 
 class NMMathOperation: public MathOperation
@@ -121,12 +91,21 @@ public:
     // m=nullptr;
     // previous->DeleteOperator();
     cout<<"previous: "<<m<<" "<<previous<<'\n';
+    m->Print();
     previous->Print();
     // delete m;
     // m->Print();
     // previous->Type();
     // cout<<"Previous Set"<<'\n';
   }
+  // NMMathOperation(const NMMathOperation &m)
+  // {
+  //   cout<<"Copy"<<'\n';
+  // }
+  // NMMathOperation(const NMMathOperation &&m)
+  // {
+  //   cout<<"Move"<<'\n';
+  // }
   void Calculate()
   {
     CalculateResult();
@@ -152,6 +131,7 @@ public:
       {
 	cout<<"is nan"<<'\n';
       }
+    // previous->SetV2(nullptr);
     // Simplify();
     // delete previous;
     // DeleteV2();
@@ -174,17 +154,17 @@ public:
     return new NMMathOperation(*this);
   }
 
-  virtual ~NMMathOperation()
-  {
-    cout<<"Attempting to clean ~NMMathOperation()"<<'\n';
-    Print();
-    // previous->DeleteV1();
-    // previous->DeleteV2();
-    // previous->DeleteOperator();
-    // delete previous;
-    // previous->DeleteOperator();
-    cout<<"Not cleaned  ~NMMathOperation()"<<'\n';
-  }
+  // virtual ~NMMathOperation()
+  // {
+  //   cout<<"Attempting to clean ~NMMathOperation()"<<'\n';
+  //   Print();
+  //   // previous->DeleteV1();
+  //   // previous->DeleteV2();
+  //   // previous->DeleteOperator();
+  //   // delete previous;
+  //   // previous->DeleteOperator();
+  //   cout<<"Not cleaned  ~NMMathOperation()"<<'\n';
+  // }
 };
 
 class NNMathOperation: public MathOperation
@@ -271,8 +251,6 @@ public:
 //   void Simplify(){}
 //   void Calculate(){}
 // };
-
-
 
 // class MVMathOperation: public MathOperation
 // {

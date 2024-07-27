@@ -11,13 +11,18 @@
 #ifndef MATHOPERATOR_H
 #define MATHOPERATOR_H
 
+#include <iostream>
 #include <math.h>
 #include "../global/mathconst.h"
-
+using std::cout;
 class MathOperator
 {
 public:
   virtual double Calculate1(const double &v1, const double &v2)=0;
+  ~MathOperator()
+  {
+    cout<<"~MathOperator"<<'\n';
+  }
 };
 
 class Add:public MathOperator
