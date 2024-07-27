@@ -32,6 +32,7 @@ public:
   }
   string GetName(){return name;}
   double GetValue(){return value;}
+  Value()=default;
   virtual Value *Clone()=0;
   virtual void Type()=0;
   // ~Value()
