@@ -45,7 +45,7 @@ public:
     v2=w;
     SetOperator(m);
   }
-void Print()
+  void Print()
   {
     cout<<v1<<" "<<v2<<" "<<math_operator<<'\n';
   }
@@ -63,10 +63,14 @@ void Print()
   void SetV1(Value *v){v1=v;}
   void SetV2(Value *v){v2=v;}
   void CalculateResult(){result=GetOp()->Calculate1(GetV1Value(), GetV2Value());}
+  void DeleteOperator(){delete math_operator;}
+  void DeleteV1(){delete v1;}
+  void DeleteV2(){delete v2;}
   virtual void Type()=0;
   virtual void Calculate()=0;
   virtual void Simplify()=0;
   virtual MathOperation *Clone()=0;
+  // virtual ~MathOperation();
   virtual ~MathOperation()
   {
     cout<<"Cleaning ~MathOperation()"<<'\n';
@@ -77,6 +81,19 @@ void Print()
     cout<<"Cleaned  ~MathOperation()"<<'\n';
     cout<<" "<<'\n';
   }
+
+  // MathOperation(MathOperation &m)
+  // {
+  //   v1=m.v1;
+  //   v2=m.v2;
+  //   math_operator=m.math_operator;
+  // }
+  // MathOperation& operator =(const MathOperation &m)
+  // {
+  //   v1=m.v1;
+  //   v2=m.v2;
+  //   return *this;
+  // }
   // virtual ~MathOperation()=0;
   // {
   //   cout<<"Cleaning ~MathOperation()"<<'\n';
@@ -145,6 +162,12 @@ public:
   void SetPrevious(MathOperation *m)
   {
     previous=m;
+    // previous=m->Clone();
+    // previous->DeleteOperator();
+    cout<<"previous: "<<m<<" "<<previous<<'\n';
+    previous->Print();
+    // delete m;
+    // m->Print();
     // previous->Type();
     // cout<<"Previous Set"<<'\n';
   }
@@ -167,6 +190,7 @@ public:
 	SetV2Value(previous->result);
 	// cout<<"v2 value set "<<previous->result<<'\n';
 	Calculate();
+	// delete previous;
       }
     else
       {
@@ -192,8 +216,9 @@ public:
   // virtual ~NMMathOperation()
   // {
   //   cout<<"Cleaning ~NMMathOperation()"<<'\n';
-  //   Print();
+  //   // Print();
   //   delete previous;
+  //   // previous->DeleteOperator();
   //   cout<<"Cleaned  ~NMMathOperation()"<<'\n';
   // }
 };
@@ -237,11 +262,15 @@ public:
     SetOperator(m);
   }
   void Type(){cout<<"Type is NNMath"<<'\n';}
-  // ~NNMathOperation()
+  // virtual ~NNMathOperation()
   // {
-  //   delete v1;
-  //   delete v2;
-  //   delete math_operator;
+  //   cout<<"NNAMTH"<<'\n';
+  //   DeleteV1();
+  //   DeleteV2();
+  //   DeleteOperator();
+  //   // delete v1;
+  //   // delete v2;
+  //   // delete math_operator;
   // }
 };
 

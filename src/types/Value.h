@@ -32,19 +32,20 @@ public:
   string GetName(){return name;}
   double GetValue(){return value;}
   virtual Value *Clone()=0;
+  virtual void Type()=0;
 };
 
-class Constant: public Value
-{
- public:
-  Constant(const string &s){SetName(s);}
-};
+// class Constant: public Value
+// {
+//  public:
+//   Constant(const string &s){SetName(s);}
+// };
 
-class Variable: public Value
-{
-public:
-  Variable(const string &s){SetName(s);}
-};
+// class Variable: public Value
+// {
+// public:
+//   Variable(const string &s){SetName(s);}
+// };
 
 class Numeric: public Value
 {
@@ -55,16 +56,17 @@ public:
     // cout<<"Cloning Numeric"<<'\n';
     return new Numeric(*this);
   }
+  void Type(){cout<<"Numeric"<<'\n';}
 };
 
-class InitialValue: public Value
-{
-public:
-};
+// class InitialValue: public Value
+// {
+// public:
+// };
 
-class MathOperationValue: public Value
-{
-public:
-};
+// class MathOperationValue: public Value
+// {
+// public:
+// };
 
 #endif

@@ -54,6 +54,7 @@ MathOperation *NewNNMath(const string &s1, const string &s2, const string &o)
   Value *v1=new Numeric(stod(s1));
   Value *v2=new Numeric(stod(s2));
   MathOperation *m=new NNMathOperation(v1, o, v2);
+  // m->Simplify();
   return m;
 }
 
