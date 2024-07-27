@@ -134,7 +134,7 @@ public:
     previous->SetV2(m.v2);
     previous->SetOp(m.math_operator);
 
-    // v2=m.v2;
+    v2=m.v2;
 
     m.v1=nullptr;
     m.v2=nullptr;
@@ -169,6 +169,7 @@ public:
   void Simplify()
   {
     previous->Simplify();
+
     // SetV2(previous->v2);
     // v2=previous->v2;
     // cout<<"setting v2"<<'\n';

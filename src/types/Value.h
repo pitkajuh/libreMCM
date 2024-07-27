@@ -21,9 +21,11 @@ using std::cout;
 class Value
 {
 private:
+  // string name;
+  // double value;
+public:
   string name;
   double value;
-public:
   void SetName(const string &s){name=s;}
   void SetValue(const double &v)
   {
@@ -35,6 +37,17 @@ public:
   Value()=default;
   virtual Value *Clone()=0;
   virtual void Type()=0;
+  Value(const Value &v)
+  {
+    cout<<"Value copy cost"<<'\n';
+    name=v.name;
+    value=v.value;
+  }
+  // Value(Value &&v)
+  // {
+  //   name=v.name;
+  //   value=v.value;
+  // }
   // ~Value()
   // {
   //   cout<<"~Value()"<<'\n';
@@ -67,6 +80,12 @@ public:
     return new Numeric(*this);
   }
   void Type(){cout<<"Numeric"<<'\n';}
+  Numeric(const Numeric &v)
+  {
+    cout<<"Value Numeric copy cost"<<'\n';
+    value=v.value;
+  }
+  // Value(const Value &&v){value=v.value;}
 };
 
 // class InitialValue: public Value
