@@ -155,12 +155,6 @@ public:
       }
     return *this;
   }
-  void SetPrevious(MathOperation *m)
-  {
-    previous=std::move(m);
-    cout<<"previous: "<<m<<" "<<previous<<'\n';
-    m->Print();
-  }
   void Calculate()
   {
     CalculateResult();
@@ -192,7 +186,9 @@ public:
   NMMathOperation(MathOperation *m, Value *w, const string &s):MathOperation()
   {
     // cout<<"setting previous=m"<<'\n';
-    SetPrevious(m);
+    previous=std::move(m);
+    cout<<"previous: "<<m<<" "<<previous<<'\n';
+    m->Print();
     SetV1(w);
     SetOperator(s);
   }
