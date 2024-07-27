@@ -24,9 +24,9 @@ using std::cout;
 class MathOperation
 {
 private:
-  Value *v1=nullptr;
-  Value *v2=nullptr;
-  MathOperator *math_operator=nullptr;
+  Value *v1;
+  Value *v2;
+  MathOperator *math_operator;
 public:
   double result=NAN;
 
@@ -81,6 +81,10 @@ class NMMathOperation: public MathOperation
 private:
   MathOperation *previous;
 public:
+  // NMMathOperation(const NMMathOperation &&m)
+  // {
+
+  // }
   void SetPrevious(MathOperation *m)
   {
     previous=m;
@@ -98,14 +102,6 @@ public:
     // previous->Type();
     // cout<<"Previous Set"<<'\n';
   }
-  // NMMathOperation(const NMMathOperation &m)
-  // {
-  //   cout<<"Copy"<<'\n';
-  // }
-  // NMMathOperation(const NMMathOperation &&m)
-  // {
-  //   cout<<"Move"<<'\n';
-  // }
   void Calculate()
   {
     CalculateResult();
