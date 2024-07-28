@@ -20,20 +20,21 @@ using std::cout;
 
 class Value
 {
-private:
-  // string name;
-  // double value;
 public:
   string name;
   double value;
   void SetName(const string &s){name=s;}
   void SetValue(const double &v)
   {
-    // cout<<"SetValue"<<'\n';
     value=v;
+    cout<<"SetValue "<<value<<'\n';
   }
   string GetName(){return name;}
-  double GetValue(){return value;}
+  double GetValue()
+  {
+    cout<<"GetValue "<<value<<'\n';
+    return value;
+  }
   Value()=default;
   virtual Value *New()=0;
   // virtual Value *Clone()=0;

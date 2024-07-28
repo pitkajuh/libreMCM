@@ -61,6 +61,7 @@ MathOperation *NewNNMath(const string &s1, const string &s2, const string &o)
   m->SetOperator(o);
   // m->Init(v1, o, v2);
   m->Print();
+  m->Simplify();
   return m;
 }
 
@@ -285,7 +286,7 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	  equation[i]="@"+to_string(k);
 	  equation.erase(equation.begin()+i+1);
 	  equation.erase(equation.begin()+i-1);
-	  cout<<" k="<<k<<" size "<<ooo.size()<<'\n';
+	  cout<<"k="<<k<<" size "<<ooo.size()<<'\n';
 	  k++;
 
 	  i=0;
