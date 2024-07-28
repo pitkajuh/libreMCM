@@ -60,27 +60,29 @@ public:
   void DeleteV1(){delete v1;}
   void DeleteV2(){delete v2;}
   void Print(){cout<<"v1 "<<v1<<" "<<GetV1Value()<<" v2 "<<v2<<" "<<GetV2Value()<<" mathop "<<math_operator<<'\n';}
-  MathOperation& operator =(MathOperation &m)
-  {
-    cout<<"Call MathOperation ="<<'\n';
-    if(this!=&m)
-      {
-	delete v1;
-	delete v2;
-	delete math_operator;
-	this->v1=m.v1;
-	this->v2=m.v2;
-	this->math_operator=m.math_operator;
-	m.v1=nullptr;
-	m.v2=nullptr;
-	m.math_operator=nullptr;
-      }
-    return *this;
-  }
+  // MathOperation& operator =(MathOperation &m)
+  // {
+  //   cout<<"Call MathOperation ="<<'\n';
+  //   if(this!=&m)
+  //     {
+  // 	delete v1;
+  // 	delete v2;
+  // 	delete math_operator;
+  // 	this->v1=m.v1;
+  // 	this->v2=m.v2;
+  // 	this->math_operator=m.math_operator;
+  // 	m.v1=nullptr;
+  // 	m.v2=nullptr;
+  // 	m.math_operator=nullptr;
+  //     }
+  //   return *this;
+  // }
+  virtual void Init(MathOperation *m, Value *w, const string &s)=0;
   virtual void Type()=0;
   virtual void Calculate()=0;
   virtual void Simplify()=0;
-  virtual MathOperation *Clone()=0;
+  // virtual MathOperation *Clone()=0;
+  // virtual MathOperation *New()=0;
   virtual ~MathOperation()
   {
     cout<<"Cleaning ~MathOperation()"<<'\n';
@@ -94,82 +96,121 @@ public:
     cout<<"Cleaned ~MathOperation()"<<'\n';
     cout<<" "<<'\n';
   }
-  MathOperation(const MathOperation &m)
-  {
-    cout<<"Default copy const MathOperation()"<<'\n';
-    this->v1=m.v1;
-    this->v2=m.v2;
-    this->math_operator=m.math_operator;
-  }
-  MathOperation(MathOperation &&m)
-  {
-    cout<<"Default move const MathOperation()"<<'\n';
-    this->v1=m.v1;
-    this->v2=m.v2;
-    this->math_operator=m.math_operator;
-    m.v1=nullptr;
-    m.v2=nullptr;
-    m.math_operator=nullptr;
-  }
-  // virtual void Set1(MathOperation &&m)=0;
+  // MathOperation(const MathOperation &m)
+  // {
+  //   cout<<"Default copy const MathOperation()"<<'\n';
+  //   this->v1=m.v1;
+  //   this->v2=m.v2;
+  //   this->math_operator=m.math_operator;
+  // }
+  // MathOperation(MathOperation &&m)
+  // {
+  //   cout<<"Default move const MathOperation()"<<'\n';
+  //   this->v1=m.v1;
+  //   this->v2=m.v2;
+  //   this->math_operator=m.math_operator;
+  //   m.v1=nullptr;
+  //   m.v2=nullptr;
+  //   m.math_operator=nullptr;
+  // }
 };
 
 class NMMathOperation: public MathOperation
 {
   // Numeric-math math operation
 public:
-  MathOperation *previous;
+  // MathOperation *previous;
 
-  // void Set1(NMMathOperation &&m)
+  // MathOperation *New()
   // {
-  //   previous->v1=m.v1;
-  //   previous->v2=m.v2;
-  //   previous->math_operator=m.math_operator;
+  //   MathOperation *n=new NMMathOperation;
+  //   return n;
   // }
-  NMMathOperation(const NMMathOperation &m):MathOperation(m)
-  {
-    cout<<"NMMathOperation copy const"<<'\n';
-    previous->SetV1(m.v1);
-    previous->SetV2(m.v2);
-    previous->SetOp(m.math_operator);
-  }
-  NMMathOperation(NMMathOperation &&m):MathOperation(std::move(m))
-  {
-    cout<<"NMMathOperation move const"<<'\n';
-    previous->SetV1(m.v1);
-    previous->SetV2(m.v2);
-    previous->SetOp(m.math_operator);
+  // NMMathOperation(const NMMathOperation &m):MathOperation(m)
+  // {
+  //   cout<<"NMMathOperation copy const"<<'\n';
+  //   previous->SetV1(m.v1);
+  //   previous->SetV2(m.v2);
+  //   previous->SetOp(m.math_operator);
+  // }
+  // NMMathOperation(NMMathOperation &&m):MathOperation(std::move(m))
+  // {
+  //   cout<<"NMMathOperation move const"<<'\n';
+  //   previous->SetV1(m.v1);
+  //   previous->SetV2(m.v2);
+  //   previous->SetOp(m.math_operator);
 
-    // v2=m.v2;
+  //   // v2=m.v2;
 
-    m.v1=nullptr;
-    m.v2=nullptr;
-    m.math_operator=nullptr;
-  }
-  NMMathOperation& operator =(NMMathOperation &m)
-  {
-    cout<<"Call NMMathOperation ="<<'\n';
-    if(this!=&m)
-      {
-	delete previous;
-	previous->SetV1(m.v1);
-	previous->SetV2(m.v2);
-	previous->SetOp(m.math_operator);
-	m.v1=nullptr;
-	m.v2=nullptr;
-	m.math_operator=nullptr;
-      }
-    return *this;
-  }
+  //   m.v1=nullptr;
+  //   m.v2=nullptr;
+  //   m.math_operator=nullptr;
+  // }
+  // NMMathOperation& operator =(NMMathOperation &m)
+  // {
+  //   cout<<"Call NMMathOperation ="<<'\n';
+  //   if(this!=&m)
+  //     {
+  // 	delete previous;
+  // 	previous->SetV1(m.v1);
+  // 	previous->SetV2(m.v2);
+  // 	previous->SetOp(m.math_operator);
+  // 	m.v1=nullptr;
+  // 	m.v2=nullptr;
+  // 	m.math_operator=nullptr;
+  //     }
+  //   return *this;
+  // }
   void Calculate()
   {
     CalculateResult();
     cout<<"result calculated "<<result<<'\n';
   }
+  // void Simplify()
+  // {
+  //   previous->Simplify();
+  //   cout<<"setting v2"<<'\n';
+
+  //   // Value *v22=previous->v2;
+  //   // cout<<"v22 "<<v22->GetValue()<<" "<<v22<<" "<<previous->v2<<'\n';
+  //   // v22->Type();
+  //   // // v22->SetValue(NAN);
+  //   // SetV2(v22);
+  //   // // SetV2(previous->v2);
+
+  //   // // Value *v22=previous->v2;
+  //   // // cout<<"v22 "<<v22->GetValue()<<" "<<v22<<" "<<previous->v2<<'\n';
+  //   // // v22->Type();
+  //   // // // v22->SetValue(NAN);
+  //   // SetV2(previous->v2);
+  //   // // SetV2(previous->v2);
+
+  //   Value *v22=previous->GetV2()->Clone();
+  //   cout<<"v22 "<<v22->GetValue()<<" "<<v22<<" "<<previous->v2<<'\n';
+  //   v22->Type();
+  //   SetV2(v22);
+
+  //   v2->Type();
+  //   cout<<"v2 set "<<GetV2Value()<<" "<<v2<<'\n';
+  //   if(previous->result!=NAN)
+  //     {
+  // 	// cout<<"Setting v2 value "<<previous->result<<'\n';
+  // 	SetV2Value(previous->result);
+  // 	// cout<<"v2 value set "<<previous->result<<'\n';
+  // 	Calculate();
+  // 	// delete v22;
+  //     }
+  //   else
+  //     {
+  // 	cout<<"is nan"<<'\n';
+  //     }
+  //   // delete v22;
+  //   cout<<" "<<'\n';
+  // }
   void Simplify()
   {
-    previous->Simplify();
-    cout<<"setting v2"<<'\n';
+    // previous->Simplify();
+    // cout<<"setting v2"<<'\n';
 
     // Value *v22=previous->v2;
     // cout<<"v22 "<<v22->GetValue()<<" "<<v22<<" "<<previous->v2<<'\n';
@@ -185,17 +226,52 @@ public:
     // SetV2(previous->v2);
     // // SetV2(previous->v2);
 
-    Value *v22=previous->GetV2()->Clone();
-    cout<<"v22 "<<v22->GetValue()<<" "<<v22<<" "<<previous->v2<<'\n';
-    v22->Type();
-    SetV2(v22);
+    // Value *v22=previous->GetV2()->Clone();
+    // cout<<"v22 "<<v22->GetValue()<<" "<<v22<<" "<<previous->v2<<'\n';
+    // v22->Type();
+    // SetV2(v22);
+
+    // v2->Type();
+    // cout<<"v2 set "<<GetV2Value()<<" "<<v2<<'\n';
+    // if(previous->result!=NAN)
+    //   {
+    // 	// cout<<"Setting v2 value "<<previous->result<<'\n';
+    // 	SetV2Value(previous->result);
+    // 	// cout<<"v2 value set "<<previous->result<<'\n';
+    // 	Calculate();
+    // 	// delete v22;
+    //   }
+    // else
+    //   {
+    // 	cout<<"is nan"<<'\n';
+    //   }
+    // // delete v22;
+    // cout<<" "<<'\n';
+  }
+  // NMMathOperation(MathOperation *m, Value *w, const string &s):MathOperation()
+  void Init(MathOperation *m, Value *w, const string &s)
+  {
+    // cout<<"setting previous=m"<<'\n';
+    // previous=std::move(m);
+
+    // previous=std::move(m);
+
+    // previous->Set1(m);A
+    // cout<<"previous: "<<m<<" "<<previous<<'\n';
+    m->Print();
+    SetV1(w);
+    // SetV2(m->v2);
+    v2=m->v2->New();
+    v2->SetName(m->v2->GetName());
+    v2->SetValue(m->v2->GetValue());
+    SetOperator(s);
 
     v2->Type();
     cout<<"v2 set "<<GetV2Value()<<" "<<v2<<'\n';
-    if(previous->result!=NAN)
+    if(m->result!=NAN)
       {
 	// cout<<"Setting v2 value "<<previous->result<<'\n';
-	SetV2Value(previous->result);
+	SetV2Value(m->result);
 	// cout<<"v2 value set "<<previous->result<<'\n';
 	Calculate();
 	// delete v22;
@@ -206,26 +282,27 @@ public:
       }
     // delete v22;
     cout<<" "<<'\n';
-  }
-  NMMathOperation(MathOperation *m, Value *w, const string &s):MathOperation()
-  {
-    // cout<<"setting previous=m"<<'\n';
-    // previous=std::move(m);
 
-    previous=std::move(m);
-
-    // previous->Set1(m);A
-    cout<<"previous: "<<m<<" "<<previous<<'\n';
-    m->Print();
-    SetV1(w);
-    SetOperator(s);
   }
+  // NMMathOperation(MathOperation *m, Value *w, const string &s):MathOperation()
+  // {
+  //   // cout<<"setting previous=m"<<'\n';
+  //   // previous=std::move(m);
+
+  //   previous=std::move(m);
+
+  //   // previous->Set1(m);A
+  //   cout<<"previous: "<<m<<" "<<previous<<'\n';
+  //   m->Print();
+  //   SetV1(w);
+  //   SetOperator(s);
+  // }
   void Type(){cout<<"Type is NMMath"<<'\n';}
-  NMMathOperation *Clone()
-  {
-    // cout<<"Cloning NMMathOperation"<<'\n';
-    return new NMMathOperation(*this);
-  }
+  // NMMathOperation *Clone()
+  // {
+  //   // cout<<"Cloning NMMathOperation"<<'\n';
+  //   return new NMMathOperation(*this);
+  // }
 
   // virtual ~NMMathOperation()
   // {
@@ -247,58 +324,64 @@ class NNMathOperation: public MathOperation
 public:
   // Numeric-numeric math operation
 
+  // MathOperation *New()
+  // {
+  //   MathOperation *n=new NNMathOperation;
+  //   return n;
+  // }
   void Calculate(){CalculateResult();}
   void Simplify()
   {
     Calculate();
     cout<<"result "<<result<<'\n';
   }
-  NNMathOperation *Clone()
+  // NNMathOperation *Clone()
+  // {
+  //   // cout<<"Cloning NMMathOperation"<<'\n';
+  //   return new NNMathOperation(*this);
+  // }
+  // NNMathOperation(Value *v, const string &m, Value *w)
+  void Init(MathOperation *m, Value *w, const string &s)
   {
-    // cout<<"Cloning NMMathOperation"<<'\n';
-    return new NNMathOperation(*this);
-  }
-  NNMathOperation(Value *v, const string &m, Value *w)
-  {
-    SetV1(v);
-    SetV2(w);
-    SetOperator(m);
+    // SetV1(v);
+    // SetV2(w);
+    // SetOperator(m);
   }
   void Type(){cout<<"Type is NNMath"<<'\n';}
-  NNMathOperation(const NNMathOperation &m):MathOperation(m)
-  {
-    cout<<"NNMathOperation copy const"<<'\n';
-    v1=m.v1;
-    v2=m.v2;
-    math_operator=m.math_operator;
-  }
-  NNMathOperation(NNMathOperation &&m):MathOperation(m)
-  {
-    cout<<"NNMathOperation move const"<<'\n';
-    v1=m.v1;
-    v2=m.v2;
-    math_operator=m.math_operator;
-    m.v1=nullptr;
-    m.v2=nullptr;
-    m.math_operator=nullptr;
-  }
-  NNMathOperation& operator =(NNMathOperation &m)
-  {
-    cout<<"Call NNMathOperation ="<<'\n';
-    if(this!=&m)
-      {
-	delete v1;
-	delete v2;
-	delete math_operator;
-	v1=m.v1;
-	v2=m.v2;
-	math_operator=m.math_operator;
-	m.v1=nullptr;
-	m.v2=nullptr;
-	m.math_operator=nullptr;
-      }
-    return *this;
-  }
+  // NNMathOperation(const NNMathOperation &m):MathOperation(m)
+  // {
+  //   cout<<"NNMathOperation copy const"<<'\n';
+  //   v1=m.v1;
+  //   v2=m.v2;
+  //   math_operator=m.math_operator;
+  // }
+  // NNMathOperation(NNMathOperation &&m):MathOperation(m)
+  // {
+  //   cout<<"NNMathOperation move const"<<'\n';
+  //   v1=m.v1;
+  //   v2=m.v2;
+  //   math_operator=m.math_operator;
+  //   m.v1=nullptr;
+  //   m.v2=nullptr;
+  //   m.math_operator=nullptr;
+  // }
+  // NNMathOperation& operator =(NNMathOperation &m)
+  // {
+  //   cout<<"Call NNMathOperation ="<<'\n';
+  //   if(this!=&m)
+  //     {
+  // 	delete v1;
+  // 	delete v2;
+  // 	delete math_operator;
+  // 	v1=m.v1;
+  // 	v2=m.v2;
+  // 	math_operator=m.math_operator;
+  // 	m.v1=nullptr;
+  // 	m.v2=nullptr;
+  // 	m.math_operator=nullptr;
+  //     }
+  //   return *this;
+  // }
   // virtual ~NNMathOperation()
   // {
   //   cout<<"Attemp to clean ~NNMathOperation()"<<'\n';

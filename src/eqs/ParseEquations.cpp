@@ -39,8 +39,10 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, Ma
 {
   const unsigned int s2d=std::stoi(s2.substr(1, s2.size()));
   // cout<<"s1_numeric and s2_math ops size "<<op.size()<<" s1 value"<<s1<<" s2 value "<<s2<<" s2 index "<<s2d<<" k-1 "<<k-1<<'\n';
-  Value *v1=new Numeric(stod(s1));
-  MathOperation *m=new NMMathOperation(op[s2d], v1, o);
+  Value *v1=new Numeric;
+  v1->SetValue(stod(s1));
+  MathOperation *m=new NMMathOperation;
+  m->Init(op[s2d], v1, o);
   m->Simplify();
   // op.erase(op.begin()+s2d);
   return m;
@@ -49,9 +51,15 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, Ma
 MathOperation *NewNNMath(const string &s1, const string &s2, const string &o)
 {
   // cout<<"s1_numeric and s2_numeric "<<s1<<" "<<s2<<'\n';
-  Value *v1=new Numeric(stod(s1));
-  Value *v2=new Numeric(stod(s2));
-  MathOperation *m=new NNMathOperation(v1, o, v2);
+  Value *v1=new Numeric;
+  v1->SetValue(stod(s1));
+  Value *v2=new Numeric;
+  v2->SetValue(stod(s2));
+  MathOperation *m=new NNMathOperation;
+  m->SetV1(v1);
+  m->SetV2(v2);
+  m->SetOperator(o);
+  // m->Init(v1, o, v2);
   m->Print();
   return m;
 }
@@ -231,8 +239,10 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_math and s2_numeric)
     {
       const unsigned int s2d=std::stoi(s1.substr(1, s1.size()));
-      Value *v1=new Numeric(stod(s2));
-      MathOperation *m=new NMMathOperation(op[s2d], v1, o);
+      Value *v1=new Numeric;
+      v1->SetValue(stod(s2));
+      MathOperation *m=new NMMathOperation;
+      m->Init(op[s2d], v1, o);
       m->Simplify();
       // op.erase(op.begin()+s2d);
       return m;

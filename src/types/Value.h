@@ -35,7 +35,8 @@ public:
   string GetName(){return name;}
   double GetValue(){return value;}
   Value()=default;
-  virtual Value *Clone()=0;
+  virtual Value *New()=0;
+  // virtual Value *Clone()=0;
   virtual void Type()=0;
   Value(const Value &v)
   {
@@ -73,12 +74,18 @@ public:
 class Numeric: public Value
 {
 public:
-  Numeric(const double &v){SetValue(v);}
-  Numeric *Clone()
+  // Numeric(const double &v){SetValue(v);}
+  Numeric()=default;
+  Value *New()
   {
-    // cout<<"Cloning Numeric"<<'\n';
-    return new Numeric(*this);
+    Value *n=new Numeric;
+    return n;
   }
+  // Numeric *Clone()
+  // {
+  //   // cout<<"Cloning Numeric"<<'\n';
+  //   return new Numeric(*this);
+  // }
   void Type(){cout<<"Numeric"<<'\n';}
   Numeric(const Numeric &v)
   {
