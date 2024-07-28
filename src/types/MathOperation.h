@@ -168,6 +168,7 @@ public:
     // v2=previous->v2;
     // cout<<"setting v2"<<'\n';
     Value *v2=previous->GetV2()->Clone();
+    // Value *v2=previous->v2;
     // cout<<"v2 set"<<'\n';
     SetV2(v2);
 
