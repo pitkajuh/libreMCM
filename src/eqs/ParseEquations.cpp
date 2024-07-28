@@ -42,6 +42,7 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, Ma
   Value *v1=new Numeric(stod(s1));
   MathOperation *m=new NMMathOperation(op[s2d], v1, o);
   m->Simplify();
+  // op.erase(op.begin()+s2d);
   return m;
 }
 
@@ -227,19 +228,15 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   //     // delete v2;
   //     return m;
   //   }
-  // else if(s1_math and s2_numeric)
-  //   {
-  //     cout<<"s1_math and s2_numeric "<<s2<<'\n';
-  //     Value *v1=new Numeric(stod(s2));
-  //     // Value *v2=new MathOperationValue;
-  //     // v2->SetName(s1);
-  //     MathOperation *m=new NMMathOperation;
-  //     // m->Set(v1, o, v2);
-  //     delete m;
-  //     delete v1;
-  //     // delete v2;
-  //     return m;
-  //   }
+  else if(s1_math and s2_numeric)
+    {
+      const unsigned int s2d=std::stoi(s1.substr(1, s1.size()));
+      Value *v1=new Numeric(stod(s2));
+      MathOperation *m=new NMMathOperation(op[s2d], v1, o);
+      m->Simplify();
+      // op.erase(op.begin()+s2d);
+      return m;
+    }
   // else if(s1_math and s2_math)
   //   {
   //     cout<<"s1_math and s2_math "<<s1<<" "<<s2<<'\n';
@@ -257,11 +254,11 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   //   }
   else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)
     {
-      throw std::invalid_argument("Value "+s1+" is not a constant, variable/compartment or numeric value.");
+      throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
     }
   else
     {
-      throw std::invalid_argument("Value "+s2+" is not a constant, variable/compartment or numeric value.");
+      throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
     }
 }
 
