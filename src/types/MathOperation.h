@@ -126,19 +126,23 @@ public:
 //   void Calculate(){}
 // };
 
-// class CVMathOperation: public MathOperation
-// {
-//   // Constant-variable math operation
+class CVMathOperation: public MathOperation
+{
+  // Constant-variable math operation
+public:
+  void Calculate(){}
+  void Init(MathOperation *m, Value *w, const string &s){}
+  void Type(){cout<<"Type is CVMath"<<'\n';}
+};
 
-//   void Calculate(){}
-// };
-
-// class CCMathOperation: public MathOperation
-// {
-//   // Constant-constant math operation
-
-//   void Calculate(){}
-// };
+class CCMathOperation: public MathOperation
+{
+  // Constant-constant math operation
+public:
+  void Calculate(){}
+  void Init(MathOperation *m, Value *w, const string &s){}
+  void Type(){cout<<"Type is CCMath"<<'\n';}
+};
 
 // class NVMathOperation: public MathOperation
 // {
@@ -161,12 +165,14 @@ public:
 //   void Calculate(){}
 // };
 
-// class MVMathOperation: public MathOperation
-// {
-//   // Math-variable math operation
-
-//   void Calculate(){}
-// };
+class MVMathOperation: public MathOperation
+{
+  // Math-variable math operation
+public:
+  void Calculate(){}
+  void Init(MathOperation *m, Value *w, const string &s){}
+  void Type(){cout<<"Type is MVMath"<<'\n';}
+};
 
 class MMMathOperation: public MathOperation
 {
