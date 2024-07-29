@@ -56,21 +56,13 @@ public:
   void SetV1(Value *v){v1=v;}
   void SetV2(Value *v){v2=v;}
   void CalculateResult(){result=GetOp()->Calculate1(GetV1Value(), GetV2Value());}
-  void Print(){cout<<"v1 "<<v1<<" "<<GetV1Value()<<" v2 "<<v2<<" "<<GetV2Value()<<" mathop "<<math_operator<<'\n';}
-  virtual void Init(MathOperation *m, Value *w, const string &s)=0;
   virtual void Type()=0;
   virtual void Calculate()=0;
   virtual ~MathOperation()
   {
-    // cout<<"Cleaning ~MathOperation()"<<'\n';
-    // cout<<"Cleaning v1 "<<v1<<'\n';
     delete v1;
-    // cout<<"Cleaning v2 "<<v2<<'\n';
     delete v2;
-    // cout<<"Cleaning math_operator "<<math_operator<<'\n';
     delete math_operator;
-    // cout<<"Cleaned ~MathOperation()"<<'\n';
-    cout<<" "<<'\n';
   }
 };
 
@@ -84,28 +76,6 @@ public:
     CalculateResult();
     cout<<"result calculated "<<result<<'\n';
   }
-
-  void Init(MathOperation *m, Value *w, const string &s)
-  {
-    SetV1(w);
-    SetV2(m->GetV2()->New());
-    GetV2()->SetName(m->GetV2()->GetName());
-    GetV2()->SetValue(m->GetV2()->GetValue());
-    SetOperator(s);
-
-    if(m->result!=NAN)
-      {
-	// cout<<"Setting v2 value "<<previous->result<<'\n';
-	SetV2Value(m->result);
-	// cout<<"v2 value set "<<previous->result<<'\n';
-	Calculate();
-      }
-    else
-      {
-	cout<<"is nan"<<'\n';
-      }
-    cout<<" "<<'\n';
-  }
 };
 
 class NNMathOperation: public MathOperation
@@ -113,7 +83,6 @@ class NNMathOperation: public MathOperation
   // Numeric-numeric math operation
 public:
   void Calculate(){CalculateResult();}
-  void Init(MathOperation *m, Value *w, const string &s){}
   void Type(){cout<<"Type is NNMath"<<'\n';}
 };
 
@@ -122,7 +91,6 @@ class VVMathOperation: public MathOperation
   // Variable-variable math operation
 public:
   void Calculate(){}
-  void Init(MathOperation *m, Value *w, const string &s){}
   void Type(){cout<<"Type is VVMath"<<'\n';}
 };
 
@@ -131,7 +99,6 @@ class CVMathOperation: public MathOperation
   // Constant-variable math operation
 public:
   void Calculate(){}
-  void Init(MathOperation *m, Value *w, const string &s){}
   void Type(){cout<<"Type is CVMath"<<'\n';}
 };
 
@@ -140,7 +107,6 @@ class CCMathOperation: public MathOperation
   // Constant-constant math operation
 public:
   void Calculate(){}
-  void Init(MathOperation *m, Value *w, const string &s){}
   void Type(){cout<<"Type is CCMath"<<'\n';}
 };
 
@@ -149,7 +115,6 @@ class NVMathOperation: public MathOperation
   // Numeric-variable math operation
 public:
   void Calculate(){}
-  void Init(MathOperation *m, Value *w, const string &s){}
   void Type(){cout<<"Type is NVMath"<<'\n';}
 };
 
@@ -158,16 +123,14 @@ class NCMathOperation: public MathOperation
   // Numeric-constant math operation
 public:
   void Calculate(){}
-  void Init(MathOperation *m, Value *w, const string &s){}
   void Type(){cout<<"Type is NCMath"<<'\n';}
 };
 
 class CMMathOperation: public MathOperation
 {
   // Constant-math math operation
-
+public:
   void Calculate(){}
-  void Init(MathOperation *m, Value *w, const string &s){}
   void Type(){cout<<"Type is CMMath"<<'\n';}
 };
 
@@ -176,20 +139,18 @@ class MVMathOperation: public MathOperation
   // Math-variable math operation
 public:
   void Calculate(){}
-  void Init(MathOperation *m, Value *w, const string &s){}
   void Type(){cout<<"Type is MVMath"<<'\n';}
 };
 
 class MMMathOperation: public MathOperation
 {
    // Math-math math operation
-
+public:
   void Calculate()
   {
     CalculateResult();
     cout<<"result calculated "<<result<<'\n';
   }
-  void Init(MathOperation *m, Value *w, const string &s){}
   void Type(){cout<<"Type is MMMath"<<'\n';}
 };
 

@@ -8,6 +8,7 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
+#include "CreateNewMathOperation.h"
 #include "ToVector.h"
 #include "test.h"
 #include "../global/mathconst.h"
@@ -41,7 +42,6 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, Ma
   Value *v1=new Numeric;
   v1->SetValue(stod(s1));
   MathOperation *m=new NMMathOperation;
-  // m->Init(op[i], v1, o);
   m->SetV1(v1);
   const unsigned int i=stoi(s2.substr(1, s2.size()));
   MathOperation *m1=op[i];
@@ -56,10 +56,7 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, Ma
       m->SetV2Value(result);
       m->Calculate();
     }
-  else
-    {
-      cout<<"is nan"<<'\n';
-    }
+  else{cout<<"is nan"<<'\n';}
   return m;
 }
 
@@ -112,10 +109,7 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, Ma
       v1->SetValue(m1->result);
       m->Set(v1, o, v2);
     }
-  else
-    {
-      cout<<"NOT m1->result!=NAN"<<'\n';
-    }
+  else{cout<<"NOT m1->result!=NAN"<<'\n';}
   return m;
 }
 
@@ -135,10 +129,7 @@ MathOperation *NewCMMath(const string &s1, const string &s2, const string &o, Ma
       v2->SetValue(result);
       m->Set(v1, o, v2);
     }
-  else
-    {
-      cout<<"NOT m1->result!=NAN"<<'\n';
-    }
+  else{cout<<"NOT m1->result!=NAN"<<'\n';}
   return m;
 }
 
@@ -179,7 +170,7 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_variable and s2_numeric)
     {
       cout<<"s1_variable and s2_numeric "<<s2<<'\n';
-      return NewNVMath(s2, s1, o);
+      return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s2, s1, o);
     }
   else if(s1_variable and s2_math)
     {
