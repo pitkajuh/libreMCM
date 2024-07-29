@@ -30,25 +30,6 @@ public:
   double GetValue(){return value;}
   Value()=default;
   virtual Value *New()=0;
-  Value(const Value &v)
-  {
-    cout<<"Value copy cost"<<'\n';
-    name=v.name;
-    value=v.value;
-  }
-  // Value(Value &&v)
-  // {
-  //   name=v.name;
-  //   value=v.value;
-  // }
-  // ~Value()
-  // {
-  //   cout<<"~Value()"<<'\n';
-  //   // free(name);
-  //   // free(value);
-  //   // name="";
-  //   // value=NAN;
-  // }
 };
 
 // class Constant: public Value
@@ -66,19 +47,12 @@ public:
 class Numeric: public Value
 {
 public:
-  // Numeric(const double &v){SetValue(v);}
   Numeric()=default;
   Value *New()
   {
     Value *n=new Numeric;
     return n;
   }
-  Numeric(const Numeric &v)
-  {
-    cout<<"Value Numeric copy cost"<<'\n';
-    value=v.value;
-  }
-  // Value(const Value &&v){value=v.value;}
 };
 
 // class InitialValue: public Value
