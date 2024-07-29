@@ -153,12 +153,14 @@ public:
   void Type(){cout<<"Type is NVMath"<<'\n';}
 };
 
-// class NCMathOperation: public MathOperation
-// {
-//   // Numeric-constant math operation
-
-//   void Calculate(){}
-// };
+class NCMathOperation: public MathOperation
+{
+  // Numeric-constant math operation
+public:
+  void Calculate(){}
+  void Init(MathOperation *m, Value *w, const string &s){}
+  void Type(){cout<<"Type is NCMath"<<'\n';}
+};
 
 class CMMathOperation: public MathOperation
 {

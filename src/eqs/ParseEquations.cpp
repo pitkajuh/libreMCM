@@ -164,18 +164,17 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       m->Set(v1, o, v2);
       return m;
     }
-  // else if(s1_constant and s2_numeric)
-  //   {
-  //     cout<<"s1_constant and s2_numeric "<<s2<<'\n';
-  //     Value *v1=new Numeric(stod(s2));
-  //     Value *v2=new Constant(s1);
-  //     MathOperation *m=new NCMathOperation;
-  //     m->Set(v1, o, v2);
-  //     delete m;
-  //     delete v1;
-  //     delete v2;
-  //     return m;
-  //   }
+  else if(s1_constant and s2_numeric)
+    {
+      cout<<"s1_constant and s2_numeric "<<s2<<'\n';
+      Value *v1=new Numeric;
+      v1->SetValue(stod(s2));
+      Value *v2=new Constant;
+      v2->SetName(s1);
+      MathOperation *m=new NCMathOperation;
+      m->Set(v1, o, v2);
+      return m;
+    }
   else if(s1_constant and s2_math)
     {
       cout<<"s1_constant and s2_math"<<'\n';
@@ -210,20 +209,17 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       m->Set(v1, o, v2);
       return m;
     }
-
-
-   // else if(s1_numeric and s2_constant)
-   //  {
-   //    cout<<"s1_numeric and s2_constant"<<'\n';
-   //    Value *v1=new Numeric(stod(s1));
-   //    Value *v2=new Constant(s2);
-   //    MathOperation *m=new NCMathOperation;
-   //    m->Set(v1, o, v2);
-   //    delete m;
-   //    delete v1;
-   //    delete v2;
-   //    return m;
-   //  }
+   else if(s1_numeric and s2_constant)
+    {
+      cout<<"s1_numeric and s2_constant"<<'\n';
+      Value *v1=new Numeric;
+      v1->SetValue((stod(s1)));
+      Value *v2=new Constant;
+      v2->SetName(s2);
+      MathOperation *m=new NCMathOperation;
+      m->Set(v1, o, v2);
+      return m;
+    }
   else if(s1_numeric and s2_numeric){return NewNNMath(s1, s2, o);}
    else if(s1_numeric and s2_math){return NewNMMath(s1, s2, o, op, k);}
   else if(s1_math and s2_variable)
