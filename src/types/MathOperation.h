@@ -266,7 +266,6 @@ public:
     v2->SetValue(m->v2->GetValue());
     SetOperator(s);
 
-    v2->Type();
     cout<<"v2 set "<<GetV2Value()<<" "<<v2<<'\n';
     if(m->result!=NAN)
       {

@@ -20,25 +20,16 @@ using std::cout;
 
 class Value
 {
-public:
+private:
   string name;
   double value;
+public:
   void SetName(const string &s){name=s;}
-  void SetValue(const double &v)
-  {
-    value=v;
-    cout<<"SetValue "<<value<<'\n';
-  }
+  void SetValue(const double &v){value=v;}
   string GetName(){return name;}
-  double GetValue()
-  {
-    cout<<"GetValue "<<value<<'\n';
-    return value;
-  }
+  double GetValue(){return value;}
   Value()=default;
   virtual Value *New()=0;
-  // virtual Value *Clone()=0;
-  virtual void Type()=0;
   Value(const Value &v)
   {
     cout<<"Value copy cost"<<'\n';
@@ -82,12 +73,6 @@ public:
     Value *n=new Numeric;
     return n;
   }
-  // Numeric *Clone()
-  // {
-  //   // cout<<"Cloning Numeric"<<'\n';
-  //   return new Numeric(*this);
-  // }
-  void Type(){cout<<"Numeric"<<'\n';}
   Numeric(const Numeric &v)
   {
     cout<<"Value Numeric copy cost"<<'\n';
