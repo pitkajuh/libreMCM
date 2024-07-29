@@ -81,18 +81,17 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   cout<<"s1 "<<s1_variable<<" "<<s1_constant<<" "<<s1_numeric<<" "<<s1_math<<'\n';
   cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
 
-  // if(s1_variable and s2_variable)
-  //   {
-  //     cout<<"s1_variable and s2_variable"<<'\n';
-  //     Value *v1=new Variable(s1);
-  //     Value *v2=new Variable(s2);
-  //     MathOperation *m=new VVMathOperation;
-  //     m->Set(v1, o, v2);
-  //     // delete m;
-  //     // delete v1;
-  //     // delete v2;
-  //     return m;
-  //   }
+  if(s1_variable and s2_variable)
+    {
+      cout<<"s1_variable and s2_variable"<<'\n';
+      Value *v1=new Variable;
+      v1->SetName(s1);
+      Value *v2=new Variable;
+      v2->SetName(s2);
+      MathOperation *m=new VVMathOperation;
+      m->Set(v1, o, v2);
+      return m;
+    }
   if(s1_variable and s2_constant)
       {
       cout<<"s1_variable and s2_constant"<<'\n';
@@ -235,19 +234,29 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
 	}
       return m;
     }
-  // else if(s1_math and s2_constant)
-  //     {
-  //     cout<<"s1_math and s2_constant"<<'\n';
-  //     Value *v1=new Constant(s2);
-  //     // Value *v2=new MathOperationValue;
-  //     // v2->SetName(s1);
-  //     MathOperation *m=new CMMathOperation;
-  //     // m->Set(v1, o, v2);
-  //     delete m;
-  //     delete v1;
-  //     // delete v2;
-  //     return m;
-  //   }
+  else if(s1_math and s2_constant)
+      {
+      cout<<"s1_math and s2_constant"<<'\n';
+      Value *v1=new Constant;
+      v1->SetName(s2);
+      MathOperation *m=new CMMathOperation;
+      m->SetV1(v1);
+      const unsigned int i=stoi(s1.substr(1, s1.size()));
+      MathOperation *m1=op[i];
+
+      if(m1->result!=NAN)
+	{
+	  cout<<"m->result!=NAN"<<'\n';
+	  Value *v2=new Numeric;
+	  v2->SetValue(m1->result);
+	  m->Set(v1, o, v2);
+	}
+      else
+	{
+	  cout<<"NOT m1->result!=NAN"<<'\n';
+	}
+      return m;
+    }
   else if(s1_math and s2_numeric)
     {
       const unsigned int s2d=stoi(s1.substr(1, s1.size()));

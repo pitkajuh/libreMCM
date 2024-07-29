@@ -117,12 +117,14 @@ public:
   void Type(){cout<<"Type is NNMath"<<'\n';}
 };
 
-// class VVMathOperation: public MathOperation
-// {
-//   // Variable-variable math operation
-
-//   void Calculate(){}
-// };
+class VVMathOperation: public MathOperation
+{
+  // Variable-variable math operation
+public:
+  void Calculate(){}
+  void Init(MathOperation *m, Value *w, const string &s){}
+  void Type(){cout<<"Type is VVMath"<<'\n';}
+};
 
 class CVMathOperation: public MathOperation
 {
