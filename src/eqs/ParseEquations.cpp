@@ -65,7 +65,7 @@ MathOperation *NewNVMath(const string &s1, const string &s2, const string &o)
   Value *v1=new Numeric;
   v1->SetValue((stod(s1)));
   Value *v2=new Variable;
-  v2->SetName((s2));
+  v2->SetName(s2);
   MathOperation *m=new NVMathOperation;
   m->Set(v1, o, v2);
   return m;
@@ -76,7 +76,7 @@ MathOperation *NewNCMath(const string &s1, const string &s2, const string &o)
   Value *v1=new Numeric;
   v1->SetValue((stod(s1)));
   Value *v2=new Constant;
-  v2->SetName((s2));
+  v2->SetName(s2);
   MathOperation *m=new NCMathOperation;
   m->Set(v1, o, v2);
   return m;

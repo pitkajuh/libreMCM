@@ -19,7 +19,7 @@ MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const 
   Value *v1=new T;
   v1->SetValue((stod(s1)));
   Value *v2=new U;
-  v2->SetName((s2));
+  v2->SetName(s2);
   MathOperation *m=new L;
   m->Set(v1, o, v2);
   return m;
