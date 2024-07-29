@@ -116,12 +116,7 @@ class NNMathOperation: public MathOperation
   // Numeric-numeric math operation
 public:
   void Calculate(){CalculateResult();}
-  void Init(MathOperation *m, Value *w, const string &s)
-  {
-    // SetV1(v);
-    // SetV2(w);
-    // SetOperator(m);
-  }
+  void Init(MathOperation *m, Value *w, const string &s){}
   void Type(){cout<<"Type is NNMath"<<'\n';}
 };
 
