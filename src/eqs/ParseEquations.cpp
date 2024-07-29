@@ -163,21 +163,29 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   //     delete v2;
   //     return m;
   //   }
-  // else if(s1_constant and s2_math)
-  //   {
-  //     cout<<"s1_constant and s2_math"<<'\n';
-  //     Value *v1=new Constant(s1);
-  //     // Value *v2=new MathOperationValue;
-  //     // v2->SetName(s2);
-  //     MathOperation *m=new CMMathOperation;
-  //     // m->Set(v1, o, v2);
-  //     delete m;
-  //     delete v1;
-  //     // delete v2;
-  //     return m;
-  //   }
+  else if(s1_constant and s2_math)
+    {
+      cout<<"s1_constant and s2_math"<<'\n';
+      Value *v1=new Constant;
+      v1->SetName(s1);
+      MathOperation *m=new CMMathOperation;
+      m->SetV1(v1);
+      const unsigned int i=stoi(s2.substr(1, s2.size()));
+      MathOperation *m1=op[i];
 
-
+      if(m1->result!=NAN)
+	{
+	  cout<<"m->result!=NAN"<<'\n';
+	  Value *v2=new Numeric;
+	  v2->SetValue(m1->result);
+	  m->Set(v1, o, v2);
+	}
+      else
+	{
+	  cout<<"NOT m1->result!=NAN"<<'\n';
+	}
+      return m;
+    }
   else if(s1_numeric and s2_variable)
     {
       cout<<"s1_numeric and s2_varible"<<'\n';

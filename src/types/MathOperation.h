@@ -160,12 +160,14 @@ public:
 //   void Calculate(){}
 // };
 
-// class CMMathOperation: public MathOperation
-// {
-//   // Constant-math math operation
+class CMMathOperation: public MathOperation
+{
+  // Constant-math math operation
 
-//   void Calculate(){}
-// };
+  void Calculate(){}
+  void Init(MathOperation *m, Value *w, const string &s){}
+  void Type(){cout<<"Type is CMMath"<<'\n';}
+};
 
 class MVMathOperation: public MathOperation
 {
