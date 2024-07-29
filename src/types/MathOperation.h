@@ -144,12 +144,14 @@ public:
   void Type(){cout<<"Type is CCMath"<<'\n';}
 };
 
-// class NVMathOperation: public MathOperation
-// {
-//   // Numeric-variable math operation
-
-//   void Calculate(){}
-// };
+class NVMathOperation: public MathOperation
+{
+  // Numeric-variable math operation
+public:
+  void Calculate(){}
+  void Init(MathOperation *m, Value *w, const string &s){}
+  void Type(){cout<<"Type is NVMath"<<'\n';}
+};
 
 // class NCMathOperation: public MathOperation
 // {

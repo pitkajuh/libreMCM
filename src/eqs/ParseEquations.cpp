@@ -179,18 +179,17 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   //   }
 
 
-  // if(s1_numeric and s2_variable)
-  //   {
-  //     cout<<"s1_numeric and s2_varible"<<'\n';
-  //     Value *v1=new Numeric(stod(s1));
-  //     Value *v2=new Variable(s2);
-  //     MathOperation *m=new NVMathOperation;
-  //     m->Set(v1, o, v2);
-  //     // delete m;
-  //     // delete v1;
-  //     // delete v2;
-  //     return m;
-  //   }
+  else if(s1_numeric and s2_variable)
+    {
+      cout<<"s1_numeric and s2_varible"<<'\n';
+      Value *v1=new Numeric;
+      v1->SetValue((stod(s1)));
+      Value *v2=new Variable;
+      v2->SetName((s2));
+      MathOperation *m=new NVMathOperation;
+      m->Set(v1, o, v2);
+      return m;
+    }
 
 
    // else if(s1_numeric and s2_constant)
@@ -210,8 +209,6 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_math and s2_variable)
     {
       cout<<"s1_math and s2_variable"<<'\n';
-      // Value *v1=new MathOperationValue;
-      // v1->SetName(s1);
       Value *v2=new Variable;
       v2->SetName(s2);
       MathOperation *m=new MVMathOperation;
@@ -278,7 +275,6 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
 	{
 	  cout<<"NOT m1->result!=NAN and m2->result!=NAN"<<'\n';
 	}
-
       return m;
     }
   else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)
