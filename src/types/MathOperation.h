@@ -58,19 +58,18 @@ public:
   void CalculateResult(){result=GetOp()->Calculate1(GetV1Value(), GetV2Value());}
   void Print(){cout<<"v1 "<<v1<<" "<<GetV1Value()<<" v2 "<<v2<<" "<<GetV2Value()<<" mathop "<<math_operator<<'\n';}
   virtual void Init(MathOperation *m, Value *w, const string &s)=0;
-  // virtual void Init(MathOperation *m, Value *w, const string &s)=0;
   virtual void Type()=0;
   virtual void Calculate()=0;
   virtual ~MathOperation()
   {
-    cout<<"Cleaning ~MathOperation()"<<'\n';
-    cout<<"Cleaning v1 "<<v1<<'\n';
+    // cout<<"Cleaning ~MathOperation()"<<'\n';
+    // cout<<"Cleaning v1 "<<v1<<'\n';
     delete v1;
-    cout<<"Cleaning v2 "<<v2<<'\n';
+    // cout<<"Cleaning v2 "<<v2<<'\n';
     delete v2;
-    cout<<"Cleaning math_operator "<<math_operator<<'\n';
+    // cout<<"Cleaning math_operator "<<math_operator<<'\n';
     delete math_operator;
-    cout<<"Cleaned ~MathOperation()"<<'\n';
+    // cout<<"Cleaned ~MathOperation()"<<'\n';
     cout<<" "<<'\n';
   }
 };

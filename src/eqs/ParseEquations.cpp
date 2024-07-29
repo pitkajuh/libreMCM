@@ -249,10 +249,6 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_math and s2_math)
     {
       cout<<"s1_math and s2_math "<<s1<<" "<<s2<<'\n';
-      // Value *v1=new MathOperationValue;
-      // v1->SetName(s1);
-      // Value *v2=new MathOperationValue;
-      // v2->SetName(s2);
       MathOperation *m=new MMMathOperation;
       const unsigned int i=stoi(s1.substr(1, s1.size()));
       const unsigned int j=stoi(s2.substr(1, s2.size()));
