@@ -105,18 +105,17 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       m->Set(v1, o, v2);
       return m;
     }
-  // else if(s1_variable and s2_numeric)
-  //   {
-  //     cout<<"s1_variable and s2_numeric "<<s2<<'\n';
-  //     Value *v1=new Numeric(stod(s2));
-  //     Value *v2=new Variable(s1);
-  //     MathOperation *m=new NVMathOperation;
-  //     m->Set(v1, o, v2);
-  //     // delete m;
-  //     // delete v1;
-  //     // delete v2;
-  //     return m;
-  //   }
+  else if(s1_variable and s2_numeric)
+    {
+      cout<<"s1_variable and s2_numeric "<<s2<<'\n';
+      Value *v1=new Numeric;
+      v1->SetValue((stod(s2)));
+      Value *v2=new Variable;
+      v2->SetName((s1));
+      MathOperation *m=new NVMathOperation;
+      m->Set(v1, o, v2);
+      return m;
+    }
   // else if(s1_variable and s2_math)
   //   {
   //     cout<<"s1_variable and s2_math"<<'\n';
