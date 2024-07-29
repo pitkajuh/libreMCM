@@ -46,20 +46,6 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, Ma
   return m;
 }
 
-MathOperation *NewNNMath(const string &s1, const string &s2, const string &o)
-{
-  Value *v1=new Numeric;
-  v1->SetValue(stod(s1));
-  Value *v2=new Numeric;
-  v2->SetValue(stod(s2));
-  MathOperation *m=new NNMathOperation;
-  m->SetV1(v1);
-  m->SetV2(v2);
-  m->SetOperator(o);
-  m->Calculate();
-  return m;
-}
-
 MathOperation *NewNVMath(const string &s1, const string &s2, const string &o)
 {
   Value *v1=new Numeric;
@@ -222,7 +208,16 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_numeric and s2_numeric)
     {
       cout<<"s1_numeric and s2_numeric"<<'\n';
-      return NewNNMath(s1, s2, o);
+      Value *v1=new Numeric;
+      v1->SetValue(stod(s1));
+      Value *v2=new Numeric;
+      v2->SetValue(stod(s2));
+      MathOperation *m=new NNMathOperation;
+      m->SetV1(v1);
+      m->SetV2(v2);
+      m->SetOperator(o);
+      m->Calculate();
+      return m;
     }
    else if(s1_numeric and s2_math)
      {
