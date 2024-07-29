@@ -56,9 +56,6 @@ public:
   void SetV2(Value *v){v2=v;}
   void SetOp(MathOperator *m){math_operator=m;}
   void CalculateResult(){result=GetOp()->Calculate1(GetV1Value(), GetV2Value());}
-  void DeleteOperator(){delete math_operator;}
-  void DeleteV1(){delete v1;}
-  void DeleteV2(){delete v2;}
   void Print(){cout<<"v1 "<<v1<<" "<<GetV1Value()<<" v2 "<<v2<<" "<<GetV2Value()<<" mathop "<<math_operator<<'\n';}
   // MathOperation& operator =(MathOperation &m)
   // {
@@ -80,9 +77,6 @@ public:
   virtual void Init(MathOperation *m, Value *w, const string &s)=0;
   virtual void Type()=0;
   virtual void Calculate()=0;
-  virtual void Simplify()=0;
-  // virtual MathOperation *Clone()=0;
-  // virtual MathOperation *New()=0;
   virtual ~MathOperation()
   {
     cout<<"Cleaning ~MathOperation()"<<'\n';
@@ -166,101 +160,12 @@ public:
     CalculateResult();
     cout<<"result calculated "<<result<<'\n';
   }
-  // void Simplify()
-  // {
-  //   previous->Simplify();
-  //   cout<<"setting v2"<<'\n';
 
-  //   // Value *v22=previous->v2;
-  //   // cout<<"v22 "<<v22->GetValue()<<" "<<v22<<" "<<previous->v2<<'\n';
-  //   // v22->Type();
-  //   // // v22->SetValue(NAN);
-  //   // SetV2(v22);
-  //   // // SetV2(previous->v2);
 
-  //   // // Value *v22=previous->v2;
-  //   // // cout<<"v22 "<<v22->GetValue()<<" "<<v22<<" "<<previous->v2<<'\n';
-  //   // // v22->Type();
-  //   // // // v22->SetValue(NAN);
-  //   // SetV2(previous->v2);
-  //   // // SetV2(previous->v2);
-
-  //   Value *v22=previous->GetV2()->Clone();
-  //   cout<<"v22 "<<v22->GetValue()<<" "<<v22<<" "<<previous->v2<<'\n';
-  //   v22->Type();
-  //   SetV2(v22);
-
-  //   v2->Type();
-  //   cout<<"v2 set "<<GetV2Value()<<" "<<v2<<'\n';
-  //   if(previous->result!=NAN)
-  //     {
-  // 	// cout<<"Setting v2 value "<<previous->result<<'\n';
-  // 	SetV2Value(previous->result);
-  // 	// cout<<"v2 value set "<<previous->result<<'\n';
-  // 	Calculate();
-  // 	// delete v22;
-  //     }
-  //   else
-  //     {
-  // 	cout<<"is nan"<<'\n';
-  //     }
-  //   // delete v22;
-  //   cout<<" "<<'\n';
-  // }
-  void Simplify()
-  {
-    // previous->Simplify();
-    // cout<<"setting v2"<<'\n';
-
-    // Value *v22=previous->v2;
-    // cout<<"v22 "<<v22->GetValue()<<" "<<v22<<" "<<previous->v2<<'\n';
-    // v22->Type();
-    // // v22->SetValue(NAN);
-    // SetV2(v22);
-    // // SetV2(previous->v2);
-
-    // // Value *v22=previous->v2;
-    // // cout<<"v22 "<<v22->GetValue()<<" "<<v22<<" "<<previous->v2<<'\n';
-    // // v22->Type();
-    // // // v22->SetValue(NAN);
-    // SetV2(previous->v2);
-    // // SetV2(previous->v2);
-
-    // Value *v22=previous->GetV2()->Clone();
-    // cout<<"v22 "<<v22->GetValue()<<" "<<v22<<" "<<previous->v2<<'\n';
-    // v22->Type();
-    // SetV2(v22);
-
-    // v2->Type();
-    // cout<<"v2 set "<<GetV2Value()<<" "<<v2<<'\n';
-    // if(previous->result!=NAN)
-    //   {
-    // 	// cout<<"Setting v2 value "<<previous->result<<'\n';
-    // 	SetV2Value(previous->result);
-    // 	// cout<<"v2 value set "<<previous->result<<'\n';
-    // 	Calculate();
-    // 	// delete v22;
-    //   }
-    // else
-    //   {
-    // 	cout<<"is nan"<<'\n';
-    //   }
-    // // delete v22;
-    // cout<<" "<<'\n';
-  }
-  // NMMathOperation(MathOperation *m, Value *w, const string &s):MathOperation()
   void Init(MathOperation *m, Value *w, const string &s)
   {
-    // cout<<"setting previous=m"<<'\n';
-    // previous=std::move(m);
-
-    // previous=std::move(m);
-
-    // previous->Set1(m);A
-    // cout<<"previous: "<<m<<" "<<previous<<'\n';
     m->Print();
     SetV1(w);
-    // SetV2(m->v2);
     v2=m->v2->New();
     v2->SetName(m->v2->GetName());
     v2->SetValue(m->v2->GetValue());
@@ -329,11 +234,6 @@ public:
   //   return n;
   // }
   void Calculate(){CalculateResult();}
-  void Simplify()
-  {
-    Calculate();
-    cout<<"result "<<result<<'\n';
-  }
   // NNMathOperation *Clone()
   // {
   //   // cout<<"Cloning NMMathOperation"<<'\n';

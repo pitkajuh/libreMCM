@@ -43,7 +43,6 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, Ma
   v1->SetValue(stod(s1));
   MathOperation *m=new NMMathOperation;
   m->Init(op[s2d], v1, o);
-  m->Simplify();
   // op.erase(op.begin()+s2d);
   return m;
 }
@@ -59,9 +58,8 @@ MathOperation *NewNNMath(const string &s1, const string &s2, const string &o)
   m->SetV1(v1);
   m->SetV2(v2);
   m->SetOperator(o);
-  // m->Init(v1, o, v2);
   m->Print();
-  m->Simplify();
+  m->Calculate();
   return m;
 }
 
@@ -244,7 +242,6 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       v1->SetValue(stod(s2));
       MathOperation *m=new NMMathOperation;
       m->Init(op[s2d], v1, o);
-      m->Simplify();
       // op.erase(op.begin()+s2d);
       return m;
     }
