@@ -63,6 +63,17 @@ MathOperation *NewNNMath(const string &s1, const string &s2, const string &o)
   return m;
 }
 
+MathOperation *NewNCMath(const string &s1, const string &s2, const string &o)
+{
+  Value *v1=new Numeric;
+  v1->SetValue((stod(s1)));
+  Value *v2=new Variable;
+  v2->SetName((s2));
+  MathOperation *m=new NVMathOperation;
+  m->Set(v1, o, v2);
+  return m;
+}
+
 MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, MathOperations &op)
 {
   Value *v2=new Variable;
@@ -167,13 +178,7 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_constant and s2_numeric)
     {
       cout<<"s1_constant and s2_numeric "<<s2<<'\n';
-      Value *v1=new Numeric;
-      v1->SetValue(stod(s2));
-      Value *v2=new Constant;
-      v2->SetName(s1);
-      MathOperation *m=new NCMathOperation;
-      m->Set(v1, o, v2);
-      return m;
+      return NewNCMath(s2, s1, o);
     }
   else if(s1_constant and s2_math)
     {
@@ -212,13 +217,7 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
    else if(s1_numeric and s2_constant)
     {
       cout<<"s1_numeric and s2_constant"<<'\n';
-      Value *v1=new Numeric;
-      v1->SetValue((stod(s1)));
-      Value *v2=new Constant;
-      v2->SetName(s2);
-      MathOperation *m=new NCMathOperation;
-      m->Set(v1, o, v2);
-      return m;
+      return NewNCMath(s1, s2, o);
     }
   else if(s1_numeric and s2_numeric){return NewNNMath(s1, s2, o);}
    else if(s1_numeric and s2_math){return NewNMMath(s1, s2, o, op, k);}
