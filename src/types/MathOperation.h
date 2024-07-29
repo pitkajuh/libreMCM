@@ -87,14 +87,12 @@ public:
 
   void Init(MathOperation *m, Value *w, const string &s)
   {
-    m->Print();
     SetV1(w);
     SetV2(m->GetV2()->New());
     GetV2()->SetName(m->GetV2()->GetName());
     GetV2()->SetValue(m->GetV2()->GetValue());
     SetOperator(s);
 
-    cout<<"v2 set "<<GetV2Value()<<" "<<GetV2()<<'\n';
     if(m->result!=NAN)
       {
 	// cout<<"Setting v2 value "<<previous->result<<'\n';

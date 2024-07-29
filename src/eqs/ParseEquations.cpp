@@ -39,12 +39,11 @@ void print_vector2(vector<string> vec)
 MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, MathOperations &op, unsigned int &k)
 {
   const unsigned int s2d=stoi(s2.substr(1, s2.size()));
-  // cout<<"s1_numeric and s2_math ops size "<<op.size()<<" s1 value"<<s1<<" s2 value "<<s2<<" s2 index "<<s2d<<" k-1 "<<k-1<<'\n';
+  cout<<"s1_numeric and s2_math ops size "<<op.size()<<" s1 value"<<s1<<" s2 value "<<s2<<" s2 index "<<s2d<<" k-1 "<<k-1<<'\n';
   Value *v1=new Numeric;
   v1->SetValue(stod(s1));
   MathOperation *m=new NMMathOperation;
   m->Init(op[s2d], v1, o);
-  // op.erase(op.begin()+s2d);
   return m;
 }
 
