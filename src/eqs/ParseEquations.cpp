@@ -254,12 +254,25 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       // Value *v2=new MathOperationValue;
       // v2->SetName(s2);
       MathOperation *m=new MMMathOperation;
-      m->SetOperator(o);
       const unsigned int i=stoi(s1.substr(1, s1.size()));
       const unsigned int j=stoi(s2.substr(1, s2.size()));
       MathOperation *m1=op[i];
       MathOperation *m2=op[j];
 
+      if(m1->result!=NAN and m2->result!=NAN)
+	{
+	  cout<<"m1->result!=NAN and m2->result!=NAN"<<'\n';
+	  Value *v1=new Numeric;
+	  v1->SetValue(m1->result);
+	  Value *v2=new Numeric;
+	  v2->SetValue(m2->result);
+	  m->Set(v1, o, v2);
+	  m->Calculate();
+	}
+      else
+	{
+	  cout<<"NOT m1->result!=NAN and m2->result!=NAN"<<'\n';
+	}
 
       return m;
     }

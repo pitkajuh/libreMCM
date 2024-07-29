@@ -173,7 +173,11 @@ class MMMathOperation: public MathOperation
 {
    // Math-math math operation
 
-  void Calculate(){}
+  void Calculate()
+  {
+    CalculateResult();
+    cout<<"result calculated "<<result<<'\n';
+  }
   void Init(MathOperation *m, Value *w, const string &s){}
   void Type(){cout<<"Type is MMMath"<<'\n';}
 };
