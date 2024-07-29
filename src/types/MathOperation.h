@@ -55,10 +55,10 @@ public:
   void SetV2Value(const double &d){v2->SetValue(d);}
   void SetV1(Value *v){v1=v;}
   void SetV2(Value *v){v2=v;}
-  void SetOp(MathOperator *m){math_operator=m;}
   void CalculateResult(){result=GetOp()->Calculate1(GetV1Value(), GetV2Value());}
   void Print(){cout<<"v1 "<<v1<<" "<<GetV1Value()<<" v2 "<<v2<<" "<<GetV2Value()<<" mathop "<<math_operator<<'\n';}
   virtual void Init(MathOperation *m, Value *w, const string &s)=0;
+  // virtual void Init(MathOperation *m, Value *w, const string &s)=0;
   virtual void Type()=0;
   virtual void Calculate()=0;
   virtual ~MathOperation()
@@ -169,11 +169,13 @@ public:
 //   void Calculate(){}
 // };
 
-// class MMMathOperation: public MathOperation
-// {
- //   // Math-math math operation
+class MMMathOperation: public MathOperation
+{
+   // Math-math math operation
 
-//   void Calculate(){}
-// };
+  void Calculate(){}
+  void Init(MathOperation *m, Value *w, const string &s){}
+  void Type(){cout<<"Type is MMMath"<<'\n';}
+};
 
 #endif

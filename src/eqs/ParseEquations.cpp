@@ -20,6 +20,7 @@
 using std::to_string;
 using std::cout;
 using std::stod;
+using std::stoi;
 
 void print_vector2(vector<string> vec)
 {
@@ -37,7 +38,7 @@ void print_vector2(vector<string> vec)
 
 MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, MathOperations &op, unsigned int &k)
 {
-  const unsigned int s2d=std::stoi(s2.substr(1, s2.size()));
+  const unsigned int s2d=stoi(s2.substr(1, s2.size()));
   // cout<<"s1_numeric and s2_math ops size "<<op.size()<<" s1 value"<<s1<<" s2 value "<<s2<<" s2 index "<<s2d<<" k-1 "<<k-1<<'\n';
   Value *v1=new Numeric;
   v1->SetValue(stod(s1));
@@ -76,10 +77,10 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   const bool s2_constant=IsIn(s2, data.constants_map);
   const bool s2_numeric=IsNumerical(s2);
   const bool s2_math=(s2.substr(0, 1)=="@") ? true : false;
-  // cout<<"Math operation "<<op.size()<<'\n';
-  // cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
-  // cout<<"s1 "<<s1_variable<<" "<<s1_constant<<" "<<s1_numeric<<" "<<s1_math<<'\n';
-  // cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
+  cout<<"Math operation "<<op.size()<<'\n';
+  cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
+  cout<<"s1 "<<s1_variable<<" "<<s1_constant<<" "<<s1_numeric<<" "<<s1_math<<'\n';
+  cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
 
   // if(s1_variable and s2_variable)
   //   {
@@ -237,7 +238,7 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   //   }
   else if(s1_math and s2_numeric)
     {
-      const unsigned int s2d=std::stoi(s1.substr(1, s1.size()));
+      const unsigned int s2d=stoi(s1.substr(1, s1.size()));
       Value *v1=new Numeric;
       v1->SetValue(stod(s2));
       MathOperation *m=new NMMathOperation;
@@ -245,21 +246,23 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       // op.erase(op.begin()+s2d);
       return m;
     }
-  // else if(s1_math and s2_math)
-  //   {
-  //     cout<<"s1_math and s2_math "<<s1<<" "<<s2<<'\n';
-  //     // Value *v1=new MathOperationValue;
-  //     // v1->SetName(s1);
-  //     // Value *v2=new MathOperationValue;
-  //     // v2->SetName(s2);
-  //     MathOperation *m=new MMMathOperation;
-  //     // m->Set(v1, o, v2);
+  else if(s1_math and s2_math)
+    {
+      cout<<"s1_math and s2_math "<<s1<<" "<<s2<<'\n';
+      // Value *v1=new MathOperationValue;
+      // v1->SetName(s1);
+      // Value *v2=new MathOperationValue;
+      // v2->SetName(s2);
+      MathOperation *m=new MMMathOperation;
+      m->SetOperator(o);
+      const unsigned int i=stoi(s1.substr(1, s1.size()));
+      const unsigned int j=stoi(s2.substr(1, s2.size()));
+      MathOperation *m1=op[i];
+      MathOperation *m2=op[j];
 
-  //     // delete m;
-  //     // delete v1;
-  //     // delete v2;
-  //     return m;
-  //   }
+
+      return m;
+    }
   else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)
     {
       throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
