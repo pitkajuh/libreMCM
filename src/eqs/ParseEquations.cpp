@@ -38,11 +38,28 @@ void print_vector2(vector<string> vec)
 
 MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, MathOperations &op)
 {
-  const unsigned int s2d=stoi(s2.substr(1, s2.size()));
   Value *v1=new Numeric;
   v1->SetValue(stod(s1));
   MathOperation *m=new NMMathOperation;
-  m->Init(op[s2d], v1, o);
+  // m->Init(op[i], v1, o);
+  m->SetV1(v1);
+  const unsigned int i=stoi(s2.substr(1, s2.size()));
+  MathOperation *m1=op[i];
+  Value *v2=m1->GetV2()->New();
+  v2->SetName(m1->GetV2()->GetName());
+  v2->SetValue(m1->GetV2()->GetValue());
+  m->Set(v1, o, v2);
+  const double result=m1->result;
+
+  if(result!=NAN)
+    {
+      m->SetV2Value(result);
+      m->Calculate();
+    }
+  else
+    {
+      cout<<"is nan"<<'\n';
+    }
   return m;
 }
 
@@ -109,13 +126,13 @@ MathOperation *NewCMMath(const string &s1, const string &s2, const string &o, Ma
   MathOperation *m=new CMMathOperation;
   m->SetV1(v1);
   const unsigned int i=stoi(s2.substr(1, s2.size()));
-  MathOperation *m1=op[i];
+  const double result=op[i]->result;
 
-  if(m1->result!=NAN)
+  if(result!=NAN)
     {
       cout<<"m->result!=NAN"<<'\n';
       Value *v2=new Numeric;
-      v2->SetValue(m1->result);
+      v2->SetValue(result);
       m->Set(v1, o, v2);
     }
   else
@@ -245,16 +262,16 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       MathOperation *m=new MMMathOperation;
       const unsigned int i=stoi(s1.substr(1, s1.size()));
       const unsigned int j=stoi(s2.substr(1, s2.size()));
-      MathOperation *m1=op[i];
-      MathOperation *m2=op[j];
+      const double result1=op[i]->result;
+      const double result2=op[j]->result;
 
-      if(m1->result!=NAN and m2->result!=NAN)
+      if(result1!=NAN and result2!=NAN)
 	{
 	  cout<<"m1->result!=NAN and m2->result!=NAN"<<'\n';
 	  Value *v1=new Numeric;
-	  v1->SetValue(m1->result);
+	  v1->SetValue(result1);
 	  Value *v2=new Numeric;
-	  v2->SetValue(m2->result);
+	  v2->SetValue(result2);
 	  m->Set(v1, o, v2);
 	  m->Calculate();
 	}
@@ -358,11 +375,5 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data
       op.clear();
       cout<<" "<<'\n';
     }
-  // for(auto i: op)
-  //   {
-  //     delete i;
-  //     // free(i);
-  //   }
-  // op.clear();
   return equations_map2;
 }
