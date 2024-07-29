@@ -212,10 +212,24 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       cout<<"s1_math and s2_variable"<<'\n';
       // Value *v1=new MathOperationValue;
       // v1->SetName(s1);
-      Value *v2=new Variable(s2);
+      Value *v2=new Variable;
+      v2->SetName(s2);
       MathOperation *m=new MVMathOperation;
-      // m->Set(v1, o, v2);
+      m->SetV2(v2);
+      const unsigned int i=stoi(s1.substr(1, s1.size()));
+      MathOperation *m1=op[i];
 
+      if(m1->result!=NAN)
+	{
+	  cout<<"m1->result!=NAN"<<'\n';
+	  Value *v1=new Numeric;
+	  v1->SetValue(m1->result);
+	  m->Set(v1, o, v2);
+	}
+      else
+	{
+	  cout<<"NOT m1->result!=NAN"<<'\n';
+	}
       return m;
     }
   // else if(s1_math and s2_constant)
