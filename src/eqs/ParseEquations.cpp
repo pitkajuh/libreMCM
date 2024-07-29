@@ -63,6 +63,29 @@ MathOperation *NewNNMath(const string &s1, const string &s2, const string &o)
   return m;
 }
 
+MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, MathOperations &op)
+{
+  Value *v2=new Variable;
+  v2->SetName(s2);
+  MathOperation *m=new MVMathOperation;
+  m->SetV2(v2);
+  const unsigned int i=stoi(s1.substr(1, s1.size()));
+  MathOperation *m1=op[i];
+
+  if(m1->result!=NAN)
+    {
+      cout<<"m1->result!=NAN"<<'\n';
+      Value *v1=new Numeric;
+      v1->SetValue(m1->result);
+      m->Set(v1, o, v2);
+    }
+  else
+    {
+      cout<<"NOT m1->result!=NAN"<<'\n';
+    }
+  return m;
+}
+
 MathOperation *Val(const vector<string> &equation, const unsigned int i, const Data &data, MathOperations &op, unsigned int &k)
 {
   const string s1=equation[i-1];
@@ -114,19 +137,11 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       m->Set(v1, o, v2);
       return m;
     }
-  // else if(s1_variable and s2_math)
-  //   {
-  //     cout<<"s1_variable and s2_math"<<'\n';
-  //     // Value *v1=new MathOperationValue;
-  //     // v1->SetName(s2);
-  //     Value *v2=new Variable(s1);
-  //     MathOperation *m=new MVMathOperation;
-  //     // m->Set(v1, o, v2);
-  //     // delete m;
-  //     // delete v1;
-  //     // delete v2;
-  //     return m;
-  //   }
+  else if(s1_variable and s2_math)
+    {
+      cout<<"s1_variable and s2_math"<<'\n';
+      return NewMVMath(s2, s1, o, op);
+    }
   else if(s1_constant and s2_variable)
     {
       cout<<"s1_constant and s2_variable"<<'\n';
@@ -214,25 +229,7 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_math and s2_variable)
     {
       cout<<"s1_math and s2_variable"<<'\n';
-      Value *v2=new Variable;
-      v2->SetName(s2);
-      MathOperation *m=new MVMathOperation;
-      m->SetV2(v2);
-      const unsigned int i=stoi(s1.substr(1, s1.size()));
-      MathOperation *m1=op[i];
-
-      if(m1->result!=NAN)
-	{
-	  cout<<"m1->result!=NAN"<<'\n';
-	  Value *v1=new Numeric;
-	  v1->SetValue(m1->result);
-	  m->Set(v1, o, v2);
-	}
-      else
-	{
-	  cout<<"NOT m1->result!=NAN"<<'\n';
-	}
-      return m;
+      return NewMVMath(s1, s2, o, op);
     }
   else if(s1_math and s2_constant)
       {
