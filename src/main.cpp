@@ -8,7 +8,6 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-// #include <string>
 #include <iostream>
 #include <chrono>
 #include <getopt.h>
@@ -56,17 +55,13 @@ void ReadInitialData(const string directory)
   streampos *f=new streampos;
   *f=0;
   SMap constants_map=GetMap(bin, f);
-  // cout<<" "<<'\n';
   SMap equations_map=GetMap(bin, f);
   bin.close();
   delete f;
 
-  cout<<" "<<'\n';
   ifstream sim(directory+"sim_params");
   SMap test=GetMap(sim);
   sim.close();
-
-  // cout<<" "<<'\n';
 
   ifstream compartments(directory+"compartments");
   Map<string, InitialValues> ivs=GetInitialValues(compartments);
@@ -79,12 +74,12 @@ void ReadInitialData(const string directory)
 
   Data data(csv.diagonal, constants_map);
 
-  Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
-  Map<string, MathOperations> equations_map2=ParseEquations(equations_map, data);
+  const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
+  const Map<string, MathOperations> equations_map2=ParseEquations(equations_map, data);
   CreateEquationTemplates(equations_map2, data);
 
-  vector<string> iv_names=CreateAllInitialValues(ivs);
-  Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
+  const vector<string> iv_names=CreateAllInitialValues(ivs);
+  const Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
 
 
 //   get_sim_params(directory);

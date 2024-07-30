@@ -43,8 +43,7 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, Ma
   v1->SetValue(stod(s1));
   MathOperation *m=new NMMathOperation;
   m->SetV1(v1);
-  const unsigned int i=stoi(s2.substr(1, s2.size()));
-  MathOperation *m1=op[i];
+  MathOperation *m1=op[stoi(s2.substr(1, s2.size()))];
   Value *v2=m1->GetV2()->New();
   v2->SetName(m1->GetV2()->GetName());
   v2->SetValue(m1->GetV2()->GetValue());
@@ -56,7 +55,6 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, Ma
       m->SetV2Value(result);
       m->Calculate();
     }
-  else{cout<<"is nan"<<'\n';}
   return m;
 }
 
@@ -66,17 +64,14 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, Ma
   v2->SetName(s2);
   MathOperation *m=new MVMathOperation;
   m->SetV2(v2);
-  const unsigned int i=stoi(s1.substr(1, s1.size()));
-  const double result=op[i]->result;
+  const double result=op[stoi(s1.substr(1, s1.size()))]->result;
 
   if(result!=NAN)
     {
-      cout<<"m1->result!=NAN"<<'\n';
       Value *v1=new Numeric;
       v1->SetValue(result);
       m->Set(v1, o, v2);
     }
-  else{cout<<"NOT m1->result!=NAN"<<'\n';}
   return m;
 }
 
@@ -86,17 +81,14 @@ MathOperation *NewCMMath(const string &s1, const string &s2, const string &o, Ma
   v1->SetName(s1);
   MathOperation *m=new CMMathOperation;
   m->SetV1(v1);
-  const unsigned int i=stoi(s2.substr(1, s2.size()));
-  const double result=op[i]->result;
+  const double result=op[stoi(s2.substr(1, s2.size()))]->result;
 
   if(result!=NAN)
     {
-      cout<<"m->result!=NAN"<<'\n';
       Value *v2=new Numeric;
       v2->SetValue(result);
       m->Set(v1, o, v2);
     }
-  else{cout<<"NOT m1->result!=NAN"<<'\n';}
   return m;
 }
 
@@ -148,10 +140,8 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_math and s2_math)
     {
       MathOperation *m=new MMMathOperation;
-      const unsigned int i=stoi(s1.substr(1, s1.size()));
-      const unsigned int j=stoi(s2.substr(1, s2.size()));
-      const double result1=op[i]->result;
-      const double result2=op[j]->result;
+      const double result1=op[stoi(s1.substr(1, s1.size()))]->result;
+      const double result2=op[stoi(s2.substr(1, s2.size()))]->result;
 
       if(result1!=NAN and result2!=NAN)
 	{

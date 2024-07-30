@@ -9,13 +9,10 @@
 \*---------------------------------------------------------------------------*/
 
 #include <vector>
-#include <iostream>
 #include "../inc/namespace.h"
 
 using namespace libremcm;
 using std::vector;
-using std::cout;
-using std::stod;
 using InitialValues=SMap;
 using DInitialValues=Map<string, double>;
 
@@ -27,7 +24,7 @@ DInitialValues ParseIv(InitialValues ivs, const vector<string> &iv_names)
   for(const auto &i: iv_names)
     {
       if(ivs.find(i)==ivs.end()) ivs_sorted[i]=0;
-      else ivs_sorted[i]=stod(ivs[i]);
+      else ivs_sorted[i]=std::stod(ivs[i]);
     }
   return ivs_sorted;
 }
