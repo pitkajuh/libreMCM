@@ -100,7 +100,7 @@ MathOperation *NewCMMath(const string &s1, const string &s2, const string &o, Ma
   return m;
 }
 
-MathOperation *Val(const vector<string> &equation, const unsigned int i, const Data &data, MathOperations &op, unsigned int &k)
+MathOperation *Val(const vector<string> &equation, const unsigned int i, const Data &data, MathOperations &op)
 {
   const string s1=equation[i-1];
   const string s2=equation[i+1];
@@ -118,59 +118,22 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   cout<<"s1 "<<s1_variable<<" "<<s1_constant<<" "<<s1_numeric<<" "<<s1_math<<'\n';
   cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
 
-  if(s1_variable and s2_variable)
-    {
-      cout<<"s1_variable and s2_variable"<<'\n';
-      return CreateNewMathOperation2<Variable, Variable, VVMathOperation>(s1, s2, o);
-    }
-  if(s1_variable and s2_constant)
-      {
-	cout<<"s1_variable and s2_constant"<<'\n';
-	return CreateNewMathOperation2<Constant, Variable, CVMathOperation>(s2, s1, o);
-    }
-  else if(s1_variable and s2_numeric)
-    {
-      cout<<"s1_variable and s2_numeric "<<s2<<'\n';
-      return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s2, s1, o);
-    }
-  else if(s1_variable and s2_math)
-    {
-      cout<<"s1_variable and s2_math"<<'\n';
-      return NewMVMath(s2, s1, o, op);
-    }
-  else if(s1_constant and s2_variable)
-    {
-      cout<<"s1_constant and s2_variable"<<'\n';
-      return CreateNewMathOperation2<Constant, Variable, CVMathOperation>(s1, s2, o);
-    }
-  else if(s1_constant and s2_constant)
-      {
-      cout<<"s1_constant and s2_constant"<<'\n';
-      return CreateNewMathOperation2<Constant, Constant, CCMathOperation>(s1, s2, o);
-    }
-  else if(s1_constant and s2_numeric)
-    {
-      cout<<"s1_constant and s2_numeric "<<s2<<'\n';
-      return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s2, s1, o);
-    }
-  else if(s1_constant and s2_math)
-    {
-      cout<<"s1_constant and s2_math"<<'\n';
-      return NewCMMath(s1, s2, o, op);
-    }
-  else if(s1_numeric and s2_variable)
-    {
-      cout<<"s1_numeric and s2_varible"<<'\n';
-      return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s1, s2, o);
-    }
-   else if(s1_numeric and s2_constant)
-    {
-      cout<<"s1_numeric and s2_constant"<<'\n';
-      return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s1, s2, o);
-    }
+  if(s1_variable and s2_variable){return CreateNewMathOperation2<Variable, Variable, VVMathOperation>(s1, s2, o);}
+  else if(s1_variable and s2_constant){return CreateNewMathOperation2<Constant, Variable, CVMathOperation>(s2, s1, o);}
+  else if(s1_variable and s2_numeric){return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s2, s1, o);}
+  else if(s1_constant and s2_variable){return CreateNewMathOperation2<Constant, Variable, CVMathOperation>(s1, s2, o);}
+  else if(s1_constant and s2_constant){return CreateNewMathOperation2<Constant, Constant, CCMathOperation>(s1, s2, o);}
+  else if(s1_constant and s2_numeric){return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s2, s1, o);}
+  else if(s1_numeric and s2_variable){return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s1, s2, o);}
+  else if(s1_numeric and s2_constant){return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s1, s2, o);}
+  else if(s1_variable and s2_math){return NewMVMath(s2, s1, o, op);}
+  else if(s1_constant and s2_math){return NewCMMath(s1, s2, o, op);}
+  else if(s1_numeric and s2_math){return NewNMMath(s1, s2, o, op);}
+  else if(s1_math and s2_variable){return NewMVMath(s1, s2, o, op);}
+  else if(s1_math and s2_constant){return NewCMMath(s2, s1, o, op);}
+  else if(s1_math and s2_numeric){return NewNMMath(s2, s1, o, op);}
   else if(s1_numeric and s2_numeric)
     {
-      cout<<"s1_numeric and s2_numeric"<<'\n';
       Value *v1=new Numeric;
       v1->SetValue(stod(s1));
       Value *v2=new Numeric;
@@ -182,29 +145,8 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       m->Calculate();
       return m;
     }
-   else if(s1_numeric and s2_math)
-     {
-       cout<<"s1_numeric and s2_math"<<'\n';
-       return NewNMMath(s1, s2, o, op);
-     }
-  else if(s1_math and s2_variable)
-    {
-      cout<<"s1_math and s2_variable"<<'\n';
-      return NewMVMath(s1, s2, o, op);
-    }
-  else if(s1_math and s2_constant)
-      {
-      cout<<"s1_math and s2_constant"<<'\n';
-      return NewCMMath(s2, s1, o, op);
-    }
-  else if(s1_math and s2_numeric)
-    {
-      cout<<"s1_math and s2_numeric"<<'\n';
-      return NewNMMath(s2, s1, o, op);
-    }
   else if(s1_math and s2_math)
     {
-      cout<<"s1_math and s2_math "<<s1<<" "<<s2<<'\n';
       MathOperation *m=new MMMathOperation;
       const unsigned int i=stoi(s1.substr(1, s1.size()));
       const unsigned int j=stoi(s2.substr(1, s2.size()));
@@ -213,17 +155,12 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
 
       if(result1!=NAN and result2!=NAN)
 	{
-	  cout<<"m1->result!=NAN and m2->result!=NAN"<<'\n';
 	  Value *v1=new Numeric;
 	  v1->SetValue(result1);
 	  Value *v2=new Numeric;
 	  v2->SetValue(result2);
 	  m->Set(v1, o, v2);
 	  m->Calculate();
-	}
-      else
-	{
-	  cout<<"NOT m1->result!=NAN and m2->result!=NAN"<<'\n';
 	}
       return m;
     }
@@ -245,7 +182,7 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
     {
       if(find==equation[i])
 	{
-	  ooo.emplace_back(Val(equation, i, data, ooo, k));
+	  ooo.emplace_back(Val(equation, i, data, ooo));
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
 	  equation[i]="@"+to_string(k);
 	  equation.erase(equation.begin()+i+1);
