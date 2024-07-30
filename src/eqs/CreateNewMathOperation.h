@@ -25,4 +25,16 @@ MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const 
   return m;
 }
 
+template<typename T, typename U, typename L>
+MathOperation *CreateNewMathOperation2(const string &s1, const string &s2, const string &o)
+{
+  Value *v1=new T;
+  v1->SetName(s1);
+  Value *v2=new U;
+  v2->SetName(s2);
+  MathOperation *m=new L;
+  m->Set(v1, o, v2);
+  return m;
+}
+
 #endif
