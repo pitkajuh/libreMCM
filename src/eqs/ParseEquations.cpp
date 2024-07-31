@@ -17,6 +17,7 @@
 #include "../util/IsIn.h"
 #include <algorithm>
 #include <iostream>
+#include <cmath>
 
 using std::to_string;
 using std::cout;
@@ -158,15 +159,21 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       MathOperation *m=new MMMathOperation;
       const double result1=op[stoi(s1.substr(1, s1.size()))]->result;
       const double result2=op[stoi(s2.substr(1, s2.size()))]->result;
-
-      if(result1!=NAN and result2!=NAN)
+      cout<<"result1 "<<result1<<" "<<result2<<" @@ "<<!isnan(result1)<<" "<<!isnan(result2)<<" @@"<<'\n';
+      if(!isnan(result1) and !isnan(result2))
 	{
+	  cout<<"!isnan(result1) and !isnan(result2)"<<'\n';
 	  Value *v1=new Numeric;
 	  v1->SetValue(result1);
 	  Value *v2=new Numeric;
 	  v2->SetValue(result2);
 	  m->Set(v1, o, v2);
 	  m->Calculate();
+	}
+      else
+	{
+	  cout<<"NOT result1!=NAN and result2!=NAN"<<'\n';
+	  m->Link(op, stoi(s1.substr(1, s1.size())), stoi(s2.substr(1, s2.size())));
 	}
       return m;
     }

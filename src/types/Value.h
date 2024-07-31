@@ -12,6 +12,7 @@
 #define VALUE_H
 
 #include <string>
+#include <math.h>
 
 using std::string;
 
@@ -19,7 +20,7 @@ class Value
 {
 private:
   string name;
-  double value;
+  double value=NAN;
 public:
   void SetName(const string &s){name=s;}
   void SetValue(const double &v){value=v;}
