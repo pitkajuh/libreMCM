@@ -55,6 +55,10 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, Ma
       m->SetV2Value(result);
       m->Calculate();
     }
+  else
+    {
+      cout<<"else NewNMMath"<<'\n';
+    }
   return m;
 }
 
@@ -65,12 +69,19 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, Ma
   MathOperation *m=new MVMathOperation;
   m->SetV2(v2);
   const double result=op[stoi(s1.substr(1, s1.size()))]->result;
+  cout<<"I="<<stoi(s1.substr(1, s1.size()))<<'\n';
 
   if(result!=NAN)
     {
       Value *v1=new Numeric;
       v1->SetValue(result);
       m->Set(v1, o, v2);
+      // delete op[stoi(s1.substr(1, s1.size()))];
+      // op.erase(op.begin()+stoi(s1.substr(1, s1.size())));
+    }
+  else
+    {
+      cout<<"else NewNVMath"<<'\n';
     }
   return m;
 }
@@ -82,12 +93,17 @@ MathOperation *NewCMMath(const string &s1, const string &s2, const string &o, Ma
   MathOperation *m=new CMMathOperation;
   m->SetV1(v1);
   const double result=op[stoi(s2.substr(1, s2.size()))]->result;
+  cout<<"I="<<stoi(s2.substr(1, s2.size()))<<'\n';
 
   if(result!=NAN)
     {
       Value *v2=new Numeric;
       v2->SetValue(result);
       m->Set(v1, o, v2);
+    }
+  else
+    {
+      cout<<"else NewCVMath"<<'\n';
     }
   return m;
 }

@@ -70,6 +70,18 @@ class NMMathOperation: public MathOperation
 {
   // Numeric-math math operation
 public:
+  MathOperation *prev=nullptr;
+
+  void Link(MathOperations &op, const unsigned int &i)
+  {
+    prev=op[i];
+
+    if(prev->result!=NAN)
+      {
+	op.erase(op.begin()+i);
+      }
+  }
+
   void Type(){cout<<"Type is NMMath"<<'\n';}
   void Calculate()
   {
@@ -130,6 +142,17 @@ class CMMathOperation: public MathOperation
 {
   // Constant-math math operation
 public:
+  MathOperation *prev=nullptr;
+
+  void Link(MathOperations &op, const unsigned int &i)
+  {
+    prev=op[i];
+
+    if(prev->result!=NAN)
+      {
+	op.erase(op.begin()+i);
+      }
+  }
   void Calculate(){}
   void Type(){cout<<"Type is CMMath"<<'\n';}
 };
@@ -138,6 +161,17 @@ class MVMathOperation: public MathOperation
 {
   // Math-variable math operation
 public:
+  MathOperation *prev=nullptr;
+
+  void Link(MathOperations &op, const unsigned int &i)
+  {
+    prev=op[i];
+
+    if(prev->result!=NAN)
+      {
+	op.erase(op.begin()+i);
+      }
+  }
   void Calculate(){}
   void Type(){cout<<"Type is MVMath"<<'\n';}
 };
@@ -146,6 +180,17 @@ class MMMathOperation: public MathOperation
 {
    // Math-math math operation
 public:
+  MathOperation *prev=nullptr;
+
+  void Link(MathOperations &op, const unsigned int &i)
+  {
+    prev=op[i];
+
+    if(prev->result!=NAN)
+      {
+	op.erase(op.begin()+i);
+      }
+  }
   void Calculate()
   {
     CalculateResult();

@@ -26,7 +26,6 @@
 #define GetCurrentDir getcwd
 
 using std::cout;
-using std::string;
 using namespace libremcm;
 using InitialValues=SMap;
 bool run_deterministic_sim=false;
@@ -49,7 +48,7 @@ static struct option const options[]=
     {0, 0, 0, 0}
   };
 
-void ReadInitialData(const string directory)
+void ReadInitialData(const string &directory)
 {
   ifstream bin(directory+"bin");
   streampos *f=new streampos;
