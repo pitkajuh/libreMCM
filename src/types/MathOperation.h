@@ -31,39 +31,39 @@ public:
   double result=NAN;
   MathOperation *prev=nullptr;
 
-  MathOperation(const MathOperation &m)
-  {
-    cout<<"MathOperation copy"<<'\n';
-    v1=m.v1;
-    v2=m.v2;
-    math_operator=m.math_operator;
-  }
-  MathOperation(MathOperation &&m)
-  {
-    cout<<"MathOperation move"<<'\n';
-    v1=m.v1;
-    v2=m.v2;
-    math_operator=m.math_operator;
-    m.v1=nullptr;
-    m.v2=nullptr;
-    m.math_operator=nullptr;
-  }
-  MathOperation& operator=(MathOperation &&m)
-  {
-    if(this!=&m)
-      {
-	delete v1;
-	delete v2;
-	delete math_operator;
-	v1=m.v1;
-	v2=m.v2;
-	math_operator=m.math_operator;
-	m.v1=nullptr;
-	m.v2=nullptr;
-	m.math_operator=nullptr;
-      }
-    return *this;
-  }
+  // MathOperation(const MathOperation &m)
+  // {
+  //   cout<<"MathOperation copy"<<'\n';
+  //   v1=m.v1;
+  //   v2=m.v2;
+  //   math_operator=m.math_operator;
+  // }
+  // MathOperation(MathOperation &&m)
+  // {
+  //   cout<<"MathOperation move"<<'\n';
+  //   v1=m.v1;
+  //   v2=m.v2;
+  //   math_operator=m.math_operator;
+  //   m.v1=nullptr;
+  //   m.v2=nullptr;
+  //   m.math_operator=nullptr;
+  // }
+  // MathOperation& operator=(MathOperation &&m)
+  // {
+  //   if(this!=&m)
+  //     {
+  // 	delete v1;
+  // 	delete v2;
+  // 	delete math_operator;
+  // 	v1=m.v1;
+  // 	v2=m.v2;
+  // 	math_operator=m.math_operator;
+  // 	m.v1=nullptr;
+  // 	m.v2=nullptr;
+  // 	m.math_operator=nullptr;
+  //     }
+  //   return *this;
+  // }
   void SetOperator(const string &m)
   {
     if(m==ADD) math_operator=new Add;
@@ -107,13 +107,8 @@ public:
     cout<<"mo "<<math_operator<<'\n';
     delete math_operator;
     cout<<"mo deleted"<<'\n';
-    if(prev!=nullptr)
-      {
-	cout<<" prev v1 "<<prev->GetV1()<<'\n';
-	cout<<" prev v2 "<<prev->GetV2()<<'\n';
-	cout<<" prev op "<<prev->GetOp()<<'\n';
-	delete prev;
-      }
+    delete prev;
+
     cout<<" "<<'\n';
   }
 };
@@ -157,9 +152,21 @@ public:
 
     // if(prev->result!=NAN)
     //   {
-    // op.erase(op.begin()+i);
-    // op.erase(op.begin()+j);
+
+    // op[i]=nullptr;
+    // op[j]=nullptr;
+    // if(op.size()>1)
+    //   {
+    // 	cout<<"op.size()>1"<<'\n';
+    // 	delete op[i];
+    // 	op.erase(op.begin()+i);
     //   }
+    //   if(op.size()>1)
+    // 	{
+    // 	  cout<<"2op.size()>1"<<'\n';
+    // 	  delete op[j];
+    // 	  op.erase(op.begin()+j);
+    // 	}
   }
   void Calculate()
   {

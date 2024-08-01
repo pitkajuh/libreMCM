@@ -157,9 +157,11 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
   else if(s1_math and s2_math)
     {
       MathOperation *m=new MMMathOperation;
-      const double result1=op[stoi(s1.substr(1, s1.size()))]->result;
-      const double result2=op[stoi(s2.substr(1, s2.size()))]->result;
-      cout<<"result1 "<<result1<<" "<<result2<<" @@ "<<!isnan(result1)<<" "<<!isnan(result2)<<" @@"<<'\n';
+      const unsigned int i=stoi(s1.substr(1, s1.size()));
+      const unsigned j=stoi(s2.substr(1, s2.size()));
+      const double result1=op[i]->result;
+      const double result2=op[j]->result;
+
       if(!isnan(result1) and !isnan(result2))
 	{
 	  cout<<"!isnan(result1) and !isnan(result2)"<<'\n';
@@ -173,7 +175,7 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
       else
 	{
 	  cout<<"NOT result1!=NAN and result2!=NAN"<<'\n';
-	  m->Link(op, stoi(s1.substr(1, s1.size())), stoi(s2.substr(1, s2.size())));
+	  m->Link(op, i, j);
 	}
       return m;
     }
@@ -190,12 +192,17 @@ MathOperation *Val(const vector<string> &equation, const unsigned int i, const D
 vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, MathOperations &ooo, const Data &data)
 {
   unsigned int i=0;
+  MathOperation *m;
+  MathOperation *prev=nullptr;
 
   while(i<equation.size())
     {
       if(find==equation[i])
 	{
-	  ooo.emplace_back(Val(equation, i, data, ooo));
+	  m=Val(equation, i, data, ooo);
+	  // m->prev=prev;
+	  // prev=m;
+	  ooo.emplace_back(m);
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
 	  equation[i]="@"+to_string(k);
 	  equation.erase(equation.begin()+i+1);
