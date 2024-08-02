@@ -28,9 +28,17 @@ private:
   Value *v2;
   MathOperator *math_operator;
 public:
+  int id;
   double result=NAN;
-  MathOperation *prev=nullptr;
+  MathOperation *next=nullptr;
 
+  void SetNxt(MathOperation *m)
+  {
+    cout<<"Set nxt"<<'\n';
+    next=m;
+    cout<<"nxt is "<<next<<'\n';
+    cout<<"nxt Set"<<'\n';
+  }
   // MathOperation(const MathOperation &m)
   // {
   //   cout<<"MathOperation copy"<<'\n';
@@ -107,7 +115,7 @@ public:
     cout<<"mo "<<math_operator<<'\n';
     delete math_operator;
     cout<<"mo deleted"<<'\n';
-    delete prev;
+    delete next;
 
     cout<<" "<<'\n';
   }
@@ -124,17 +132,17 @@ public:
   }
   void Link(MathOperations &op, const unsigned int &i, const unsigned int &j)
   {
-    // prev=std::move(op[i]);
-    prev=op[i]->New();
-    prev->SetV1(op[i]->GetV1()->New());
-    prev->SetV1Value(op[i]->GetV1Value());
-    prev->SetV1Name(op[i]->GetV1Name());
-    prev->SetV2(op[i]->GetV2()->New());
-    prev->SetV2Value(op[i]->GetV2Value());
-    prev->SetV2Name(op[i]->GetV2Name());
-    prev->SetOp(op[i]->GetOp()->New());
-    cout<<"prev v1 "<<prev->GetV1()<<" v2 "<<prev->GetV2()<<" mo "<<prev->GetOp()<<'\n';
-    // cout<<"prev v1 "<<prev->GetV1Value()<<" v2 "<<prev->GetV2()<<" mo "<<prev->GetOp()<<'\n';
+    // next=std::move(op[i]);
+    next=op[i]->New();
+    next->SetV1(op[i]->GetV1()->New());
+    next->SetV1Value(op[i]->GetV1Value());
+    next->SetV1Name(op[i]->GetV1Name());
+    next->SetV2(op[i]->GetV2()->New());
+    next->SetV2Value(op[i]->GetV2Value());
+    next->SetV2Name(op[i]->GetV2Name());
+    next->SetOp(op[i]->GetOp()->New());
+    cout<<"next v1 "<<next->GetV1()<<" v2 "<<next->GetV2()<<" mo "<<next->GetOp()<<'\n';
+    // cout<<"next v1 "<<next->GetV1Value()<<" v2 "<<next->GetV2()<<" mo "<<next->GetOp()<<'\n';
 
     SetV1(op[j]->GetV1()->New());
     SetV1Value(op[j]->GetV1Value());
@@ -150,7 +158,7 @@ public:
 
     // op[i]=nullptr;
 
-    // if(prev->result!=NAN)
+    // if(next->result!=NAN)
     //   {
 
     // op[i]=nullptr;
@@ -180,7 +188,7 @@ class NMMathOperation: public MathOperation
 {
   // Numeric-math math operation
 public:
-  // MathOperation *prev=nullptr;
+  // MathOperation *next=nullptr;
   MathOperation *New()
   {
     MathOperation *n=new NMMathOperation;
@@ -188,9 +196,9 @@ public:
   }
   void Link(MathOperations &op, const unsigned int &i, const unsigned int &j)
   {
-    prev=std::move(op[i]);
+    next=std::move(op[i]);
 
-    // if(prev->result!=NAN)
+    // if(next->result!=NAN)
     //   {
     // 	op.erase(op.begin()+i);
     //   }
@@ -215,9 +223,9 @@ public:
   }
   void Link(MathOperations &op, const unsigned int &i, const unsigned int &j)
   {
-    prev=std::move(op[i]);
+    next=std::move(op[i]);
 
-    // if(prev->result!=NAN)
+    // if(next->result!=NAN)
     //   {
     // 	op.erase(op.begin()+i);
     //   }
@@ -237,12 +245,7 @@ public:
   }
   void Link(MathOperations &op, const unsigned int &i, const unsigned int &j)
   {
-    prev=std::move(op[i]);
-
-    // if(prev->result!=NAN)
-    //   {
-    // 	op.erase(op.begin()+i);
-    //   }
+    next=std::move(op[i]);
   }
   void Calculate(){}
   void Type(){cout<<"Type is CMMath"<<'\n';}

@@ -15,19 +15,7 @@
 #include "../types/MathOperation.h"
 
 Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data &data);
-vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo, const Data &data);
+vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo, const Data &data, MathOperation *&e, MathOperation *&next);
 vector<string> RemoveOpenClose(vector<string> equation);
-
-template<typename T, typename U, typename L>
-MathOperation *NewMathOperation(const string &s1, const string &s2, const string &o)
-{
-  Value *v1=new T;
-  v1->SetValue((stod(s1)));
-  Value *v2=new U;
-  v2->SetName((s2));
-  MathOperation *m=new L;
-  m->Set(v1, o, v2);
-  return m;
-}
 
 #endif
