@@ -41,22 +41,12 @@ void print_vector2(vector<string> vec)
 MathOperation *Search(MathOperation *m, const unsigned int i)
 {
   MathOperation *c=m;
-  if(m==nullptr)
-    {
-      cout<<"search m2==nullptr"<<'\n';
-    }
-  cout<<"search "<<i<<'\n';
+
   while(c!=nullptr)
     {
-      cout<<"searching "<<'\n';
-      if(c->id==i)
-	{
-	  cout<<"found"<<'\n';
-	  return c;
-	}
+      if(c->id==i){return c;}
       c=c->next;
     }
-  cout<<"not found"<<'\n';
   return nullptr;
 }
 
@@ -119,7 +109,6 @@ MathOperation *NewCMMath(const string &s1, const string &s2, const string &o, co
   m->id=k;
   m->SetV1(v1);
   const double result=Search(c, stoi(s2.substr(1, s2.size())))->result;
-  cout<<"I="<<stoi(s2.substr(1, s2.size()))<<'\n';
 
   if(result!=NAN)
     {
@@ -189,8 +178,10 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
       const unsigned int j=stoi(s2.substr(1, s2.size()));
       // const double result1=ooo[i]->result;
       // const double result2=ooo[j]->result;
-      const double result1=Search(c, i)->result;
-      const double result2=Search(c, j)->result;
+      MathOperation *m1=Search(c, i);
+      MathOperation *m2=Search(c, j);
+      const double result1=m1->result;
+      const double result2=m2->result;
       // cout<<result1<<" "<<result2<<'\n';
       if(!isnan(result1) and !isnan(result2))
 	{
@@ -205,7 +196,7 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
       else
 	{
 	  cout<<"NOT result1!=NAN and result2!=NAN"<<'\n';
-	  m->Link(ooo, i, j);
+	  m->Link(m1, m2, o);
 	}
       return m;
     }
@@ -305,19 +296,13 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 {
   unsigned int i=0;
   MathOperation *m;
-  // MathOperation *next=nullptr;
-  cout<<"find op start "<<find<<" "<<next<<'\n';
+
   while(i<equation.size())
     {
       // cout<<i<<"/"<<equation.size()<<" "<<next<<'\n';
       if(find==equation[i])
 	{
 	  // m=Val(equation, i, data, ooo, k);
-	  cout<<"found "<<find<<'\n';
-	  if(e==nullptr)
-	    {
-	      cout<<"e==nullptr"<<'\n';
-	    }
 
 	  e=Val2(e, equation, i, data, ooo, k, next);
 	  e->SetNxt(next);
@@ -338,7 +323,6 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	}
       i++;
     }
-  cout<<"find op end "<<e<<" "<<next<<'\n';
   return equation;
 }
 
@@ -347,13 +331,13 @@ void GetOrder(vector<string> &equation, unsigned int &k, MathOperations &ooo, co
   for(const auto&i: OPERATORS)
     {
       equation=FindOperator(equation, i, k, ooo, data, e, next);
-      cout<<e<<" "<<next<<'\n';
+      // cout<<e<<" "<<next<<'\n';
       // next=e;
       // e->SetNxt(next);
-      cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2"<<'\n';
+      // cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2"<<'\n';
     }
   // next=e;
-  cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2"<<'\n';
+  // cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2"<<'\n';
 }
 
 vector<string> RemoveOpenClose(vector<string> equation)
@@ -408,9 +392,28 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data
       GetOrder(v, k, ooo, data, e, next);
       equations_map2[name]=ooo;
       cout<<"size "<<ooo.size()<<'\n';
+
+      cout<<e<<" v1 "<<e->GetV1()<<" mo "<<e->GetOp()<<" v2 "<<e->GetV2()<<'\n';
+
+      // cout<<e<<'\n';
+      // cout<<"v1 "<<e->GetV1()<<'\n';
+      // cout<<"mo "<<e->GetOp()<<'\n';
+      // cout<<"v2 "<<e->GetV2()<<'\n';
+
+      // cout<<next<<" v1 "<<next->GetV1()<<" mo "<<next->GetOp()<<" v2 "<<next->GetV2()<<'\n';
+
+      // delete e;
+      // delete next;
       k=0;
       ooo.clear();
       cout<<" "<<'\n';
     }
+  // MathOperation *tmp=e;
+  // while(tmp!=nullptr)
+  //   {
+  //     tmp=tmp->next;
+  //     delete e;
+  //     e=tmp;
+  //   }
   return equations_map2;
 }

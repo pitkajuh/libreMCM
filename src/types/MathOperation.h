@@ -23,68 +23,91 @@ using std::cout;
 
 class MathOperation
 {
-private:
+// private:
+//   Value *v1;
+//   Value *v2;
+//   MathOperator *math_operator;
+public:
   Value *v1;
   Value *v2;
   MathOperator *math_operator;
-public:
   int id;
   double result=NAN;
   MathOperation *next=nullptr;
 
+
+  MathOperation(const MathOperation &m)
+  {
+    cout<<"MathOperation copy"<<'\n';
+    v1=m.v1;
+    v2=m.v2;
+    math_operator=m.math_operator;
+    result=m.result;
+  }
+  MathOperation &operator=(const MathOperation &m)
+  {
+    cout<<"MathOperation copy="<<'\n';
+    if(this!=&m)
+      {
+	delete v1;
+	delete v2;
+	delete math_operator;
+	v1=m.v1;
+	v2=m.v2;
+	math_operator=m.math_operator;
+	result=m.result;
+      }
+    return *this;
+  }
+  MathOperation(MathOperation &&m)
+  {
+    cout<<"MathOperation move"<<'\n';
+    v1=m.v1;
+    v2=m.v2;
+    math_operator=m.math_operator;
+    result=m.result;
+    m.v1=nullptr;
+    m.v2=nullptr;
+    m.math_operator=nullptr;
+  }
+  MathOperation &operator=(MathOperation &&m)
+  {
+    cout<<"MathOperation move="<<'\n';
+    if(this!=&m)
+      {
+	delete v1;
+	delete v2;
+	delete math_operator;
+	v1=m.v1;
+	v2=m.v2;
+	math_operator=m.math_operator;
+	result=m.result;
+	m.v1=nullptr;
+	m.v2=nullptr;
+	m.math_operator=nullptr;
+      }
+    return *this;
+  }
   void SetNxt(MathOperation *m)
   {
-    cout<<"Set nxt"<<'\n';
+    // cout<<"Set nxt"<<'\n';
     next=m;
-    cout<<"nxt is "<<next<<'\n';
-    cout<<"nxt Set"<<'\n';
+    // cout<<"nxt is "<<next<<'\n';
+    // cout<<"nxt Set"<<'\n';
   }
-  // MathOperation(const MathOperation &m)
-  // {
-  //   cout<<"MathOperation copy"<<'\n';
-  //   v1=m.v1;
-  //   v2=m.v2;
-  //   math_operator=m.math_operator;
-  // }
-  // MathOperation(MathOperation &&m)
-  // {
-  //   cout<<"MathOperation move"<<'\n';
-  //   v1=m.v1;
-  //   v2=m.v2;
-  //   math_operator=m.math_operator;
-  //   m.v1=nullptr;
-  //   m.v2=nullptr;
-  //   m.math_operator=nullptr;
-  // }
-  // MathOperation& operator=(MathOperation &&m)
-  // {
-  //   if(this!=&m)
-  //     {
-  // 	delete v1;
-  // 	delete v2;
-  // 	delete math_operator;
-  // 	v1=m.v1;
-  // 	v2=m.v2;
-  // 	math_operator=m.math_operator;
-  // 	m.v1=nullptr;
-  // 	m.v2=nullptr;
-  // 	m.math_operator=nullptr;
-  //     }
-  //   return *this;
-  // }
-  void SetOperator(const string &m)
+  void SetOperator(const string &s)
   {
-    if(m==ADD) math_operator=new Add;
-    else if(m==SUBTRACT) math_operator=new Sub;
-    else if(m==MULTIPLY) math_operator=new Mul;
-    else if(m==DIVIDE) math_operator=new Div;
-    else if(m==EXP) math_operator=new Exp;
+    if(s==ADD) math_operator=new Add;
+    else if(s==SUBTRACT) math_operator=new Sub;
+    else if(s==MULTIPLY) math_operator=new Mul;
+    else if(s==DIVIDE) math_operator=new Div;
+    else if(s==EXP) math_operator=new Exp;
   }
-  void Set(Value *v, const string &m, Value *w)
+  void Set(Value *v, const string &s, Value *w)
   {
     v1=v;
     v2=w;
-    SetOperator(m);
+    SetOperator(s);
   }
   MathOperation()=default;
   MathOperator *GetOp(){return math_operator;} const
@@ -103,20 +126,21 @@ public:
   void SetV2(Value *v){v2=v;}
   void CalculateResult(){result=GetOp()->Calculate1(GetV1Value(), GetV2Value());}
   virtual MathOperation *New()=0;
-  virtual void Link(MathOperations &op, const unsigned int &i, const unsigned int &j)=0;
+  virtual void Link(MathOperation *m1, MathOperation *m2, const string &o)=0;
   virtual void Type()=0;
   virtual void Calculate()=0;
   virtual ~MathOperation()
   {
-    cout<<"clean v1 "<<v1<<'\n';
+    cout<<"cleaning v1 "<<v1<<'\n';
     delete v1;
-    cout<<"clean v2 "<<v2<<'\n';
+    cout<<"v1 cleande "<<'\n';
+    cout<<"cleaning v2 "<<v2<<'\n';
     delete v2;
-    cout<<"mo "<<math_operator<<'\n';
+    cout<<"v2 cleande "<<'\n';
+    cout<<"cleaning mo "<<math_operator<<'\n';
     delete math_operator;
     cout<<"mo deleted"<<'\n';
-    delete next;
-
+    // delete next;
     cout<<" "<<'\n';
   }
 };
@@ -130,30 +154,36 @@ public:
     MathOperation *n=new MMMathOperation;
     return n;
   }
-  void Link(MathOperations &op, const unsigned int &i, const unsigned int &j)
+  void Link(MathOperation *m1, MathOperation *m2, const string &o)
   {
     // next=std::move(op[i]);
-    next=op[i]->New();
-    next->SetV1(op[i]->GetV1()->New());
-    next->SetV1Value(op[i]->GetV1Value());
-    next->SetV1Name(op[i]->GetV1Name());
-    next->SetV2(op[i]->GetV2()->New());
-    next->SetV2Value(op[i]->GetV2Value());
-    next->SetV2Name(op[i]->GetV2Name());
-    next->SetOp(op[i]->GetOp()->New());
-    cout<<"next v1 "<<next->GetV1()<<" v2 "<<next->GetV2()<<" mo "<<next->GetOp()<<'\n';
-    // cout<<"next v1 "<<next->GetV1Value()<<" v2 "<<next->GetV2()<<" mo "<<next->GetOp()<<'\n';
+    m1->Type();
+    next=std::move(m1);
+    next->Type();
+    // next=m1;
+    SetV1(m2->GetV1());
 
-    SetV1(op[j]->GetV1()->New());
-    SetV1Value(op[j]->GetV1Value());
-    SetV1Name(op[j]->GetV1Name());
-    SetV2(op[j]->GetV2()->New());
-    SetV2Value(op[j]->GetV2Value());
-    SetV2Name(op[j]->GetV2Name());
-    SetOp(op[j]->GetOp()->New());
-    cout<<"v1 "<<GetV1()<<" v2 "<<GetV2()<<" mo "<<GetOp()<<'\n';
+    // next=op[i]->New();
+    // next->SetV1(op[i]->GetV1()->New());
+    // next->SetV1Value(op[i]->GetV1Value());
+    // next->SetV1Name(op[i]->GetV1Name());
+    // next->SetV2(op[i]->GetV2()->New());
+    // next->SetV2Value(op[i]->GetV2Value());
+    // next->SetV2Name(op[i]->GetV2Name());
+    // next->SetOp(op[i]->GetOp()->New());
+    // cout<<"next v1 "<<next->GetV1()<<" v2 "<<next->GetV2()<<" mo "<<next->GetOp()<<'\n';
+
+    SetV2(m2->GetV2());
+
+    // SetV1(op[j]->GetV1()->New());
+    // SetV1Value(op[j]->GetV1Value());
+    // SetV1Name(op[j]->GetV1Name());
+    // SetV2(op[j]->GetV2()->New());
+    // SetV2Value(op[j]->GetV2Value());
+    // SetV2Name(op[j]->GetV2Name());
+    // SetOp(op[j]->GetOp()->New());
     // cout<<"v1 "<<GetV1()<<" v2 "<<GetV2()<<" mo "<<GetOp()<<'\n';
-
+    SetOperator(o);
     // delete op[j];
 
     // op[i]=nullptr;
@@ -188,15 +218,14 @@ class NMMathOperation: public MathOperation
 {
   // Numeric-math math operation
 public:
-  // MathOperation *next=nullptr;
   MathOperation *New()
   {
     MathOperation *n=new NMMathOperation;
     return n;
   }
-  void Link(MathOperations &op, const unsigned int &i, const unsigned int &j)
+  void Link(MathOperation *m1, MathOperation *m2, const string &o)
   {
-    next=std::move(op[i]);
+    // next=std::move(op[i]);
 
     // if(next->result!=NAN)
     //   {
@@ -221,9 +250,9 @@ public:
     MathOperation *n=new MVMathOperation;
     return n;
   }
-  void Link(MathOperations &op, const unsigned int &i, const unsigned int &j)
+  void Link(MathOperation *m1, MathOperation *m2, const string &o)
   {
-    next=std::move(op[i]);
+    // next=std::move(op[i]);
 
     // if(next->result!=NAN)
     //   {
@@ -243,9 +272,9 @@ public:
     MathOperation *n=new CMMathOperation;
     return n;
   }
-  void Link(MathOperations &op, const unsigned int &i, const unsigned int &j)
+  void Link(MathOperation *m1, MathOperation *m2, const string &o)
   {
-    next=std::move(op[i]);
+    // next=std::move(op[i]);
   }
   void Calculate(){}
   void Type(){cout<<"Type is CMMath"<<'\n';}
@@ -262,7 +291,7 @@ public:
   }
   void Calculate(){CalculateResult();}
   void Type(){cout<<"Type is NNMath"<<'\n';}
-  void Link(MathOperations &op, const unsigned int &i, const unsigned int &j){}
+  void Link(MathOperation *m1, MathOperation *m2, const string &o){}
 };
 
 class VVMathOperation: public MathOperation
@@ -274,9 +303,51 @@ public:
     MathOperation *n=new VVMathOperation;
     return n;
   }
+  VVMathOperation()=default;
+  VVMathOperation(const VVMathOperation &m): MathOperation(m)
+  {
+    cout<<"VVMathOperation copy"<<'\n';
+  }
+  VVMathOperation(VVMathOperation &&m): MathOperation(std::move(m))
+  {
+    cout<<"VVMathOperation move"<<'\n';
+  }
+  VVMathOperation &operator=(VVMathOperation &&m)
+  {
+    cout<<"VVMathOperation move="<<'\n';
+    if(this!=&m)
+      {
+	delete v1;
+	delete v2;
+	delete math_operator;
+	v1=m.v1;
+	v2=m.v2;
+	math_operator=m.math_operator;
+	result=m.result;
+	m.v1=nullptr;
+	m.v2=nullptr;
+	m.math_operator=nullptr;
+      }
+    return *this;
+  }
+  VVMathOperation &operator=(const VVMathOperation &m)
+  {
+    cout<<"VVMathOperation copy="<<'\n';
+    if(this!=&m)
+      {
+	delete v1;
+	delete v2;
+	delete math_operator;
+	v1=m.v1;
+	v2=m.v2;
+	math_operator=m.math_operator;
+	result=m.result;
+      }
+    return *this;
+  }
   void Calculate(){}
   void Type(){cout<<"Type is VVMath"<<'\n';}
-  void Link(MathOperations &op, const unsigned int &i, const unsigned int &j){}
+  void Link(MathOperation *m1, MathOperation *m2, const string &o){}
 };
 
 class CVMathOperation: public MathOperation
@@ -290,7 +361,7 @@ public:
   }
   void Calculate(){}
   void Type(){cout<<"Type is CVMath"<<'\n';}
-  void Link(MathOperations &op, const unsigned int &i, const unsigned int &j){}
+  void Link(MathOperation *m1, MathOperation *m2, const string &o){}
 };
 
 class CCMathOperation: public MathOperation
@@ -304,7 +375,7 @@ public:
   }
   void Calculate(){}
   void Type(){cout<<"Type is CCMath"<<'\n';}
-  void Link(MathOperations &op, const unsigned int &i, const unsigned int &j){}
+  void Link(MathOperation *m1, MathOperation *m2, const string &o){}
 };
 
 class NVMathOperation: public MathOperation
@@ -318,7 +389,7 @@ public:
   }
   void Calculate(){}
   void Type(){cout<<"Type is NVMath"<<'\n';}
-  void Link(MathOperations &op, const unsigned int &i, const unsigned int &j){}
+  void Link(MathOperation *m1, MathOperation *m2, const string &o){}
 };
 
 class NCMathOperation: public MathOperation
@@ -332,7 +403,7 @@ public:
   }
   void Calculate(){}
   void Type(){cout<<"Type is NCMath"<<'\n';}
-  void Link(MathOperations &op, const unsigned int &i, const unsigned int &j){}
+  void Link(MathOperation *m1, MathOperation *m2, const string &o){}
 };
 
 #endif
