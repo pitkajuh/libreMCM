@@ -291,6 +291,11 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	  // m=Delete(m1, m1_id);
 	  m2=Delete(m2, m1->id);
 	  m2=Delete(m2, m2->id);
+	  // delete m1;
+	  // delete m2;
+
+	  // m2=Delete(m2, m1->id);
+	  // m2=Delete(m2, m2->id);
 	}
       return m;
     }
@@ -371,39 +376,6 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
   return result;
 }
 
-class Base
-{
-public:
-  int id;
-  Base()=default;
-  Base(const Base &b)
-  {
-    cout<<"Copy"<<'\n';
-    id=b.id;
-  }
-  Base &operator=(const Base &b)
-  {
-    // if(this!=b)
-    //   {
-	id=b.id;
-      // }
-    return *this;
-  }
-  Base(const Base &&b)
-  {
-    cout<<"Move"<<'\n';
-    id=b.id;
-  }
-  Base &operator=(const Base &&b)
-  {
-    // if(this!=b)
-    //   {
-	id=b.id;
-      // }
-    return *this;
-  }
-};
-
 Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data &data)
 {
     // Set calculation order of an equation according to order of operations:
@@ -412,10 +384,7 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data
     // 2. Exponents
     // 3. Multiplication and division
     // 4. Addition and subtraction
-  Base *a=new Base;
-  a->id=0;
-  Base *b=std::move(a);
-  cout<<"v "<<b->id<<'\n';
+
   vector<string> v;
   unsigned int k=0;
   MathOperations ooo;
@@ -451,6 +420,7 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data
       ooo.clear();
       cout<<" "<<'\n';
     }
+  // delete e;
   // MathOperation *tmp=e;
   // while(tmp!=nullptr)
   //   {
