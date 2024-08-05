@@ -78,7 +78,7 @@ MathOperation *NewOperation(MathOperation *m)
 
 MathOperation *Delete(MathOperation *head, const unsigned int i)
 {
-  cout<<"Deleteing id "<<i<<" "<<head<<'\n';
+  // cout<<"Deleteing id "<<i<<" "<<head<<'\n';
   MathOperation *temp=head;
   MathOperation *prev;
 
@@ -86,7 +86,7 @@ MathOperation *Delete(MathOperation *head, const unsigned int i)
 
   if(temp->id==i)
     {
-      cout<<"temp->id==id"<<'\n';
+      // cout<<"temp->id==id"<<'\n';
       head=temp->next;
       // if(head->next->id==i)
       // if(temp->next->id==i)
@@ -106,7 +106,7 @@ MathOperation *Delete(MathOperation *head, const unsigned int i)
   while(temp->id!=i)
   // while(temp!=nullptr)
     {
-      cout<<"finding id "<<temp->id<<'\n';
+      // cout<<"finding id "<<temp->id<<'\n';
       // if(temp->id==i)
       // 	{
       // 	  cout<<"break"<<'\n';
@@ -115,20 +115,14 @@ MathOperation *Delete(MathOperation *head, const unsigned int i)
       prev=temp;
       temp=temp->next;
     }
-  cout<<"loop ok"<<'\n';
+  // cout<<"loop ok"<<'\n';
   if(temp!=nullptr)
     {
       prev->next=temp->next;
       // head = head->next;
       delete temp;
     }
-  else
-    {
-      cout<<"Net deleteing"<<'\n';
-      // prev->next = prev->next->next;
-      // return head;
-    }
-  cout<<"Delete end"<<'\n';
+  // cout<<"Delete end"<<'\n';
   return head;
 }
 
@@ -283,14 +277,18 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 
 	  cout<<mo1<<" v1 "<<mo1->GetV1()<<" v2 "<<mo1->GetV2()<<" mo "<<mo1->GetOp()<<" "<<mo1->id<<'\n';
 	  cout<<mo2<<" v1 "<<mo2->GetV1()<<" v2 "<<mo2->GetV2()<<" mo "<<mo2->GetOp()<<" "<<mo2->id<<'\n';
-	  cout<<"linked "<<'\n';
-	  cout<<" "<<'\n';
+	  // cout<<"linked "<<'\n';
+	  // cout<<" "<<'\n';
 
 	  // m->Link(m1, m2, o);
 	  // print(m);
 	  // m=Delete(m1, m1_id);
+	  // cout<<"m ext "<<m2->next<<" "<<m1->next<<'\n';
 	  m2=Delete(m2, m1->id);
 	  m2=Delete(m2, m2->id);
+	  // cout<<"m2 ext "<<m2->next<<'\n';
+	  next=nullptr;
+	  // next=m2->next;
 	  // delete m1;
 	  // delete m2;
 
@@ -316,27 +314,19 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 
   while(i<equation.size())
     {
-      // cout<<i<<"/"<<equation.size()<<" "<<next<<'\n';
       if(find==equation[i])
 	{
-	  // m=Val(equation, i, data, ooo, k);
-
 	  e=Val2(e, equation, i, data, ooo, k, next);
-	  // e->Print();
-	  // cout<<e<<" v1 "<<e->GetV1()<<" "<<e->GetOp()<<" v2 "<<e->GetV2()<<'\n';
-	  cout<<"next "<<next<<'\n';
 	  e->next=next;
+	  cout<<"next "<<next<<'\n';
 	  next=e;
 
-
-	  // ooo.emplace_back(m);
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
 	  equation[i]="@"+to_string(k);
 	  equation.erase(equation.begin()+i+1);
 	  equation.erase(equation.begin()+i-1);
-	  // cout<<"k="<<k<<" size "<<ooo.size()<<'\n';
-	  k++;
 
+	  k++;
 	  i=0;
 	  cout<<" "<<'\n';
 	  continue;
@@ -420,7 +410,12 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data
       ooo.clear();
       cout<<" "<<'\n';
     }
-  // delete e;
+
+  delete e;
+
+  // e->mo1=nullptr;
+  // e->mo2=nullptr;
+
   // MathOperation *tmp=e;
   // while(tmp!=nullptr)
   //   {

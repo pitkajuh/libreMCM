@@ -124,6 +124,7 @@ public:
   virtual void Calculate()=0;
   virtual ~MathOperation()
   {
+    cout<<"~MathOperation()"<<'\n';
     cout<<"cleaning "<<this<<" v1 "<<v1<<" mo "<<math_operator<<" v2 "<<v2<<'\n';
     delete v1;
     delete v2;
@@ -153,7 +154,7 @@ public:
     // cout<<"prev ok"<<'\n';
     // cout<<"prev @@@@@@@@@@@@@ ok"<<'\n';
 
-    cout<<" "<<'\n';
+    // cout<<" "<<'\n';
   }
 };
 
@@ -174,6 +175,7 @@ public:
     cout<<"~MMMathOperation()"<<'\n';
     delete mo1;
     delete mo2;
+    cout<<" "<<'\n';
   }
   MathOperation *New()
   {
