@@ -129,32 +129,8 @@ public:
     delete v1;
     delete v2;
     delete math_operator;
-    // next=nullptr;
     cout<<"cleaning also next "<<next<<'\n';
     delete next;
-    // next=nullptr;
-    // delete this;
-    // cout<<"cleaning this "<<this<<'\n';
-    // cout<<"cleaning v1 "<<v1<<'\n';
-    // delete v1;
-    // cout<<"v1 ok"<<'\n';
-    // cout<<"cleaning v2 "<<v2<<'\n';
-    // delete v2;
-    // cout<<"v2 ok "<<'\n';
-    // cout<<"cleaning mo "<<math_operator<<'\n';
-    // delete math_operator;
-    // cout<<"mo ok"<<'\n';
-    // cout<<"prev @@@@@@@@@@@@@ clean"<<'\n';
-    // delete math_operator_next;
-    // cout<<"mo next ok "<<'\n';
-
-    // cout<<"cleaning prev"<<'\n';
-    // // delete next;
-    // delete next;
-    // cout<<"prev ok"<<'\n';
-    // cout<<"prev @@@@@@@@@@@@@ ok"<<'\n';
-
-    // cout<<" "<<'\n';
   }
 };
 
