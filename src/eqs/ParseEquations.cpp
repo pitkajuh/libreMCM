@@ -268,33 +268,71 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	}
       else
 	{
+	  // m->SetV1(m1->GetV1());
+	  // m->SetV2(m1->GetV2());
+	  // m->SetOp(m1->GetOp());
+
 	  MathOperation *mo1=NewOperation(m1);
-	  MathOperation *mo2=NewOperation(m2);
+	  m->SetV1(mo1->GetV1());
+	  m->SetV2(mo1->GetV2());
+	  m->SetOp(mo1->GetOp());
 
-	  m->mo1=mo1;
-	  m->mo2=mo2;
-	  m->SetOperator(o);
+	  // m2->next=nullptr;
+	  m1->next=nullptr;
 
-	  cout<<mo1<<" v1 "<<mo1->GetV1()<<" v2 "<<mo1->GetV2()<<" mo "<<mo1->GetOp()<<" "<<mo1->id<<'\n';
-	  cout<<mo2<<" v1 "<<mo2->GetV1()<<" v2 "<<mo2->GetV2()<<" mo "<<mo2->GetOp()<<" "<<mo2->id<<'\n';
-	  // cout<<"linked "<<'\n';
-	  // cout<<" "<<'\n';
 
-	  // m->Link(m1, m2, o);
-	  // print(m);
-	  // m=Delete(m1, m1_id);
-	  // cout<<"m ext "<<m2->next<<" "<<m1->next<<'\n';
-	  m2=Delete(m2, m1->id);
-	  m2=Delete(m2, m2->id);
-	  // cout<<"m2 ext "<<m2->next<<'\n';
-	  next=nullptr;
-	  // next=m2->next;
+
+	  m->mo2=m2;
+
+
+	  // MathOperation *mo2=NewOperation(m2);
+	  // m->mo2=mo2;
+
+	  // MathOperation *mo2=NewOperation(m2);
+	  // m->mo2->SetV1(mo2->GetV1());
+	  // m->mo2->SetV2(mo2->GetV2());
+	  // m->mo2->SetOp(mo2->GetOp());
+
+
+	  m->SetOperator2(o);
+	  m2->next=nullptr;
+	  cout<<"m1 "<<m1<<" "<<m1->GetV1()<<" v2 "<<m1->GetV2()<<" mo "<<m1->GetOp()<<" "<<m1->id<<'\n';
+	  cout<<"m2 "<<m2<<" "<<m2->GetV1()<<" v2 "<<m2->GetV2()<<" mo "<<m2->GetOp()<<" "<<m2->id<<'\n';
 	  // delete m1;
+	  // m1=nullptr;
+	  next=nullptr;
 	  // delete m2;
-
-	  // m2=Delete(m2, m1->id);
-	  // m2=Delete(m2, m2->id);
+	  delete m1;
 	}
+      // else
+      // 	{
+      // 	  MathOperation *mo1=NewOperation(m1);
+      // 	  MathOperation *mo2=NewOperation(m2);
+
+      // 	  m->mo1=mo1;
+      // 	  m->mo2=mo2;
+      // 	  m->SetOperator(o);
+
+      // 	  cout<<mo1<<" v1 "<<mo1->GetV1()<<" v2 "<<mo1->GetV2()<<" mo "<<mo1->GetOp()<<" "<<mo1->id<<'\n';
+      // 	  cout<<mo2<<" v1 "<<mo2->GetV1()<<" v2 "<<mo2->GetV2()<<" mo "<<mo2->GetOp()<<" "<<mo2->id<<'\n';
+      // 	  // cout<<"linked "<<'\n';
+      // 	  // cout<<" "<<'\n';
+
+      // 	  // m->Link(m1, m2, o);
+      // 	  // print(m);
+      // 	  // m=Delete(m1, m1_id);
+      // 	  // cout<<"m ext "<<m2->next<<" "<<m1->next<<'\n';
+      // 	  m2=Delete(m2, m1->id);
+      // 	  m2=Delete(m2, m2->id);
+      // 	  // cout<<"m2 ext "<<m2->next<<'\n';
+      // 	  next=nullptr;
+      // 	  // next=m2->next;
+      // 	  // delete m1;
+      // 	  // delete m2;
+
+      // 	  // m2=Delete(m2, m1->id);
+      // 	  // m2=Delete(m2, m2->id);
+      // 	}
       return m;
     }
   else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)

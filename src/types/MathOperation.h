@@ -138,19 +138,32 @@ class MMMathOperation: public MathOperation
 {
    // Math-math math operation
 public:
-  MathOperation *mo1;
+  // MathOperation *mo1;
   MathOperation *mo2;
 
+  // Value *v1_2;
+  // Value *v2_2;
+  MathOperator *math_operator_2;
+  // double result2=NAN;
+  void SetOperator2(const string &s)
+  {
+    if(s==ADD) math_operator_2=new Add;
+    else if(s==SUBTRACT) math_operator_2=new Sub;
+    else if(s==MULTIPLY) math_operator_2=new Mul;
+    else if(s==DIVIDE) math_operator_2=new Div;
+    else if(s==EXP) math_operator_2=new Exp;
+  }
   void Print()
   {
-    cout<<"MMMathOperation mo1 "<<this<<" v1 "<<mo1->v1<<" mo "<<mo1->math_operator<<" v2 "<<mo1->v2<<'\n';
-    cout<<"MMMathOperation mo2 "<<this<<" v1 "<<mo2->v1<<" mo "<<mo2->math_operator<<" v2 "<<mo2->v2<<'\n';
+    // cout<<"MMMathOperation mo1 "<<this<<" v1 "<<mo1->v1<<" mo "<<mo1->math_operator<<" v2 "<<mo1->v2<<'\n';
+    // cout<<"MMMathOperation mo2 "<<this<<" v1 "<<mo2->v1<<" mo "<<mo2->math_operator<<" v2 "<<mo2->v2<<'\n';
   }
   ~MMMathOperation()
   {
     cout<<"~MMMathOperation()"<<'\n';
-    delete mo1;
+    // delete mo1;
     delete mo2;
+    delete math_operator_2;
     cout<<" "<<'\n';
   }
   MathOperation *New()
