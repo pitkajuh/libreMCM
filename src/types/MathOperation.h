@@ -143,9 +143,10 @@ public:
   Value *v1_2;
   Value *v2_2;
   MathOperator *math_operator_2;
+  double result2=NAN;
 
   MathOperator *math_operator_3;
-  // double result2=NAN;
+
   void SetOperator2(const string &s)
   {
     if(s==ADD) math_operator_3=new Add;
@@ -162,8 +163,6 @@ public:
   ~MMMathOperation()
   {
     cout<<"~MMMathOperation()"<<'\n';
-    // delete mo1;
-    // delete mo2;
     delete v1_2;
     delete v2_2;
     delete math_operator_3;

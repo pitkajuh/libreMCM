@@ -38,18 +38,6 @@ void print_vector2(vector<string> vec)
   cout<<empty<<'\n';
 }
 
-void print(MathOperation *m)
-{
-  MathOperation *c=m;
-    cout<<"print start"<<'\n';
-  while(c!=nullptr)
-    {
-      cout<<c<<" "<<c->GetV1()<<" "<<c->GetOp()<<" "<<c->GetV2()<<'\n';
-      c=c->next;
-    }
-  cout<<"print end"<<'\n';
-}
-
 MathOperation *Search(MathOperation *m, const unsigned int i)
 {
   MathOperation *c=m;
@@ -60,70 +48,6 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
       c=c->next;
     }
   return nullptr;
-}
-
-MathOperation *NewOperation(MathOperation *m)
-{
-  MathOperation *mo1=m->New();
-  mo1->SetV1(m->GetV1()->New());
-  mo1->SetV1Value(m->GetV1Value());
-  mo1->SetV1Name(m->GetV1Name());
-  mo1->SetV2(m->GetV2()->New());
-  mo1->SetV2Value(m->GetV2Value());
-  mo1->SetV2Name(m->GetV2Name());
-  mo1->SetOp(m->GetOp()->New());
-  mo1->id=m->id;
-  return mo1;
-}
-
-MathOperation *Delete(MathOperation *head, const unsigned int i)
-{
-  // cout<<"Deleteing id "<<i<<" "<<head<<'\n';
-  MathOperation *temp=head;
-  MathOperation *prev;
-
-  // if(temp!=nullptr){return head;}
-
-  if(temp->id==i)
-    {
-      // cout<<"temp->id==id"<<'\n';
-      head=temp->next;
-      // if(head->next->id==i)
-      // if(temp->next->id==i)
-      // 	{
-      // 	  // head->next=nullptr;
-      // 	  temp->next=nullptr;
-      // 	  cout<<"head->next.id==i"<<'\n';
-      // 	}
-      // prev->next=temp->next;
-      delete temp;
-      // temp=nullptr;
-      return head;
-    }
-
-
-
-  while(temp->id!=i)
-  // while(temp!=nullptr)
-    {
-      // cout<<"finding id "<<temp->id<<'\n';
-      // if(temp->id==i)
-      // 	{
-      // 	  cout<<"break"<<'\n';
-      // 	  break;
-      // 	}
-      prev=temp;
-      temp=temp->next;
-    }
-  // cout<<"loop ok"<<'\n';
-  if(temp!=nullptr)
-    {
-      prev->next=temp->next;
-      // head = head->next;
-      delete temp;
-    }
-  // cout<<"Delete end"<<'\n';
-  return head;
 }
 
 MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperations &ooo, MathOperation *&c)
@@ -247,17 +171,13 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
       cout<<"s1_math and s2_math"<<'\n';
       MMMathOperation *m=new MMMathOperation;
       m->id=k;
-      // m->next=nullptr;
       MathOperation *m1=Search(c, stoi(s1.substr(1, s1.size())));
       MathOperation *m2=Search(c, stoi(s2.substr(1, s2.size())));
       const double result1=m1->result;
       const double result2=m2->result;
-      // cout<<result1<<" "<<result2<<'\n';
-      // cout<<m1<<" "<<m2<<'\n';
-      // cout<<m1->GetV1Value()<<" "<<m1->GetV2Value()<<" "<<m2->GetV1Value()<<" "<<m2->GetV2Value()<<'\n';
+
       if(!isnan(result1) and !isnan(result2))
 	{
-	  // cout<<"!isnan(result1) and !isnan(result2)"<<'\n';
 	  Value *v1=new Numeric;
 	  v1->SetValue(result1);
 	  Value *v2=new Numeric;
@@ -270,84 +190,29 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	  m->SetV1(m1->GetV1()->New());
 	  m->SetV1Value(m1->GetV1Value());
 	  m->SetV1Name(m1->GetV1Name());
-
 	  m->SetV2(m1->GetV2()->New());
 	  m->SetV2Value(m1->GetV2Value());
 	  m->SetV2Name(m1->GetV2Name());
-
 	  m->SetOp(m1->GetOp()->New());
-
-
-
 
 	  m->v1_2=m2->GetV1()->New();
 	  m->v1_2->SetValue(m2->GetV1Value());
 	  m->v1_2->SetName(m2->GetV1Name());
-
 	  m->v2_2=m2->GetV1()->New();
 	  m->v2_2->SetValue(m2->GetV1Value());
 	  m->v2_2->SetName(m2->GetV1Name());
-
 	  m->math_operator_2=m2->GetOp()->New();
 
-
-
-	  // m2->next=nullptr;
-	  m1->next=nullptr;
-
-
-
-	  // m->mo2=m2;
-	  // mo1->this->nullptr;
-
-	  // MathOperation *mo2=NewOperation(m2);
-	  // m->mo2=mo2;
-
-	  // MathOperation *mo2=NewOperation(m2);
-	  // m->v1_2=mo2->GetV1();
-	  // m->v2_2=mo2->GetV2();
-	  // m->math_operator_2=mo2->GetOp();
-
-
 	  m->SetOperator2(o);
-	  m2->next=nullptr;
+
 	  cout<<"m1 "<<m1<<" "<<m1->GetV1()<<" v2 "<<m1->GetV2()<<" mo "<<m1->GetOp()<<" "<<m1->id<<'\n';
 	  cout<<"m2 "<<m2<<" "<<m2->GetV1()<<" v2 "<<m2->GetV2()<<" mo "<<m2->GetOp()<<" "<<m2->id<<'\n';
-	  // delete m1;
-	  // m1=nullptr;
+	  m1->next=nullptr;
+	  m2->next=nullptr;
 	  next=nullptr;
 	  delete m2;
 	  delete m1;
 	}
-      // else
-      // 	{
-      // 	  MathOperation *mo1=NewOperation(m1);
-      // 	  MathOperation *mo2=NewOperation(m2);
-
-      // 	  m->mo1=mo1;
-      // 	  m->mo2=mo2;
-      // 	  m->SetOperator(o);
-
-      // 	  cout<<mo1<<" v1 "<<mo1->GetV1()<<" v2 "<<mo1->GetV2()<<" mo "<<mo1->GetOp()<<" "<<mo1->id<<'\n';
-      // 	  cout<<mo2<<" v1 "<<mo2->GetV1()<<" v2 "<<mo2->GetV2()<<" mo "<<mo2->GetOp()<<" "<<mo2->id<<'\n';
-      // 	  // cout<<"linked "<<'\n';
-      // 	  // cout<<" "<<'\n';
-
-      // 	  // m->Link(m1, m2, o);
-      // 	  // print(m);
-      // 	  // m=Delete(m1, m1_id);
-      // 	  // cout<<"m ext "<<m2->next<<" "<<m1->next<<'\n';
-      // 	  m2=Delete(m2, m1->id);
-      // 	  m2=Delete(m2, m2->id);
-      // 	  // cout<<"m2 ext "<<m2->next<<'\n';
-      // 	  next=nullptr;
-      // 	  // next=m2->next;
-      // 	  // delete m1;
-      // 	  // delete m2;
-
-      // 	  // m2=Delete(m2, m1->id);
-      // 	  // m2=Delete(m2, m2->id);
-      // 	}
       return m;
     }
   else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)
