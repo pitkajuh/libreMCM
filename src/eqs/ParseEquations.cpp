@@ -159,7 +159,6 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, co
   MathOperation *m=new MVMathOperation;
   m->id=k;
   m->SetV2(v2);
-  // const double result=ooo[stoi(s1.substr(1, s1.size()))]->result;
   const double result=Search(c, stoi(s1.substr(1, s1.size())))->result;
 
   if(result!=NAN)
@@ -268,30 +267,46 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	}
       else
 	{
-	  // m->SetV1(m1->GetV1());
-	  // m->SetV2(m1->GetV2());
-	  // m->SetOp(m1->GetOp());
+	  m->SetV1(m1->GetV1()->New());
+	  m->SetV1Value(m1->GetV1Value());
+	  m->SetV1Name(m1->GetV1Name());
 
-	  MathOperation *mo1=NewOperation(m1);
-	  m->SetV1(mo1->GetV1());
-	  m->SetV2(mo1->GetV2());
-	  m->SetOp(mo1->GetOp());
+	  m->SetV2(m1->GetV2()->New());
+	  m->SetV2Value(m1->GetV2Value());
+	  m->SetV2Name(m1->GetV2Name());
+
+	  m->SetOp(m1->GetOp()->New());
+
+
+
+
+	  m->v1_2=m2->GetV1()->New();
+	  m->v1_2->SetValue(m2->GetV1Value());
+	  m->v1_2->SetName(m2->GetV1Name());
+
+	  m->v2_2=m2->GetV1()->New();
+	  m->v2_2->SetValue(m2->GetV1Value());
+	  m->v2_2->SetName(m2->GetV1Name());
+
+	  m->math_operator_2=m2->GetOp()->New();
+
+
 
 	  // m2->next=nullptr;
 	  m1->next=nullptr;
 
 
 
-	  m->mo2=m2;
-
+	  // m->mo2=m2;
+	  // mo1->this->nullptr;
 
 	  // MathOperation *mo2=NewOperation(m2);
 	  // m->mo2=mo2;
 
 	  // MathOperation *mo2=NewOperation(m2);
-	  // m->mo2->SetV1(mo2->GetV1());
-	  // m->mo2->SetV2(mo2->GetV2());
-	  // m->mo2->SetOp(mo2->GetOp());
+	  // m->v1_2=mo2->GetV1();
+	  // m->v2_2=mo2->GetV2();
+	  // m->math_operator_2=mo2->GetOp();
 
 
 	  m->SetOperator2(o);
@@ -301,7 +316,7 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	  // delete m1;
 	  // m1=nullptr;
 	  next=nullptr;
-	  // delete m2;
+	  delete m2;
 	  delete m1;
 	}
       // else
@@ -450,7 +465,7 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data
     }
 
   delete e;
-
+  // delete next;
   // e->mo1=nullptr;
   // e->mo2=nullptr;
 

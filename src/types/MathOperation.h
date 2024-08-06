@@ -138,20 +138,21 @@ class MMMathOperation: public MathOperation
 {
    // Math-math math operation
 public:
-  // MathOperation *mo1;
-  MathOperation *mo2;
+  // MathOperation *mo2;
 
-  // Value *v1_2;
-  // Value *v2_2;
+  Value *v1_2;
+  Value *v2_2;
   MathOperator *math_operator_2;
+
+  MathOperator *math_operator_3;
   // double result2=NAN;
   void SetOperator2(const string &s)
   {
-    if(s==ADD) math_operator_2=new Add;
-    else if(s==SUBTRACT) math_operator_2=new Sub;
-    else if(s==MULTIPLY) math_operator_2=new Mul;
-    else if(s==DIVIDE) math_operator_2=new Div;
-    else if(s==EXP) math_operator_2=new Exp;
+    if(s==ADD) math_operator_3=new Add;
+    else if(s==SUBTRACT) math_operator_3=new Sub;
+    else if(s==MULTIPLY) math_operator_3=new Mul;
+    else if(s==DIVIDE) math_operator_3=new Div;
+    else if(s==EXP) math_operator_3=new Exp;
   }
   void Print()
   {
@@ -162,7 +163,10 @@ public:
   {
     cout<<"~MMMathOperation()"<<'\n';
     // delete mo1;
-    delete mo2;
+    // delete mo2;
+    delete v1_2;
+    delete v2_2;
+    delete math_operator_3;
     delete math_operator_2;
     cout<<" "<<'\n';
   }
