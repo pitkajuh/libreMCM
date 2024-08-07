@@ -146,6 +146,7 @@ public:
   double result2=NAN;
 
   MathOperator *math_operator_3;
+  double total_result;
 
   void SetOperator2(const string &s)
   {
