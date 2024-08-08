@@ -27,16 +27,18 @@ public:
   string GetName(){return name;}
   double GetValue(){return value;}
   Value()=default;
-  virtual Value *New()=0;
+  virtual Value *New(Value *v)=0;
 };
 
 class Constant: public Value
 {
  public:
   Constant()=default;
-  Value *New()
+  Value *New(Value *v)
   {
     Value *n=new Constant;
+    n->SetName(v->GetName());
+    n->SetValue(v->GetValue());
     return n;
   }
 };
@@ -45,9 +47,11 @@ class Variable: public Value
 {
 public:
   Variable()=default;
-  Value *New()
+  Value *New(Value *v)
   {
     Value *n=new Variable;
+    n->SetName(v->GetName());
+    n->SetValue(v->GetValue());
     return n;
   }
 };
@@ -56,9 +60,10 @@ class Numeric: public Value
 {
 public:
   Numeric()=default;
-  Value *New()
+  Value *New(Value *v)
   {
     Value *n=new Numeric;
+    n->SetValue(v->GetValue());
     return n;
   }
 };

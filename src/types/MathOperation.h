@@ -23,14 +23,11 @@ using std::cout;
 
 class MathOperation
 {
-// private:
-//   Value *v1;
-//   Value *v2;
-//   MathOperator *math_operator;
-public:
+private:
   Value *v1;
   Value *v2;
   MathOperator *math_operator;
+public:
   int id;
   double result=NAN;
   MathOperation *next=nullptr;
@@ -87,7 +84,6 @@ public:
   //     }
   //   return *this;
   // }
-  // void SetNxt(MathOperation *m){next=m;}
   void SetOperator(const string &s)
   {
     if(s==ADD) math_operator=new Add;
@@ -113,8 +109,6 @@ public:
   string GetV2Name(){return v2->GetName();} const
   void SetV1Value(const double &d){v1->SetValue(d);} const
   void SetV2Value(const double &d){v2->SetValue(d);} const
-  void SetV1Name(const string &s){v1->SetName(s);} const
-  void SetV2Name(const string &s){v2->SetName(s);} const
   void SetV1(Value *v){v1=v;}
   void SetV2(Value *v){v2=v;}
   void CalculateResult(){result=GetOp()->Calculate1(GetV1Value(), GetV2Value());}
@@ -125,11 +119,9 @@ public:
   virtual ~MathOperation()
   {
     cout<<"~MathOperation()"<<'\n';
-    cout<<"cleaning "<<this<<" v1 "<<v1<<" mo "<<math_operator<<" v2 "<<v2<<'\n';
     delete v1;
     delete v2;
     delete math_operator;
-    cout<<"cleaning also next "<<next<<'\n';
     delete next;
   }
 };
@@ -138,8 +130,6 @@ class MMMathOperation: public MathOperation
 {
    // Math-math math operation
 public:
-  // MathOperation *mo2;
-
   Value *v1_2;
   Value *v2_2;
   MathOperator *math_operator_2;
@@ -249,7 +239,7 @@ class VVMathOperation: public MathOperation
 public:
   void Print()
   {
-    cout<<"VVMathOperation "<<this<<" v1 "<<v1<<" mo "<<math_operator<<" v2 "<<v2<<'\n';
+    cout<<"VVMathOperation "<<this<<" v1 "<<this->GetV1()<<" mo "<<this->GetOp()<<" v2 "<<this->GetV2()<<'\n';
   }
   ~VVMathOperation()=default;
   MathOperation *New()

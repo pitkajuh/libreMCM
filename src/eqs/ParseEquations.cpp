@@ -58,9 +58,7 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, co
   m->id=k;
   m->SetV1(v1);
   MathOperation *m1=Search(c, stoi(s2.substr(1, s2.size())));
-  Value *v2=m1->GetV2()->New();
-  v2->SetName(m1->GetV2()->GetName());
-  v2->SetValue(m1->GetV2()->GetValue());
+  Value *v2=m1->GetV2()->New(m1->GetV2());
   m->Set(v1, o, v2);
   const double result=m1->result;
 
@@ -185,22 +183,33 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	  m->Set(v1, o, v2);
 	  m->Calculate();
 	}
+      else if(isnan(result1) and !isnan(result2))
+	{
+	  // Value *v1=new Numeric;
+	  // v1->SetValue(result2);
+
+	  // m->v1_2=m1->GetV1()->New(m1->GetV1());
+	  // m->v2_2=m1->GetV1()->New(m1->GetV1());
+	  // m->math_operator_2=m1->GetOp()->New();
+
+	  // m1->next=nullptr;
+	  // m2->next=nullptr;
+	  // next=nullptr;
+	  // delete m2;
+	  // delete m1;
+	}
+      else if(!isnan(result1) and isnan(result2))
+	{
+
+	}
       else
 	{
-	  m->SetV1(m1->GetV1()->New());
-	  m->SetV1Value(m1->GetV1Value());
-	  m->SetV1Name(m1->GetV1Name());
-	  m->SetV2(m1->GetV2()->New());
-	  m->SetV2Value(m1->GetV2Value());
-	  m->SetV2Name(m1->GetV2Name());
+	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
+	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
 	  m->SetOp(m1->GetOp()->New());
 
-	  m->v1_2=m2->GetV1()->New();
-	  m->v1_2->SetValue(m2->GetV1Value());
-	  m->v1_2->SetName(m2->GetV1Name());
-	  m->v2_2=m2->GetV1()->New();
-	  m->v2_2->SetValue(m2->GetV1Value());
-	  m->v2_2->SetName(m2->GetV1Name());
+	  m->v1_2=m2->GetV1()->New(m2->GetV1());
+	  m->v2_2=m2->GetV1()->New(m2->GetV1());
 	  m->math_operator_2=m2->GetOp()->New();
 
 	  m->SetOperator2(o);
