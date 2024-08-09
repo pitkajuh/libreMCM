@@ -16,7 +16,7 @@
 #include "../types/Data.h"
 #include <algorithm>
 
-vector<string> test(vector<string> equation, unsigned int &k, MathOperations &ooo, const Data &data, MathOperation *e, MathOperation *next);
+vector<string> test(vector<string> equation, unsigned int &k, const Data &data, MathOperation *e, MathOperation *next);
 vector<string> Remove(vector<string> equation, const int &open, const int &close);
 
 #endif

@@ -16,8 +16,6 @@
 #include "MathOperator.h"
 #include "../global/mathconst.h"
 
-class MathOperation;
-using MathOperations=std::vector<MathOperation*>;
 #include <iostream>
 using std::cout;
 

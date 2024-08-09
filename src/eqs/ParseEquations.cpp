@@ -50,7 +50,7 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
   return nullptr;
 }
 
-MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperations &ooo, MathOperation *&c)
+MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
 {
   Value *v1=new Numeric;
   v1->SetValue(stod(s1));
@@ -74,7 +74,7 @@ MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, co
   return m;
 }
 
-MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperations &ooo, MathOperation *&c)
+MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
 {
   Value *v2=new Variable;
   v2->SetName(s2);
@@ -96,7 +96,7 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, co
   return m;
 }
 
-MathOperation *NewCMMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperations &ooo, MathOperation *&c)
+MathOperation *NewCMMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
 {
   Value *v1=new Constant;
   v1->SetName(s1);
@@ -118,7 +118,7 @@ MathOperation *NewCMMath(const string &s1, const string &s2, const string &o, co
   return m;
 }
 
-MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const unsigned int i, const Data &data, MathOperations &ooo, const unsigned int &k, MathOperation *&next)
+MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const unsigned int i, const Data &data, const unsigned int &k, MathOperation *&next)
 {
   const string s1=equation[i-1];
   const string s2=equation[i+1];
@@ -144,12 +144,12 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   else if(s1_constant and s2_numeric){return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s2, s1, o, k);}
   else if(s1_numeric and s2_variable){return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s1, s2, o, k);}
   else if(s1_numeric and s2_constant){return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s1, s2, o, k);}
-  else if(s1_variable and s2_math){return NewMVMath(s2, s1, o, k, ooo, c);}
-  else if(s1_constant and s2_math){return NewCMMath(s1, s2, o, k, ooo, c);}
-  else if(s1_numeric and s2_math){return NewNMMath(s1, s2, o, k, ooo, c);}
-  else if(s1_math and s2_variable){return NewMVMath(s1, s2, o, k, ooo, c);}
-  else if(s1_math and s2_constant){return NewCMMath(s2, s1, o, k, ooo, c);}
-  else if(s1_math and s2_numeric){return NewNMMath(s2, s1, o, k, ooo, c);}
+  else if(s1_variable and s2_math){return NewMVMath(s2, s1, o, k, c);}
+  else if(s1_constant and s2_math){return NewCMMath(s1, s2, o, k, c);}
+  else if(s1_numeric and s2_math){return NewNMMath(s1, s2, o, k, c);}
+  else if(s1_math and s2_variable){return NewMVMath(s1, s2, o, k, c);}
+  else if(s1_math and s2_constant){return NewCMMath(s2, s1, o, k, c);}
+  else if(s1_math and s2_numeric){return NewNMMath(s2, s1, o, k, c);}
   else if(s1_numeric and s2_numeric)
     {
       Value *v1=new Numeric;
@@ -261,7 +261,7 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
     }
 }
 
-vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, MathOperations &ooo, const Data &data, MathOperation *&e, MathOperation *&next)
+vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, const Data &data, MathOperation *&e, MathOperation *&next)
 {
   unsigned int i=0;
   MathOperation *m;
@@ -270,12 +270,12 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
     {
       if(find==equation[i])
 	{
-	  e=Val2(e, equation, i, data, ooo, k, next);
+	  e=Val2(e, equation, i, data, k, next);
 	  e->next=next;
 	  cout<<"next "<<next<<'\n';
 	  next=e;
 
-	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<ooo.size()<<'\n';
+	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
 	  equation[i]="@"+to_string(k);
 	  equation.erase(equation.begin()+i+1);
 	  equation.erase(equation.begin()+i-1);
@@ -290,9 +290,9 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
   return equation;
 }
 
-void GetOrder(vector<string> &equation, unsigned int &k, MathOperations &ooo, const Data &data, MathOperation *&e, MathOperation *&next)
+void GetOrder(vector<string> &equation, unsigned int &k, const Data &data, MathOperation *&e, MathOperation *&next)
 {
-  for(const auto&i: OPERATORS) equation=FindOperator(equation, i, k, ooo, data, e, next);
+  for(const auto&i: OPERATORS) equation=FindOperator(equation, i, k, data, e, next);
 }
 
 vector<string> RemoveOpenClose(vector<string> equation)
@@ -304,11 +304,11 @@ vector<string> RemoveOpenClose(vector<string> equation)
   return equation;
 }
 
-vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, MathOperations &ooo, const Data &data, MathOperation *&e, MathOperation *&next)
+vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, const Data &data, MathOperation *&e, MathOperation *&next)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
-  GetOrder(v1, k, ooo, data, e, next);
-  v1=test(v1, k, ooo, data, e, next);
+  GetOrder(v1, k, data, e, next);
+  v1=test(v1, k, data, e, next);
   const vector<string> v2{equation.begin(), equation.begin()+open};
   const vector<string> v3{equation.begin()+close+1, equation.end()};
   vector<string> result;
@@ -320,7 +320,7 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
   return result;
 }
 
-Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data &data)
+void ParseEquations(const SMap &equations_map, const Data &data)
 {
     // Set calculation order of an equation according to order of operations:
 
@@ -331,11 +331,10 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data
 
   vector<string> v;
   unsigned int k=0;
-  MathOperations ooo;
   MathOperation *e=nullptr;
   MathOperation *next=nullptr;
-  Map<string, MathOperations> equations_map2;
-  equations_map2.reserve(equations_map.size());
+  // Map<string, MathOperations> equations_map2;
+  // equations_map2.reserve(equations_map.size());
 
   for(const auto& [name, equation]: equations_map)
     {
@@ -344,39 +343,12 @@ Map<string, MathOperations> ParseEquations(const SMap &equations_map, const Data
       cout<<"EQUATION"<<'\n';
       print_vector2(v);
         cout<<" "<<'\n';
-      v=test(v, k, ooo, data, e, next);
-      GetOrder(v, k, ooo, data, e, next);
-      // equations_map2[name]=ooo;
-      // cout<<"size "<<ooo.size()<<'\n';
-
-      // cout<<e<<" v1 "<<e->GetV1()<<" mo "<<e->GetOp()<<" v2 "<<e->GetV2()<<'\n';
-
-      // cout<<e<<'\n';
-      // cout<<"v1 "<<e->GetV1()<<'\n';
-      // cout<<"mo "<<e->GetOp()<<'\n';
-      // cout<<"v2 "<<e->GetV2()<<'\n';
-
-      // cout<<next<<" v1 "<<next->GetV1()<<" mo "<<next->GetOp()<<" v2 "<<next->GetV2()<<'\n';
-
-      // delete e;
+      v=test(v, k, data, e, next);
+      GetOrder(v, k, data, e, next);
+      delete e;
       // delete next;
       k=0;
-      ooo.clear();
       cout<<" "<<'\n';
     }
-
-  delete e;
-  // delete next;
-  // e->mo1=nullptr;
-  // e->mo2=nullptr;
-
-  // MathOperation *tmp=e;
-  // while(tmp!=nullptr)
-  //   {
-  //     tmp=tmp->next;
-  //     delete e;
-  //     e=tmp;
-  //     cout<<" "<<'\n';
-  //   }
-  return equations_map2;
+  // return equations_map2;
 }

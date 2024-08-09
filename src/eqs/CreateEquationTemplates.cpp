@@ -14,7 +14,7 @@
 
 using std::cout;
 
-void GetValue(MathOperations v, const Data &data)
+void GetValue(const Data &data)
 {
   int j=0;
   // for(const auto &i: v)
@@ -32,7 +32,7 @@ void GetValue(MathOperations v, const Data &data)
   //   }
 }
 
-void CreateEquationTemplates(const Map<string, MathOperations> &equations_map, const Data &data)
+void CreateEquationTemplates(const Data &data)
 {
   cout<<"--------------------------------------"<<'\n';
   // for(const auto &[key, value]: equations_map)

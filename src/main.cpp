@@ -74,8 +74,8 @@ void ReadInitialData(const string &directory)
   Data data(csv.diagonal, constants_map);
 
   const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
-  const Map<string, MathOperations> equations_map2=ParseEquations(equations_map, data);
-  CreateEquationTemplates(equations_map2, data);
+  ParseEquations(equations_map, data);
+  // CreateEquationTemplates(equations_map2, data);
 
   const vector<string> iv_names=CreateAllInitialValues(ivs);
   const Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
