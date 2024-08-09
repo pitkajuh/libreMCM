@@ -173,9 +173,12 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
       MathOperation *m2=Search(c, stoi(s2.substr(1, s2.size())));
       const double result1=m1->result;
       const double result2=m2->result;
-
-      if(!isnan(result1) and !isnan(result2))
+      const bool r1_null=isnan(result1);
+      const bool r2_null=isnan(result2);
+      cout<<"res "<<result1<<" "<<result2<<'\n';
+      if(!r1_null and !r2_null)
 	{
+	  cout<<"!r1_null and !r2_null"<<'\n';
 	  Value *v1=new Numeric;
 	  v1->SetValue(result1);
 	  Value *v2=new Numeric;
@@ -183,27 +186,34 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	  m->Set(v1, o, v2);
 	  m->Calculate();
 	}
-      else if(isnan(result1) and !isnan(result2))
+      else if(r1_null and !r2_null)
 	{
-	  // Value *v1=new Numeric;
-	  // v1->SetValue(result2);
-
-	  // m->v1_2=m1->GetV1()->New(m1->GetV1());
-	  // m->v2_2=m1->GetV1()->New(m1->GetV1());
-	  // m->math_operator_2=m1->GetOp()->New();
-
-	  // m1->next=nullptr;
-	  // m2->next=nullptr;
-	  // next=nullptr;
-	  // delete m2;
-	  // delete m1;
+	  cout<<"r1_null and !r2_null"<<'\n';
 	}
-      else if(!isnan(result1) and isnan(result2))
+      else if(!r1_null and r2_null)
 	{
+	  cout<<"!r1_null and r2_null"<<'\n';
+	  // Since the result is already known, V1, V2 and math_operator are not relevant, thus they can be set to nullptr.
+	  m->SetV1(nullptr);
+	  m->SetV2(nullptr);
+	  m->SetOp(nullptr);
+	  m->result=result1;
 
+	  m->v1_2=m2->GetV2()->New(m2->GetV2());
+	  m->v2_2=m2->GetV2()->New(m2->GetV2());
+	  m->math_operator_2=m2->GetOp()->New();
+
+	  m->SetOperator2(o);
+
+	  m1->next=nullptr;
+	  m2->next=nullptr;
+	  next=nullptr;
+	  delete m2;
+	  delete m1;
 	}
       else
 	{
+	  cout<<"else"<<'\n';
 	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
 	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
 	  m->SetOp(m1->GetOp()->New());

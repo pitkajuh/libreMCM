@@ -130,13 +130,13 @@ class MMMathOperation: public MathOperation
 {
    // Math-math math operation
 public:
-  Value *v1_2;
-  Value *v2_2;
-  MathOperator *math_operator_2;
+  Value *v1_2=nullptr;
+  Value *v2_2=nullptr;
+  MathOperator *math_operator_2=nullptr;
   double result2=NAN;
 
-  MathOperator *math_operator_3;
-  double total_result;
+  MathOperator *math_operator_3=nullptr;
+  double total_result=NAN;
 
   void SetOperator2(const string &s)
   {
