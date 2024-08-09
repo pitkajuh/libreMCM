@@ -189,6 +189,23 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
       else if(r1_null and !r2_null)
 	{
 	  cout<<"r1_null and !r2_null"<<'\n';
+	  // Since the result is already known, V1, V2 and math_operator are not relevant, thus they can be set to nullptr.
+	  m->SetV1(nullptr);
+	  m->SetV2(nullptr);
+	  m->SetOp(nullptr);
+	  m->result=result2;
+
+	  m->v1_2=m1->GetV1()->New(m1->GetV1());
+	  m->v2_2=m1->GetV2()->New(m1->GetV2());
+	  m->math_operator_2=m1->GetOp()->New();
+
+	  m->SetOperator2(o);
+
+	  m1->next=nullptr;
+	  m2->next=nullptr;
+	  next=nullptr;
+	  delete m2;
+	  delete m1;
 	}
       else if(!r1_null and r2_null)
 	{
@@ -199,7 +216,7 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	  m->SetOp(nullptr);
 	  m->result=result1;
 
-	  m->v1_2=m2->GetV2()->New(m2->GetV2());
+	  m->v1_2=m2->GetV1()->New(m2->GetV1());
 	  m->v2_2=m2->GetV2()->New(m2->GetV2());
 	  m->math_operator_2=m2->GetOp()->New();
 
