@@ -197,10 +197,10 @@ public:
     MathOperation *n=new NNMathOperation;
     return n;
   }
-  void Calculate()
-  {
-    // CalculateResult();
-  }
+  // void Calculate()
+  // {
+  //   // CalculateResult();
+  // }
   void Type(){cout<<"Type is NNMath"<<'\n';}
 };
 

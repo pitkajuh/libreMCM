@@ -143,7 +143,10 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   else if(s1_variable and s2_constant){return CreateNewMathOperation2<Constant, Variable, CVMathOperation>(s2, s1, o, k);}
   else if(s1_variable and s2_numeric){return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s2, s1, o, k);}
   else if(s1_constant and s2_variable){return CreateNewMathOperation2<Constant, Variable, CVMathOperation>(s1, s2, o, k);}
-  else if(s1_constant and s2_constant){return CreateNewMathOperation2<Constant, Constant, CCMathOperation>(s1, s2, o, k);}
+  else if(s1_constant and s2_constant)
+    {
+      return CreateNewMathOperation2<Constant, Constant, CCMathOperation>(s1, s2, o, k);
+    }
   else if(s1_constant and s2_numeric){return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s2, s1, o, k);}
   else if(s1_numeric and s2_variable){return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s1, s2, o, k);}
   else if(s1_numeric and s2_constant){return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s1, s2, o, k);}
@@ -178,20 +181,21 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   //     cout<<"s1_math and s2_numeric"<<'\n';
   //     return NewNMMath(s2, s1, o, k, c);
   //   }
-  // else if(s1_numeric and s2_numeric)
-  //   {
-  //     Value *v1=new Numeric;
-  //     v1->SetValue(stod(s1));
-  //     Value *v2=new Numeric;
-  //     v2->SetValue(stod(s2));
-  //     MathOperation *m=new NNMathOperation;
-  //     m->id=k;
-  //     m->SetV1(v1);
-  //     m->SetV2(v2);
-  //     m->SetOperator(o);
-  //     m->Calculate();
-  //     return m;
-  //   }
+  else if(s1_numeric and s2_numeric)
+    {
+      VaVaMathOperation *m=new NNMathOperation;
+
+      m->SetV1(new Numeric);
+      m->SetV1Value(stod(s1));
+
+      m->SetV2(new Numeric);
+      m->SetV2Value(stod(s2));
+
+      m->id=k;
+      m->SetOperator(o);
+      m->CalculateResult();
+      return m;
+    }
   // else if(s1_math and s2_math)
   //   {
   //     cout<<"s1_math and s2_math"<<'\n';
