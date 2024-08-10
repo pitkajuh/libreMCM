@@ -28,60 +28,9 @@ private:
 public:
   int id;
   double result=NAN;
+
   MathOperation *next=nullptr;
 
-  // MathOperation(const MathOperation &m)
-  // {
-  //   cout<<"MathOperation copy"<<'\n';
-  //   v1=m.v1;
-  //   v2=m.v2;
-  //   math_operator=m.math_operator;
-  //   result=m.result;
-  // }
-  // MathOperation &operator=(const MathOperation &m)
-  // {
-  //   cout<<"MathOperation copy="<<'\n';
-  //   if(this!=&m)
-  //     {
-  // 	delete v1;
-  // 	delete v2;
-  // 	delete math_operator;
-  // 	v1=m.v1;
-  // 	v2=m.v2;
-  // 	math_operator=m.math_operator;
-  // 	result=m.result;
-  //     }
-  //   return *this;
-  // }
-  // MathOperation(MathOperation &&m)
-  // {
-  //   cout<<"MathOperation move"<<'\n';
-  //   v1=m.v1;
-  //   v2=m.v2;
-  //   math_operator=m.math_operator;
-  //   result=m.result;
-  //   m.v1=nullptr;
-  //   m.v2=nullptr;
-  //   m.math_operator=nullptr;
-  // }
-  // MathOperation &operator=(MathOperation &&m)
-  // {
-  //   cout<<"MathOperation move="<<'\n';
-  //   if(this!=&m)
-  //     {
-  // 	delete v1;
-  // 	delete v2;
-  // 	delete math_operator;
-  // 	v1=m.v1;
-  // 	v2=m.v2;
-  // 	math_operator=m.math_operator;
-  // 	result=m.result;
-  // 	m.v1=nullptr;
-  // 	m.v2=nullptr;
-  // 	m.math_operator=nullptr;
-  //     }
-  //   return *this;
-  // }
   void SetOperator(const string &s)
   {
     if(s==ADD) math_operator=new Add;
@@ -121,6 +70,12 @@ public:
     delete v2;
     delete math_operator;
     delete next;
+
+    // while(this->next!=nullptr)
+    //   {
+    // 	cout<<"next->next!=nullptr"<<'\n';
+    // 	next=next->next;
+    //   }
   }
 };
 
@@ -193,6 +148,22 @@ class MVMathOperation: public MathOperation
 {
   // Math-variable math operation
 public:
+  // Value *v1_v=nullptr;
+
+  // Value *v1_2=nullptr;
+  // Value *v2_2=nullptr;
+  // MathOperator *math_operator_2=nullptr;
+  // double result2=NAN;
+
+  // void SetOperator2(const string &s)
+  // {
+  //   if(s==ADD) math_operator_3=new Add;
+  //   else if(s==SUBTRACT) math_operator_3=new Sub;
+  //   else if(s==MULTIPLY) math_operator_3=new Mul;
+  //   else if(s==DIVIDE) math_operator_3=new Div;
+  //   else if(s==EXP) math_operator_3=new Exp;
+  // }
+
   void Print(){}
   MathOperation *New()
   {
@@ -234,7 +205,14 @@ public:
 class VVMathOperation: public MathOperation
 {
   // Variable-variable math operation
+private:
+  Value *v1;
+  Value *v2;
+  MathOperator *math_operator;
 public:
+  int id;
+  double result=NAN;
+
   void Print()
   {
     cout<<"VVMathOperation "<<this<<" v1 "<<this->GetV1()<<" mo "<<this->GetOp()<<" v2 "<<this->GetV2()<<'\n';
@@ -245,48 +223,6 @@ public:
     MathOperation *n=new VVMathOperation;
     return n;
   }
-  // VVMathOperation()=default;
-  // VVMathOperation(const VVMathOperation &m): MathOperation(m)
-  // {
-  //   cout<<"VVMathOperation copy"<<'\n';
-  // }
-  // VVMathOperation(VVMathOperation &&m): MathOperation(std::move(m))
-  // {
-  //   cout<<"VVMathOperation move"<<'\n';
-  // }
-  // VVMathOperation &operator=(VVMathOperation &&m)
-  // {
-  //   cout<<"VVMathOperation move="<<'\n';
-  //   if(this!=&m)
-  //     {
-  // 	delete v1;
-  // 	delete v2;
-  // 	delete math_operator;
-  // 	v1=m.v1;
-  // 	v2=m.v2;
-  // 	math_operator=m.math_operator;
-  // 	result=m.result;
-  // 	m.v1=nullptr;
-  // 	m.v2=nullptr;
-  // 	m.math_operator=nullptr;
-  //     }
-  //   return *this;
-  // }
-  // VVMathOperation &operator=(const VVMathOperation &m)
-  // {
-  //   cout<<"VVMathOperation copy="<<'\n';
-  //   if(this!=&m)
-  //     {
-  // 	delete v1;
-  // 	delete v2;
-  // 	delete math_operator;
-  // 	v1=m.v1;
-  // 	v2=m.v2;
-  // 	math_operator=m.math_operator;
-  // 	result=m.result;
-  //     }
-  //   return *this;
-  // }
   void Calculate(){}
   void Type(){cout<<"Type is VVMath"<<'\n';}
 };

@@ -44,7 +44,7 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
 
   while(c!=nullptr)
     {
-      if(c->id==i){return c;}
+      if(c->id==i) return c;
       c=c->next;
     }
   return nullptr;
@@ -83,7 +83,7 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, co
   m->SetV2(v2);
   const double result=Search(c, stoi(s1.substr(1, s1.size())))->result;
 
-  if(result!=NAN)
+  if(!isnan(result))
     {
       Value *v1=new Numeric;
       v1->SetValue(result);
@@ -144,12 +144,37 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   else if(s1_constant and s2_numeric){return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s2, s1, o, k);}
   else if(s1_numeric and s2_variable){return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s1, s2, o, k);}
   else if(s1_numeric and s2_constant){return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s1, s2, o, k);}
-  else if(s1_variable and s2_math){return NewMVMath(s2, s1, o, k, c);}
-  else if(s1_constant and s2_math){return NewCMMath(s1, s2, o, k, c);}
-  else if(s1_numeric and s2_math){return NewNMMath(s1, s2, o, k, c);}
-  else if(s1_math and s2_variable){return NewMVMath(s1, s2, o, k, c);}
-  else if(s1_math and s2_constant){return NewCMMath(s2, s1, o, k, c);}
-  else if(s1_math and s2_numeric){return NewNMMath(s2, s1, o, k, c);}
+  else if(s1_variable and s2_math)
+    {
+      cout<<"s1_variable and s2_math"<<'\n';
+      return NewMVMath(s2, s1, o, k, c);
+    }
+  else if(s1_constant and s2_math)
+    {
+      cout<<"s1_constant and s2_math"<<'\n';
+      return NewCMMath(s1, s2, o, k, c);
+    }
+  else if(s1_numeric and s2_math)
+    {
+      cout<<"s1_numeric and s2_math"<<'\n';
+      return NewNMMath(s1, s2, o, k, c);
+    }
+  else if(s1_math and s2_variable)
+    {
+      cout<<"s1_math and s2_variable"<<'\n';
+      MathOperation *m=NewMVMath(s1, s2, o, k, c);
+      return m;
+    }
+  else if(s1_math and s2_constant)
+    {
+      cout<<"s1_math and s2_constant"<<'\n';
+      return NewCMMath(s2, s1, o, k, c);
+    }
+  else if(s1_math and s2_numeric)
+    {
+      cout<<"s1_math and s2_numeric"<<'\n';
+      return NewNMMath(s2, s1, o, k, c);
+    }
   else if(s1_numeric and s2_numeric)
     {
       Value *v1=new Numeric;
@@ -175,7 +200,7 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
       const double result2=m2->result;
       const bool r1_null=isnan(result1);
       const bool r2_null=isnan(result2);
-      cout<<"res "<<result1<<" "<<result2<<'\n';
+
       if(!r1_null and !r2_null)
 	{
 	  cout<<"!r1_null and !r2_null"<<'\n';
@@ -320,14 +345,30 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
   return result;
 }
 
+void Delete(MathOperation *m)
+{
+  MathOperation *tmp=m;
+  MathOperation *nxt;
+  cout<<"delete begin"<<'\n';
+  while(tmp->next!=nullptr)
+    {
+      nxt=tmp->next;
+      cout<<tmp<<'\n';
+      delete tmp;
+      tmp=nxt;
+    }
+  // tmp->next=nullptr;
+  cout<<"delete end"<<'\n';
+}
+
 void ParseEquations(const SMap &equations_map, const Data &data)
 {
-    // Set calculation order of an equation according to order of operations:
+  // Set calculation order of an equation according to order of operations:
 
-    // 1. Parentheses
-    // 2. Exponents
-    // 3. Multiplication and division
-    // 4. Addition and subtraction
+  // 1. Parentheses
+  // 2. Exponents
+  // 3. Multiplication and division
+  // 4. Addition and subtraction
 
   vector<string> v;
   unsigned int k=0;
@@ -346,6 +387,7 @@ void ParseEquations(const SMap &equations_map, const Data &data)
       v=test(v, k, data, e, next);
       GetOrder(v, k, data, e, next);
       delete e;
+      // Delete(e);
       // delete next;
       k=0;
       cout<<" "<<'\n';
