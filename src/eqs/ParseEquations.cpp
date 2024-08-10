@@ -76,11 +76,30 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
 MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
 {
   VaMaMathOperation *m=new MVMathOperation;
-  m->SetV(new Variable);
-  m->SetVName(s2);
-  m->id=k;
-  const double result=Search(c, stoi(s1.substr(1, s1.size())))->result;
 
+  // m->SetV(new Variable);
+  // m->SetVName(s2);
+
+  Value *v1=new Variable;
+  // v1->SetName(s2);
+  cout<<"r aoe1"<<'\n';
+  m->SetV(v1->New(v1));
+  m->SetVName(s2);
+
+
+    cout<<"r aoe12"<<'\n';
+  // cout<<"r aoe2 "<<m->GetV()<<'\n';
+  // m->SetVName(s2);
+  cout<<"r aoe3"<<'\n';
+  m->id=k;
+  // const double result=Search(c, stoi(s1.substr(1, s1.size())))->result;
+  cout<<"r aoe4"<<'\n';
+
+  // MathOperation *r=Search(c, stoi(s1.substr(1, s1.size())));
+
+  // r->Type();
+    // cout<<"r "<<r<<'\n';
+  // cout<<"id "<<r->id<<'\n';
   // if(!isnan(result))
   //   {
   //     Value *v1=new Numeric;
@@ -91,6 +110,15 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, co
   //   {
   //     cout<<"else NewNVMath"<<'\n';
   //   }
+    m->SetOperator1(o);
+
+
+
+    // m->SetV1(v->New(v));
+    // m->SetV2(v->New(v));
+    m->SetOperator(o);
+
+    delete v1;
   return m;
 }
 
@@ -382,6 +410,7 @@ void ParseEquations(const SMap &equations_map, const Data &data)
         cout<<" "<<'\n';
       v=test(v, k, data, e, next);
       GetOrder(v, k, data, e, next);
+      cout<<"Deleting "<<'\n';
       delete e;
       next=nullptr;
       // Delete(e);

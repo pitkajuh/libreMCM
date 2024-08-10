@@ -50,8 +50,8 @@ public:
   Value *New(Value *v)
   {
     Value *n=new Variable;
-    n->SetName(v->GetName());
-    n->SetValue(v->GetValue());
+    // n->SetName(v->GetName());
+    // n->SetValue(v->GetValue());
     return n;
   }
 };

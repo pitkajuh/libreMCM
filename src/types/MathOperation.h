@@ -76,26 +76,27 @@ public:
     delete v2;
     delete math_operator;
   }
+  virtual void Type()=0;
 };
 
 class VaMaMathOperation: public VaVaMathOperation
 {
 private:
-  Value *v=nullptr;
-  MathOperator *math_operator=nullptr;
+  Value *v;
+  MathOperator *math_operator1=nullptr;
 public:
   double result_total=NAN;
 
-  void SetOperator(const string &s)
+  void SetOperator1(const string &s)
   {
-    if(s==ADD) math_operator=new Add;
-    else if(s==SUBTRACT) math_operator=new Sub;
-    else if(s==MULTIPLY) math_operator=new Mul;
-    else if(s==DIVIDE) math_operator=new Div;
-    else if(s==EXP) math_operator=new Exp;
+    if(s==ADD) math_operator1=new Add;
+    else if(s==SUBTRACT) math_operator1=new Sub;
+    else if(s==MULTIPLY) math_operator1=new Mul;
+    else if(s==DIVIDE) math_operator1=new Div;
+    else if(s==EXP) math_operator1=new Exp;
   }
-  MathOperator *GetOp(){return math_operator;} const
-  void SetV(Value *v){v=v;}
+  MathOperator *GetOp(){return math_operator1;} const
+  void SetV(Value *v1){v=v1;}
   Value *GetV(){return v;} const
   double GetVValue(){return v->GetValue();} const
   string GetVName(){return v->GetName();} const
@@ -105,7 +106,11 @@ public:
   {
     cout<<"~VaMaMathOperation()"<<'\n';
     delete v;
-    delete math_operator;
+    delete math_operator1;
+  }
+  void Type()
+  {
+    cout<<"VaMaMathOperation()"<<'\n';
   }
 };
 
