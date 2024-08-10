@@ -52,49 +52,50 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
 
 // MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
 // {
-//   Value *v1=new Numeric;
-//   v1->SetValue(stod(s1));
 //   MathOperation *m=new NMMathOperation;
+//   m->SetV1(new Numeric);
+//   m->SetV1Value(stod(s1));
 //   m->id=k;
-//   m->SetV1(v1);
-//   MathOperation *m1=Search(c, stoi(s2.substr(1, s2.size())));
-//   Value *v2=m1->GetV2()->New(m1->GetV2());
-//   m->Set(v1, o, v2);
-//   const double result=m1->result;
+//   // MathOperation *m1=Search(c, stoi(s2.substr(1, s2.size())));
+//   // Value *v2=m1->GetV2()->New(m1->GetV2());
+//   // m->Set(v1, o, v2);
+//   // const double result=m1->result;
 
-//   if(result!=NAN)
-//     {
-//       m->SetV2Value(result);
-//       m->Calculate();
-//     }
-//   else
-//     {
-//       cout<<"else NewNMMath"<<'\n';
-//     }
+//   // if(result!=NAN)
+//   //   {
+//   //     m->SetV2Value(result);
+//   //     m->Calculate();
+//   //   }
+//   // else
+//   //   {
+//   //     cout<<"else NewNMMath"<<'\n';
+//   //   }
 //   return m;
 // }
 
-// MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
-// {
-//   Value *v2=new Variable;
-//   v2->SetName(s2);
-//   MathOperation *m=new MVMathOperation;
-//   m->id=k;
-//   m->SetV2(v2);
-//   const double result=Search(c, stoi(s1.substr(1, s1.size())))->result;
+MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
+{
+  // Value *v2=new Variable;
+  // v2->SetName(s2);
+  VaMaMathOperation *m=new MVMathOperation;
+  m->SetV(new Variable);
+  m->SetVName(s2);
+  m->id=k;
+  // m->SetV2(v2);
+  // const double result=Search(c, stoi(s1.substr(1, s1.size())))->result;
 
-//   if(!isnan(result))
-//     {
-//       Value *v1=new Numeric;
-//       v1->SetValue(result);
-//       m->Set(v1, o, v2);
-//     }
-//   else
-//     {
-//       cout<<"else NewNVMath"<<'\n';
-//     }
-//   return m;
-// }
+  // if(!isnan(result))
+  //   {
+  //     Value *v1=new Numeric;
+  //     v1->SetValue(result);
+  //     m->Set(v1, o, v2);
+  //   }
+  // else
+  //   {
+  //     cout<<"else NewNVMath"<<'\n';
+  //   }
+  return m;
+}
 
 // MathOperation *NewCMMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
 // {
@@ -131,10 +132,10 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   const bool s2_constant=IsIn(s2, data.constants_map);
   const bool s2_numeric=IsNumerical(s2);
   const bool s2_math=(s2.substr(0, 1)=="@") ? true : false;
-  // cout<<"Math operation "<<ooo.size()<<'\n';
-  // cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
-  // cout<<"s1 "<<s1_variable<<" "<<s1_constant<<" "<<s1_numeric<<" "<<s1_math<<'\n';
-  // cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
+  cout<<"Math operation "<<'\n';
+  cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
+  cout<<"s1 "<<s1_variable<<" "<<s1_constant<<" "<<s1_numeric<<" "<<s1_math<<'\n';
+  cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
 
   if(s1_variable and s2_variable) return CreateNewMathOperation2<Variable, Variable, VVMathOperation>(s1, s2, o, k);
   else if(s1_variable and s2_constant) return CreateNewMathOperation2<Constant, Variable, CVMathOperation>(s2, s1, o, k);
@@ -159,12 +160,12 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   //     cout<<"s1_numeric and s2_math"<<'\n';
   //     return NewNMMath(s1, s2, o, k, c);
   //   }
-  // else if(s1_math and s2_variable)
-  //   {
-  //     cout<<"s1_math and s2_variable"<<'\n';
-  //     MathOperation *m=NewMVMath(s1, s2, o, k, c);
-  //     return m;
-  //   }
+  else if(s1_math and s2_variable)
+    {
+      cout<<"s1_math and s2_variable"<<'\n';
+      MathOperation *m=NewMVMath(s1, s2, o, k, c);
+      return m;
+    }
   // else if(s1_math and s2_constant)
   //   {
   //     cout<<"s1_math and s2_constant"<<'\n';
@@ -178,13 +179,10 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   else if(s1_numeric and s2_numeric)
     {
       VaVaMathOperation *m=new NNMathOperation;
-
       m->SetV1(new Numeric);
       m->SetV1Value(stod(s1));
-
       m->SetV2(new Numeric);
       m->SetV2Value(stod(s2));
-
       m->id=k;
       m->SetOperator(o);
       m->CalculateResult();

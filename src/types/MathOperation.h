@@ -78,6 +78,37 @@ public:
   }
 };
 
+class VaMaMathOperation: public VaVaMathOperation
+{
+private:
+  Value *v=nullptr;
+  MathOperator *math_operator=nullptr;
+public:
+  double result_total=NAN;
+
+  void SetOperator(const string &s)
+  {
+    if(s==ADD) math_operator=new Add;
+    else if(s==SUBTRACT) math_operator=new Sub;
+    else if(s==MULTIPLY) math_operator=new Mul;
+    else if(s==DIVIDE) math_operator=new Div;
+    else if(s==EXP) math_operator=new Exp;
+  }
+  MathOperator *GetOp(){return math_operator;} const
+  void SetV(Value *v){v=v;}
+  Value *GetV(){return v;} const
+  double GetVValue(){return v->GetValue();} const
+  string GetVName(){return v->GetName();} const
+  void SetVName(const string &s){v->SetName(s);}
+  void SetVValue(const double &d){v->SetValue(d);}
+  ~VaMaMathOperation()
+  {
+    cout<<"~VaMaMathOperation()"<<'\n';
+    delete v;
+    delete math_operator;
+  }
+};
+
 class MMMathOperation: public MathOperation
 {
    // Math-math math operation
@@ -125,7 +156,7 @@ public:
   void Type(){cout<<"Type is MMMath"<<'\n';}
 };
 
-class NMMathOperation: public MathOperation
+class NMMathOperation: public VaMaMathOperation
 {
   // Numeric-math math operation
 public:
@@ -143,7 +174,7 @@ public:
   }
 };
 
-class MVMathOperation: public MathOperation
+class MVMathOperation: public VaMaMathOperation
 {
   // Math-variable math operation
 public:
@@ -154,14 +185,7 @@ public:
   // MathOperator *math_operator_2=nullptr;
   // double result2=NAN;
 
-  // void SetOperator2(const string &s)
-  // {
-  //   if(s==ADD) math_operator_3=new Add;
-  //   else if(s==SUBTRACT) math_operator_3=new Sub;
-  //   else if(s==MULTIPLY) math_operator_3=new Mul;
-  //   else if(s==DIVIDE) math_operator_3=new Div;
-  //   else if(s==EXP) math_operator_3=new Exp;
-  // }
+
 
   void Print(){}
   MathOperation *New()
