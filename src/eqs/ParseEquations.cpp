@@ -136,20 +136,14 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   // cout<<"s1 "<<s1_variable<<" "<<s1_constant<<" "<<s1_numeric<<" "<<s1_math<<'\n';
   // cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
 
-  if(s1_variable and s2_variable)
-    {
-      return CreateNewMathOperation2<Variable, Variable, VVMathOperation>(s1, s2, o, k);
-    }
-  else if(s1_variable and s2_constant){return CreateNewMathOperation2<Constant, Variable, CVMathOperation>(s2, s1, o, k);}
-  else if(s1_variable and s2_numeric){return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s2, s1, o, k);}
-  else if(s1_constant and s2_variable){return CreateNewMathOperation2<Constant, Variable, CVMathOperation>(s1, s2, o, k);}
-  else if(s1_constant and s2_constant)
-    {
-      return CreateNewMathOperation2<Constant, Constant, CCMathOperation>(s1, s2, o, k);
-    }
-  else if(s1_constant and s2_numeric){return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s2, s1, o, k);}
-  else if(s1_numeric and s2_variable){return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s1, s2, o, k);}
-  else if(s1_numeric and s2_constant){return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s1, s2, o, k);}
+  if(s1_variable and s2_variable) return CreateNewMathOperation2<Variable, Variable, VVMathOperation>(s1, s2, o, k);
+  else if(s1_variable and s2_constant) return CreateNewMathOperation2<Constant, Variable, CVMathOperation>(s2, s1, o, k);
+  else if(s1_variable and s2_numeric) return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s2, s1, o, k);
+  else if(s1_constant and s2_variable) return CreateNewMathOperation2<Constant, Variable, CVMathOperation>(s1, s2, o, k);
+  else if(s1_constant and s2_constant) return CreateNewMathOperation2<Constant, Constant, CCMathOperation>(s1, s2, o, k);
+  else if(s1_constant and s2_numeric) return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s2, s1, o, k);
+  else if(s1_numeric and s2_variable) return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s1, s2, o, k);
+  else if(s1_numeric and s2_constant) return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s1, s2, o, k);
   // else if(s1_variable and s2_math)
   //   {
   //     cout<<"s1_variable and s2_math"<<'\n';
@@ -394,6 +388,7 @@ void ParseEquations(const SMap &equations_map, const Data &data)
       v=test(v, k, data, e, next);
       GetOrder(v, k, data, e, next);
       delete e;
+      next=nullptr;
       // Delete(e);
       // delete next;
       k=0;

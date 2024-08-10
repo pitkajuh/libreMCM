@@ -16,13 +16,13 @@
 template<typename T, typename U, typename L>
 MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const string &o, const unsigned int &k)
 {
-  Value *v1=new T;
-  v1->SetValue((stod(s1)));
-  Value *v2=new U;
-  v2->SetName(s2);
-  MathOperation *m=new L;
+  VaVaMathOperation *m=new L;
+  m->SetV1(new T);
+  m->SetV1Value(stod(s1));
+  m->SetV2(new U);
+  m->SetV2Name(s2);
+  m->SetOperator(o);
   m->id=k;
-  // m->Set(v1, o, v2);
   return m;
 }
 

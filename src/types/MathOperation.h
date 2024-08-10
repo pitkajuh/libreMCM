@@ -169,7 +169,6 @@ public:
     MathOperation *n=new MVMathOperation;
     return n;
   }
-  void Calculate(){}
   void Type(){cout<<"Type is MVMath"<<'\n';}
 };
 
@@ -183,7 +182,6 @@ public:
     MathOperation *n=new CMMathOperation;
     return n;
   }
-  void Calculate(){}
   void Type(){cout<<"Type is CMMath"<<'\n';}
 };
 
@@ -197,10 +195,6 @@ public:
     MathOperation *n=new NNMathOperation;
     return n;
   }
-  // void Calculate()
-  // {
-  //   // CalculateResult();
-  // }
   void Type(){cout<<"Type is NNMath"<<'\n';}
 };
 
@@ -212,20 +206,11 @@ public:
   {
     // cout<<"VVMathOperation "<<this<<" v1 "<<this->GetV1()<<" mo "<<this->GetOp()<<" v2 "<<this->GetV2()<<'\n';
   }
-  // ~VVMathOperation()=default;
-  // ~VVMathOperation()
-  // {
-  //   delete v1;
-  //   delete v2;
-  //   delete math_operator;
-  // }
-
   MathOperation *New()
   {
     MathOperation *n=new VVMathOperation;
     return n;
   }
-  void Calculate(){}
   void Type(){cout<<"Type is VVMath"<<'\n';}
 };
 
