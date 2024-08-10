@@ -75,14 +75,11 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
 
 MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
 {
-  // Value *v2=new Variable;
-  // v2->SetName(s2);
   VaMaMathOperation *m=new MVMathOperation;
   m->SetV(new Variable);
   m->SetVName(s2);
   m->id=k;
-  // m->SetV2(v2);
-  // const double result=Search(c, stoi(s1.substr(1, s1.size())))->result;
+  const double result=Search(c, stoi(s1.substr(1, s1.size())))->result;
 
   // if(!isnan(result))
   //   {
