@@ -91,7 +91,7 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, co
   cout<<"r aoe4"<<'\n';
 
   MathOperation *r=Search(c, stoi(s1.substr(1, s1.size())));
-
+  const double result=r->result;
   r->Type();
     // cout<<"r "<<r<<'\n';
   cout<<"id "<<r->id<<'\n';

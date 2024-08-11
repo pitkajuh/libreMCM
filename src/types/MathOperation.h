@@ -23,6 +23,7 @@ class MathOperation
 {
 public:
   int id;
+  double result=NAN;
   MathOperation *next=nullptr;
 
   MathOperation()=default;
@@ -44,7 +45,7 @@ private:
   Value *v2=nullptr;
   MathOperator *math_operator=nullptr;
 public:
-  double result=NAN;
+  // double result=NAN;
 
   void SetOperator(const string &s)
   {
