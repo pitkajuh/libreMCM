@@ -77,17 +77,12 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, co
 {
   VaMaMathOperation *m=new MVMathOperation;
 
-  // m->SetV(new Variable);
-  // m->SetVName(s2);
-
-  Value *v1=new Variable;
-  // v1->SetName(s2);
   cout<<"r aoe1"<<'\n';
-  m->SetV(v1->New(v1));
+
+  m->SetV(new Variable);
   m->SetVName(s2);
 
-
-    cout<<"r aoe12"<<'\n';
+  cout<<"r aoe12"<<'\n';
   // cout<<"r aoe2 "<<m->GetV()<<'\n';
   // m->SetVName(s2);
   cout<<"r aoe3"<<'\n';
@@ -95,11 +90,11 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, co
   // const double result=Search(c, stoi(s1.substr(1, s1.size())))->result;
   cout<<"r aoe4"<<'\n';
 
-  // MathOperation *r=Search(c, stoi(s1.substr(1, s1.size())));
+  MathOperation *r=Search(c, stoi(s1.substr(1, s1.size())));
 
-  // r->Type();
+  r->Type();
     // cout<<"r "<<r<<'\n';
-  // cout<<"id "<<r->id<<'\n';
+  cout<<"id "<<r->id<<'\n';
   // if(!isnan(result))
   //   {
   //     Value *v1=new Numeric;
@@ -118,7 +113,7 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, co
     // m->SetV2(v->New(v));
     m->SetOperator(o);
 
-    delete v1;
+    // delete v1;
   return m;
 }
 

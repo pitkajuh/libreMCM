@@ -28,7 +28,7 @@ public:
   MathOperation()=default;
   // virtual void Print()=0;
   // virtual MathOperation *New()=0;
-  // virtual void Type()=0;
+  virtual void Type()=0;
   // virtual void Calculate()=0;
   virtual ~MathOperation()
   {
