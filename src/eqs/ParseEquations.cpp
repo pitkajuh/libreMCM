@@ -38,6 +38,18 @@ void print_vector2(vector<string> vec)
   cout<<empty<<'\n';
 }
 
+// ValueValue *Search(ValueValue *m, const unsigned int i)
+// {
+//   ValueValue *c=m;
+
+//   while(c!=nullptr)
+//     {
+//       if(c->id==i) return c;
+//       c=c->next;
+//     }
+//   return nullptr;
+// }
+
 MathOperation *Search(MathOperation *m, const unsigned int i)
 {
   MathOperation *c=m;
@@ -52,7 +64,7 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
 
 // MathOperation *NewNMMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
 // {
-//   MathOperation *m=new NMMathOperation;
+//   MathOperation *m=new NumericMath;
 //   m->SetV1(new Numeric);
 //   m->SetV1Value(stod(s1));
 //   m->id=k;
@@ -75,13 +87,10 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
 
 MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
 {
-  VaMaMathOperation *m=new MVMathOperation;
-
+  ValueMath *m=new MathVariable;
   cout<<"r aoe1"<<'\n';
-
   m->SetV(new Variable);
   m->SetVName(s2);
-
   cout<<"r aoe12"<<'\n';
   // cout<<"r aoe2 "<<m->GetV()<<'\n';
   // m->SetVName(s2);
@@ -89,31 +98,34 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, co
   m->id=k;
   // const double result=Search(c, stoi(s1.substr(1, s1.size())))->result;
   cout<<"r aoe4"<<'\n';
-
+  // WeightExerciceObject * weight = dynamic_cast<WeightExerciceObject *>(ExerciseFactoryObj.createExercise(menuselection));
   MathOperation *r=Search(c, stoi(s1.substr(1, s1.size())));
+  // ValueValue *r=Search(c, stoi(s1.substr(1, s1.size())));
+  cout<<"v "<<r->id<<" "<<'\n';
+  // ValueValue *rr=r;
   const double result=r->result;
   r->Type();
-    // cout<<"r "<<r<<'\n';
+  // cout<<"r "<<r<<'\n';
   cout<<"id "<<r->id<<'\n';
-  // if(!isnan(result))
-  //   {
-  //     Value *v1=new Numeric;
-  //     v1->SetValue(result);
-  //     m->Set(v1, o, v2);
-  //   }
-  // else
-  //   {
-  //     cout<<"else NewNVMath"<<'\n';
-  //   }
-    m->SetOperator1(o);
+  if(!isnan(result))
+    {
+      // Only result will be taken into account, v1, v2 and math_operator can be omitted.
+      // Value *v1=new Numeric;
+      // v1->SetValue(result);
+      // m->Set(v1, o, v2);
+    }
+  else
+    {
+      cout<<"else NewNVMath"<<'\n';
+      // m->SetV1(r->v1->New());
+    }
+  m->SetOperator1(o);
 
+  // m->SetV1(v->New(v));
+  // m->SetV2(v->New(v));
+  m->SetOperator(o);
 
-
-    // m->SetV1(v->New(v));
-    // m->SetV2(v->New(v));
-    m->SetOperator(o);
-
-    // delete v1;
+  // delete v1;
   return m;
 }
 
@@ -121,7 +133,7 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, co
 // {
 //   Value *v1=new Constant;
 //   v1->SetName(s1);
-//   MathOperation *m=new CMMathOperation;
+//   MathOperation *m=new ConstantMath;
 //   m->id=k;
 //   m->SetV1(v1);
 //   const double result=Search(c, stoi(s2.substr(1, s2.size())))->result;
@@ -157,14 +169,14 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   cout<<"s1 "<<s1_variable<<" "<<s1_constant<<" "<<s1_numeric<<" "<<s1_math<<'\n';
   cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
 
-  if(s1_variable and s2_variable) return CreateNewMathOperation2<Variable, Variable, VVMathOperation>(s1, s2, o, k);
-  else if(s1_variable and s2_constant) return CreateNewMathOperation2<Constant, Variable, CVMathOperation>(s2, s1, o, k);
-  else if(s1_variable and s2_numeric) return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s2, s1, o, k);
-  else if(s1_constant and s2_variable) return CreateNewMathOperation2<Constant, Variable, CVMathOperation>(s1, s2, o, k);
-  else if(s1_constant and s2_constant) return CreateNewMathOperation2<Constant, Constant, CCMathOperation>(s1, s2, o, k);
-  else if(s1_constant and s2_numeric) return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s2, s1, o, k);
-  else if(s1_numeric and s2_variable) return CreateNewMathOperation<Numeric, Variable, NVMathOperation>(s1, s2, o, k);
-  else if(s1_numeric and s2_constant) return CreateNewMathOperation<Numeric, Constant, NCMathOperation>(s1, s2, o, k);
+  if(s1_variable and s2_variable) return CreateNewMathOperation2<Variable, Variable, VariableVariable>(s1, s2, o, k);
+  else if(s1_variable and s2_constant) return CreateNewMathOperation2<Constant, Variable, ConstantVariable>(s2, s1, o, k);
+  else if(s1_variable and s2_numeric) return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s2, s1, o, k);
+  else if(s1_constant and s2_variable) return CreateNewMathOperation2<Constant, Variable, ConstantVariable>(s1, s2, o, k);
+  else if(s1_constant and s2_constant) return CreateNewMathOperation2<Constant, Constant, ConstantConstant>(s1, s2, o, k);
+  else if(s1_constant and s2_numeric) return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s2, s1, o, k);
+  else if(s1_numeric and s2_variable) return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o, k);
+  else if(s1_numeric and s2_constant) return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o, k);
   // else if(s1_variable and s2_math)
   //   {
   //     cout<<"s1_variable and s2_math"<<'\n';
@@ -198,7 +210,7 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   //   }
   else if(s1_numeric and s2_numeric)
     {
-      VaVaMathOperation *m=new NNMathOperation;
+      ValueValue *m=new NumericNumeric;
       m->SetV1(new Numeric);
       m->SetV1Value(stod(s1));
       m->SetV2(new Numeric);
@@ -208,93 +220,93 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
       m->CalculateResult();
       return m;
     }
-  // else if(s1_math and s2_math)
-  //   {
-  //     cout<<"s1_math and s2_math"<<'\n';
-  //     MMMathOperation *m=new MMMathOperation;
-  //     m->id=k;
-  //     // MathOperation *m1=Search(c, stoi(s1.substr(1, s1.size())));
-  //     // MathOperation *m2=Search(c, stoi(s2.substr(1, s2.size())));
-  //     // const double result1=m1->result;
-  //     // const double result2=m2->result;
-  //     // const bool r1_null=isnan(result1);
-  //     // const bool r2_null=isnan(result2);
+  else if(s1_math and s2_math)
+    {
+      cout<<"s1_math and s2_math"<<'\n';
+      MathMath *m=new MathMath;
+      m->id=k;
+      MathOperation *m1=Search(c, stoi(s1.substr(1, s1.size())));
+      MathOperation *m2=Search(c, stoi(s2.substr(1, s2.size())));
+      const double result1=m1->result;
+      const double result2=m2->result;
+      const bool r1_null=isnan(result1);
+      const bool r2_null=isnan(result2);
 
-  //     // if(!r1_null and !r2_null)
-  //     // 	{
-  //     // 	  cout<<"!r1_null and !r2_null"<<'\n';
-  //     // 	  Value *v1=new Numeric;
-  //     // 	  v1->SetValue(result1);
-  //     // 	  Value *v2=new Numeric;
-  //     // 	  v2->SetValue(result2);
-  //     // 	  m->Set(v1, o, v2);
-  //     // 	  m->Calculate();
-  //     // 	}
-  //     // else if(r1_null and !r2_null)
-  //     // 	{
-  //     // 	  cout<<"r1_null and !r2_null"<<'\n';
-  //     // 	  // Since the result is already known, V1, V2 and math_operator are not relevant, thus they can be set to nullptr.
-  //     // 	  m->SetV1(nullptr);
-  //     // 	  m->SetV2(nullptr);
-  //     // 	  m->SetOp(nullptr);
-  //     // 	  m->result=result2;
+      if(!r1_null and !r2_null)
+	{
+	  cout<<"!r1_null and !r2_null"<<'\n';
+	  Value *v1=new Numeric;
+	  v1->SetValue(result1);
+	  Value *v2=new Numeric;
+	  v2->SetValue(result2);
+	  // m->Set(v1, o, v2);
+	  m->Calculate();
+	}
+      // else if(r1_null and !r2_null)
+      // 	{
+      // 	  cout<<"r1_null and !r2_null"<<'\n';
+      // 	  // Since the result is already known, V1, V2 and math_operator are not relevant, thus they can be set to nullptr.
+      // 	  m->SetV1(nullptr);
+      // 	  m->SetV2(nullptr);
+      // 	  m->SetOp(nullptr);
+      // 	  m->result=result2;
 
-  //     // 	  m->v1_2=m1->GetV1()->New(m1->GetV1());
-  //     // 	  m->v2_2=m1->GetV2()->New(m1->GetV2());
-  //     // 	  m->math_operator_2=m1->GetOp()->New();
+      // 	  m->v1_2=m1->GetV1()->New(m1->GetV1());
+      // 	  m->v2_2=m1->GetV2()->New(m1->GetV2());
+      // 	  m->math_operator_2=m1->GetOp()->New();
 
-  //     // 	  m->SetOperator2(o);
+      // 	  m->SetOperator2(o);
 
-  //     // 	  m1->next=nullptr;
-  //     // 	  m2->next=nullptr;
-  //     // 	  next=nullptr;
-  //     // 	  delete m2;
-  //     // 	  delete m1;
-  //     // 	}
-  //     // else if(!r1_null and r2_null)
-  //     // 	{
-  //     // 	  cout<<"!r1_null and r2_null"<<'\n';
-  //     // 	  // Since the result is already known, V1, V2 and math_operator are not relevant, thus they can be set to nullptr.
-  //     // 	  m->SetV1(nullptr);
-  //     // 	  m->SetV2(nullptr);
-  //     // 	  m->SetOp(nullptr);
-  //     // 	  m->result=result1;
+      // 	  m1->next=nullptr;
+      // 	  m2->next=nullptr;
+      // 	  next=nullptr;
+      // 	  delete m2;
+      // 	  delete m1;
+      // 	}
+      // else if(!r1_null and r2_null)
+      // 	{
+      // 	  cout<<"!r1_null and r2_null"<<'\n';
+      // 	  // Since the result is already known, V1, V2 and math_operator are not relevant, thus they can be set to nullptr.
+      // 	  m->SetV1(nullptr);
+      // 	  m->SetV2(nullptr);
+      // 	  m->SetOp(nullptr);
+      // 	  m->result=result1;
 
-  //     // 	  m->v1_2=m2->GetV1()->New(m2->GetV1());
-  //     // 	  m->v2_2=m2->GetV2()->New(m2->GetV2());
-  //     // 	  m->math_operator_2=m2->GetOp()->New();
+      // 	  m->v1_2=m2->GetV1()->New(m2->GetV1());
+      // 	  m->v2_2=m2->GetV2()->New(m2->GetV2());
+      // 	  m->math_operator_2=m2->GetOp()->New();
 
-  //     // 	  m->SetOperator2(o);
+      // 	  m->SetOperator2(o);
 
-  //     // 	  m1->next=nullptr;
-  //     // 	  m2->next=nullptr;
-  //     // 	  next=nullptr;
-  //     // 	  delete m2;
-  //     // 	  delete m1;
-  //     // 	}
-  //     // else
-  //     // 	{
-  //     // 	  cout<<"else"<<'\n';
-  //     // 	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
-  //     // 	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
-  //     // 	  m->SetOp(m1->GetOp()->New());
+      // 	  m1->next=nullptr;
+      // 	  m2->next=nullptr;
+      // 	  next=nullptr;
+      // 	  delete m2;
+      // 	  delete m1;
+      // 	}
+      // else
+      // 	{
+      // 	  cout<<"else"<<'\n';
+      // 	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
+      // 	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
+      // 	  m->SetOp(m1->GetOp()->New());
 
-  //     // 	  m->v1_2=m2->GetV1()->New(m2->GetV1());
-  //     // 	  m->v2_2=m2->GetV1()->New(m2->GetV1());
-  //     // 	  m->math_operator_2=m2->GetOp()->New();
+      // 	  m->v1_2=m2->GetV1()->New(m2->GetV1());
+      // 	  m->v2_2=m2->GetV1()->New(m2->GetV1());
+      // 	  m->math_operator_2=m2->GetOp()->New();
 
-  //     // 	  m->SetOperator2(o);
+      // 	  m->SetOperator2(o);
 
-  //     // 	  cout<<"m1 "<<m1<<" "<<m1->GetV1()<<" v2 "<<m1->GetV2()<<" mo "<<m1->GetOp()<<" "<<m1->id<<'\n';
-  //     // 	  cout<<"m2 "<<m2<<" "<<m2->GetV1()<<" v2 "<<m2->GetV2()<<" mo "<<m2->GetOp()<<" "<<m2->id<<'\n';
-  //     // 	  m1->next=nullptr;
-  //     // 	  m2->next=nullptr;
-  //     // 	  next=nullptr;
-  //     // 	  delete m2;
-  //     // 	  delete m1;
-  //     // 	}
-  //     return m;
-  //   }
+      // 	  cout<<"m1 "<<m1<<" "<<m1->GetV1()<<" v2 "<<m1->GetV2()<<" mo "<<m1->GetOp()<<" "<<m1->id<<'\n';
+      // 	  cout<<"m2 "<<m2<<" "<<m2->GetV1()<<" v2 "<<m2->GetV2()<<" mo "<<m2->GetOp()<<" "<<m2->id<<'\n';
+      // 	  m1->next=nullptr;
+      // 	  m2->next=nullptr;
+      // 	  next=nullptr;
+      // 	  delete m2;
+      // 	  delete m1;
+      // 	}
+      return m;
+    }
   else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)
     {
       throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
@@ -405,7 +417,7 @@ void ParseEquations(const SMap &equations_map, const Data &data)
         cout<<" "<<'\n';
       v=test(v, k, data, e, next);
       GetOrder(v, k, data, e, next);
-      cout<<"Deleting "<<'\n';
+      // cout<<"Deleting "<<'\n';
       delete e;
       next=nullptr;
       // Delete(e);

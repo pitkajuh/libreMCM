@@ -26,11 +26,7 @@ public:
   double result=NAN;
   MathOperation *next=nullptr;
 
-  MathOperation()=default;
-  // virtual void Print()=0;
-  // virtual MathOperation *New()=0;
   virtual void Type()=0;
-  // virtual void Calculate()=0;
   virtual ~MathOperation()
   {
     cout<<"~MathOperation()"<<'\n';
@@ -38,14 +34,15 @@ public:
   }
 };
 
-class VaVaMathOperation: public MathOperation
+class ValueValue: public MathOperation
 {
 private:
-  Value *v1=nullptr;
-  Value *v2=nullptr;
+  // Value *v1=nullptr;
+  // Value *v2=nullptr;
   MathOperator *math_operator=nullptr;
 public:
-  // double result=NAN;
+  Value *v1=nullptr;
+  Value *v2=nullptr;
 
   void SetOperator(const string &s)
   {
@@ -69,10 +66,10 @@ public:
   void SetV2Name(const string &s){v2->SetName(s);} const
   void SetV1(Value *v){v1=v;}
   void SetV2(Value *v){v2=v;}
-  void CalculateResult(){result=GetOp()->Calculate1(GetV1Value(), GetV2Value());}
-  ~VaVaMathOperation()
+  void CalculateResult(){result=math_operator->Calculate1(GetV1Value(), GetV2Value());}
+  ~ValueValue()
   {
-    cout<<"~VaVaMathOperation()"<<'\n';
+    cout<<"~ValueValue()"<<'\n';
     delete v1;
     delete v2;
     delete math_operator;
@@ -80,7 +77,7 @@ public:
   virtual void Type()=0;
 };
 
-class VaMaMathOperation: public VaVaMathOperation
+class ValueMath: public ValueValue
 {
 private:
   Value *v;
@@ -103,19 +100,19 @@ public:
   string GetVName(){return v->GetName();} const
   void SetVName(const string &s){v->SetName(s);}
   void SetVValue(const double &d){v->SetValue(d);}
-  ~VaMaMathOperation()
+  ~ValueMath()
   {
-    cout<<"~VaMaMathOperation()"<<'\n';
+    cout<<"~ValueMath()"<<'\n';
     delete v;
     delete math_operator1;
   }
   void Type()
   {
-    cout<<"VaMaMathOperation()"<<'\n';
+    cout<<"ValueMath()"<<'\n';
   }
 };
 
-class MMMathOperation: public MathOperation
+class MathMath: public ValueValue
 {
    // Math-math math operation
 public:
@@ -137,12 +134,12 @@ public:
   }
   void Print()
   {
-    // cout<<"MMMathOperation mo1 "<<this<<" v1 "<<mo1->v1<<" mo "<<mo1->math_operator<<" v2 "<<mo1->v2<<'\n';
-    // cout<<"MMMathOperation mo2 "<<this<<" v1 "<<mo2->v1<<" mo "<<mo2->math_operator<<" v2 "<<mo2->v2<<'\n';
+    // cout<<"MathMath mo1 "<<this<<" v1 "<<mo1->v1<<" mo "<<mo1->math_operator<<" v2 "<<mo1->v2<<'\n';
+    // cout<<"MathMath mo2 "<<this<<" v1 "<<mo2->v1<<" mo "<<mo2->math_operator<<" v2 "<<mo2->v2<<'\n';
   }
-  ~MMMathOperation()
+  ~MathMath()
   {
-    cout<<"~MMMathOperation()"<<'\n';
+    cout<<"~MathMath()"<<'\n';
     delete v1_2;
     delete v2_2;
     delete math_operator_3;
@@ -151,7 +148,7 @@ public:
   }
   MathOperation *New()
   {
-    MathOperation *n=new MMMathOperation;
+    MathOperation *n=new MathMath;
     return n;
   }
   void Calculate()
@@ -162,14 +159,14 @@ public:
   void Type(){cout<<"Type is MMMath"<<'\n';}
 };
 
-class NMMathOperation: public VaMaMathOperation
+class NumericMath: public ValueMath
 {
   // Numeric-math math operation
 public:
   void Print(){}
   MathOperation *New()
   {
-    MathOperation *n=new NMMathOperation;
+    MathOperation *n=new NumericMath;
     return n;
   }
   void Type(){cout<<"Type is NMMath"<<'\n';}
@@ -180,7 +177,7 @@ public:
   }
 };
 
-class MVMathOperation: public VaMaMathOperation
+class MathVariable: public ValueMath
 {
   // Math-variable math operation
 public:
@@ -191,109 +188,107 @@ public:
   // MathOperator *math_operator_2=nullptr;
   // double result2=NAN;
 
-
-
   void Print(){}
   MathOperation *New()
   {
-    MathOperation *n=new MVMathOperation;
+    MathOperation *n=new MathVariable;
     return n;
   }
   void Type(){cout<<"Type is MVMath"<<'\n';}
 };
 
-class CMMathOperation: public MathOperation
+class ConstantMath: public MathOperation
 {
   // Constant-math math operation
 public:
   void Print(){}
   MathOperation *New()
   {
-    MathOperation *n=new CMMathOperation;
+    MathOperation *n=new ConstantMath;
     return n;
   }
   void Type(){cout<<"Type is CMMath"<<'\n';}
 };
 
-class NNMathOperation: public VaVaMathOperation
+class NumericNumeric: public ValueValue
 {
   // Numeric-numeric math operation
 public:
   void Print(){}
   MathOperation *New()
   {
-    MathOperation *n=new NNMathOperation;
+    MathOperation *n=new NumericNumeric;
     return n;
   }
   void Type(){cout<<"Type is NNMath"<<'\n';}
 };
 
-class VVMathOperation: public VaVaMathOperation
+class VariableVariable: public ValueValue
 {
   // Variable-variable math operation
 public:
   void Print()
   {
-    // cout<<"VVMathOperation "<<this<<" v1 "<<this->GetV1()<<" mo "<<this->GetOp()<<" v2 "<<this->GetV2()<<'\n';
+    // cout<<"VariableVariable "<<this<<" v1 "<<this->GetV1()<<" mo "<<this->GetOp()<<" v2 "<<this->GetV2()<<'\n';
   }
   MathOperation *New()
   {
-    MathOperation *n=new VVMathOperation;
+    MathOperation *n=new VariableVariable;
     return n;
   }
-  void Type(){cout<<"Type is VVMath"<<'\n';}
+  void Type(){cout<<"Type is VariableVariable"<<'\n';}
 };
 
-class CVMathOperation: public VaVaMathOperation
+class ConstantVariable: public ValueValue
 {
   // Constant-variable math operation
 public:
   void Print(){}
   MathOperation *New()
   {
-    MathOperation *n=new CVMathOperation;
+    MathOperation *n=new ConstantVariable;
     return n;
   }
   void Calculate(){}
   void Type(){cout<<"Type is CVMath"<<'\n';}
 };
 
-class CCMathOperation: public VaVaMathOperation
+class ConstantConstant: public ValueValue
 {
   // Constant-constant math operation
 public:
   void Print(){}
   MathOperation *New()
   {
-    MathOperation *n=new CCMathOperation;
+    MathOperation *n=new ConstantConstant;
     return n;
   }
   void Calculate(){}
   void Type(){cout<<"Type is CCMath"<<'\n';}
 };
 
-class NVMathOperation: public VaVaMathOperation
+class NumericVariable: public ValueValue
 {
   // Numeric-variable math operation
 public:
   void Print(){}
   MathOperation *New()
   {
-    MathOperation *n=new NVMathOperation;
+    MathOperation *n=new NumericVariable;
     return n;
   }
   void Calculate(){}
   void Type(){cout<<"Type is NVMath"<<'\n';}
 };
 
-class NCMathOperation: public VaVaMathOperation
+class NumericConstant: public ValueValue
 {
   // Numeric-constant math operation
 public:
   void Print(){}
   MathOperation *New()
   {
-    MathOperation *n=new NCMathOperation;
+    MathOperation *n=new NumericConstant;
     return n;
   }
   void Calculate(){}
