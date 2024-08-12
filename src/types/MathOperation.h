@@ -19,30 +19,29 @@
 #include <iostream>
 using std::cout;
 
-class MathOperation
+class MathOperationBase
 {
 public:
   int id;
   double result=NAN;
-  MathOperation *next=nullptr;
+  // MathOperationBase *next=nullptr;
 
   virtual void Type()=0;
-  virtual ~MathOperation()
+  virtual ~MathOperationBase()
   {
-    cout<<"~MathOperation()"<<'\n';
-    delete next;
+    cout<<"~MathOperationBase()"<<'\n';
+    // delete next;
   }
 };
 
-class ValueValue: public MathOperation
+class MathOperation: public MathOperationBase
 {
 private:
-  // Value *v1=nullptr;
-  // Value *v2=nullptr;
-  MathOperator *math_operator=nullptr;
-public:
   Value *v1=nullptr;
   Value *v2=nullptr;
+  MathOperator *math_operator=nullptr;
+public:
+  MathOperation *next=nullptr;
 
   void SetOperator(const string &s)
   {
@@ -67,17 +66,18 @@ public:
   void SetV1(Value *v){v1=v;}
   void SetV2(Value *v){v2=v;}
   void CalculateResult(){result=math_operator->Calculate1(GetV1Value(), GetV2Value());}
-  ~ValueValue()
+  ~MathOperation()
   {
-    cout<<"~ValueValue()"<<'\n';
+    cout<<"~MathOperation()"<<'\n';
     delete v1;
     delete v2;
     delete math_operator;
+    delete next;
   }
   virtual void Type()=0;
 };
 
-class ValueMath: public ValueValue
+class ValueMath: public MathOperation
 {
 private:
   Value *v;
@@ -112,7 +112,7 @@ public:
   }
 };
 
-class MathMath: public ValueValue
+class MathMath: public MathOperation
 {
    // Math-math math operation
 public:
@@ -146,9 +146,9 @@ public:
     delete math_operator_2;
     cout<<" "<<'\n';
   }
-  MathOperation *New()
+  MathOperationBase *New()
   {
-    MathOperation *n=new MathMath;
+    MathOperationBase *n=new MathMath;
     return n;
   }
   void Calculate()
@@ -164,9 +164,9 @@ class NumericMath: public ValueMath
   // Numeric-math math operation
 public:
   void Print(){}
-  MathOperation *New()
+  MathOperationBase *New()
   {
-    MathOperation *n=new NumericMath;
+    MathOperationBase *n=new NumericMath;
     return n;
   }
   void Type(){cout<<"Type is NMMath"<<'\n';}
@@ -181,49 +181,42 @@ class MathVariable: public ValueMath
 {
   // Math-variable math operation
 public:
-  // Value *v1_v=nullptr;
-
-  // Value *v1_2=nullptr;
-  // Value *v2_2=nullptr;
-  // MathOperator *math_operator_2=nullptr;
-  // double result2=NAN;
-
   void Print(){}
-  MathOperation *New()
+  MathOperationBase *New()
   {
-    MathOperation *n=new MathVariable;
+    MathOperationBase *n=new MathVariable;
     return n;
   }
   void Type(){cout<<"Type is MVMath"<<'\n';}
 };
 
-class ConstantMath: public MathOperation
+class ConstantMath: public MathOperationBase
 {
   // Constant-math math operation
 public:
   void Print(){}
-  MathOperation *New()
+  MathOperationBase *New()
   {
-    MathOperation *n=new ConstantMath;
+    MathOperationBase *n=new ConstantMath;
     return n;
   }
   void Type(){cout<<"Type is CMMath"<<'\n';}
 };
 
-class NumericNumeric: public ValueValue
+class NumericNumeric: public MathOperation
 {
   // Numeric-numeric math operation
 public:
   void Print(){}
-  MathOperation *New()
+  MathOperationBase *New()
   {
-    MathOperation *n=new NumericNumeric;
+    MathOperationBase *n=new NumericNumeric;
     return n;
   }
   void Type(){cout<<"Type is NNMath"<<'\n';}
 };
 
-class VariableVariable: public ValueValue
+class VariableVariable: public MathOperation
 {
   // Variable-variable math operation
 public:
@@ -231,64 +224,64 @@ public:
   {
     // cout<<"VariableVariable "<<this<<" v1 "<<this->GetV1()<<" mo "<<this->GetOp()<<" v2 "<<this->GetV2()<<'\n';
   }
-  MathOperation *New()
+  MathOperationBase *New()
   {
-    MathOperation *n=new VariableVariable;
+    MathOperationBase *n=new VariableVariable;
     return n;
   }
   void Type(){cout<<"Type is VariableVariable"<<'\n';}
 };
 
-class ConstantVariable: public ValueValue
+class ConstantVariable: public MathOperation
 {
   // Constant-variable math operation
 public:
   void Print(){}
-  MathOperation *New()
+  MathOperationBase *New()
   {
-    MathOperation *n=new ConstantVariable;
+    MathOperationBase *n=new ConstantVariable;
     return n;
   }
   void Calculate(){}
   void Type(){cout<<"Type is CVMath"<<'\n';}
 };
 
-class ConstantConstant: public ValueValue
+class ConstantConstant: public MathOperation
 {
   // Constant-constant math operation
 public:
   void Print(){}
-  MathOperation *New()
+  MathOperationBase *New()
   {
-    MathOperation *n=new ConstantConstant;
+    MathOperationBase *n=new ConstantConstant;
     return n;
   }
   void Calculate(){}
   void Type(){cout<<"Type is CCMath"<<'\n';}
 };
 
-class NumericVariable: public ValueValue
+class NumericVariable: public MathOperation
 {
   // Numeric-variable math operation
 public:
   void Print(){}
-  MathOperation *New()
+  MathOperationBase *New()
   {
-    MathOperation *n=new NumericVariable;
+    MathOperationBase *n=new NumericVariable;
     return n;
   }
   void Calculate(){}
   void Type(){cout<<"Type is NVMath"<<'\n';}
 };
 
-class NumericConstant: public ValueValue
+class NumericConstant: public MathOperation
 {
   // Numeric-constant math operation
 public:
   void Print(){}
-  MathOperation *New()
+  MathOperationBase *New()
   {
-    MathOperation *n=new NumericConstant;
+    MathOperationBase *n=new NumericConstant;
     return n;
   }
   void Calculate(){}

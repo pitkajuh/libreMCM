@@ -16,7 +16,7 @@
 template<typename T, typename U, typename L>
 MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const string &o, const unsigned int &k)
 {
-  ValueValue *m=new L;
+  MathOperation *m=new L;
   m->SetV1(new T);
   m->SetV1Value(stod(s1));
   m->SetV2(new U);
@@ -29,7 +29,7 @@ MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const 
 template<typename T, typename U, typename L>
 MathOperation *CreateNewMathOperation2(const string &s1, const string &s2, const string &o, const unsigned int &k)
 {
-  ValueValue *m=new L;
+  MathOperation *m=new L;
   m->SetV1(new T);
   m->SetV1Name(s1);
   m->SetV2(new U);

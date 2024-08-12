@@ -38,18 +38,6 @@ void print_vector2(vector<string> vec)
   cout<<empty<<'\n';
 }
 
-// ValueValue *Search(ValueValue *m, const unsigned int i)
-// {
-//   ValueValue *c=m;
-
-//   while(c!=nullptr)
-//     {
-//       if(c->id==i) return c;
-//       c=c->next;
-//     }
-//   return nullptr;
-// }
-
 MathOperation *Search(MathOperation *m, const unsigned int i)
 {
   MathOperation *c=m;
@@ -88,31 +76,21 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
 MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
 {
   ValueMath *m=new MathVariable;
-  cout<<"r aoe1"<<'\n';
   m->SetV(new Variable);
   m->SetVName(s2);
-  cout<<"r aoe12"<<'\n';
-  // cout<<"r aoe2 "<<m->GetV()<<'\n';
-  // m->SetVName(s2);
-  cout<<"r aoe3"<<'\n';
   m->id=k;
-  // const double result=Search(c, stoi(s1.substr(1, s1.size())))->result;
-  cout<<"r aoe4"<<'\n';
-  // WeightExerciceObject * weight = dynamic_cast<WeightExerciceObject *>(ExerciseFactoryObj.createExercise(menuselection));
   MathOperation *r=Search(c, stoi(s1.substr(1, s1.size())));
-  // ValueValue *r=Search(c, stoi(s1.substr(1, s1.size())));
-  cout<<"v "<<r->id<<" "<<'\n';
-  // ValueValue *rr=r;
+  cout<<"v "<<r->id<<" "<<r->GetV1()<<'\n';
   const double result=r->result;
-  r->Type();
-  // cout<<"r "<<r<<'\n';
-  cout<<"id "<<r->id<<'\n';
+   cout<<"id "<<r->id<<'\n';
   if(!isnan(result))
     {
       // Only result will be taken into account, v1, v2 and math_operator can be omitted.
-      // Value *v1=new Numeric;
-      // v1->SetValue(result);
-      // m->Set(v1, o, v2);
+      m->SetV(new Numeric);
+      m->SetVValue(result);
+      // m->SetOperator1(o);
+      // Check *next before deleting.
+      delete r;
     }
   else
     {
@@ -210,7 +188,7 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   //   }
   else if(s1_numeric and s2_numeric)
     {
-      ValueValue *m=new NumericNumeric;
+      MathOperation *m=new NumericNumeric;
       m->SetV1(new Numeric);
       m->SetV1Value(stod(s1));
       m->SetV2(new Numeric);
