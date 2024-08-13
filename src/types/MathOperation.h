@@ -116,10 +116,10 @@ class MathMath: public MathOperation
 {
    // Math-math math operation
 private:
-  Value *v1_2=nullptr;
-  Value *v2_2=nullptr;
-  MathOperator *math_operator_2=nullptr;
-  MathOperator *total_math_operator=nullptr;
+  Value *v1_2;
+  Value *v2_2;
+  MathOperator *math_operator_2;
+  MathOperator *total_math_operator;
 
 public:
   double result2=NAN;

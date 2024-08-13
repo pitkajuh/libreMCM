@@ -76,36 +76,35 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
 MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
 {
   ValueMath *m=new MathVariable;
-  // ValueMath *m;
   m->SetV(new Variable(s2));
   m->id=k;
   MathOperation *r=Search(c, stoi(s1.substr(1, s1.size())));
   cout<<"v "<<r->id<<" "<<r->GetV1()<<'\n';
   const double result=r->result;
   cout<<"id "<<r->id<<'\n';
-  // if(!isnan(result))
-  //   {
-  //     // Only result will be taken into account, v1, v2 and math_operator can be omitted.
-  //     m->SetV(new Numeric(result));
-  //     // m->SetVValue(result);
-  //     // m->SetOperator1(o);
-  //     // Check *next before deleting.
-  //     delete r;
-  //   }
-  // else
-  //   {
-  cout<<"else NewNVMath"<<'\n';
-  // m->SetV1(r->v1->New());
-  // }
+  if(!isnan(result))
+    {
+      // Only result will be taken into account, v1, v2 and math_operator can be omitted.
+      m->SetV1(nullptr);
+      m->SetV2(nullptr);
+      m->SetOperator(nullptr);
+      m->result_total=result;
+      r->next=nullptr;
+      delete r;
+    }
+  else
+    {
+      cout<<"else NewMVMath"<<'\n';
+      // m->SetV1(r->v1->New());
+    }
 
 
+  // delete r;
   m->SetOperator1(o);
 
   // m->SetV1(v->New(v));
   // m->SetV2(v->New(v));
-  m->SetOperator(o);
 
-  // delete v1;
   return m;
 }
 
@@ -219,14 +218,11 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	  n.SetV1(new Numeric(result1));
 	  n.SetV2(new Numeric(result2));
 	  n.CalculateResult();
-	  // Value *v1=new Numeric(result1);
-	  // Value *v2=new Numeric(result2);
-	  // m->SetV1(new Numeric(result1));
-	  // m->SetV2(new Numeric(result2));
 	  m->SetTotalOperator(o);
-	  // v2->SetValue(result2);
-	  // m->Set(v1, o, v2);
 	  m->total_result=n.result;
+	  m->SetV1(nullptr);
+	  m->SetV2(nullptr);
+	  m->SetOp(nullptr);
 	}
       else if(r1_null and !r2_null)
 	{
@@ -235,17 +231,12 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
 	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
 	  m->SetOp(m1->GetOp()->New());
-
+	  m->SetV12(nullptr);
+	  m->SetV22(nullptr);
+	  m->SetOperator2(nullptr);
 	  // Since the result is already known, V1, V2 and math_operator are not relevant.
 	  m->result2=result2;
-
 	  m->SetTotalOperator(o);
-
-	  m1->next=nullptr;
-	  m2->next=nullptr;
-	  next=nullptr;
-	  delete m2;
-	  delete m1;
 	}
       else if(!r1_null and r2_null)
 	{
@@ -255,18 +246,10 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	  m->SetV2(nullptr);
 	  m->SetOp(nullptr);
 	  m->result=result1;
-
 	  m->SetV12(m2->GetV1()->New(m2->GetV1()));
 	  m->SetV22(m2->GetV2()->New(m2->GetV2()));
 	  m->SetOperator2(m2->GetOp()->New());
-
 	  m->SetTotalOperator(o);
-
-	  m1->next=nullptr;
-	  m2->next=nullptr;
-	  next=nullptr;
-	  delete m2;
-	  delete m1;
 	}
       else
 	{
@@ -275,21 +258,18 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
 	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
 	  m->SetOp(m1->GetOp()->New());
-
 	  // Get math operation 2 containing V1, V2 and math operation 2
 	  m->SetV12(m2->GetV1()->New(m2->GetV1()));
 	  m->SetV22(m2->GetV1()->New(m2->GetV1()));
 	  m->SetOperator2(m2->GetOp()->New());
-
 	  // Total math operator
 	  m->SetTotalOperator(o);
-
-	  m1->next=nullptr;
-	  m2->next=nullptr;
-	  next=nullptr;
-	  delete m2;
-	  delete m1;
 	}
+      m1->next=nullptr;
+      m2->next=nullptr;
+      next=nullptr;
+      delete m2;
+      delete m1;
       return m;
     }
   else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)
