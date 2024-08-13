@@ -89,21 +89,19 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, co
       m->SetV2(nullptr);
       m->SetOperator(nullptr);
       m->result_total=result;
-      r->next=nullptr;
-      delete r;
     }
   else
     {
       cout<<"else NewMVMath"<<'\n';
-      // m->SetV1(r->v1->New());
+      m->SetV1(r->GetV1()->New(r->GetV1()));
+      m->SetV2(r->GetV2()->New(r->GetV2()));
+      m->SetOp(r->GetOp()->New());
     }
 
+  r->next=nullptr;
+  delete r;
 
-  // delete r;
   m->SetOperator1(o);
-
-  // m->SetV1(v->New(v));
-  // m->SetV2(v->New(v));
 
   return m;
 }
