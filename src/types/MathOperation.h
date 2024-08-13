@@ -191,6 +191,24 @@ public:
   }
 };
 
+class MathNumeric: public ValueMath
+{
+  // Numeric-math math operation
+public:
+  void Print(){}
+  MathOperationBase *New()
+  {
+    MathOperationBase *n=new MathNumeric;
+    return n;
+  }
+  void Type(){cout<<"Type is NMMath"<<'\n';}
+  void Calculate()
+  {
+    // CalculateResult();
+    // cout<<"result calculated "<<result<<'\n';
+  }
+};
+
 class MathVariable: public ValueMath
 {
   // Math-variable math operation
@@ -204,7 +222,20 @@ public:
   void Type(){cout<<"Type is MVMath"<<'\n';}
 };
 
-class ConstantMath: public MathOperationBase
+class VariableMath: public ValueMath
+{
+  // Math-variable math operation
+public:
+  void Print(){}
+  MathOperationBase *New()
+  {
+    MathOperationBase *n=new VariableMath;
+    return n;
+  }
+  void Type(){cout<<"Type is MVMath"<<'\n';}
+};
+
+class ConstantMath: public ValueMath
 {
   // Constant-math math operation
 public:
@@ -212,6 +243,19 @@ public:
   MathOperationBase *New()
   {
     MathOperationBase *n=new ConstantMath;
+    return n;
+  }
+  void Type(){cout<<"Type is CMMath"<<'\n';}
+};
+
+class MathConstant: public ValueMath
+{
+  // Constant-math math operation
+public:
+  void Print(){}
+  MathOperationBase *New()
+  {
+    MathOperationBase *n=new MathConstant;
     return n;
   }
   void Type(){cout<<"Type is CMMath"<<'\n';}
