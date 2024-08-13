@@ -174,6 +174,7 @@ public:
 class NumericMath: public ValueMath
 {
   // Numeric-math math operation
+  // When calculating, value of Value *v and result (from *v1, *v2 and *math_operator) must be swapped!!!
 public:
   void Print(){}
   MathOperationBase *New()
@@ -223,6 +224,7 @@ public:
 class VariableMath: public ValueMath
 {
   // Math-variable math operation
+  // When calculating, value of Value *v and result (from *v1, *v2 and *math_operator) must be swapped!!!
 public:
   void Print(){}
   MathOperationBase *New()
@@ -236,6 +238,7 @@ public:
 class ConstantMath: public ValueMath
 {
   // Constant-math math operation
+  // When calculating, value of Value *v and result (from *v1, *v2 and *math_operator) must be swapped!!!
 public:
   void Print(){}
   MathOperationBase *New()

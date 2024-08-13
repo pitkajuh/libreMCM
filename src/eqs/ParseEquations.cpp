@@ -67,24 +67,26 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   else if(s1_numeric and s2_numeric)
     {
       MathOperation *nn=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o, k);
+      // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
+      // simplified and performance of the calculation increased.
       nn->CalculateResult();
       return nn;
     }
-  // else if(s1_variable and s2_math)
-  //   {
-  //     cout<<"s1_variable and s2_math"<<'\n';
-  //     return NewMVMath(s2, s1, o, k, c);
-  //   }
-  // else if(s1_constant and s2_math)
-  //   {
-  //     cout<<"s1_constant and s2_math"<<'\n';
-  //     return NewCMMath(s1, s2, o, k, c);
-  //   }
-  // else if(s1_numeric and s2_math)
-  //   {
-  //     cout<<"s1_numeric and s2_math"<<'\n';
-  //     return NewNMMath(s1, s2, o, k, c);
-  //   }
+  else if(s1_variable and s2_math)
+    {
+      cout<<"s1_variable and s2_math"<<'\n';
+      return NewMathValue<VariableMath, Variable>(s1, s2, o, k, c);
+    }
+  else if(s1_constant and s2_math)
+    {
+      cout<<"s1_constant and s2_math"<<'\n';
+      return NewMathValue<ConstantMath, Constant>(s1, s2, o, k, c);
+    }
+  else if(s1_numeric and s2_math)
+    {
+      cout<<"s1_numeric and s2_math"<<'\n';
+      return NewMathValue<NumericMath, Numeric>(s1, s2, o, k, c);
+    }
   else if(s1_math and s2_variable)
     {
       cout<<"s1_math and s2_variable"<<'\n';
