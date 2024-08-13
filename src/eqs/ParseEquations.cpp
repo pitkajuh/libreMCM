@@ -215,75 +215,80 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
       if(!r1_null and !r2_null)
 	{
 	  cout<<"!r1_null and !r2_null"<<'\n';
-	  Value *v1=new Numeric(result1);
-	  // v1->SetValue(result1);
-	  Value *v2=new Numeric(result2);
+	  NumericNumeric n;
+	  n.SetV1(new Numeric(result1));
+	  n.SetV2(new Numeric(result2));
+	  n.CalculateResult();
+	  // Value *v1=new Numeric(result1);
+	  // Value *v2=new Numeric(result2);
+	  // m->SetV1(new Numeric(result1));
+	  // m->SetV2(new Numeric(result2));
+	  m->SetTotalOperator(o);
 	  // v2->SetValue(result2);
 	  // m->Set(v1, o, v2);
-	  m->Calculate();
+	  m->total_result=n.result;
 	}
-      // else if(r1_null and !r2_null)
-      // 	{
-      // 	  cout<<"r1_null and !r2_null"<<'\n';
-      // 	  // Since the result is already known, V1, V2 and math_operator are not relevant, thus they can be set to nullptr.
-      // 	  m->SetV1(nullptr);
-      // 	  m->SetV2(nullptr);
-      // 	  m->SetOp(nullptr);
-      // 	  m->result=result2;
-
-      // 	  m->v1_2=m1->GetV1()->New(m1->GetV1());
-      // 	  m->v2_2=m1->GetV2()->New(m1->GetV2());
-      // 	  m->math_operator_2=m1->GetOp()->New();
-
-      // 	  m->SetOperator2(o);
-
-      // 	  m1->next=nullptr;
-      // 	  m2->next=nullptr;
-      // 	  next=nullptr;
-      // 	  delete m2;
-      // 	  delete m1;
-      // 	}
-      // else if(!r1_null and r2_null)
-      // 	{
-      // 	  cout<<"!r1_null and r2_null"<<'\n';
-      // 	  // Since the result is already known, V1, V2 and math_operator are not relevant, thus they can be set to nullptr.
-      // 	  m->SetV1(nullptr);
-      // 	  m->SetV2(nullptr);
-      // 	  m->SetOp(nullptr);
-      // 	  m->result=result1;
-
-      // 	  m->v1_2=m2->GetV1()->New(m2->GetV1());
-      // 	  m->v2_2=m2->GetV2()->New(m2->GetV2());
-      // 	  m->math_operator_2=m2->GetOp()->New();
-
-      // 	  m->SetOperator2(o);
-
-      // 	  m1->next=nullptr;
-      // 	  m2->next=nullptr;
-      // 	  next=nullptr;
-      // 	  delete m2;
-      // 	  delete m1;
-      // 	}
-      else
+      else if(r1_null and !r2_null)
 	{
-	  cout<<"else"<<'\n';
+	  cout<<"r1_null and !r2_null"<<'\n';
+	  // Result is not known at this point.
 	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
 	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
 	  m->SetOp(m1->GetOp()->New());
 
+	  // Since the result is already known, V1, V2 and math_operator are not relevant.
+	  m->result2=result2;
+
+	  m->SetTotalOperator(o);
+
+	  m1->next=nullptr;
+	  m2->next=nullptr;
+	  next=nullptr;
+	  delete m2;
+	  delete m1;
+	}
+      else if(!r1_null and r2_null)
+	{
+	  cout<<"!r1_null and r2_null"<<'\n';
+	  // Since the result is already known, V1, V2 and math_operator are not relevant, thus they can be set to nullptr.
+	  m->SetV1(nullptr);
+	  m->SetV2(nullptr);
+	  m->SetOp(nullptr);
+	  m->result=result1;
+
 	  m->SetV12(m2->GetV1()->New(m2->GetV1()));
-	  m->SetV22(m2->GetV1()->New(m2->GetV1()));
+	  m->SetV22(m2->GetV2()->New(m2->GetV2()));
 	  m->SetOperator2(m2->GetOp()->New());
 
 	  m->SetTotalOperator(o);
 
-	  // cout<<"m1 "<<m1<<" "<<m1->GetV1()<<" v2 "<<m1->GetV2()<<" mo "<<m1->GetOp()<<" "<<m1->id<<'\n';
-	  // cout<<"m2 "<<m2<<" "<<m2->GetV1()<<" v2 "<<m2->GetV2()<<" mo "<<m2->GetOp()<<" "<<m2->id<<'\n';
-	  // m1->next=nullptr;
-	  // m2->next=nullptr;
-	  // next=nullptr;
-	  // delete m2;
-	  // delete m1;
+	  m1->next=nullptr;
+	  m2->next=nullptr;
+	  next=nullptr;
+	  delete m2;
+	  delete m1;
+	}
+      else
+	{
+	  cout<<"else"<<'\n';
+	  // Get math operation 1 containing V1, V2 and math operation 1
+	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
+	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
+	  m->SetOp(m1->GetOp()->New());
+
+	  // Get math operation 2 containing V1, V2 and math operation 2
+	  m->SetV12(m2->GetV1()->New(m2->GetV1()));
+	  m->SetV22(m2->GetV1()->New(m2->GetV1()));
+	  m->SetOperator2(m2->GetOp()->New());
+
+	  // Total math operator
+	  m->SetTotalOperator(o);
+
+	  m1->next=nullptr;
+	  m2->next=nullptr;
+	  next=nullptr;
+	  delete m2;
+	  delete m1;
 	}
       return m;
     }
