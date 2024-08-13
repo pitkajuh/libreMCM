@@ -115,22 +115,36 @@ public:
 class MathMath: public MathOperation
 {
    // Math-math math operation
-public:
+private:
   Value *v1_2=nullptr;
   Value *v2_2=nullptr;
   MathOperator *math_operator_2=nullptr;
-  double result2=NAN;
+  MathOperator *total_math_operator=nullptr;
 
-  MathOperator *math_operator_3=nullptr;
+public:
+  double result2=NAN;
   double total_result=NAN;
 
-  void SetOperator2(const string &s)
+  void SetV12(Value *v){v1_2=v;}
+  void SetV22(Value *v){v2_2=v;}
+  Value *GetV12(){return v1_2;}
+  Value *GetV22(){return v2_2;} const
+  double GetV12Value(){return v1_2->GetValue();} const
+  double GetV22Value(){return v2_2->GetValue();} const
+  string GetV1Name(){return v1_2->GetName();} const
+  string GetV2Name(){return v2_2->GetName();} const
+  void SetV21Value(const double &d){v1_2->SetValue(d);} const
+  void SetV22Value(const double &d){v2_2->SetValue(d);} const
+  void SetV12Name(const string &s){v1_2->SetName(s);} const
+  void SetV22Name(const string &s){v2_2->SetName(s);} const
+  void SetOperator2(MathOperator *m){math_operator_2=m;}
+  void SetTotalOperator(const string &s)
   {
-    if(s==ADD) math_operator_3=new Add;
-    else if(s==SUBTRACT) math_operator_3=new Sub;
-    else if(s==MULTIPLY) math_operator_3=new Mul;
-    else if(s==DIVIDE) math_operator_3=new Div;
-    else if(s==EXP) math_operator_3=new Exp;
+    if(s==ADD) total_math_operator=new Add;
+    else if(s==SUBTRACT) total_math_operator=new Sub;
+    else if(s==MULTIPLY) total_math_operator=new Mul;
+    else if(s==DIVIDE) total_math_operator=new Div;
+    else if(s==EXP) total_math_operator=new Exp;
   }
   void Print()
   {
@@ -142,7 +156,7 @@ public:
     cout<<"~MathMath()"<<'\n';
     delete v1_2;
     delete v2_2;
-    delete math_operator_3;
+    delete total_math_operator;
     delete math_operator_2;
     cout<<" "<<'\n';
   }
