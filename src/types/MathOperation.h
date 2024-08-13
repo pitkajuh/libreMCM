@@ -24,13 +24,11 @@ class MathOperationBase
 public:
   int id;
   double result=NAN;
-  // MathOperationBase *next=nullptr;
 
   virtual void Type()=0;
   virtual ~MathOperationBase()
   {
     cout<<"~MathOperationBase()"<<'\n';
-    // delete next;
   }
 };
 
@@ -81,7 +79,7 @@ class ValueMath: public MathOperation
 {
 private:
   Value *v;
-  MathOperator *math_operator1=nullptr;
+  MathOperator *math_operator1;
 public:
   double result_total=NAN;
 

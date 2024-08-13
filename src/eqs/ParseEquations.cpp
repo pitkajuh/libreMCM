@@ -57,11 +57,11 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
 
   if(s1_variable and s2_variable) return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o, k);
-  else if(s1_variable and s2_constant) return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o, k);
-  else if(s1_variable and s2_numeric) return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o, k);
+  else if(s1_variable and s2_constant) return CreateNewMathOperation<Variable, Constant, ConstantVariable>(s1, s2, o, k);
+  else if(s1_variable and s2_numeric) return CreateNewMathOperation<Variable, Numeric, NumericVariable>(s1, s2, o, k);
   else if(s1_constant and s2_variable) return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o, k);
   else if(s1_constant and s2_constant) return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o, k);
-  else if(s1_constant and s2_numeric) return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o, k);
+  else if(s1_constant and s2_numeric) return CreateNewMathOperation<Constant, Numeric, NumericConstant>(s1, s2, o, k);
   else if(s1_numeric and s2_variable) return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o, k);
   else if(s1_numeric and s2_constant) return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o, k);
   else if(s1_numeric and s2_numeric)
@@ -93,13 +93,11 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   else if(s1_math and s2_constant)
     {
       cout<<"s1_math and s2_constant"<<'\n';
-      // return NewCMMath(s2, s1, o, k, c);
       return NewMathValue<MathConstant, Constant>(s1, s2, o, k, c);
     }
   else if(s1_math and s2_numeric)
     {
       cout<<"s1_math and s2_numeric"<<'\n';
-      // return NewNMMath(s2, s1, o, k, c);
       return NewMathValue<MathNumeric, Numeric>(s1, s2, o, k, c);
     }
   else if(s1_math and s2_math)
