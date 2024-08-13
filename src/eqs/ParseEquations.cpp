@@ -76,8 +76,8 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
 MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
 {
   ValueMath *m=new MathVariable;
-  m->SetV(new Variable);
-  m->SetVName(s2);
+  m->SetV(new Variable(s2));
+  // m->SetVName(s2);
   m->id=k;
   MathOperation *r=Search(c, stoi(s1.substr(1, s1.size())));
   cout<<"v "<<r->id<<" "<<r->GetV1()<<'\n';
@@ -86,8 +86,8 @@ MathOperation *NewMVMath(const string &s1, const string &s2, const string &o, co
   if(!isnan(result))
     {
       // Only result will be taken into account, v1, v2 and math_operator can be omitted.
-      m->SetV(new Numeric);
-      m->SetVValue(result);
+      m->SetV(new Numeric(result));
+      // m->SetVValue(result);
       // m->SetOperator1(o);
       // Check *next before deleting.
       delete r;
@@ -147,11 +147,11 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   cout<<"s1 "<<s1_variable<<" "<<s1_constant<<" "<<s1_numeric<<" "<<s1_math<<'\n';
   cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
 
-  if(s1_variable and s2_variable) return CreateNewMathOperation2<Variable, Variable, VariableVariable>(s1, s2, o, k);
-  else if(s1_variable and s2_constant) return CreateNewMathOperation2<Constant, Variable, ConstantVariable>(s2, s1, o, k);
+  if(s1_variable and s2_variable) return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o, k);
+  else if(s1_variable and s2_constant) return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s2, s1, o, k);
   else if(s1_variable and s2_numeric) return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s2, s1, o, k);
-  else if(s1_constant and s2_variable) return CreateNewMathOperation2<Constant, Variable, ConstantVariable>(s1, s2, o, k);
-  else if(s1_constant and s2_constant) return CreateNewMathOperation2<Constant, Constant, ConstantConstant>(s1, s2, o, k);
+  else if(s1_constant and s2_variable) return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o, k);
+  else if(s1_constant and s2_constant) return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o, k);
   else if(s1_constant and s2_numeric) return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s2, s1, o, k);
   else if(s1_numeric and s2_variable) return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o, k);
   else if(s1_numeric and s2_constant) return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o, k);
@@ -189,10 +189,10 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   else if(s1_numeric and s2_numeric)
     {
       MathOperation *m=new NumericNumeric;
-      m->SetV1(new Numeric);
-      m->SetV1Value(stod(s1));
-      m->SetV2(new Numeric);
-      m->SetV2Value(stod(s2));
+      m->SetV1(new Numeric(s1));
+      // m->SetV1Value(stod(s1));
+      m->SetV2(new Numeric(s2));
+      // m->SetV2Value(stod(s2));
       m->id=k;
       m->SetOperator(o);
       m->CalculateResult();
@@ -213,10 +213,10 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
       if(!r1_null and !r2_null)
 	{
 	  cout<<"!r1_null and !r2_null"<<'\n';
-	  Value *v1=new Numeric;
-	  v1->SetValue(result1);
-	  Value *v2=new Numeric;
-	  v2->SetValue(result2);
+	  Value *v1=new Numeric(result1);
+	  // v1->SetValue(result1);
+	  Value *v2=new Numeric(result2);
+	  // v2->SetValue(result2);
 	  // m->Set(v1, o, v2);
 	  m->Calculate();
 	}

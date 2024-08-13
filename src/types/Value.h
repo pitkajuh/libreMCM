@@ -26,46 +26,25 @@ public:
   void SetValue(const double &v){value=v;}
   string GetName(){return name;}
   double GetValue(){return value;}
-  Value()=default;
-  virtual Value *New()=0;
 };
 
 class Constant: public Value
 {
  public:
-  Constant()=default;
-  Value *New()
-  {
-    Value *n=new Constant;
-    // n->SetName(v->GetName());
-    // n->SetValue(v->GetValue());
-    return n;
-  }
+  Constant(const string &s){SetName(s);}
 };
 
 class Variable: public Value
 {
 public:
-  Variable()=default;
-  Value *New()
-  {
-    Value *n=new Variable;
-    // n->SetName(v->GetName());
-    // n->SetValue(v->GetValue());
-    return n;
-  }
+  Variable(const string &s){SetName(s);}
 };
 
 class Numeric: public Value
 {
 public:
-  Numeric()=default;
-  Value *New()
-  {
-    Value *n=new Numeric;
-    // n->SetValue(v->GetValue());
-    return n;
-  }
+  Numeric(const string &s){SetValue(std::stod(s));}
+  Numeric(const double &s){SetValue(s);}
 };
 
 #endif
