@@ -75,32 +75,32 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
   else if(s1_variable and s2_math)
     {
       cout<<"s1_variable and s2_math"<<'\n';
-      return NewMathValue<VariableMath, Variable>(s1, s2, o, k, c);
+      return NewMathValue<VariableMath, Variable>(s1, s2, o, k, c, next);
     }
   else if(s1_constant and s2_math)
     {
       cout<<"s1_constant and s2_math"<<'\n';
-      return NewMathValue<ConstantMath, Constant>(s1, s2, o, k, c);
+      return NewMathValue<ConstantMath, Constant>(s1, s2, o, k, c, next);
     }
   else if(s1_numeric and s2_math)
     {
       cout<<"s1_numeric and s2_math"<<'\n';
-      return NewMathValue<NumericMath, Numeric>(s1, s2, o, k, c);
+      return NewMathValue<NumericMath, Numeric>(s1, s2, o, k, c, next);
     }
   else if(s1_math and s2_variable)
     {
       cout<<"s1_math and s2_variable"<<'\n';
-      return NewMathValue<MathVariable, Variable>(s1, s2, o, k, c);
+      return NewMathValue<MathVariable, Variable>(s1, s2, o, k, c, next);
     }
   else if(s1_math and s2_constant)
     {
       cout<<"s1_math and s2_constant"<<'\n';
-      return NewMathValue<MathConstant, Constant>(s1, s2, o, k, c);
+      return NewMathValue<MathConstant, Constant>(s1, s2, o, k, c, next);
     }
   else if(s1_math and s2_numeric)
     {
       cout<<"s1_math and s2_numeric"<<'\n';
-      return NewMathValue<MathNumeric, Numeric>(s1, s2, o, k, c);
+      return NewMathValue<MathNumeric, Numeric>(s1, s2, o, k, c, next);
     }
   else if(s1_math and s2_math)
     {
@@ -109,6 +109,7 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
       m->id=k;
       MathOperation *m1=Search(c, stoi(s1.substr(1, s1.size())));
       MathOperation *m2=Search(c, stoi(s2.substr(1, s2.size())));
+      cout<<"m1 "<<m1<<" m2 "<<m2<<'\n';
       const double result1=m1->result;
       const double result2=m2->result;
       const bool r1_null=isnan(result1);
@@ -273,8 +274,6 @@ void ParseEquations(const SMap &equations_map, const Data &data)
   unsigned int k=0;
   MathOperation *e=nullptr;
   MathOperation *next=nullptr;
-  // Map<string, MathOperations> equations_map2;
-  // equations_map2.reserve(equations_map.size());
 
   for(const auto& [name, equation]: equations_map)
     {
@@ -282,7 +281,7 @@ void ParseEquations(const SMap &equations_map, const Data &data)
       v=RemoveOpenClose(v);
       cout<<"EQUATION"<<'\n';
       print_vector2(v);
-        cout<<" "<<'\n';
+      cout<<" "<<'\n';
       v=test(v, k, data, e, next);
       GetOrder(v, k, data, e, next);
       // cout<<"Deleting "<<'\n';

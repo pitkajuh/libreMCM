@@ -28,7 +28,7 @@ public:
   virtual void Type()=0;
   virtual ~MathOperationBase()
   {
-    cout<<"~MathOperationBase()"<<'\n';
+    // cout<<"~MathOperationBase() "<<this<<'\n';
   }
 };
 
@@ -66,11 +66,21 @@ public:
   void CalculateResult(){result=math_operator->Calculate1(GetV1Value(), GetV2Value());}
   ~MathOperation()
   {
-    cout<<"~MathOperation()"<<'\n';
+    cout<<"~MathOperation() "<<this<<'\n';
+    // cout<<"Trying to delete v1 "<<v1<<'\n';
     delete v1;
+    // cout<<"v1 deleted"<<'\n';
+    // cout<<"Trying to delete v2 "<<v2<<'\n';
     delete v2;
+    // cout<<"v2 deleted"<<'\n';
+    // cout<<"Trying to delete math_operator "<<math_operator<<'\n';
     delete math_operator;
+    // cout<<"math_operator deleted"<<'\n';
+    // cout<<"Trying to delete next "<<next<<'\n';
     delete next;
+    // cout<<"next deleted"<<'\n';
+    cout<<" "<<'\n';
+
   }
   virtual void Type()=0;
 };
@@ -100,9 +110,14 @@ public:
   void SetVValue(const double &d){v->SetValue(d);}
   ~ValueMath()
   {
-    cout<<"~ValueMath()"<<'\n';
+    cout<<"~ValueMath() "<<this<<'\n';
+    // cout<<"Trying to delete v "<<v<<'\n';
     delete v;
+    // cout<<"v deleted"<<'\n';
+    // cout<<"Trying to delete math_operator1 "<<math_operator1<<'\n';
     delete math_operator1;
+    // cout<<"math_operator1 deleted"<<'\n';
+    cout<<" "<<'\n';
   }
   void Type()
   {
@@ -151,11 +166,19 @@ public:
   }
   ~MathMath()
   {
-    cout<<"~MathMath()"<<'\n';
+    cout<<"~MathMath() "<<this<<'\n';
+    // cout<<"Trying to delete v1_2 "<<v1_2<<'\n';
     delete v1_2;
+    // cout<<"v1_2 deleted"<<'\n';
+    // cout<<"Trying to delete v2_2 "<<v2_2<<'\n';
     delete v2_2;
+    // cout<<"v2_2 deleted"<<'\n';
+    // cout<<"Trying to delete total_math_operator "<<total_math_operator<<'\n';
     delete total_math_operator;
+    // cout<<"total_math_operator deleted"<<'\n';
+    // cout<<"Trying to delete math_operator_2 "<<math_operator_2<<'\n';
     delete math_operator_2;
+    // cout<<"math_operator_2 deleted"<<'\n';
     cout<<" "<<'\n';
   }
   MathOperationBase *New()

@@ -19,14 +19,16 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
 
   while(c!=nullptr)
     {
+      cout<<"finding "<<i<<" "<<c->id<<'\n';
       if(c->id==i) return c;
       c=c->next;
     }
+  cout<<"Warning, id "<<i<<" not found!"<<'\n';
   return nullptr;
 }
 
 template<typename T, typename U>
-MathOperation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c)
+MathOperation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned int &k, MathOperation *&c, MathOperation *&next)
 {
   ValueMath *m=new T;
   m->SetV(new U(s2));
@@ -53,7 +55,9 @@ MathOperation *NewMathValue(const string &s1, const string &s2, const string &o,
 
   m->SetOperator1(o);
   r->next=nullptr;
+  next=nullptr;
   delete r;
+  cout<<m<<'\n';
   return m;
 }
 
