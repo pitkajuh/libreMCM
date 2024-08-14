@@ -19,15 +19,9 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
 
   while(c!=nullptr)
     {
-      cout<<"finding "<<i<<" "<<c->id<<'\n';
-      if(c->id==i)
-	{
-	  cout<<"found"<<'\n';
-	  return c;
-	}
+      if(c->id==i){return c;}
       c=c->next;
     }
-  cout<<"Warning, id "<<i<<" not found!"<<'\n';
   return nullptr;
 }
 
@@ -38,9 +32,8 @@ MathOperation *NewMathValue(const string &s1, const string &s2, const string &o,
   m->SetV(new U(s2));
   m->id=k;
   MathOperation *r=Search(c, stoi(s1.substr(1, s1.size())));
-  cout<<"v "<<r->id<<" "<<r->GetV1()<<'\n';
   const double result=r->result;
-  cout<<"id "<<r->id<<'\n';
+
   if(!isnan(result))
     {
       // Only result will be taken into account, v1, v2 and math_operator can be omitted.
@@ -51,7 +44,6 @@ MathOperation *NewMathValue(const string &s1, const string &s2, const string &o,
     }
   else
     {
-      cout<<"else NewMVMath"<<'\n';
       m->SetV1(r->GetV1()->New(r->GetV1()));
       m->SetV2(r->GetV2()->New(r->GetV2()));
       m->SetOp(r->GetOp()->New());
@@ -59,9 +51,12 @@ MathOperation *NewMathValue(const string &s1, const string &s2, const string &o,
 
   m->SetOperator1(o);
   // r->next=nullptr;
+
+  // next=nullptr;
+  // delete r;
+  delete next;
   next=nullptr;
-  delete r;
-  cout<<"moperator "<<m<<'\n';
+  cout<<"mopertor "<<m<<" "<<m->GetV1()<<" "<<m->GetOp()<<" "<<m->GetV2()<<" "<<m->GetV()<<" "<<m->GetOp1()<<'\n';
   return m;
 }
 
@@ -73,7 +68,7 @@ MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const 
   m->SetV2(new U(s2));
   m->SetOperator(o);
   m->id=k;
-  cout<<m<<'\n';
+  cout<<"mopertor "<<m<<" "<<m->GetV1()<<" "<<m->GetOp()<<" "<<m->GetV2()<<'\n';
   return m;
 }
 

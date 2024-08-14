@@ -67,18 +67,18 @@ public:
   ~MathOperation()
   {
     cout<<"~MathOperation() "<<this<<'\n';
-    // cout<<"Trying to delete v1 "<<v1<<'\n';
+    cout<<"Trying to delete v1 "<<v1<<'\n';
     delete v1;
-    // cout<<"v1 deleted"<<'\n';
-    // cout<<"Trying to delete v2 "<<v2<<'\n';
+    cout<<"v1 deleted"<<'\n';
+    cout<<"Trying to delete v2 "<<v2<<'\n';
     delete v2;
-    // cout<<"v2 deleted"<<'\n';
-    // cout<<"Trying to delete math_operator "<<math_operator<<'\n';
+    cout<<"v2 deleted"<<'\n';
+    cout<<"Trying to delete math_operator "<<math_operator<<'\n';
     delete math_operator;
-    // cout<<"math_operator deleted"<<'\n';
-    // cout<<"Trying to delete next "<<next<<'\n';
+    cout<<"math_operator deleted"<<'\n';
+    cout<<"Trying to delete next "<<next<<'\n';
     delete next;
-    // cout<<"next deleted"<<'\n';
+    cout<<"next deleted"<<'\n';
     cout<<" "<<'\n';
 
   }
@@ -101,7 +101,7 @@ public:
     else if(s==DIVIDE) math_operator1=new Div;
     else if(s==EXP) math_operator1=new Exp;
   }
-  MathOperator *GetOp(){return math_operator1;} const
+  MathOperator *GetOp1(){return math_operator1;} const
   void SetV(Value *v1){v=v1;}
   Value *GetV(){return v;} const
   double GetVValue(){return v->GetValue();} const
@@ -111,13 +111,12 @@ public:
   ~ValueMath()
   {
     cout<<"~ValueMath() "<<this<<'\n';
-    // cout<<"Trying to delete v "<<v<<'\n';
+    cout<<"Trying to delete v "<<v<<'\n';
     delete v;
-    // cout<<"v deleted"<<'\n';
-    // cout<<"Trying to delete math_operator1 "<<math_operator1<<'\n';
+    cout<<"v deleted"<<'\n';
+    cout<<"Trying to delete math_operator1 "<<math_operator1<<'\n';
     delete math_operator1;
-    // cout<<"math_operator1 deleted"<<'\n';
-    cout<<" "<<'\n';
+    cout<<"math_operator1 deleted"<<'\n';
   }
   void Type()
   {
@@ -167,18 +166,18 @@ public:
   ~MathMath()
   {
     cout<<"~MathMath() "<<this<<'\n';
-    // cout<<"Trying to delete v1_2 "<<v1_2<<'\n';
+    cout<<"Trying to delete v1_2 "<<v1_2<<'\n';
     delete v1_2;
-    // cout<<"v1_2 deleted"<<'\n';
-    // cout<<"Trying to delete v2_2 "<<v2_2<<'\n';
+    cout<<"v1_2 deleted"<<'\n';
+    cout<<"Trying to delete v2_2 "<<v2_2<<'\n';
     delete v2_2;
-    // cout<<"v2_2 deleted"<<'\n';
-    // cout<<"Trying to delete total_math_operator "<<total_math_operator<<'\n';
+    cout<<"v2_2 deleted"<<'\n';
+    cout<<"Trying to delete total_math_operator "<<total_math_operator<<'\n';
     delete total_math_operator;
-    // cout<<"total_math_operator deleted"<<'\n';
-    // cout<<"Trying to delete math_operator_2 "<<math_operator_2<<'\n';
+    cout<<"total_math_operator deleted"<<'\n';
+    cout<<"Trying to delete math_operator_2 "<<math_operator_2<<'\n';
     delete math_operator_2;
-    // cout<<"math_operator_2 deleted"<<'\n';
+    cout<<"math_operator_2 deleted"<<'\n';
     cout<<" "<<'\n';
   }
   MathOperationBase *New()

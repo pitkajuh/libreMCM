@@ -169,12 +169,13 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	  // Total math operator
 	  m->SetTotalOperator(o);
 	}
-      // m1->next=nullptr;
-      // m2->next=nullptr;
-      // next=nullptr;
-      // delete m2;
-      // delete m1;
-  cout<<"moperator "<<m<<'\n';
+      m1->next=nullptr;
+      m2->next=nullptr;
+      next=nullptr;
+      delete m1;
+      delete m2;
+      // cout<<"moperator "<<m<<" nxt "<<m->next<<'\n';
+      cout<<"mopertor "<<m<<" "<<m->GetV1()<<" "<<m->GetOp()<<" "<<m->GetV2()<<" "<<m->GetV12()<<" "<<m->GetV22()<<" "<<m->GetOp()<<'\n';
       return m;
     }
   else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)
@@ -196,12 +197,11 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
     {
       if(find==equation[i])
 	{
+	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
 	  e=Val2(e, equation, i, data, k, next);
 	  e->next=next;
-	  cout<<"next "<<next<<'\n';
 	  next=e;
 
-	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
 	  equation[i]="@"+to_string(k);
 	  equation.erase(equation.begin()+i+1);
 	  equation.erase(equation.begin()+i-1);
@@ -246,22 +246,6 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
   return result;
 }
 
-void Delete(MathOperation *m)
-{
-  MathOperation *tmp=m;
-  MathOperation *nxt;
-  cout<<"delete begin"<<'\n';
-  while(tmp->next!=nullptr)
-    {
-      nxt=tmp->next;
-      cout<<tmp<<'\n';
-      delete tmp;
-      tmp=nxt;
-    }
-  // tmp->next=nullptr;
-  cout<<"delete end"<<'\n';
-}
-
 void Print(MathOperation *head)
 {
   MathOperation *tmp=head;
@@ -274,6 +258,7 @@ void Print(MathOperation *head)
       delete tmp;
       tmp=nxt;
     }
+  // delete nxt;
 }
 
 void ParseEquations(const SMap &equations_map, const Data &data)
@@ -302,6 +287,7 @@ void ParseEquations(const SMap &equations_map, const Data &data)
       // cout<<"Deleting "<<'\n';
 
       Print(e);
+      // delete next;
       // delete e;
       next=nullptr;
 
