@@ -118,12 +118,13 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
       if(!r1_null and !r2_null)
 	{
 	  cout<<"!r1_null and !r2_null"<<'\n';
-	  NumericNumeric n;
-	  n.SetV1(new Numeric(result1));
-	  n.SetV2(new Numeric(result2));
-	  n.CalculateResult();
+	  NumericNumeric *n=new NumericNumeric;
+	  n->SetV1(new Numeric(result1));
+	  n->SetV2(new Numeric(result2));
+	  n->CalculateResult();
 	  m->SetTotalOperator(o);
-	  m->total_result=n.result;
+	  m->total_result=n->result;
+	  delete n;
 	  m->SetV1(nullptr);
 	  m->SetV2(nullptr);
 	  m->SetOp(nullptr);
