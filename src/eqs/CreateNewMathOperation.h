@@ -20,7 +20,11 @@ MathOperation *Search(MathOperation *m, const unsigned int i)
   while(c!=nullptr)
     {
       cout<<"finding "<<i<<" "<<c->id<<'\n';
-      if(c->id==i) return c;
+      if(c->id==i)
+	{
+	  cout<<"found"<<'\n';
+	  return c;
+	}
       c=c->next;
     }
   cout<<"Warning, id "<<i<<" not found!"<<'\n';
@@ -54,10 +58,10 @@ MathOperation *NewMathValue(const string &s1, const string &s2, const string &o,
     }
 
   m->SetOperator1(o);
-  r->next=nullptr;
+  // r->next=nullptr;
   next=nullptr;
   delete r;
-  cout<<m<<'\n';
+  cout<<"moperator "<<m<<'\n';
   return m;
 }
 
@@ -69,6 +73,7 @@ MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const 
   m->SetV2(new U(s2));
   m->SetOperator(o);
   m->id=k;
+  cout<<m<<'\n';
   return m;
 }
 

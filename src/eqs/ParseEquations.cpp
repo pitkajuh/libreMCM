@@ -169,11 +169,12 @@ MathOperation *Val2(MathOperation *&c, const vector<string> &equation, const uns
 	  // Total math operator
 	  m->SetTotalOperator(o);
 	}
-      m1->next=nullptr;
-      m2->next=nullptr;
-      next=nullptr;
-      delete m2;
-      delete m1;
+      // m1->next=nullptr;
+      // m2->next=nullptr;
+      // next=nullptr;
+      // delete m2;
+      // delete m1;
+  cout<<"moperator "<<m<<'\n';
       return m;
     }
   else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)
@@ -261,6 +262,20 @@ void Delete(MathOperation *m)
   cout<<"delete end"<<'\n';
 }
 
+void Print(MathOperation *head)
+{
+  MathOperation *tmp=head;
+  MathOperation *nxt;
+  cout<<"print"<<'\n';
+  while(tmp!=nullptr)
+    {
+      nxt=tmp->next;
+      cout<<"t "<<tmp<<'\n';
+      delete tmp;
+      tmp=nxt;
+    }
+}
+
 void ParseEquations(const SMap &equations_map, const Data &data)
 {
   // Set calculation order of an equation according to order of operations:
@@ -285,8 +300,12 @@ void ParseEquations(const SMap &equations_map, const Data &data)
       v=test(v, k, data, e, next);
       GetOrder(v, k, data, e, next);
       // cout<<"Deleting "<<'\n';
-      delete e;
+
+      Print(e);
+      // delete e;
       next=nullptr;
+
+
       // Delete(e);
       // delete next;
       k=0;
