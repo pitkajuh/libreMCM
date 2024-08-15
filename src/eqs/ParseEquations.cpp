@@ -13,6 +13,7 @@
 #include "test.h"
 #include "../global/mathconst.h"
 #include "../types/MathOperation.h"
+#include "../types/Equation.h"
 #include "../types/Data.h"
 #include "../util/IsIn.h"
 #include <algorithm>
@@ -273,6 +274,7 @@ void ParseEquations(const SMap &equations_map, const Data &data)
 
   vector<string> v;
   unsigned int k=0;
+  Equation *eq;
   MathOperation *e=nullptr;
   MathOperation *next=nullptr;
 
