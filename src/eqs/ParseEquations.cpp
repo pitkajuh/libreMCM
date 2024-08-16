@@ -270,7 +270,6 @@ void Print(Equation *head)
       delete tmp;
       tmp=nxt;
     }
-  // delete nxt;
 }
 
 void ParseEquations(const SMap &equations_map, const Data &data)
