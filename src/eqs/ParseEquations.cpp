@@ -62,6 +62,7 @@ Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int 
     {
       mc=new Equation;
       mc->id=k;
+
       if(s1_variable and s2_variable) mc->m1=CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o, k);
       else if(s1_variable and s2_constant) mc->m1=CreateNewMathOperation<Variable, Constant, ConstantVariable>(s1, s2, o, k);
       else if(s1_variable and s2_numeric) mc->m1=CreateNewMathOperation<Variable, Numeric, NumericVariable>(s1, s2, o, k);
@@ -72,6 +73,7 @@ Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int 
       else if(s1_numeric and s2_constant) mc->m1=CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o, k);
       else if(s1_numeric and s2_numeric)
 	{
+	  cout<<"num num "<<'\n';
 	  mc->m1=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o, k);
 	  // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
 	  // simplified and performance of the calculation increased.
@@ -101,16 +103,8 @@ Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int 
       if(s1_math and s2_variable)
         {
           cout<<"s1_math and s2_variable"<<'\n';
-	  // c->next=nullptr;
-          // return NewMathValue<Variable>(s1, s2, o, k, c, next);
+
 	  mc=NewMathValue<Variable>(s1, s2, o, k, c, next);
-	  // c->next=nullptr;
-
-
-	  // next=nullptr;
-
-	  // delete next;
-
 	  return mc;
         }
       // else if(s1_math and s2_constant)
