@@ -33,7 +33,6 @@ public:
     cout<<"m1 deleted"<<'\n';
     cout<<"Deleting next "<<next<<'\n';
     delete next;
-    // next=nullptr;
     cout<<"next deleted"<<'\n';
   }
 };

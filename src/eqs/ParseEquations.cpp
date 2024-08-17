@@ -103,20 +103,19 @@ Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int 
       if(s1_math and s2_variable)
         {
           cout<<"s1_math and s2_variable"<<'\n';
-
-	  mc=NewMathValue<Variable>(s1, s2, o, k, c, next);
-	  return mc;
+	  // mc=NewMathValue<Variable>(s1, s2, o, k, c, next);
+	  return NewMathValue<Variable>(s1, s2, o, k, c, next);;
         }
-      // else if(s1_math and s2_constant)
-      //   {
-      //     cout<<"s1_math and s2_constant"<<'\n';
-      //     return NewMathValue<MathConstant, Constant>(s1, s2, o, k, c, next);
-      //   }
-      // else if(s1_math and s2_numeric)
-      //   {
-      //     cout<<"s1_math and s2_numeric"<<'\n';
-      //     return NewMathValue<MathNumeric, Numeric>(s1, s2, o, k, c, next);
-      //   }
+      else if(s1_math and s2_constant)
+        {
+          cout<<"s1_math and s2_constant"<<'\n';
+          return NewMathValue<Constant>(s1, s2, o, k, c, next);
+        }
+      else if(s1_math and s2_numeric)
+        {
+          cout<<"s1_math and s2_numeric"<<'\n';
+          return NewMathValue<Numeric>(s1, s2, o, k, c, next);
+        }
       // else if(s1_math and s2_math)
       //   {
       //     cout<<"s1_math and s2_math"<<'\n';
