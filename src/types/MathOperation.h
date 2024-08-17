@@ -39,7 +39,7 @@ private:
   Value *v2=nullptr;
   MathOperator *math_operator=nullptr;
 public:
-  MathOperation *next=nullptr;
+  // MathOperation *next=nullptr;
 
   void SetOperator(const string &s)
   {
@@ -76,9 +76,9 @@ public:
     cout<<"Trying to delete math_operator "<<math_operator<<'\n';
     delete math_operator;
     cout<<"math_operator deleted"<<'\n';
-    cout<<"Trying to delete next "<<next<<'\n';
-    delete next;
-    cout<<"next deleted"<<'\n';
+    // cout<<"Trying to delete next "<<next<<'\n';
+    // delete next;
+    // cout<<"next deleted"<<'\n';
     cout<<" "<<'\n';
 
   }

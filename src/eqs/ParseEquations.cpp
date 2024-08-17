@@ -61,6 +61,7 @@ Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int 
   if(!s1_math and !s2_math)
     {
       mc=new Equation;
+      mc->id=k;
       if(s1_variable and s2_variable) mc->m1=CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o, k);
       else if(s1_variable and s2_constant) mc->m1=CreateNewMathOperation<Variable, Constant, ConstantVariable>(s1, s2, o, k);
       else if(s1_variable and s2_numeric) mc->m1=CreateNewMathOperation<Variable, Numeric, NumericVariable>(s1, s2, o, k);
@@ -80,7 +81,8 @@ Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int 
     }
   else
     {
-      mc=new EquationOp;
+      // mc=new EquationOp;
+
       // else if(s1_variable and s2_math)
       //   {
       //     cout<<"s1_variable and s2_math"<<'\n';
@@ -96,11 +98,21 @@ Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int 
       //     cout<<"s1_numeric and s2_math"<<'\n';
       //     return NewMathValue<NumericMath, Numeric>(s1, s2, o, k, c, next);
       //   }
-      // else if(s1_math and s2_variable)
-      //   {
-      //     cout<<"s1_math and s2_variable"<<'\n';
-      //     return NewMathValue<MathVariable, Variable>(s1, s2, o, k, c, next);
-      //   }
+      if(s1_math and s2_variable)
+        {
+          cout<<"s1_math and s2_variable"<<'\n';
+	  // c->next=nullptr;
+          // return NewMathValue<Variable>(s1, s2, o, k, c, next);
+	  mc=NewMathValue<Variable>(s1, s2, o, k, c, next);
+	  // c->next=nullptr;
+
+
+	  // next=nullptr;
+
+	  // delete next;
+
+	  return mc;
+        }
       // else if(s1_math and s2_constant)
       //   {
       //     cout<<"s1_math and s2_constant"<<'\n';
@@ -260,6 +272,22 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
 
 void Print(Equation *head)
 {
+  // Equation* current = head;
+  // Equation *prev = NULL, *next = NULL;
+
+  // while (current != NULL) {
+  //   // Store next
+  //   next = current->next;
+  //   // Reverse the node pointer for the current node
+  //   current->next = prev;
+  //   cout<<"t "<<current<<'\n';
+  //   // Advance the pointer one position.
+  //   prev = current;
+  //   delete current;
+  //   current = next;
+  // }
+  // head = prev;
+
   Equation *tmp=head;
   Equation *nxt;
   cout<<"print"<<'\n';
