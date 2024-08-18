@@ -130,8 +130,9 @@ Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int 
 	  // m1->Calculate();
 	  // m2->Calculate();
 	  mc2->SetOperator(o);
-
-
+	  mc2->math_operator->Calculate1(result1, result2);
+	  delete m1;
+	  delete m2;
 
   // 	  NumericNumeric *n=new NumericNumeric;
   // 	  n->SetV1(new Numeric(result1));
@@ -193,6 +194,7 @@ Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int 
   //     // cout<<"moperator "<<m<<" nxt "<<m->next<<'\n';
   //     cout<<"mopertor "<<m<<" "<<m->GetV1()<<" "<<m->GetOp()<<" "<<m->GetV2()<<" "<<m->GetV12()<<" "<<m->GetV22()<<" "<<m->GetOp()<<'\n';
   //     return m;
+      return mc2;
     }
   // else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)
   //   {
