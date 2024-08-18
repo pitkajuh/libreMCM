@@ -114,8 +114,8 @@ Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int 
   else if(s1_math and s2_math)
     {
       cout<<"s1_math and s2_math"<<'\n';
-      mc=new EquationOp;
-      mc->id=k;
+      EquationOp *mc2=new EquationOp;
+      mc2->id=k;
       Equation *m1=Search(c, stoi(s1.substr(1, s1.size())));
       Equation *m2=Search(c, stoi(s2.substr(1, s2.size())));
   //     cout<<"m1 "<<m1<<" m2 "<<m2<<'\n';
@@ -129,7 +129,7 @@ Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int 
 	  cout<<"!r1_null and !r2_null"<<'\n';
 	  // m1->Calculate();
 	  // m2->Calculate();
-	  // mc->SetOperator(o);
+	  mc2->SetOperator(o);
 
 
 
