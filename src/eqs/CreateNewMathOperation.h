@@ -26,10 +26,11 @@ Equation *Search(Equation *m, const unsigned int i)
   return nullptr;
 }
 
-template<typename T>
+template<typename T, typename U>
 Equation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned int &k, Equation *&c, Equation *&next)
 {
-  EquationV *mc=new EquationV;
+  // EquationV *mc=new EquationV;
+  EquationV *mc=new U;
   mc->v=new T(s2);
   mc->SetOperator(o);
   mc->id=k;

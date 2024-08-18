@@ -14,13 +14,23 @@
 #include "MathOperation.h"
 #include "MathOperator.h"
 
-class Equation
+class EquationBase
 {
 public:
   int id;
-  MathOperation *m1;
   double result=NAN;
+  virtual void Calculate()=0;
+};
+
+class Equation: public EquationBase
+{
+public:
+  MathOperation *m1;
   Equation *next=nullptr;
+  void Calculate()
+  {
+    m1->CalculateResult();
+  }
   void Type()
   {
     cout<<"Equation"<<'\n';
@@ -42,6 +52,12 @@ class EquationOp: public Equation
 public:
   MathOperation *m2;
   MathOperator *math_operator;
+  void Calculate()
+  {
+    m1->CalculateResult();
+    m2->CalculateResult();
+    result=math_operator->Calculate1(m1->result, m2->result);
+  }
   void SetOperator(const string &s)
   {
     if(s==ADD) math_operator=new Add;
@@ -71,6 +87,11 @@ class EquationV: public Equation
 public:
   Value *v;
   MathOperator *math_operator1;
+  void Calculate()
+  {
+    m1->CalculateResult();
+    result=math_operator1->Calculate1(m1->result, v->GetValue());
+  }
   void SetOperator(const string &s)
   {
     if(s==ADD) math_operator1=new Add;
@@ -92,6 +113,15 @@ public:
     cout<<"Deleting math_operator1 "<<math_operator1<<'\n';
     delete math_operator1;
     cout<<"math_operator1 deleted"<<'\n';
+  }
+};
+
+class VEquation: public EquationV
+{
+  void Calculate()
+  {
+    m1->CalculateResult();
+    result=math_operator1->Calculate1(v->GetValue(), m1->result);
   }
 };
 
