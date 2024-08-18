@@ -20,7 +20,7 @@ using std::cout;
 
 vector<string> Remove(vector<string> equation, const int &open, const int &close)
 {
-  if(equation[open+1]==OPEN and equation[close+1]==CLOSE)
+  if(equation[open]==OPEN and equation[close]==CLOSE)
     {
       equation.erase(equation.begin()+open);
       equation.erase(equation.begin()+close-1);
