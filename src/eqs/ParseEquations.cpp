@@ -81,116 +81,119 @@ Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int 
 	}
       return mc;
     }
-  else
+  if(s1_variable and s2_math)
     {
-      if(s1_variable and s2_math)
-        {
-          cout<<"s1_variable and s2_math"<<'\n';
-          return NewMathValue<Variable, VEquation>(s1, s2, o, k, c, next);
-        }
-      else if(s1_constant and s2_math)
-        {
-          cout<<"s1_constant and s2_math"<<'\n';
-          return NewMathValue<Constant, VEquation>(s1, s2, o, k, c, next);
-        }
-      else if(s1_numeric and s2_math)
-        {
-          cout<<"s1_numeric and s2_math"<<'\n';
-          return NewMathValue<Numeric, VEquation>(s1, s2, o, k, c, next);
-        }
-      else if(s1_math and s2_variable)
-	{
-	  cout<<"s1_math and s2_variable"<<'\n';
-	  return NewMathValue<Variable, EquationV>(s1, s2, o, k, c, next);;
-	}
-      else if(s1_math and s2_constant)
-	{
-	  cout<<"s1_math and s2_constant"<<'\n';
-	  return NewMathValue<Constant, EquationV>(s1, s2, o, k, c, next);
-	}
-      else if(s1_math and s2_numeric)
-	{
-	  cout<<"s1_math and s2_numeric"<<'\n';
-	  return NewMathValue<Numeric, EquationV>(s1, s2, o, k, c, next);
-	}
-      // else if(s1_math and s2_math)
-      //   {
-      //     cout<<"s1_math and s2_math"<<'\n';
-      //     MathMath *m=new MathMath;
-      //     m->id=k;
-      //     MathOperation *m1=Search(c, stoi(s1.substr(1, s1.size())));
-      //     MathOperation *m2=Search(c, stoi(s2.substr(1, s2.size())));
-      //     cout<<"m1 "<<m1<<" m2 "<<m2<<'\n';
-      //     const double result1=m1->result;
-      //     const double result2=m2->result;
-      //     const bool r1_null=isnan(result1);
-      //     const bool r2_null=isnan(result2);
-
-      //     if(!r1_null and !r2_null)
-      // 	{
-      // 	  cout<<"!r1_null and !r2_null"<<'\n';
-      // 	  NumericNumeric *n=new NumericNumeric;
-      // 	  n->SetV1(new Numeric(result1));
-      // 	  n->SetV2(new Numeric(result2));
-      // 	  n->CalculateResult();
-      // 	  m->SetTotalOperator(o);
-      // 	  m->total_result=n->result;
-      // 	  delete n;
-      // 	  m->SetV1(nullptr);
-      // 	  m->SetV2(nullptr);
-      // 	  m->SetOp(nullptr);
-      // 	}
-      //     else if(r1_null and !r2_null)
-      // 	{
-      // 	  cout<<"r1_null and !r2_null"<<'\n';
-      // 	  // Result is not known at this point.
-      // 	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
-      // 	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
-      // 	  m->SetOp(m1->GetOp()->New());
-      // 	  m->SetV12(nullptr);
-      // 	  m->SetV22(nullptr);
-      // 	  m->SetOperator2(nullptr);
-      // 	  // Since the result is already known, V1, V2 and math_operator are not relevant.
-      // 	  m->result2=result2;
-      // 	  m->SetTotalOperator(o);
-      // 	}
-      //     else if(!r1_null and r2_null)
-      // 	{
-      // 	  cout<<"!r1_null and r2_null"<<'\n';
-      // 	  // Since the result is already known, V1, V2 and math_operator are not relevant, thus they can be set to nullptr.
-      // 	  m->SetV1(nullptr);
-      // 	  m->SetV2(nullptr);
-      // 	  m->SetOp(nullptr);
-      // 	  m->result=result1;
-      // 	  m->SetV12(m2->GetV1()->New(m2->GetV1()));
-      // 	  m->SetV22(m2->GetV2()->New(m2->GetV2()));
-      // 	  m->SetOperator2(m2->GetOp()->New());
-      // 	  m->SetTotalOperator(o);
-      // 	}
-      //     else
-      // 	{
-      // 	  cout<<"else"<<'\n';
-      // 	  // Get math operation 1 containing V1, V2 and math operation 1
-      // 	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
-      // 	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
-      // 	  m->SetOp(m1->GetOp()->New());
-      // 	  // Get math operation 2 containing V1, V2 and math operation 2
-      // 	  m->SetV12(m2->GetV1()->New(m2->GetV1()));
-      // 	  m->SetV22(m2->GetV1()->New(m2->GetV1()));
-      // 	  m->SetOperator2(m2->GetOp()->New());
-      // 	  // Total math operator
-      // 	  m->SetTotalOperator(o);
-      // 	}
-      //     m1->next=nullptr;
-      //     m2->next=nullptr;
-      //     next=nullptr;
-      //     delete m1;
-      //     delete m2;
-      //     // cout<<"moperator "<<m<<" nxt "<<m->next<<'\n';
-      //     cout<<"mopertor "<<m<<" "<<m->GetV1()<<" "<<m->GetOp()<<" "<<m->GetV2()<<" "<<m->GetV12()<<" "<<m->GetV22()<<" "<<m->GetOp()<<'\n';
-      //     return m;
+      cout<<"s1_variable and s2_math"<<'\n';
+      return NewMathValue<Variable, VEquation>(s1, s2, o, k, c, next);
     }
-  // }
+  else if(s1_constant and s2_math)
+    {
+      cout<<"s1_constant and s2_math"<<'\n';
+      return NewMathValue<Constant, VEquation>(s1, s2, o, k, c, next);
+    }
+  else if(s1_numeric and s2_math)
+    {
+      cout<<"s1_numeric and s2_math"<<'\n';
+      return NewMathValue<Numeric, VEquation>(s1, s2, o, k, c, next);
+    }
+  else if(s1_math and s2_variable)
+    {
+      cout<<"s1_math and s2_variable"<<'\n';
+      return NewMathValue<Variable, EquationV>(s1, s2, o, k, c, next);;
+    }
+  else if(s1_math and s2_constant)
+    {
+      cout<<"s1_math and s2_constant"<<'\n';
+      return NewMathValue<Constant, EquationV>(s1, s2, o, k, c, next);
+    }
+  else if(s1_math and s2_numeric)
+    {
+      cout<<"s1_math and s2_numeric"<<'\n';
+      return NewMathValue<Numeric, EquationV>(s1, s2, o, k, c, next);
+    }
+  else if(s1_math and s2_math)
+    {
+      cout<<"s1_math and s2_math"<<'\n';
+      mc=new EquationOp;
+      mc->id=k;
+      Equation *m1=Search(c, stoi(s1.substr(1, s1.size())));
+      Equation *m2=Search(c, stoi(s2.substr(1, s2.size())));
+  //     cout<<"m1 "<<m1<<" m2 "<<m2<<'\n';
+      const double result1=m1->result;
+      const double result2=m2->result;
+      const bool r1_null=isnan(result1);
+      const bool r2_null=isnan(result2);
+
+      if(!r1_null and !r2_null)
+	{
+	  cout<<"!r1_null and !r2_null"<<'\n';
+	  // m1->Calculate();
+	  // m2->Calculate();
+	  // mc->SetOperator(o);
+
+
+
+  // 	  NumericNumeric *n=new NumericNumeric;
+  // 	  n->SetV1(new Numeric(result1));
+  // 	  n->SetV2(new Numeric(result2));
+  // 	  n->CalculateResult();
+  // 	  m->SetTotalOperator(o);
+  // 	  m->total_result=n->result;
+  // 	  delete n;
+  // 	  m->SetV1(nullptr);
+  // 	  m->SetV2(nullptr);
+  // 	  m->SetOp(nullptr);
+	}
+      else if(r1_null and !r2_null)
+	{
+	  cout<<"r1_null and !r2_null"<<'\n';
+  // 	  // Result is not known at this point.
+  // 	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
+  // 	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
+  // 	  m->SetOp(m1->GetOp()->New());
+  // 	  m->SetV12(nullptr);
+  // 	  m->SetV22(nullptr);
+  // 	  m->SetOperator2(nullptr);
+  // 	  // Since the result is already known, V1, V2 and math_operator are not relevant.
+  // 	  m->result2=result2;
+  // 	  m->SetTotalOperator(o);
+	}
+      else if(!r1_null and r2_null)
+	{
+  // 	  cout<<"!r1_null and r2_null"<<'\n';
+  // 	  // Since the result is already known, V1, V2 and math_operator are not relevant, thus they can be set to nullptr.
+  // 	  m->SetV1(nullptr);
+  // 	  m->SetV2(nullptr);
+  // 	  m->SetOp(nullptr);
+  // 	  m->result=result1;
+  // 	  m->SetV12(m2->GetV1()->New(m2->GetV1()));
+  // 	  m->SetV22(m2->GetV2()->New(m2->GetV2()));
+  // 	  m->SetOperator2(m2->GetOp()->New());
+  // 	  m->SetTotalOperator(o);
+	}
+      else
+	{
+	  cout<<"else"<<'\n';
+  // 	  // Get math operation 1 containing V1, V2 and math operation 1
+  // 	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
+  // 	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
+  // 	  m->SetOp(m1->GetOp()->New());
+  // 	  // Get math operation 2 containing V1, V2 and math operation 2
+  // 	  m->SetV12(m2->GetV1()->New(m2->GetV1()));
+  // 	  m->SetV22(m2->GetV1()->New(m2->GetV1()));
+  // 	  m->SetOperator2(m2->GetOp()->New());
+  // 	  // Total math operator
+  // 	  m->SetTotalOperator(o);
+	}
+  //     m1->next=nullptr;
+  //     m2->next=nullptr;
+  //     next=nullptr;
+  //     delete m1;
+  //     delete m2;
+  //     // cout<<"moperator "<<m<<" nxt "<<m->next<<'\n';
+  //     cout<<"mopertor "<<m<<" "<<m->GetV1()<<" "<<m->GetOp()<<" "<<m->GetV2()<<" "<<m->GetV12()<<" "<<m->GetV22()<<" "<<m->GetOp()<<'\n';
+  //     return m;
+    }
   // else if(!s1_variable && !s1_constant && !s1_numeric && !s1_math)
   //   {
   //     throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
