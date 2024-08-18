@@ -118,6 +118,10 @@ public:
 
 class VEquation: public EquationV
 {
+    void Type()
+  {
+    cout<<"VEquation"<<'\n';
+  }
   void Calculate()
   {
     m1->CalculateResult();

@@ -23,6 +23,7 @@ Equation *Search(Equation *m, const unsigned int i)
       if(c->id==i) return c;
       c=c->next;
     }
+  cout<<"Warning id "<<i<<" not found"<<'\n';
   return nullptr;
 }
 

@@ -175,6 +175,11 @@ Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int 
       else
 	{
 	  cout<<"else"<<'\n';
+	  // mc2->m1=m1;
+	  // mc2->m2=m2;
+	  m1->Type();
+	  m2->Type();
+
   // 	  // Get math operation 1 containing V1, V2 and math operation 1
   // 	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
   // 	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
