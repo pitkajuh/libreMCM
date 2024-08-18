@@ -22,7 +22,6 @@ using std::cout;
 class MathOperationBase
 {
 public:
-  int id;
   double result=NAN;
 
   virtual void Type()=0;
@@ -39,8 +38,6 @@ private:
   Value *v2=nullptr;
   MathOperator *math_operator=nullptr;
 public:
-  // MathOperation *next=nullptr;
-
   void SetOperator(const string &s)
   {
     if(s==ADD) math_operator=new Add;
@@ -191,97 +188,6 @@ public:
     // cout<<"result calculated "<<result<<'\n';
   }
   void Type(){cout<<"Type is MMMath"<<'\n';}
-};
-
-class NumericMath: public ValueMath
-{
-  // Numeric-math math operation
-  // When calculating, value of Value *v and result (from *v1, *v2 and *math_operator) must be swapped!!!
-public:
-  void Print(){}
-  MathOperationBase *New()
-  {
-    MathOperationBase *n=new NumericMath;
-    return n;
-  }
-  void Type(){cout<<"Type is NMMath"<<'\n';}
-  void Calculate()
-  {
-    // CalculateResult();
-    // cout<<"result calculated "<<result<<'\n';
-  }
-};
-
-class MathNumeric: public ValueMath
-{
-  // Numeric-math math operation
-public:
-  void Print(){}
-  MathOperationBase *New()
-  {
-    MathOperationBase *n=new MathNumeric;
-    return n;
-  }
-  void Type(){cout<<"Type is NMMath"<<'\n';}
-  void Calculate()
-  {
-    // CalculateResult();
-    // cout<<"result calculated "<<result<<'\n';
-  }
-};
-
-class MathVariable: public ValueMath
-{
-  // Math-variable math operation
-public:
-  void Print(){}
-  MathOperationBase *New()
-  {
-    MathOperationBase *n=new MathVariable;
-    return n;
-  }
-  void Type(){cout<<"Type is MVMath"<<'\n';}
-};
-
-class VariableMath: public ValueMath
-{
-  // Math-variable math operation
-  // When calculating, value of Value *v and result (from *v1, *v2 and *math_operator) must be swapped!!!
-public:
-  void Print(){}
-  MathOperationBase *New()
-  {
-    MathOperationBase *n=new VariableMath;
-    return n;
-  }
-  void Type(){cout<<"Type is MVMath"<<'\n';}
-};
-
-class ConstantMath: public ValueMath
-{
-  // Constant-math math operation
-  // When calculating, value of Value *v and result (from *v1, *v2 and *math_operator) must be swapped!!!
-public:
-  void Print(){}
-  MathOperationBase *New()
-  {
-    MathOperationBase *n=new ConstantMath;
-    return n;
-  }
-  void Type(){cout<<"Type is CMMath"<<'\n';}
-};
-
-class MathConstant: public ValueMath
-{
-  // Constant-math math operation
-public:
-  void Print(){}
-  MathOperationBase *New()
-  {
-    MathOperationBase *n=new MathConstant;
-    return n;
-  }
-  void Type(){cout<<"Type is CMMath"<<'\n';}
 };
 
 class NumericNumeric: public MathOperation

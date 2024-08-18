@@ -17,7 +17,7 @@
 class EquationBase
 {
 public:
-  int id;
+  unsigned int id;
   double result=NAN;
   virtual void Calculate()=0;
 };
