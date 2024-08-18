@@ -20,7 +20,8 @@ Equation *Search(Equation *m, const unsigned int i)
 
   while(c!=nullptr)
     {
-      cout<<"find "<<i<<" now "<<c->id<<'\n';
+      // cout<<"find "<<i<<" now "<<c->id<<'\n';
+      cout<<"find "<<i<<" now "<<'\n';
       if(c->id==i) return c;
       c=c->next;
     }
@@ -53,7 +54,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
       cout<<"else"<<'\n';
       mc->m1=r->m1;
       r->m1=nullptr;
-      cout<<"mopertor "<<mc<<" "<<mc->m1<<" "<<mc->m1<<" "<<mc->m1->GetV1()<<" "<<mc->m1->GetOp()<<" "<<mc->m1->GetV2()<<'\n';
+      // cout<<"mopertor "<<mc<<" "<<mc->m1<<" "<<mc->m1<<" "<<mc->m1->GetV1()<<" "<<mc->m1->GetOp()<<" "<<mc->m1->GetV2()<<'\n';
     }
 
   delete r;
@@ -68,7 +69,7 @@ MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const 
   m->SetV1(new T(s1));
   m->SetV2(new U(s2));
   m->SetOperator(o);
-  cout<<"mopertor "<<m<<" "<<m->GetV1()<<" "<<m->GetOp()<<" "<<m->GetV2()<<'\n';
+  // cout<<"mopertor "<<m<<" "<<m->GetV1()<<" "<<m->GetOp()<<" "<<m->GetV2()<<'\n';
   return m;
 }
 
