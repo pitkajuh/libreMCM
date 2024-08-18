@@ -39,79 +39,137 @@ void print_vector2(vector<string> vec)
   cout<<empty<<'\n';
 }
 
+struct Bools
+{
+public:
+  bool s1_variable;
+  bool s1_constant;
+  bool s1_numeric;
+  bool s1_math;
+  bool s2_variable;
+  bool s2_constant;
+  bool s2_numeric;
+  bool s2_math;
+
+  Bools(const string &s1, const string &s2, const Data &data)
+  {
+    s1_variable=IsIn(s1, data.diagonal);
+    s1_constant=IsIn(s1, data.constants_map);
+    s1_numeric=IsNumerical(s1);
+    s1_math=(s1.substr(0, 1)=="@") ? true : false;
+    s2_variable=IsIn(s2, data.diagonal);
+    s2_constant=IsIn(s2, data.constants_map);
+    s2_numeric=IsNumerical(s2);
+    s2_math=(s2.substr(0, 1)=="@") ? true : false;
+  }
+};
+
+MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const unsigned int k, Bools b)
+{
+  if(b.s1_variable and b.s2_variable)
+    {
+      cout<<"s1_variable and s2_variable"<<'\n';
+      return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o, k);
+    }
+  else if(b.s1_variable and b.s2_constant)
+    {
+      cout<<"s1_variable and s2_constant"<<'\n';
+      return CreateNewMathOperation<Variable, Constant, ConstantVariable>(s1, s2, o, k);
+    }
+  else if(b.s1_variable and b.s2_numeric)
+    {
+      cout<<"s1_variable and s2_numeric"<<'\n';
+      return CreateNewMathOperation<Variable, Numeric, NumericVariable>(s1, s2, o, k);
+    }
+  else if(b.s1_constant and b.s2_variable)
+    {
+      cout<<"s1_constant and s2_variable"<<'\n';
+      return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o, k);
+    }
+  else if(b.s1_constant and b.s2_constant)
+    {
+      cout<<"s1_constant and s2_constant"<<'\n';
+      return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o, k);
+    }
+  else if(b.s1_constant and b.s2_numeric)
+    {
+      cout<<"s1_constant and s2_numeric"<<'\n';
+      return CreateNewMathOperation<Constant, Numeric, NumericConstant>(s1, s2, o, k);
+    }
+  else if(b.s1_numeric and b.s2_variable)
+    {
+      cout<<"s1_numeric and s2_variable"<<'\n';
+      return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o, k);
+    }
+  else if(b.s1_numeric and b.s2_constant)
+    {
+      cout<<"s1_numeric and s2_constant"<<'\n';
+      return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o, k);
+    }
+  else if(b.s1_numeric and b.s2_numeric)
+    {
+      cout<<"s1_numeric and s2_numeric "<<'\n';
+      return CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o, k);
+      // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
+      // simplified and performance of the calculation increased.
+
+
+
+      // mc->m1->CalculateResult();
+    }
+}
+
 Equation *Val2(Equation *&c, const vector<string> &equation, const unsigned int i, const Data &data, const unsigned int &k, Equation *&next)
 {
   Equation *mc;
   const string s1=equation[i-1];
   const string s2=equation[i+1];
   const string o=equation[i];
-  const bool s1_variable=IsIn(s1, data.diagonal);
-  const bool s1_constant=IsIn(s1, data.constants_map);
-  const bool s1_numeric=IsNumerical(s1);
-  const bool s1_math=(s1.substr(0, 1)=="@") ? true : false;
-  const bool s2_variable=IsIn(s2, data.diagonal);
-  const bool s2_constant=IsIn(s2, data.constants_map);
-  const bool s2_numeric=IsNumerical(s2);
-  const bool s2_math=(s2.substr(0, 1)=="@") ? true : false;
+  Bools b(s1, s2, data);
+
   cout<<"Math operation "<<'\n';
   cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
-  cout<<"s1 "<<s1_variable<<" "<<s1_constant<<" "<<s1_numeric<<" "<<s1_math<<'\n';
-  cout<<"s2 "<<s2_variable<<" "<<s2_constant<<" "<<s2_numeric<<" "<<s2_math<<'\n';
+  cout<<"s1 "<<b.s1_variable<<" "<<b.s1_constant<<" "<<b.s1_numeric<<" "<<b.s1_math<<'\n';
+  cout<<"s2 "<<b.s2_variable<<" "<<b.s2_constant<<" "<<b.s2_numeric<<" "<<b.s2_math<<'\n';
 
-  if(!s1_math and !s2_math)
+  if(!b.s1_math and !b.s2_math)
     {
       mc=new Equation;
+      mc->m1=CreateNewValueValueMathOperation(s1, s2, o, k, b);
       mc->id=k;
-
-      if(s1_variable and s2_variable) mc->m1=CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o, k);
-      else if(s1_variable and s2_constant) mc->m1=CreateNewMathOperation<Variable, Constant, ConstantVariable>(s1, s2, o, k);
-      else if(s1_variable and s2_numeric) mc->m1=CreateNewMathOperation<Variable, Numeric, NumericVariable>(s1, s2, o, k);
-      else if(s1_constant and s2_variable) mc->m1=CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o, k);
-      else if(s1_constant and s2_constant) mc->m1=CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o, k);
-      else if(s1_constant and s2_numeric) mc->m1=CreateNewMathOperation<Constant, Numeric, NumericConstant>(s1, s2, o, k);
-      else if(s1_numeric and s2_variable) mc->m1=CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o, k);
-      else if(s1_numeric and s2_constant) mc->m1=CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o, k);
-      else if(s1_numeric and s2_numeric)
-	{
-	  cout<<"num num "<<'\n';
-	  mc->m1=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o, k);
-	  // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
-	  // simplified and performance of the calculation increased.
-	  mc->m1->CalculateResult();
-	}
       return mc;
     }
-  if(s1_variable and s2_math)
+  if(b.s1_variable and b.s2_math)
     {
       cout<<"s1_variable and s2_math"<<'\n';
-      return NewMathValue<Variable, VEquation>(s1, s2, o, k, c, next);
+      return NewMathValue<Variable, VEquation>(s2, s1, o, k, c, next);
     }
-  else if(s1_constant and s2_math)
+  else if(b.s1_constant and b.s2_math)
     {
       cout<<"s1_constant and s2_math"<<'\n';
-      return NewMathValue<Constant, VEquation>(s1, s2, o, k, c, next);
+      return NewMathValue<Constant, VEquation>(s2, s1, o, k, c, next);
     }
-  else if(s1_numeric and s2_math)
+  else if(b.s1_numeric and b.s2_math)
     {
       cout<<"s1_numeric and s2_math"<<'\n';
-      return NewMathValue<Numeric, VEquation>(s1, s2, o, k, c, next);
+      return NewMathValue<Numeric, VEquation>(s2, s1, o, k, c, next);
     }
-  else if(s1_math and s2_variable)
+  else if(b.s1_math and b.s2_variable)
     {
       cout<<"s1_math and s2_variable"<<'\n';
       return NewMathValue<Variable, EquationV>(s1, s2, o, k, c, next);;
     }
-  else if(s1_math and s2_constant)
+  else if(b.s1_math and b.s2_constant)
     {
       cout<<"s1_math and s2_constant"<<'\n';
       return NewMathValue<Constant, EquationV>(s1, s2, o, k, c, next);
     }
-  else if(s1_math and s2_numeric)
+  else if(b.s1_math and b.s2_numeric)
     {
       cout<<"s1_math and s2_numeric"<<'\n';
       return NewMathValue<Numeric, EquationV>(s1, s2, o, k, c, next);
     }
-  else if(s1_math and s2_math)
+  else if(b.s1_math and b.s2_math)
     {
       cout<<"s1_math and s2_math"<<'\n';
       EquationOp *mc2=new EquationOp;
@@ -225,6 +283,7 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	  // delete m;
 	  e->next=next;
 	  next=e;
+	  cout<<"next "<<next<<'\n';
 
 	  equation[i]="@"+to_string(k);
 	  equation.erase(equation.begin()+i+1);

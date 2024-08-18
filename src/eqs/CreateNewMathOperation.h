@@ -20,6 +20,7 @@ Equation *Search(Equation *m, const unsigned int i)
 
   while(c!=nullptr)
     {
+      cout<<"find "<<i<<" now "<<c->id<<'\n';
       if(c->id==i) return c;
       c=c->next;
     }
@@ -34,7 +35,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   mc->v=new T(s2);
   mc->SetOperator(o);
   mc->id=k;
-
+  cout<<"s1 "<<s1<<'\n';
   Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
   const double result=r->m1->result;
   cout<<"result "<<result<<'\n';
