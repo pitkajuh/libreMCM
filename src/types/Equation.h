@@ -38,12 +38,13 @@ public:
   virtual ~Equation()
   {
     cout<<"~Equation "<<this<<'\n';
-    cout<<"Deleting m1 "<<m1<<'\n';
+    // cout<<"Deleting m1 "<<m1<<'\n';
     delete m1;
-    cout<<"m1 deleted"<<'\n';
-    cout<<"Deleting next "<<next<<'\n';
+    // cout<<"m1 deleted"<<'\n';
+    // cout<<"Deleting next "<<next<<'\n';
     delete next;
-    cout<<"next deleted"<<'\n';
+    // cout<<"next deleted"<<'\n';
+    cout<<"~Equation ok"<<'\n';
   }
 };
 
@@ -73,12 +74,13 @@ public:
   ~EquationOp()
   {
     cout<<"~EquationOP "<<this<<'\n';
-    cout<<"Deleting m2 "<<m2<<'\n';
+    // cout<<"Deleting m2 "<<m2<<'\n';
     delete m2;
-    cout<<"m2 deleted"<<'\n';
-    cout<<"Deleting math_operator "<<math_operator<<'\n';
+    // cout<<"m2 deleted"<<'\n';
+    // cout<<"Deleting math_operator "<<math_operator<<'\n';
     delete math_operator;
-    cout<<"math_operator deleted"<<'\n';
+    // cout<<"math_operator deleted"<<'\n';
+    cout<<"~EquationOP ok"<<'\n';
   }
 };
 
@@ -107,18 +109,19 @@ public:
   ~EquationV()
   {
     cout<<"~EquationV "<<this<<'\n';
-    cout<<"Deleting v "<<v<<'\n';
+    // cout<<"Deleting v "<<v<<'\n';
     delete v;
-    cout<<"v deleted"<<'\n';
-    cout<<"Deleting math_operator1 "<<math_operator1<<'\n';
+    // cout<<"v deleted"<<'\n';
+    // cout<<"Deleting math_operator1 "<<math_operator1<<'\n';
     delete math_operator1;
-    cout<<"math_operator1 deleted"<<'\n';
+    // cout<<"math_operator1 deleted"<<'\n';
+    cout<<"~EquationV  ok"<<'\n';
   }
 };
 
 class VEquation: public EquationV
 {
-    void Type()
+  void Type()
   {
     cout<<"VEquation"<<'\n';
   }

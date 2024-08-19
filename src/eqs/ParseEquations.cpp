@@ -332,32 +332,32 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
 
 void Print(Equation *head)
 {
-  // Equation* current = head;
-  // Equation *prev = NULL, *next = NULL;
+  Equation *current = head;
+  Equation *prev = NULL, *next = NULL;
 
-  // while (current != NULL) {
-  //   // Store next
-  //   next = current->next;
-  //   // Reverse the node pointer for the current node
-  //   current->next = prev;
-  //   cout<<"t "<<current<<'\n';
-  //   // Advance the pointer one position.
-  //   prev = current;
-  //   delete current;
-  //   current = next;
-  // }
-  // head = prev;
+  while (current != NULL) {
+    // Store next
+    next = current->next;
+    // Reverse the node pointer for the current node
+    current->next = prev;
+    cout<<"t "<<current<<'\n';
+    // Advance the pointer one position.
+    prev = current;
+    delete current;
+    current = next;
+  }
+  head = prev;
 
-  Equation *tmp=head;
-  Equation *nxt;
-  cout<<"print"<<'\n';
-  while(tmp!=nullptr)
-    {
-      nxt=tmp->next;
-      cout<<"t "<<tmp<<'\n';
-      delete tmp;
-      tmp=nxt;
-    }
+  // Equation *tmp=head;
+  // Equation *nxt;
+  // cout<<"print"<<'\n';
+  // while(tmp!=nullptr)
+  //   {
+  //     nxt=tmp->next;
+  //     cout<<"t "<<tmp<<'\n';
+  //     delete tmp;
+  //     tmp=nxt;
+  //   }
 }
 
 void ParseEquations(const SMap &equations_map, const Data &data)
