@@ -85,7 +85,6 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
       // Only result will be taken into account.
       mc->m1=nullptr;
       mc->result=result;
-      next=nullptr;
     }
   else
     {
@@ -96,7 +95,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
     }
 
   delete r;
-  // next=nullptr; // Do not enable!
+  next=nullptr;
   return mc;
 }
 

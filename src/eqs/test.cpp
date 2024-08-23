@@ -38,7 +38,7 @@ bool IsOpen(const unsigned int &open, const unsigned int &close, const vector<st
   return result;
 }
 
-vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &close, unsigned int &k, const Data &data, Equation *e, Equation *next, EquationStruct &eq)
+vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &close, unsigned int &k, const Data &data, Equation *&e, Equation *&next, EquationStruct &eq)
 {
   bool end=false;
   vector<string> tmp;
