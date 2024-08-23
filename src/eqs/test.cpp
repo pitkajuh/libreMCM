@@ -62,7 +62,7 @@ vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &
   return equation;
 }
 
-vector<string> test(vector<string> equation, unsigned int &k, const Data &data, Equation *e, Equation *next, EquationStruct &eq)
+vector<string> test(vector<string> equation, unsigned int &k, const Data &data, Equation *&e, Equation *&next, EquationStruct &eq)
 {
   bool end=false;
   bool is;

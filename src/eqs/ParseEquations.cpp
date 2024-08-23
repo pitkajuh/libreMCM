@@ -126,7 +126,7 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned int 
   const string s1=equation[i-1];
   const string s2=equation[i+1];
   const string o=equation[i];
-  Bools b(s1, s2, data);
+  const Bools b(s1, s2, data);
 
   cout<<"Math operation "<<'\n';
   cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
@@ -140,47 +140,36 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned int 
       cout<<"!b.s1_math and !b.s2_math "<<mc<<" "<<mc->id<<" "<<next<<'\n';
       return mc;
     }
-  // if(b.s1_variable and b.s2_math)
-  //   {
-  //     cout<<"s1_variable and s2_math "<<next<<'\n';
-  //     return NewMathValue<Variable, VEquation>(s2, s1, o, k, e, next);
-  //   }
-  // else if(b.s1_constant and b.s2_math)
-  //   {
-  //     cout<<"s1_constant and s2_math"<<'\n';
-  //     return NewMathValue<Constant, VEquation>(s2, s1, o, k, e, next);
-  //   }
-  if(b.s1_numeric and b.s2_math)
+  if(b.s1_variable and b.s2_math)
+    {
+      cout<<"s1_variable and s2_math "<<next<<'\n';
+      return NewMathValue<Variable, VEquation>(s2, s1, o, k, e, next);
+    }
+  else if(b.s1_constant and b.s2_math)
+    {
+      cout<<"s1_constant and s2_math"<<'\n';
+      return NewMathValue<Constant, VEquation>(s2, s1, o, k, e, next);
+    }
+  else if(b.s1_numeric and b.s2_math)
     {
       cout<<"s1_numeric and s2_math"<<'\n';
-      // cout<<"s1 "<<s1<<" s2 "<<s2<<" "<<e<<" "<<next<<'\n';
-      // EquationV *mc1=new VEquation;
-      // mc1->v=new Numeric(s1);
-      // mc1->SetOperator(o);
-      // mc->id=k;
-      // Equation *r=Search(e, stoi(s2.substr(1, s2.size())));
-      // const double result=r->m1->result;
-      // mc1->m1=nullptr;
-      // mc1->result=result;
-      // return mc1;
-
       return NewMathValue<Numeric, VEquation>(s2, s1, o, k, e, next);
     }
-  // else if(b.s1_math and b.s2_variable)
-  //   {
-  //     cout<<"s1_math and s2_variable "<<next<<'\n';
-  //     return NewMathValue<Variable, EquationV>(s1, s2, o, k, e, next);
-  //   }
-  // else if(b.s1_math and b.s2_constant)
-  //   {
-  //     cout<<"s1_math and s2_constant"<<'\n';
-  //     return NewMathValue<Constant, EquationV>(s1, s2, o, k, e, next);
-  //   }
-  // else if(b.s1_math and b.s2_numeric)
-  //   {
-  //     cout<<"s1_math and s2_numeric"<<'\n';
-  //     return NewMathValue<Numeric, EquationV>(s1, s2, o, k, e, next);
-  //   }
+  else if(b.s1_math and b.s2_variable)
+    {
+      cout<<"s1_math and s2_variable "<<next<<'\n';
+      return NewMathValue<Variable, EquationV>(s1, s2, o, k, e, next);
+    }
+  else if(b.s1_math and b.s2_constant)
+    {
+      cout<<"s1_math and s2_constant"<<'\n';
+      return NewMathValue<Constant, EquationV>(s1, s2, o, k, e, next);
+    }
+  else if(b.s1_math and b.s2_numeric)
+    {
+      cout<<"s1_math and s2_numeric"<<'\n';
+      return NewMathValue<Numeric, EquationV>(s1, s2, o, k, e, next);
+    }
   // else if(b.s1_math and b.s2_math)
   //   {
   //     cout<<"s1_math and s2_math"<<'\n';
@@ -316,9 +305,8 @@ void GetOrder(vector<string> &equation, unsigned int &k, const Data &data, Equat
 {
   for(const auto&i: OPERATORS)
     {
-       cout<<i<<" "<<e<<" "<<next<<" "<<equation.size()<<'\n';
+      // if(equation.size()<=1) break;
       equation=FindOperator(equation, i, k, data, e, next);
-      cout<<i<<" "<<e<<" "<<next<<" "<<equation.size()<<'\n';
     }
 }
 
@@ -345,7 +333,7 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
   result.insert(result.end(), v3.begin(), v3.end());
   print_vector2(result);
 
-  eq.equation=result;
+  // eq.equation=result;
 
   return result;
 }
@@ -353,11 +341,16 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
 void Print(Equation *head)
 {
   Equation *current = head;
-  Equation *prev = NULL, *next = NULL;
+  Equation *prev = nullptr, *next = nullptr;
 
-  while (current != NULL) {
+  while (current != nullptr) {
     // Store next
+    // if(current==nullptr) break;
+    cout<<"te "<<next<<" "<<current<<'\n';
+    printf("aoe\n");
+
     next = current->next;
+
     // Reverse the node pointer for the current node
     current->next = prev;
     cout<<"t "<<current<<'\n';
