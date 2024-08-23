@@ -34,9 +34,9 @@ public:
 class MathOperation: public MathOperationBase
 {
 private:
-  Value *v1=nullptr;
-  Value *v2=nullptr;
-  MathOperator *math_operator=nullptr;
+  Value *v1;
+  Value *v2;
+  MathOperator *math_operator;
 public:
   void SetOperator(const string &s)
   {

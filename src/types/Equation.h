@@ -42,7 +42,7 @@ public:
     delete m1;
     // cout<<"m1 deleted"<<'\n';
     // cout<<"Deleting next "<<next<<'\n';
-    delete next;
+    // delete next;
     // cout<<"next deleted"<<'\n';
     cout<<"~Equation ok"<<'\n';
   }

@@ -38,7 +38,7 @@ bool IsOpen(const unsigned int &open, const unsigned int &close, const vector<st
   return result;
 }
 
-vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &close, unsigned int &k, const Data &data, Equation *e, Equation *next)
+vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &close, unsigned int &k, const Data &data, Equation *e, Equation *next, EquationStruct &eq)
 {
   bool end=false;
   vector<string> tmp;
@@ -53,7 +53,7 @@ vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &
       if(open2<tmp.size())
 	{
 	  open=distance(equation.begin()+open3+1, find(equation.begin()+open3+1, equation.end(), OPEN))+open3+1;
-	  equation=GetParenthesis(equation, open, close, k, data, e, next);
+	  equation=GetParenthesis(equation, open, close, k, data, e, next, eq);
 	  open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
 	  close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
 	}
@@ -62,7 +62,7 @@ vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &
   return equation;
 }
 
-vector<string> test(vector<string> equation, unsigned int &k, const Data &data, Equation *e, Equation *next)
+vector<string> test(vector<string> equation, unsigned int &k, const Data &data, Equation *e, Equation *next, EquationStruct &eq)
 {
   bool end=false;
   bool is;
@@ -80,8 +80,8 @@ vector<string> test(vector<string> equation, unsigned int &k, const Data &data, 
       tmp={equation.begin()+open+1, equation.begin()+close};
       is=IsOpen(open, close, tmp);
 
-      if(is) equation=GetParenthesis(equation, open, close, k, data, e, next);
-      else equation=test2(equation, open, close, k, data, e, next);
+      if(is) equation=GetParenthesis(equation, open, close, k, data, e, next, eq);
+      else equation=test2(equation, open, close, k, data, e, next, eq);
     }
   return equation;
 }

@@ -12,17 +12,28 @@
 #define DATA_H
 
 #include <vector>
+#include "Equation.h"
 #include "../inc/namespace.h"
+
+using std::vector;
 
 using namespace libremcm;
 using InitialValues=SMap;
 
+struct EquationStruct
+{
+public:
+  vector<string> equation;
+  Equation *e=nullptr;
+  Equation *next=nullptr;
+};
+
 struct Data
 {
-  std::vector<string> diagonal;
+  vector<string> diagonal;
   SMap constants_map;
 
-  Data(const std::vector<string> &d, const SMap &cm)
+  Data(const vector<string> &d, const SMap &cm)
   {
     diagonal=d;
     constants_map=cm;
