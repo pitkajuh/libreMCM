@@ -20,6 +20,7 @@ public:
   unsigned id;
   double result=NAN;
   virtual void Calculate()=0;
+  // virtual void CreateNew(Equation *r)=0;
 };
 
 class Equation: public EquationBase
@@ -30,11 +31,12 @@ public:
   void Calculate()
   {
     m1->CalculateResult();
+    result=m1->result;
   }
   void Type()
   {
     cout<<"Equation"<<'\n';
-  };
+  }
   virtual ~Equation()
   {
     cout<<"~Equation "<<this<<'\n';

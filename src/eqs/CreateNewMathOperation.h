@@ -75,10 +75,16 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   mc->id=k;
   cout<<"s1 "<<s1<<'\n';
   Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
-  const double result=r->m1->result;
-  cout<<"result "<<result<<'\n';
   r->Type();
+  const double result=r->m1->result;
+  const double v_value=mc->v->GetValue();
+  cout<<"result "<<result<<'\n';
 
+  if(!isnan(result) and !isnan(v_value))
+    {
+      cout<<"!isnan(result) and !isnan(mc->v->result)"<<'\n';
+      // mc->m1->result=result;
+    }
   if(!isnan(result))
     {
       cout<<"!isnan(result) "<<next<<'\n';

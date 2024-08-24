@@ -114,7 +114,9 @@ Equation *CreateNewValueValueMathOperation(const string &s1, const string &s2, c
       m->m1=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o, k);
       // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
       // simplified and performance of the calculation increased.
-      m->m1->CalculateResult();
+      // m->m1->CalculateResult();
+      m->Calculate();
+      cout<<"res "<<m->result<<'\n';
     }
   // m->id=k;
   return m;
