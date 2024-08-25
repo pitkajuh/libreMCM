@@ -176,6 +176,7 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
       cout<<"s1_math and s2_math"<<'\n';
       EquationOp *mc2=new EquationOp;
       mc2->id=k;
+      mc2->SetOperator(o);
       Equation *m1=Search(e, stoi(s1.substr(1, s1.size())));
       Equation *m2=Search(e, stoi(s2.substr(1, s2.size())));
   //     cout<<"m1 "<<m1<<" m2 "<<m2<<'\n';
@@ -187,13 +188,15 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
       if(!r1_null and !r2_null)
 	{
 	  cout<<"!r1_null and !r2_null"<<'\n';
-	  // m1->Calculate();
-	  // m2->Calculate();
-	  mc2->SetOperator(o);
-	  mc2->math_operator->Calculate1(result1, result2);
+	  // mc2->Calculate();
+	  mc2->m1=nullptr;
+	  mc2->m2=nullptr;
+	  mc2->result=mc2->math_operator->Calculate1(result1, result2);
+
+	  cout<<"!r1_null and !r2_null result "<<mc2->result<<'\n';
 	  delete m1;
 	  delete m2;
-
+	  // cout<<"!r1_null and !r2_null deleted"<<'\n';
   // 	  NumericNumeric *n=new NumericNumeric;
   // 	  n->SetV1(new Numeric(result1));
   // 	  n->SetV2(new Numeric(result2));
@@ -251,11 +254,12 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
   // 	  // Total math operator
   // 	  m->SetTotalOperator(o);
 	}
-      m1->next=nullptr;
-      m2->next=nullptr;
+      // m1->next=nullptr;
+      // m2->next=nullptr;
       next=nullptr;
-      delete m1;
-      delete m2;
+      // delete m1;
+      // delete m2;
+      cout<<"all deleted "<<'\n';
       // cout<<"moperator "<<m<<" nxt "<<m->next<<'\n';
       // cout<<"mopertor "<<m<<" "<<m->GetV1()<<" "<<m->GetOp()<<" "<<m->GetV2()<<" "<<m->GetV12()<<" "<<m->GetV22()<<" "<<m->GetOp()<<'\n';
       // return m;
