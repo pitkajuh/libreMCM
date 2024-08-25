@@ -48,17 +48,22 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   const double v_value=mc->v->GetValue();
   cout<<"result "<<result<<'\n';
 
+  // if(!isnan(result) and !isnan(v_value))
+  //   {
+  //     cout<<"!isnan(result) and !isnan(mc->v->result)"<<'\n';
+  //     // mc->m1->result=result;
+  //   }
   if(!isnan(result) and !isnan(v_value))
-    {
-      cout<<"!isnan(result) and !isnan(mc->v->result)"<<'\n';
-      // mc->m1->result=result;
-    }
-  if(!isnan(result))
     {
       cout<<"!isnan(result) "<<next<<'\n';
       // Only result will be taken into account.
+      // mc->m1
+      // mc->m1->result=result;
       mc->m1=nullptr;
-      mc->result=result;
+      mc->CalculateResult(result);
+      cout<<"result is "<<mc->result<<'\n';
+      // mc->result=result;
+
     }
   else
     {

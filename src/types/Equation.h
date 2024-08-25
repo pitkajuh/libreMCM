@@ -90,6 +90,7 @@ class EquationV: public Equation
 public:
   Value *v;
   MathOperator *math_operator1;
+  void CalculateResult(const double &d){result=math_operator1->Calculate1(d, v->GetValue());}
   void Calculate()
   {
     m1->CalculateResult();
@@ -103,10 +104,7 @@ public:
     else if(s==DIVIDE) math_operator1=new Div;
     else if(s==EXP) math_operator1=new Exp;
   }
-  void Type()
-  {
-    cout<<"EquationV"<<'\n';
-  }
+  void Type(){cout<<"EquationV"<<'\n';}
   ~EquationV()
   {
     cout<<"~EquationV "<<this<<'\n';
@@ -122,7 +120,7 @@ public:
 
 class VEquation: public EquationV
 {
-  void CreateNew(Equation *r){}
+  void CalculateResult(const double &d){result=math_operator1->Calculate1(v->GetValue(), d);}
   void Type()
   {
     cout<<"VEquation"<<'\n';
