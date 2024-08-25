@@ -145,32 +145,32 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
   else if(b.s1_variable and b.s2_math)
     {
       cout<<"s1_variable and s2_math "<<next<<'\n';
-      return NewMathValue<Variable, VEquation>(s2, s1, o, k, e, next);
+      return NewMathValue<Variable, ValueEquation>(s2, s1, o, k, e, next);
     }
   else if(b.s1_constant and b.s2_math)
     {
       cout<<"s1_constant and s2_math"<<'\n';
-      return NewMathValue<Constant, VEquation>(s2, s1, o, k, e, next);
+      return NewMathValue<Constant, ValueEquation>(s2, s1, o, k, e, next);
     }
   else if(b.s1_numeric and b.s2_math)
     {
       cout<<"s1_numeric and s2_math"<<'\n';
-      return NewMathValue<Numeric, VEquation>(s2, s1, o, k, e, next);
+      return NewMathValue<Numeric, ValueEquation>(s2, s1, o, k, e, next);
     }
   else if(b.s1_math and b.s2_variable)
     {
       cout<<"s1_math and s2_variable "<<next<<'\n';
-      return NewMathValue<Variable, EquationV>(s1, s2, o, k, e, next);
+      return NewMathValue<Variable, EquationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_constant)
     {
       cout<<"s1_math and s2_constant"<<'\n';
-      return NewMathValue<Constant, EquationV>(s1, s2, o, k, e, next);
+      return NewMathValue<Constant, EquationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_numeric)
     {
       cout<<"s1_math and s2_numeric"<<'\n';
-      return NewMathValue<Numeric, EquationV>(s1, s2, o, k, e, next);
+      return NewMathValue<Numeric, EquationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_math)
     {

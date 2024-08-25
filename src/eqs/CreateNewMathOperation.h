@@ -36,34 +36,25 @@ Equation *Search(Equation *m, const unsigned int i)
 template<typename T, typename U>
 Equation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned int &k, Equation *&c, Equation *&next)
 {
-  EquationV *mc=new U;
+  // EquationV *mc=new U;
+  EquationValueBase *mc=new U;
   mc->v=new T(s2);
   mc->SetOperator(o);
   mc->id=k;
   cout<<"s1 "<<s1<<'\n';
   Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
   r->Type();
-  // const double result=r->m1->result;
   const double result=r->result;
   const double v_value=mc->v->GetValue();
   cout<<"result "<<result<<'\n';
 
-  // if(!isnan(result) and !isnan(v_value))
-  //   {
-  //     cout<<"!isnan(result) and !isnan(mc->v->result)"<<'\n';
-  //     // mc->m1->result=result;
-  //   }
   if(!isnan(result) and !isnan(v_value))
     {
       cout<<"!isnan(result) "<<next<<'\n';
       // Only result will be taken into account.
-      // mc->m1
-      // mc->m1->result=result;
       mc->m1=nullptr;
       mc->CalculateResult(result);
       cout<<"result is "<<mc->result<<'\n';
-      // mc->result=result;
-
     }
   else
     {

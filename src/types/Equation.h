@@ -85,17 +85,12 @@ public:
   }
 };
 
-class EquationV: public Equation
+class EquationValueBase: public Equation
 {
 public:
   Value *v;
   MathOperator *math_operator1;
-  void CalculateResult(const double &d){result=math_operator1->Calculate1(d, v->GetValue());}
-  void Calculate()
-  {
-    m1->CalculateResult();
-    result=math_operator1->Calculate1(m1->result, v->GetValue());
-  }
+  virtual void CalculateResult(const double &d)=0;
   void SetOperator(const string &s)
   {
     if(s==ADD) math_operator1=new Add;
@@ -105,7 +100,7 @@ public:
     else if(s==EXP) math_operator1=new Exp;
   }
   void Type(){cout<<"EquationV"<<'\n';}
-  ~EquationV()
+  ~EquationValueBase()
   {
     cout<<"~EquationV "<<this<<'\n';
     // cout<<"Deleting v "<<v<<'\n';
@@ -118,12 +113,27 @@ public:
   }
 };
 
-class VEquation: public EquationV
+class EquationValue: public EquationValueBase
 {
-  void CalculateResult(const double &d){result=math_operator1->Calculate1(v->GetValue(), d);}
-  void Type()
+public:
+  void CalculateResult(const double &d)
+  {
+    cout<<"EquationV"<<'\n';
+    result=math_operator1->Calculate1(d, v->GetValue());
+  }
+  void Calculate()
+  {
+    m1->CalculateResult();
+    result=math_operator1->Calculate1(m1->result, v->GetValue());
+  }
+};
+
+class ValueEquation: public EquationValueBase
+{
+  void CalculateResult(const double &d)
   {
     cout<<"VEquation"<<'\n';
+    result=math_operator1->Calculate1(v->GetValue(), d);
   }
   void Calculate()
   {
