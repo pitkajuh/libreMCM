@@ -28,6 +28,7 @@ public:
   MathOperation *m1;
   MathOperator *math_operator=nullptr;
   Equation *next=nullptr;
+
   void SetOperator(const string &s)
   {
     if(s==ADD) math_operator=new Add;
@@ -63,21 +64,13 @@ class EquationOp: public Equation
 {
 public:
   MathOperation *m2;
-  // MathOperator *math_operator;
+
   void Calculate()
   {
     m1->CalculateResult();
     m2->CalculateResult();
     result=math_operator->Calculate1(m1->result, m2->result);
   }
-  // void SetOperator(const string &s)
-  // {
-  //   if(s==ADD) math_operator=new Add;
-  //   else if(s==SUBTRACT) math_operator=new Sub;
-  //   else if(s==MULTIPLY) math_operator=new Mul;
-  //   else if(s==DIVIDE) math_operator=new Div;
-  //   else if(s==EXP) math_operator=new Exp;
-  // }
   void Type()
   {
     cout<<"EquationOp"<<'\n';
@@ -99,16 +92,8 @@ class EquationValueBase: public Equation
 {
 public:
   Value *v;
-  // MathOperator *math_operator1;
+
   virtual void CalculateResult(const double &d)=0;
-  // void SetOperator(const string &s)
-  // {
-  //   if(s==ADD) math_operator1=new Add;
-  //   else if(s==SUBTRACT) math_operator1=new Sub;
-  //   else if(s==MULTIPLY) math_operator1=new Mul;
-  //   else if(s==DIVIDE) math_operator1=new Div;
-  //   else if(s==EXP) math_operator1=new Exp;
-  // }
   void Type(){cout<<"EquationV"<<'\n';}
   ~EquationValueBase()
   {
