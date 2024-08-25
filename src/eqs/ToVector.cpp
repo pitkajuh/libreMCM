@@ -17,11 +17,12 @@ using std::find;
 
 int FindIndex(const string &s)
 {
+  const unsigned size=OPERATORS2.size();
   int r=-1;
   unsigned int i=0;
   unsigned int found;
 
-  while(i<OPERATORS2.size())
+  while(i<size)
     {
       found=s.find(OPERATORS2[i]);
 
@@ -40,7 +41,7 @@ vector<string> ToVector(string v)
 {
   int i;
   bool end=false;
-  unsigned int size=v.size();
+  unsigned size=v.size();
   string s;
   string mathop;
   vector<string> r;

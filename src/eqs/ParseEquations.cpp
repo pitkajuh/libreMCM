@@ -192,21 +192,9 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
 	  mc2->m1=nullptr;
 	  mc2->m2=nullptr;
 	  mc2->result=mc2->math_operator->Calculate1(result1, result2);
-
 	  cout<<"!r1_null and !r2_null result "<<mc2->result<<'\n';
 	  delete m1;
 	  delete m2;
-	  // cout<<"!r1_null and !r2_null deleted"<<'\n';
-  // 	  NumericNumeric *n=new NumericNumeric;
-  // 	  n->SetV1(new Numeric(result1));
-  // 	  n->SetV2(new Numeric(result2));
-  // 	  n->CalculateResult();
-  // 	  m->SetTotalOperator(o);
-  // 	  m->total_result=n->result;
-  // 	  delete n;
-  // 	  m->SetV1(nullptr);
-  // 	  m->SetV2(nullptr);
-  // 	  m->SetOp(nullptr);
 	}
       else if(r1_null and !r2_null)
 	{
