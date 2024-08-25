@@ -21,10 +21,10 @@ Equation *Search(Equation *m, const unsigned i)
   while(c!=nullptr)
     {
       // cout<<"find "<<i<<" now "<<c->id<<'\n';
-      cout<<"find "<<i<<" now "<<'\n';
+      // cout<<"find "<<i<<" now "<<'\n';
       if(c->id==i)
 	{
-	  cout<<"found"<<'\n';
+	  // cout<<"found"<<'\n';
 	  return c;
 	}
       c=c->next;

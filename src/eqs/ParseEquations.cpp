@@ -188,7 +188,6 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
       if(!r1_null and !r2_null)
 	{
 	  cout<<"!r1_null and !r2_null"<<'\n';
-	  // mc2->Calculate();
 	  mc2->m1=nullptr;
 	  mc2->m2=nullptr;
 	  mc2->result=mc2->math_operator->Calculate1(result1, result2);
@@ -200,6 +199,9 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
 	{
 	  cout<<"r1_null and !r2_null"<<'\n';
   // 	  // Result is not known at this point.
+	  // mc2->m1=
+	  m1->Type();
+	  m2->Type();
   // 	  m->SetV1(m1->GetV1()->New(m1->GetV1()));
   // 	  m->SetV2(m1->GetV2()->New(m1->GetV2()));
   // 	  m->SetOp(m1->GetOp()->New());
@@ -212,7 +214,10 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
 	}
       else if(!r1_null and r2_null)
 	{
-  // 	  cout<<"!r1_null and r2_null"<<'\n';
+	  cout<<"!r1_null and r2_null"<<'\n';
+	  m1->Type();
+	  m2->Type();
+	  // mc2->m1=
   // 	  // Since the result is already known, V1, V2 and math_operator are not relevant, thus they can be set to nullptr.
   // 	  m->SetV1(nullptr);
   // 	  m->SetV2(nullptr);
@@ -245,9 +250,7 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
       // m1->next=nullptr;
       // m2->next=nullptr;
       next=nullptr;
-      // delete m1;
-      // delete m2;
-      cout<<"all deleted "<<'\n';
+
       // cout<<"moperator "<<m<<" nxt "<<m->next<<'\n';
       // cout<<"mopertor "<<m<<" "<<m->GetV1()<<" "<<m->GetOp()<<" "<<m->GetV2()<<" "<<m->GetV12()<<" "<<m->GetV22()<<" "<<m->GetOp()<<'\n';
       // return m;
