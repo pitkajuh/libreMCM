@@ -14,7 +14,7 @@
 #include "../types/MathOperation.h"
 #include "../types/Equation.h"
 
-Equation *Search(Equation *m, const unsigned int i)
+Equation *Search(Equation *m, const unsigned i)
 {
   Equation *c=m;
 
@@ -34,9 +34,8 @@ Equation *Search(Equation *m, const unsigned int i)
 }
 
 template<typename T, typename U>
-Equation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned int &k, Equation *&c, Equation *&next)
+Equation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&c, Equation *&next)
 {
-  // EquationV *mc=new U;
   EquationValueBase *mc=new U;
   mc->v=new T(s2);
   mc->SetOperator(o);
@@ -70,7 +69,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
 }
 
 template<typename T, typename U, typename L>
-MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const string &o, const unsigned int &k)
+MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const string &o)
 {
   MathOperation *m=new L;
   m->SetV1(new T(s1));
