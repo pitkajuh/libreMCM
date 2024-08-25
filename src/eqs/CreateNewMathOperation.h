@@ -33,39 +33,6 @@ Equation *Search(Equation *m, const unsigned int i)
   return nullptr;
 }
 
-// template<typename T>
-// Equation *NewMathValue2(const string &s1, const string &s2, const string &o, const unsigned int &k, Equation *&c, Equation *&next)
-// {
-//   // EquationV *mc=new U;
-//   mc->v=new T(s2);
-//   mc->SetOperator(o);
-//   mc->id=k;
-//   cout<<"s1 "<<s1<<'\n';
-//   Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
-//   const double result=r->m1->result;
-//   cout<<"result "<<result<<'\n';
-//   r->Type();
-
-//   if(!isnan(result))
-//     {
-//       cout<<"!isnan(result)"<<'\n';
-//       // Only result will be taken into account.
-//       mc->m1=nullptr;
-//       mc->result=result;
-//     }
-//   else
-//     {
-//       cout<<"else"<<'\n';
-//       mc->m1=r->m1;
-//       r->m1=nullptr;
-//       // cout<<"mopertor "<<mc<<" "<<mc->m1<<" "<<mc->m1<<" "<<mc->m1->GetV1()<<" "<<mc->m1->GetOp()<<" "<<mc->m1->GetV2()<<'\n';
-//     }
-
-//   delete r;
-//   // next=nullptr;
-//   return mc;
-// }
-
 template<typename T, typename U>
 Equation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned int &k, Equation *&c, Equation *&next)
 {
@@ -76,7 +43,8 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   cout<<"s1 "<<s1<<'\n';
   Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
   r->Type();
-  const double result=r->m1->result;
+  // const double result=r->m1->result;
+  const double result=r->result;
   const double v_value=mc->v->GetValue();
   cout<<"result "<<result<<'\n';
 

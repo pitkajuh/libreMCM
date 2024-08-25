@@ -20,7 +20,6 @@ public:
   unsigned id;
   double result=NAN;
   virtual void Calculate()=0;
-  // virtual void CreateNew(Equation *r)=0;
 };
 
 class Equation: public EquationBase
@@ -123,6 +122,7 @@ public:
 
 class VEquation: public EquationV
 {
+  void CreateNew(Equation *r){}
   void Type()
   {
     cout<<"VEquation"<<'\n';

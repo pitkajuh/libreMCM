@@ -64,7 +64,7 @@ public:
   }
 };
 
-Equation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const unsigned int k, Bools b)
+Equation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const unsigned k, Bools b)
 {
   Equation *m=new Equation;
 
@@ -122,7 +122,7 @@ Equation *CreateNewValueValueMathOperation(const string &s1, const string &s2, c
   return m;
 }
 
-Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned int i, const Data &data, const unsigned int &k, Equation *&next)
+Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, const Data &data, const unsigned &k, Equation *&next)
 {
   Equation *mc;
   const string s1=equation[i-1];
@@ -272,9 +272,9 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned int 
   //   }
 }
 
-vector<string> FindOperator(vector<string> equation, const string &find, unsigned int &k, const Data &data, Equation *&e, Equation *&next)
+vector<string> FindOperator(vector<string> equation, const string &find, unsigned &k, const Data &data, Equation *&e, Equation *&next)
 {
-  unsigned int i=0;
+  unsigned i=0;
 
   while(i<equation.size())
     {
@@ -303,7 +303,7 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
   return equation;
 }
 
-void GetOrder(vector<string> &equation, unsigned int &k, const Data &data, Equation *&e, Equation *&next)
+void GetOrder(vector<string> &equation, unsigned &k, const Data &data, Equation *&e, Equation *&next)
 {
   for(const auto&i: OPERATORS)
     {
@@ -315,13 +315,13 @@ void GetOrder(vector<string> &equation, unsigned int &k, const Data &data, Equat
 vector<string> RemoveOpenClose(vector<string> equation)
 {
   // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
-  const unsigned int open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
-  const unsigned int close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
+  const unsigned open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
+  const unsigned close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
   if(open!=equation.size() and close!=equation.size()) equation=Remove(equation, open, close);
   return equation;
 }
 
-vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned int &k, const Data &data, Equation *&e, Equation *&next, EquationStruct &eq)
+vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned &k, const Data &data, Equation *&e, Equation *&next, EquationStruct &eq)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
   GetOrder(v1, k, data, e, next);
@@ -386,7 +386,7 @@ void ParseEquations(const SMap &equations_map, const Data &data)
 
   EquationStruct eq;
   vector<string> v;
-  unsigned int k=0;
+  unsigned k=0;
   Equation *e=nullptr;
   Equation *next=nullptr;
 
