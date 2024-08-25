@@ -215,6 +215,9 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
       else if(!r1_null and r2_null)
 	{
 	  cout<<"!r1_null and r2_null"<<'\n';
+	  Equation1 *mc11;
+	  Equation1 *mc12;
+	  return mc12;
 	  m1->Type();
 	  m2->Type();
 	  // mc2->m1=

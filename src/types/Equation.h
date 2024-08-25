@@ -60,6 +60,23 @@ public:
   }
 };
 
+class Equation1: public Equation
+{
+  MathOperator *math_operator=nullptr;
+  Equation *m1;
+  Equation *m2;
+  Equation1 *next=nullptr;
+
+  void SetOperator(const string &s)
+  {
+    if(s==ADD) math_operator=new Add;
+    else if(s==SUBTRACT) math_operator=new Sub;
+    else if(s==MULTIPLY) math_operator=new Mul;
+    else if(s==DIVIDE) math_operator=new Div;
+    else if(s==EXP) math_operator=new Exp;
+  }
+};
+
 class EquationOp: public Equation
 {
 public:
