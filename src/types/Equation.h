@@ -25,7 +25,7 @@ public:
 class Equation: public EquationBase
 {
 public:
-  MathOperation *m1;
+  MathOperation *m1=nullptr;
   MathOperator *math_operator=nullptr;
   Equation *next=nullptr;
 
@@ -48,7 +48,7 @@ public:
   }
   virtual ~Equation()
   {
-    cout<<"~Equation "<<this<<'\n';
+    cout<<"~Equation "<<this<<" "<<id<<'\n';
     // cout<<"Deleting m1 "<<m1<<'\n';
     delete m1;
     // cout<<"m1 deleted"<<'\n';
@@ -62,10 +62,11 @@ public:
 
 class Equation1: public Equation
 {
-  MathOperator *math_operator=nullptr;
-  Equation *m1;
-  Equation *m2;
-  Equation1 *next=nullptr;
+public:
+  MathOperator *math_operator1=nullptr;
+  Equation *m12=nullptr;
+  Equation *m22=nullptr;
+  Equation *next=nullptr;
 
   void SetOperator(const string &s)
   {
@@ -75,12 +76,19 @@ class Equation1: public Equation
     else if(s==DIVIDE) math_operator=new Div;
     else if(s==EXP) math_operator=new Exp;
   }
+  ~Equation1()
+  {
+    cout<<"~Equation1 "<<this<<" "<<id<<'\n';
+    delete m12;
+    delete m22;
+    delete math_operator1;
+  }
 };
 
 class EquationOp: public Equation
 {
 public:
-  MathOperation *m2;
+  MathOperation *m2=nullptr;
 
   void Calculate()
   {
@@ -94,7 +102,7 @@ public:
   }
   ~EquationOp()
   {
-    cout<<"~EquationOP "<<this<<'\n';
+    cout<<"~EquationOP "<<this<<" "<<id<<'\n';
     // cout<<"Deleting m2 "<<m2<<'\n';
     delete m2;
     // cout<<"m2 deleted"<<'\n';
@@ -108,13 +116,13 @@ public:
 class EquationValueBase: public Equation
 {
 public:
-  Value *v;
+  Value *v=nullptr;
 
   virtual void CalculateResult(const double &d)=0;
   void Type(){cout<<"EquationV"<<'\n';}
   ~EquationValueBase()
   {
-    cout<<"~EquationV "<<this<<'\n';
+    cout<<"~EquationV "<<this<<" "<<id<<'\n';
     // cout<<"Deleting v "<<v<<'\n';
     delete v;
     // cout<<"v deleted"<<'\n';
