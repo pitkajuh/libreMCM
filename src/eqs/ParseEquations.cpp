@@ -144,36 +144,36 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
   else if(b.s1_variable and b.s2_math)
     {
       cout<<"s1_variable and s2_math "<<next<<'\n';
-      return NewMathValue<Variable, ValueEquation>(s2, s1, o, k, e, next);
+      return NewMathValue<Variable, ValueEquation>(s2, s1, o, k, e);
     }
   else if(b.s1_constant and b.s2_math)
     {
       cout<<"s1_constant and s2_math"<<'\n';
-      return NewMathValue<Constant, ValueEquation>(s2, s1, o, k, e, next);
+      return NewMathValue<Constant, ValueEquation>(s2, s1, o, k, e);
     }
   else if(b.s1_numeric and b.s2_math)
     {
       cout<<"s1_numeric and s2_math"<<'\n';
-      return NewMathValue<Numeric, ValueEquation>(s2, s1, o, k, e, next);
+      return NewMathValue<Numeric, ValueEquation>(s2, s1, o, k, e);
     }
   else if(b.s1_math and b.s2_variable)
     {
       cout<<"s1_math and s2_variable "<<next<<'\n';
-      return NewMathValue<Variable, EquationValue>(s1, s2, o, k, e, next);
+      return NewMathValue<Variable, EquationValue>(s1, s2, o, k, e);
     }
   else if(b.s1_math and b.s2_constant)
     {
       cout<<"s1_math and s2_constant"<<'\n';
-      return NewMathValue<Constant, EquationValue>(s1, s2, o, k, e, next);
+      return NewMathValue<Constant, EquationValue>(s1, s2, o, k, e);
     }
   else if(b.s1_math and b.s2_numeric)
     {
       cout<<"s1_math and s2_numeric"<<'\n';
-      return NewMathValue<Numeric, EquationValue>(s1, s2, o, k, e, next);
+      return NewMathValue<Numeric, EquationValue>(s1, s2, o, k, e);
     }
   else if(b.s1_math and b.s2_math)
     {
-      cout<<"s1_math and s2_math"<<'\n';
+      cout<<"s1_math and s2_math "<<e<<'\n';
       EquationOp *mc2;
       Equation *m1=Search(e, stoi(s1.substr(1, s1.size())));
       Equation *m2=Search(e, stoi(s2.substr(1, s2.size())));
@@ -212,11 +212,8 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
 	  mc12->SetOperator(o);
 	  mc12->m12=m1;
 	  mc12->m22=m2;
-	  // next=nullptr;
 	  return mc12;
 	}
-
-      // next=nullptr;
       return mc2;
     }
   else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math)
@@ -240,16 +237,14 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	{
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
 	  e=Val2(e, equation, i, data, k, next);
-
 	  e->next=next;
-
 	  next=e;
 
 	  equation[i]="@"+to_string(k);
 	  equation.erase(equation.begin()+i+1);
 	  equation.erase(equation.begin()+i-1);
 	  print_vector2(equation);
-	  cout<<"next "<<next<<'\n';
+	  cout<<"next "<<next<<" "<<next->id<<'\n';
 	  size=equation.size();
 	  cout<<"size "<<size<<'\n';
 	  k++;
@@ -259,7 +254,6 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	}
       i++;
     }
-  // e->next=nullptr;
   return equation;
 }
 
@@ -270,8 +264,6 @@ void GetOrder(vector<string> &equation, unsigned &k, const Data &data, Equation 
       // if(equation.size()<=1) break;
       equation=FindOperator(equation, i, k, data, e, next);
     }
-  // e->next=nullptr;
-  // cout<<"e->next=nullptr "<<equation.size()<<'\n';
 }
 
 vector<string> RemoveOpenClose(vector<string> equation)

@@ -14,7 +14,7 @@
 #include "../types/MathOperation.h"
 #include "../types/Equation.h"
 
-Equation *Search(Equation *m, const unsigned i)
+Equation *Search(Equation *m, const unsigned &i)
 {
   Equation *c=m;
 
@@ -34,7 +34,7 @@ Equation *Search(Equation *m, const unsigned i)
 }
 
 template<typename T, typename U>
-Equation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&c, Equation *&next)
+Equation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&c)
 {
   EquationValueBase *mc=new U;
   mc->v=new T(s2);
@@ -45,11 +45,10 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   r->Type();
   const double result=r->result;
   const double v_value=mc->v->GetValue();
-  cout<<"result "<<result<<'\n';
+  cout<<"result "<<result<<" "<<'\n';
 
   if(!isnan(result) and !isnan(v_value))
     {
-      cout<<"!isnan(result) "<<next<<'\n';
       // Only result will be taken into account.
       mc->m1=nullptr;
       mc->CalculateResult(result);
@@ -62,10 +61,8 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
       r->m1=nullptr;
       // cout<<"mopertor "<<mc<<" "<<mc->m1<<" "<<mc->m1<<" "<<mc->m1->GetV1()<<" "<<mc->m1->GetOp()<<" "<<mc->m1->GetV2()<<'\n';
     }
-
+  cout<<"mc->id "<<mc->id<<" "<<mc<<'\n';
   delete r;
-  // next=nullptr;
-  // mc->next=nullptr;
   return mc;
 }
 
