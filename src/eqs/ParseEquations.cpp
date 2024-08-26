@@ -270,7 +270,8 @@ void GetOrder(vector<string> &equation, unsigned &k, const Data &data, Equation 
       // if(equation.size()<=1) break;
       equation=FindOperator(equation, i, k, data, e, next);
     }
-  e->next=nullptr;
+  // e->next=nullptr;
+  // cout<<"e->next=nullptr "<<equation.size()<<'\n';
 }
 
 vector<string> RemoveOpenClose(vector<string> equation)
@@ -363,7 +364,7 @@ void ParseEquations(const SMap &equations_map, const Data &data)
       cout<<" "<<'\n';
       v=test(v, k, data, e, next, eq);
       GetOrder(v, k, data, e, next);
-
+      e->next=nullptr;
       Print(e);
       next=nullptr;
       k=0;
