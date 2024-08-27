@@ -25,7 +25,8 @@ public:
 class Equation: public EquationBase
 {
 public:
-  MathOperation *m1=nullptr;
+  // MathOperation *m1=nullptr;
+  Equation *m1=nullptr;
   MathOperator *math_operator=nullptr;
   Equation *next=nullptr;
 
