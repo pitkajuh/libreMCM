@@ -121,15 +121,12 @@ Equation *CreateNewValueValueMathOperation(const string &s1, const string &s2, c
   return m;
 }
 
-Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, Equation *&e, Equation *&next, const unsigned k)
+Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&e, Equation *&next)
 {
   const unsigned s1i=stoi(s1.substr(1, s1.size()));
   const unsigned s2i=stoi(s2.substr(1, s2.size()));
-  EquationOp *mc2;
   Equation *m1=Search(e, s1i);
   Equation *m2=Search(e, s2i);
-
-
   cout<<"next "<<next<<'\n';
   cout<<s1i<<" m1 "<<m1<<" m1->next "<<m1->next<<'\n';
   cout<<s2i<<" m2 "<<m2<<" m2->next "<<m2->next<<'\n';
@@ -143,7 +140,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   if(!r1_null and !r2_null)
     {
       cout<<"!r1_null and !r2_null"<<'\n';
-      mc2=new EquationOp;
+      EquationOp *mc2=new EquationOp;
       // mc2->next=next;
       mc2->id=k;
       mc2->SetOperator(o);
@@ -153,6 +150,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
       cout<<"!r1_null and !r2_null result "<<mc2->result<<'\n';
       delete m1;
       delete m2;
+      return mc2;
     }
   // else if(!r1_null and r2_null)
   // 	{
@@ -185,12 +183,10 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
       cout<<"mc12 "<<mc12<<'\n';
       return mc12;
     }
-  return mc2;
 }
 
 Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, const Data &data, const unsigned &k, Equation *&next)
 {
-  Equation *mc;
   const string s1=equation[i-1];
   const string s2=equation[i+1];
   const string o=equation[i];
@@ -203,7 +199,7 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
 
   if(!b.s1_math and !b.s2_math)
     {
-      mc=CreateNewValueValueMathOperation(s1, s2, o, b);
+      Equation *mc=CreateNewValueValueMathOperation(s1, s2, o, b);
       mc->next=next;
       mc->id=k;
       cout<<"!b.s1_math and !b.s2_math "<<'\n';
@@ -242,7 +238,7 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
   else if(b.s1_math and b.s2_math)
     {
       cout<<"s1_math and s2_math "<<e<<'\n';
-      return CreateNewMathMath(s1, s2, o, e, next, k);
+      return CreateNewMathMath(s1, s2, o, k, e, next);
     }
   else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math)
     {
