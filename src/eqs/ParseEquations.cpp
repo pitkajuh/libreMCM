@@ -121,6 +121,73 @@ Equation *CreateNewValueValueMathOperation(const string &s1, const string &s2, c
   return m;
 }
 
+Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, Equation *&e, Equation *&next, const unsigned k)
+{
+  const unsigned s1i=stoi(s1.substr(1, s1.size()));
+  const unsigned s2i=stoi(s2.substr(1, s2.size()));
+  EquationOp *mc2;
+  Equation *m1=Search(e, s1i);
+  Equation *m2=Search(e, s2i);
+
+
+  cout<<"next "<<next<<'\n';
+  cout<<s1i<<" m1 "<<m1<<" m1->next "<<m1->next<<'\n';
+  cout<<s2i<<" m2 "<<m2<<" m2->next "<<m2->next<<'\n';
+
+  //     cout<<"m1 "<<m1<<" m2 "<<m2<<'\n';
+  const double result1=m1->result;
+  const double result2=m2->result;
+  const bool r1_null=isnan(result1);
+  const bool r2_null=isnan(result2);
+
+  if(!r1_null and !r2_null)
+    {
+      cout<<"!r1_null and !r2_null"<<'\n';
+      mc2=new EquationOp;
+      // mc2->next=next;
+      mc2->id=k;
+      mc2->SetOperator(o);
+      mc2->m1=nullptr;
+      mc2->m2=nullptr;
+      mc2->result=mc2->math_operator->Calculate1(result1, result2);
+      cout<<"!r1_null and !r2_null result "<<mc2->result<<'\n';
+      delete m1;
+      delete m2;
+    }
+  // else if(!r1_null and r2_null)
+  // 	{
+  // 	  cout<<"!r1_null and r2_null"<<'\n';
+  // 	}
+      // else if(r1_null and !r2_null)
+      // 	{
+      // 	  cout<<"r1_null and !r2_null"<<'\n';
+      // 	}
+  else
+    {
+      cout<<"else1 "<<k<<'\n';
+      Equation1 *mc12=new Equation1;
+
+      if(s1i>s2i)
+	{
+	  if((m1->next!=nullptr)) mc12->next=m1->next;
+	  else mc12->next=next;
+	}
+      else
+	{
+	  if((m2->next!=nullptr)) mc12->next=m2->next;
+	  else  mc12->next=next;
+	}
+      cout<<"mc12->next "<<mc12->next<<'\n';
+      mc12->id=k;
+      mc12->SetOperator1(o);
+      mc12->m12=m1;
+      mc12->m22=m2;
+      cout<<"mc12 "<<mc12<<'\n';
+      return mc12;
+    }
+  return mc2;
+}
+
 Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, const Data &data, const unsigned &k, Equation *&next)
 {
   Equation *mc;
@@ -137,84 +204,45 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
   if(!b.s1_math and !b.s2_math)
     {
       mc=CreateNewValueValueMathOperation(s1, s2, o, b);
+      mc->next=next;
       mc->id=k;
-      cout<<"!b.s1_math and !b.s2_math "<<mc<<" "<<mc->id<<" "<<next<<'\n';
+      cout<<"!b.s1_math and !b.s2_math "<<'\n';
       return mc;
     }
   else if(b.s1_variable and b.s2_math)
     {
-      cout<<"s1_variable and s2_math "<<next<<'\n';
-      return NewMathValue<Variable, ValueEquation>(s2, s1, o, k, e);
+      cout<<"s1_variable and s2_math"<<'\n';
+      return NewMathValue<Variable, ValueEquation>(s2, s1, o, k, e, next);
     }
   else if(b.s1_constant and b.s2_math)
     {
       cout<<"s1_constant and s2_math"<<'\n';
-      return NewMathValue<Constant, ValueEquation>(s2, s1, o, k, e);
+      return NewMathValue<Constant, ValueEquation>(s2, s1, o, k, e, next);
     }
   else if(b.s1_numeric and b.s2_math)
     {
       cout<<"s1_numeric and s2_math"<<'\n';
-      return NewMathValue<Numeric, ValueEquation>(s2, s1, o, k, e);
+      return NewMathValue<Numeric, ValueEquation>(s2, s1, o, k, e, next);
     }
   else if(b.s1_math and b.s2_variable)
     {
-      cout<<"s1_math and s2_variable "<<next<<'\n';
-      return NewMathValue<Variable, EquationValue>(s1, s2, o, k, e);
+      cout<<"s1_math and s2_variable "<<'\n';
+      return NewMathValue<Variable, EquationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_constant)
     {
       cout<<"s1_math and s2_constant"<<'\n';
-      return NewMathValue<Constant, EquationValue>(s1, s2, o, k, e);
+      return NewMathValue<Constant, EquationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_numeric)
     {
       cout<<"s1_math and s2_numeric"<<'\n';
-      return NewMathValue<Numeric, EquationValue>(s1, s2, o, k, e);
+      return NewMathValue<Numeric, EquationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_math)
     {
       cout<<"s1_math and s2_math "<<e<<'\n';
-      EquationOp *mc2;
-      Equation *m1=Search(e, stoi(s1.substr(1, s1.size())));
-      Equation *m2=Search(e, stoi(s2.substr(1, s2.size())));
-  //     cout<<"m1 "<<m1<<" m2 "<<m2<<'\n';
-      const double result1=m1->result;
-      const double result2=m2->result;
-      const bool r1_null=isnan(result1);
-      const bool r2_null=isnan(result2);
-
-      if(!r1_null and !r2_null)
-	{
-	  cout<<"!r1_null and !r2_null"<<'\n';
-	  mc2=new EquationOp;
-	  mc2->id=k;
-	  mc2->SetOperator(o);
-	  mc2->m1=nullptr;
-	  mc2->m2=nullptr;
-	  mc2->result=mc2->math_operator->Calculate1(result1, result2);
-	  cout<<"!r1_null and !r2_null result "<<mc2->result<<'\n';
-	  delete m1;
-	  delete m2;
-	}
-      // else if(!r1_null and r2_null)
-      // 	{
-      // 	  cout<<"!r1_null and r2_null"<<'\n';
-      // 	}
-      // else if(r1_null and !r2_null)
-      // 	{
-      // 	  cout<<"r1_null and !r2_null"<<'\n';
-      // 	}
-      else
-	{
-	  cout<<"else1 "<<k<<'\n';
-	  Equation1 *mc12=new Equation1;
-	  mc12->id=k;
-	  mc12->SetOperator1(o);
-	  mc12->m12=m1;
-	  mc12->m22=m2;
-	  return mc12;
-	}
-      return mc2;
+      return CreateNewMathMath(s1, s2, o, e, next, k);
     }
   else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math)
     {
@@ -237,7 +265,7 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	{
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
 	  e=Val2(e, equation, i, data, k, next);
-	  e->next=next;
+	  // e->next=next;
 	  cout<<"e="<<e<<" next "<<e->next<<'\n';
 	  next=e;
 
@@ -245,9 +273,9 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	  equation.erase(equation.begin()+i+1);
 	  equation.erase(equation.begin()+i-1);
 	  print_vector2(equation);
-	  cout<<"next "<<next<<" "<<next->id<<'\n';
+	  // cout<<"next "<<next<<" "<<next->id<<'\n';
 	  size=equation.size();
-	  cout<<"size "<<size<<'\n';
+	  // cout<<"size "<<size<<'\n';
 	  k++;
 	  i=0;
 	  cout<<" "<<'\n';
