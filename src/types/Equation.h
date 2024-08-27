@@ -68,13 +68,13 @@ public:
   Equation *m22=nullptr;
   Equation *next=nullptr;
 
-  void SetOperator(const string &s)
+  void SetOperator1(const string &s)
   {
-    if(s==ADD) math_operator=new Add;
-    else if(s==SUBTRACT) math_operator=new Sub;
-    else if(s==MULTIPLY) math_operator=new Mul;
-    else if(s==DIVIDE) math_operator=new Div;
-    else if(s==EXP) math_operator=new Exp;
+    if(s==ADD) math_operator1=new Add;
+    else if(s==SUBTRACT) math_operator1=new Sub;
+    else if(s==MULTIPLY) math_operator1=new Mul;
+    else if(s==DIVIDE) math_operator1=new Div;
+    else if(s==EXP) math_operator1=new Exp;
   }
   ~Equation1()
   {

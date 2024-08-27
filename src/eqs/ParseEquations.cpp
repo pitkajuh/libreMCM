@@ -209,7 +209,7 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
 	  cout<<"else1 "<<k<<'\n';
 	  Equation1 *mc12=new Equation1;
 	  mc12->id=k;
-	  mc12->SetOperator(o);
+	  mc12->SetOperator1(o);
 	  mc12->m12=m1;
 	  mc12->m22=m2;
 	  return mc12;
@@ -238,6 +238,7 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
 	  e=Val2(e, equation, i, data, k, next);
 	  e->next=next;
+	  cout<<"e="<<e<<" next "<<e->next<<'\n';
 	  next=e;
 
 	  equation[i]="@"+to_string(k);

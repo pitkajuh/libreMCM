@@ -17,7 +17,7 @@
 Equation *Search(Equation *m, const unsigned &i)
 {
   Equation *c=m;
-
+  cout<<"find "<<i<<'\n';
   while(c!=nullptr)
     {
       // cout<<"find "<<i<<" now "<<c->id<<'\n';
@@ -40,12 +40,14 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   mc->v=new T(s2);
   mc->SetOperator(o);
   mc->id=k;
-  cout<<"s1 "<<s1<<'\n';
+  cout<<"s1 "<<s1<<" "<<k<<'\n';
   Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
   r->Type();
   const double result=r->result;
   const double v_value=mc->v->GetValue();
-  cout<<"result "<<result<<" "<<'\n';
+    cout<<"result "<<result<<'\n';
+  cout<<"mc->next "<<mc->next<<'\n';
+  cout<<"r->next "<<r->next<<'\n';
 
   if(!isnan(result) and !isnan(v_value))
     {
@@ -61,7 +63,14 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
       r->m1=nullptr;
       // cout<<"mopertor "<<mc<<" "<<mc->m1<<" "<<mc->m1<<" "<<mc->m1->GetV1()<<" "<<mc->m1->GetOp()<<" "<<mc->m1->GetV2()<<'\n';
     }
-  cout<<"mc->id "<<mc->id<<" "<<mc<<'\n';
+  // cout<<"mc->id "<<mc->id<<" "<<mc<<'\n';
+  // cout<<"r->id "<<r->id<<" "<<r<<'\n';
+  cout<<"delete "<<r<<'\n';
+  mc->next=r->next;
+  cout<<"mc->next "<<mc->next<<'\n';
+  // r->next->next=mc->next;
+  // mc->next=r->next;
+  // Search(c, stoi(s1.substr(1, s1.size()))-1)->next=nullptr;
   delete r;
   return mc;
 }
