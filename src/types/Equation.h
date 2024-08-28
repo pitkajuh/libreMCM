@@ -17,68 +17,74 @@
 class EquationOperation
 {
 public:
-  // double result=NAN;
+  double result=NAN;
   MathOperation *m1=nullptr;
-  // MathOperator *math_operator=nullptr;
+  MathOperator *math_operator=nullptr;
 
-  // void SetOperator(const string &s)
-  // {
-  //   if(s==ADD) math_operator=new Add;
-  //   else if(s==SUBTRACT) math_operator=new Sub;
-  //   else if(s==MULTIPLY) math_operator=new Mul;
-  //   else if(s==DIVIDE) math_operator=new Div;
-  //   else if(s==EXP) math_operator=new Exp;
-  // }
+  void SetOperator(const string &s)
+  {
+    if(s==ADD) math_operator=new Add;
+    else if(s==SUBTRACT) math_operator=new Sub;
+    else if(s==MULTIPLY) math_operator=new Mul;
+    else if(s==DIVIDE) math_operator=new Div;
+    else if(s==EXP) math_operator=new Exp;
+  }
   virtual ~EquationOperation()
   {
     delete m1;
-    // delete math_operator;
+    delete math_operator;
   }
 };
 
-// class EquationOperationOp: public EquationOperation
-// {
-// public:
-//   MathOperation *m2=nullptr;
+class EquationOperationOp: public EquationOperation
+{
+public:
+  MathOperation *m2=nullptr;
 
-//   void Calculate()
-//   {
-//     m1->CalculateResult();
-//     m2->CalculateResult();
-//     result=math_operator->Calculate1(m1->result, m2->result);
-//   }
-//   ~EquationOperationOp(){delete m2;}
-// };
+  void Calculate()
+  {
+    // m1->CalculateResult();
+    // m2->CalculateResult();
+    // result=math_operator->Calculate1(m1->result, m2->result);
+  }
+  ~EquationOperationOp(){delete m2;}
+};
 
-// class EquationOperationValueBase: public EquationOperation
-// {
-// public:
-//   Value *v=nullptr;
+class EquationOperationValueBase: public EquationOperation
+{
+public:
+  Value *v=nullptr;
 
-//   virtual void CalculateResult(const double &d)=0;
-//   ~EquationOperationValueBase(){delete v;}
-// };
+  virtual void CalculateResult(const double &d)=0;
+  ~EquationOperationValueBase(){delete v;}
+};
 
-// class EquationOperationValue: public EquationOperationValueBase
-// {
-// public:
-//   void CalculateResult(const double &d){result=math_operator->Calculate1(d, v->GetValue());}
-//   void Calculate()
-//   {
-//     m1->CalculateResult();
-//     result=math_operator->Calculate1(m1->result, v->GetValue());
-//   }
-// };
+class EquationOperationValue: public EquationOperationValueBase
+{
+public:
+  void CalculateResult(const double &d)
+  {
+    // result=math_operator->Calculate1(d, v->GetValue());
+  }
+  void Calculate()
+  {
+    // m1->CalculateResult();
+    // result=math_operator->Calculate1(m1->result, v->GetValue());
+  }
+};
 
-// class ValueEquationOperation: public EquationOperationValueBase
-// {
-//   void CalculateResult(const double &d){result=math_operator->Calculate1(v->GetValue(), d);}
-//   void Calculate()
-//   {
-//     m1->CalculateResult();
-//     result=math_operator->Calculate1(v->GetValue(), m1->result);
-//   }
-// };
+class ValueEquationOperation: public EquationOperationValueBase
+{
+  void CalculateResult(const double &d)
+  {
+    // result=math_operator->Calculate1(v->GetValue(), d);
+  }
+  void Calculate()
+  {
+    // m1->CalculateResult();
+    // result=math_operator->Calculate1(v->GetValue(), m1->result);
+  }
+};
 
 class EquationBase
 {
@@ -91,7 +97,7 @@ public:
 class Equation: public EquationBase
 {
 public:
-  MathOperation *m1=nullptr;
+  EquationOperation *m1=nullptr;
   MathOperator *math_operator=nullptr;
   Equation *next=nullptr;
 
@@ -105,8 +111,8 @@ public:
   }
   void Calculate()
   {
-    m1->CalculateResult();
-    result=m1->result;
+    // m1->CalculateResult();
+    // result=m1->result;
   }
   virtual ~Equation()
   {
@@ -122,41 +128,16 @@ public:
   }
 };
 
-class Equation1: public Equation
-{
-public:
-  MathOperator *math_operator1=nullptr;
-  Equation *m12=nullptr;
-  Equation *m22=nullptr;
-  Equation *next=nullptr;
-
-  void SetOperator1(const string &s)
-  {
-    if(s==ADD) math_operator1=new Add;
-    else if(s==SUBTRACT) math_operator1=new Sub;
-    else if(s==MULTIPLY) math_operator1=new Mul;
-    else if(s==DIVIDE) math_operator1=new Div;
-    else if(s==EXP) math_operator1=new Exp;
-  }
-  ~Equation1()
-  {
-    cout<<"~Equation1 "<<this<<" "<<id<<'\n';
-    delete m12;
-    delete m22;
-    delete math_operator1;
-  }
-};
-
 class EquationOp: public Equation
 {
 public:
-  MathOperation *m2=nullptr;
+  EquationOperation *m2=nullptr;
 
   void Calculate()
   {
-    m1->CalculateResult();
-    m2->CalculateResult();
-    result=math_operator->Calculate1(m1->result, m2->result);
+    // m1->CalculateResult();
+    // m2->CalculateResult();
+    // result=math_operator->Calculate1(m1->result, m2->result);
   }
   ~EquationOp()
   {
@@ -171,52 +152,77 @@ public:
   }
 };
 
-class EquationValueBase: public Equation
-{
-public:
-  Value *v=nullptr;
+// class Equation1: public Equation
+// {
+// public:
+//   MathOperator *math_operator1=nullptr;
+//   Equation *m12=nullptr;
+//   Equation *m22=nullptr;
+//   Equation *next=nullptr;
 
-  virtual void CalculateResult(const double &d)=0;
-  ~EquationValueBase()
-  {
-    cout<<"~EquationV "<<this<<" "<<id<<'\n';
-    // cout<<"Deleting v "<<v<<'\n';
-    delete v;
-    // cout<<"v deleted"<<'\n';
-    // cout<<"Deleting math_operator1 "<<math_operator1<<'\n';
-    // delete math_operator1;
-    // cout<<"math_operator1 deleted"<<'\n';
-    cout<<"~EquationV  ok"<<'\n';
-  }
-};
+//   void SetOperator1(const string &s)
+//   {
+//     if(s==ADD) math_operator1=new Add;
+//     else if(s==SUBTRACT) math_operator1=new Sub;
+//     else if(s==MULTIPLY) math_operator1=new Mul;
+//     else if(s==DIVIDE) math_operator1=new Div;
+//     else if(s==EXP) math_operator1=new Exp;
+//   }
+//   ~Equation1()
+//   {
+//     cout<<"~Equation1 "<<this<<" "<<id<<'\n';
+//     delete m12;
+//     delete m22;
+//     delete math_operator1;
+//   }
+// };
 
-class EquationValue: public EquationValueBase
-{
-public:
-  void CalculateResult(const double &d)
-  {
-    cout<<"EquationV"<<'\n';
-    result=math_operator->Calculate1(d, v->GetValue());
-  }
-  void Calculate()
-  {
-    m1->CalculateResult();
-    result=math_operator->Calculate1(m1->result, v->GetValue());
-  }
-};
+// class EquationValueBase: public Equation
+// {
+// public:
+//   Value *v=nullptr;
 
-class ValueEquation: public EquationValueBase
-{
-  void CalculateResult(const double &d)
-  {
-    cout<<"VEquation"<<'\n';
-    result=math_operator->Calculate1(v->GetValue(), d);
-  }
-  void Calculate()
-  {
-    m1->CalculateResult();
-    result=math_operator->Calculate1(v->GetValue(), m1->result);
-  }
-};
+//   virtual void CalculateResult(const double &d)=0;
+//   ~EquationValueBase()
+//   {
+//     cout<<"~EquationV "<<this<<" "<<id<<'\n';
+//     // cout<<"Deleting v "<<v<<'\n';
+//     delete v;
+//     // cout<<"v deleted"<<'\n';
+//     // cout<<"Deleting math_operator1 "<<math_operator1<<'\n';
+//     // delete math_operator1;
+//     // cout<<"math_operator1 deleted"<<'\n';
+//     cout<<"~EquationV  ok"<<'\n';
+//   }
+// };
+
+// class EquationValue: public EquationValueBase
+// {
+// public:
+//   void CalculateResult(const double &d)
+//   {
+//     cout<<"EquationV"<<'\n';
+//     result=math_operator->Calculate1(d, v->GetValue());
+//   }
+//   void Calculate()
+//   {
+//     m1->CalculateResult();
+//     result=math_operator->Calculate1(m1->result, v->GetValue());
+//   }
+// };
+
+// class ValueEquation: public EquationValueBase
+// {
+//   void CalculateResult(const double &d)
+//   {
+//     cout<<"VEquation"<<'\n';
+//     result=math_operator->Calculate1(v->GetValue(), d);
+//   }
+//   void Calculate()
+//   {
+//     m1->CalculateResult();
+//     result=math_operator->Calculate1(v->GetValue(), m1->result);
+//   }
+// };
 
 #endif

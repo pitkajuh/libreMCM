@@ -34,51 +34,45 @@ Equation *Search(Equation *m, const unsigned &i)
 }
 
 template<typename T, typename U>
-Equation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&c, Equation *&next)
+EquationOperation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&c, Equation *&next)
 {
-  EquationValueBase *mc=new U;
+  EquationOperationValueBase *mc=new U;
   mc->v=new T(s2);
-  mc->SetOperator(o);
-  mc->id=k;
-  // cout<<"s1 "<<s1<<" "<<k<<'\n';
-  Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
-  // r->Type();
-  const double result=r->result;
-  const double v_value=mc->v->GetValue();
-    // cout<<"result "<<result<<'\n';
-  cout<<"mc->next "<<mc->next<<'\n';
-  cout<<"r->next "<<r->next<<'\n';
+  // mc->SetOperator(o);
+  // mc->id=k;
 
-  if(!isnan(result) and !isnan(v_value))
-    {
-      // Only result will be taken into account.
-      mc->m1=nullptr;
-      mc->CalculateResult(result);
-      // cout<<"result is "<<mc->result<<'\n';
-    }
-  else
-    {
-      // cout<<"else "<<k<<'\n';
-      mc->m1=r->m1;
-      r->m1=nullptr;
-      // cout<<"mopertor "<<mc<<" "<<mc->m1<<" "<<mc->m1<<" "<<mc->m1->GetV1()<<" "<<mc->m1->GetOp()<<" "<<mc->m1->GetV2()<<'\n';
-    }
-  // cout<<"mc->id "<<mc->id<<" "<<mc<<'\n';
-  // cout<<"r->id "<<r->id<<" "<<r<<'\n';
-  cout<<"delete "<<r<<'\n';
-  if(r->next!=nullptr)
-    {
-      mc->next=r->next;
-    }
-  else
-    {
-      mc->next=next;
-    }
-  cout<<"mc->next "<<mc->next<<'\n';
-  // r->next->next=mc->next;
-  // mc->next=r->next;
-  // Search(c, stoi(s1.substr(1, s1.size()))-1)->next=nullptr;
-  delete r;
+  // Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
+  // const double result=r->result;
+  // const double v_value=mc->v->GetValue();
+
+  // cout<<"mc->next "<<mc->next<<'\n';
+  // cout<<"r->next "<<r->next<<'\n';
+
+  // if(!isnan(result) and !isnan(v_value))
+  //   {
+  //     mc->m1=nullptr;
+  //     mc->CalculateResult(result);
+  //   }
+  // else
+  //   {
+  //     mc->m1=r->m1;
+  //     r->m1=nullptr;
+  //   }
+
+  // cout<<"delete "<<r<<'\n';
+  // if(r->next!=nullptr)
+  //   {
+  //     mc->next=r->next;
+  //   }
+  // else
+  //   {
+  //     mc->next=next;
+  //   }
+  // cout<<"mc->next "<<mc->next<<'\n';
+  // // r->next->next=mc->next;
+  // // mc->next=r->next;
+  // // Search(c, stoi(s1.substr(1, s1.size()))-1)->next=nullptr;
+  // delete r;
   return mc;
 }
 

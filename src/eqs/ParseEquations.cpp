@@ -64,9 +64,9 @@ public:
   }
 };
 
-Equation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b)
+EquationOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b)
 {
-  Equation *m=new Equation;
+  EquationOperation *m=new EquationOperation;
 
   if(b.s1_variable and b.s2_variable)
     {
@@ -115,78 +115,80 @@ Equation *CreateNewValueValueMathOperation(const string &s1, const string &s2, c
       // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
       // simplified and performance of the calculation increased.
       // m->m1->CalculateResult();
-      m->Calculate();
+      // m->Calculate();
       cout<<"result "<<m->result<<'\n';
     }
   return m;
 }
 
-Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&e, Equation *&next)
-{
-  const unsigned s1i=stoi(s1.substr(1, s1.size()));
-  const unsigned s2i=stoi(s2.substr(1, s2.size()));
-  Equation *m1=Search(e, s1i);
-  Equation *m2=Search(e, s2i);
-  cout<<"next "<<next<<'\n';
-  cout<<s1i<<" m1 "<<m1<<" m1->next "<<m1->next<<'\n';
-  cout<<s2i<<" m2 "<<m2<<" m2->next "<<m2->next<<'\n';
+// Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&e, Equation *&next)
+// {
+//   const unsigned s1i=stoi(s1.substr(1, s1.size()));
+//   const unsigned s2i=stoi(s2.substr(1, s2.size()));
+//   Equation *m1=Search(e, s1i);
+//   Equation *m2=Search(e, s2i);
+//   cout<<"next "<<next<<'\n';
+//   cout<<s1i<<" m1 "<<m1<<" m1->next "<<m1->next<<'\n';
+//   cout<<s2i<<" m2 "<<m2<<" m2->next "<<m2->next<<'\n';
 
-  //     cout<<"m1 "<<m1<<" m2 "<<m2<<'\n';
-  const double result1=m1->result;
-  const double result2=m2->result;
-  const bool r1_null=isnan(result1);
-  const bool r2_null=isnan(result2);
+//   //     cout<<"m1 "<<m1<<" m2 "<<m2<<'\n';
+//   const double result1=m1->result;
+//   const double result2=m2->result;
+//   const bool r1_null=isnan(result1);
+//   const bool r2_null=isnan(result2);
 
-  if(!r1_null and !r2_null)
-    {
-      cout<<"!r1_null and !r2_null"<<'\n';
-      EquationOp *mc2=new EquationOp;
-      // mc2->next=next;
-      mc2->id=k;
-      mc2->SetOperator(o);
-      mc2->m1=nullptr;
-      mc2->m2=nullptr;
-      mc2->result=mc2->math_operator->Calculate1(result1, result2);
-      cout<<"!r1_null and !r2_null result "<<mc2->result<<'\n';
-      delete m1;
-      delete m2;
-      return mc2;
-    }
-  // else if(!r1_null and r2_null)
-  // 	{
-  // 	  cout<<"!r1_null and r2_null"<<'\n';
-  // 	}
-      // else if(r1_null and !r2_null)
-      // 	{
-      // 	  cout<<"r1_null and !r2_null"<<'\n';
-      // 	}
-  else
-    {
-      cout<<"else1 "<<k<<'\n';
-      Equation1 *mc12=new Equation1;
+//   if(!r1_null and !r2_null)
+//     {
+//       cout<<"!r1_null and !r2_null"<<'\n';
+//       EquationOp *mc2=new EquationOp;
+//       // mc2->next=next;
+//       mc2->id=k;
+//       mc2->SetOperator(o);
+//       mc2->m1=nullptr;
+//       mc2->m2=nullptr;
+//       mc2->result=mc2->math_operator->Calculate1(result1, result2);
+//       cout<<"!r1_null and !r2_null result "<<mc2->result<<'\n';
+//       delete m1;
+//       delete m2;
+//       return mc2;
+//     }
+//   // else if(!r1_null and r2_null)
+//   // 	{
+//   // 	  cout<<"!r1_null and r2_null"<<'\n';
+//   // 	}
+//       // else if(r1_null and !r2_null)
+//       // 	{
+//       // 	  cout<<"r1_null and !r2_null"<<'\n';
+//       // 	}
+//   else
+//     {
+//       cout<<"else1 "<<k<<'\n';
+//       Equation1 *mc12=new Equation1;
 
-      if(s1i>s2i)
-	{
-	  if((m1->next!=nullptr)) mc12->next=m1->next;
-	  else mc12->next=next;
-	}
-      else
-	{
-	  if((m2->next!=nullptr)) mc12->next=m2->next;
-	  else  mc12->next=next;
-	}
-      cout<<"mc12->next "<<mc12->next<<'\n';
-      mc12->id=k;
-      mc12->SetOperator1(o);
-      mc12->m12=m1;
-      mc12->m22=m2;
-      cout<<"mc12 "<<mc12<<'\n';
-      return mc12;
-    }
-}
+//       if(s1i>s2i)
+// 	{
+// 	  if((m1->next!=nullptr)) mc12->next=m1->next;
+// 	  else mc12->next=next;
+// 	}
+//       else
+// 	{
+// 	  if((m2->next!=nullptr)) mc12->next=m2->next;
+// 	  else  mc12->next=next;
+// 	}
+//       cout<<"mc12->next "<<mc12->next<<'\n';
+//       mc12->id=k;
+//       mc12->SetOperator1(o);
+//       mc12->m12=m1;
+//       mc12->m22=m2;
+//       cout<<"mc12 "<<mc12<<'\n';
+//       return mc12;
+//     }
+// }
 
 Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, const Data &data, const unsigned &k, Equation *&next)
 {
+  Equation *mc=new Equation;
+  mc->id=k;
   const string s1=equation[i-1];
   const string s2=equation[i+1];
   const string o=equation[i];
@@ -199,46 +201,48 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
 
   if(!b.s1_math and !b.s2_math)
     {
-      Equation *mc=CreateNewValueValueMathOperation(s1, s2, o, b);
+      // mc=new Equation;
+      mc->m1=CreateNewValueValueMathOperation(s1, s2, o, b);
       mc->next=next;
-      mc->id=k;
+      // mc->id=k;
       cout<<"!b.s1_math and !b.s2_math "<<'\n';
       return mc;
     }
   else if(b.s1_variable and b.s2_math)
     {
       cout<<"s1_variable and s2_math"<<'\n';
-      return NewMathValue<Variable, ValueEquation>(s2, s1, o, k, e, next);
+      mc->m1=NewMathValue<Variable, ValueEquationOperation>(s2, s1, o, k, e, next);
+      // return mc;
     }
   else if(b.s1_constant and b.s2_math)
     {
       cout<<"s1_constant and s2_math"<<'\n';
-      return NewMathValue<Constant, ValueEquation>(s2, s1, o, k, e, next);
+      mc->m1=NewMathValue<Constant, ValueEquationOperation>(s2, s1, o, k, e, next);
     }
   else if(b.s1_numeric and b.s2_math)
     {
       cout<<"s1_numeric and s2_math"<<'\n';
-      return NewMathValue<Numeric, ValueEquation>(s2, s1, o, k, e, next);
+      mc->m1=NewMathValue<Numeric, ValueEquationOperation>(s2, s1, o, k, e, next);
     }
   else if(b.s1_math and b.s2_variable)
     {
       cout<<"s1_math and s2_variable "<<'\n';
-      return NewMathValue<Variable, EquationValue>(s1, s2, o, k, e, next);
+      mc->m1=NewMathValue<Variable, EquationOperationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_constant)
     {
       cout<<"s1_math and s2_constant"<<'\n';
-      return NewMathValue<Constant, EquationValue>(s1, s2, o, k, e, next);
+      mc->m1=NewMathValue<Constant, EquationOperationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_numeric)
     {
       cout<<"s1_math and s2_numeric"<<'\n';
-      return NewMathValue<Numeric, EquationValue>(s1, s2, o, k, e, next);
+      mc->m1=NewMathValue<Numeric, EquationOperationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_math)
     {
       cout<<"s1_math and s2_math "<<e<<'\n';
-      return CreateNewMathMath(s1, s2, o, k, e, next);
+      // return CreateNewMathMath(s1, s2, o, k, e, next);
     }
   else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math)
     {
@@ -248,6 +252,38 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
     {
       throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
     }
+
+  Equation *r=Search(e, stoi(s1.substr(1, s1.size())));
+  const double result=r->result;
+  const double v_value=mc->v->GetValue();
+
+  if(!isnan(result) and !isnan(v_value))
+    {
+      mc->m1=nullptr;
+      // mc->CalculateResult(result);
+    }
+  else
+    {
+      mc->m1=r->m1;
+      r->m1=nullptr;
+    }
+
+    // cout<<"delete "<<r<<'\n';
+  if(r->next!=nullptr)
+    {
+      mc->next=r->next;
+    }
+  else
+    {
+      mc->next=next;
+    }
+  // cout<<"mc->next "<<mc->next<<'\n';
+  // // r->next->next=mc->next;
+  // // mc->next=r->next;
+  // // Search(c, stoi(s1.substr(1, s1.size()))-1)->next=nullptr;
+  delete r;
+
+  return mc;
 }
 
 vector<string> FindOperator(vector<string> equation, const string &find, unsigned &k, const Data &data, Equation *&e, Equation *&next)
