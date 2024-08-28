@@ -42,7 +42,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   mc->id=k;
   // cout<<"s1 "<<s1<<" "<<k<<'\n';
   Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
-  r->Type();
+  // r->Type();
   const double result=r->result;
   const double v_value=mc->v->GetValue();
     // cout<<"result "<<result<<'\n';
