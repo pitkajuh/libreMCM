@@ -188,7 +188,7 @@ EquationOperation *CreateNewValueValueMathOperation(const string &s1, const stri
 Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, const Data &data, const unsigned &k, Equation *&next)
 {
   Equation *mc=new Equation;
-  mc->id=k;
+  // mc->id=k;
   const string s1=equation[i-1];
   const string s2=equation[i+1];
   const string o=equation[i];
@@ -201,7 +201,7 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
 
   if(!b.s1_math and !b.s2_math)
     {
-      // mc=new Equation;
+      mc=new Equation;
       mc->m1=CreateNewValueValueMathOperation(s1, s2, o, b);
       mc->next=next;
       // mc->id=k;
@@ -253,35 +253,32 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
       throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
     }
 
-  Equation *r=Search(e, stoi(s1.substr(1, s1.size())));
-  const double result=r->result;
-  const double v_value=mc->v->GetValue();
+  // Equation *r=Search(e, stoi(s1.substr(1, s1.size())));
+  // const double result=r->result;
+  // const double v_value=mc->m1->v->GetValue();
 
-  if(!isnan(result) and !isnan(v_value))
-    {
-      mc->m1=nullptr;
-      // mc->CalculateResult(result);
-    }
-  else
-    {
-      mc->m1=r->m1;
-      r->m1=nullptr;
-    }
+  // if(!isnan(result) and !isnan(v_value))
+  //   {
+  //     mc->m1=nullptr;
+  //     // mc->CalculateResult(result);
+  //   }
+  // else
+  //   {
+  //     mc->m1=r->m1;
+  //     r->m1=nullptr;
+  //   }
 
-    // cout<<"delete "<<r<<'\n';
-  if(r->next!=nullptr)
-    {
-      mc->next=r->next;
-    }
-  else
-    {
-      mc->next=next;
-    }
-  // cout<<"mc->next "<<mc->next<<'\n';
-  // // r->next->next=mc->next;
-  // // mc->next=r->next;
-  // // Search(c, stoi(s1.substr(1, s1.size()))-1)->next=nullptr;
-  delete r;
+  //   // cout<<"delete "<<r<<'\n';
+  // if(r->next!=nullptr)
+  //   {
+  //     mc->next=r->next;
+  //   }
+  // else
+  //   {
+  //     mc->next=next;
+  //   }
+
+  // delete r;
 
   return mc;
 }
