@@ -187,8 +187,6 @@ EquationOperation *CreateNewValueValueMathOperation(const string &s1, const stri
 
 Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, const Data &data, const unsigned &k, Equation *&next)
 {
-  Equation *mc=new Equation;
-  // mc->id=k;
   const string s1=equation[i-1];
   const string s2=equation[i+1];
   const string o=equation[i];
@@ -201,43 +199,43 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
 
   if(!b.s1_math and !b.s2_math)
     {
-      mc=new Equation;
+      Equation *mc=new Equation;
       mc->m1=CreateNewValueValueMathOperation(s1, s2, o, b);
       mc->next=next;
-      // mc->id=k;
+      mc->id=k;
       cout<<"!b.s1_math and !b.s2_math "<<'\n';
       return mc;
     }
   else if(b.s1_variable and b.s2_math)
     {
       cout<<"s1_variable and s2_math"<<'\n';
-      mc->m1=NewMathValue<Variable, ValueEquationOperation>(s2, s1, o, k, e, next);
+      return NewMathValue<Variable, ValueEquationOperation>(s2, s1, o, k, e, next);
       // return mc;
     }
   else if(b.s1_constant and b.s2_math)
     {
       cout<<"s1_constant and s2_math"<<'\n';
-      mc->m1=NewMathValue<Constant, ValueEquationOperation>(s2, s1, o, k, e, next);
+      return NewMathValue<Constant, ValueEquationOperation>(s2, s1, o, k, e, next);
     }
   else if(b.s1_numeric and b.s2_math)
     {
       cout<<"s1_numeric and s2_math"<<'\n';
-      mc->m1=NewMathValue<Numeric, ValueEquationOperation>(s2, s1, o, k, e, next);
+      return NewMathValue<Numeric, ValueEquationOperation>(s2, s1, o, k, e, next);
     }
   else if(b.s1_math and b.s2_variable)
     {
       cout<<"s1_math and s2_variable "<<'\n';
-      mc->m1=NewMathValue<Variable, EquationOperationValue>(s1, s2, o, k, e, next);
+      return NewMathValue<Variable, EquationOperationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_constant)
     {
       cout<<"s1_math and s2_constant"<<'\n';
-      mc->m1=NewMathValue<Constant, EquationOperationValue>(s1, s2, o, k, e, next);
+      return NewMathValue<Constant, EquationOperationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_numeric)
     {
       cout<<"s1_math and s2_numeric"<<'\n';
-      mc->m1=NewMathValue<Numeric, EquationOperationValue>(s1, s2, o, k, e, next);
+      return NewMathValue<Numeric, EquationOperationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_math)
     {
@@ -252,35 +250,6 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
     {
       throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
     }
-
-  // Equation *r=Search(e, stoi(s1.substr(1, s1.size())));
-  // const double result=r->result;
-  // const double v_value=mc->m1->v->GetValue();
-
-  // if(!isnan(result) and !isnan(v_value))
-  //   {
-  //     mc->m1=nullptr;
-  //     // mc->CalculateResult(result);
-  //   }
-  // else
-  //   {
-  //     mc->m1=r->m1;
-  //     r->m1=nullptr;
-  //   }
-
-  //   // cout<<"delete "<<r<<'\n';
-  // if(r->next!=nullptr)
-  //   {
-  //     mc->next=r->next;
-  //   }
-  // else
-  //   {
-  //     mc->next=next;
-  //   }
-
-  // delete r;
-
-  return mc;
 }
 
 vector<string> FindOperator(vector<string> equation, const string &find, unsigned &k, const Data &data, Equation *&e, Equation *&next)

@@ -34,7 +34,7 @@ Equation *Search(Equation *m, const unsigned &i)
 }
 
 template<typename T, typename U>
-EquationOperationValueBase *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&c, Equation *&next)
+Equation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&c, Equation *&next)
 {
   Equation *e=new Equation;
   EquationOperationValueBase *mc=new U;
@@ -73,7 +73,7 @@ EquationOperationValueBase *NewMathValue(const string &s1, const string &s2, con
   // mc->next=r->next;
   // Search(c, stoi(s1.substr(1, s1.size()))-1)->next=nullptr;
   delete r;
-  return mc;
+  return e;
 }
 
 template<typename T, typename U, typename L>
