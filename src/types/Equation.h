@@ -17,67 +17,68 @@
 class EquationOperation
 {
 public:
-  double result=NAN;
+  // double result=NAN;
   MathOperation *m1=nullptr;
-  MathOperator *math_operator=nullptr;
-  void SetOperator(const string &s)
-  {
-    if(s==ADD) math_operator=new Add;
-    else if(s==SUBTRACT) math_operator=new Sub;
-    else if(s==MULTIPLY) math_operator=new Mul;
-    else if(s==DIVIDE) math_operator=new Div;
-    else if(s==EXP) math_operator=new Exp;
-  }
+  // MathOperator *math_operator=nullptr;
+
+  // void SetOperator(const string &s)
+  // {
+  //   if(s==ADD) math_operator=new Add;
+  //   else if(s==SUBTRACT) math_operator=new Sub;
+  //   else if(s==MULTIPLY) math_operator=new Mul;
+  //   else if(s==DIVIDE) math_operator=new Div;
+  //   else if(s==EXP) math_operator=new Exp;
+  // }
   virtual ~EquationOperation()
   {
     delete m1;
-    delete math_operator;
+    // delete math_operator;
   }
 };
 
-class EquationOperationOp: public EquationOperation
-{
-public:
-  MathOperation *m2=nullptr;
+// class EquationOperationOp: public EquationOperation
+// {
+// public:
+//   MathOperation *m2=nullptr;
 
-  void Calculate()
-  {
-    m1->CalculateResult();
-    m2->CalculateResult();
-    result=math_operator->Calculate1(m1->result, m2->result);
-  }
-  ~EquationOperationOp(){delete m2;}
-};
+//   void Calculate()
+//   {
+//     m1->CalculateResult();
+//     m2->CalculateResult();
+//     result=math_operator->Calculate1(m1->result, m2->result);
+//   }
+//   ~EquationOperationOp(){delete m2;}
+// };
 
-class EquationOperationValueBase: public EquationOperation
-{
-public:
-  Value *v=nullptr;
+// class EquationOperationValueBase: public EquationOperation
+// {
+// public:
+//   Value *v=nullptr;
 
-  virtual void CalculateResult(const double &d)=0;
-  ~EquationOperationValueBase(){delete v;}
-};
+//   virtual void CalculateResult(const double &d)=0;
+//   ~EquationOperationValueBase(){delete v;}
+// };
 
-class EquationOperationValue: public EquationOperationValueBase
-{
-public:
-  void CalculateResult(const double &d){result=math_operator->Calculate1(d, v->GetValue());}
-  void Calculate()
-  {
-    m1->CalculateResult();
-    result=math_operator->Calculate1(m1->result, v->GetValue());
-  }
-};
+// class EquationOperationValue: public EquationOperationValueBase
+// {
+// public:
+//   void CalculateResult(const double &d){result=math_operator->Calculate1(d, v->GetValue());}
+//   void Calculate()
+//   {
+//     m1->CalculateResult();
+//     result=math_operator->Calculate1(m1->result, v->GetValue());
+//   }
+// };
 
-class ValueEquationOperation: public EquationOperationValueBase
-{
-  void CalculateResult(const double &d){result=math_operator->Calculate1(v->GetValue(), d);}
-  void Calculate()
-  {
-    m1->CalculateResult();
-    result=math_operator->Calculate1(v->GetValue(), m1->result);
-  }
-};
+// class ValueEquationOperation: public EquationOperationValueBase
+// {
+//   void CalculateResult(const double &d){result=math_operator->Calculate1(v->GetValue(), d);}
+//   void Calculate()
+//   {
+//     m1->CalculateResult();
+//     result=math_operator->Calculate1(v->GetValue(), m1->result);
+//   }
+// };
 
 class EquationBase
 {
