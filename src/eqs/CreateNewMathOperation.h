@@ -50,11 +50,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   // cout<<"r->next "<<r->next<<'\n';
 
   if(!isnan(result) and !isnan(v_value)) mc->CalculateResult(result);
-  else
-    {
-      e->m1=r->m1;
-      // mc->m1=mc;
-    }
+  else  e->m1=r->m1;
 
   cout<<"delete "<<r<<'\n';
   if(r->next!=nullptr)
