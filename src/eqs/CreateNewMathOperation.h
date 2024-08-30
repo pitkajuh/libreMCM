@@ -38,6 +38,9 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
 {
   Equation *e=new Equation;
   EquationOperationValueBase *mc=new U;
+  // e->m1=new EquationOperationValueBase;
+  // e->m1->v=new T(s2);
+  // e->m1->SetOperator(o);
   mc->v=new T(s2);
   mc->SetOperator(o);
   e->id=k;
@@ -51,7 +54,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
 
   if(!isnan(result) and !isnan(v_value)) mc->CalculateResult(result);
   else  e->m1=r->m1;
-  // r->m1=nullptr;
+  r->m1=nullptr;
   cout<<"delete "<<r<<'\n';
   if(r->next!=nullptr)
     {
@@ -68,6 +71,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   // r->next->next=mc->next;
   // mc->next=r->next;
   // Search(c, stoi(s1.substr(1, s1.size()))-1)->next=nullptr;
+  // mc=nullptr;
   delete r;
   return e;
 }

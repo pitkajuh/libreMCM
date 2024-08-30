@@ -152,7 +152,7 @@ public:
     // cout<<"Deleting next "<<next<<'\n';
     // delete next;
     // cout<<"next deleted"<<'\n';
-    delete math_operator;
+    // delete math_operator;
     cout<<"~Equation ok"<<'\n';
   }
 };
@@ -207,7 +207,7 @@ public:
     cout<<"m21 ok"<<'\n';
     // this->next=nullptr;
     // next->next=nullptr;
-    //     next=nullptr;
+    // next=nullptr;
 
     cout<<"~EquationMath ok "<<this<<'\n';
     cout<<"---------------------------------------------------"<<'\n';
