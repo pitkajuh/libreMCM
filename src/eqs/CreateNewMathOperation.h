@@ -17,7 +17,7 @@
 Equation *Search(Equation *m, const unsigned &i)
 {
   Equation *c=m;
-  cout<<"find "<<i<<'\n';
+  // cout<<"find "<<i<<'\n';
   while(c!=nullptr)
     {
       // cout<<"find "<<i<<" now "<<c->id<<'\n';
@@ -51,7 +51,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
 
   if(!isnan(result) and !isnan(v_value)) mc->CalculateResult(result);
   else  e->m1=r->m1;
-
+  // r->m1=nullptr;
   cout<<"delete "<<r<<'\n';
   if(r->next!=nullptr)
     {

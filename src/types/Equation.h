@@ -111,7 +111,7 @@ public:
   }
   virtual ~EquationBase2()
   {
-    cout<<"~Equation "<<this<<" "<<id<<'\n';
+    cout<<"~EquationBase2 "<<this<<" "<<id<<'\n';
     // cout<<"Deleting m1 "<<m1<<'\n';
     // delete m1;
     // cout<<"m1 deleted"<<'\n';
@@ -119,7 +119,7 @@ public:
     // delete next;
     // cout<<"next deleted"<<'\n';
     delete math_operator;
-    cout<<"~Equation ok"<<'\n';
+    cout<<"~EquationBase2 ok"<<'\n';
   }
 };
 
@@ -157,36 +157,36 @@ public:
   }
 };
 
-class EquationOp: public Equation
-{
-public:
-  EquationOperation *m2=nullptr;
+// class EquationOp: public Equation
+// {
+// public:
+//   EquationOperation *m2=nullptr;
 
-  void Calculate()
-  {
-    // m1->CalculateResult();
-    // m2->CalculateResult();
-    // result=math_operator->Calculate1(m1->result, m2->result);
-  }
-  ~EquationOp()
-  {
-    cout<<"~EquationOP "<<this<<" "<<id<<'\n';
-    // cout<<"Deleting m2 "<<m2<<'\n';
-    delete m2;
-    // cout<<"m2 deleted"<<'\n';
-    // cout<<"Deleting math_operator "<<math_operator<<'\n';
-    // delete math_operator;
-    // cout<<"math_operator deleted"<<'\n';
-    cout<<"~EquationOP ok"<<'\n';
-  }
-};
+//   void Calculate()
+//   {
+//     // m1->CalculateResult();
+//     // m2->CalculateResult();
+//     // result=math_operator->Calculate1(m1->result, m2->result);
+//   }
+//   ~EquationOp()
+//   {
+//     cout<<"~EquationOP "<<this<<" "<<id<<'\n';
+//     // cout<<"Deleting m2 "<<m2<<'\n';
+//     delete m2;
+//     // cout<<"m2 deleted"<<'\n';
+//     // cout<<"Deleting math_operator "<<math_operator<<'\n';
+//     // delete math_operator;
+//     // cout<<"math_operator deleted"<<'\n';
+//     cout<<"~EquationOP ok"<<'\n';
+//   }
+// };
 
 class EquationMath: public Equation
 {
 public:
   Equation *m11=nullptr;
   Equation *m21=nullptr;
-  Equation *next=nullptr;
+  // Equation *next=nullptr;
 
   void Calculate()
   {
@@ -195,16 +195,22 @@ public:
   }
   virtual ~EquationMath()
   {
-    cout<<"~Equation "<<this<<" "<<id<<'\n';
-    // cout<<"Deleting m1 "<<m1<<'\n';
+    cout<<"~EquationMath "<<this<<" "<<id<<'\n';
+
+    // m11->next=nullptr;
+    // m21->next=nullptr;
+    cout<<"deleting m11"<<'\n';
     delete m11;
+    cout<<"m11 ok"<<'\n';
+    cout<<"deleting m21"<<'\n';
     delete m21;
-    // cout<<"m1 deleted"<<'\n';
-    // cout<<"Deleting next "<<next<<'\n';
-    // delete next;
-    // cout<<"next deleted"<<'\n';
-    // delete math_operator;
-    cout<<"~Equation ok"<<'\n';
+    cout<<"m21 ok"<<'\n';
+    // this->next=nullptr;
+    // next->next=nullptr;
+    //     next=nullptr;
+
+    cout<<"~EquationMath ok "<<this<<'\n';
+    cout<<"---------------------------------------------------"<<'\n';
   }
 };
 
