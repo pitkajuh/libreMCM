@@ -17,7 +17,7 @@
 Equation *Search(Equation *m, const unsigned &i)
 {
   Equation *c=m;
-  // cout<<"find "<<i<<'\n';
+  cout<<"find "<<i<<'\n';
   while(c!=nullptr)
     {
       // cout<<"find "<<i<<" now "<<c->id<<'\n';
@@ -36,11 +36,9 @@ Equation *Search(Equation *m, const unsigned &i)
 template<typename T, typename U>
 Equation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&c, Equation *&next)
 {
+  cout<<"NewMathValue"<<'\n';
   Equation *e=new Equation;
   EquationOperationValueBase *mc=new U;
-  // e->m1=new EquationOperationValueBase;
-  // e->m1->v=new T(s2);
-  // e->m1->SetOperator(o);
   mc->v=new T(s2);
   mc->SetOperator(o);
   e->id=k;
@@ -56,22 +54,55 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   else  e->m1=r->m1;
   r->m1=nullptr;
   cout<<"delete "<<r<<'\n';
-  if(r->next!=nullptr)
-    {
-      // mc->next=r->next;
-      e->next=r->next;
-    }
-  else
-    {
-      // mc->next=next;
+
+  // if(r->next!=nullptr)
+  //   {
+  //     cout<<"r->next!=nullptr"<<'\n';
+  //     // mc->next=r->next;
+  //     e->next=r->next;
+  //   }
+  // else
+  //   {
+  //     cout<<"else"<<'\n';
+  //     // mc->next=next;
       e->next=next;
-    }
+    // }
+
+
   // cout<<"mc->next "<<mc->next<<'\n';
 
   // r->next->next=mc->next;
   // mc->next=r->next;
   // Search(c, stoi(s1.substr(1, s1.size()))-1)->next=nullptr;
   // mc=nullptr;
+
+      cout<<"IDS "<<k<<" "<<r->id<<'\n';
+      // if(k-r->id>1 and r->next!=nullptr)
+      if(k-r->id==1 and r->next==nullptr)
+	{
+	  cout<<"k-r->id==1 and r->next==nullptr"<<'\n';
+	  // r->next=next;
+	  // e->next=r->next;
+	}
+      if(k-r->id>1 and r->next==nullptr)
+	{
+	  cout<<"k-r->id>1 and r->next==nullptr"<<'\n';
+	  r->next=next; // NO
+	  // e->next=r->next; // NO
+	}
+      if(k-r->id>1 and r->next!=nullptr)
+	{
+	  cout<<"k-r->id>1 and r->next!=nullptr"<<'\n';
+	  // r->next=next;
+	  // e->next=r->next;
+	}
+      if(k-r->id==1 and r->next!=nullptr)
+	{
+	  cout<<"k-r->id==1 and r->next!=nullptr"<<'\n';
+	  // r->next=next; // NONONONO
+	  e->next=r->next;
+	}
+  delete mc;
   delete r;
   return e;
 }
