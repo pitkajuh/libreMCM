@@ -110,9 +110,9 @@ public:
   }
   virtual ~EquationBase2()
   {
-    cout<<"~EquationBase2 "<<this<<" "<<id<<'\n';
+    // cout<<"~EquationBase2 "<<this<<" "<<id<<'\n';
     delete math_operator;
-    cout<<"~EquationBase2 ok"<<'\n';
+    // cout<<"~EquationBase2 ok"<<'\n';
   }
 };
 
@@ -129,9 +129,9 @@ public:
   }
   virtual ~Equation()
   {
-    cout<<"~Equation "<<this<<" "<<id<<'\n';
+    // cout<<"~Equation "<<this<<" "<<id<<'\n';
     delete m1;
-    cout<<"~Equation ok"<<'\n';
+    // cout<<"~Equation ok"<<'\n';
   }
 };
 
@@ -172,22 +172,15 @@ public:
   }
   virtual ~EquationMath()
   {
-    cout<<"~EquationMath "<<this<<" "<<id<<'\n';
-
-    // m11->next=nullptr;
-    // m21->next=nullptr;
-    cout<<"deleting m11"<<'\n';
+    // cout<<"~EquationMath "<<this<<" "<<id<<'\n';
+    // cout<<"deleting m11"<<'\n';
     delete m11;
-    cout<<"m11 ok"<<'\n';
-    cout<<"deleting m21"<<'\n';
+    // cout<<"m11 ok"<<'\n';
+    // cout<<"deleting m21"<<'\n';
     delete m21;
-    cout<<"m21 ok"<<'\n';
-    // this->next=nullptr;
-    // next->next=nullptr;
-    // next=nullptr;
-
-    cout<<"~EquationMath ok "<<this<<'\n';
-    cout<<"---------------------------------------------------"<<'\n';
+    // cout<<"m21 ok"<<'\n';
+    // cout<<"~EquationMath ok "<<this<<'\n';
+    // cout<<"---------------------------------------------------"<<'\n';
   }
 };
 

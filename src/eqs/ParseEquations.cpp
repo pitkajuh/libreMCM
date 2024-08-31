@@ -70,47 +70,47 @@ EquationOperation *CreateNewValueValueMathOperation(const string &s1, const stri
 
   if(b.s1_variable and b.s2_variable)
     {
-      cout<<"s1_variable and s2_variable"<<'\n';
+      // cout<<"s1_variable and s2_variable"<<'\n';
       m->m1=CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
     }
   else if(b.s1_variable and b.s2_constant)
     {
-      cout<<"s1_variable and s2_constant"<<'\n';
+      // cout<<"s1_variable and s2_constant"<<'\n';
       m->m1=CreateNewMathOperation<Variable, Constant, ConstantVariable>(s1, s2, o);
     }
   else if(b.s1_variable and b.s2_numeric)
     {
-      cout<<"s1_variable and s2_numeric"<<'\n';
+      // cout<<"s1_variable and s2_numeric"<<'\n';
       m->m1=CreateNewMathOperation<Variable, Numeric, NumericVariable>(s1, s2, o);
     }
   else if(b.s1_constant and b.s2_variable)
     {
-      cout<<"s1_constant and s2_variable"<<'\n';
+      // cout<<"s1_constant and s2_variable"<<'\n';
       m->m1=CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
     }
   else if(b.s1_constant and b.s2_constant)
     {
-      cout<<"s1_constant and s2_constant"<<'\n';
+      // cout<<"s1_constant and s2_constant"<<'\n';
       m->m1=CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
     }
   else if(b.s1_constant and b.s2_numeric)
     {
-      cout<<"s1_constant and s2_numeric"<<'\n';
+      // cout<<"s1_constant and s2_numeric"<<'\n';
       m->m1=CreateNewMathOperation<Constant, Numeric, NumericConstant>(s1, s2, o);
     }
   else if(b.s1_numeric and b.s2_variable)
     {
-      cout<<"s1_numeric and s2_variable"<<'\n';
+      // cout<<"s1_numeric and s2_variable"<<'\n';
       m->m1=CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
     }
   else if(b.s1_numeric and b.s2_constant)
     {
-      cout<<"s1_numeric and s2_constant"<<'\n';
+      // cout<<"s1_numeric and s2_constant"<<'\n';
       m->m1=CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
     }
   else if(b.s1_numeric and b.s2_numeric)
     {
-      cout<<"s1_numeric and s2_numeric "<<'\n';
+      // cout<<"s1_numeric and s2_numeric "<<'\n';
       m->m1=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
       // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
       // simplified and performance of the calculation increased.
@@ -140,6 +140,11 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   EquationMath *mc12=new EquationMath;
   mc12->SetOperator(o);
   mc12->id=k;
+
+
+
+
+
   mc12->m11=Search(e, s1i);
   mc12->m21=Search(e, s2i);
   // mc12->m11=m1;
@@ -168,19 +173,29 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   //     else  mc12->next=next;
 
   //   }
-  mc12->m11->next=nullptr;
-  mc12->m21->next=nullptr;
-  // next->next=nullptr;
+
+  // mc12->m11->next=nullptr;
+  // mc12->m21->next=nullptr;
 
   if(size>3)
     {
+      cout<<"size>3 mc12->next=next "<<next<<'\n';
       mc12->next=next;
+      // mc12->m11->next=nullptr; //NO
+        // mc12->m21->next=nullptr;
     }
   else
     {
+      cout<<"size<3 mc12->next=nullptr"<<'\n';
       mc12->next=nullptr;
+      mc12->m21->next=nullptr;
+      // mc12->m11->next=nullptr;
       // next=nullptr;
     }
+
+
+
+
   // next->next=nullptr;
 
   // mc12->next=next;
@@ -247,42 +262,42 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
       mc->m1=CreateNewValueValueMathOperation(s1, s2, o, b);
       mc->next=next;
       mc->id=k;
-      cout<<"!b.s1_math and !b.s2_math "<<'\n';
+      // cout<<"!b.s1_math and !b.s2_math "<<'\n';
       return mc;
     }
   else if(b.s1_variable and b.s2_math)
     {
-      cout<<"s1_variable and s2_math"<<'\n';
+      // cout<<"s1_variable and s2_math"<<'\n';
       return NewMathValue<Variable, ValueEquationOperation>(s2, s1, o, k, e, next);
     }
   else if(b.s1_constant and b.s2_math)
     {
-      cout<<"s1_constant and s2_math"<<'\n';
+      // cout<<"s1_constant and s2_math"<<'\n';
       return NewMathValue<Constant, ValueEquationOperation>(s2, s1, o, k, e, next);
     }
   else if(b.s1_numeric and b.s2_math)
     {
-      cout<<"s1_numeric and s2_math"<<'\n';
+      // cout<<"s1_numeric and s2_math"<<'\n';
       return NewMathValue<Numeric, ValueEquationOperation>(s2, s1, o, k, e, next);
     }
   else if(b.s1_math and b.s2_variable)
     {
-      cout<<"s1_math and s2_variable "<<'\n';
+      // cout<<"s1_math and s2_variable "<<'\n';
       return NewMathValue<Variable, EquationOperationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_constant)
     {
-      cout<<"s1_math and s2_constant"<<'\n';
+      // cout<<"s1_math and s2_constant"<<'\n';
       return NewMathValue<Constant, EquationOperationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_numeric)
     {
-      cout<<"s1_math and s2_numeric"<<'\n';
+      // cout<<"s1_math and s2_numeric"<<'\n';
       return NewMathValue<Numeric, EquationOperationValue>(s1, s2, o, k, e, next);
     }
   else if(b.s1_math and b.s2_math)
     {
-      cout<<"s1_math and s2_math "<<'\n';
+      // cout<<"s1_math and s2_math "<<'\n';
       return CreateNewMathMath(s1, s2, o, k, e, next, equation.size());
     }
   else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math)
