@@ -17,14 +17,15 @@
 Equation *Search(Equation *m, const unsigned &i)
 {
   Equation *c=m;
-  cout<<"find "<<i<<'\n';
+  int ii=c->id;
+  // cout<<"find "<<i<<'\n';
   while(c!=nullptr)
     {
-      cout<<"find "<<i<<" now "<<c->id<<" "<<c->next<<'\n';
-      // cout<<"find "<<i<<"  "<<'\n';
+      // cout<<"find "<<i<<" now "<<c->id<<" "<<c->next<<'\n';
+      // cout<<"searching "<<i<<"  "<<'\n';
       if(c->id==i)
 	{
-	  cout<<"found"<<'\n';
+	  cout<<"found "<<i<<'\n';
 	  return c;
 	}
       c=c->next;
@@ -34,7 +35,7 @@ Equation *Search(Equation *m, const unsigned &i)
 }
 
 template<typename T, typename U>
-Equation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&c, Equation *&next)
+Equation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&c, Equation *&next, const unsigned &size)
 {
   cout<<"NewMathValue"<<'\n';
   Equation *e=new Equation;
@@ -47,64 +48,55 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   const double result=r->result;
   const double v_value=mc->v->GetValue();
 
-  // cout<<"mc->next "<<mc->next<<'\n';
-  // cout<<"r->next "<<r->next<<'\n';
-
   if(!isnan(result) and !isnan(v_value)) mc->CalculateResult(result);
   else  e->m1=r->m1;
   r->m1=nullptr;
   cout<<"delete "<<r<<'\n';
 
-  // if(r->next!=nullptr)
-  //   {
-  //     cout<<"r->next!=nullptr"<<'\n';
-  //     // mc->next=r->next;
-  //     e->next=r->next;
-  //   }
-  // else
-  //   {
-  //     cout<<"else"<<'\n';
-  //     // mc->next=next;
+
+  cout<<"IDS "<<k<<" "<<r->id<<" size "<<size<<" r->next "<<r->next<<'\n';
+
+  if(k>r->id)
+    {
+      cout<<"k>r->id "<<"e->next "<<e->next<<" next "<<next<<" next->next "<<next->next<<'\n';
+      // cout<<r->id<<'\n';
+      // cout<<r->next<<'\n';
+    }
+
+  if(k-r->id==1)
+    {
+      cout<<"k-r->id==1"<<'\n';
+      e->next=r->next;
+    }
+  else
+    {
+      cout<<"else k-r->id>1"<<'\n';
+      Equation *prev=Search(c, stoi(s1.substr(1, s1.size()))+1);
+
+      cout<<" "<<'\n';
+      cout<<"id "<<prev->id<<" "<<prev<<" "<<prev->next<<'\n';
+
+      if(r->id>0 and r->next!=nullptr)
+	{
+	  cout<<"id "<<r->id<<" "<<r<<" "<<r->next<<'\n';
+	  cout<<"id "<<r->next->id<<" "<<r->next<<" "<<r->next->next<<" "<<'\n';
+	  prev->next=r->next->next;
+	}
+      else
+	{
+	  cout<<"id "<<r->id<<" "<<r<<" "<<r->next<<'\n';
+	  prev->next=r->next;
+	}
+      cout<<" "<<'\n';
+
+      // next->next=nullptr;
       e->next=next;
-    // }
+    }
 
-
-  // cout<<"mc->next "<<mc->next<<'\n';
-
-  // r->next->next=mc->next;
-  // mc->next=r->next;
-  // Search(c, stoi(s1.substr(1, s1.size()))-1)->next=nullptr;
-  // mc=nullptr;
-
-      cout<<"IDS "<<k<<" "<<r->id<<'\n';
-      // if(k-r->id>1 and r->next!=nullptr)
-      if(k-r->id==1 and r->next==nullptr)
-	{
-	  cout<<"k-r->id==1 and r->next==nullptr"<<'\n';
-	  // r->next=next;
-	  // e->next=r->next;
-	}
-      if(k-r->id==1 and r->next!=nullptr)
-	{
-	  cout<<"k-r->id==1 and r->next!=nullptr"<<'\n';
-	  // r->next=next; // NONONONO
-	  e->next=r->next;
-	}
-
-      if(k-r->id>1 and r->next==nullptr)
-	{
-	  cout<<"k-r->id>1 and r->next==nullptr"<<'\n';
-	  // r->next=next; // NO
-	  // e->next=r->next; // NO
-	}
-      if(k-r->id>1 and r->next!=nullptr)
-	{
-	  cout<<"k-r->id>1 and r->next!=nullptr"<<'\n';
-	  // r->next=next;
-	  // e->next=r->next;
-	}
+  cout<<"Delete "<<r->id<<" r "<<r<<" r->next "<<r->next<<" "<<k<<'\n';
   delete mc;
   delete r;
+
   return e;
 }
 

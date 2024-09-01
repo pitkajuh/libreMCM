@@ -250,6 +250,7 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
   const string s2=equation[i+1];
   const string o=equation[i];
   const Bools b(s1, s2, data);
+  const unsigned size=equation.size();
 
   cout<<"Math operation "<<'\n';
   cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
@@ -268,37 +269,37 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
   else if(b.s1_variable and b.s2_math)
     {
       // cout<<"s1_variable and s2_math"<<'\n';
-      return NewMathValue<Variable, ValueEquationOperation>(s2, s1, o, k, e, next);
+      return NewMathValue<Variable, ValueEquationOperation>(s2, s1, o, k, e, next, size);
     }
   else if(b.s1_constant and b.s2_math)
     {
       // cout<<"s1_constant and s2_math"<<'\n';
-      return NewMathValue<Constant, ValueEquationOperation>(s2, s1, o, k, e, next);
+      return NewMathValue<Constant, ValueEquationOperation>(s2, s1, o, k, e, next, size);
     }
   else if(b.s1_numeric and b.s2_math)
     {
       // cout<<"s1_numeric and s2_math"<<'\n';
-      return NewMathValue<Numeric, ValueEquationOperation>(s2, s1, o, k, e, next);
+      return NewMathValue<Numeric, ValueEquationOperation>(s2, s1, o, k, e, next, size);
     }
   else if(b.s1_math and b.s2_variable)
     {
       // cout<<"s1_math and s2_variable "<<'\n';
-      return NewMathValue<Variable, EquationOperationValue>(s1, s2, o, k, e, next);
+      return NewMathValue<Variable, EquationOperationValue>(s1, s2, o, k, e, next, size);
     }
   else if(b.s1_math and b.s2_constant)
     {
       // cout<<"s1_math and s2_constant"<<'\n';
-      return NewMathValue<Constant, EquationOperationValue>(s1, s2, o, k, e, next);
+      return NewMathValue<Constant, EquationOperationValue>(s1, s2, o, k, e, next, size);
     }
   else if(b.s1_math and b.s2_numeric)
     {
       // cout<<"s1_math and s2_numeric"<<'\n';
-      return NewMathValue<Numeric, EquationOperationValue>(s1, s2, o, k, e, next);
+      return NewMathValue<Numeric, EquationOperationValue>(s1, s2, o, k, e, next, size);
     }
   else if(b.s1_math and b.s2_math)
     {
       // cout<<"s1_math and s2_math "<<'\n';
-      return CreateNewMathMath(s1, s2, o, k, e, next, equation.size());
+      return CreateNewMathMath(s1, s2, o, k, e, next, size);
     }
   else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math)
     {
