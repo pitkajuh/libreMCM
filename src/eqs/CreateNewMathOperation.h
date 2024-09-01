@@ -17,17 +17,18 @@
 Equation *Search(Equation *m, const unsigned &i)
 {
   Equation *c=m;
-  int ii=c->id;
-  // cout<<"find "<<i<<'\n';
+  // int ii=c->id;
+  cout<<"find "<<i<<'\n';
   while(c!=nullptr)
     {
       // cout<<"find "<<i<<" now "<<c->id<<" "<<c->next<<'\n';
-      // cout<<"searching "<<i<<"  "<<'\n';
+      // cout<<"searching "<<i<<" now "<<c->id<<'\n';
       if(c->id==i)
 	{
 	  cout<<"found "<<i<<'\n';
 	  return c;
 	}
+      // cout<<"Not found, next"<<'\n';
       c=c->next;
     }
   cout<<"Warning id "<<i<<" not found"<<'\n';
@@ -53,15 +54,12 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   r->m1=nullptr;
   cout<<"delete "<<r<<'\n';
 
+  // cout<<"IDS "<<k<<" "<<r->id<<" size "<<size<<" r->next "<<r->next<<'\n';
 
-  cout<<"IDS "<<k<<" "<<r->id<<" size "<<size<<" r->next "<<r->next<<'\n';
-
-  if(k>r->id)
-    {
-      cout<<"k>r->id "<<"e->next "<<e->next<<" next "<<next<<" next->next "<<next->next<<'\n';
-      // cout<<r->id<<'\n';
-      // cout<<r->next<<'\n';
-    }
+  // if(k>r->id)
+  //   {
+  //     cout<<"k>r->id "<<"e->next "<<e->next<<" next "<<next<<" next->next "<<next->next<<'\n';
+  //   }
 
   if(k-r->id==1)
     {
@@ -81,6 +79,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
 	  cout<<"id "<<r->id<<" "<<r<<" "<<r->next<<'\n';
 	  cout<<"id "<<r->next->id<<" "<<r->next<<" "<<r->next->next<<" "<<'\n';
 	  prev->next=r->next->next;
+	  cout<<""<<'\n';
 	}
       else
 	{
@@ -88,15 +87,12 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
 	  prev->next=r->next;
 	}
       cout<<" "<<'\n';
-
-      // next->next=nullptr;
       e->next=next;
     }
 
   cout<<"Delete "<<r->id<<" r "<<r<<" r->next "<<r->next<<" "<<k<<'\n';
   delete mc;
   delete r;
-
   return e;
 }
 

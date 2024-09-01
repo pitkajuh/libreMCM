@@ -141,10 +141,6 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   mc12->SetOperator(o);
   mc12->id=k;
 
-
-
-
-
   mc12->m11=Search(e, s1i);
   mc12->m21=Search(e, s2i);
   // mc12->m11=m1;
@@ -181,8 +177,14 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
     {
       cout<<"size>3 mc12->next=next "<<next<<'\n';
       mc12->next=next;
+
+      // cout<<" "<<'\n';
+      // cout<<"m11 "<<mc12->m11->id<<" "<<mc12->m11<<" "<<mc12->m11->next<<'\n';
+      // cout<<"m21 "<<mc12->m21->id<<" "<<mc12->m21<<" "<<mc12->m21->next<<'\n';
+      // cout<<" "<<'\n';
+
       // mc12->m11->next=nullptr; //NO
-        // mc12->m21->next=nullptr;
+      // mc12->m21->next=nullptr;
     }
   else
     {
@@ -323,7 +325,7 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
 	  e=Val2(e, equation, i, data, k, next);
 	  // e->next=next;
-	  cout<<"e="<<e<<" next "<<e->next<<'\n';
+	  cout<<e->id<<" e="<<e<<" next "<<e->next<<'\n';
 	  next=e;
 
 	  equation[i]="@"+to_string(k);
