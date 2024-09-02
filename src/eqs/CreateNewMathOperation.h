@@ -18,20 +18,45 @@ Equation *Search(Equation *m, const unsigned &i)
 {
   Equation *c=m;
   // int ii=c->id;
-  cout<<"find "<<i<<'\n';
+  // cout<<"find "<<i<<'\n';
   while(c!=nullptr)
     {
       // cout<<"find "<<i<<" now "<<c->id<<" "<<c->next<<'\n';
-      // cout<<"searching "<<i<<" now "<<c->id<<'\n';
+      // cout<<"searching "<<i<<" now "<<c<<'\n';
       if(c->id==i)
 	{
-	  cout<<"found "<<i<<'\n';
+	  // cout<<"found "<<i<<'\n';
 	  return c;
 	}
       // cout<<"Not found, next"<<'\n';
       c=c->next;
     }
   cout<<"Warning id "<<i<<" not found"<<'\n';
+  return nullptr;
+}
+
+Equation *Search2(Equation *m, Equation *f)
+{
+  Equation *c=m;
+  // cout<<"find "<<f<<'\n';
+
+  if(f==c)
+    {
+      // cout<<"return c;"<<'\n';
+      return c;
+    }
+
+  while(c!=nullptr)
+  // while(c!=f)
+    {
+      if(c->next==f)
+	{
+	  // cout<<"found "<<f<<" -> "<<c<<" "<<c->next<<'\n';
+	  return c;
+	}
+      c=c->next;
+    }
+  cout<<"Warning id "<<f<<" not found"<<'\n';
   return nullptr;
 }
 
@@ -52,7 +77,6 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   if(!isnan(result) and !isnan(v_value)) mc->CalculateResult(result);
   else  e->m1=r->m1;
   r->m1=nullptr;
-  cout<<"delete "<<r<<'\n';
 
   // cout<<"IDS "<<k<<" "<<r->id<<" size "<<size<<" r->next "<<r->next<<'\n';
 
@@ -63,18 +87,19 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
 
   if(k-r->id==1)
     {
-      cout<<"k-r->id==1"<<'\n';
+      cout<<"k-r->id==1 "<<k<<" "<<r->id<<'\n';
       e->next=r->next;
     }
   else
     {
-      cout<<"else k-r->id>1"<<'\n';
+      // cout<<"else k-r->id>1"<<'\n';
       Equation *prev=Search(c, stoi(s1.substr(1, s1.size()))+1);
 
       cout<<" "<<'\n';
       cout<<"id "<<prev->id<<" "<<prev<<" "<<prev->next<<'\n';
 
       if(r->id>0 and r->next!=nullptr)
+      // if(r->id>0)
 	{
 	  cout<<"id "<<r->id<<" "<<r<<" "<<r->next<<'\n';
 	  cout<<"id "<<r->next->id<<" "<<r->next<<" "<<r->next->next<<" "<<'\n';

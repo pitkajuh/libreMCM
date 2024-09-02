@@ -25,6 +25,42 @@ using std::cout;
 using std::stod;
 using std::stoi;
 
+void printeq(Equation *m)
+{
+  Equation *c=m;
+  // Equation *prev = nullptr, *next = nullptr;
+  cout<<"PRINTING"<<'\n';
+
+  //   while (c != nullptr) {
+
+
+
+
+
+  //   next = c->next;
+
+  //   // Reverse the node pointer for the current node
+  //   c->next = prev;
+
+  //   // Advance the pointer one position.
+  //   prev = c;
+
+  //   c = next;
+  //     cout<<c->id<<" "<<c<<" "<<c->next<<'\n';
+  // }
+
+
+  while(c!=nullptr)
+    {
+      // cout<<"find "<<i<<" now "<<c->id<<" "<<c->next<<'\n';
+      cout<<c->id<<" "<<c<<" "<<c->next<<'\n';
+
+      // cout<<"Not found, next"<<'\n';
+      c=c->next;
+    }
+  cout<<" "<<'\n';
+}
+
 void print_vector2(vector<string> vec)
 {
   int i=0;
@@ -120,18 +156,50 @@ EquationOperation *CreateNewValueValueMathOperation(const string &s1, const stri
   return m;
 }
 
+void Select(Equation *&e, Equation *&next, Equation *&m1, const unsigned &k, const unsigned &s1, EquationMath *&mc)
+{
+  cout<<" "<<'\n';
+  cout<<"Select "<<m1->id<<'\n';
+
+  if(s1>0)
+    {
+      cout<<"s1>0"<<'\n';
+      // cout<<m1->next->next->id<<" "<<m1->next->next<<" "<<m1->next->next->next<<'\n';
+      // cout<<m1->next->id<<" "<<m1->next<<" "<<m1->next->next<<'\n';
+      // cout<<m1->id<<" "<<m1<<" "<<m1->next<<'\n';
+
+      // cout<<"Setting "<<m1->next->next<<" next to "<<mc->next<<'\n';
+
+      mc->next=m1->next;
+      cout<<mc<<" "<<mc->next<<'\n';
+      // if(m1->next->id>m1->id) cout<<"m1->next->id>m1->id"<<'\n';
+      // Search2(e, m1);
+    }
+  else
+    {
+      cout<<"s1>0 else"<<'\n';
+      Search2(e, m1)->next=nullptr;
+      // auto aa=Search2(e, m1);
+      // cout<<aa<<" "<<aa->next<<" m1 "<<m1<<'\n';
+
+      // cout<<m1->id<<" "<<m1<<" "<<m1->next<<'\n';
+      // cout<<"e "<<e->id<<" "<<e<<" "<<e->next<<'\n';
+      // cout<<e->next->next<<'\n';
+      // m1->next=nullptr;
+      // cout<<"Setting "<<m1->next<<" next to "<<nullptr<<'\n';
+
+    }
+  // printeq(mc);
+  cout<<" "<<'\n';
+}
+
 Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&e, Equation *&next, const unsigned &size)
 {
   const unsigned s1i=stoi(s1.substr(1, s1.size()));
   const unsigned s2i=stoi(s2.substr(1, s2.size()));
-  // Equation *m1=Search(e, s1i);
-  // Equation *m2=Search(e, s2i);
+  Equation *m1=Search(e, s1i);
+  Equation *m2=Search(e, s2i);
 
-  // cout<<"next "<<next<<'\n';
-  // cout<<s1i<<" m1 "<<m1<<" m1->next "<<m1->next<<'\n';
-  // cout<<s2i<<" m2 "<<m2<<" m2->next "<<m2->next<<'\n';
-
-  // //     cout<<"m1 "<<m1<<" m2 "<<m2<<'\n';
   // const double result1=m1->result;
   // const double result2=m2->result;
   // const bool r1_null=isnan(result1);
@@ -141,66 +209,61 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   mc12->SetOperator(o);
   mc12->id=k;
 
-  mc12->m11=Search(e, s1i);
-  mc12->m21=Search(e, s2i);
-  // mc12->m11=m1;
-  // mc12->m21=m2;
-  // cout<<"mc12 "<<mc12<<'\n';
-
-  // if(s1i>s2i)
-  //   {
-  //     cout<<"m1 "<<m1->next<<" "<<'\n';
-  //     if((m1->next!=nullptr))
-  // 	{
-  // 	  mc12->next=m1->next;
-  // 	  // m1->next=nullptr;
-  // 	}
-  //     else mc12->next=next;
-
-  //   }
-  // else
-  //   {
-  //     cout<<"m2 "<<" "<<m2->next<<" "<<next<<'\n';
-  //     if((m2->next!=nullptr))
-  // 	{
-  // 	  mc12->next=m2->next;
-  // 	  // m2->next=nullptr;
-  // 	}
-  //     else  mc12->next=next;
-
-  //   }
-
-  // mc12->m11->next=nullptr;
-  // mc12->m21->next=nullptr;
-
   if(size>3)
     {
-      cout<<"size>3 mc12->next=next "<<next<<'\n';
-      mc12->next=next;
+      cout<<"size>3 mc12->next=next, size "<<size<<" "<<next<<" "<<s1<<" "<<s2<<'\n';
+      const unsigned delta=(s2i>s1i) ? s2i-s1i: s1i-s2i;
 
-      // cout<<" "<<'\n';
-      // cout<<"m11 "<<mc12->m11->id<<" "<<mc12->m11<<" "<<mc12->m11->next<<'\n';
-      // cout<<"m21 "<<mc12->m21->id<<" "<<mc12->m21<<" "<<mc12->m21->next<<'\n';
-      // cout<<" "<<'\n';
+      if(delta==1)
+	{
+	  if(s1i<s2i)
+	    {
+	      cout<<"s1i<s2i"<<'\n';
+	      // if(m1->next==nullptr)
+	      // 	{
 
-      // mc12->m11->next=nullptr; //NO
-      // mc12->m21->next=nullptr;
+	      // 	}
+	      // m2->;
+	      // cout<<"A,.uOE "<<Search2(e, m2)->id<<'\n';
+	      cout<<"m1 "<<m1<<" "<<m1->next<<'\n';
+	      cout<<"m2 "<<m2<<" "<<m2->next<<'\n';
+	      cout<<"Set m2->next to "<<m1->next<<'\n';
+	      cout<<"Set mc12->next to "<<m1->next<<'\n';
+	      // m2->next=m1->next;
+	      m2->next=nullptr;
+	      // mc12->next=m2->next;
+	      mc12->next=Search2(e, m2);
+	      mc12->next->next=nullptr;
+	    }
+	  else
+	    {
+	      cout<<"s1i>s2i"<<'\n';
+	      cout<<"Set m1->next to "<<m2->next<<'\n';
+	      cout<<"Set mc12->next to "<<m2->next<<'\n';
+	      // m1->next=m2->next;
+	      m1->next=nullptr;
+	      // mc12->next=m1->next;
+	      mc12->next=Search2(e, m1);
+	      mc12->next->next=nullptr;
+	    }
+	}
+      else
+	{
+	  cout<<"delta==1"<<'\n';
+	  Select(e, next, m1, k, s1i, mc12);
+	  Select(e, next, m2, k, s2i, mc12);
+      }
+      cout<<"mc12 "<<mc12<<" "<<mc12->next<<'\n';
     }
   else
     {
       cout<<"size<3 mc12->next=nullptr"<<'\n';
       mc12->next=nullptr;
-      mc12->m21->next=nullptr;
-      // mc12->m11->next=nullptr;
-      // next=nullptr;
+      // mc12->m21->next=nullptr;
     }
 
-
-
-
-  // next->next=nullptr;
-
-  // mc12->next=next;
+  mc12->m11=m1;
+  mc12->m21=m2;
 
   cout<<"mc12 "<<mc12<<" mc12->next "<<mc12->next<<" "<<size<<'\n';
   return mc12;
@@ -324,8 +387,10 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	{
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
 	  e=Val2(e, equation, i, data, k, next);
+
 	  // e->next=next;
 	  cout<<e->id<<" e="<<e<<" next "<<e->next<<'\n';
+	  printeq(e);
 	  next=e;
 
 	  equation[i]="@"+to_string(k);
