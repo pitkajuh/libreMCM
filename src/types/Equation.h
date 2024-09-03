@@ -120,6 +120,7 @@ class Equation: public EquationBase2
 {
 public:
   EquationOperation *m1=nullptr;
+  // Equation *m1=nullptr;
   Equation *next=nullptr;
 
   void Calculate()

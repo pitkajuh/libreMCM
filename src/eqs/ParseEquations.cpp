@@ -25,41 +25,6 @@ using std::cout;
 using std::stod;
 using std::stoi;
 
-void printeq(Equation *m)
-{
-  Equation *c=m;
-  // Equation *prev = nullptr, *next = nullptr;
-  cout<<"PRINTING"<<'\n';
-
-  //   while (c != nullptr) {
-
-
-
-
-
-  //   next = c->next;
-
-  //   // Reverse the node pointer for the current node
-  //   c->next = prev;
-
-  //   // Advance the pointer one position.
-  //   prev = c;
-
-  //   c = next;
-  //     cout<<c->id<<" "<<c<<" "<<c->next<<'\n';
-  // }
-
-
-  while(c!=nullptr)
-    {
-      // cout<<"find "<<i<<" now "<<c->id<<" "<<c->next<<'\n';
-      cout<<c->id<<" "<<c<<" "<<c->next<<'\n';
-
-      // cout<<"Not found, next"<<'\n';
-      c=c->next;
-    }
-  cout<<" "<<'\n';
-}
 
 void print_vector2(vector<string> vec)
 {
@@ -156,45 +121,11 @@ EquationOperation *CreateNewValueValueMathOperation(const string &s1, const stri
   return m;
 }
 
-void Select(Equation *&e, Equation *&next, Equation *&m1, const unsigned &k, const unsigned &s1, EquationMath *&mc)
-{
-  cout<<" "<<'\n';
-  cout<<"Select "<<m1->id<<'\n';
-
-  if(s1>0)
-    {
-      cout<<"s1>0"<<'\n';
-      // cout<<m1->next->next->id<<" "<<m1->next->next<<" "<<m1->next->next->next<<'\n';
-      // cout<<m1->next->id<<" "<<m1->next<<" "<<m1->next->next<<'\n';
-      // cout<<m1->id<<" "<<m1<<" "<<m1->next<<'\n';
-
-      // cout<<"Setting "<<m1->next->next<<" next to "<<mc->next<<'\n';
-
-      mc->next=m1->next;
-      cout<<mc<<" "<<mc->next<<'\n';
-      // if(m1->next->id>m1->id) cout<<"m1->next->id>m1->id"<<'\n';
-      // Search2(e, m1);
-    }
-  else
-    {
-      cout<<"s1>0 else"<<'\n';
-      Search2(e, m1)->next=nullptr;
-      // auto aa=Search2(e, m1);
-      // cout<<aa<<" "<<aa->next<<" m1 "<<m1<<'\n';
-
-      // cout<<m1->id<<" "<<m1<<" "<<m1->next<<'\n';
-      // cout<<"e "<<e->id<<" "<<e<<" "<<e->next<<'\n';
-      // cout<<e->next->next<<'\n';
-      // m1->next=nullptr;
-      // cout<<"Setting "<<m1->next<<" next to "<<nullptr<<'\n';
-
-    }
-  // printeq(mc);
-  cout<<" "<<'\n';
-}
-
 Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&e, Equation *&next, const unsigned &size)
 {
+  EquationMath *mc12=new EquationMath;
+  mc12->SetOperator(o);
+  mc12->id=k;
   const unsigned s1i=stoi(s1.substr(1, s1.size()));
   const unsigned s2i=stoi(s2.substr(1, s2.size()));
   Equation *m1=Search(e, s1i);
@@ -205,10 +136,6 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   // const bool r1_null=isnan(result1);
   // const bool r2_null=isnan(result2);
 
-  EquationMath *mc12=new EquationMath;
-  mc12->SetOperator(o);
-  mc12->id=k;
-
   if(size>3)
     {
       cout<<"size>3 mc12->next=next, size "<<size<<" "<<next<<" "<<s1<<" "<<s2<<'\n';
@@ -216,31 +143,78 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 
       if(delta==1)
 	{
+	  cout<<"delta==1"<<'\n';
 	  if(s1i<s2i)
 	    {
 	      cout<<"s1i<s2i"<<'\n';
+	      cout<<"find "<<FindPrevious(e, m1)<<'\n';
+	      cout<<"find "<<FindPrevious(e, m2)<<'\n';
 	      // if(m1->next==nullptr)
 	      // 	{
+	      // 	  // Remove last node from the list by setting ->next of the second last node to nullptr.
+	      // 	  cout<<"m1->next==nullptr m2="<<m2<<" "<<m2->next<<" m1 is "<<m1<<" "<<m1->next<<'\n';
 
+	      // 	  // These are equal.
+	      // 	  // m2->next=m1->next;
+	      // 	  // m2->next=nullptr;
 	      // 	}
-	      // m2->;
-	      // cout<<"A,.uOE "<<Search2(e, m2)->id<<'\n';
-	      cout<<"m1 "<<m1<<" "<<m1->next<<'\n';
-	      cout<<"m2 "<<m2<<" "<<m2->next<<'\n';
-	      cout<<"Set m2->next to "<<m1->next<<'\n';
-	      cout<<"Set mc12->next to "<<m1->next<<'\n';
+	      // else
+	      // 	{
+	      // 	  cout<<"WARNING, m1->next!=nullptr"<<'\n';
+	      // 	}
+
+	      printeq(mc12);
+	      // Remove link from m2 to m1.
+	      m2->next=m1->next;
+	      // Remove link from next node to m2.
+	      if(k-s2i>1) // Maybe comparing ids is not the proper way to check for next node?
+		{
+		  // Find the next node.
+		  cout<<"next node is "<<Search2(e, m2)<<'\n';
+		  mc12->next=Search2(e, m2);
+		}
+	      else
+		{
+		  mc12->next=m2->next;
+		}
+	      printeq(mc12);
+	      // if(k-s2i==1)
+	      // 	{
+	      // 	  cout<<"k-s2i==1 k="<<k<<" s2i="<<s2i<<" "<<Search2(e, m2)<<" "<<Search2(e, m2)->next<<'\n';
+	      // 	  cout<<"k-s2i==1 k="<<k<<" s2i="<<s2i<<" "<<Search2(e, m1)<<" "<<Search2(e, m1)->next<<'\n';
+	      // 	  // There is no next node.
+	      // 	  // mc12->next=m1->next;
+	      // 	}
+	      // else
+	      // 	{
+	      // 	  cout<<"k-s2i>1"<<'\n';
+	      // 	}
+
+
+
 	      // m2->next=m1->next;
-	      m2->next=nullptr;
-	      // mc12->next=m2->next;
-	      mc12->next=Search2(e, m2);
-	      mc12->next->next=nullptr;
+	      // m1->
+
+
+	      // printeq(mc12);
+	      // m2->next=nullptr;
+	      // printeq(mc12);
+	      // cout<<"m2 "<<m2<<" m2->next "<<m2->next<<" to nullptr"<<'\n';
+	      // // mc12->next=m2->next;
+	      // mc12->next=Search2(e, m2);
+	      // printeq(mc12);
+	      // cout<<"mc12->next->next "<<mc12->next->next<<'\n';
+	      // mc12->next->next=nullptr;
+	      // cout<<"mc12->next->next now "<<mc12->next->next<<'\n';
+	      // printeq(mc12);
 	    }
 	  else
 	    {
 	      cout<<"s1i>s2i"<<'\n';
-	      cout<<"Set m1->next to "<<m2->next<<'\n';
-	      cout<<"Set mc12->next to "<<m2->next<<'\n';
+	      // cout<<"Set m1->next to "<<m2->next<<'\n';
+	      // cout<<"Set mc12->next to "<<m2->next<<'\n';
 	      // m1->next=m2->next;
+	      cout<<"m1 "<<m1<<" m1->next "<<m1->next<<" to nullptr"<<'\n';
 	      m1->next=nullptr;
 	      // mc12->next=m1->next;
 	      mc12->next=Search2(e, m1);
@@ -249,9 +223,11 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 	}
       else
 	{
-	  cout<<"delta==1"<<'\n';
-	  Select(e, next, m1, k, s1i, mc12);
-	  Select(e, next, m2, k, s2i, mc12);
+	  cout<<"delta==1 else"<<'\n';
+	  Select<EquationMath>(e, next, m1, k, s1i, mc12);
+	  printeq(mc12);
+	  Select<EquationMath>(e, next, m2, k, s2i, mc12);
+	  printeq(mc12);
       }
       cout<<"mc12 "<<mc12<<" "<<mc12->next<<'\n';
     }
@@ -267,46 +243,6 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 
   cout<<"mc12 "<<mc12<<" mc12->next "<<mc12->next<<" "<<size<<'\n';
   return mc12;
-
-  // if(!r1_null and !r2_null)
-  //   {
-  //     // cout<<"!r1_null and !r2_null"<<'\n';
-  //     // EquationOp *mc2=new EquationOp;
-  //     // // mc2->next=next;
-  //     // mc2->id=k;
-  //     // mc2->SetOperator(o);
-  //     // mc2->m1=nullptr;
-  //     // mc2->m2=nullptr;
-  //     // mc2->result=mc2->math_operator->Calculate1(result1, result2);
-  //     // cout<<"!r1_null and !r2_null result "<<mc2->result<<'\n';
-  //     // delete m1;
-  //     // delete m2;
-  //     // return mc2;
-  //   }
-  // else
-  //   {
-  //     cout<<"else1 "<<k<<'\n';
-  //     EquationMath *mc12=new EquationMath;
-  //     // EquationOp *mc12=new EquationOp;
-
-  //     // if(s1i>s2i)
-  //     // 	{
-  //     // 	  if((m1->next!=nullptr)) mc12->next=m1->next;
-  //     // 	  else mc12->next=next;
-  //     // 	}
-  //     // else
-  //     // 	{
-  //     // 	  if((m2->next!=nullptr)) mc12->next=m2->next;
-  //     // 	  else  mc12->next=next;
-  //     // 	}
-  //     // cout<<"mc12->next "<<mc12->next<<'\n';
-  //     // mc12->id=k;
-  //     mc12->SetOperator(o);
-  //     mc12->m1=m1;
-  //     mc12->m2=m2;
-  //     // cout<<"mc12 "<<mc12<<'\n';
-  //     return mc12;
-  //   }
 }
 
 Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, const Data &data, const unsigned &k, Equation *&next)
@@ -326,6 +262,7 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
     {
       Equation *mc=new Equation;
       mc->m1=CreateNewValueValueMathOperation(s1, s2, o, b);
+      // Equation *mc=CreateNewValueValueMathOperation(s1, s2, o, b);
       mc->next=next;
       mc->id=k;
       // cout<<"!b.s1_math and !b.s2_math "<<'\n';
