@@ -135,7 +135,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   // const double result2=m2->result;
   // const bool r1_null=isnan(result1);
   // const bool r2_null=isnan(result2);
-
+  printeq(e);
   if(size>3)
     {
       cout<<"size>3 mc12->next=next, size "<<size<<" "<<next<<" "<<s1<<" "<<s2<<'\n';
@@ -147,21 +147,6 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 	  if(s1i<s2i)
 	    {
 	      cout<<"s1i<s2i"<<'\n';
-	      cout<<"find "<<FindPrevious(e, m1)<<'\n';
-	      cout<<"find "<<FindPrevious(e, m2)<<'\n';
-	      // if(m1->next==nullptr)
-	      // 	{
-	      // 	  // Remove last node from the list by setting ->next of the second last node to nullptr.
-	      // 	  cout<<"m1->next==nullptr m2="<<m2<<" "<<m2->next<<" m1 is "<<m1<<" "<<m1->next<<'\n';
-
-	      // 	  // These are equal.
-	      // 	  // m2->next=m1->next;
-	      // 	  // m2->next=nullptr;
-	      // 	}
-	      // else
-	      // 	{
-	      // 	  cout<<"WARNING, m1->next!=nullptr"<<'\n';
-	      // 	}
 
 	      printeq(mc12);
 	      // Remove link from m2 to m1.
@@ -178,55 +163,35 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 		  mc12->next=m2->next;
 		}
 	      printeq(mc12);
-	      // if(k-s2i==1)
-	      // 	{
-	      // 	  cout<<"k-s2i==1 k="<<k<<" s2i="<<s2i<<" "<<Search2(e, m2)<<" "<<Search2(e, m2)->next<<'\n';
-	      // 	  cout<<"k-s2i==1 k="<<k<<" s2i="<<s2i<<" "<<Search2(e, m1)<<" "<<Search2(e, m1)->next<<'\n';
-	      // 	  // There is no next node.
-	      // 	  // mc12->next=m1->next;
-	      // 	}
-	      // else
-	      // 	{
-	      // 	  cout<<"k-s2i>1"<<'\n';
-	      // 	}
-
-
-
-	      // m2->next=m1->next;
-	      // m1->
-
-
-	      // printeq(mc12);
-	      // m2->next=nullptr;
-	      // printeq(mc12);
-	      // cout<<"m2 "<<m2<<" m2->next "<<m2->next<<" to nullptr"<<'\n';
-	      // // mc12->next=m2->next;
-	      // mc12->next=Search2(e, m2);
-	      // printeq(mc12);
-	      // cout<<"mc12->next->next "<<mc12->next->next<<'\n';
-	      // mc12->next->next=nullptr;
-	      // cout<<"mc12->next->next now "<<mc12->next->next<<'\n';
-	      // printeq(mc12);
 	    }
 	  else
 	    {
 	      cout<<"s1i>s2i"<<'\n';
-	      // cout<<"Set m1->next to "<<m2->next<<'\n';
-	      // cout<<"Set mc12->next to "<<m2->next<<'\n';
-	      // m1->next=m2->next;
-	      cout<<"m1 "<<m1<<" m1->next "<<m1->next<<" to nullptr"<<'\n';
-	      m1->next=nullptr;
-	      // mc12->next=m1->next;
-	      mc12->next=Search2(e, m1);
-	      mc12->next->next=nullptr;
+
+	      printeq(mc12);
+	      // Remove link from m1 to m2.
+	      m1->next=m2->next;
+	      // Remove link from next node to m1.
+	      if(k-s1i>1) // Maybe comparing ids is not the proper way to check for next node?
+		{
+		  // Find the next node.
+		  cout<<"next node is "<<Search2(e, m1)<<'\n';
+		  mc12->next=Search2(e, m1);
+		}
+	      else
+		{
+		  mc12->next=m1->next;
+		}
+	      printeq(mc12);
+
 	    }
 	}
       else
 	{
 	  cout<<"delta==1 else"<<'\n';
-	  Select<EquationMath>(e, next, m1, k, s1i, mc12);
+	  Select<Equation>(e, next, m1, k, s1i, mc12);
 	  printeq(mc12);
-	  Select<EquationMath>(e, next, m2, k, s2i, mc12);
+	  Select<Equation>(e, next, m2, k, s2i, mc12);
 	  printeq(mc12);
       }
       cout<<"mc12 "<<mc12<<" "<<mc12->next<<'\n';

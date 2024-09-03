@@ -14,6 +14,22 @@
 #include "../types/MathOperation.h"
 #include "../types/Equation.h"
 
+void printeq(Equation *m)
+{
+  Equation *c=m;
+  cout<<"PRINTING"<<'\n';
+
+  while(c!=nullptr)
+    {
+      // cout<<"find "<<i<<" now "<<c->id<<" "<<c->next<<'\n';
+      cout<<c->id<<" "<<c<<" "<<c->next<<'\n';
+
+      // cout<<"Not found, next"<<'\n';
+      c=c->next;
+    }
+  cout<<" "<<'\n';
+}
+
 Equation *Search(Equation *m, const unsigned &i)
 {
   Equation *c=m;
@@ -73,88 +89,76 @@ Equation *FindPrevious(Equation *m, Equation *f)
   return nullptr;
 }
 
-// void Select(Equation *&e, Equation *&next, Equation *&m1, const unsigned &k, const unsigned &s1, EquationMath *&mc)
+// void Select(Equation *&e, Equation *&next, Equation *&m, const unsigned &k, const unsigned &s1, EquationMath *&mc)
 template<typename T>
-void Select(Equation *&e, Equation *&next, Equation *&m1, const unsigned &k, const unsigned &s1, T*&mc)
+void Select(T *&e, Equation *&next, Equation *&m, const unsigned &k, const unsigned &s1, EquationMath*&mc)
 {
   cout<<" "<<'\n';
-  cout<<"Select "<<m1->id<<'\n';
+  cout<<"Select "<<m->id<<'\n';
+  // printeq(mc);
+  // printeq(m);
+  // printeq(e);
+
+  // if(m->next!=nullptr)
+  //   {
+  //     cout<<"m->next!=nullptr "<<m->next<<'\n';
+  //     cout<<"setting "<<m->next<<" to "<<FindPrevious(e, m)->next<<'\n';
+  //     // mc->next=Search2(e, m)->next;
+
+  //     // m->next=FindPrevious(e, m)->next;
+  //     // mc->next=m->next;
+
+  //   }
+  // else
+  //   {
+  //     cout<<"m->next==nullptr "<<m->next<<" "<<Search2(e, m)<<'\n';
+  //     // Search2(e, m)->next=nullptr;
+  //     // mc->next=Search2(e, m);
+  //   }
 
   if(s1>0)
     {
       cout<<"s1>0"<<'\n';
-      // cout<<m1->next->next->id<<" "<<m1->next->next<<" "<<m1->next->next->next<<'\n';
-      // cout<<m1->next->id<<" "<<m1->next<<" "<<m1->next->next<<'\n';
-      cout<<m1->id<<" "<<m1<<" "<<m1->next<<'\n';
-
-      // cout<<"Setting "<<m1->next->next<<" next to "<<mc->next<<'\n';
 
       if(k-s1==1)
 	{
 	  // Change next only from one direction.
 	  cout<<"k-s1==1"<<'\n';
 
-	  cout<<Search2(e, m1)->next<<'\n';
-	  mc->next=Search2(e, m1)->next;
+	  cout<<Search2(e, m)->next<<'\n';
+	  mc->next=Search2(e, m)->next;
 	}
       else
 	{
-
-
-	  if(m1->next==nullptr)
+	  if(m->next==nullptr)
 	    {
 	      // Change next only from one direction.
-	      cout<<"m1->next==nullptr"<<'\n';
-	      cout<<Search2(e, m1)<<" "<<Search2(e, m1)->next<<'\n';
-	      Search2(e, m1)->next=nullptr;
+	      cout<<"m->next==nullptr"<<'\n';
+	      cout<<Search2(e, m)<<" "<<Search2(e, m)->next<<'\n';
+	      Search2(e, m)->next=nullptr;
+	      cout<<mc<<" "<<mc->next<<'\n';
+	      // mc->next=m->next;
+	      // mc->next=nullptr;
+	      printeq(mc);
 	    }
 	  else
 	    {
 	    // Change next from two directions.
-	      cout<<"m1->next==nullptr else"<<'\n';
+	      cout<<"m->next==nullptr else"<<'\n';
 	  }
-
-	  cout<<"s1 "<<s1<<" m1 "<<m1<<" "<<m1->next<<'\n';
-	  // cout<<"Aeo "<<Search2(e, m1)->next<<'\n';
-	  // mc->next=m1->next;
-	  // cout<<mc<<" "<<mc->next<<'\n';
+	  cout<<"s1 "<<s1<<" m "<<m<<" "<<m->next<<'\n';
 	}
-      // if(m1->next->id>m1->id) cout<<"m1->next->id>m1->id"<<'\n';
-      // Search2(e, m1);
     }
   else
     {
       cout<<"s1>0 else"<<'\n';
-      Search2(e, m1)->next=nullptr;
-      // auto aa=Search2(e, m1);
-      // cout<<aa<<" "<<aa->next<<" m1 "<<m1<<'\n';
-
-      // cout<<m1->id<<" "<<m1<<" "<<m1->next<<'\n';
-      // cout<<"e "<<e->id<<" "<<e<<" "<<e->next<<'\n';
-      // cout<<e->next->next<<'\n';
-      // m1->next=nullptr;
-      // cout<<"Setting "<<m1->next<<" next to "<<nullptr<<'\n';
-
+      Search2(e, m)->next=nullptr;
     }
   // printeq(mc);
   cout<<" "<<'\n';
 }
 
-void printeq(Equation *m)
-{
-  Equation *c=m;
-  cout<<"PRINTING"<<'\n';
 
-  while(c!=nullptr)
-    {
-      // cout<<"find "<<i<<" now "<<c->id<<" "<<c->next<<'\n';
-      cout<<c->id<<" "<<c<<" "<<c->next<<'\n';
-
-      // cout<<"Not found, next"<<'\n';
-      c=c->next;
-    }
-  cout<<" "<<'\n';
-}
 
 
 template<typename T, typename U>
