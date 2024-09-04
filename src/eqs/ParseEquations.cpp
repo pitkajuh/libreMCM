@@ -148,7 +148,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 	    {
 	      cout<<"s1i<s2i"<<'\n';
 
-	      printeq(mc12);
+	      // printeq(mc12);
 	      // Remove link from m2 to m1.
 	      m2->next=m1->next;
 	      // Remove link from next node to m2.
@@ -170,7 +170,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 	    {
 	      cout<<"s1i>s2i"<<'\n';
 
-	      printeq(mc12);
+	      // printeq(mc12);
 	      // Remove link from m1 to m2.
 	      m1->next=m2->next;
 	      // Remove link from next node to m1.
@@ -182,9 +182,10 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 		}
 	      else
 		{
+		  cout<<"k-s1i>1 else "<<'\n';
 		  mc12->next=m1->next;
 		}
-	      printeq(mc12);
+	      // printeq(mc12);
 	    }
 	}
       else
@@ -194,18 +195,20 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 	  if(s1i>s2i)
 	    {
 	      Select(e, next, m2, k, s2i, mc12);
-	      printeq(mc12);
+	      // mc12->next=m2->next;
+	      // printeq(mc12);
 	      Select(e, next, m1, k, s1i, mc12);
 	      printeq(mc12);
-	      mc12->next=m1->next;
+	      // mc12->next=m1->next;
 	    }
 	  else
 	    {
 	      Select(e, next, m1, k, s1i, mc12);
-	      printeq(mc12);
+	      // mc12->next=m1->next;
+	      // printeq(mc12);
 	      Select(e, next, m2, k, s2i, mc12);
 	      printeq(mc12);
-	      mc12->next=m2->next;
+	      // mc12->next=m2->next;
 	    }
       }
       cout<<"mc12 "<<mc12<<" "<<mc12->next<<'\n';
@@ -218,7 +221,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 
   mc12->m11=m1;
   mc12->m21=m2;
-
+  printeq(mc12);
   cout<<"mc12 "<<mc12<<" mc12->next "<<mc12->next<<" "<<size<<'\n';
   return mc12;
 }
