@@ -76,40 +76,27 @@ Equation *Search2(Equation *m, Equation *f)
   return nullptr;
 }
 
-Equation *FindPrevious(Equation *m, Equation *f)
-{
-  Equation *c=m;
+// Equation *FindPrevious(Equation *m, Equation *f)
+// {
+//   Equation *c=m;
 
-  while(c!=nullptr)
+//   while(c!=nullptr)
+//     {
+//       if(c==f->next) return c;
+//       c=c->next;
+//     }
+
+//   return nullptr;
+// }
+
+void Select(Equation *&e, Equation *&m, EquationMath *&mc)
+{
+  if(e==m) mc->next=Search2(e, m)->next;
+  else
     {
-      if(c==f->next) return c;
-      c=c->next;
+      mc->next=e;
+      Search2(e, m)->next=m->next;
     }
-
-  return nullptr;
-}
-
-void Select(Equation *&e, Equation *&next, Equation *&m, const unsigned &k, const unsigned &s1, EquationMath *&mc)
-{
-  cout<<" "<<'\n';
-  cout<<"Select "<<m->id<<'\n';
-  cout<<"FindPrev(e, m) "<<FindPrevious(e, m)<<" m->next "<<m->next<<'\n';
-  cout<<"Search2(e, m) "<<Search2(e, m)<<" m->next "<<m->next<<'\n';
-  cout<<"New head is "<<mc->id<<" "<<mc<<" "<<mc->next<<" old head is "<<e->id<<" "<<e<<" "<<e->next<<'\n';
-
-  if(m!=e) cout<<"m!=e "<<m->id<<" "<<e->id<<'\n';
-  else cout<<"m==e "<<m->id<<" "<<e->id<<'\n';
-  cout<<"e "<<e<<" m "<<m<<'\n';
-  Equation *a=Search2(e, m);
-
-
-  if(m!=e) mc->next=e;
-
-  if(k-s1==1)  mc->next=Search2(e, m)->next;
-  else a->next=m->next;
-
-  printeq(mc);
-  cout<<" "<<'\n';
 }
 
 template<typename T, typename U>
