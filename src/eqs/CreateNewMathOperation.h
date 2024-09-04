@@ -89,9 +89,7 @@ Equation *FindPrevious(Equation *m, Equation *f)
   return nullptr;
 }
 
-// void Select(Equation *&e, Equation *&next, Equation *&m, const unsigned &k, const unsigned &s1, EquationMath *&mc)
-template<typename T>
-void Select(T *&e, Equation *&next, Equation *&m, const unsigned &k, const unsigned &s1, EquationMath*&mc)
+void Select(Equation *&e, Equation *&next, Equation *&m, const unsigned &k, const unsigned &s1, EquationMath *&mc)
 {
   cout<<" "<<'\n';
   cout<<"Select "<<m->id<<'\n';
@@ -130,22 +128,32 @@ void Select(T *&e, Equation *&next, Equation *&m, const unsigned &k, const unsig
 	}
       else
 	{
-	  if(m->next==nullptr)
+	  cout<<"k-s1>1"<<'\n';
+
+	  cout<<Search2(e, m)->id<<" "<<k<<'\n';
+
+	  if(k-Search2(e, m)->id==1)
 	    {
+	      cout<<"k-Search2(e, m)->id==1"<<'\n';
+	    }
+
+	  // if(m->next==nullptr)
+	  //   {
 	      // Change next only from one direction.
-	      cout<<"m->next==nullptr"<<'\n';
-	      cout<<Search2(e, m)<<" "<<Search2(e, m)->next<<'\n';
-	      Search2(e, m)->next=nullptr;
+	      cout<<"m->next==nullptr "<<k<<" "<<s1<<'\n';
+	      cout<<Search2(e, m)<<" "<<Search2(e, m)->next<<" find prev node "<<FindPrevious(e, m)<<" "<<'\n';
+	      // Search2(e, m)->next=nullptr;
+	      Search2(e, m)->next=m->next;
 	      cout<<mc<<" "<<mc->next<<'\n';
 	      // mc->next=m->next;
 	      // mc->next=nullptr;
 	      printeq(mc);
-	    }
-	  else
-	    {
-	    // Change next from two directions.
-	      cout<<"m->next==nullptr else"<<'\n';
-	  }
+	  //   }
+	  // else
+	  //   {
+	  //   // Change next from two directions.
+	  //     cout<<"m->next==nullptr else"<<'\n';
+	  // }
 	  cout<<"s1 "<<s1<<" m "<<m<<" "<<m->next<<'\n';
 	}
     }
