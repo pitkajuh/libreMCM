@@ -101,6 +101,18 @@ void Select(Equation *&e, Equation *&next, Equation *&m, const unsigned &k, cons
   else cout<<"m==e "<<m->id<<" "<<e->id<<'\n';
   cout<<"e "<<e<<" m "<<m<<'\n';
   auto a=Search2(e, m);
+
+
+  if(m!=e) mc->next=e;
+  // // else mc->next=a;
+  if(k-s1==1)
+    {
+  // 	  // Change next only from one direction.
+  // 	  cout<<"k-s1==1"<<'\n';
+
+  // 	  cout<<Search2(e, m)->next<<'\n';
+      mc->next=Search2(e, m)->next;
+    }
   if(m->next==nullptr)
     {
       cout<<"m->next==nullptr "<<m->next<<'\n';
@@ -119,19 +131,20 @@ void Select(Equation *&e, Equation *&next, Equation *&m, const unsigned &k, cons
     }
   else
     {
-      cout<<"else m->next!=nullptr "<<m->next<<" "<<Search2(e, m)<<'\n';
+      cout<<"else m->next!=nullptr "<<m<<" "<<m->next<<" "<<Search2(e, m)<<'\n';
       // auto a=FindPrevious(e, m);
       // auto a=Search2(e, m);
       // cout<<"Setting "<<mc->id<<" "<<mc<<" "<<mc->next<<" mc->next to "<<""<<'\n';
       cout<<"Search2(e, m) "<<a<<" "<<a->next<<" a->next="<<m->next<<'\n';
-      a=m->next;
+      // a=m->next;
+      a->next=m->next;
       // mc->next=a;
 
       // FindPrevious(e, m)=m->next;
       // Search2(e, m)->next=nullptr;
       // mc->next=Search2(e, m);
     }
-  mc->next=a;
+  // mc->next=a;
 
 
 
