@@ -121,6 +121,33 @@ EquationOperation *CreateNewValueValueMathOperation(const string &s1, const stri
   return m;
 }
 
+void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned &id, const unsigned &nodeid)
+{
+  node2->next=node1->next;
+
+  if(id-nodeid>1) newnode->next=Search2(head, node2);
+  else newnode->next=node2->next;
+}
+
+void CreateNewNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned &id, const unsigned &nodeid1, const unsigned &nodeid2)
+{
+  if(node1<node2) ChangeHeadNode(head, newnode, node1, node2, id, nodeid2);
+  else ChangeHeadNode(head, newnode, node2, node1, id, nodeid1);
+}
+
+void SelectNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2)
+{
+  Select(head, node2, newnode);
+  Select(head, node1, newnode);
+  printeq(newnode);
+}
+
+void CreateNewNode2(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned &id, const unsigned &nodeid1, const unsigned &nodeid2)
+{
+  if(nodeid1>nodeid2) SelectNode(head, newnode, node1, node2);
+  else SelectNode(head, newnode, node2, node1);
+}
+
 Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&e, Equation *&next, const unsigned &size)
 {
   EquationMath *mc12=new EquationMath;
@@ -143,57 +170,12 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   if(delta==1)
     {
       cout<<"delta==1"<<'\n';
-      if(s1i<s2i)
-	{
-	  cout<<"s1i<s2i"<<'\n';
-
-	  m2->next=m1->next;
-
-	  if(k-s2i>1) // Maybe comparing ids is not the proper way to check for next node?
-	    {
-	      cout<<"k-s2i>1"<<'\n';
-	      mc12->next=Search2(e, m2);
-	    }
-	  else
-	    {
-	      cout<<"k-s2i>1 else"<<'\n';
-	      mc12->next=m2->next;
-	    }
-	}
-      else
-	{
-	  cout<<"s1i>s2i"<<'\n';
-
-	  m1->next=m2->next;
-
-	  if(k-s1i>1) // Maybe comparing ids is not the proper way to check for next node?
-	    {
-	      cout<<"next node is "<<Search2(e, m1)<<'\n';
-	      mc12->next=Search2(e, m1);
-	    }
-	  else
-	    {
-	      cout<<"k-s1i>1 else "<<'\n';
-	      mc12->next=m1->next;
-	    }
-	}
+      CreateNewNode(e, mc12, m1, m2, k, s1i, s2i);
     }
   else
     {
       cout<<"delta==1 else"<<'\n';
-
-      if(s1i>s2i)
-	{
-	  Select(e, m2, mc12);
-	  Select(e, m1, mc12);
-	  printeq(mc12);
-	}
-      else
-	{
-	  Select(e, m1, mc12);
-	  Select(e, m2, mc12);
-	  printeq(mc12);
-	}
+      CreateNewNode2(e, mc12, m1, m2, k, s1i, s2i);
     }
 
   mc12->m11=m1;

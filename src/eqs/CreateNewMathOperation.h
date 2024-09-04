@@ -30,7 +30,7 @@ void printeq(Equation *m)
   cout<<" "<<'\n';
 }
 
-Equation *Search(Equation *m, const unsigned &i)
+Equation *Search(Equation *&m, const unsigned &i)
 {
   Equation *c=m;
   // int ii=c->id;
@@ -51,7 +51,7 @@ Equation *Search(Equation *m, const unsigned &i)
   return nullptr;
 }
 
-Equation *Search2(Equation *m, Equation *f)
+Equation *Search2(Equation *&m, Equation *&f)
 {
   Equation *c=m;
   // cout<<"find "<<f<<'\n';
@@ -89,13 +89,13 @@ Equation *Search2(Equation *m, Equation *f)
 //   return nullptr;
 // }
 
-void Select(Equation *&e, Equation *&m, EquationMath *&mc)
+void Select(Equation *&head, Equation *&node, EquationMath *&newnode)
 {
-  if(e==m) mc->next=Search2(e, m)->next;
+  if(head==node) newnode->next=Search2(head, node)->next;
   else
     {
-      mc->next=e;
-      Search2(e, m)->next=m->next;
+      newnode->next=head;
+      Search2(head, node)->next=node->next;
     }
 }
 
