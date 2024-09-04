@@ -100,126 +100,17 @@ void Select(Equation *&e, Equation *&next, Equation *&m, const unsigned &k, cons
   if(m!=e) cout<<"m!=e "<<m->id<<" "<<e->id<<'\n';
   else cout<<"m==e "<<m->id<<" "<<e->id<<'\n';
   cout<<"e "<<e<<" m "<<m<<'\n';
-  auto a=Search2(e, m);
+  Equation *a=Search2(e, m);
 
 
   if(m!=e) mc->next=e;
-  // // else mc->next=a;
-  if(k-s1==1)
-    {
-  // 	  // Change next only from one direction.
-  // 	  cout<<"k-s1==1"<<'\n';
 
-  // 	  cout<<Search2(e, m)->next<<'\n';
-      mc->next=Search2(e, m)->next;
-    }
-  if(m->next==nullptr)
-    {
-      cout<<"m->next==nullptr "<<m->next<<'\n';
-      // cout<<"setting "<<m->next<<" to "<<FindPrevious(e, m)->next<<'\n';
-      // FindPrevious(e, m)->next=m->next;
-      // FindPrevious(e, m)->next=nullptr;
-      // Search2(e, m)->next=nullptr;
-      // auto a=Search2(e, m);
-      // cout<<"Setting "<<mc->id<<" "<<mc<<" "<<mc->next<<" mc->next to "<<""<<'\n';
-      a->next=nullptr;
-      // mc->next=a;
-      // mc->next=Search2(e, m)->next;
-      // m->next=FindPrevious(e, m)->next;
-      // mc->next=m->next;
+  if(k-s1==1)  mc->next=Search2(e, m)->next;
+  else a->next=m->next;
 
-    }
-  else
-    {
-      cout<<"else m->next!=nullptr "<<m<<" "<<m->next<<" "<<Search2(e, m)<<'\n';
-      // auto a=FindPrevious(e, m);
-      // auto a=Search2(e, m);
-      // cout<<"Setting "<<mc->id<<" "<<mc<<" "<<mc->next<<" mc->next to "<<""<<'\n';
-      cout<<"Search2(e, m) "<<a<<" "<<a->next<<" a->next="<<m->next<<'\n';
-      // a=m->next;
-      a->next=m->next;
-      // mc->next=a;
-
-      // FindPrevious(e, m)=m->next;
-      // Search2(e, m)->next=nullptr;
-      // mc->next=Search2(e, m);
-    }
-  // mc->next=a;
-
-
-
-  // if(m!=e) mc->next=e;
-  // // else mc->next=a;
   printeq(mc);
-
-  // if(s1>0)
-  //   {
-  //     cout<<"s1>0"<<'\n';
-
-  //     if(k-s1==1)
-  // 	{
-  // 	  // Change next only from one direction.
-  // 	  cout<<"k-s1==1"<<'\n';
-
-  // 	  cout<<Search2(e, m)->next<<'\n';
-  // 	  mc->next=Search2(e, m)->next;
-  // 	}
-  //     else
-  // 	{
-  // 	  cout<<"k-s1>1"<<'\n';
-
-  // 	  cout<<Search2(e, m)->id<<" "<<k<<'\n';
-
-  // 	  if(k-Search2(e, m)->id==1)
-  // 	    {
-  // 	      cout<<"k-Search2(e, m)->id==1"<<'\n';
-  // 	    }
-
-  // 	  // if(m->next==nullptr)
-  // 	  //   {
-  // 	      // Change next only from one direction.
-  // 	      cout<<"m->next==nullptr "<<k<<" "<<s1<<'\n';
-  // 	      cout<<Search2(e, m)<<" "<<Search2(e, m)->next<<" find prev node "<<FindPrevious(e, m)<<" "<<'\n';
-  // 	      // Search2(e, m)->next=nullptr;
-
-
-
-  // 	      Search2(e, m)->next=m->next;
-  // 	      // cout<<mc<<" "<<mc->next<<'\n';
-
-  // 	      // mc->next=Search2(e, m)->next;
-  // 	      // mc->next=m->next;
-
-  // 	      // mc->next=m->next;
-  // 	      // mc->next=nullptr;
-  // 	      // printeq(mc);
-  // 	  //   }
-  // 	  // else
-  // 	  //   {
-  // 	  //   // Change next from two directions.
-  // 	  //     cout<<"m->next==nullptr else"<<'\n';
-  // 	  // }
-  // 	  cout<<"s1 "<<s1<<" m "<<m<<" "<<m->next<<'\n';
-  // 	}
-  //   }
-  // else
-  //   {
-  //     cout<<"s1>0 else Search2(e, m) "<<Search2(e, m)->id<<" "<<Search2(e, m)<<" "<<Search2(e, m)->next<<" m "<<m<<" "<<m->next<<'\n';
-  //     // cout<<"s1>0 else FindPrevious(e, m) "<<FindPrevious(e, m)<<" "<<FindPrevious(e, m)->next<<" m "<<m<<" "<<m->next<<'\n';
-  //     Search2(e, m)->next=nullptr;
-  //     // Search2(e, m)->next=m->next;
-
-  //     // mc->next=Search2(e, m)->next;
-  //     // mc->next->next=nullptr;
-
-  //   }
-
-  // printeq(mc);
   cout<<" "<<'\n';
 }
-
-
-
 
 template<typename T, typename U>
 Equation *NewMathValue(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&c, Equation *&next, const unsigned &size)
