@@ -197,6 +197,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 	      printeq(mc12);
 	      Select(e, next, m1, k, s1i, mc12);
 	      printeq(mc12);
+	      mc12->next=m1->next;
 	    }
 	  else
 	    {
@@ -204,6 +205,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 	      printeq(mc12);
 	      Select(e, next, m2, k, s2i, mc12);
 	      printeq(mc12);
+	      mc12->next=m2->next;
 	    }
       }
       cout<<"mc12 "<<mc12<<" "<<mc12->next<<'\n';

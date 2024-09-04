@@ -143,11 +143,18 @@ void Select(Equation *&e, Equation *&next, Equation *&m, const unsigned &k, cons
 	      cout<<"m->next==nullptr "<<k<<" "<<s1<<'\n';
 	      cout<<Search2(e, m)<<" "<<Search2(e, m)->next<<" find prev node "<<FindPrevious(e, m)<<" "<<'\n';
 	      // Search2(e, m)->next=nullptr;
+
+
+
 	      Search2(e, m)->next=m->next;
-	      cout<<mc<<" "<<mc->next<<'\n';
+	      // cout<<mc<<" "<<mc->next<<'\n';
+
+	      // mc->next=Search2(e, m)->next;
+	      // mc->next=m->next;
+
 	      // mc->next=m->next;
 	      // mc->next=nullptr;
-	      printeq(mc);
+	      // printeq(mc);
 	  //   }
 	  // else
 	  //   {
@@ -159,10 +166,17 @@ void Select(Equation *&e, Equation *&next, Equation *&m, const unsigned &k, cons
     }
   else
     {
-      cout<<"s1>0 else"<<'\n';
+      cout<<"s1>0 else Search2(e, m) "<<Search2(e, m)->id<<" "<<Search2(e, m)<<" "<<Search2(e, m)->next<<" m "<<m<<" "<<m->next<<'\n';
+      // cout<<"s1>0 else FindPrevious(e, m) "<<FindPrevious(e, m)<<" "<<FindPrevious(e, m)->next<<" m "<<m<<" "<<m->next<<'\n';
       Search2(e, m)->next=nullptr;
+      // Search2(e, m)->next=m->next;
+
+      // mc->next=Search2(e, m)->next;
+      // mc->next->next=nullptr;
+
     }
-  // printeq(mc);
+
+  printeq(mc);
   cout<<" "<<'\n';
 }
 
@@ -183,8 +197,6 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   cout<<"r "<<r<<'\n';
   const double result=r->result;
   const double v_value=mc->v->GetValue();
-
-  // printeq(e);
 
   if(!isnan(result) and !isnan(v_value)) mc->CalculateResult(result);
   else  e->m1=r->m1;
