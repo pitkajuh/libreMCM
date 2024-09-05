@@ -108,19 +108,13 @@ public:
     else if(s==DIVIDE) math_operator=new Div;
     else if(s==EXP) math_operator=new Exp;
   }
-  virtual ~EquationBase2()
-  {
-    // cout<<"~EquationBase2 "<<this<<" "<<id<<'\n';
-    delete math_operator;
-    // cout<<"~EquationBase2 ok"<<'\n';
-  }
+  virtual ~EquationBase2(){delete math_operator;}
 };
 
 class Equation: public EquationBase2
 {
 public:
   EquationOperation *m1=nullptr;
-  // Equation *m1=nullptr;
   Equation *next=nullptr;
 
   void Calculate()
@@ -128,37 +122,8 @@ public:
     // m1->CalculateResult();
     // result=m1->result;
   }
-  virtual ~Equation()
-  {
-    // cout<<"~Equation "<<this<<" "<<id<<'\n';
-    delete m1;
-    // cout<<"~Equation ok"<<'\n';
-  }
+  virtual ~Equation(){delete m1;}
 };
-
-// class EquationOp: public Equation
-// {
-// public:
-//   EquationOperation *m2=nullptr;
-
-//   void Calculate()
-//   {
-//     // m1->CalculateResult();
-//     // m2->CalculateResult();
-//     // result=math_operator->Calculate1(m1->result, m2->result);
-//   }
-//   ~EquationOp()
-//   {
-//     cout<<"~EquationOP "<<this<<" "<<id<<'\n';
-//     // cout<<"Deleting m2 "<<m2<<'\n';
-//     delete m2;
-//     // cout<<"m2 deleted"<<'\n';
-//     // cout<<"Deleting math_operator "<<math_operator<<'\n';
-//     // delete math_operator;
-//     // cout<<"math_operator deleted"<<'\n';
-//     cout<<"~EquationOP ok"<<'\n';
-//   }
-// };
 
 class EquationMath: public Equation
 {
@@ -173,15 +138,8 @@ public:
   }
   virtual ~EquationMath()
   {
-    // cout<<"~EquationMath "<<this<<" "<<id<<'\n';
-    // cout<<"deleting m11"<<'\n';
     delete m11;
-    // cout<<"m11 ok"<<'\n';
-    // cout<<"deleting m21"<<'\n';
     delete m21;
-    // cout<<"m21 ok"<<'\n';
-    // cout<<"~EquationMath ok "<<this<<'\n';
-    // cout<<"---------------------------------------------------"<<'\n';
   }
 };
 
