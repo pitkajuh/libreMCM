@@ -158,10 +158,6 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   Equation *m1=Search(e, s1i);
   Equation *m2=Search(e, s2i);
 
-  // const double result1=m1->result;
-  // const double result2=m2->result;
-  // const bool r1_null=isnan(result1);
-  // const bool r2_null=isnan(result2);
   printeq(e);
 
   cout<<"size>3 mc12->next=next, size "<<size<<" "<<next<<" "<<s1<<" "<<s2<<'\n';
