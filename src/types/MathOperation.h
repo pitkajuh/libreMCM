@@ -46,18 +46,10 @@ public:
     else if(s==DIVIDE) math_operator=new Div;
     else if(s==EXP) math_operator=new Exp;
   }
-  MathOperator *GetOp(){return math_operator;} const
-  void SetOp(MathOperator *m){math_operator=m;}
-  Value *GetV1(){return v1;}
-  Value *GetV2(){return v2;} const
   double GetV1Value(){return v1->GetValue();} const
   double GetV2Value(){return v2->GetValue();} const
   string GetV1Name(){return v1->GetName();} const
   string GetV2Name(){return v2->GetName();} const
-  void SetV1Value(const double &d){v1->SetValue(d);} const
-  void SetV2Value(const double &d){v2->SetValue(d);} const
-  void SetV1Name(const string &s){v1->SetName(s);} const
-  void SetV2Name(const string &s){v2->SetName(s);} const
   void SetV1(Value *v){v1=v;}
   void SetV2(Value *v){v2=v;}
   void CalculateResult(){result=math_operator->Calculate1(GetV1Value(), GetV2Value());}
