@@ -148,11 +148,6 @@ public:
     else if(s==DIVIDE) total_math_operator=new Div;
     else if(s==EXP) total_math_operator=new Exp;
   }
-  void Print()
-  {
-    // cout<<"MathMath mo1 "<<this<<" v1 "<<mo1->v1<<" mo "<<mo1->math_operator<<" v2 "<<mo1->v2<<'\n';
-    // cout<<"MathMath mo2 "<<this<<" v1 "<<mo2->v1<<" mo "<<mo2->math_operator<<" v2 "<<mo2->v2<<'\n';
-  }
   ~MathMath()
   {
     // cout<<"~MathMath() "<<this<<'\n';
@@ -187,7 +182,6 @@ class NumericNumeric: public MathOperation
 {
   // Numeric-numeric math operation
 public:
-  void Print(){}
   MathOperationBase *New()
   {
     MathOperationBase *n=new NumericNumeric;
@@ -200,10 +194,6 @@ class VariableVariable: public MathOperation
 {
   // Variable-variable math operation
 public:
-  void Print()
-  {
-    // cout<<"VariableVariable "<<this<<" v1 "<<this->GetV1()<<" mo "<<this->GetOp()<<" v2 "<<this->GetV2()<<'\n';
-  }
   MathOperationBase *New()
   {
     MathOperationBase *n=new VariableVariable;
@@ -216,7 +206,6 @@ class ConstantVariable: public MathOperation
 {
   // Constant-variable math operation
 public:
-  void Print(){}
   MathOperationBase *New()
   {
     MathOperationBase *n=new ConstantVariable;
@@ -230,7 +219,6 @@ class ConstantConstant: public MathOperation
 {
   // Constant-constant math operation
 public:
-  void Print(){}
   MathOperationBase *New()
   {
     MathOperationBase *n=new ConstantConstant;
@@ -244,7 +232,6 @@ class NumericVariable: public MathOperation
 {
   // Numeric-variable math operation
 public:
-  void Print(){}
   MathOperationBase *New()
   {
     MathOperationBase *n=new NumericVariable;
@@ -258,7 +245,6 @@ class NumericConstant: public MathOperation
 {
   // Numeric-constant math operation
 public:
-  void Print(){}
   MathOperationBase *New()
   {
     MathOperationBase *n=new NumericConstant;
