@@ -18,8 +18,9 @@ using std::string;
 
 class Value
 {
-private:
+protected:
   string name;
+private:
   double value=NAN;
 public:
   void SetName(const string &s){name=s;}
