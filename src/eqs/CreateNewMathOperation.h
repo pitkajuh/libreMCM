@@ -110,7 +110,6 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   e->id=k;
 
   Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
-  cout<<"r "<<r<<'\n';
   const double result=r->result;
   const double v_value=mc->v->GetValue();
 
@@ -118,47 +117,19 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   else  e->m1=r->m1;
   r->m1=nullptr;
 
-  // Select<Equation>(e, next, r, k, stoi(s1.substr(1, s1.size())), e);
-      // printeq(e);
-  if(k-r->id==1)
-    {
-      cout<<"k-r->id==1 "<<k<<" "<<r->id<<'\n';
-      cout<<e<<" Setting "<<e->next<<" to "<<r->next<<'\n';
-      // printeq(e);
-      e->next=r->next;
-      // r->next=nullptr;
-      // printeq(e);
-    }
+  if(k-r->id==1) e->next=r->next;
   else
     {
       Equation *prev=Search2(c, r);
 
-      cout<<" "<<'\n';
-      cout<<"id "<<prev->id<<" "<<prev<<" "<<prev->next<<'\n';
-
-      if(r->id>0 and r->next!=nullptr)
-	{
-	  cout<<"r->id>0 and r->next!=nullptr"<<'\n';
-	  cout<<"id "<<r->id<<" "<<r<<" "<<r->next<<'\n';
-	  cout<<"id "<<r->next->id<<" "<<r->next<<" "<<r->next->next<<" "<<'\n';
-	  prev->next=r->next->next;
-	  cout<<""<<'\n';
-	}
-      else
-	{
-	  cout<<"id "<<r->id<<" "<<r<<" "<<r->next<<'\n';
-	  prev->next=r->next;
-	}
-      cout<<" "<<'\n';
+      if(r->next!=nullptr) prev->next=r->next->next;
+      else prev->next=r->next;
       e->next=next;
     }
 
   cout<<"Delete "<<r->id<<" r "<<r<<" r->next "<<r->next<<" "<<k<<'\n';
   delete mc;
-  // printeq(e);
-  // r=nullptr;
   delete r;
-  // printeq(e);
   return e;
 }
 

@@ -26,7 +26,7 @@ using std::stod;
 using std::stoi;
 
 
-void print_vector2(vector<string> vec)
+void print_vector2(const vector<string> &vec)
 {
   int i=0;
   string empty="";
@@ -69,49 +69,16 @@ EquationOperation *CreateNewValueValueMathOperation(const string &s1, const stri
 {
   EquationOperation *m=new EquationOperation;
 
-  if(b.s1_variable and b.s2_variable)
-    {
-      // cout<<"s1_variable and s2_variable"<<'\n';
-      m->m1=CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
-    }
-  else if(b.s1_variable and b.s2_constant)
-    {
-      // cout<<"s1_variable and s2_constant"<<'\n';
-      m->m1=CreateNewMathOperation<Variable, Constant, ConstantVariable>(s1, s2, o);
-    }
-  else if(b.s1_variable and b.s2_numeric)
-    {
-      // cout<<"s1_variable and s2_numeric"<<'\n';
-      m->m1=CreateNewMathOperation<Variable, Numeric, NumericVariable>(s1, s2, o);
-    }
-  else if(b.s1_constant and b.s2_variable)
-    {
-      // cout<<"s1_constant and s2_variable"<<'\n';
-      m->m1=CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
-    }
-  else if(b.s1_constant and b.s2_constant)
-    {
-      // cout<<"s1_constant and s2_constant"<<'\n';
-      m->m1=CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
-    }
-  else if(b.s1_constant and b.s2_numeric)
-    {
-      // cout<<"s1_constant and s2_numeric"<<'\n';
-      m->m1=CreateNewMathOperation<Constant, Numeric, NumericConstant>(s1, s2, o);
-    }
-  else if(b.s1_numeric and b.s2_variable)
-    {
-      // cout<<"s1_numeric and s2_variable"<<'\n';
-      m->m1=CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
-    }
-  else if(b.s1_numeric and b.s2_constant)
-    {
-      // cout<<"s1_numeric and s2_constant"<<'\n';
-      m->m1=CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
-    }
+  if(b.s1_variable and b.s2_variable) m->m1=CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
+  else if(b.s1_variable and b.s2_constant) m->m1=CreateNewMathOperation<Variable, Constant, ConstantVariable>(s1, s2, o);
+  else if(b.s1_variable and b.s2_numeric) m->m1=CreateNewMathOperation<Variable, Numeric, NumericVariable>(s1, s2, o);
+  else if(b.s1_constant and b.s2_variable) m->m1=CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
+  else if(b.s1_constant and b.s2_constant) m->m1=CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
+  else if(b.s1_constant and b.s2_numeric) m->m1=CreateNewMathOperation<Constant, Numeric, NumericConstant>(s1, s2, o);
+  else if(b.s1_numeric and b.s2_variable) m->m1=CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
+  else if(b.s1_numeric and b.s2_constant) m->m1=CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
   else if(b.s1_numeric and b.s2_numeric)
     {
-      // cout<<"s1_numeric and s2_numeric "<<'\n';
       m->m1=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
       // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
       // simplified and performance of the calculation increased.
@@ -197,55 +164,19 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
     {
       Equation *mc=new Equation;
       mc->m1=CreateNewValueValueMathOperation(s1, s2, o, b);
-      // Equation *mc=CreateNewValueValueMathOperation(s1, s2, o, b);
       mc->next=next;
       mc->id=k;
-      // cout<<"!b.s1_math and !b.s2_math "<<'\n';
       return mc;
     }
-  else if(b.s1_variable and b.s2_math)
-    {
-      // cout<<"s1_variable and s2_math"<<'\n';
-      return NewMathValue<Variable, ValueEquationOperation>(s2, s1, o, k, e, next, size);
-    }
-  else if(b.s1_constant and b.s2_math)
-    {
-      // cout<<"s1_constant and s2_math"<<'\n';
-      return NewMathValue<Constant, ValueEquationOperation>(s2, s1, o, k, e, next, size);
-    }
-  else if(b.s1_numeric and b.s2_math)
-    {
-      // cout<<"s1_numeric and s2_math"<<'\n';
-      return NewMathValue<Numeric, ValueEquationOperation>(s2, s1, o, k, e, next, size);
-    }
-  else if(b.s1_math and b.s2_variable)
-    {
-      // cout<<"s1_math and s2_variable "<<'\n';
-      return NewMathValue<Variable, EquationOperationValue>(s1, s2, o, k, e, next, size);
-    }
-  else if(b.s1_math and b.s2_constant)
-    {
-      // cout<<"s1_math and s2_constant"<<'\n';
-      return NewMathValue<Constant, EquationOperationValue>(s1, s2, o, k, e, next, size);
-    }
-  else if(b.s1_math and b.s2_numeric)
-    {
-      // cout<<"s1_math and s2_numeric"<<'\n';
-      return NewMathValue<Numeric, EquationOperationValue>(s1, s2, o, k, e, next, size);
-    }
-  else if(b.s1_math and b.s2_math)
-    {
-      // cout<<"s1_math and s2_math "<<'\n';
-      return CreateNewMathMath(s1, s2, o, k, e, next, size);
-    }
-  else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math)
-    {
-      throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
-    }
-  else
-    {
-      throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
-    }
+  else if(b.s1_variable and b.s2_math){return NewMathValue<Variable, ValueEquationOperation>(s2, s1, o, k, e,  next, size);}
+  else if(b.s1_constant and b.s2_math){return NewMathValue<Constant, ValueEquationOperation>(s2, s1, o, k, e, next, size);}
+  else if(b.s1_numeric and b.s2_math){return NewMathValue<Numeric, ValueEquationOperation>(s2, s1, o, k, e, next, size);}
+  else if(b.s1_math and b.s2_variable){return NewMathValue<Variable, EquationOperationValue>(s1, s2, o, k, e, next, size);}
+  else if(b.s1_math and b.s2_constant){return NewMathValue<Constant, EquationOperationValue>(s1, s2, o, k, e, next, size);}
+  else if(b.s1_math and b.s2_numeric){return NewMathValue<Numeric, EquationOperationValue>(s1, s2, o, k, e, next, size);}
+  else if(b.s1_math and b.s2_math){return CreateNewMathMath(s1, s2, o, k, e, next, size);}
+  else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math){throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");}
+  else{throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");}
 }
 
 vector<string> FindOperator(vector<string> equation, const string &find, unsigned &k, const Data &data, Equation *&e, Equation *&next)
@@ -260,7 +191,6 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
 	  e=Val2(e, equation, i, data, k, next);
 
-	  // e->next=next;
 	  cout<<e->id<<" e="<<e<<" next "<<e->next<<'\n';
 	  printeq(e);
 	  next=e;
@@ -269,9 +199,8 @@ vector<string> FindOperator(vector<string> equation, const string &find, unsigne
 	  equation.erase(equation.begin()+i+1);
 	  equation.erase(equation.begin()+i-1);
 	  print_vector2(equation);
-	  // cout<<"next "<<next<<" "<<next->id<<'\n';
+
 	  size=equation.size();
-	  // cout<<"size "<<size<<'\n';
 	  k++;
 	  i=0;
 	  cout<<" "<<'\n';
@@ -286,7 +215,7 @@ void GetOrder(vector<string> &equation, unsigned &k, const Data &data, Equation 
 {
   for(const auto&i: OPERATORS)
     {
-      // if(equation.size()<=1) break;
+      if(equation.size()<2) break;
       equation=FindOperator(equation, i, k, data, e, next);
     }
 }
@@ -313,9 +242,6 @@ vector<string> GetParenthesis(const vector<string> &equation, const int &open, c
   result.insert(result.end(), v1.begin(), v1.end());
   result.insert(result.end(), v3.begin(), v3.end());
   print_vector2(result);
-
-  // eq.equation=result;
-
   return result;
 }
 
