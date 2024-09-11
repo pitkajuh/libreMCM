@@ -20,14 +20,6 @@ using std::vector;
 using namespace libremcm;
 using InitialValues=SMap;
 
-struct EquationStruct
-{
-public:
-  vector<string> equation;
-  Equation *e=nullptr;
-  Equation *next=nullptr;
-};
-
 struct Data
 {
   vector<string> diagonal;

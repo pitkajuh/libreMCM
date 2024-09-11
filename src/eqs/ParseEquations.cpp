@@ -229,11 +229,11 @@ vector<string> RemoveOpenClose(vector<string> equation)
   return equation;
 }
 
-vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned &k, const Data &data, Equation *&e, Equation *&next, EquationStruct &eq)
+vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned &k, const Data &data, Equation *&e, Equation *&next)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
   GetOrder(v1, k, data, e, next);
-  v1=test(v1, k, data, e, next, eq);
+  v1=test(v1, k, data, e, next);
   const vector<string> v2{equation.begin(), equation.begin()+open};
   const vector<string> v3{equation.begin()+close+1, equation.end()};
   vector<string> result;
@@ -289,7 +289,6 @@ void ParseEquations(const SMap &equations_map, const Data &data)
   // 3. Multiplication and division
   // 4. Addition and subtraction
 
-  EquationStruct eq;
   vector<string> v;
   unsigned k=0;
   Equation *e=nullptr;
@@ -299,13 +298,10 @@ void ParseEquations(const SMap &equations_map, const Data &data)
     {
       v=ToVector(equation);
       v=RemoveOpenClose(v);
-
-      eq.equation=v;
-
       cout<<"EQUATION"<<'\n';
       print_vector2(v);
       cout<<" "<<'\n';
-      v=test(v, k, data, e, next, eq);
+      v=test(v, k, data, e, next);
       GetOrder(v, k, data, e, next);
       e->next=nullptr;
       Print(e);

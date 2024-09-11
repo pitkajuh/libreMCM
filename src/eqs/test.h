@@ -16,7 +16,7 @@
 #include "../types/Data.h"
 #include "../types/Equation.h"
 
-vector<string> test(vector<string> equation, unsigned int &k, const Data &data, Equation *&e, Equation *&next, EquationStruct &eq);
+vector<string> test(vector<string> equation, unsigned int &k, const Data &data, Equation *&e, Equation *&next);
 vector<string> Remove(vector<string> equation, const int &open, const int &close);
 
 #endif
