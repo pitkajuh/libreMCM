@@ -23,7 +23,7 @@ vector<string> GetUp(const vector<string> &v, int i)
   return r;
 }
 
-vector<string> GetDown(const vector<string> &v, unsigned int i)
+vector<string> GetDown(const vector<string> &v, unsigned i)
 {
   vector<string> r;
   for(i=i+1; i<v.size(); i++) if(v[i]!=EMPTY) r.emplace_back(v[i]);
@@ -54,6 +54,6 @@ AddSubtract GetEquations(const Csv &csv, const int &j)
 Map<string, AddSubtract> EquationAddSubtract(const Csv &csv)
 {
   Map<string, AddSubtract> Map;
-  for(unsigned int i=0; i<csv.diagonal.size(); i++) Map[csv.diagonal[i]]=GetEquations(csv, i);
+  for(unsigned i=0; i<csv.diagonal.size(); i++) Map[csv.diagonal[i]]=GetEquations(csv, i);
   return Map;
 }

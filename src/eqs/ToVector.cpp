@@ -33,8 +33,8 @@ int FindIndex(const string &s)
 {
   const unsigned size=OPERATORS2.size();
   int r=-1;
-  unsigned int i=0;
-  unsigned int found;
+  unsigned i=0;
+  unsigned found;
 
   while(i<size)
     {

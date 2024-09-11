@@ -50,7 +50,7 @@ public:
   {
     string compartment;
 
-    for(unsigned int i=0; i<rows.size(); i++)
+    for(unsigned i=0; i<rows.size(); i++)
       {
 	compartment=rows[i][i];
 	// TODO Check that diagonal element is not empty.
@@ -68,7 +68,7 @@ public:
   {
     SetSize(row);
     UpdateColumns(row);
-    for(unsigned int i=0; i<row.size(); i++) columns[i][i]=row[i];
+    for(unsigned i=0; i<row.size(); i++) columns[i][i]=row[i];
   }
 
   void AddCsv(const vector<string> &row)

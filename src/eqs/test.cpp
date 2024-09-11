@@ -30,20 +30,20 @@ vector<string> Remove(vector<string> equation, const int &open, const int &close
   return equation;
 }
 
-bool IsOpen(const unsigned int &open, const unsigned int &close, const vector<string> &tmp)
+bool IsOpen(const unsigned &open, const unsigned &close, const vector<string> &tmp)
 {
   bool result=false;
-  unsigned int open1=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
+  unsigned open1=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
   if(open1==tmp.size()) result=true;
   return result;
 }
 
-vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &close, unsigned int &k, const Data &data, Equation *&e, Equation *&next)
+vector<string> test2(vector<string> equation, unsigned &open, unsigned &close, unsigned &k, const Data &data, Equation *&e, Equation *&next)
 {
   bool end=false;
   vector<string> tmp;
-  unsigned int open2;
-  const unsigned int open3=open;
+  unsigned open2;
+  const unsigned open3=open;
 
   while(!end)
     {
@@ -62,12 +62,12 @@ vector<string> test2(vector<string> equation, unsigned int &open, unsigned int &
   return equation;
 }
 
-vector<string> test(vector<string> equation, unsigned int &k, const Data &data, Equation *&e, Equation *&next)
+vector<string> test(vector<string> equation, unsigned &k, const Data &data, Equation *&e, Equation *&next)
 {
   bool end=false;
   bool is;
-  unsigned int open;
-  unsigned int close;
+  unsigned open;
+  unsigned close;
   vector<string> tmp;
 
   while(!end)

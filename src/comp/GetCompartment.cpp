@@ -30,9 +30,9 @@ string UpdateValue(const string &str)
 vector<string> LineToVector(string &s)
 {
   bool end=false;
-  unsigned int size=s.size();
-  unsigned int size2;
-  unsigned int delimiter_i;
+  unsigned size=s.size();
+  unsigned size2;
+  unsigned delimiter_i;
   vector<string> r;
   string str;
 
