@@ -18,10 +18,9 @@
 using std::to_string;
 using std::cout;
 
-vector<string> Remove(vector<string> equation, const int &open, const int &close)
+vector<string> Remove(vector<string> equation, const unsigned open, const unsigned close)
 {
   if(equation[open+1]==OPEN and equation[close+1]==CLOSE)
-  // if(equation[open]==OPEN and equation[close]==CLOSE)
     {
       equation.erase(equation.begin()+open);
       equation.erase(equation.begin()+close-1);

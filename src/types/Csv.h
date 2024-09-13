@@ -25,7 +25,7 @@ using Row=vector<string>;
 class Csv
 {
 public:
-  int size=0;
+  unsigned size=0;
   vector<Row> rows;
   vector<Column> columns;
   vector<string> diagonal;

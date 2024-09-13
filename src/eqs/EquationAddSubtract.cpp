@@ -16,28 +16,34 @@ using namespace libremcm;
 
 const string EMPTY=" ";
 
-vector<string> GetUp(const vector<string> &v, int i)
+vector<string> GetUp(const vector<string> v, unsigned i)
 {
   vector<string> r;
-  for(i=i-1; i>=0; i--) if(v[i]!=EMPTY) r.emplace_back(v[i]);
+
+  while(i>0)
+    {
+      if(v[i]!=EMPTY) r.emplace_back(v[i]);
+      i--;
+    }
   return r;
 }
 
-vector<string> GetDown(const vector<string> &v, unsigned i)
+vector<string> GetDown(const vector<string> v, unsigned i)
 {
   vector<string> r;
+
   for(i=i+1; i<v.size(); i++) if(v[i]!=EMPTY) r.emplace_back(v[i]);
   return r;
 }
 
-AddSubtract GetEquations(const Csv &csv, const int &j)
+AddSubtract GetEquations(const Csv &csv, const unsigned i)
 {
-  const vector<string> column=csv.columns[j];
-  const vector<string> row=csv.rows[j];
-  const vector<string> add_up=GetUp(column, j);
-  const vector<string> add_down=GetDown(column, j);
-  const vector<string> subtract_right=GetUp(row, j);
-  const vector<string> subtract_left=GetDown(row, j);
+  const vector<string> column=csv.columns[i];
+  const vector<string> row=csv.rows[i];
+  const vector<string> add_up=GetUp(column, i);
+  const vector<string> add_down=GetDown(column, i);
+  const vector<string> subtract_right=GetUp(row, i);
+  const vector<string> subtract_left=GetDown(row, i);
 
   vector<string> add_total;
   add_total.reserve(add_up.size()+add_down.size());

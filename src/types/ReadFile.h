@@ -28,20 +28,20 @@ public:
   streampos position=0;
   string line;
 
-  virtual void GetFunction(ifstream &f, const string &line, const string &find, const string &previous, ReadFile *res)=0;
+  virtual void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)=0;
   virtual void PushTo(){}
 
-  void Set(const bool &v1, const streampos &v2, const string &str)
+  void Set(const bool &v1, const streampos &v2, const string str)
   {
     stop=v1;
     position=v2;
     line=str;
   }
 
-  const string SelectName(string now, const string &prev)
+  const string SelectName(string now, const string prev)
   {
-    const int sizenow=now.size();
-    const int at=1+now.find(BOPEN);
+    const unsigned sizenow=now.size();
+    const unsigned at=1+now.find(BOPEN);
 
     if(sizenow==1 and now==BOPEN) now=prev;
     else if(sizenow>1 and sizenow==at) now=now.substr(0, sizenow-1);
@@ -53,9 +53,9 @@ public:
 class FName: public ReadFile
 {
 public:
-  void GetFunction(ifstream &f, const string &line, const string &find, const string &previous, ReadFile *res)
+  void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)
   {
-    const int size=line.size();
+    const unsigned size=line.size();
     const size_t o=line.find(find);
     bool stop=false;
     streampos read_pos;
@@ -78,15 +78,15 @@ public:
 
   void PushTo()
   {
-    const int size=line.size();
+    const unsigned size=line.size();
     const size_t o=line.find(EQUAL);
 
     if(size>1 and o<size) v.emplace_back(line);
   }
 
-  void GetFunction(ifstream &f, const string &line, const string &find, const string &previous, ReadFile *res)
+  void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)
   {
-    const int size=line.size();
+    const unsigned size=line.size();
     const size_t o=line.find(find);
     bool stop=false;
     streampos read_pos;
@@ -130,7 +130,7 @@ struct Pair
   vector<string> list;
   streampos position;
 
-  Pair(const string &s, const vector<string> &v, const int &p)
+  Pair(const string s, const vector<string> &v, const unsigned p)
   {
     name=s;
     list=v;
