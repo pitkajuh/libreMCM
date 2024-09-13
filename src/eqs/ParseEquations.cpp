@@ -88,7 +88,7 @@ EquationOperation *CreateNewValueValueMathOperation(const string &s1, const stri
   return m;
 }
 
-void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned &id, const unsigned &nodeid)
+void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned id, const unsigned nodeid)
 {
   node2->next=node1->next;
 
@@ -96,7 +96,7 @@ void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *&node1, E
   else newnode->next=node2->next;
 }
 
-void CreateNewNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned &id, const unsigned &nodeid1, const unsigned &nodeid2)
+void CreateNewNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned id, const unsigned nodeid1, const unsigned nodeid2)
 {
   if(nodeid1<nodeid2) ChangeHeadNode(head, newnode, node1, node2, id, nodeid2);
   else ChangeHeadNode(head, newnode, node2, node1, id, nodeid1);
@@ -109,13 +109,13 @@ void SelectNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equat
   printeq(newnode);
 }
 
-void CreateNewNode2(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned &id, const unsigned &nodeid1, const unsigned &nodeid2)
+void CreateNewNode2(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned id, const unsigned nodeid1, const unsigned nodeid2)
 {
   if(nodeid1>nodeid2) SelectNode(head, newnode, node1, node2);
   else SelectNode(head, newnode, node2, node1);
 }
 
-Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, const unsigned &k, Equation *&e, Equation *&next, const unsigned &size)
+Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, const unsigned k, Equation *&e, Equation *&next, const unsigned size)
 {
   EquationMath *mc12=new EquationMath;
   mc12->SetOperator(o);
@@ -127,19 +127,10 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 
   printeq(e);
 
-  cout<<"size>3 mc12->next=next, size "<<size<<" "<<next<<" "<<s1<<" "<<s2<<'\n';
   const unsigned delta=(s2i>s1i) ? s2i-s1i: s1i-s2i;
 
-  if(delta==1)
-    {
-      cout<<"delta==1"<<'\n';
-      CreateNewNode(e, mc12, m1, m2, k, s1i, s2i);
-    }
-  else
-    {
-      cout<<"delta==1 else"<<'\n';
-      CreateNewNode2(e, mc12, m1, m2, k, s1i, s2i);
-    }
+  if(delta==1) CreateNewNode(e, mc12, m1, m2, k, s1i, s2i);
+  else CreateNewNode2(e, mc12, m1, m2, k, s1i, s2i);
 
   mc12->m11=m1;
   mc12->m21=m2;
@@ -147,7 +138,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   return mc12;
 }
 
-Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, const Data &data, const unsigned &k, Equation *&next)
+Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, const Data &data, const unsigned k, Equation *&next)
 {
   const string s1=equation[i-1];
   const string s2=equation[i+1];
@@ -229,7 +220,7 @@ vector<string> RemoveOpenClose(vector<string> equation)
   return equation;
 }
 
-vector<string> GetParenthesis(const vector<string> &equation, const int &open, const int &close, unsigned &k, const Data &data, Equation *&e, Equation *&next)
+vector<string> GetParenthesis(const vector<string> &equation, const int open, const int close, unsigned &k, const Data &data, Equation *&e, Equation *&next)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
   GetOrder(v1, k, data, e, next);
