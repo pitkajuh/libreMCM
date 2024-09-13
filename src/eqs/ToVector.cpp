@@ -29,7 +29,7 @@ void print_vector3(vector<string> vec)
     }
   cout<<empty<<'\n';
 }
-int FindIndex(const string &s)
+int FindIndex(const string s)
 {
   const unsigned size=OPERATORS2.size();
   int r=-1;

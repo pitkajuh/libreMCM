@@ -122,12 +122,11 @@ Equation *CreateNewMathMath(const string s1, const string s2, const string o, co
   mc12->id=k;
   const unsigned s1i=stoi(s1.substr(1, s1.size()));
   const unsigned s2i=stoi(s2.substr(1, s2.size()));
+  const unsigned delta=(s2i>s1i) ? s2i-s1i: s1i-s2i;
   Equation *m1=Search(e, s1i);
   Equation *m2=Search(e, s2i);
 
   printeq(e);
-
-  const unsigned delta=(s2i>s1i) ? s2i-s1i: s1i-s2i;
 
   if(delta==1) CreateNewNode(e, mc12, m1, m2, k, s1i, s2i);
   else CreateNewNode2(e, mc12, m1, m2, k, s1i, s2i);
