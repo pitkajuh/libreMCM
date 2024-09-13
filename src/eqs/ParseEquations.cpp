@@ -158,15 +158,15 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
       mc->id=k;
       return mc;
     }
-  else if(b.s1_variable and b.s2_math){return NewMathValue<Variable, ValueEquationOperation>(s2, s1, o, k, e,  next, size);}
-  else if(b.s1_constant and b.s2_math){return NewMathValue<Constant, ValueEquationOperation>(s2, s1, o, k, e, next, size);}
-  else if(b.s1_numeric and b.s2_math){return NewMathValue<Numeric, ValueEquationOperation>(s2, s1, o, k, e, next, size);}
-  else if(b.s1_math and b.s2_variable){return NewMathValue<Variable, EquationOperationValue>(s1, s2, o, k, e, next, size);}
-  else if(b.s1_math and b.s2_constant){return NewMathValue<Constant, EquationOperationValue>(s1, s2, o, k, e, next, size);}
-  else if(b.s1_math and b.s2_numeric){return NewMathValue<Numeric, EquationOperationValue>(s1, s2, o, k, e, next, size);}
-  else if(b.s1_math and b.s2_math){return CreateNewMathMath(s1, s2, o, k, e, next, size);}
-  else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math){throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");}
-  else{throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");}
+  else if(b.s1_variable and b.s2_math) return NewMathValue<Variable, ValueEquationOperation>(s2, s1, o, k, e,  next, size);
+  else if(b.s1_constant and b.s2_math) return NewMathValue<Constant, ValueEquationOperation>(s2, s1, o, k, e, next, size);
+  else if(b.s1_numeric and b.s2_math) return NewMathValue<Numeric, ValueEquationOperation>(s2, s1, o, k, e, next, size);
+  else if(b.s1_math and b.s2_variable) return NewMathValue<Variable, EquationOperationValue>(s1, s2, o, k, e, next, size);
+  else if(b.s1_math and b.s2_constant) return NewMathValue<Constant, EquationOperationValue>(s1, s2, o, k, e, next, size);
+  else if(b.s1_math and b.s2_numeric) return NewMathValue<Numeric, EquationOperationValue>(s1, s2, o, k, e, next, size);
+  else if(b.s1_math and b.s2_math) return CreateNewMathMath(s1, s2, o, k, e, next, size);
+  else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math) throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
+  else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
 }
 
 vector<string> FindOperator(vector<string> equation, const string find, unsigned &k, const Data &data, Equation *&e, Equation *&next)
