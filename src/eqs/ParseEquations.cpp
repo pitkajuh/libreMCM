@@ -52,7 +52,7 @@ public:
   bool s2_numeric;
   bool s2_math;
 
-  Bools(const string &s1, const string &s2, const Data &data)
+  Bools(const string s1, const string s2, const Data &data)
   {
     s1_variable=IsIn(s1, data.diagonal);
     s1_constant=IsIn(s1, data.constants_map);
@@ -65,7 +65,7 @@ public:
   }
 };
 
-EquationOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b)
+EquationOperation *CreateNewValueValueMathOperation(const string s1, const string s2, const string o, const Bools &b)
 {
   EquationOperation *m=new EquationOperation;
 
@@ -88,18 +88,12 @@ EquationOperation *CreateNewValueValueMathOperation(const string &s1, const stri
   return m;
 }
 
-void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned id, const unsigned nodeid)
+void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned deltaid)
 {
   node2->next=node1->next;
 
-  if(id-nodeid>1) newnode->next=Search2(head, node2);
+  if(deltaid>1) newnode->next=Search2(head, node2);
   else newnode->next=node2->next;
-}
-
-void CreateNewNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned id, const unsigned nodeid1, const unsigned nodeid2)
-{
-  if(nodeid1<nodeid2) ChangeHeadNode(head, newnode, node1, node2, id, nodeid2);
-  else ChangeHeadNode(head, newnode, node2, node1, id, nodeid1);
 }
 
 void SelectNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2)
@@ -109,13 +103,19 @@ void SelectNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equat
   printeq(newnode);
 }
 
+void CreateNewNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned id, const unsigned nodeid1, const unsigned nodeid2)
+{
+  if(nodeid1<nodeid2) ChangeHeadNode(head, newnode, node1, node2, id-nodeid2);
+  else ChangeHeadNode(head, newnode, node2, node1, id-nodeid1);
+}
+
 void CreateNewNode2(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned id, const unsigned nodeid1, const unsigned nodeid2)
 {
   if(nodeid1>nodeid2) SelectNode(head, newnode, node1, node2);
   else SelectNode(head, newnode, node2, node1);
 }
 
-Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, const unsigned k, Equation *&e, Equation *&next, const unsigned size)
+Equation *CreateNewMathMath(const string s1, const string s2, const string o, const unsigned k, Equation *&e, Equation *&next, const unsigned size)
 {
   EquationMath *mc12=new EquationMath;
   mc12->SetOperator(o);
@@ -170,7 +170,7 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
   else{throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");}
 }
 
-vector<string> FindOperator(vector<string> equation, const string &find, unsigned &k, const Data &data, Equation *&e, Equation *&next)
+vector<string> FindOperator(vector<string> equation, const string find, unsigned &k, const Data &data, Equation *&e, Equation *&next)
 {
   unsigned i=0;
   unsigned size=equation.size();
