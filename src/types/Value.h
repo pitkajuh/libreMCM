@@ -28,6 +28,7 @@ public:
   string GetName(){return name;}
   double GetValue(){return value;}
   virtual Value *New(Value *v)=0;
+  virtual ~Value(){}
 };
 
 class Constant: public Value

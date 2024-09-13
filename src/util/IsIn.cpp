@@ -25,6 +25,7 @@ bool IsNumerical(const string &s)
   try
     {
       const double d=std::stod(s);
+      (void) d;
     }
   catch(const std::invalid_argument &i)
     {

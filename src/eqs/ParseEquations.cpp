@@ -28,10 +28,10 @@ using std::stoi;
 
 void print_vector2(const vector<string> &vec)
 {
-  int i=0;
+  unsigned i=0;
   string empty="";
-
-  while(i<=vec.size()-1 && vec.size()>0)
+  const unsigned size=vec.size();
+  while(i<size)
     {
       if(i==0)  empty=vec[i];
       else empty=empty+";"+vec[i];

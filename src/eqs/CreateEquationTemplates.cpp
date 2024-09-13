@@ -16,7 +16,7 @@ using std::cout;
 
 void GetValue(const Data &data)
 {
-  int j=0;
+  // int j=0;
   // for(const auto &i: v)
   //   {
   //     // i->CalculateResult();
@@ -34,7 +34,7 @@ void GetValue(const Data &data)
 
 void CreateEquationTemplates(const Data &data)
 {
-  cout<<"--------------------------------------"<<'\n';
+  // cout<<"--------------------------------------"<<'\n';
   // for(const auto &[key, value]: equations_map)
   //   {
   //     cout<<"key "<<key<<'\n';

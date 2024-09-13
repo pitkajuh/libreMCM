@@ -48,6 +48,7 @@ public:
 
     return now;
   }
+  virtual ~ReadFile(){}
 };
 
 class FName: public ReadFile

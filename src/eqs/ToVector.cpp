@@ -18,10 +18,11 @@ using std::find;
 using std::cout;
 void print_vector3(vector<string> vec)
 {
-  int i=0;
+  unsigned i=0;
   string empty="";
+  const unsigned size=vec.size();
 
-  while(i<=vec.size()-1 && vec.size()>0)
+  while(i<size)
     {
       if(i==0)  empty=vec[i];
       else empty=empty+";"+vec[i];
@@ -31,10 +32,10 @@ void print_vector3(vector<string> vec)
 }
 int FindIndex(const string s)
 {
-  const unsigned size=OPERATORS2.size();
+  const int size=OPERATORS2.size();
   int r=-1;
-  unsigned i=0;
-  unsigned found;
+  int i=0;
+  int found;
 
   while(i<size)
     {
