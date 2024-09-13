@@ -75,7 +75,7 @@ Map<string, InitialValues> GetInitialValues(ifstream &bin)
   streampos *from=new streampos;
   *from=0;
 
-  while(!bin.eof())  Map[*name]=GetBin(bin, from, name);
+  while(!bin.eof()) Map[*name]=GetBin(bin, from, name);
   delete name;
   delete from;
   return Map;

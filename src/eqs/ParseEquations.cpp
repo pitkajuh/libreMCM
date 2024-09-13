@@ -98,7 +98,7 @@ void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *&node1, E
 
 void CreateNewNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned &id, const unsigned &nodeid1, const unsigned &nodeid2)
 {
-  if(node1<node2) ChangeHeadNode(head, newnode, node1, node2, id, nodeid2);
+  if(nodeid1<nodeid2) ChangeHeadNode(head, newnode, node1, node2, id, nodeid2);
   else ChangeHeadNode(head, newnode, node2, node1, id, nodeid1);
 }
 

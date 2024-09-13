@@ -8,6 +8,7 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
+#include <cassert>
 #include <algorithm>
 #include <iostream>
 #include "../types/StringSplit.h"
@@ -36,6 +37,8 @@ StringSplit LineSplit(const string &line)
   const unsigned at=distance(line.begin(), find(line.begin(), line.end(), '='));
   string name;
   string value;
+
+  // assert(("Line is missing ;!", line.back()==';'));
 
   if(at!=SIZE and line.back()==';')
     {
