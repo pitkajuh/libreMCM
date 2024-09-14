@@ -24,7 +24,7 @@ void print_vector3(vector<string> vec)
 
   while(i<size)
     {
-      if(i==0)  empty=vec[i];
+      if(i==0) empty=vec[i];
       else empty=empty+";"+vec[i];
       i++;
     }

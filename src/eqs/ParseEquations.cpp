@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <iostream>
 #include <cmath>
+#include <cassert>
 
 using std::to_string;
 using std::cout;
@@ -115,26 +116,26 @@ void CreateNewNode2(Equation *&head, EquationMath *&newnode, Equation *&node1, E
   else SelectNode(head, newnode, node2, node1);
 }
 
-Equation *CreateNewMathMath(const string s1, const string s2, const string o, const unsigned k, Equation *&e, Equation *&next, const unsigned size)
+Equation *CreateNewMathMath(const string s1, const string s2, const string o, const unsigned k, Equation *&head, Equation *&next, const unsigned size)
 {
-  EquationMath *mc12=new EquationMath;
-  mc12->SetOperator(o);
-  mc12->id=k;
+  EquationMath *newhead=new EquationMath;
+  newhead->SetOperator(o);
+  newhead->id=k;
   const unsigned s1i=stoi(s1.substr(1, s1.size()));
   const unsigned s2i=stoi(s2.substr(1, s2.size()));
   const unsigned delta=(s2i>s1i) ? s2i-s1i: s1i-s2i;
-  Equation *m1=Search(e, s1i);
-  Equation *m2=Search(e, s2i);
+  Equation *m1=Search(head, s1i);
+  Equation *m2=Search(head, s2i);
 
-  printeq(e);
+  printeq(head);
 
-  if(delta==1) CreateNewNode(e, mc12, m1, m2, k, s1i, s2i);
-  else CreateNewNode2(e, mc12, m1, m2, k, s1i, s2i);
+  if(delta==1) CreateNewNode(head, newhead, m1, m2, k, s1i, s2i);
+  else CreateNewNode2(head, newhead, m1, m2, k, s1i, s2i);
 
-  mc12->m11=m1;
-  mc12->m21=m2;
-  printeq(mc12);
-  return mc12;
+  newhead->m11=m1;
+  newhead->m21=m2;
+  printeq(newhead);
+  return newhead;
 }
 
 Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, const Data &data, const unsigned k, Equation *&next)
@@ -169,31 +170,102 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
   else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
 }
 
-vector<string> FindOperator(vector<string> equation, const string find, unsigned &k, const Data &data, Equation *&e, Equation *&next)
+// vector<string> FindOperator(vector<string> equation, const string find, unsigned &id, const Data &data, Equation *&head, Equation *&next)
+// {
+//   unsigned i=0;
+//   unsigned size=equation.size();
+//   cout<<"FindOperator"<<'\n';
+//   while(i<size)
+//     {
+
+//       unsigned ss=distance(equation.begin(), std::find(equation.begin(), equation.end(), find))-1;
+//       cout<<i<<"/"<<size-1<<" "<<ss<<'\n';
+//       if(find==equation[i])
+// 	{
+// 	  cout<<"Adding "<<"@"+to_string(id)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
+// 	  head=Val2(head, equation, i, data, id, next);
+
+// 	  cout<<head->id<<" head="<<head<<" next "<<head->next<<'\n';
+// 	  printeq(head);
+// 	  next=head;
+
+// 	  equation[i]="@"+to_string(id);
+// 	  equation.erase(equation.begin()+i+1);
+// 	  equation.erase(equation.begin()+i-1);
+// 	  print_vector2(equation);
+
+// 	  size=equation.size();
+// 	  id++;
+// 	  i=0;
+// 	  cout<<" "<<'\n';
+// 	  continue;
+// 	}
+//       i++;
+//     }
+//   return equation;
+// }
+
+vector<string> FindOperator(vector<string> equation, const string find, unsigned &id, const Data &data, Equation *&head, Equation *&next)
 {
   unsigned i=0;
   unsigned size=equation.size();
+  // unsigned ii=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
+
+  // cout<<"FindOperator "<<ii<<" "<<size<<" "<<find<<'\n';
+
+  // if(ii!=size)
+  //   {
+  //     cout<<"ss!=size "<<ii<<" "<<size<<'\n';
+  //     cout<<"Adding "<<"@"+to_string(id)<<"="<<equation[ii-1]<<equation[ii]<<equation[ii+1]<<" "<<'\n';
+  //     head=Val2(head, equation, ii, data, id, next);
+
+  //     cout<<head->id<<" head="<<head<<" next "<<head->next<<'\n';
+  //     printeq(head);
+  //     next=head;
+
+  //     equation[ii]="@"+to_string(id);
+  //     equation.erase(equation.begin()+ii+1);
+  //     equation.erase(equation.begin()+ii-1);
+  //     print_vector2(equation);
+
+  //     size=equation.size();
+  //     id++;
+  //     i=0;
+  //   }
+  // else
+  //   {
+  //     cout<<"ELSE"<<'\n';
+  //   }
+
 
   while(i<size)
     {
+
+      // unsigned ss=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
+      // if(ss==size)
+      // 	{
+      // 	  cout<<"ss==size "<<ss<<" "<<size<<'\n';
+      // 	}
+      // cout<<i<<"/"<<size-1<<" "<<ss<<'\n';
       if(find==equation[i])
 	{
-	  cout<<"Adding "<<"@"+to_string(k)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
-	  e=Val2(e, equation, i, data, k, next);
+	  cout<<"Adding "<<"@"+to_string(id)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
+	  head=Val2(head, equation, i, data, id, next);
 
-	  cout<<e->id<<" e="<<e<<" next "<<e->next<<'\n';
-	  printeq(e);
-	  next=e;
+	  cout<<head->id<<" head="<<head<<" next "<<head->next<<'\n';
+	  printeq(head);
+	  next=head;
 
-	  equation[i]="@"+to_string(k);
+	  equation[i]="@"+to_string(id);
 	  equation.erase(equation.begin()+i+1);
 	  equation.erase(equation.begin()+i-1);
 	  print_vector2(equation);
 
 	  size=equation.size();
-	  k++;
+	  id++;
 	  i=0;
 	  cout<<" "<<'\n';
+	// }
 	  continue;
 	}
       i++;
@@ -201,12 +273,12 @@ vector<string> FindOperator(vector<string> equation, const string find, unsigned
   return equation;
 }
 
-void GetOrder(vector<string> &equation, unsigned &k, const Data &data, Equation *&e, Equation *&next)
+void GetOrder(vector<string> &equation, unsigned &id, const Data &data, Equation *&head, Equation *&next)
 {
   for(const auto&i: OPERATORS)
     {
       if(equation.size()<2) break;
-      equation=FindOperator(equation, i, k, data, e, next);
+      equation=FindOperator(equation, i, id, data, head, next);
     }
 }
 
@@ -219,11 +291,11 @@ vector<string> RemoveOpenClose(vector<string> equation)
   return equation;
 }
 
-vector<string> GetParenthesis(const vector<string> &equation, const int open, const int close, unsigned &k, const Data &data, Equation *&e, Equation *&next)
+vector<string> GetParenthesis(const vector<string> &equation, const int open, const int close, unsigned &id, const Data &data, Equation *&head, Equation *&next)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
-  GetOrder(v1, k, data, e, next);
-  v1=test(v1, k, data, e, next);
+  GetOrder(v1, id, data, head, next);
+  v1=test(v1, id, data, head, next);
   const vector<string> v2{equation.begin(), equation.begin()+open};
   const vector<string> v3{equation.begin()+close+1, equation.end()};
   vector<string> result;
@@ -235,39 +307,23 @@ vector<string> GetParenthesis(const vector<string> &equation, const int open, co
   return result;
 }
 
-void Print(Equation *head)
+void Delete(Equation *head)
 {
-  Equation *current = head;
-  Equation *prev = nullptr, *next = nullptr;
+  Equation *current=head;
+  Equation *prev=nullptr;
+  Equation *next=nullptr;
+  unsigned i=0;
 
-  while (current != nullptr) {
-    // Store next
-    // if(current==nullptr) break;
-    cout<<"te "<<next<<" "<<current<<'\n';
-    printf("aoe\n");
-
-    next = current->next;
-
-    // Reverse the node pointer for the current node
-    current->next = prev;
-    cout<<"t "<<current<<'\n';
-    // Advance the pointer one position.
-    prev = current;
+  while(current!=nullptr)
+    {
+      assert(i==0 && "Too many nodes!");
+    next=current->next;
+    current->next=prev;
+    prev=current;
     delete current;
-    current = next;
-    if(current==nullptr) break;
+    current=next;
+    i++;
   }
-
-  // Equation *tmp=head;
-  // Equation *nxt;
-  // cout<<"print"<<'\n';
-  // while(tmp!=nullptr)
-  //   {
-  //     nxt=tmp->next;
-  //     cout<<"t "<<tmp<<'\n';
-  //     delete tmp;
-  //     tmp=nxt;
-  //   }
 }
 
 void ParseEquations(const SMap &equations_map, const Data &data)
@@ -280,8 +336,8 @@ void ParseEquations(const SMap &equations_map, const Data &data)
   // 4. Addition and subtraction
 
   vector<string> v;
-  unsigned k=0;
-  Equation *e=nullptr;
+  unsigned id=0;
+  Equation *head=nullptr;
   Equation *next=nullptr;
 
   for(const auto& [name, equation]: equations_map)
@@ -291,12 +347,12 @@ void ParseEquations(const SMap &equations_map, const Data &data)
       cout<<"EQUATION"<<'\n';
       print_vector2(v);
       cout<<" "<<'\n';
-      v=test(v, k, data, e, next);
-      GetOrder(v, k, data, e, next);
-      e->next=nullptr;
-      Print(e);
+      v=test(v, id, data, head, next);
+      GetOrder(v, id, data, head, next);
+      head->next=nullptr;
+      Delete(head);
       next=nullptr;
-      k=0;
+      id=0;
       cout<<"ok"<<'\n';
       cout<<" "<<'\n';
     }
