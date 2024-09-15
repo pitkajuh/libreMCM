@@ -13,6 +13,8 @@
 
 #include "../types/MathOperation.h"
 #include "../types/Equation.h"
+#include <iostream>
+using std::cout;
 
 void printeq(Equation *m)
 {
@@ -83,7 +85,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   const double v_value=mc->v->GetValue();
 
   if(!isnan(result) and !isnan(v_value)) mc->CalculateResult(result);
-  else  e->m1=r->m1;
+  else e->m1=r->m1;
   r->m1=nullptr;
 
   if(k-r->id==1) e->next=r->next;
@@ -103,7 +105,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
 }
 
 template<typename T, typename U, typename L>
-MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const string &o)
+MathOperation *CreateNewMathOperation(const string s1, const string s2, const string o)
 {
   MathOperation *m=new L;
   m->SetV1(new T(s1));

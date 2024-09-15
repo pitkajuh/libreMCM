@@ -16,9 +16,6 @@
 #include "MathOperator.h"
 #include "../global/mathconst.h"
 
-#include <iostream>
-using std::cout;
-
 class MathOperationBase
 {
 public:
@@ -50,6 +47,7 @@ public:
   void SetV1(Value *v){v1=v;}
   void SetV2(Value *v){v2=v;}
   void CalculateResult(){result=math_operator->Calculate1(GetV1Value(), GetV2Value());}
+  virtual void Calculate()=0;
   ~MathOperation()
   {
     delete v1;
@@ -62,33 +60,20 @@ class NumericNumeric: public MathOperation
 {
   // Numeric-numeric math operation
 public:
-  MathOperationBase *New()
-  {
-    MathOperationBase *n=new NumericNumeric;
-    return n;
-  }
+  void Calculate(){}
 };
 
 class VariableVariable: public MathOperation
 {
   // Variable-variable math operation
 public:
-  MathOperationBase *New()
-  {
-    MathOperationBase *n=new VariableVariable;
-    return n;
-  }
+  void Calculate(){}
 };
 
 class ConstantVariable: public MathOperation
 {
   // Constant-variable math operation
 public:
-  MathOperationBase *New()
-  {
-    MathOperationBase *n=new ConstantVariable;
-    return n;
-  }
   void Calculate(){}
 };
 
@@ -96,11 +81,6 @@ class ConstantConstant: public MathOperation
 {
   // Constant-constant math operation
 public:
-  MathOperationBase *New()
-  {
-    MathOperationBase *n=new ConstantConstant;
-    return n;
-  }
   void Calculate(){}
 };
 
@@ -108,11 +88,6 @@ class NumericVariable: public MathOperation
 {
   // Numeric-variable math operation
 public:
-  MathOperationBase *New()
-  {
-    MathOperationBase *n=new NumericVariable;
-    return n;
-  }
   void Calculate(){}
 };
 
@@ -120,11 +95,6 @@ class NumericConstant: public MathOperation
 {
   // Numeric-constant math operation
 public:
-  MathOperationBase *New()
-  {
-    MathOperationBase *n=new NumericConstant;
-    return n;
-  }
   void Calculate(){}
 };
 
