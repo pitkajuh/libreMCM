@@ -122,6 +122,12 @@ public:
     // m1->CalculateResult();
     // result=m1->result;
   }
+  Equation(EquationOperation *m11, Equation *next1, const unsigned id1)
+  {
+    m1=m11;
+    next=next1;
+    id=id1;
+  }
   virtual ~Equation(){delete m1;}
 };
 

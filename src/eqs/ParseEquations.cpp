@@ -101,7 +101,7 @@ void SelectNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equat
 {
   Select(head, node2, newnode);
   Select(head, node1, newnode);
-  printeq(newnode);
+  // printeq(newnode);
 }
 
 void CreateNewNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned id, const unsigned nodeid1, const unsigned nodeid2)
@@ -127,14 +127,14 @@ Equation *CreateNewMathMath(const string s1, const string s2, const string o, co
   Equation *m1=Search(head, s1i);
   Equation *m2=Search(head, s2i);
 
-  printeq(head);
+  // printeq(head);
 
   if(delta==1) CreateNewNode(head, newhead, m1, m2, k, s1i, s2i);
   else CreateNewNode2(head, newhead, m1, m2, k, s1i, s2i);
 
   newhead->m11=m1;
   newhead->m21=m2;
-  printeq(newhead);
+  // printeq(newhead);
   return newhead;
 }
 
@@ -170,106 +170,29 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
   else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
 }
 
-// vector<string> FindOperator(vector<string> equation, const string find, unsigned &id, const Data &data, Equation *&head, Equation *&next)
-// {
-//   unsigned i=0;
-//   unsigned size=equation.size();
-//   cout<<"FindOperator"<<'\n';
-//   while(i<size)
-//     {
-
-//       unsigned ss=distance(equation.begin(), std::find(equation.begin(), equation.end(), find))-1;
-//       cout<<i<<"/"<<size-1<<" "<<ss<<'\n';
-//       if(find==equation[i])
-// 	{
-// 	  cout<<"Adding "<<"@"+to_string(id)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
-// 	  head=Val2(head, equation, i, data, id, next);
-
-// 	  cout<<head->id<<" head="<<head<<" next "<<head->next<<'\n';
-// 	  printeq(head);
-// 	  next=head;
-
-// 	  equation[i]="@"+to_string(id);
-// 	  equation.erase(equation.begin()+i+1);
-// 	  equation.erase(equation.begin()+i-1);
-// 	  print_vector2(equation);
-
-// 	  size=equation.size();
-// 	  id++;
-// 	  i=0;
-// 	  cout<<" "<<'\n';
-// 	  continue;
-// 	}
-//       i++;
-//     }
-//   return equation;
-// }
-
 vector<string> FindOperator(vector<string> equation, const string find, unsigned &id, const Data &data, Equation *&head, Equation *&next)
 {
-  unsigned i=0;
-  unsigned size=equation.size();
-  // unsigned ii=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
+  const unsigned size=equation.size();
+  const unsigned i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
 
-  // cout<<"FindOperator "<<ii<<" "<<size<<" "<<find<<'\n';
-
-  // if(ii!=size)
-  //   {
-  //     cout<<"ss!=size "<<ii<<" "<<size<<'\n';
-  //     cout<<"Adding "<<"@"+to_string(id)<<"="<<equation[ii-1]<<equation[ii]<<equation[ii+1]<<" "<<'\n';
-  //     head=Val2(head, equation, ii, data, id, next);
-
-  //     cout<<head->id<<" head="<<head<<" next "<<head->next<<'\n';
-  //     printeq(head);
-  //     next=head;
-
-  //     equation[ii]="@"+to_string(id);
-  //     equation.erase(equation.begin()+ii+1);
-  //     equation.erase(equation.begin()+ii-1);
-  //     print_vector2(equation);
-
-  //     size=equation.size();
-  //     id++;
-  //     i=0;
-  //   }
-  // else
-  //   {
-  //     cout<<"ELSE"<<'\n';
-  //   }
-
-
-  while(i<size)
+  if(i<size)
     {
+      cout<<"Adding "<<"@"+to_string(id)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
+      head=Val2(head, equation, i, data, id, next);
 
-      // unsigned ss=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
-      // if(ss==size)
-      // 	{
-      // 	  cout<<"ss==size "<<ss<<" "<<size<<'\n';
-      // 	}
-      // cout<<i<<"/"<<size-1<<" "<<ss<<'\n';
-      if(find==equation[i])
-	{
-	  cout<<"Adding "<<"@"+to_string(id)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
-	  head=Val2(head, equation, i, data, id, next);
+      cout<<head->id<<" head="<<head<<" next "<<head->next<<'\n';
+      // printeq(head);
+      next=head;
 
-	  cout<<head->id<<" head="<<head<<" next "<<head->next<<'\n';
-	  printeq(head);
-	  next=head;
+      equation[i]="@"+to_string(id);
+      equation.erase(equation.begin()+i+1);
+      equation.erase(equation.begin()+i-1);
+      print_vector2(equation);
 
-	  equation[i]="@"+to_string(id);
-	  equation.erase(equation.begin()+i+1);
-	  equation.erase(equation.begin()+i-1);
-	  print_vector2(equation);
-
-	  size=equation.size();
-	  id++;
-	  i=0;
-	  cout<<" "<<'\n';
-	// }
-	  continue;
-	}
-      i++;
+      id++;
+      equation=FindOperator(equation, find, id, data, head, next);
     }
+
   return equation;
 }
 
@@ -307,7 +230,7 @@ vector<string> GetParenthesis(const vector<string> &equation, const int open, co
   return result;
 }
 
-void Delete(Equation *head)
+void Delete(Equation *head, const unsigned id)
 {
   Equation *current=head;
   Equation *prev=nullptr;
@@ -316,7 +239,9 @@ void Delete(Equation *head)
 
   while(current!=nullptr)
     {
-      assert(i==0 && "Too many nodes!");
+      cout<<id<<" "<<head->id<<'\n';
+      assert(i==0);
+      assert(id-head->id==1);
     next=current->next;
     current->next=prev;
     prev=current;
@@ -350,7 +275,7 @@ void ParseEquations(const SMap &equations_map, const Data &data)
       v=test(v, id, data, head, next);
       GetOrder(v, id, data, head, next);
       head->next=nullptr;
-      Delete(head);
+      Delete(head, id);
       next=nullptr;
       id=0;
       cout<<"ok"<<'\n';

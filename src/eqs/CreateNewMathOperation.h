@@ -21,10 +21,7 @@ void printeq(Equation *m)
 
   while(c!=nullptr)
     {
-      // cout<<"find "<<i<<" now "<<c->id<<" "<<c->next<<'\n';
       cout<<c->id<<" "<<c<<" "<<c->next<<'\n';
-
-      // cout<<"Not found, next"<<'\n';
       c=c->next;
     }
   cout<<" "<<'\n';
@@ -33,18 +30,10 @@ void printeq(Equation *m)
 Equation *Search(Equation *&m, const unsigned &i)
 {
   Equation *c=m;
-  // int ii=c->id;
-  // cout<<"find "<<i<<'\n';
+
   while(c!=nullptr)
     {
-      // cout<<"find "<<i<<" now "<<c->id<<" "<<c->next<<'\n';
-      // cout<<"searching "<<i<<" now "<<c<<'\n';
-      if(c->id==i)
-	{
-	  // cout<<"found "<<i<<'\n';
-	  return c;
-	}
-      // cout<<"Not found, next"<<'\n';
+      if(c->id==i) return c;
       c=c->next;
     }
   cout<<"Warning id "<<i<<" not found"<<'\n';
@@ -54,20 +43,13 @@ Equation *Search(Equation *&m, const unsigned &i)
 Equation *Search2(Equation *&m, Equation *&f)
 {
   Equation *c=m;
-  // cout<<"find "<<f<<'\n';
 
-  if(f==c)
-    {
-      // cout<<"return c;"<<'\n';
-      return c;
-    }
+  if(f==c) return c;
 
   while(c!=nullptr)
-  // while(c!=f)
     {
       if(c->next==f)
 	{
-	  // cout<<"found "<<f<<" -> "<<c<<" "<<c->next<<'\n';
 	  return c;
 	}
       c=c->next;
@@ -75,19 +57,6 @@ Equation *Search2(Equation *&m, Equation *&f)
   cout<<"Warning id "<<f<<" not found"<<'\n';
   return nullptr;
 }
-
-// Equation *FindPrevious(Equation *m, Equation *f)
-// {
-//   Equation *c=m;
-
-//   while(c!=nullptr)
-//     {
-//       if(c==f->next) return c;
-//       c=c->next;
-//     }
-
-//   return nullptr;
-// }
 
 void Select(Equation *&head, Equation *&node, EquationMath *&newnode)
 {
