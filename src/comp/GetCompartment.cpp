@@ -21,7 +21,7 @@ const string EMPTY=" ";
 
 string UpdateValue(const string &str)
 {
-  const int size=str.size();
+  const unsigned size=str.size();
   string r=EMPTY;
   if(str.back()==DELIMITER and size>1) r=str.substr(0, size-1);
   return r;

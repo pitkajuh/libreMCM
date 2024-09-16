@@ -20,6 +20,7 @@
 #include <iostream>
 #include <cmath>
 #include <cassert>
+#include <cstdint>
 
 using std::to_string;
 using std::cout;
@@ -214,7 +215,7 @@ vector<string> RemoveOpenClose(vector<string> equation)
   return equation;
 }
 
-vector<string> GetParenthesis(const vector<string> &equation, const int open, const int close, unsigned &id, const Data &data, Equation *&head, Equation *&next)
+vector<string> GetParenthesis(const vector<string> &equation, const unsigned open, const unsigned close, unsigned &id, const Data &data, Equation *&head, Equation *&next)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
   GetOrder(v1, id, data, head, next);

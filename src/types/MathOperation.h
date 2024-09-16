@@ -32,7 +32,7 @@ private:
   Value *v1;
   Value *v2;
 public:
-  void SetOperator(const string &s)
+  void SetOperator(const string s)
   {
     if(s==ADD) math_operator=new Add;
     else if(s==SUBTRACT) math_operator=new Sub;

@@ -21,7 +21,7 @@ public:
   MathOperation *m1=nullptr;
   MathOperator *math_operator=nullptr;
 
-  void SetOperator(const string &s)
+  void SetOperator(const string s)
   {
     if(s==ADD) math_operator=new Add;
     else if(s==SUBTRACT) math_operator=new Sub;
@@ -56,14 +56,14 @@ class EquationOperationValueBase: public EquationOperation
 public:
   Value *v=nullptr;
 
-  virtual void CalculateResult(const double &d)=0;
+  virtual void CalculateResult(const double d)=0;
   ~EquationOperationValueBase(){delete v;}
 };
 
 class EquationOperationValue: public EquationOperationValueBase
 {
 public:
-  void CalculateResult(const double &d)
+  void CalculateResult(const double d)
   {
     result=math_operator->Calculate1(d, v->GetValue());
   }
@@ -76,7 +76,7 @@ public:
 
 class ValueEquationOperation: public EquationOperationValueBase
 {
-  void CalculateResult(const double &d)
+  void CalculateResult(const double d)
   {
     result=math_operator->Calculate1(v->GetValue(), d);
   }
@@ -100,7 +100,7 @@ class EquationBase2: public EquationBase
 public:
   MathOperator *math_operator=nullptr;
 
-  void SetOperator(const string &s)
+  void SetOperator(const string s)
   {
     if(s==ADD) math_operator=new Add;
     else if(s==SUBTRACT) math_operator=new Sub;
