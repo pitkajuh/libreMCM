@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <vector>
 #include <cstdint>
+#include <cassert>
 
 using std::vector;
 using std::find;
@@ -19,9 +20,9 @@ using std::find;
 using std::cout;
 void print_vector3(vector<string> &vec)
 {
-  uint16_t i=0;
+  uint8_t i=0;
   string empty="";
-  const uint16_t size=vec.size();
+  const uint8_t size=vec.size();
 
   while(i<size)
     {
@@ -31,12 +32,12 @@ void print_vector3(vector<string> &vec)
     }
   cout<<empty<<'\n';
 }
-int FindIndex(const string s)
+int8_t FindIndex(const string s)
 {
-  const uint16_t size=OPERATORS2.size();
-  int r=-1;
-  int i=0;
-  int found;
+  const uint8_t size=OPERATORS2.size();
+  int8_t r=-1;
+  int8_t i=0;
+  int8_t found;
 
   while(i<size)
     {
@@ -55,7 +56,7 @@ int FindIndex(const string s)
 
 vector<string> ToVector(string v)
 {
-  int i;
+  int16_t i;
   bool end=false;
   uint16_t size=v.size();
   string s;
@@ -104,5 +105,7 @@ vector<string> ToVector(string v)
 	}
       else end=true;
     }
+  assert(v.size()<=UINT8_MAX);
+
   return r;
 }

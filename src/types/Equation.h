@@ -91,7 +91,7 @@ class ValueEquationOperation: public EquationOperationValueBase
 class EquationBase
 {
 public:
-  uint16_t id;
+  uint8_t id;
   double result=NAN;
   virtual void Calculate()=0;
 };

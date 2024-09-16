@@ -29,7 +29,7 @@ void printeq(Equation *m)
   cout<<" "<<'\n';
 }
 
-Equation *Search(Equation *&m, const uint16_t i)
+Equation *Search(Equation *&m, const uint8_t i)
 {
   Equation *c=m;
 
@@ -71,7 +71,7 @@ void Select(Equation *&head, Equation *&node, EquationMath *&newnode)
 }
 
 template<typename T, typename U>
-Equation *NewMathValue(const string &s1, const string &s2, const string &o, const uint16_t k, Equation *&c, Equation *&next, const uint16_t size)
+Equation *NewMathValue(const string &s1, const string &s2, const string &o, const uint8_t k, Equation *&c, Equation *&next, const uint8_t size)
 {
   cout<<"NewMathValue"<<'\n';
   Equation *e=new Equation;
