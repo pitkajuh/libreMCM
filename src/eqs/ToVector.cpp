@@ -62,6 +62,8 @@ vector<string> ToVector(string v)
   string s;
   string mathop;
   vector<string> r;
+
+  // assert(size!=2 and size>0 && "The equation {v} is too short.");
   // cout<<v<<'\n';
   // while(size!=1)
   //   {
