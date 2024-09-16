@@ -30,9 +30,9 @@ using std::stoi;
 
 void print_vector2(const vector<string> &vec)
 {
-  unsigned i=0;
+  uint16_t i=0;
   string empty="";
-  const unsigned size=vec.size();
+  const uint16_t size=vec.size();
   while(i<size)
     {
       if(i==0)  empty=vec[i];
@@ -90,7 +90,7 @@ EquationOperation *CreateNewValueValueMathOperation(const string s1, const strin
   return m;
 }
 
-void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned deltaid)
+void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const uint16_t deltaid)
 {
   node2->next=node1->next;
 
@@ -105,26 +105,26 @@ void SelectNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equat
   // printeq(newnode);
 }
 
-void CreateNewNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned id, const unsigned nodeid1, const unsigned nodeid2)
+void CreateNewNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const uint16_t id, const uint16_t nodeid1, const uint16_t nodeid2)
 {
   if(nodeid1<nodeid2) ChangeHeadNode(head, newnode, node1, node2, id-nodeid2);
   else ChangeHeadNode(head, newnode, node2, node1, id-nodeid1);
 }
 
-void CreateNewNode2(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const unsigned id, const unsigned nodeid1, const unsigned nodeid2)
+void CreateNewNode2(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const uint16_t id, const uint16_t nodeid1, const uint16_t nodeid2)
 {
   if(nodeid1>nodeid2) SelectNode(head, newnode, node1, node2);
   else SelectNode(head, newnode, node2, node1);
 }
 
-Equation *CreateNewMathMath(const string s1, const string s2, const string o, const unsigned k, Equation *&head, Equation *&next, const unsigned size)
+Equation *CreateNewMathMath(const string s1, const string s2, const string o, const uint16_t k, Equation *&head, Equation *&next, const uint16_t size)
 {
   EquationMath *newhead=new EquationMath;
   newhead->SetOperator(o);
   newhead->id=k;
-  const unsigned s1i=stoi(s1.substr(1, s1.size()));
-  const unsigned s2i=stoi(s2.substr(1, s2.size()));
-  const unsigned delta=(s2i>s1i) ? s2i-s1i: s1i-s2i;
+  const uint16_t s1i=stoi(s1.substr(1, s1.size()));
+  const uint16_t s2i=stoi(s2.substr(1, s2.size()));
+  const uint16_t delta=(s2i>s1i) ? s2i-s1i: s1i-s2i;
   Equation *m1=Search(head, s1i);
   Equation *m2=Search(head, s2i);
 
@@ -139,13 +139,13 @@ Equation *CreateNewMathMath(const string s1, const string s2, const string o, co
   return newhead;
 }
 
-Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, const Data &data, const unsigned k, Equation *&next)
+Equation *Val2(Equation *&e, const vector<string> &equation, const uint16_t i, const Data &data, const uint16_t k, Equation *&next)
 {
   const string s1=equation[i-1];
   const string s2=equation[i+1];
   const string o=equation[i];
   const Bools b(s1, s2, data);
-  const unsigned size=equation.size();
+  const uint16_t size=equation.size();
 
   cout<<"Math operation "<<'\n';
   cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
@@ -171,10 +171,10 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const unsigned i, c
   else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
 }
 
-vector<string> FindOperator(vector<string> equation, const string find, unsigned &id, const Data &data, Equation *&head, Equation *&next)
+vector<string> FindOperator(vector<string> equation, const string find, uint16_t &id, const Data &data, Equation *&head, Equation *&next)
 {
-  const unsigned size=equation.size();
-  const unsigned i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
+  const uint16_t size=equation.size();
+  const uint16_t i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
 
   if(i<size)
     {
@@ -197,7 +197,7 @@ vector<string> FindOperator(vector<string> equation, const string find, unsigned
   return equation;
 }
 
-void GetOrder(vector<string> &equation, unsigned &id, const Data &data, Equation *&head, Equation *&next)
+void GetOrder(vector<string> &equation, uint16_t &id, const Data &data, Equation *&head, Equation *&next)
 {
   for(const auto&i: OPERATORS)
     {
@@ -209,13 +209,13 @@ void GetOrder(vector<string> &equation, unsigned &id, const Data &data, Equation
 vector<string> RemoveOpenClose(vector<string> equation)
 {
   // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
-  const unsigned open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
-  const unsigned close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
+  const uint16_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
+  const uint16_t close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
   if(open!=equation.size() and close!=equation.size()) equation=Remove(equation, open, close);
   return equation;
 }
 
-vector<string> GetParenthesis(const vector<string> &equation, const unsigned open, const unsigned close, unsigned &id, const Data &data, Equation *&head, Equation *&next)
+vector<string> GetParenthesis(const vector<string> &equation, const uint16_t open, const uint16_t close, uint16_t &id, const Data &data, Equation *&head, Equation *&next)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
   GetOrder(v1, id, data, head, next);
@@ -231,25 +231,25 @@ vector<string> GetParenthesis(const vector<string> &equation, const unsigned ope
   return result;
 }
 
-void Delete(Equation *head, const unsigned id)
+void Delete(Equation *head, const uint16_t id)
 {
   Equation *current=head;
   Equation *prev=nullptr;
   Equation *next=nullptr;
-  unsigned i=0;
+  uint16_t i=0;
 
   while(current!=nullptr)
     {
       cout<<id<<" "<<head->id<<'\n';
       assert(i==0);
       assert(id-head->id==1);
-    next=current->next;
-    current->next=prev;
-    prev=current;
-    delete current;
-    current=next;
-    i++;
-  }
+      next=current->next;
+      current->next=prev;
+      prev=current;
+      delete current;
+      current=next;
+      i++;
+    }
 }
 
 void ParseEquations(const SMap &equations_map, const Data &data)
@@ -262,7 +262,7 @@ void ParseEquations(const SMap &equations_map, const Data &data)
   // 4. Addition and subtraction
 
   vector<string> v;
-  unsigned id=0;
+  uint16_t id=0;
   Equation *head=nullptr;
   Equation *next=nullptr;
 

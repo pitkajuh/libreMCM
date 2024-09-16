@@ -13,6 +13,7 @@
 
 #include "MathOperation.h"
 #include "MathOperator.h"
+#include <cstdint>
 
 class EquationOperation
 {
@@ -90,7 +91,7 @@ class ValueEquationOperation: public EquationOperationValueBase
 class EquationBase
 {
 public:
-  unsigned id;
+  uint16_t id;
   double result=NAN;
   virtual void Calculate()=0;
 };

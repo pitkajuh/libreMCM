@@ -11,16 +11,17 @@
 #include "../global/mathconst.h"
 #include <algorithm>
 #include <vector>
+#include <cstdint>
 
 using std::vector;
 using std::find;
 #include <iostream>
 using std::cout;
-void print_vector3(vector<string> vec)
+void print_vector3(vector<string> &vec)
 {
-  unsigned i=0;
+  uint16_t i=0;
   string empty="";
-  const unsigned size=vec.size();
+  const uint16_t size=vec.size();
 
   while(i<size)
     {
@@ -32,7 +33,7 @@ void print_vector3(vector<string> vec)
 }
 int FindIndex(const string s)
 {
-  const int size=OPERATORS2.size();
+  const uint16_t size=OPERATORS2.size();
   int r=-1;
   int i=0;
   int found;
@@ -56,7 +57,7 @@ vector<string> ToVector(string v)
 {
   int i;
   bool end=false;
-  unsigned size=v.size();
+  uint16_t size=v.size();
   string s;
   string mathop;
   vector<string> r;

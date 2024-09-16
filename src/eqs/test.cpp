@@ -18,7 +18,7 @@
 using std::to_string;
 using std::cout;
 
-vector<string> Remove(vector<string> equation, const unsigned open, const unsigned close)
+vector<string> Remove(vector<string> equation, const uint16_t open, const uint16_t close)
 {
   if(equation[open+1]==OPEN and equation[close+1]==CLOSE)
     {
@@ -29,21 +29,21 @@ vector<string> Remove(vector<string> equation, const unsigned open, const unsign
   return equation;
 }
 
-bool IsOpen(const unsigned open, const unsigned close, const vector<string> &tmp)
+bool IsOpen(const uint16_t open, const uint16_t close, const vector<string> &tmp)
 {
   bool result=false;
-  unsigned open1=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
+  uint16_t open1=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
   if(open1==tmp.size()) result=true;
   return result;
 }
 
-vector<string> test2(vector<string> equation, unsigned open, unsigned close, unsigned &id, const Data &data, Equation *&head, Equation *&next)
+vector<string> test2(vector<string> equation, uint16_t open, uint16_t close, uint16_t &id, const Data &data, Equation *&head, Equation *&next)
 {
   bool end=false;
   vector<string> tmp;
-  unsigned open2;
-  unsigned size;
-  const unsigned open3=open;
+  uint16_t open2;
+  uint16_t size;
+  const uint16_t open3=open;
 
   while(!end)
     {
@@ -63,12 +63,12 @@ vector<string> test2(vector<string> equation, unsigned open, unsigned close, uns
   return equation;
 }
 
-vector<string> test(vector<string> equation, unsigned &id, const Data &data, Equation *&head, Equation *&next)
+vector<string> test(vector<string> equation, uint16_t &id, const Data &data, Equation *&head, Equation *&next)
 {
   bool end=false;
   bool is;
-  unsigned open;
-  unsigned close;
+  uint16_t open;
+  uint16_t close;
   vector<string> tmp;
 
   while(!end)

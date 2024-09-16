@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <cstdint>
 
 using std::cout;
 using std::ifstream;
@@ -21,7 +22,7 @@ const string EMPTY=" ";
 
 string UpdateValue(const string &str)
 {
-  const unsigned size=str.size();
+  const uint16_t size=str.size();
   string r=EMPTY;
   if(str.back()==DELIMITER and size>1) r=str.substr(0, size-1);
   return r;
@@ -30,9 +31,9 @@ string UpdateValue(const string &str)
 vector<string> LineToVector(string &s)
 {
   bool end=false;
-  unsigned size=s.size();
-  unsigned size2;
-  unsigned delimiter_i;
+  uint16_t size=s.size();
+  uint16_t size2;
+  uint16_t delimiter_i;
   vector<string> r;
   string str;
 

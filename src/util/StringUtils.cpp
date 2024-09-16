@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <iostream>
 #include "../types/StringSplit.h"
+#include <cstdint>
 
 using std::distance;
 using std::find;
@@ -23,7 +24,7 @@ const string RemoveComment(string line)
   if(comment==COMMENT) line="";
   else
     {
-      const unsigned at=distance(line.begin(), find(line.begin(), line.end(), '/'));
+      const uint16_t at=distance(line.begin(), find(line.begin(), line.end(), '/'));
       if(line[at]=='/' and line[at+1]=='/') line=line.substr(0, at);
     }
 
@@ -32,8 +33,8 @@ const string RemoveComment(string line)
 
 StringSplit LineSplit(const string line)
 {
-  const unsigned size=line.size();
-  const unsigned at=distance(line.begin(), find(line.begin(), line.end(), '='));
+  const uint16_t size=line.size();
+  const uint16_t at=distance(line.begin(), find(line.begin(), line.end(), '='));
   string name;
   string value;
 

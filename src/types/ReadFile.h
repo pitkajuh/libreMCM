@@ -16,6 +16,7 @@
 #include <memory>
 #include "StringSplit.h"
 #include "../global/mathconst.h"
+#include <cstdint>
 
 using std::ifstream;
 using std::streampos;
@@ -40,8 +41,8 @@ public:
 
   const string SelectName(string now, const string prev)
   {
-    const unsigned sizenow=now.size();
-    const unsigned at=1+now.find(BOPEN);
+    const uint16_t sizenow=now.size();
+    const uint16_t at=1+now.find(BOPEN);
 
     if(sizenow==1 and now==BOPEN) now=prev;
     else if(sizenow>1 and sizenow==at) now=now.substr(0, sizenow-1);
@@ -56,7 +57,7 @@ class FName: public ReadFile
 public:
   void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)
   {
-    const unsigned size=line.size();
+    const uint16_t size=line.size();
     const size_t o=line.find(find);
     bool stop=false;
     streampos read_pos;
@@ -79,7 +80,7 @@ public:
 
   void PushTo()
   {
-    const unsigned size=line.size();
+    const uint16_t size=line.size();
     const size_t o=line.find(EQUAL);
 
     if(size>1 and o<size) v.emplace_back(line);
@@ -87,7 +88,7 @@ public:
 
   void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)
   {
-    const unsigned size=line.size();
+    const uint16_t size=line.size();
     const size_t o=line.find(find);
     bool stop=false;
     streampos read_pos;
@@ -131,7 +132,7 @@ struct Pair
   vector<string> list;
   streampos position;
 
-  Pair(const string s, const vector<string> &v, const unsigned p)
+  Pair(const string s, const vector<string> &v, const uint16_t p)
   {
     name=s;
     list=v;

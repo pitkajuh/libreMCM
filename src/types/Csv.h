@@ -13,6 +13,7 @@
 
 #include <string>
 #include <vector>
+#include <cstdint>
 
 using std::string;
 using std::vector;
@@ -25,7 +26,7 @@ using Row=vector<string>;
 class Csv
 {
 public:
-  unsigned size=0;
+  uint16_t size=0;
   vector<Row> rows;
   vector<Column> columns;
   vector<string> diagonal;
@@ -50,7 +51,7 @@ public:
   {
     string compartment;
 
-    for(unsigned i=0; i<rows.size(); i++)
+    for(uint16_t i=0; i<rows.size(); i++)
       {
 	compartment=rows[i][i];
 	// TODO Check that diagonal element is not empty.
@@ -68,7 +69,7 @@ public:
   {
     SetSize(row);
     UpdateColumns(row);
-    for(unsigned i=0; i<row.size(); i++) columns[i][i]=row[i];
+    for(uint16_t i=0; i<row.size(); i++) columns[i][i]=row[i];
   }
 
   void AddCsv(const vector<string> &row)

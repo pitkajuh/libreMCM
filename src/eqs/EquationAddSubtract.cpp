@@ -11,12 +11,13 @@
 #include "../types/Csv.h"
 #include "../types/AddSubtract.h"
 #include "../inc/namespace.h"
+#include <cstdint>
 
 using namespace libremcm;
 
 const string EMPTY=" ";
 
-vector<string> GetUp(const vector<string> v, unsigned i)
+vector<string> GetUp(const vector<string> v, uint16_t i)
 {
   vector<string> r;
 
@@ -28,7 +29,7 @@ vector<string> GetUp(const vector<string> v, unsigned i)
   return r;
 }
 
-vector<string> GetDown(const vector<string> v, unsigned i)
+vector<string> GetDown(const vector<string> v, uint16_t i)
 {
   vector<string> r;
 
@@ -36,7 +37,7 @@ vector<string> GetDown(const vector<string> v, unsigned i)
   return r;
 }
 
-AddSubtract GetEquations(const Csv &csv, const unsigned i)
+AddSubtract GetEquations(const Csv &csv, const uint16_t i)
 {
   const vector<string> column=csv.columns[i];
   const vector<string> row=csv.rows[i];
@@ -60,6 +61,6 @@ AddSubtract GetEquations(const Csv &csv, const unsigned i)
 Map<string, AddSubtract> EquationAddSubtract(const Csv &csv)
 {
   Map<string, AddSubtract> Map;
-  for(unsigned i=0; i<csv.diagonal.size(); i++) Map[csv.diagonal[i]]=GetEquations(csv, i);
+  for(uint16_t i=0; i<csv.diagonal.size(); i++) Map[csv.diagonal[i]]=GetEquations(csv, i);
   return Map;
 }

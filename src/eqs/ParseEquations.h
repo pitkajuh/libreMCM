@@ -16,7 +16,7 @@
 #include "../types/MathOperation.h"
 
 void ParseEquations(const SMap &equations_map, const Data &data);
-vector<string> GetParenthesis(const vector<string> &equation, const unsigned open, const unsigned close, unsigned &k, const Data &data, Equation *&e, Equation *&next);
+vector<string> GetParenthesis(const vector<string> &equation, const uint16_t open, const uint16_t close, uint16_t &k, const Data &data, Equation *&e, Equation *&next);
 vector<string> RemoveOpenClose(vector<string> equation);
 
 #endif
