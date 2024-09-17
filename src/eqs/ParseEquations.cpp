@@ -116,7 +116,7 @@ void CreateNewNode2(Equation *&head, EquationMath *&newnode, Equation *&node1, E
   else SelectNode(head, newnode, node2, node1);
 }
 
-Equation *CreateNewMathMath(const string s1, const string s2, const string o, const uint8_t k, Equation *&head, Equation *&next, const uint8_t size)
+Equation *CreateNewMathMath(const string s1, const string s2, const string o, const uint8_t k, Equation *&head)
 {
   EquationMath *newhead=new EquationMath;
   newhead->SetOperator(o);
@@ -144,7 +144,6 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const uint8_t i, co
   const string s2=equation[i+1];
   const string o=equation[i];
   const Bools b(s1, s2, data);
-  const uint8_t size=equation.size();
 
   cout<<"Math operation "<<'\n';
   cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
@@ -159,23 +158,22 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const uint8_t i, co
       mc->id=k;
       return mc;
     }
-  else if(b.s1_variable and b.s2_math) return NewMathValue<Variable, ValueEquationOperation>(s2, s1, o, k, e,  next, size);
-  else if(b.s1_constant and b.s2_math) return NewMathValue<Constant, ValueEquationOperation>(s2, s1, o, k, e, next, size);
-  else if(b.s1_numeric and b.s2_math) return NewMathValue<Numeric, ValueEquationOperation>(s2, s1, o, k, e, next, size);
-  else if(b.s1_math and b.s2_variable) return NewMathValue<Variable, EquationOperationValue>(s1, s2, o, k, e, next, size);
-  else if(b.s1_math and b.s2_constant) return NewMathValue<Constant, EquationOperationValue>(s1, s2, o, k, e, next, size);
-  else if(b.s1_math and b.s2_numeric) return NewMathValue<Numeric, EquationOperationValue>(s1, s2, o, k, e, next, size);
-  else if(b.s1_math and b.s2_math) return CreateNewMathMath(s1, s2, o, k, e, next, size);
+  else if(b.s1_variable and b.s2_math) return NewMathValue<Variable, ValueEquationOperation>(s2, s1, o, k, e,  next);
+  else if(b.s1_constant and b.s2_math) return NewMathValue<Constant, ValueEquationOperation>(s2, s1, o, k, e, next);
+  else if(b.s1_numeric and b.s2_math) return NewMathValue<Numeric, ValueEquationOperation>(s2, s1, o, k, e, next);
+  else if(b.s1_math and b.s2_variable) return NewMathValue<Variable, EquationOperationValue>(s1, s2, o, k, e, next);
+  else if(b.s1_math and b.s2_constant) return NewMathValue<Constant, EquationOperationValue>(s1, s2, o, k, e, next);
+  else if(b.s1_math and b.s2_numeric) return NewMathValue<Numeric, EquationOperationValue>(s1, s2, o, k, e, next);
+  else if(b.s1_math and b.s2_math) return CreateNewMathMath(s1, s2, o, k, e);
   else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math) throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
   else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
 }
 
-vector<string> FindOperator(vector<string> equation, const string find, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
+void FindOperator(vector<string> &equation, const string find, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
 {
-  const uint8_t size=equation.size();
   const uint8_t i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
 
-  if(i<size)
+  if(i<equation.size())
     {
       cout<<"Adding "<<"@"+to_string(id)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
       head=Val2(head, equation, i, data, id, next);
@@ -190,10 +188,8 @@ vector<string> FindOperator(vector<string> equation, const string find, uint8_t 
       print_vector2(equation);
 
       id++;
-      equation=FindOperator(equation, find, id, data, head, next);
+      FindOperator(equation, find, id, data, head, next);
     }
-
-  return equation;
 }
 
 void GetOrder(vector<string> &equation, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
@@ -201,7 +197,7 @@ void GetOrder(vector<string> &equation, uint8_t &id, const Data &data, Equation 
   for(const auto&i: OPERATORS)
     {
       if(equation.size()<2) break;
-      equation=FindOperator(equation, i, id, data, head, next);
+      FindOperator(equation, i, id, data, head, next);
     }
 }
 

@@ -32,7 +32,7 @@ public:
   virtual void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)=0;
   virtual void PushTo(){}
 
-  void Set(const bool &v1, const streampos &v2, const string str)
+  void Set(const bool v1, const streampos &v2, const string str)
   {
     stop=v1;
     position=v2;
