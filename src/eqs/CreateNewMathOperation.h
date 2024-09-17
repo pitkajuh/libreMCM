@@ -105,7 +105,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
 }
 
 template<typename T, typename U, typename L>
-MathOperation *CreateNewMathOperation(const string s1, const string s2, const string o)
+MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const string &o)
 {
   MathOperation *m=new L;
   m->SetV1(new T(s1));

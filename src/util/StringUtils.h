@@ -14,6 +14,6 @@
 #include "../types/StringSplit.h"
 
 const string ParseLine(string &line);
-StringSplit LineSplit(const string line);
+StringSplit LineSplit(const string &line);
 
 #endif

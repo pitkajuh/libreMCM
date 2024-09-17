@@ -29,17 +29,17 @@ public:
   streampos position=0;
   string line;
 
-  virtual void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)=0;
+  virtual void GetFunction(ifstream &f, const string &line, const string &find, const string &previous, ReadFile *res)=0;
   virtual void PushTo(){}
 
-  void Set(const bool v1, const streampos &v2, const string str)
+  void Set(const bool v1, const streampos &v2, const string &str)
   {
     stop=v1;
     position=v2;
     line=str;
   }
 
-  const string SelectName(string now, const string prev)
+  const string SelectName(string now, const string &prev)
   {
     const uint16_t sizenow=now.size();
     const uint16_t at=1+now.find(BOPEN);
@@ -55,7 +55,7 @@ public:
 class FName: public ReadFile
 {
 public:
-  void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)
+  void GetFunction(ifstream &f, const string &line, const string &find, const string &previous, ReadFile *res)
   {
     const uint16_t size=line.size();
     const size_t o=line.find(find);
@@ -86,7 +86,7 @@ public:
     if(size>1 and o<size) v.emplace_back(line);
   }
 
-  void GetFunction(ifstream &f, const string line, const string find, const string previous, ReadFile *res)
+  void GetFunction(ifstream &f, const string &line, const string &find, const string &previous, ReadFile *res)
   {
     const uint16_t size=line.size();
     const size_t o=line.find(find);
@@ -132,7 +132,7 @@ struct Pair
   vector<string> list;
   streampos position;
 
-  Pair(const string s, const vector<string> &v, const uint16_t p)
+  Pair(const string &s, const vector<string> &v, const uint16_t p)
   {
     name=s;
     list=v;

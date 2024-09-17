@@ -32,7 +32,7 @@ void print_vector3(vector<string> &vec)
     }
   cout<<empty<<'\n';
 }
-int8_t FindIndex(const string s)
+int8_t FindIndex(const string &s)
 {
   const uint8_t size=OPERATORS2.size();
   int8_t r=-1;

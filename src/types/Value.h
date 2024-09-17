@@ -23,8 +23,8 @@ protected:
 private:
   double value=NAN;
 public:
-  void SetName(const string s){name=s;}
-  void SetValue(const double v){value=v;}
+  void SetName(const string &s){name=s;}
+  void SetValue(const double &v){value=v;}
   string GetName(){return name;}
   double GetValue(){return value;}
   virtual ~Value(){}
@@ -33,19 +33,19 @@ public:
 class Constant: public Value
 {
  public:
-  Constant(const string s){SetName(s);}
+  Constant(const string &s){SetName(s);}
 };
 
 class Variable: public Value
 {
 public:
-  Variable(const string s){SetName(s);}
+  Variable(const string &s){SetName(s);}
 };
 
 class Numeric: public Value
 {
 public:
-  Numeric(const string s){SetValue(std::stod(s));}
+  Numeric(const string &s){SetValue(std::stod(s));}
   Numeric(const double s){SetValue(s);}
 };
 

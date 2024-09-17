@@ -22,7 +22,7 @@ public:
   MathOperation *m1=nullptr;
   MathOperator *math_operator=nullptr;
 
-  void SetOperator(const string s)
+  void SetOperator(const string &s)
   {
     if(s==ADD) math_operator=new Add;
     else if(s==SUBTRACT) math_operator=new Sub;
@@ -101,7 +101,7 @@ class EquationBase2: public EquationBase
 public:
   MathOperator *math_operator=nullptr;
 
-  void SetOperator(const string s)
+  void SetOperator(const string &s)
   {
     if(s==ADD) math_operator=new Add;
     else if(s==SUBTRACT) math_operator=new Sub;

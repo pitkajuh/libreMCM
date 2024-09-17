@@ -20,7 +20,7 @@ using std::ifstream;
 const char DELIMITER=';';
 const string EMPTY=" ";
 
-string UpdateValue(const string str)
+string UpdateValue(const string &str)
 {
   const uint16_t size=str.size();
   string r=EMPTY;
@@ -28,7 +28,7 @@ string UpdateValue(const string str)
   return r;
 }
 
-vector<string> LineToVector(string s)
+vector<string> LineToVector(string &s)
 {
   bool end=false;
   uint16_t size=s.size();

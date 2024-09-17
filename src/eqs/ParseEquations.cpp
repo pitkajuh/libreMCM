@@ -53,7 +53,7 @@ public:
   bool s2_numeric;
   bool s2_math;
 
-  Bools(const string s1, const string s2, const Data &data)
+  Bools(const string &s1, const string &s2, const Data &data)
   {
     s1_variable=IsIn(s1, data.diagonal);
     s1_constant=IsIn(s1, data.constants_map);
@@ -66,7 +66,7 @@ public:
   }
 };
 
-EquationOperation *CreateNewValueValueMathOperation(const string s1, const string s2, const string o, const Bools &b)
+EquationOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b)
 {
   EquationOperation *m=new EquationOperation;
 
@@ -116,7 +116,7 @@ void CreateNewNode2(Equation *&head, EquationMath *&newnode, Equation *&node1, E
   else SelectNode(head, newnode, node2, node1);
 }
 
-Equation *CreateNewMathMath(const string s1, const string s2, const string o, const uint8_t k, Equation *&head)
+Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, const uint8_t k, Equation *&head)
 {
   EquationMath *newhead=new EquationMath;
   newhead->SetOperator(o);
@@ -169,7 +169,7 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const uint8_t i, co
   else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
 }
 
-void FindOperator(vector<string> &equation, const string find, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
+void FindOperator(vector<string> &equation, const string &find, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
 {
   const uint8_t i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
 

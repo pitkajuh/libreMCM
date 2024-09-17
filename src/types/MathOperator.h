@@ -17,7 +17,7 @@
 class MathOperator
 {
 public:
-  virtual double Calculate1(const double &v1, const double &v2)=0;
+  virtual double Calculate1(const double v1, const double v2)=0;
   virtual MathOperator *New()=0;
   virtual ~MathOperator(){}
 };
@@ -25,7 +25,7 @@ public:
 class Add:public MathOperator
 {
 public:
-  double Calculate1(const double &v1, const double &v2) {return v1+v2;}
+  double Calculate1(const double v1, const double v2) {return v1+v2;}
   MathOperator *New()
   {
     MathOperator *m=new Add;
@@ -36,7 +36,7 @@ public:
 class Sub:public MathOperator
 {
 public:
-  double Calculate1(const double &v1, const double &v2) {return v1-v2;}
+  double Calculate1(const double v1, const double v2) {return v1-v2;}
   MathOperator *New()
   {
     MathOperator *m=new Sub;
@@ -47,7 +47,7 @@ public:
 class Mul:public MathOperator
 {
 public:
-  double Calculate1(const double &v1, const double &v2) {return v1*v2;}
+  double Calculate1(const double v1, const double v2) {return v1*v2;}
   MathOperator *New()
   {
     MathOperator *m=new Mul;
@@ -58,7 +58,7 @@ public:
 class Div:public MathOperator
 {
 public:
-  double Calculate1(const double &v1, const double &v2) {return v1/v2;}
+  double Calculate1(const double v1, const double v2) {return v1/v2;}
   MathOperator *New()
   {
     MathOperator *m=new Div;
@@ -69,7 +69,7 @@ public:
 class Exp:public MathOperator
 {
 public:
-  double Calculate1(const double &v1, const double &v2) {return pow(v1, v2);}
+  double Calculate1(const double v1, const double v2) {return pow(v1, v2);}
   MathOperator *New()
   {
     MathOperator *m=new Exp;
