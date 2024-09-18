@@ -181,7 +181,6 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
       cout<<head->id<<" head="<<head<<" next "<<head->next<<'\n';
       // printeq(head);
       next=head;
-
       equation[i]="@"+to_string(id);
       equation.erase(equation.begin()+i+1);
       equation.erase(equation.begin()+i-1);
