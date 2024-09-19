@@ -185,7 +185,6 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
       equation.erase(equation.begin()+i+1);
       equation.erase(equation.begin()+i-1);
       print_vector2(equation);
-
       id++;
       FindOperator(equation, find, id, data, head, next);
     }
