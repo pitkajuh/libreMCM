@@ -31,6 +31,7 @@ void printeq(Equation *m)
 
 Equation *Search(Equation *&m, const uint8_t i)
 {
+  // Find node from linked list m by number.
   Equation *c=m;
 
   while(c!=nullptr)
@@ -38,25 +39,21 @@ Equation *Search(Equation *&m, const uint8_t i)
       if(c->id==i) return c;
       c=c->next;
     }
-  cout<<"Warning id "<<i<<" not found"<<'\n';
   return nullptr;
 }
 
 Equation *Search2(Equation *&m, Equation *&f)
 {
-  Equation *c=m;
+    // Find node from linked list m by memory address of f.
+  if(f==m) return m;
 
-  if(f==c) return c;
+  Equation *c=m;
 
   while(c!=nullptr)
     {
-      if(c->next==f)
-	{
-	  return c;
-	}
+      if(c->next==f) return c;
       c=c->next;
     }
-  cout<<"Warning id "<<f<<" not found"<<'\n';
   return nullptr;
 }
 
