@@ -71,34 +71,33 @@ template<typename T, typename U>
 Equation *NewMathValue(const string &s1, const string &s2, const string &o, const uint8_t k, Equation *&c, Equation *&next)
 {
   cout<<"NewMathValue"<<'\n';
-  Equation *e=new Equation;
+  Equation *head=new Equation;
   EquationOperationValueBase *mc=new U;
   mc->v=new T(s2);
   mc->SetOperator(o);
-  e->id=k;
+  head->id=k;
 
   Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
   const double result=r->result;
-  const double v_value=mc->v->GetValue();
 
-  if(!isnan(result) and !isnan(v_value)) mc->CalculateResult(result);
-  else e->m1=r->m1;
+  if(!isnan(result) and !isnan(mc->v->GetValue())) mc->CalculateResult(result);
+  else head->m1=r->m1;
   r->m1=nullptr;
 
-  if(k-r->id==1) e->next=r->next;
+  if(k-r->id==1) head->next=r->next;
   else
     {
       Equation *prev=Search2(c, r);
 
       if(r->next!=nullptr) prev->next=r->next->next;
       else prev->next=r->next;
-      e->next=next;
+      head->next=next;
     }
 
   cout<<"Delete "<<r->id<<" r "<<r<<" r->next "<<r->next<<" "<<k<<'\n';
   delete mc;
   delete r;
-  return e;
+  return head;
 }
 
 template<typename T, typename U, typename L>
