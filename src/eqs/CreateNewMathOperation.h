@@ -67,20 +67,18 @@ void Select(Equation *&head, Equation *&node, EquationMath *&newnode)
     }
 }
 
-template<typename T, typename U>
+template<typename T>
 Equation *NewMathValue(const string &s1, const string &s2, const string &o, const uint8_t k, Equation *&c, Equation *&next)
 {
   cout<<"NewMathValue"<<'\n';
-  Equation *head=new Equation;
-  EquationOperationValueBase *mc=new U;
-  mc->v=new T(s2);
-  mc->SetOperator(o);
+ EquationValue *head=new EquationValue;
   head->id=k;
-
+  head->v=new T(s2);
+  head->SetOperator(o);
   Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
   const double result=r->result;
 
-  if(!isnan(result) and !isnan(mc->v->GetValue())) mc->CalculateResult(result);
+  if(!isnan(result) and !isnan(head->v->GetValue())) head->CalculateResult(result);
   else head->m1=r->m1;
   r->m1=nullptr;
 
@@ -95,7 +93,6 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
     }
 
   cout<<"Delete "<<r->id<<" r "<<r<<" r->next "<<r->next<<" "<<k<<'\n';
-  delete mc;
   delete r;
   return head;
 }
