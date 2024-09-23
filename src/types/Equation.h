@@ -44,6 +44,11 @@ public:
     // m1->CalculateResult();
     // result=m1->result;
   }
+  Equation *New()
+  {
+    printf("new Equation\n");
+    return new Equation;
+  }
   virtual ~Equation()
   {
     delete m1;
@@ -76,6 +81,50 @@ public:
   }
 };
 
+class EquationV: public EquationValue
+{
+public:
+  void CalculateResult(const double d)
+  {
+    // m1->CalculateResult();
+    // result=m1->result;
+    result=math_operator->Calculate1(d, v->GetValue());
+  }
+  void Calculate()
+  {
+    // m1->CalculateResult();
+    // result=m1->result;
+    // result=math_operator->Calculate1(v->GetValue(), m1->result);
+  }
+  EquationV *New()
+  {
+    printf("new EquationV\n");
+    return new EquationV;
+  }
+};
+
+class VEquation: public EquationValue
+{
+public:
+  void CalculateResult(const double d)
+  {
+    // m1->CalculateResult();
+    // result=m1->result;
+    result=math_operator->Calculate1(v->GetValue(), d);
+  }
+  void Calculate()
+  {
+    // m1->CalculateResult();
+    // result=m1->result;
+    // result=math_operator->Calculate1(v->GetValue(), m1->result);
+  }
+  VEquation *New()
+  {
+    printf("new VEquation\n");
+    return new VEquation;
+  }
+};
+
 class EquationMath: public Equation
 {
 public:
@@ -87,6 +136,11 @@ public:
   {
     // m1->CalculateResult();
     // result=m1->result;
+  }
+  EquationMath *New()
+  {
+    printf("new EquationMath\n");
+    return new EquationMath;
   }
   virtual ~EquationMath()
   {

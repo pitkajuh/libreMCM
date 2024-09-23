@@ -67,11 +67,10 @@ void Select(Equation *&head, Equation *&node, EquationMath *&newnode)
     }
 }
 
-template<typename T>
+template<typename T, typename U>
 Equation *NewMathValue(const string &s1, const string &s2, const string &o, const uint8_t k, Equation *&c, Equation *&next)
 {
-  cout<<"NewMathValue"<<'\n';
- EquationValue *head=new EquationValue;
+  EquationValue *head=new U;
   head->id=k;
   head->v=new T(s2);
   head->SetOperator(o);
