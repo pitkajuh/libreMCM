@@ -23,7 +23,7 @@ void printeq(Equation *m)
 
   while(c!=nullptr)
     {
-      cout<<c->id<<" "<<c<<" "<<c->next<<'\n';
+      cout<<std::to_string(c->id)<<" "<<c<<" "<<c->next<<'\n';
       c=c->next;
     }
   cout<<" "<<'\n';
@@ -91,7 +91,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
       head->next=next;
     }
 
-  cout<<"Delete "<<r->id<<" r "<<r<<" r->next "<<r->next<<" "<<k<<'\n';
+  cout<<"Delete "<<std::to_string(r->id)<<" r "<<r<<" r->next "<<r->next<<" "<<std::to_string(k)<<'\n';
   delete r;
   return head;
 }
