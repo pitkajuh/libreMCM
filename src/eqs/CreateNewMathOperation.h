@@ -23,7 +23,7 @@ void printeq(Equation *m)
 
   while(c!=nullptr)
     {
-      cout<<std::to_string(c->id)<<" "<<c<<" "<<c->next<<'\n';
+      cout<<std::to_string(c->GetId())<<" "<<c<<" "<<c->next<<'\n';
       c=c->next;
     }
   cout<<" "<<'\n';
@@ -36,7 +36,7 @@ Equation *Search(Equation *&m, const uint8_t i)
 
   while(c!=nullptr)
     {
-      if(c->id==i) return c;
+      if(c->GetId()==i) return c;
       c=c->next;
     }
   return nullptr;
@@ -68,33 +68,33 @@ void Select(Equation *&head, Equation *&node, EquationMath *&newnode)
 }
 
 template<typename T, typename U>
-Equation *NewMathValue(const string &s1, const string &s2, const string &o, const uint8_t k, Equation *&c, Equation *&next)
+Equation *NewMathValue(const string &s1, const string &s2, const string &o, const uint8_t id, Equation *&head, Equation *&next)
 {
-  EquationValue *head=new U;
-  head->id=k;
-  head->v=new T(s2);
-  head->SetOperator(o);
-  Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
+  EquationValue *newhead=new U;
+  newhead->SetId(id);
+  newhead->v=new T(s2);
+  newhead->SetOperator(o);
+  Equation *r=Search(head, stoi(s1.substr(1, s1.size())));
   const double result=r->result;
   printf("NewMathValue\n");
   r->GetType();
-  if(!isnan(result) and !isnan(head->v->GetValue())) head->CalculateResult(result);
-  else head->m1=r->m1;
+  if(!isnan(result) and !isnan(newhead->v->GetValue())) newhead->CalculateResult(result);
+  else newhead->m1=r->m1;
   r->m1=nullptr;
 
-  if(k-r->id==1) head->next=r->next;
+  if(id-r->GetId()==1) newhead->next=r->next;
   else
     {
-      Equation *prev=Search2(c, r);
+      Equation *prev=Search2(head, r);
       prev->GetType();
       if(r->next!=nullptr) prev->next=r->next->next;
       else prev->next=r->next;
-      head->next=next;
+      newhead->next=next;
     }
 
-  cout<<"Delete "<<std::to_string(r->id)<<" r "<<r<<" r->next "<<r->next<<" "<<std::to_string(k)<<'\n';
+  cout<<"Delete "<<std::to_string(r->GetId())<<" r "<<r<<" r->next "<<r->next<<" "<<std::to_string(id)<<'\n';
   delete r;
-  return head;
+  return newhead;
 }
 
 template<typename T, typename U, typename L>

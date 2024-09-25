@@ -17,19 +17,23 @@
 
 class EquationBase
 {
-public:
+protected:
   uint8_t id;
+public:
   double result=NAN;
+  void SetId(const uint8_t id1){id=id1;}
+  uint8_t GetId(){return id;}
   virtual void Calculate()=0;
   virtual void GetType()=0;
 };
 
 class Equation: public EquationBase
 {
+protected:
+  MathOperator *math_operator=nullptr;
 public:
   MathOperation *m1=nullptr;
   Equation *next=nullptr;
-  MathOperator *math_operator=nullptr;
 
   void SetOperator(const string &s)
   {

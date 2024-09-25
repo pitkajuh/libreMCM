@@ -118,7 +118,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
 {
   EquationMath *newhead=new EquationMath;
   newhead->SetOperator(o);
-  newhead->id=id;
+  newhead->SetId(id);
   const uint8_t s1i=stoi(s1.substr(1, s1.size()));
   const uint8_t s2i=stoi(s2.substr(1, s2.size()));
   const uint8_t delta=(s2i>s1i) ? s2i-s1i: s1i-s2i;
@@ -133,7 +133,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   return newhead;
 }
 
-Equation *Val2(Equation *&e, const vector<string> &equation, const uint8_t i, const Data &data, const uint8_t id, Equation *&next)
+Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i, const Data &data, const uint8_t id, Equation *&next)
 {
   const string s1=equation[i-1];
   const string s2=equation[i+1];
@@ -150,47 +150,18 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const uint8_t i, co
       Equation *mc=new Equation;
       mc->m1=CreateNewValueValueMathOperation(s1, s2, o, b);
       mc->next=next;
-      mc->id=id;
+      mc->SetId(id);
       return mc;
     }
-  // else if(b.s1_math and b.s2_math)
-  //   {
-  //     return CreateNewMathMath(s1, s2, o, id, e);
-  //   }
-  // else if(b.s1_math)
-  //   {
-  //     // Equation *r=Search(e, stoi(s1.substr(1, s1.size())));
-  //     // cout<<r->New()<<'\n';
-  //     // delete r;
-  //     if(b.s2_variable) return NewMathValue<Variable, EquationV>(s1, s2, o, id, e, next);
-  //     else if(b.s2_constant) return NewMathValue<Constant, EquationV>(s1, s2, o, id, e, next);
-  //     else return NewMathValue<Numeric, EquationV>(s1, s2, o, id, e, next);
-  //     // else if(b.s2_numeric) return NewMathValue<Numeric, EquationV>(s1, s2, o, k, e, next);
-  //   }
-  // else if(b.s2_math)
-  //   {
-  //     // Equation *r=Search(e, stoi(s2.substr(1, s2.size())));
-  //     // delete r;
-  //     if(b.s1_variable) return NewMathValue<Variable, VEquation>(s2, s1, o, id, e,  next);
-  //     else if(b.s1_constant) return NewMathValue<Constant, VEquation>(s2, s1, o, id, e, next);
-  //     else return NewMathValue<Numeric, VEquation>(s2, s1, o, id, e, next);
-  //     // else if(b.s1_numeric) return NewMathValue<Numeric, VEquation>(s2, s1, o, k, e, next);
-  //   }
-  // else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math) throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
-  // else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
-  // else
-  //   {
-  //     Equation *r=Search(e, stoi(s1.substr(1, s1.size())));
-  else if(b.s1_variable and b.s2_math) return NewMathValue<Variable, VEquation>(s2, s1, o, id, e,  next);
-      else if(b.s1_constant and b.s2_math) return NewMathValue<Constant, VEquation>(s2, s1, o, id, e, next);
-      else if(b.s1_numeric and b.s2_math) return NewMathValue<Numeric, VEquation>(s2, s1, o, id, e, next);
-      else if(b.s1_math and b.s2_variable) return NewMathValue<Variable, EquationV>(s1, s2, o, id, e, next);
-      else if(b.s1_math and b.s2_constant) return NewMathValue<Constant, EquationV>(s1, s2, o, id, e, next);
-      else if(b.s1_math and b.s2_numeric) return NewMathValue<Numeric, EquationV>(s1, s2, o, id, e, next);
-      else if(b.s1_math and b.s2_math) return CreateNewMathMath(s1, s2, o, id, e);
-      else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math) throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
-      else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
-  //   }
+  else if(b.s1_variable and b.s2_math) return NewMathValue<Variable, VEquation>(s2, s1, o, id, head,  next);
+  else if(b.s1_constant and b.s2_math) return NewMathValue<Constant, VEquation>(s2, s1, o, id, head, next);
+  else if(b.s1_numeric and b.s2_math) return NewMathValue<Numeric, VEquation>(s2, s1, o, id, head, next);
+  else if(b.s1_math and b.s2_variable) return NewMathValue<Variable, EquationV>(s1, s2, o, id, head, next);
+  else if(b.s1_math and b.s2_constant) return NewMathValue<Constant, EquationV>(s1, s2, o, id, head, next);
+  else if(b.s1_math and b.s2_numeric) return NewMathValue<Numeric, EquationV>(s1, s2, o, id, head, next);
+  else if(b.s1_math and b.s2_math) return CreateNewMathMath(s1, s2, o, id, head);
+  else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math) throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
+  else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
 }
 
 void FindOperator(vector<string> &equation, const string &find, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
@@ -202,7 +173,7 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
       cout<<"Adding "<<"@"+to_string(id)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
       head=Val2(head, equation, i, data, id, next);
 
-      cout<<std::to_string(head->id)<<" head="<<head<<" next "<<head->next<<'\n';
+      cout<<std::to_string(head->GetId())<<" head="<<head<<" next "<<head->next<<'\n';
       printeq(head);
       next=head;
       equation[i]="@"+to_string(id);
@@ -258,9 +229,9 @@ void Delete(Equation *head, const uint8_t id)
 
   while(current!=nullptr)
     {
-      cout<<id<<" "<<head->id<<'\n';
+      cout<<id<<" "<<head->GetId()<<'\n';
       assert(i==0);
-      assert(id-head->id==1);
+      assert(id-head->GetId()==1);
       assert(current->next==nullptr);
       next=current->next;
       current->next=prev;
