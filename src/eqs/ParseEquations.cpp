@@ -102,41 +102,37 @@ void SelectNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equat
   printeq(newnode);
 }
 
-void CreateNewNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const uint8_t id, const uint8_t nodeid1, const uint8_t nodeid2)
+void CreateNewNode(Equation *&head, EquationMath *&newnode, const uint8_t id, const uint8_t nodeid1, const uint8_t nodeid2)
 {
-  if(nodeid1<nodeid2) ChangeHeadNode(head, newnode, node1, node2, id-nodeid2);
-  else ChangeHeadNode(head, newnode, node2, node1, id-nodeid1);
+  if(nodeid1<nodeid2) ChangeHeadNode(head, newnode, newnode->m11, newnode->m21, id-nodeid2);
+  else ChangeHeadNode(head, newnode, newnode->m21, newnode->m11, id-nodeid1);
 }
 
-void CreateNewNode2(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const uint8_t id, const uint8_t nodeid1, const uint8_t nodeid2)
+void CreateNewNode2(Equation *&head, EquationMath *&newnode, const uint8_t id, const uint8_t nodeid1, const uint8_t nodeid2)
 {
-  if(nodeid1>nodeid2) SelectNode(head, newnode, node1, node2);
-  else SelectNode(head, newnode, node2, node1);
+  if(nodeid1>nodeid2) SelectNode(head, newnode, newnode->m11, newnode->m21);
+  else SelectNode(head, newnode, newnode->m21, newnode->m11);
 }
 
-Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, const uint8_t k, Equation *&head)
+Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, const uint8_t id, Equation *&head)
 {
   EquationMath *newhead=new EquationMath;
   newhead->SetOperator(o);
-  newhead->id=k;
+  newhead->id=id;
   const uint8_t s1i=stoi(s1.substr(1, s1.size()));
   const uint8_t s2i=stoi(s2.substr(1, s2.size()));
   const uint8_t delta=(s2i>s1i) ? s2i-s1i: s1i-s2i;
-  Equation *m1=Search(head, s1i);
-  Equation *m2=Search(head, s2i);
-
+  newhead->SetMath(head, s1i, s2i);
   printeq(head);
 
-  if(delta==1) CreateNewNode(head, newhead, m1, m2, k, s1i, s2i);
-  else CreateNewNode2(head, newhead, m1, m2, k, s1i, s2i);
+  if(delta==1) CreateNewNode(head, newhead, id, s1i, s2i);
+  else CreateNewNode2(head, newhead, id, s1i, s2i);
 
-  newhead->m11=m1;
-  newhead->m21=m2;
   printeq(newhead);
   return newhead;
 }
 
-Equation *Val2(Equation *&e, const vector<string> &equation, const uint8_t i, const Data &data, const uint8_t k, Equation *&next)
+Equation *Val2(Equation *&e, const vector<string> &equation, const uint8_t i, const Data &data, const uint8_t id, Equation *&next)
 {
   const string s1=equation[i-1];
   const string s2=equation[i+1];
@@ -153,30 +149,30 @@ Equation *Val2(Equation *&e, const vector<string> &equation, const uint8_t i, co
       Equation *mc=new Equation;
       mc->m1=CreateNewValueValueMathOperation(s1, s2, o, b);
       mc->next=next;
-      mc->id=k;
+      mc->id=id;
       return mc;
     }
   else if(b.s1_math and b.s2_math)
     {
-      return CreateNewMathMath(s1, s2, o, k, e);
+      return CreateNewMathMath(s1, s2, o, id, e);
     }
   else if(b.s1_math)
     {
       // Equation *r=Search(e, stoi(s1.substr(1, s1.size())));
       // cout<<r->New()<<'\n';
       // delete r;
-      if(b.s2_variable) return NewMathValue<Variable, EquationV>(s1, s2, o, k, e, next);
-      else if(b.s2_constant) return NewMathValue<Constant, EquationV>(s1, s2, o, k, e, next);
-      else return NewMathValue<Numeric, EquationV>(s1, s2, o, k, e, next);
+      if(b.s2_variable) return NewMathValue<Variable, EquationV>(s1, s2, o, id, e, next);
+      else if(b.s2_constant) return NewMathValue<Constant, EquationV>(s1, s2, o, id, e, next);
+      else return NewMathValue<Numeric, EquationV>(s1, s2, o, id, e, next);
       // else if(b.s2_numeric) return NewMathValue<Numeric, EquationV>(s1, s2, o, k, e, next);
     }
   else if(b.s2_math)
     {
       // Equation *r=Search(e, stoi(s2.substr(1, s2.size())));
       // delete r;
-      if(b.s1_variable) return NewMathValue<Variable, VEquation>(s2, s1, o, k, e,  next);
-      else if(b.s1_constant) return NewMathValue<Constant, VEquation>(s2, s1, o, k, e, next);
-      else return NewMathValue<Numeric, VEquation>(s2, s1, o, k, e, next);
+      if(b.s1_variable) return NewMathValue<Variable, VEquation>(s2, s1, o, id, e,  next);
+      else if(b.s1_constant) return NewMathValue<Constant, VEquation>(s2, s1, o, id, e, next);
+      else return NewMathValue<Numeric, VEquation>(s2, s1, o, id, e, next);
       // else if(b.s1_numeric) return NewMathValue<Numeric, VEquation>(s2, s1, o, k, e, next);
     }
   else if(!b.s1_variable && !b.s1_constant && !b.s1_numeric && !b.s1_math) throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");

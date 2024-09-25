@@ -21,6 +21,7 @@ public:
   uint8_t id;
   double result=NAN;
   virtual void Calculate()=0;
+  virtual void GetType()=0;
 };
 
 class Equation: public EquationBase
@@ -44,10 +45,9 @@ public:
     // m1->CalculateResult();
     // result=m1->result;
   }
-  Equation *New()
+  void GetType()
   {
     printf("new Equation\n");
-    return new Equation;
   }
   virtual ~Equation()
   {
@@ -74,6 +74,10 @@ public:
     // result=m1->result;
     // result=math_operator->Calculate1(v->GetValue(), m1->result);
   }
+  void GetType()
+  {
+    printf("new EquationValue\n");
+  }
   virtual ~EquationValue()
   {
     delete m11;
@@ -96,10 +100,9 @@ public:
     // result=m1->result;
     // result=math_operator->Calculate1(v->GetValue(), m1->result);
   }
-  EquationV *New()
+  void GetType()
   {
     printf("new EquationV\n");
-    return new EquationV;
   }
 };
 
@@ -118,10 +121,9 @@ public:
     // result=m1->result;
     // result=math_operator->Calculate1(v->GetValue(), m1->result);
   }
-  VEquation *New()
+  void GetType()
   {
     printf("new VEquation\n");
-    return new VEquation;
   }
 };
 
@@ -145,19 +147,20 @@ public:
 
     while(c!=nullptr)
       {
-	if(c->id==i) m21=c;
+	if(c->id==j) m21=c;
 	c=c->next;
       }
+    m11->GetType();
+    m21->GetType();
   }
   void Calculate()
   {
     // m1->CalculateResult();
     // result=m1->result;
   }
-  EquationMath *New()
+  void GetType()
   {
     printf("new EquationMath\n");
-    return new EquationMath;
   }
   virtual ~EquationMath()
   {

@@ -76,7 +76,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   head->SetOperator(o);
   Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
   const double result=r->result;
-
+  r->GetType();
   if(!isnan(result) and !isnan(head->v->GetValue())) head->CalculateResult(result);
   else head->m1=r->m1;
   r->m1=nullptr;
@@ -85,7 +85,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   else
     {
       Equation *prev=Search2(c, r);
-
+      prev->GetType();
       if(r->next!=nullptr) prev->next=r->next->next;
       else prev->next=r->next;
       head->next=next;
