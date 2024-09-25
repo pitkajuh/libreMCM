@@ -122,7 +122,8 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   const uint8_t s1i=stoi(s1.substr(1, s1.size()));
   const uint8_t s2i=stoi(s2.substr(1, s2.size()));
   const uint8_t delta=(s2i>s1i) ? s2i-s1i: s1i-s2i;
-  newhead->SetMath(head, s1i, s2i);
+  newhead->m11=Search(head, s1i);
+  newhead->m21=Search(head, s2i);
   printeq(head);
 
   if(delta==1) CreateNewNode(head, newhead, id, s1i, s2i);

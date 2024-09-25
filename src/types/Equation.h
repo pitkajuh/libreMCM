@@ -133,26 +133,6 @@ public:
   Equation *m11=nullptr;
   Equation *m21=nullptr;
 
-  void SetMath(Equation *&m, const uint8_t i, const uint8_t j)
-  {
-    Equation *c=m;
-
-    while(c!=nullptr)
-      {
-	if(c->id==i) m11=c;
-	c=c->next;
-      }
-
-    c=m;
-
-    while(c!=nullptr)
-      {
-	if(c->id==j) m21=c;
-	c=c->next;
-      }
-    m11->GetType();
-    m21->GetType();
-  }
   void Calculate()
   {
     // m1->CalculateResult();

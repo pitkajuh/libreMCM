@@ -76,6 +76,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   head->SetOperator(o);
   Equation *r=Search(c, stoi(s1.substr(1, s1.size())));
   const double result=r->result;
+  printf("NewMathValue\n");
   r->GetType();
   if(!isnan(result) and !isnan(head->v->GetValue())) head->CalculateResult(result);
   else head->m1=r->m1;
