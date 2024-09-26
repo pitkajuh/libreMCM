@@ -104,14 +104,14 @@ void SelectNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equat
 
 void CreateNewNode(Equation *&head, EquationMath *&newnode, const uint8_t id, const uint8_t nodeid1, const uint8_t nodeid2)
 {
-  if(nodeid1<nodeid2) ChangeHeadNode(head, newnode, newnode->m11, newnode->m21, id-nodeid2);
-  else ChangeHeadNode(head, newnode, newnode->m21, newnode->m11, id-nodeid1);
+  if(nodeid1<nodeid2) ChangeHeadNode(head, newnode, newnode->GetM1(), newnode->GetM2(), id-nodeid2);
+  else ChangeHeadNode(head, newnode, newnode->GetM2(), newnode->GetM1(), id-nodeid1);
 }
 
 void CreateNewNode2(Equation *&head, EquationMath *&newnode, const uint8_t id, const uint8_t nodeid1, const uint8_t nodeid2)
 {
-  if(nodeid1>nodeid2) SelectNode(head, newnode, newnode->m11, newnode->m21);
-  else SelectNode(head, newnode, newnode->m21, newnode->m11);
+  if(nodeid1>nodeid2) SelectNode(head, newnode, newnode->GetM1(), newnode->GetM2());
+  else SelectNode(head, newnode, newnode->GetM2(), newnode->GetM1());
 }
 
 Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o, const uint8_t id, Equation *&head)
@@ -122,8 +122,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   const uint8_t s1i=stoi(s1.substr(1, s1.size()));
   const uint8_t s2i=stoi(s2.substr(1, s2.size()));
   const uint8_t delta=(s2i>s1i) ? s2i-s1i: s1i-s2i;
-  newhead->m11=Search(head, s1i);
-  newhead->m21=Search(head, s2i);
+  newhead->Set(Search(head, s1i), Search(head, s2i));
   printeq(head);
 
   if(delta==1) CreateNewNode(head, newhead, id, s1i, s2i);

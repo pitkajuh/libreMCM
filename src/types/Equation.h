@@ -62,10 +62,13 @@ public:
 
 class EquationValue: public Equation
 {
-public:
+private:
   Equation *m11=nullptr;
   Value *v=nullptr;
-
+public:
+  Value *GetValue(){return v;}
+  void Set(Equation *m1){m11=m1;}
+  void SetValue(Value *w){v=w;}
   void CalculateResult(const double result)
   {
     // m1->CalculateResult();
@@ -96,7 +99,7 @@ public:
   {
     // m1->CalculateResult();
     // result=m1->result;
-    result=math_operator->Calculate1(d, v->GetValue());
+    result=math_operator->Calculate1(d, GetValue()->GetValue());
   }
   void Calculate()
   {
@@ -117,7 +120,7 @@ public:
   {
     // m1->CalculateResult();
     // result=m1->result;
-    result=math_operator->Calculate1(v->GetValue(), d);
+    result=math_operator->Calculate1(GetValue()->GetValue(), d);
   }
   void Calculate()
   {
@@ -133,10 +136,17 @@ public:
 
 class EquationMath: public Equation
 {
-public:
+private:
   Equation *m11=nullptr;
   Equation *m21=nullptr;
-
+public:
+  Equation *&GetM1(){return m11;}
+  Equation *&GetM2(){return m21;}
+  void Set(Equation *m1, Equation *m2)
+  {
+    m11=m1;
+    m21=m2;
+  }
   void Calculate()
   {
     // m1->CalculateResult();

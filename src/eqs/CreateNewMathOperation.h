@@ -72,13 +72,14 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
 {
   EquationValue *newhead=new U;
   newhead->SetId(id);
-  newhead->v=new T(s2);
+  newhead->SetValue(new T(s2));
   newhead->SetOperator(o);
   Equation *r=Search(head, stoi(s1.substr(1, s1.size())));
+  newhead->Set(r);
   const double result=r->result;
   printf("NewMathValue\n");
   r->GetType();
-  if(!isnan(result) and !isnan(newhead->v->GetValue())) newhead->CalculateResult(result);
+  if(!isnan(result) and !isnan(newhead->GetValue()->GetValue())) newhead->CalculateResult(result);
   else newhead->m1=r->m1;
   r->m1=nullptr;
 
@@ -93,7 +94,6 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
     }
 
   cout<<"Delete "<<std::to_string(r->GetId())<<" r "<<r<<" r->next "<<r->next<<" "<<std::to_string(id)<<'\n';
-  delete r;
   return newhead;
 }
 
