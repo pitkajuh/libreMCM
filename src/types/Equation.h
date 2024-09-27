@@ -69,6 +69,7 @@ public:
   Value *GetValue(){return v;}
   void Set(Equation *m1){m11=m1;}
   void SetValue(Value *w){v=w;}
+  Equation *&Get(){return m11;}
   void CalculateResult(const double result)
   {
     // m1->CalculateResult();

@@ -74,26 +74,25 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   newhead->SetId(id);
   newhead->SetValue(new T(s2));
   newhead->SetOperator(o);
-  Equation *r=Search(head, stoi(s1.substr(1, s1.size())));
-  newhead->Set(r);
-  const double result=r->result;
+  newhead->Set(Search(head, stoi(s1.substr(1, s1.size()))));
+  const double result=newhead->Get()->result;
   printf("NewMathValue\n");
-  r->GetType();
-  if(!isnan(result) and !isnan(newhead->GetValue()->GetValue())) newhead->CalculateResult(result);
-  else newhead->m1=r->m1;
-  r->m1=nullptr;
+  newhead->Get()->GetType();
 
-  if(id-r->GetId()==1) newhead->next=r->next;
+  if(!isnan(result) and !isnan(newhead->GetValue()->GetValue())) newhead->CalculateResult(result);
+  else newhead->m1=newhead->Get()->m1;
+  newhead->Get()->m1=nullptr;
+
+  if(id-newhead->Get()->GetId()==1) newhead->next=newhead->Get()->next;
   else
     {
-      Equation *prev=Search2(head, r);
+      Equation *prev=Search2(head, newhead->Get());
       prev->GetType();
-      if(r->next!=nullptr) prev->next=r->next->next;
-      else prev->next=r->next;
+      if(newhead->Get()->next!=nullptr) prev->next=newhead->Get()->next->next;
+      else prev->next=newhead->Get()->next;
       newhead->next=next;
     }
 
-  cout<<"Delete "<<std::to_string(r->GetId())<<" r "<<r<<" r->next "<<r->next<<" "<<std::to_string(id)<<'\n';
   return newhead;
 }
 
