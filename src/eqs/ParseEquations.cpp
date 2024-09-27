@@ -128,6 +128,8 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   if(delta==1) CreateNewNode(head, newhead, id, s1i, s2i);
   else CreateNewNode2(head, newhead, id, s1i, s2i);
 
+  if(!isnan(newhead->GetM1()->result) and !isnan(newhead->GetM2()->result)){newhead->Calculate();}
+
   printeq(newhead);
   return newhead;
 }
@@ -148,6 +150,7 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
     {
       Equation *mc=new Equation;
       mc->m1=CreateNewValueValueMathOperation(s1, s2, o, b);
+      mc->result=mc->m1->result;
       mc->next=next;
       mc->SetId(id);
       return mc;

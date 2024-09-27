@@ -31,7 +31,7 @@ void printeq(Equation *m)
 
 Equation *Search(Equation *&m, const uint8_t i)
 {
-  // Find node from linked list m by number.
+  // Find node from linked list m by id.
   Equation *c=m;
 
   while(c!=nullptr)
@@ -75,11 +75,14 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   newhead->SetValue(new T(s2));
   newhead->SetOperator(o);
   newhead->Set(Search(head, stoi(s1.substr(1, s1.size()))));
-  const double result=newhead->Get()->result;
-  printf("NewMathValue\n");
   newhead->Get()->GetType();
+  cout<<"result "<<newhead->GetValue()->GetValue()<<" "<<newhead->Get()->result<<'\n';
 
-  if(!isnan(result) and !isnan(newhead->GetValue()->GetValue())) newhead->CalculateResult(result);
+  if(!isnan(newhead->Get()->result) and !isnan(newhead->GetValue()->GetValue()))
+    {
+      newhead->Calculate();
+      cout<<"newhead->Calculate(result) "<<newhead->result<<'\n';
+    }
   else newhead->m1=newhead->Get()->m1;
   newhead->Get()->m1=nullptr;
 

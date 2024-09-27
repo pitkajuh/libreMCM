@@ -51,7 +51,7 @@ public:
   }
   void GetType()
   {
-    printf("new Equation\n");
+    printf("new normal Equation\n");
   }
   virtual ~Equation()
   {
@@ -67,21 +67,9 @@ private:
   Value *v=nullptr;
 public:
   Value *GetValue(){return v;}
-  void Set(Equation *m1){m11=m1;}
+  void Set(Equation *m0){m11=m0;}
   void SetValue(Value *w){v=w;}
   Equation *&Get(){return m11;}
-  void CalculateResult(const double result)
-  {
-    // m1->CalculateResult();
-    // result=m1->result;
-    // result=math_operator->Calculate1(v->GetValue(), d);
-  }
-  void Calculate()
-  {
-    // m1->CalculateResult();
-    // result=m1->result;
-    // result=math_operator->Calculate1(v->GetValue(), m1->result);
-  }
   void GetType()
   {
     printf("new EquationValue\n");
@@ -96,18 +84,7 @@ public:
 class EquationV: public EquationValue
 {
 public:
-  void CalculateResult(const double d)
-  {
-    // m1->CalculateResult();
-    // result=m1->result;
-    result=math_operator->Calculate1(d, GetValue()->GetValue());
-  }
-  void Calculate()
-  {
-    // m1->CalculateResult();
-    // result=m1->result;
-    // result=math_operator->Calculate1(v->GetValue(), m1->result);
-  }
+  void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
   void GetType()
   {
     printf("new EquationV\n");
@@ -117,18 +94,7 @@ public:
 class VEquation: public EquationValue
 {
 public:
-  void CalculateResult(const double d)
-  {
-    // m1->CalculateResult();
-    // result=m1->result;
-    result=math_operator->Calculate1(GetValue()->GetValue(), d);
-  }
-  void Calculate()
-  {
-    // m1->CalculateResult();
-    // result=m1->result;
-    // result=math_operator->Calculate1(v->GetValue(), m1->result);
-  }
+  void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
   void GetType()
   {
     printf("new VEquation\n");
@@ -148,11 +114,7 @@ public:
     m11=m1;
     m21=m2;
   }
-  void Calculate()
-  {
-    // m1->CalculateResult();
-    // result=m1->result;
-  }
+  void Calculate(){result=math_operator->Calculate(m11->result, m21->result);}
   void GetType()
   {
     printf("new EquationMath\n");

@@ -75,23 +75,13 @@ void ReadInitialData(const string &directory)
 
   const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
   ParseEquations(equations_map, data);
-  // CreateEquationTemplates(equations_map2, data);
+  // CreateEquationTemplates(data);
 
   const vector<string> iv_names=CreateAllInitialValues(ivs);
   const Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
 
 
-//   get_sim_params(directory);
-//   get_compartment(directory);
-//   get_compartment_parameters(directory);
 
-//   get_compartment_equations();
-//   create_target_compartment_Map();
-//   create_initial_value_Map();
-//   parse_initial_values();
-//   create_compartment_Map();
-//   parse_compartment_equations();
-//   replace_indices();
 }
 
 int main(int argc, char** argv)

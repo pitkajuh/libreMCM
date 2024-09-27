@@ -46,8 +46,7 @@ public:
   string GetV2Name(){return v2->GetName();} const
   void SetV1(Value *v){v1=v;}
   void SetV2(Value *v){v2=v;}
-  void CalculateResult(){result=math_operator->Calculate1(GetV1Value(), GetV2Value());}
-  virtual void Calculate()=0;
+  void Calculate(){result=math_operator->Calculate(GetV1Value(), GetV2Value());}
   ~MathOperation()
   {
     delete v1;
@@ -60,42 +59,36 @@ class NumericNumeric: public MathOperation
 {
   // Numeric-numeric math operation
 public:
-  void Calculate(){}
 };
 
 class VariableVariable: public MathOperation
 {
   // Variable-variable math operation
 public:
-  void Calculate(){}
 };
 
 class ConstantVariable: public MathOperation
 {
   // Constant-variable math operation
 public:
-  void Calculate(){}
 };
 
 class ConstantConstant: public MathOperation
 {
   // Constant-constant math operation
 public:
-  void Calculate(){}
 };
 
 class NumericVariable: public MathOperation
 {
   // Numeric-variable math operation
 public:
-  void Calculate(){}
 };
 
 class NumericConstant: public MathOperation
 {
   // Numeric-constant math operation
 public:
-  void Calculate(){}
 };
 
 #endif
