@@ -150,7 +150,7 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
     {
       Equation *mc=new Equation;
       mc->m1=CreateNewValueValueMathOperation(s1, s2, o, b);
-      mc->result=mc->m1->result;
+      mc->Calculate();
       mc->next=next;
       mc->SetId(id);
       return mc;

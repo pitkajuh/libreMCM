@@ -43,12 +43,7 @@ public:
     else if(s==DIVIDE) math_operator=new Div;
     else if(s==EXP) math_operator=new Exp;
   }
-
-  void Calculate()
-  {
-    // m1->CalculateResult();
-    // result=m1->result;
-  }
+  void Calculate(){result=m1->result;}
   void GetType()
   {
     printf("new normal Equation\n");
