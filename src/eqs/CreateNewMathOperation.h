@@ -67,18 +67,19 @@ void Select(Equation *&head, Equation *&node, EquationMath *&newnode)
     }
 }
 
-// void SetNext(Equation *&newhead, Equation *&head)
-// {
-//   if(id-newhead->Get()->GetId()==1) newhead->next=newhead->Get()->next;
-//   else
-//     {
-//       Equation *prev=Search2(head, newhead->Get());
-//       prev->GetType();
-//       if(newhead->Get()->next!=nullptr) prev->next=newhead->Get()->next->next;
-//       else prev->next=newhead->Get()->next;
-//       newhead->next=next;
-//     }
-// }
+template<typename T>
+void SetNext(T *&newhead, Equation *head, Equation *next, Equation *found, const uint8_t id)
+{
+  if(id-found->GetId()==1) newhead->next=found->next;
+  else
+    {
+      Equation *prev=Search2(head, found);
+      prev->GetType();
+      if(found->next!=nullptr) prev->next=found->next->next;
+      else prev->next=found->next;
+      newhead->next=next;
+    }
+}
 
 template<typename T, typename U>
 Equation *NewMathValue(const string &s1, const string &s2, const string &o, const uint8_t id, Equation *&head, Equation *&next)
@@ -87,34 +88,35 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   newhead->SetId(id);
   newhead->SetValue(new T(s2));
   newhead->SetOperator(o);
-  newhead->Set(Search(head, stoi(s1.substr(1, s1.size()))));
+  Equation *found=Search(head, stoi(s1.substr(1, s1.size())));
+  newhead->Set(found);
   newhead->Get()->GetType();
-  cout<<"result "<<newhead->GetValue()->GetValue()<<" "<<newhead->Get()->result<<'\n';
+  cout<<"result "<<newhead->GetValue()->GetValue()<<" "<<found->result<<'\n';
 
-  if(!isnan(newhead->Get()->result) and !isnan(newhead->GetValue()->GetValue()))
+  if(!isnan(found->result) and !isnan(newhead->GetValue()->GetValue()))
     {
-      // Reduce the type to Numerical-Numerical math operation?
+      // The calculation can already be done here, thus the return type can
+      // be reduced to Equation. All member values of newhead can be deleted
+      // with the exception of result and id, which are transfered to new Equation.
       newhead->Calculate();
+      Equation *newhead1=new Equation;
+      newhead1->SetId(newhead->GetId());
+      newhead1->result=newhead->result;
+      newhead1->next=newhead->next;
 
-
-
+      SetNext<Equation>(newhead1, head, next, found, id);
+      printeq(newhead1);
+      delete newhead;
+      return newhead1;
       cout<<"newhead->Calculate(result) "<<newhead->result<<'\n';
     }
   else
     {
-      newhead->m1=newhead->Get()->m1;
-      newhead->Get()->m1=nullptr;
-    }
-  if(id-newhead->Get()->GetId()==1) newhead->next=newhead->Get()->next;
-  else
-    {
-      Equation *prev=Search2(head, newhead->Get());
-      prev->GetType();
-      if(newhead->Get()->next!=nullptr) prev->next=newhead->Get()->next->next;
-      else prev->next=newhead->Get()->next;
-      newhead->next=next;
+      newhead->m1=found->m1;
+      found->m1=nullptr;
     }
 
+  SetNext<EquationValue>(newhead, head, next, found, id);
   return newhead;
 }
 
