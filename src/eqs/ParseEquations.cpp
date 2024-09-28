@@ -128,7 +128,18 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   if(delta==1) CreateNewNode(head, newhead, id, s1i, s2i);
   else CreateNewNode2(head, newhead, id, s1i, s2i);
 
-  if(!isnan(newhead->GetM1()->result) and !isnan(newhead->GetM2()->result)){newhead->Calculate();}
+  if(!isnan(newhead->GetM1()->result) and !isnan(newhead->GetM2()->result))
+    {
+      newhead->Calculate();
+      // Reduce the type to Equation because the class members of EquationMath are no longer needed, expect result. They can be deleted.
+      Equation *newhead1=new Equation;
+      newhead1->SetId(newhead->GetId());
+      newhead1->result=newhead->result;
+      newhead1->next=newhead->next;
+      delete newhead;
+      printeq(newhead1);
+      return newhead1;
+    }
 
   printeq(newhead);
   return newhead;

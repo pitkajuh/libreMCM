@@ -67,6 +67,19 @@ void Select(Equation *&head, Equation *&node, EquationMath *&newnode)
     }
 }
 
+// void SetNext(Equation *&newhead, Equation *&head)
+// {
+//   if(id-newhead->Get()->GetId()==1) newhead->next=newhead->Get()->next;
+//   else
+//     {
+//       Equation *prev=Search2(head, newhead->Get());
+//       prev->GetType();
+//       if(newhead->Get()->next!=nullptr) prev->next=newhead->Get()->next->next;
+//       else prev->next=newhead->Get()->next;
+//       newhead->next=next;
+//     }
+// }
+
 template<typename T, typename U>
 Equation *NewMathValue(const string &s1, const string &s2, const string &o, const uint8_t id, Equation *&head, Equation *&next)
 {
@@ -80,7 +93,11 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
 
   if(!isnan(newhead->Get()->result) and !isnan(newhead->GetValue()->GetValue()))
     {
+      // Reduce the type to Numerical-Numerical math operation?
       newhead->Calculate();
+
+
+
       cout<<"newhead->Calculate(result) "<<newhead->result<<'\n';
     }
   else
