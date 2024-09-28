@@ -83,9 +83,11 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
       newhead->Calculate();
       cout<<"newhead->Calculate(result) "<<newhead->result<<'\n';
     }
-  else newhead->m1=newhead->Get()->m1;
-  newhead->Get()->m1=nullptr;
-
+  else
+    {
+      newhead->m1=newhead->Get()->m1;
+      newhead->Get()->m1=nullptr;
+    }
   if(id-newhead->Get()->GetId()==1) newhead->next=newhead->Get()->next;
   else
     {
