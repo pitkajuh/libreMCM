@@ -107,7 +107,7 @@ vector<string> ToVector(string v)
 	}
       else end=true;
     }
-  assert(v.size()<=UINT8_MAX);
+  assert(v.size()<=UINT8_MAX && "Equation size limit exceeded!");
 
   return r;
 }
