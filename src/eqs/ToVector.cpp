@@ -54,60 +54,29 @@ int8_t FindIndex(const string &s)
   return r;
 }
 
+void StringConvert(string v, vector<string> &aa)
+{
+  const int16_t i=FindIndex(v);
+
+  if(i<v.size())
+    {
+      const string s=v.substr(0, i);
+      const string mathop{v[i]};
+       if(!s.empty()) aa.emplace_back(s);
+      aa.emplace_back(mathop);
+      v=v.substr(i+1, std::distance(v.begin()+1,v.end()));
+      StringConvert(v, aa);
+    }
+  // else if(!v.empty()) aa.emplace_back(v);
+  else aa.emplace_back(v);
+}
+
 vector<string> ToVector(string v)
 {
-  int16_t i;
-  bool end=false;
-  uint16_t size=v.size();
-  string s;
-  string mathop;
+  const uint16_t size=v.size();
+  assert(size!=2 and size>0 && "The equation {v} is too short.");
   vector<string> r;
-
-  // assert(size!=2 and size>0 && "The equation {v} is too short.");
-  // cout<<v<<'\n';
-  // while(size!=1)
-  //   {
-  //     i=FindIndex(v);
-  //     // cout<<i+1<<"/"<<size<<'\n';
-  //     s=v.substr(0, i);
-  //     mathop=v[i];
-  //     r.emplace_back(s);
-  //     r.emplace_back(mathop);
-  //     // cout<<s<<" "<<mathop<<'\n';
-  //     v=v.substr(i+1, std::distance(v.begin()+1,v.end()));
-  //     size=v.size();
-  //     // cout<<v<<'\n';
-  //     // print_vector3(r);
-  //     // size=1;
-  //   }
-
-  while(!end)
-    {
-      i=FindIndex(v);
-
-      if(size>1)
-	{
-	  s=v.substr(0, i);
-	  mathop=v[i];
-	  v=v.substr(i+1, std::distance(v.begin()+1,v.end()));
-	  if(!s.empty()) r.emplace_back(s);
-	  if(find(OPERATORS2.begin(), OPERATORS2.end(), mathop)!=OPERATORS2.end()) r.emplace_back(mathop);
-	  size=v.size();
-	}
-      else if(size==1)
-	{
-	  r.emplace_back(v);
-	  end=true;
-	}
-      else if(i>-1 and size!=1)
-	{
-	  s=v[i];
-	  r.emplace_back(s);
-	  end=true;
-	}
-      else end=true;
-    }
+  StringConvert(v, r);
   assert(v.size()<=UINT8_MAX && "Equation size limit exceeded!");
-
   return r;
 }

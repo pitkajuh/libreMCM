@@ -107,8 +107,8 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
       SetNext<Equation>(newhead1, head, next, found, id);
       printeq(newhead1);
       delete newhead;
+      cout<<"newhead1->Calculate(result) "<<newhead1->result<<'\n';
       return newhead1;
-      cout<<"newhead->Calculate(result) "<<newhead->result<<'\n';
     }
   else
     {

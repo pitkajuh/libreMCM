@@ -277,7 +277,6 @@ void ParseEquations(const SMap &equations_map, const Data &data)
       v=RemoveOpenClose(v);
       cout<<"EQUATION"<<'\n';
       print_vector2(v);
-      cout<<v.size()<<" "<<'\n';
       v=test(v, id, data, head, next);
       GetOrder(v, id, data, head, next);
       head->next=nullptr;
