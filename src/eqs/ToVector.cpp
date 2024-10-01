@@ -42,7 +42,7 @@ int8_t FindIndex(const string &s)
   while(i<size)
     {
       found=s.find(OPERATORS2[i]);
-
+      // cout<<std::to_string(found)<<'\n';
       if(found==-1)
 	{
 	  i++;
@@ -67,8 +67,8 @@ void StringConvert(string v, vector<string> &aa)
       v=v.substr(i+1, std::distance(v.begin()+1,v.end()));
       StringConvert(v, aa);
     }
-  // else if(!v.empty()) aa.emplace_back(v);
-  else aa.emplace_back(v);
+  else if(!v.empty()) aa.emplace_back(v);
+  // else aa.emplace_back(v);
 }
 
 vector<string> ToVector(string v)

@@ -91,7 +91,6 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   Equation *found=Search(head, stoi(s1.substr(1, s1.size())));
   newhead->Set(found);
   newhead->Get()->GetType();
-  cout<<"result "<<newhead->GetValue()->GetValue()<<" "<<found->result<<'\n';
 
   if(!isnan(found->result) and !isnan(newhead->GetValue()->GetValue()))
     {
