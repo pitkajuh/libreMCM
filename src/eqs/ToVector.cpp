@@ -42,7 +42,7 @@ int8_t FindIndex(const string &s)
   while(i<size)
     {
       found=s.find(OPERATORS2[i]);
-      // cout<<std::to_string(found)<<'\n';
+
       if(found==-1)
 	{
 	  i++;
@@ -56,9 +56,10 @@ int8_t FindIndex(const string &s)
 
 void StringConvert(string v, vector<string> &aa)
 {
-  const int16_t i=FindIndex(v);
+  const int8_t i=FindIndex(v);
+  const int16_t size=v.size();
 
-  if(i<v.size())
+  if(i<size and i>-1)
     {
       const string s=v.substr(0, i);
       const string mathop{v[i]};
@@ -68,7 +69,6 @@ void StringConvert(string v, vector<string> &aa)
       StringConvert(v, aa);
     }
   else if(!v.empty()) aa.emplace_back(v);
-  // else aa.emplace_back(v);
 }
 
 vector<string> ToVector(string v)
@@ -77,6 +77,6 @@ vector<string> ToVector(string v)
   assert(size!=2 and size>0 && "The equation {v} is too short.");
   vector<string> r;
   StringConvert(v, r);
-  assert(v.size()<=UINT8_MAX && "Equation size limit exceeded!");
+  assert(r.size()<=UINT8_MAX && "Equation size limit exceeded!");
   return r;
 }

@@ -284,6 +284,7 @@ void ParseEquations(const SMap &equations_map, const Data &data)
       next=nullptr;
       id=0;
       cout<<"ok"<<'\n';
+
       cout<<" "<<'\n';
     }
 }
