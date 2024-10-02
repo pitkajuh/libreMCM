@@ -57,9 +57,8 @@ int16_t FindIndex(const string &s)
 void StringConvert(string v, vector<string> &aa)
 {
   const int16_t i=FindIndex(v);
-  const int16_t size=v.size();
 
-  if(i<size and i>-1)
+  if(i>-1)
     {
       const string s=v.substr(0, i);
       const string mathop{v[i]};
