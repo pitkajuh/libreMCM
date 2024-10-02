@@ -32,12 +32,12 @@ void print_vector3(vector<string> &vec)
     }
   cout<<empty<<'\n';
 }
-int8_t FindIndex(const string &s)
+int16_t FindIndex(const string &s)
 {
   const uint8_t size=OPERATORS2.size();
-  int8_t r=-1;
-  int8_t i=0;
-  int8_t found;
+  int16_t r=-1;
+  int16_t i=0;
+  int16_t found;
 
   while(i<size)
     {
@@ -56,7 +56,7 @@ int8_t FindIndex(const string &s)
 
 void StringConvert(string v, vector<string> &aa)
 {
-  const int8_t i=FindIndex(v);
+  const int16_t i=FindIndex(v);
   const int16_t size=v.size();
 
   if(i<size and i>-1)
