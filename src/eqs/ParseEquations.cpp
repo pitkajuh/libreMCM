@@ -242,7 +242,7 @@ void Delete(Equation *head, const uint8_t id)
   Equation *next=nullptr;
   uint8_t i=0;
 
-  while(current!=nullptr and i<=UINT8_MAX)
+  while(current!=nullptr)
     {
       cout<<id<<" "<<head->GetId()<<'\n';
       assert(i==0);

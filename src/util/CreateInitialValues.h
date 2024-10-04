@@ -17,6 +17,6 @@
 using namespace libremcm;
 using std::vector;
 
-vector<string> CreateAllInitialValues(const Map<string, InitialValues> &iv);
+const vector<string> CreateAllInitialValues(const Map<string, InitialValues> &iv);
 
 #endif

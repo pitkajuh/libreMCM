@@ -17,7 +17,7 @@ using namespace libremcm;
 
 const string EMPTY=" ";
 
-vector<string> GetUp(const vector<string> v, uint16_t i)
+const vector<string> GetUp(const vector<string> v, uint16_t i)
 {
   vector<string> r;
 
@@ -29,7 +29,7 @@ vector<string> GetUp(const vector<string> v, uint16_t i)
   return r;
 }
 
-vector<string> GetDown(const vector<string> v, uint16_t i)
+const vector<string> GetDown(const vector<string> v, uint16_t i)
 {
   vector<string> r;
 
@@ -37,7 +37,7 @@ vector<string> GetDown(const vector<string> v, uint16_t i)
   return r;
 }
 
-AddSubtract GetEquations(const Csv &csv, const uint16_t i)
+const AddSubtract GetEquations(const Csv &csv, const uint16_t i)
 {
   const vector<string> column=csv.columns[i];
   const vector<string> row=csv.rows[i];

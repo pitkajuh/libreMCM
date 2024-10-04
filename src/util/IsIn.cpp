@@ -17,7 +17,7 @@
 using namespace libremcm;
 using std::vector;
 
-bool IsNumerical(const string &s)
+const bool IsNumerical(const string &s)
 {
   // Checks whether the string s in a number. Returns true, if string is a valid number.
   bool r=true;
@@ -34,12 +34,12 @@ bool IsNumerical(const string &s)
   return r;
 }
 
-bool IsIn(const string &s, const SMap &f)
+const bool IsIn(const string &s, const SMap &f)
 {
   return f.find(s)!=f.end();
 }
 
-bool IsIn(const string &s, const std::vector<string> &f)
+const bool IsIn(const string &s, const std::vector<string> &f)
 {
   return std::find(f.begin(), f.end(), s)!=f.end();
 }

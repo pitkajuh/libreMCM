@@ -17,8 +17,8 @@
 using namespace libremcm;
 using std::vector;
 
-bool IsNumerical(const string &s);
-bool IsIn(const string &s, const SMap &f);
-bool IsIn(const string &s, const vector<string> &f);
+const bool IsNumerical(const string &s);
+const bool IsIn(const string &s, const SMap &f);
+const bool IsIn(const string &s, const vector<string> &f);
 
 #endif
