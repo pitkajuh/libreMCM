@@ -17,10 +17,10 @@
 using namespace libremcm;
 using InitialValues=SMap;
 
-Pair GetData(ifstream &bin, streampos &from);
-FileData Read(ifstream &bin, streampos &from);
-SMap GetBin(ifstream &bin, streampos *from, string *name=nullptr);
-Map<string, InitialValues> GetInitialValues(ifstream &bin);
-SMap GetMap(ifstream &bin, streampos *from=nullptr);
+const Pair GetData(ifstream &bin, streampos &from);
+const FileData Read(ifstream &bin, streampos &from);
+const SMap GetBin(ifstream &bin, streampos *from, string *name=nullptr);
+const Map<string, InitialValues> GetInitialValues(ifstream &bin);
+const SMap GetMap(ifstream &bin, streampos *from=nullptr);
 
 #endif

@@ -19,6 +19,6 @@ using std::vector;
 using InitialValues=SMap;
 using DInitialValues=Map<string, double>;
 
-Map<string, DInitialValues> ParseInitialValues(Map<string, InitialValues> &ivs, const vector<string> &iv_names);
+const Map<string, DInitialValues> ParseInitialValues(Map<string, InitialValues> &ivs, const vector<string> &iv_names);
 
 #endif

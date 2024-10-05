@@ -14,7 +14,7 @@
 
 using namespace libremcm;
 
-SMap CreatePairMap(Pair pair)
+const SMap CreatePairMap(const Pair &pair)
 {
   StringSplit split;
   SMap Map;

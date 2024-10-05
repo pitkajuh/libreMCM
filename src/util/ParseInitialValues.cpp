@@ -16,7 +16,7 @@ using std::vector;
 using InitialValues=SMap;
 using DInitialValues=Map<string, double>;
 
-DInitialValues ParseIv(InitialValues ivs, const vector<string> &iv_names)
+const DInitialValues ParseIv(InitialValues ivs, const vector<string> &iv_names)
 {
   DInitialValues ivs_sorted;
   ivs_sorted.reserve(iv_names.size());
@@ -29,7 +29,7 @@ DInitialValues ParseIv(InitialValues ivs, const vector<string> &iv_names)
   return ivs_sorted;
 }
 
-Map<string, DInitialValues> ParseInitialValues(Map<string, InitialValues> &ivs, const vector<string> &iv_names)
+const Map<string, DInitialValues> ParseInitialValues(Map<string, InitialValues> &ivs, const vector<string> &iv_names)
 {
   // Takes the iv Map and unique iv names as an input. Sorts the Map values alphabetically and initializes the values with zero, if it is not found in the Map. Also the values are changed from string to double.
   Map<string, DInitialValues> ivs_sorted;

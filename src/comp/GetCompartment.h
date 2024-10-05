@@ -16,6 +16,6 @@
 
 using std::ifstream;
 
-Csv GetCompartment(ifstream &f);
+const Csv GetCompartment(ifstream &f);
 
 #endif

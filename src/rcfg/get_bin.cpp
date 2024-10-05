@@ -43,7 +43,7 @@ void GetLine(ifstream &bin, streampos &from, ReadFile *type, const string &find)
   Get(bin, from, find, type);
 }
 
-FileData Read(ifstream &bin, streampos &from)
+const FileData Read(ifstream &bin, streampos &from)
 {
   FileData r;
   GetLine(bin, from, r.name, "{");
@@ -51,14 +51,14 @@ FileData Read(ifstream &bin, streampos &from)
   return r;
 }
 
-Pair GetData(ifstream &bin, streampos &from)
+const Pair GetData(ifstream &bin, streampos &from)
 {
   const FileData result=Read(bin, from);
   const Pair r(result.name->line, result.data->v, result.data->position);
   return r;
 }
 
-SMap GetBin(ifstream &bin, streampos *from, string *name=nullptr)
+const SMap GetBin(ifstream &bin, streampos *from, string *name=nullptr)
 {
   const Pair pair=GetData(bin, *from);
 
@@ -68,7 +68,7 @@ SMap GetBin(ifstream &bin, streampos *from, string *name=nullptr)
   return Map;
 }
 
-Map<string, InitialValues> GetInitialValues(ifstream &bin)
+const Map<string, InitialValues> GetInitialValues(ifstream &bin)
 {
   Map<string, InitialValues> Map;
   string *name=new string;
@@ -81,7 +81,7 @@ Map<string, InitialValues> GetInitialValues(ifstream &bin)
   return Map;
 }
 
-SMap GetMap(ifstream &bin, streampos *from=nullptr)
+const SMap GetMap(ifstream &bin, streampos *from=nullptr)
 {
   SMap Map;
 

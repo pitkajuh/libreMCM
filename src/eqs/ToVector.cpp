@@ -18,7 +18,7 @@ using std::vector;
 using std::find;
 #include <iostream>
 using std::cout;
-void print_vector3(vector<string> &vec)
+void print_vector3(const vector<string> &vec)
 {
   uint8_t i=0;
   string empty="";
@@ -54,7 +54,7 @@ const int16_t FindIndex(const string &s)
   return r;
 }
 
-void StringConvert(string v, vector<string> &aa)
+void StringConvert(string &v, vector<string> &aa)
 {
   const int16_t i=FindIndex(v);
 

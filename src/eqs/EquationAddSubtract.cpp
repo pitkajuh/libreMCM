@@ -17,7 +17,7 @@ using namespace libremcm;
 
 const string EMPTY=" ";
 
-const vector<string> GetUp(const vector<string> v, uint16_t i)
+const vector<string> GetUp(const vector<string> &v, uint16_t i)
 {
   vector<string> r;
 
@@ -29,7 +29,7 @@ const vector<string> GetUp(const vector<string> v, uint16_t i)
   return r;
 }
 
-const vector<string> GetDown(const vector<string> v, uint16_t i)
+const vector<string> GetDown(const vector<string> &v, uint16_t i)
 {
   vector<string> r;
 
