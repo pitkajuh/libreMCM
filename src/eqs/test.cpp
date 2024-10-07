@@ -29,20 +29,20 @@ vector<string> Remove(vector<string> equation, const uint8_t open, const uint8_t
   return equation;
 }
 
-bool IsOpen(const vector<string> &tmp)
+const bool IsOpen(const vector<string> &tmp)
 {
-  bool result=false;
-  const uint8_t open=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
-  if(open==tmp.size()) result=true;
-  return result;
+  const uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
+
+  if(op==tmp.size()) return true;
+  return false;
 }
 
 vector<string> test2(vector<string> equation, uint8_t open, uint8_t close, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
 {
   const vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
-  const uint8_t open2=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
+  const uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
 
-  if(open2<tmp.size())
+  if(op<tmp.size())
     {
       open=distance(equation.begin()+open+1, find(equation.begin()+open+1, equation.end(), OPEN))+open+1;
       equation=GetParenthesis(equation, open, close, id, data, head, next);
@@ -56,22 +56,18 @@ vector<string> test2(vector<string> equation, uint8_t open, uint8_t close, uint8
 
 vector<string> test(vector<string> equation, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
 {
-  bool end=false;
-  uint8_t open;
+  uint8_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
   uint8_t close;
   vector<string> tmp;
 
-  while(!end)
+  while(open<equation.size())
     {
-      open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
-
-      if(open>=equation.size()) break;
-
       close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
       tmp={equation.begin()+open+1, equation.begin()+close};
 
       if(IsOpen(tmp)) equation=GetParenthesis(equation, open, close, id, data, head, next);
       else equation=test2(equation, open, close, id, data, head, next);
+      open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
     }
   return equation;
 }

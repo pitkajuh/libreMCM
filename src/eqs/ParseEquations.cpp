@@ -228,6 +228,7 @@ vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open
   const vector<string> v3{equation.begin()+close+1, equation.end()};
   vector<string> result;
   result.reserve(v1.size()+v2.size()+v3.size());
+
   result.insert(result.begin(), v2.begin(), v2.end());
   result.insert(result.end(), v1.begin(), v1.end());
   result.insert(result.end(), v3.begin(), v3.end());
