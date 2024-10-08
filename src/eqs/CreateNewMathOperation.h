@@ -74,7 +74,6 @@ void SetNext(T *&newhead, Equation *head, Equation *next, Equation *found, const
   else
     {
       Equation *prev=Search2(head, found);
-      prev->GetType();
       if(found->next!=nullptr) prev->next=found->next->next;
       else prev->next=found->next;
       newhead->next=next;
@@ -90,7 +89,6 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   newhead->SetOperator(o);
   Equation *found=Search(head, stoi(s1.substr(1, s1.size())));
   newhead->Set(found);
-  newhead->Get()->GetType();
 
   if(!isnan(found->result) and !isnan(newhead->GetValue()->GetValue()))
     {
