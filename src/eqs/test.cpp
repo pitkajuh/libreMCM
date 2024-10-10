@@ -50,7 +50,6 @@ vector<string> test2(vector<string> equation, uint8_t open, uint8_t close, uint8
       close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
       equation=test2(equation, open, close, id, data, head, next);
     }
-
   return equation;
 }
 
