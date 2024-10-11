@@ -202,10 +202,19 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
 
 void GetOrder(vector<string> &equation, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
 {
-  for(const auto&i: OPERATORS)
+  const uint8_t size=equation.size();
+
+  if(size>1)
     {
-      if(equation.size()<2) break;
-      FindOperator(equation, i, id, data, head, next);
+      for(const auto&i: OPERATORS)
+	{
+	  if(size<2) break;
+	  FindOperator(equation, i, id, data, head, next);
+	}
+    }
+  else
+    {
+      // Val2(head, equation,)
     }
 }
 
