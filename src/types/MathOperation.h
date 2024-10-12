@@ -18,10 +18,16 @@
 
 class MathOperationBase
 {
+private:
+  Value *v1;
 public:
-  double result=NAN;
+    double result=NAN;
 
-  virtual ~MathOperationBase(){}
+  double GetV1Value(){return v1->GetValue();} const
+  string GetV1Name(){return v1->GetName();} const
+  void SetV1(Value *v){v1=v;}
+  void Calculate(){result=GetV1Value();}
+  ~MathOperationBase(){delete v1;}
 };
 
 class MathOperation: public MathOperationBase
@@ -29,7 +35,6 @@ class MathOperation: public MathOperationBase
 protected:
    MathOperator *math_operator;
 private:
-  Value *v1;
   Value *v2;
 public:
   void SetOperator(const string &s)
@@ -40,16 +45,12 @@ public:
     else if(s==DIVIDE) math_operator=new Div;
     else if(s==EXP) math_operator=new Exp;
   }
-  double GetV1Value(){return v1->GetValue();} const
   double GetV2Value(){return v2->GetValue();} const
-  string GetV1Name(){return v1->GetName();} const
   string GetV2Name(){return v2->GetName();} const
-  void SetV1(Value *v){v1=v;}
   void SetV2(Value *v){v2=v;}
   void Calculate(){result=math_operator->Calculate(GetV1Value(), GetV2Value());}
   ~MathOperation()
   {
-    delete v1;
     delete v2;
     delete math_operator;
   }
