@@ -11,9 +11,6 @@
 #ifndef MATHOPERATOR_H
 #define MATHOPERATOR_H
 
-#include <math.h>
-#include "../global/mathconst.h"
-
 class MathOperator
 {
 public:
@@ -25,56 +22,36 @@ public:
 class Add:public MathOperator
 {
 public:
-  double Calculate(const double v1, const double v2) {return v1+v2;}
-  MathOperator *New()
-  {
-    MathOperator *m=new Add;
-    return m;
-  }
+  double Calculate(const double v1, const double v2){return v1+v2;}
+  MathOperator *New(){return new Add;}
 };
 
 class Sub:public MathOperator
 {
 public:
-  double Calculate(const double v1, const double v2) {return v1-v2;}
-  MathOperator *New()
-  {
-    MathOperator *m=new Sub;
-    return m;
-  }
+  double Calculate(const double v1, const double v2){return v1-v2;}
+  MathOperator *New(){return new Sub;}
 };
 
 class Mul:public MathOperator
 {
 public:
-  double Calculate(const double v1, const double v2) {return v1*v2;}
-  MathOperator *New()
-  {
-    MathOperator *m=new Mul;
-    return m;
-  }
+  double Calculate(const double v1, const double v2){return v1*v2;}
+  MathOperator *New(){return new Mul;}
 };
 
 class Div:public MathOperator
 {
 public:
-  double Calculate(const double v1, const double v2) {return v1/v2;}
-  MathOperator *New()
-  {
-    MathOperator *m=new Div;
-    return m;
-  }
+  double Calculate(const double v1, const double v2){return v1/v2;}
+  MathOperator *New(){return new Div;}
 };
 
 class Exp:public MathOperator
 {
 public:
-  double Calculate(const double v1, const double v2) {return pow(v1, v2);}
-  MathOperator *New()
-  {
-    MathOperator *m=new Exp;
-    return m;
-  }
+  double Calculate(const double v1, const double v2){return pow(v1, v2);}
+  MathOperator *New(){return new Exp;}
 };
 
 #endif

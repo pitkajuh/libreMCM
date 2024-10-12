@@ -200,17 +200,22 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
     }
 }
 
+void ParseOperators(vector<string> &equation, uint8_t &id, const Data &data, Equation *&head, Equation *&next, const uint8_t size)
+{
+  for(const auto&i: OPERATORS)
+    {
+      if(size<2) break;
+      FindOperator(equation, i, id, data, head, next);
+    }
+}
+
 void GetOrder(vector<string> &equation, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
 {
   const uint8_t size=equation.size();
 
   if(size>1)
     {
-      for(const auto&i: OPERATORS)
-	{
-	  if(size<2) break;
-	  FindOperator(equation, i, id, data, head, next);
-	}
+      ParseOperators(equation, id, data, head, next, size);
     }
   else
     {
