@@ -32,7 +32,7 @@ class Equation: public EquationBase
 protected:
   MathOperator *math_operator=nullptr;
 public:
-  MathOperationBase *m1=nullptr;
+  MathOperation *m1=nullptr;
   Equation *next=nullptr;
 
   void SetOperator(const string &s)

@@ -44,38 +44,30 @@ void print_vector2(const vector<string> &vec)
 struct Bools
 {
 public:
-  bool s1_variable;
-  bool s1_constant;
-  bool s1_numeric;
-  bool s1_math;
-  bool s2_variable;
-  bool s2_constant;
-  bool s2_numeric;
-  bool s2_math;
+  bool s_variable;
+  bool s_constant;
+  bool s_numeric;
+  bool s_math;
 
-  Bools(const string &s1, const string &s2, const Data &data)
+  Bools(const string &s1, const Data &data)
   {
-    s1_variable=IsIn(s1, data.diagonal);
-    s1_constant=IsIn(s1, data.constants_map);
-    s1_numeric=IsNumerical(s1);
-    s1_math=(s1.substr(0, 1)=="@") ? true : false;
-    s2_variable=IsIn(s2, data.diagonal);
-    s2_constant=IsIn(s2, data.constants_map);
-    s2_numeric=IsNumerical(s2);
-    s2_math=(s2.substr(0, 1)=="@") ? true : false;
+    s_variable=IsIn(s1, data.diagonal);
+    s_constant=IsIn(s1, data.constants_map);
+    s_numeric=IsNumerical(s1);
+    s_math=(s1.substr(0, 1)=="@") ? true : false;
   }
 };
 
-MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b)
+MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2)
 {
-  if(b.s1_variable and b.s2_variable) return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
-  else if(b.s1_variable and b.s2_constant) return CreateNewMathOperation<Variable, Constant, ConstantVariable>(s1, s2, o);
-  else if(b.s1_variable and b.s2_numeric) return CreateNewMathOperation<Variable, Numeric, NumericVariable>(s1, s2, o);
-  else if(b.s1_constant and b.s2_variable) return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
-  else if(b.s1_constant and b.s2_constant) return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
-  else if(b.s1_constant and b.s2_numeric) return CreateNewMathOperation<Constant, Numeric, NumericConstant>(s1, s2, o);
-  else if(b.s1_numeric and b.s2_variable) return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
-  else if(b.s1_numeric and b.s2_constant) return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
+  if(b1.s_variable and b2.s_variable) return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
+  else if(b1.s_variable and b2.s_constant) return CreateNewMathOperation<Variable, Constant, ConstantVariable>(s1, s2, o);
+  else if(b1.s_variable and b2.s_numeric) return CreateNewMathOperation<Variable, Numeric, NumericVariable>(s1, s2, o);
+  else if(b1.s_constant and b2.s_variable) return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
+  else if(b1.s_constant and b2.s_constant) return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
+  else if(b1.s_constant and b2.s_numeric) return CreateNewMathOperation<Constant, Numeric, NumericConstant>(s1, s2, o);
+  else if(b1.s_numeric and b2.s_variable) return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
+  else if(b1.s_numeric and b2.s_constant) return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
   else
     {
       MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
@@ -152,30 +144,31 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
   const string s1=equation[i-1];
   const string s2=equation[i+1];
   const string o=equation[i];
-  const Bools b(s1, s2, data);
+  const Bools b1(s1, data);
+  const Bools b2(s2, data);
 
   cout<<"Math operation "<<'\n';
   cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
-  cout<<"s1 "<<b.s1_variable<<" "<<b.s1_constant<<" "<<b.s1_numeric<<" "<<b.s1_math<<'\n';
-  cout<<"s2 "<<b.s2_variable<<" "<<b.s2_constant<<" "<<b.s2_numeric<<" "<<b.s2_math<<'\n';
+  cout<<"s1 "<<b1.s_variable<<" "<<b1.s_constant<<" "<<b1.s_numeric<<" "<<b1.s_math<<'\n';
+  cout<<"s2 "<<b2.s_variable<<" "<<b2.s_constant<<" "<<b2.s_numeric<<" "<<b2.s_math<<'\n';
 
-  if(!b.s1_math and !b.s2_math)
+  if(!b1.s_math and !b2.s_math)
     {
       Equation *mc=new Equation;
-      mc->m1=CreateNewValueValueMathOperation(s1, s2, o, b);
+      mc->m1=CreateNewValueValueMathOperation(s1, s2, o, b1, b2);
       mc->Calculate();
       mc->next=next;
       mc->SetId(id);
       return mc;
     }
-  else if(b.s1_variable and b.s2_math) return NewMathValue<Variable, VEquation>(s2, s1, o, id, head,  next);
-  else if(b.s1_constant and b.s2_math) return NewMathValue<Constant, VEquation>(s2, s1, o, id, head, next);
-  else if(b.s1_numeric and b.s2_math) return NewMathValue<Numeric, VEquation>(s2, s1, o, id, head, next);
-  else if(b.s1_math and b.s2_variable) return NewMathValue<Variable, EquationV>(s1, s2, o, id, head, next);
-  else if(b.s1_math and b.s2_constant) return NewMathValue<Constant, EquationV>(s1, s2, o, id, head, next);
-  else if(b.s1_math and b.s2_numeric) return NewMathValue<Numeric, EquationV>(s1, s2, o, id, head, next);
-  else if(b.s1_math and b.s2_math) return CreateNewMathMath(s1, s2, o, id, head);
-  else if(!b.s1_variable and !b.s1_constant and !b.s1_numeric and !b.s1_math) throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
+  else if(b1.s_variable and b2.s_math) return NewMathValue<Variable, VEquation>(s2, s1, o, id, head,  next);
+  else if(b1.s_constant and b2.s_math) return NewMathValue<Constant, VEquation>(s2, s1, o, id, head, next);
+  else if(b1.s_numeric and b2.s_math) return NewMathValue<Numeric, VEquation>(s2, s1, o, id, head, next);
+  else if(b1.s_math and b2.s_variable) return NewMathValue<Variable, EquationV>(s1, s2, o, id, head, next);
+  else if(b1.s_math and b2.s_constant) return NewMathValue<Constant, EquationV>(s1, s2, o, id, head, next);
+  else if(b1.s_math and b2.s_numeric) return NewMathValue<Numeric, EquationV>(s1, s2, o, id, head, next);
+  else if(b1.s_math and b2.s_math) return CreateNewMathMath(s1, s2, o, id, head);
+  else if(!b1.s_variable and !b1.s_constant and !b1.s_numeric and !b1.s_math) throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
   else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
 }
 

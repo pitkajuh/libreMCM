@@ -30,10 +30,28 @@ public:
   ~MathOperationBase(){delete v1;}
 };
 
+class NumericBase: public MathOperationBase
+{
+  // Numeric-numeric math operation
+public:
+};
+
+class VariableBase: public MathOperationBase
+{
+  // Variable-variable math operation
+public:
+};
+
+class ConstantBase: public MathOperationBase
+{
+  // Constant-variable math operation
+public:
+};
+
 class MathOperation: public MathOperationBase
 {
 protected:
-   MathOperator *math_operator;
+  MathOperator *math_operator;
 private:
   Value *v2;
 public:
