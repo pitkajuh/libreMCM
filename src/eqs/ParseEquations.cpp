@@ -44,30 +44,30 @@ void print_vector2(const vector<string> &vec)
 struct Bools
 {
 public:
-  bool s_variable;
-  bool s_constant;
-  bool s_numeric;
-  bool s_math;
+  bool variable;
+  bool constant;
+  bool numeric;
+  bool math;
 
   Bools(const string &s1, const Data &data)
   {
-    s_variable=IsIn(s1, data.diagonal);
-    s_constant=IsIn(s1, data.constants_map);
-    s_numeric=IsNumerical(s1);
-    s_math=(s1.substr(0, 1)=="@") ? true : false;
+    variable=IsIn(s1, data.diagonal);
+    constant=IsIn(s1, data.constants_map);
+    numeric=IsNumerical(s1);
+    math=(s1.substr(0, 1)=="@") ? true : false;
   }
 };
 
 MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2)
 {
-  if(b1.s_variable and b2.s_variable) return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
-  else if(b1.s_variable and b2.s_constant) return CreateNewMathOperation<Variable, Constant, ConstantVariable>(s1, s2, o);
-  else if(b1.s_variable and b2.s_numeric) return CreateNewMathOperation<Variable, Numeric, NumericVariable>(s1, s2, o);
-  else if(b1.s_constant and b2.s_variable) return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
-  else if(b1.s_constant and b2.s_constant) return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
-  else if(b1.s_constant and b2.s_numeric) return CreateNewMathOperation<Constant, Numeric, NumericConstant>(s1, s2, o);
-  else if(b1.s_numeric and b2.s_variable) return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
-  else if(b1.s_numeric and b2.s_constant) return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
+  if(b1.variable and b2.variable) return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
+  else if(b1.variable and b2.constant) return CreateNewMathOperation<Variable, Constant, ConstantVariable>(s1, s2, o);
+  else if(b1.variable and b2.numeric) return CreateNewMathOperation<Variable, Numeric, NumericVariable>(s1, s2, o);
+  else if(b1.constant and b2.variable) return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
+  else if(b1.constant and b2.constant) return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
+  else if(b1.constant and b2.numeric) return CreateNewMathOperation<Constant, Numeric, NumericConstant>(s1, s2, o);
+  else if(b1.numeric and b2.variable) return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
+  else if(b1.numeric and b2.constant) return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
   else
     {
       MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
@@ -149,10 +149,10 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
 
   cout<<"Math operation "<<'\n';
   cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
-  cout<<"s1 "<<b1.s_variable<<" "<<b1.s_constant<<" "<<b1.s_numeric<<" "<<b1.s_math<<'\n';
-  cout<<"s2 "<<b2.s_variable<<" "<<b2.s_constant<<" "<<b2.s_numeric<<" "<<b2.s_math<<'\n';
+  cout<<"s1 "<<b1.variable<<" "<<b1.constant<<" "<<b1.numeric<<" "<<b1.math<<'\n';
+  cout<<"s2 "<<b2.variable<<" "<<b2.constant<<" "<<b2.numeric<<" "<<b2.math<<'\n';
 
-  if(!b1.s_math and !b2.s_math)
+  if(!b1.math and !b2.math)
     {
       Equation *mc=new Equation;
       mc->m1=CreateNewValueValueMathOperation(s1, s2, o, b1, b2);
@@ -161,14 +161,14 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
       mc->SetId(id);
       return mc;
     }
-  else if(b1.s_variable and b2.s_math) return NewMathValue<Variable, VEquation>(s2, s1, o, id, head,  next);
-  else if(b1.s_constant and b2.s_math) return NewMathValue<Constant, VEquation>(s2, s1, o, id, head, next);
-  else if(b1.s_numeric and b2.s_math) return NewMathValue<Numeric, VEquation>(s2, s1, o, id, head, next);
-  else if(b1.s_math and b2.s_variable) return NewMathValue<Variable, EquationV>(s1, s2, o, id, head, next);
-  else if(b1.s_math and b2.s_constant) return NewMathValue<Constant, EquationV>(s1, s2, o, id, head, next);
-  else if(b1.s_math and b2.s_numeric) return NewMathValue<Numeric, EquationV>(s1, s2, o, id, head, next);
-  else if(b1.s_math and b2.s_math) return CreateNewMathMath(s1, s2, o, id, head);
-  else if(!b1.s_variable and !b1.s_constant and !b1.s_numeric and !b1.s_math) throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
+  else if(b1.variable and b2.math) return NewMathValue<Variable, VEquation>(s2, s1, o, id, head,  next);
+  else if(b1.constant and b2.math) return NewMathValue<Constant, VEquation>(s2, s1, o, id, head, next);
+  else if(b1.numeric and b2.math) return NewMathValue<Numeric, VEquation>(s2, s1, o, id, head, next);
+  else if(b1.math and b2.variable) return NewMathValue<Variable, EquationV>(s1, s2, o, id, head, next);
+  else if(b1.math and b2.constant) return NewMathValue<Constant, EquationV>(s1, s2, o, id, head, next);
+  else if(b1.math and b2.numeric) return NewMathValue<Numeric, EquationV>(s1, s2, o, id, head, next);
+  else if(b1.math and b2.math) return CreateNewMathMath(s1, s2, o, id, head);
+  else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math) throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
   else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
 }
 
@@ -202,18 +202,39 @@ void ParseOperators(vector<string> &equation, uint8_t &id, const Data &data, Equ
     }
 }
 
+Equation *CreateSingleEquation(const string &e, uint8_t &id, const Data &data, Equation *&next)
+{
+  const Bools b(e, data);
+  Equation *newHead=new Equation;
+  MathOperationBase *m;
+  newHead->next=next;
+  newHead->SetId(id);
+
+  if(b.variable)
+    {
+      m=new VariableBase;
+      m->SetV1(new Variable(e));
+    }
+  else if(b.constant)
+    {
+      m=new ConstantBase;
+      m->SetV1(new Constant(e));
+    }
+  else if(b.numeric)
+    {
+      m=new NumericBase;
+      m->SetV1(new Numeric(e));
+    }
+  return newHead;
+}
+
 void GetOrder(vector<string> &equation, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
 {
   const uint8_t size=equation.size();
 
-  if(size>1)
-    {
-      ParseOperators(equation, id, data, head, next, size);
-    }
-  else
-    {
-      // Val2(head, equation,)
-    }
+  if(size>1) ParseOperators(equation, id, data, head, next, size);
+  else cout<<"ELSE"<<'\n';
+  // else head=CreateSingleEquation(equation[0], id, data, next);
 }
 
 vector<string> RemoveOpenClose(vector<string> equation)
@@ -228,7 +249,8 @@ vector<string> RemoveOpenClose(vector<string> equation)
 vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
-  GetOrder(v1, id, data, head, next);
+  // GetOrder(v1, id, data, head, next);
+  ParseOperators(v1, id, data, head, next, v1.size());
   v1=test(v1, id, data, head, next);
   const vector<string> v2{equation.begin(), equation.begin()+open};
   const vector<string> v3{equation.begin()+close+1, equation.end()};

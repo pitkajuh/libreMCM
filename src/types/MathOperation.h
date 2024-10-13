@@ -21,7 +21,7 @@ class MathOperationBase
 private:
   Value *v1;
 public:
-    double result=NAN;
+  double result=NAN;
 
   double GetV1Value(){return v1->GetValue();} const
   string GetV1Name(){return v1->GetName();} const
@@ -32,19 +32,19 @@ public:
 
 class NumericBase: public MathOperationBase
 {
-  // Numeric-numeric math operation
+  // Numeric math operation
 public:
 };
 
 class VariableBase: public MathOperationBase
 {
-  // Variable-variable math operation
+  // Variable math operation
 public:
 };
 
 class ConstantBase: public MathOperationBase
 {
-  // Constant-variable math operation
+  // Constant math operation
 public:
 };
 

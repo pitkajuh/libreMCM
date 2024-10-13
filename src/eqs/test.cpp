@@ -33,8 +33,8 @@ const bool IsOpen(const vector<string> &tmp)
 {
   const uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
 
-  if(op==tmp.size()) return true;
-  return false;
+  if(op==tmp.size()) return 1;
+  return 0;
 }
 
 vector<string> test2(vector<string> equation, uint8_t open, uint8_t close, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
