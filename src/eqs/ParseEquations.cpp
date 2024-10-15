@@ -286,7 +286,7 @@ void Delete(Equation *head, const uint8_t id)
     }
 }
 
-void ParseEquations(const SMap &equations_map, const Data &data)
+Map<string, Equation*> ParseEquations(const SMap &equations_map, const Data &data)
 {
   // Set calculation order of an equation according to order of operations:
 
@@ -299,6 +299,7 @@ void ParseEquations(const SMap &equations_map, const Data &data)
   uint8_t id=0;
   Equation *head=nullptr;
   Equation *next=nullptr;
+  Map<string, Equation*> equationMap;
 
   for(const auto& [name, equation]: equations_map)
     {
@@ -309,6 +310,8 @@ void ParseEquations(const SMap &equations_map, const Data &data)
       v=test(v, id, data, head, next);
       GetOrder(v, id, data, head, next);
       head->next=nullptr;
+
+      equationMap[name]=head;
       Delete(head, id);
       next=nullptr;
       id=0;
@@ -316,4 +319,5 @@ void ParseEquations(const SMap &equations_map, const Data &data)
 
       cout<<" "<<'\n';
     }
+  return equationMap;
 }

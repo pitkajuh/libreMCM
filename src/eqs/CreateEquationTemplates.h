@@ -14,6 +14,6 @@
 #include "../types/MathOperation.h"
 #include "../types/Data.h"
 
-void CreateEquationTemplates(const Data &data);
+void CreateEquationTemplates(const Data &data, const Map<string, Equation*> equationMap);
 
 #endif

@@ -53,13 +53,13 @@ void ReadInitialData(const string &directory)
   ifstream bin(directory+"bin");
   streampos *f=new streampos;
   *f=0;
-  SMap constants_map=GetMap(bin, f);
-  SMap equations_map=GetMap(bin, f);
+  const SMap constants_map=GetMap(bin, f);
+  const SMap equations_map=GetMap(bin, f);
   bin.close();
   delete f;
 
   ifstream sim(directory+"sim_params");
-  SMap test=GetMap(sim);
+  const SMap test=GetMap(sim);
   sim.close();
 
   ifstream compartments(directory+"compartments");
@@ -71,14 +71,14 @@ void ReadInitialData(const string &directory)
   csv.GetDiagonal();
   compartment.close();
 
-  Data data(csv.diagonal, constants_map);
-
-  const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
-  ParseEquations(equations_map, data);
-  // CreateEquationTemplates(data);
-
+  const Data data(csv.diagonal, constants_map);
   const vector<string> iv_names=CreateAllInitialValues(ivs);
   const Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
+  const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
+  const Map<string, Equation*> equationMap=ParseEquations(equations_map, data);
+  CreateEquationTemplates(data, equationMap);
+
+
 
 
 
