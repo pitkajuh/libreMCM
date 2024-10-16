@@ -77,11 +77,6 @@ void ReadInitialData(const string &directory)
   const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
   const Map<string, Equation*> equationMap=ParseEquations(equations_map, data);
   CreateEquationTemplates(data, equationMap);
-
-
-
-
-
 }
 
 int main(int argc, char** argv)
@@ -108,20 +103,12 @@ int main(int argc, char** argv)
 	      run_deterministic_sim=true;
 	      break;
 	    case NUM_METHOD_OPTION:
-	      // solver_valid(optarg);
-	      // num_method_found=true;
 	      break;
 	    case TIME_START_OPTION:
-	      // t_start=value_check(optarg);
-	      // time_start_found=true;
 	      break;
 	    case TIME_END_OPTION:
-	      // t_end=value_check(optarg);
-	      // time_end_found=true;
 	      break;
 	    case STEP_SIZE_OPTION:
-	      // step_size=value_check(optarg);
-	      // step_size_found=true;
 	      break;
 	    default:
 	      exit(1);
@@ -134,7 +121,6 @@ int main(int argc, char** argv)
       if(run_deterministic_sim)
 	{
 	  ReadInitialData(directory);
-	  // run_deterministic(directory);
 	}
 
       auto end=std::chrono::high_resolution_clock::now();
