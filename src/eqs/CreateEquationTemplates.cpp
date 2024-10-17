@@ -35,9 +35,9 @@ void GetValue(const Data &data)
 void CreateEquationTemplates(const Data &data, const Map<string, Equation*> equationMap)
 {
   cout<<"--------------------------------------"<<'\n';
-  for(const auto &[key, value]: equationMap)
-    {
-      cout<<"key "<<key<<'\n';
-      // GetValue(value, data);
-    }
+//   for(const auto &[key, value]: equationMap)
+//     {
+//       cout<<"key "<<key<<'\n';
+//       // GetValue(value, data);
+//     }
 }

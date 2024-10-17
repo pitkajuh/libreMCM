@@ -13,6 +13,7 @@
 
 #include <string>
 #include <math.h>
+#include "../inc/namespace.h"
 
 using std::string;
 
@@ -25,7 +26,7 @@ private:
 public:
   void SetName(const string &s){name=s;}
   void SetValue(const double &v){value=v;}
-  string GetName(){return name;}
+  const string GetName(){return name;}
   double GetValue(){return value;}
   virtual ~Value(){}
 };

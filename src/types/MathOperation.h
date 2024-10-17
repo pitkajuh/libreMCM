@@ -16,13 +16,16 @@
 #include "MathOperator.h"
 #include "../global/mathconst.h"
 
+using namespace libremcm;
+
 class MathOperationBase
 {
 private:
   Value *v1;
 public:
   double result=NAN;
-
+  Value *&GetV1(){return v1;}
+  virtual void SetValue(SMap &ValueMap){v1->SetValue(std::stod(ValueMap[v1->GetName()]));}
   double GetV1Value(){return v1->GetValue();} const
   string GetV1Name(){return v1->GetName();} const
   void SetV1(Value *v){v1=v;}
@@ -55,6 +58,11 @@ protected:
 private:
   Value *v2;
 public:
+  virtual void SetValue(SMap &ValueMap)
+  {
+    GetV1()->SetValue(std::stod(ValueMap[GetV1()->GetName()]));
+    v2->SetValue(std::stod(ValueMap[v2->GetName()]));
+  }
   void SetOperator(const string &s)
   {
     if(s==ADD) math_operator=new Add;
