@@ -25,7 +25,7 @@ private:
 public:
   double result=NAN;
   Value *&GetV1(){return v1;}
-  virtual void SetValue(SMap &ValueMap){v1->SetValue(std::stod(ValueMap[v1->GetName()]));}
+  virtual void SetValue(SMap &ValueMap)=0;
   double GetV1Value(){return v1->GetValue();} const
   string GetV1Name(){return v1->GetName();} const
   void SetV1(Value *v){v1=v;}
@@ -37,18 +37,21 @@ class NumericBase: public MathOperationBase
 {
   // Numeric math operation
 public:
+  void SetValue(SMap &ValueMap){}
 };
 
 class VariableBase: public MathOperationBase
 {
   // Variable math operation
 public:
+  void SetValue(SMap &ValueMap){}
 };
 
 class ConstantBase: public MathOperationBase
 {
   // Constant math operation
 public:
+  void SetValue(SMap &ValueMap){GetV1()->SetValue(std::stod(ValueMap[GetV1()->GetName()]));}
 };
 
 class MathOperation: public MathOperationBase
@@ -58,6 +61,7 @@ protected:
 private:
   Value *v2;
 public:
+  // void SetValue(SMap &ValueMap){v1->SetValue(std::stod(ValueMap[v1->GetName()]));}
   virtual void SetValue(SMap &ValueMap)
   {
     GetV1()->SetValue(std::stod(ValueMap[GetV1()->GetName()]));
@@ -86,6 +90,7 @@ class NumericNumeric: public MathOperation
 {
   // Numeric-numeric math operation
 public:
+  // void SetValue(SMap &ValueMap){}
 };
 
 class VariableVariable: public MathOperation
