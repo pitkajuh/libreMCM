@@ -30,7 +30,7 @@ public:
   string GetV1Name(){return v1->GetName();} const
   void SetV1(Value *v){v1=v;}
   void Calculate(){result=GetV1Value();}
-  ~MathOperationBase(){delete v1;}
+  virtual ~MathOperationBase(){delete v1;}
 };
 
 class NumericBase: public MathOperationBase
