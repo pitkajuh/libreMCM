@@ -31,10 +31,12 @@ class Equation: public EquationBase
 {
 protected:
   MathOperator *math_operator=nullptr;
-public:
+private:
   MathOperation *m1=nullptr;
+public:
   Equation *next=nullptr;
 
+  MathOperation *&GetMathOperation(){return m1;}
   void SetOperator(const string &s)
   {
     if(s==ADD) math_operator=new Add;

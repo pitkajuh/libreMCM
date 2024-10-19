@@ -109,8 +109,8 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
     }
   else
     {
-      newhead->m1=found->m1;
-      found->m1=nullptr;
+      newhead->GetMathOperation()=found->GetMathOperation();
+      found->GetMathOperation()=nullptr;
     }
 
   SetNext<EquationValue>(newhead, head, next, found, id);

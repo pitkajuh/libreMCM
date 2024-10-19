@@ -25,11 +25,11 @@ private:
 public:
   double result=NAN;
   Value *&GetV1(){return v1;}
-  virtual void SetValue(SMap &ValueMap)=0;
   double GetV1Value(){return v1->GetValue();} const
   string GetV1Name(){return v1->GetName();} const
   void SetV1(Value *v){v1=v;}
   void Calculate(){result=GetV1Value();}
+  virtual void SetValue(SMap &ValueMap)=0;
   virtual ~MathOperationBase(){delete v1;}
 };
 
@@ -61,12 +61,6 @@ protected:
 private:
   Value *v2;
 public:
-  // void SetValue(SMap &ValueMap){v1->SetValue(std::stod(ValueMap[v1->GetName()]));}
-  // virtual void SetValue(SMap &ValueMap)
-  // {
-  //   GetV1()->SetValue(std::stod(ValueMap[GetV1()->GetName()]));
-  //   v2->SetValue(std::stod(ValueMap[v2->GetName()]));
-  // }
   virtual void SetValue(SMap &ValueMap)=0;
   void SetOperator(const string &s)
   {
