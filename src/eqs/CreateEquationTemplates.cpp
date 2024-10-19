@@ -11,6 +11,7 @@
 #include "../types/MathOperation.h"
 #include "../types/Data.h"
 #include <iostream>
+#include <cassert>
 
 using std::cout;
 
@@ -32,12 +33,35 @@ void GetValue(const Data &data)
   //   }
 }
 
+void Delete(Equation *head)
+{
+  Equation *current=head;
+  Equation *prev=nullptr;
+  Equation *next=nullptr;
+  uint8_t i=0;
+
+  while(current!=nullptr)
+    {
+      cout<<head->GetId()<<'\n';
+      assert(i==0);
+      assert(current->next==nullptr);
+      next=current->next;
+      current->next=prev;
+      prev=current;
+      delete current;
+      current=next;
+      i++;
+    }
+}
+
 void CreateEquationTemplates(const Data &data, const Map<string, Equation*> equationMap)
 {
   cout<<"--------------------------------------"<<'\n';
-  for(const auto &[key, value]: equationMap)
+  for(const auto &[name, equation]: equationMap)
     {
-      cout<<"key "<<key<<'\n';
-      // GetValue(value, data);
+      cout<<"name "<<name<<" "<<equation<<'\n';
+      // equation->SetValue(data.constants_map);
+      Delete(equation);
+      // GetValue(equation, data);
     }
 }

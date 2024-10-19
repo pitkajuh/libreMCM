@@ -264,27 +264,27 @@ vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open
   return result;
 }
 
-void Delete(Equation *head, const uint8_t id)
-{
-  Equation *current=head;
-  Equation *prev=nullptr;
-  Equation *next=nullptr;
-  uint8_t i=0;
+// void Delete(Equation *head, const uint8_t id)
+// {
+//   Equation *current=head;
+//   Equation *prev=nullptr;
+//   Equation *next=nullptr;
+//   uint8_t i=0;
 
-  while(current!=nullptr)
-    {
-      cout<<id<<" "<<head->GetId()<<'\n';
-      assert(i==0);
-      assert(id-head->GetId()==1);
-      assert(current->next==nullptr);
-      next=current->next;
-      current->next=prev;
-      prev=current;
-      delete current;
-      current=next;
-      i++;
-    }
-}
+//   while(current!=nullptr)
+//     {
+//       cout<<id<<" "<<head->GetId()<<'\n';
+//       assert(i==0);
+//       assert(id-head->GetId()==1);
+//       assert(current->next==nullptr);
+//       next=current->next;
+//       current->next=prev;
+//       prev=current;
+//       delete current;
+//       current=next;
+//       i++;
+//     }
+// }
 
 Map<string, Equation*> ParseEquations(const SMap &equations_map, const Data &data)
 {
@@ -312,7 +312,7 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const Data &dat
       head->next=nullptr;
 
       equationMap[name]=head;
-      Delete(head, id);
+      // Delete(head, id);
       next=nullptr;
       id=0;
       cout<<"ok"<<'\n';

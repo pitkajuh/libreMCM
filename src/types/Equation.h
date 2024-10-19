@@ -22,6 +22,7 @@ protected:
 public:
   double result=NAN;
   void SetId(const uint8_t id1){id=id1;}
+  virtual void SetValue(SMap ValueMap)=0;
   const uint8_t GetId(){return id;}
   virtual void Calculate()=0;
   virtual void GetType()=0;
@@ -36,6 +37,7 @@ private:
 public:
   Equation *next=nullptr;
 
+  void SetValue(SMap ValueMap){m1->SetValue(ValueMap);}
   MathOperation *&GetMathOperation(){return m1;}
   void SetOperator(const string &s)
   {
@@ -63,6 +65,12 @@ private:
   Equation *m11=nullptr;
   Value *v=nullptr;
 public:
+  void SetValue(SMap ValueMap){m11->SetValue(ValueMap);}
+  // for value v also
+
+
+
+
   Value *GetValue(){return v;}
   void Set(Equation *m0){m11=m0;}
   void SetValue(Value *w){v=w;}
@@ -104,6 +112,11 @@ private:
   Equation *m11=nullptr;
   Equation *m21=nullptr;
 public:
+  void SetValue(SMap ValueMap)
+  {
+    m11->SetValue(ValueMap);
+    m21->SetValue(ValueMap);
+  }
   Equation *&GetM1(){return m11;}
   Equation *&GetM2(){return m21;}
   void Set(Equation *m1, Equation *m2)
