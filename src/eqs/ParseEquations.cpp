@@ -61,11 +61,11 @@ public:
 MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2)
 {
   if(b1.variable and b2.variable) return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
-  else if(b1.variable and b2.constant) return CreateNewMathOperation<Variable, Constant, ConstantVariable>(s1, s2, o);
-  else if(b1.variable and b2.numeric) return CreateNewMathOperation<Variable, Numeric, NumericVariable>(s1, s2, o);
+  else if(b1.variable and b2.constant) return CreateNewMathOperation<Variable, Constant, VariableConstant>(s1, s2, o);
+  else if(b1.variable and b2.numeric) return CreateNewMathOperation<Variable, Numeric, VariableNumeric>(s1, s2, o);
   else if(b1.constant and b2.variable) return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
   else if(b1.constant and b2.constant) return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
-  else if(b1.constant and b2.numeric) return CreateNewMathOperation<Constant, Numeric, NumericConstant>(s1, s2, o);
+  else if(b1.constant and b2.numeric) return CreateNewMathOperation<Constant, Numeric, ConstantNumeric>(s1, s2, o);
   else if(b1.numeric and b2.variable) return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
   else if(b1.numeric and b2.constant) return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
   else

@@ -62,11 +62,12 @@ private:
   Value *v2;
 public:
   // void SetValue(SMap &ValueMap){v1->SetValue(std::stod(ValueMap[v1->GetName()]));}
-  virtual void SetValue(SMap &ValueMap)
-  {
-    GetV1()->SetValue(std::stod(ValueMap[GetV1()->GetName()]));
-    v2->SetValue(std::stod(ValueMap[v2->GetName()]));
-  }
+  // virtual void SetValue(SMap &ValueMap)
+  // {
+  //   GetV1()->SetValue(std::stod(ValueMap[GetV1()->GetName()]));
+  //   v2->SetValue(std::stod(ValueMap[v2->GetName()]));
+  // }
+  virtual void SetValue(SMap &ValueMap)=0;
   void SetOperator(const string &s)
   {
     if(s==ADD) math_operator=new Add;
@@ -75,6 +76,7 @@ public:
     else if(s==DIVIDE) math_operator=new Div;
     else if(s==EXP) math_operator=new Exp;
   }
+  Value *&GetV2(){return v2;}
   double GetV2Value(){return v2->GetValue();} const
   string GetV2Name(){return v2->GetName();} const
   void SetV2(Value *v){v2=v;}
@@ -90,37 +92,67 @@ class NumericNumeric: public MathOperation
 {
   // Numeric-numeric math operation
 public:
-  // void SetValue(SMap &ValueMap){}
+  void SetValue(SMap &ValueMap){}
 };
 
 class VariableVariable: public MathOperation
 {
   // Variable-variable math operation
 public:
+  void SetValue(SMap &ValueMap){}
 };
 
 class ConstantVariable: public MathOperation
 {
   // Constant-variable math operation
 public:
+  void SetValue(SMap &ValueMap){GetV1()->SetValue(std::stod(ValueMap[GetV1()->GetName()]));}
+};
+
+class VariableConstant: public MathOperation
+{
+  // Variable-constant math operation
+public:
+  void SetValue(SMap &ValueMap){GetV2()->SetValue(std::stod(ValueMap[GetV2()->GetName()]));}
 };
 
 class ConstantConstant: public MathOperation
 {
   // Constant-constant math operation
 public:
+  void SetValue(SMap &ValueMap)
+  {
+    GetV1()->SetValue(std::stod(ValueMap[GetV1()->GetName()]));
+    GetV2()->SetValue(std::stod(ValueMap[GetV2()->GetName()]));
+  }
+};
+
+class VariableNumeric: public MathOperation
+{
+  // Variable-numeric math operation
+public:
+  void SetValue(SMap &ValueMap){}
 };
 
 class NumericVariable: public MathOperation
 {
   // Numeric-variable math operation
 public:
+  void SetValue(SMap &ValueMap){}
 };
 
 class NumericConstant: public MathOperation
 {
   // Numeric-constant math operation
 public:
+  void SetValue(SMap &ValueMap){GetV2()->SetValue(std::stod(ValueMap[GetV2()->GetName()]));}
+};
+
+class ConstantNumeric: public MathOperation
+{
+  // Constant-numeric math operation
+public:
+    void SetValue(SMap &ValueMap){GetV1()->SetValue(std::stod(ValueMap[GetV1()->GetName()]));}
 };
 
 #endif
