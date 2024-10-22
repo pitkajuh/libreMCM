@@ -69,8 +69,6 @@ public:
   // for value v also
 
 
-
-
   Value *GetValue(){return v;}
   void Set(Equation *m0){m11=m0;}
   void SetValue(Value *w){v=w;}
