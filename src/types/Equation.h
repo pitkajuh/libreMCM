@@ -68,7 +68,6 @@ public:
   void SetValue(SMap &ValueMap){m11->SetValue(ValueMap);}
   // for value v also
 
-
   Value *GetValue(){return v;}
   void Set(Equation *m0){m11=m0;}
   void SetValue(Value *w){v=w;}
@@ -77,6 +76,7 @@ public:
   {
     printf("new EquationValue\n");
   }
+  virtual void SetValueValue(const double value)=0;
   virtual ~EquationValue()
   {
     delete m11;
@@ -84,10 +84,20 @@ public:
   }
 };
 
+// class EquationValueNumerical: public EquationValue
+// {
+// public:
+
+// };
+
 class EquationV: public EquationValue
 {
 public:
   void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
+  void SetValueValue(const double value)
+  {
+
+  }
   void GetType()
   {
     printf("new EquationV\n");
@@ -98,6 +108,10 @@ class VEquation: public EquationValue
 {
 public:
   void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
+  void SetValueValue(const double value)
+  {
+
+  }
   void GetType()
   {
     printf("new VEquation\n");
