@@ -94,6 +94,7 @@ class EquationV: public EquationValue
 {
 public:
   void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
+  // virtual void SetValueValue(const double value)=0;
   void SetValueValue(const double value)
   {
 
@@ -108,6 +109,7 @@ class VEquation: public EquationValue
 {
 public:
   void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
+  // virtual void SetValueValue(const double value)=0;
   void SetValueValue(const double value)
   {
 
