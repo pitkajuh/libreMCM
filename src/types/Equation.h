@@ -76,7 +76,7 @@ public:
   {
     printf("new EquationValue\n");
   }
-  virtual void SetValueValue(const double value)=0;
+  virtual void SetVValue(const double value)=0;
   virtual ~EquationValue()
   {
     delete m11;
@@ -95,8 +95,9 @@ class EquationV: public EquationValue
 public:
   void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
   // virtual void SetValueValue(const double value)=0;
-  void SetValueValue(const double value)
+  void SetVValue(const double value)
   {
+
 
   }
   void GetType()
@@ -110,7 +111,7 @@ class VEquation: public EquationValue
 public:
   void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
   // virtual void SetValueValue(const double value)=0;
-  void SetValueValue(const double value)
+  void SetVValue(const double value)
   {
 
   }
