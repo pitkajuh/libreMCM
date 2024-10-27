@@ -90,6 +90,12 @@ public:
 
 // };
 
+// class EquationValueConstant: public EquationValue
+// {
+// public:
+
+// };
+
 class EquationV: public EquationValue
 {
 public:
