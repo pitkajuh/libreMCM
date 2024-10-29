@@ -96,6 +96,13 @@ public:
 
 // };
 
+// class EquationValueVariable: public EquationValue
+// {
+// public:
+
+// };
+
+
 class EquationV: public EquationValue
 {
 public:
