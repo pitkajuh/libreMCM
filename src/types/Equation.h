@@ -84,6 +84,22 @@ public:
   }
 };
 
+class EquationV: public EquationValue
+{
+public:
+  void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
+  // virtual void SetValueValue(const double value)=0;
+  void SetVValue(const double value)
+  {
+
+
+  }
+  void GetType()
+  {
+    printf("new EquationV\n");
+  }
+};
+
 // class EquationValueNumerical: public EquationValue
 // {
 // public:
@@ -101,23 +117,6 @@ public:
 // public:
 
 // };
-
-
-class EquationV: public EquationValue
-{
-public:
-  void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
-  // virtual void SetValueValue(const double value)=0;
-  void SetVValue(const double value)
-  {
-
-
-  }
-  void GetType()
-  {
-    printf("new EquationV\n");
-  }
-};
 
 class VEquation: public EquationValue
 {
