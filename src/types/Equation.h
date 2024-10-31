@@ -118,6 +118,7 @@ public:
 
 // };
 
+
 class VEquation: public EquationValue
 {
 public:
