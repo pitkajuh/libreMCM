@@ -68,6 +68,7 @@ public:
   void SetValue(SMap &ValueMap){m11->SetValue(ValueMap);}
   // for value v also
 
+
   Value *GetValue(){return v;}
   void Set(Equation *m0){m11=m0;}
   void SetValue(Value *w){v=w;}
