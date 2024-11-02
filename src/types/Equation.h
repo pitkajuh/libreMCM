@@ -17,7 +17,7 @@
 
 class EquationBase
 {
-protected:
+private:
   uint8_t id;
 public:
   double result=NAN;
@@ -33,12 +33,12 @@ class Equation: public EquationBase
 protected:
   MathOperator *math_operator=nullptr;
 private:
-  MathOperation *m1=nullptr;
+  MathOperationBase *m1=nullptr;
 public:
   Equation *next=nullptr;
 
   void SetValue(SMap &ValueMap){m1->SetValue(ValueMap);}
-  MathOperation *&GetMathOperation(){return m1;}
+  MathOperationBase *&GetMathOperation(){return m1;}
   void SetOperator(const string &s)
   {
     if(s==ADD) math_operator=new Add;

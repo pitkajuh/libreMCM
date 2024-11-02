@@ -20,7 +20,7 @@ using namespace libremcm;
 
 class MathOperationBase
 {
-private:
+protected:
   Value *v1;
 public:
   double result=NAN;
@@ -57,9 +57,9 @@ public:
 class MathOperation: public MathOperationBase
 {
 protected:
-  MathOperator *math_operator;
-private:
   Value *v2;
+private:
+  MathOperator *math_operator;
 public:
   virtual void SetValue(SMap &ValueMap)=0;
   void SetOperator(const string &s)
@@ -100,14 +100,14 @@ class ConstantVariable: public MathOperation
 {
   // Constant-variable math operation
 public:
-  void SetValue(SMap &ValueMap){GetV1()->SetValue(std::stod(ValueMap[GetV1()->GetName()]));}
+  void SetValue(SMap &ValueMap){v1->SetValue(std::stod(ValueMap[v1->GetName()]));}
 };
 
 class VariableConstant: public MathOperation
 {
   // Variable-constant math operation
 public:
-  void SetValue(SMap &ValueMap){GetV2()->SetValue(std::stod(ValueMap[GetV2()->GetName()]));}
+  void SetValue(SMap &ValueMap){v2->SetValue(std::stod(ValueMap[v2->GetName()]));}
 };
 
 class ConstantConstant: public MathOperation
@@ -116,8 +116,8 @@ class ConstantConstant: public MathOperation
 public:
   void SetValue(SMap &ValueMap)
   {
-    GetV1()->SetValue(std::stod(ValueMap[GetV1()->GetName()]));
-    GetV2()->SetValue(std::stod(ValueMap[GetV2()->GetName()]));
+    v1->SetValue(std::stod(ValueMap[v1->GetName()]));
+    v2->SetValue(std::stod(ValueMap[v2->GetName()]));
   }
 };
 
@@ -139,14 +139,14 @@ class NumericConstant: public MathOperation
 {
   // Numeric-constant math operation
 public:
-  void SetValue(SMap &ValueMap){GetV2()->SetValue(std::stod(ValueMap[GetV2()->GetName()]));}
+  void SetValue(SMap &ValueMap){v2->SetValue(std::stod(ValueMap[v2->GetName()]));}
 };
 
 class ConstantNumeric: public MathOperation
 {
   // Constant-numeric math operation
 public:
-    void SetValue(SMap &ValueMap){GetV1()->SetValue(std::stod(ValueMap[GetV1()->GetName()]));}
+  void SetValue(SMap &ValueMap){v1->SetValue(std::stod(ValueMap[v1->GetName()]));}
 };
 
 #endif
