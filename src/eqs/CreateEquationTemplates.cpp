@@ -42,7 +42,7 @@ void Delete(Equation *head)
 
   while(current!=nullptr)
     {
-      cout<<head->GetId()<<'\n';
+      // cout<<to_str(head->GetId()<<'\n';
       assert(i==0);
       assert(current->next==nullptr);
       next=current->next;
@@ -59,7 +59,7 @@ void CreateEquationTemplates(const Data &data, const Map<string, Equation*> equa
   cout<<"--------------------------------------"<<'\n';
   for(const auto &[name, equation]: equationMap)
     {
-      cout<<"name "<<name<<" "<<equation<<'\n';
+      // cout<<"name "<<name<<" "<<equation<<'\n';
       // equation->SetValue(data.constants_map);
       Delete(equation);
       // GetValue(equation, data);

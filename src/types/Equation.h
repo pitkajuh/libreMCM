@@ -100,24 +100,26 @@ public:
   }
 };
 
-// class EquationValueNumerical: public EquationValue
-// {
-// public:
+class EquationVNumerical: public EquationV
+{
+public:
+  void SetVValue(const double value){}
+};
 
-// };
+class EquationVConstant: public EquationV
+{
+public:
+  void SetVValue(const double value)
+  {
 
-// class EquationValueConstant: public EquationValue
-// {
-// public:
+  }
+};
 
-// };
-
-// class EquationValueVariable: public EquationValue
-// {
-// public:
-
-// };
-
+class EquationVVariable: public EquationV
+{
+public:
+  void SetVValue(const double value){}
+};
 
 class VEquation: public EquationValue
 {
@@ -132,6 +134,27 @@ public:
   {
     printf("new VEquation\n");
   }
+};
+
+class VEquationNumerical: public VEquation
+{
+public:
+  void SetVValue(const double value){}
+};
+
+class VEquationConstant: public VEquation
+{
+public:
+  void SetVValue(const double value)
+  {
+
+  }
+};
+
+class VEquationVariable: public VEquation
+{
+public:
+  void SetVValue(const double value){}
 };
 
 class EquationMath: public Equation

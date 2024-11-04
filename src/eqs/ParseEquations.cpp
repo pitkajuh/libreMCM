@@ -161,12 +161,12 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
       mc->SetId(id);
       return mc;
     }
-  else if(b1.variable and b2.math) return NewMathValue<Variable, VEquation>(s2, s1, o, id, head,  next);
-  else if(b1.constant and b2.math) return NewMathValue<Constant, VEquation>(s2, s1, o, id, head, next);
-  else if(b1.numeric and b2.math) return NewMathValue<Numeric, VEquation>(s2, s1, o, id, head, next);
-  else if(b1.math and b2.variable) return NewMathValue<Variable, EquationV>(s1, s2, o, id, head, next);
-  else if(b1.math and b2.constant) return NewMathValue<Constant, EquationV>(s1, s2, o, id, head, next);
-  else if(b1.math and b2.numeric) return NewMathValue<Numeric, EquationV>(s1, s2, o, id, head, next);
+  else if(b1.variable and b2.math) return NewMathValue<Variable, VEquationVariable>(s2, s1, o, id, head,  next);
+  else if(b1.constant and b2.math) return NewMathValue<Constant, VEquationConstant>(s2, s1, o, id, head, next);
+  else if(b1.numeric and b2.math) return NewMathValue<Numeric, VEquationNumerical>(s2, s1, o, id, head, next);
+  else if(b1.math and b2.variable) return NewMathValue<Variable, EquationVVariable>(s1, s2, o, id, head, next);
+  else if(b1.math and b2.constant) return NewMathValue<Constant, EquationVConstant>(s1, s2, o, id, head, next);
+  else if(b1.math and b2.numeric) return NewMathValue<Numeric, EquationVNumerical>(s1, s2, o, id, head, next);
   else if(b1.math and b2.math) return CreateNewMathMath(s1, s2, o, id, head);
   else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math) throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
   else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
