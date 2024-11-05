@@ -71,12 +71,12 @@ void ReadInitialData(const string &directory)
   csv.GetDiagonal();
   compartment.close();
 
-  const Data data(csv.diagonal, constants_map);
+  // const Data data(csv.diagonal, constants_map);
   const vector<string> iv_names=CreateAllInitialValues(ivs);
   const Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
   const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
-  const Map<string, Equation*> equationMap=ParseEquations(equations_map, data);
-  CreateEquationTemplates(data, equationMap);
+  const Map<string, Equation*> equationMap=ParseEquations(equations_map, csv.diagonal);
+  CreateEquationTemplates(equationMap, constants_map);
 }
 
 int main(int argc, char** argv)

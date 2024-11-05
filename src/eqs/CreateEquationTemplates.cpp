@@ -54,7 +54,7 @@ void Delete(Equation *head)
     }
 }
 
-void CreateEquationTemplates(const Data &data, const Map<string, Equation*> equationMap)
+void CreateEquationTemplates(const Map<string, Equation*> equationMap, const SMap &constantsMap)
 {
   cout<<"--------------------------------------"<<'\n';
   for(const auto &[name, equation]: equationMap)

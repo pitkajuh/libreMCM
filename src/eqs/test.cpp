@@ -37,7 +37,7 @@ const bool IsOpen(const vector<string> &tmp)
   return 0;
 }
 
-vector<string> test2(vector<string> equation, uint8_t open, uint8_t close, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
+vector<string> test2(vector<string> equation, uint8_t open, uint8_t close, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
 {
   const vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
   const uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
@@ -53,7 +53,7 @@ vector<string> test2(vector<string> equation, uint8_t open, uint8_t close, uint8
   return equation;
 }
 
-vector<string> test(vector<string> equation, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
+vector<string> test(vector<string> equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
 {
   uint8_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
   uint8_t close;

@@ -14,7 +14,6 @@
 #include "../global/mathconst.h"
 #include "../types/MathOperation.h"
 #include "../types/Equation.h"
-#include "../types/Data.h"
 #include "../util/IsIn.h"
 #include <algorithm>
 #include <iostream>
@@ -49,9 +48,9 @@ public:
   bool numeric;
   bool math;
 
-  Bools(const string &s1, const Data &data)
+  Bools(const string &s1, const vector<string> &data)
   {
-    variable=IsIn(s1, data.diagonal);
+    variable=IsIn(s1, data);
     numeric=IsNumerical(s1);
     math=(s1.substr(0, 1)=="@") ? 1 : 0;
     if(!variable and !numeric and !math) constant=1;
@@ -140,7 +139,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   return newhead;
 }
 
-Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i, const Data &data, const uint8_t id, Equation *&next)
+Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i, const vector<string> &data, const uint8_t id, Equation *&next)
 {
   const string s1=equation[i-1];
   const string s2=equation[i+1];
@@ -173,7 +172,7 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
   else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
 }
 
-void FindOperator(vector<string> &equation, const string &find, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
+void FindOperator(vector<string> &equation, const string &find, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
 {
   const uint8_t i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
 
@@ -194,7 +193,7 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
     }
 }
 
-void ParseOperators(vector<string> &equation, uint8_t &id, const Data &data, Equation *&head, Equation *&next, const uint8_t size)
+void ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next, const uint8_t size)
 {
   for(const auto&i: OPERATORS)
     {
@@ -203,7 +202,7 @@ void ParseOperators(vector<string> &equation, uint8_t &id, const Data &data, Equ
     }
 }
 
-Equation *CreateSingleEquation(const string &e, uint8_t &id, const Data &data, Equation *&next)
+Equation *CreateSingleEquation(const string &e, uint8_t &id, const vector<string> &data, Equation *&next)
 {
   const Bools b(e, data);
   Equation *newHead=new Equation;
@@ -229,7 +228,7 @@ Equation *CreateSingleEquation(const string &e, uint8_t &id, const Data &data, E
   return newHead;
 }
 
-void GetOrder(vector<string> &equation, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
+void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
 {
   const uint8_t size=equation.size();
 
@@ -247,7 +246,7 @@ vector<string> RemoveOpenClose(vector<string> equation)
   return equation;
 }
 
-vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const Data &data, Equation *&head, Equation *&next)
+vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
   // GetOrder(v1, id, data, head, next);
@@ -287,7 +286,7 @@ vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open
 //     }
 // }
 
-Map<string, Equation*> ParseEquations(const SMap &equations_map, const Data &data)
+Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<string> &data)
 {
   // Set calculation order of an equation according to order of operations:
 
