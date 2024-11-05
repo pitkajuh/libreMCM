@@ -51,7 +51,7 @@ class ConstantBase: public MathOperationBase
 {
   // Constant math operation
 public:
-  void SetValue(SMap &ValueMap){GetV1()->SetValue(std::stod(ValueMap[GetV1()->GetName()]));}
+  void SetValue(SMap &ValueMap){v1->SetValue(std::stod(ValueMap[v1->GetName()]));}
 };
 
 class MathOperation: public MathOperationBase

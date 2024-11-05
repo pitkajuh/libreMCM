@@ -13,7 +13,6 @@
 #include <getopt.h>
 #include <unistd.h>
 #include "inc/namespace.h"
-#include "types/Data.h"
 #include "rcfg/get_bin.h"
 #include "util/MapUtils.h"
 #include "util/CreateInitialValues.h"
@@ -71,7 +70,6 @@ void ReadInitialData(const string &directory)
   csv.GetDiagonal();
   compartment.close();
 
-  // const Data data(csv.diagonal, constants_map);
   const vector<string> iv_names=CreateAllInitialValues(ivs);
   const Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
   const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);

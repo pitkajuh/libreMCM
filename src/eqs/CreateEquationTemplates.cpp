@@ -8,30 +8,11 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include "../types/MathOperation.h"
-#include "../types/Data.h"
+#include "../types/Equation.h"
 #include <iostream>
 #include <cassert>
 
 using std::cout;
-
-void GetValue(const Data &data)
-{
-  // int j=0;
-  // for(const auto &i: v)
-  //   {
-  //     // i->CalculateResult();
-  //     i->Type();
-  //     cout<<i->result<<'\n';
-  //     // i->Simplify();
-  //     // cout<<j<<" "<<i->GetV1Value()<<" "<<i->GetV2Value()<<" "<<i->result<<'\n';
-  //     // cout<<j<<" "<<i->GetV1()<<" "<<i->GetV2()<<" "<<'\n';
-  //     // cout<<j<<" "<<" "<<'\n';
-  //     cout<<" "<<'\n';
-  //     // delete i;
-  //     j++;
-  //   }
-}
 
 void Delete(Equation *head)
 {

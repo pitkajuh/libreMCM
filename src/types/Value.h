@@ -24,7 +24,7 @@ private:
   double value=NAN;
 public:
   void SetName(const string &s){name=s;}
-  void SetValue(const double &v){value=v;}
+  void SetValue(const double v){value=v;}
   const string GetName(){return name;}
   double GetValue(){return value;}
   virtual ~Value(){}
