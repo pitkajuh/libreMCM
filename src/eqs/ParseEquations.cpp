@@ -52,9 +52,10 @@ public:
   Bools(const string &s1, const Data &data)
   {
     variable=IsIn(s1, data.diagonal);
-    constant=IsIn(s1, data.constants_map);
     numeric=IsNumerical(s1);
-    math=(s1.substr(0, 1)=="@") ? true : false;
+    math=(s1.substr(0, 1)=="@") ? 1 : 0;
+    if(!variable and !numeric and !math) constant=1;
+    else constant=0;
   }
 };
 
