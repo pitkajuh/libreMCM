@@ -13,6 +13,6 @@
 
 #include "../types/MathOperation.h"
 
-void CreateEquationTemplates(const Map<string, Equation*> equationMap, const SMap &constantsMap);
+void CreateEquationTemplates(const Map<string, Equation*> equationMap, SMap &constantsMap);
 
 #endif

@@ -15,6 +15,8 @@
 #include "Value.h"
 #include "MathOperator.h"
 #include "../global/mathconst.h"
+#include <iostream>
+using std::cout;
 
 using namespace libremcm;
 
@@ -51,7 +53,11 @@ class ConstantBase: public MathOperationBase
 {
   // Constant math operation
 public:
-  void SetValue(SMap &ValueMap){v1->SetValue(std::stod(ValueMap[v1->GetName()]));}
+  void SetValue(SMap &ValueMap)
+  {
+    cout<<"SetValue "<<std::stod(ValueMap[v1->GetName()])<<'\n';
+    v1->SetValue(std::stod(ValueMap[v1->GetName()]));
+  }
 };
 
 class MathOperation: public MathOperationBase
@@ -100,14 +106,22 @@ class ConstantVariable: public MathOperation
 {
   // Constant-variable math operation
 public:
-  void SetValue(SMap &ValueMap){v1->SetValue(std::stod(ValueMap[v1->GetName()]));}
+  void SetValue(SMap &ValueMap)
+  {
+    cout<<"SetValue ConstantVariable "<<std::stod(ValueMap[v1->GetName()])<<'\n';
+    v1->SetValue(std::stod(ValueMap[v1->GetName()]));
+  }
 };
 
 class VariableConstant: public MathOperation
 {
   // Variable-constant math operation
 public:
-  void SetValue(SMap &ValueMap){v2->SetValue(std::stod(ValueMap[v2->GetName()]));}
+  void SetValue(SMap &ValueMap)
+  {
+    cout<<"SetValue VariableConstant "<<std::stod(ValueMap[v2->GetName()])<<'\n';
+    v2->SetValue(std::stod(ValueMap[v2->GetName()]));
+  }
 };
 
 class ConstantConstant: public MathOperation
@@ -116,6 +130,7 @@ class ConstantConstant: public MathOperation
 public:
   void SetValue(SMap &ValueMap)
   {
+    cout<<"SetValue ConstantConstant "<<std::stod(ValueMap[v1->GetName()])<<" "<<std::stod(ValueMap[v2->GetName()])<<'\n';
     v1->SetValue(std::stod(ValueMap[v1->GetName()]));
     v2->SetValue(std::stod(ValueMap[v2->GetName()]));
   }
@@ -139,14 +154,22 @@ class NumericConstant: public MathOperation
 {
   // Numeric-constant math operation
 public:
-  void SetValue(SMap &ValueMap){v2->SetValue(std::stod(ValueMap[v2->GetName()]));}
+  void SetValue(SMap &ValueMap)
+  {
+    cout<<"SetValue "<<std::stod(ValueMap[v2->GetName()])<<'\n';
+    v2->SetValue(std::stod(ValueMap[v2->GetName()]));
+  }
 };
 
 class ConstantNumeric: public MathOperation
 {
   // Constant-numeric math operation
 public:
-  void SetValue(SMap &ValueMap){v1->SetValue(std::stod(ValueMap[v1->GetName()]));}
+  void SetValue(SMap &ValueMap)
+  {
+    cout<<"SetValue "<<std::stod(ValueMap[v1->GetName()])<<'\n';
+    v1->SetValue(std::stod(ValueMap[v1->GetName()]));
+  }
 };
 
 #endif

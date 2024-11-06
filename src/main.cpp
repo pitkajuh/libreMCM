@@ -52,7 +52,7 @@ void ReadInitialData(const string &directory)
   ifstream bin(directory+"bin");
   streampos *f=new streampos;
   *f=0;
-  const SMap constants_map=GetMap(bin, f);
+  SMap constants_map=GetMap(bin, f);
   const SMap equations_map=GetMap(bin, f);
   bin.close();
   delete f;

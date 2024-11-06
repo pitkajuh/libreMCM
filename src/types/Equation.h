@@ -26,6 +26,7 @@ public:
   virtual void SetValue(SMap &ValueMap)=0;
   virtual void Calculate()=0;
   virtual void GetType()=0;
+  virtual void Print()=0;
 };
 
 class Equation: public EquationBase
@@ -36,7 +37,10 @@ protected:
 public:
   Equation *next=nullptr;
 
-  void SetValue(SMap &ValueMap){m1->SetValue(ValueMap);}
+  void SetValue(SMap &ValueMap)
+  {
+    m1->SetValue(ValueMap);
+  }
   MathOperation *&GetMathOperation(){return m1;}
   void SetOperator(const string &s)
   {
@@ -47,6 +51,10 @@ public:
     else if(s==EXP) math_operator=new Exp;
   }
   void Calculate(){result=m1->result;}
+  void Print()
+  {
+    cout<<"Equation"<<'\n';
+  }
   void GetType()
   {
     printf("new normal Equation\n");
@@ -64,14 +72,20 @@ protected:
   Equation *m11=nullptr;
   Value *v=nullptr;
 public:
-  void SetValue(SMap &ValueMap){m11->SetValue(ValueMap);}
-  // for value v also
-
-
+  void SetValue(SMap &ValueMap)
+  {
+    cout<<"new EquationValue SetValue "<<m11->GetMathOperation()<<'\n';
+    m11->GetType();
+    // m11->SetValue(ValueMap);
+  }
   Value *GetValue(){return v;}
   void Set(Equation *m0){m11=m0;}
   void SetValue(Value *w){v=w;}
   Equation *&Get(){return m11;}
+  void Print()
+  {
+    cout<<"Equation"<<'\n';
+  }
   void GetType()
   {
     printf("new EquationValue\n");
@@ -88,11 +102,14 @@ class EquationV: public EquationValue
 {
 public:
   void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
-  // virtual void SetValueValue(const double value)=0;
   void SetVValue(const double value)
   {
 
 
+  }
+  void Print()
+  {
+    cout<<"Equation"<<'\n';
   }
   void GetType()
   {
@@ -125,10 +142,13 @@ class VEquation: public EquationValue
 {
 public:
   void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
-  // virtual void SetValueValue(const double value)=0;
   void SetVValue(const double value)
   {
 
+  }
+  void Print()
+  {
+    cout<<"Equation"<<'\n';
   }
   void GetType()
   {
@@ -176,6 +196,10 @@ public:
     m21=m2;
   }
   void Calculate(){result=math_operator->Calculate(m11->result, m21->result);}
+  void Print()
+  {
+    cout<<"Equation"<<'\n';
+  }
   void GetType()
   {
     printf("new EquationMath\n");

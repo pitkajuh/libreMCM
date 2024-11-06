@@ -35,13 +35,13 @@ void Delete(Equation *head)
     }
 }
 
-void CreateEquationTemplates(const Map<string, Equation*> equationMap, const SMap &constantsMap)
+void CreateEquationTemplates(const Map<string, Equation*> equationMap, SMap &constantsMap)
 {
   cout<<"--------------------------------------"<<'\n';
   for(const auto &[name, equation]: equationMap)
     {
       // cout<<"name "<<name<<" "<<equation<<'\n';
-      // equation->SetValue(data.constants_map);
+      equation->SetValue(constantsMap);
       Delete(equation);
       // GetValue(equation, data);
     }

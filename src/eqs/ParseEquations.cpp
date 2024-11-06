@@ -249,7 +249,6 @@ vector<string> RemoveOpenClose(vector<string> equation)
 vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
-  // GetOrder(v1, id, data, head, next);
   ParseOperators(v1, id, data, head, next, v1.size());
   v1=test(v1, id, data, head, next);
   const vector<string> v2{equation.begin(), equation.begin()+open};
@@ -263,28 +262,6 @@ vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open
   print_vector2(result);
   return result;
 }
-
-// void Delete(Equation *head, const uint8_t id)
-// {
-//   Equation *current=head;
-//   Equation *prev=nullptr;
-//   Equation *next=nullptr;
-//   uint8_t i=0;
-
-//   while(current!=nullptr)
-//     {
-//       cout<<id<<" "<<head->GetId()<<'\n';
-//       assert(i==0);
-//       assert(id-head->GetId()==1);
-//       assert(current->next==nullptr);
-//       next=current->next;
-//       current->next=prev;
-//       prev=current;
-//       delete current;
-//       current=next;
-//       i++;
-//     }
-// }
 
 Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<string> &data)
 {
@@ -310,9 +287,7 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
       v=test(v, id, data, head, next);
       GetOrder(v, id, data, head, next);
       head->next=nullptr;
-
       equationMap[name]=head;
-      // Delete(head, id);
       next=nullptr;
       id=0;
       cout<<"ok"<<'\n';
