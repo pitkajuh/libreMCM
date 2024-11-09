@@ -39,8 +39,10 @@ public:
 
   void SetValue(SMap &ValueMap)
   {
-    m1->SetValue(ValueMap);
+    cout<<"Setting "<<this<<" "<<m1<<" "<<std::to_string(GetId())<<'\n';
+    if(m1!=nullptr) m1->SetValue(ValueMap);
   }
+
   MathOperation *&GetMathOperation(){return m1;}
   void SetOperator(const string &s)
   {
@@ -61,6 +63,7 @@ public:
   }
   virtual ~Equation()
   {
+    cout<<"Deleting "<<this<<" "<<std::to_string(GetId())<<'\n';
     delete m1;
     delete math_operator;
   }
@@ -192,6 +195,7 @@ public:
   Equation *&GetM2(){return m21;}
   void Set(Equation *m1, Equation *m2)
   {
+    cout<<"Equation *m1, Equation *m2"<<'\n';
     m11=m1;
     m21=m2;
   }

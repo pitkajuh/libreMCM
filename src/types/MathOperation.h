@@ -67,7 +67,11 @@ protected:
 private:
   MathOperator *math_operator;
 public:
-  virtual void SetValue(SMap &ValueMap)=0;
+  // virtual void SetValue(SMap &ValueMap)=0;
+  void SetValue(SMap &ValueMap)
+  {
+
+  }
   void SetOperator(const string &s)
   {
     if(s==ADD) math_operator=new Add;

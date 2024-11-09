@@ -19,19 +19,16 @@ void Delete(Equation *head)
   Equation *current=head;
   Equation *prev=nullptr;
   Equation *next=nullptr;
-  uint8_t i=0;
 
   while(current!=nullptr)
     {
-      // cout<<to_str(head->GetId()<<'\n';
-      assert(i==0);
       assert(current->next==nullptr);
       next=current->next;
       current->next=prev;
       prev=current;
       delete current;
       current=next;
-      i++;
+      cout<<" "<<'\n';
     }
 }
 

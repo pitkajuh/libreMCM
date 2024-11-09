@@ -115,25 +115,11 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   const uint8_t s2i=stoi(s2.substr(1, s2.size()));
   const uint8_t delta=(s2i>s1i) ? s2i-s1i: s1i-s2i;
   newhead->Set(Search(head, s1i), Search(head, s2i));
+
   printeq(head);
 
   if(delta==1) CreateNewNode(head, newhead, id, s1i, s2i);
   else CreateNewNode2(head, newhead, id, s1i, s2i);
-
-  if(!isnan(newhead->GetM1()->result) and !isnan(newhead->GetM2()->result))
-    {
-      newhead->Calculate();
-      // The calculation can already be done here, thus the return type can
-      // be reduced to Equation. All member values of newhead can be deleted
-      // with the exception of result and id, which are transfered to new Equation.
-      Equation *newhead1=new Equation;
-      newhead1->SetId(newhead->GetId());
-      newhead1->result=newhead->result;
-      newhead1->next=newhead->next;
-      delete newhead;
-      printeq(newhead1);
-      return newhead1;
-    }
 
   printeq(newhead);
   return newhead;

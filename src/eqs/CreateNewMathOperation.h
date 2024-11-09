@@ -89,30 +89,8 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   newhead->SetOperator(o);
   Equation *found=Search(head, stoi(s1.substr(1, s1.size())));
   newhead->Set(found);
-
-  if(!isnan(found->result) and !isnan(newhead->GetValue()->GetValue()))
-    {
-      // The calculation can already be done here, thus the return type can
-      // be reduced to Equation. All member values of newhead can be deleted
-      // with the exception of result and id, which are transfered to new Equation.
-      newhead->Calculate();
-      Equation *newhead1=new Equation;
-      newhead1->SetId(newhead->GetId());
-      newhead1->result=newhead->result;
-      newhead1->next=newhead->next;
-
-      SetNext<Equation>(newhead1, head, next, found, id);
-      printeq(newhead1);
-      delete newhead;
-      cout<<"newhead1->Calculate(result) "<<newhead1->result<<'\n';
-      return newhead1;
-    }
-  else
-    {
-      newhead->GetMathOperation()=found->GetMathOperation();
-      found->GetMathOperation()=nullptr;
-    }
-
+  newhead->GetMathOperation()=found->GetMathOperation();
+  found->GetMathOperation()=nullptr;
   SetNext<EquationValue>(newhead, head, next, found, id);
   return newhead;
 }
