@@ -70,7 +70,8 @@ public:
   // virtual void SetValue(SMap &ValueMap)=0;
   void SetValue(SMap &ValueMap)
   {
-
+    // cout<<"SetValue "<<std::stod(ValueMap[v2->GetName()])<<'\n';
+    // v2->SetValue(std::stod(ValueMap[v2->GetName()]));
   }
   void SetOperator(const string &s)
   {

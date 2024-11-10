@@ -167,12 +167,14 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
       cout<<"Adding "<<"@"+to_string(id)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
       head=Val2(head, equation, i, data, id, next);
 
-      cout<<std::to_string(head->GetId())<<" head="<<head<<" next "<<head->next<<'\n';
+      // cout<<std::to_string(head->GetId())<<" head="<<head<<" next "<<head->next<<'\n';
+      head->GetType();
       printeq(head);
       next=head;
       equation[i]="@"+to_string(id);
       equation.erase(equation.begin()+i+1);
       equation.erase(equation.begin()+i-1);
+
       print_vector2(equation);
       id++;
       FindOperator(equation, find, id, data, head, next);

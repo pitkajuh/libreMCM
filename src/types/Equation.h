@@ -39,7 +39,8 @@ public:
 
   void SetValue(SMap &ValueMap)
   {
-    cout<<"Setting "<<this<<" "<<m1<<" "<<std::to_string(GetId())<<'\n';
+    cout<<this<<" SetValue "<<"Equation"<<'\n';
+    // cout<<"Setting "<<this<<" "<<m1<<" "<<std::to_string(GetId())<<'\n';
     if(m1!=nullptr) m1->SetValue(ValueMap);
   }
 
@@ -77,8 +78,7 @@ protected:
 public:
   void SetValue(SMap &ValueMap)
   {
-    // cout<<"new EquationValue SetValue "<<m11->GetMathOperation()<<'\n';
-    // m11->GetType();
+    cout<<"SetValue "<<"EquationValue"<<'\n';
     m11->SetValue(ValueMap);
     // v->SetValue(std::stod(ValueMap[v->GetName()]));
   }
@@ -94,7 +94,6 @@ public:
   {
     printf("new EquationValue\n");
   }
-  // virtual void SetVValue(const double value)=0;
   virtual ~EquationValue()
   {
     delete m11;
@@ -108,14 +107,8 @@ public:
   void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
   void SetValue(SMap &ValueMap)
   {
-    // cout<<"new EquationValue SetValue "<<m11->GetMathOperation()<<'\n';
-    // m11->GetType();
-    // m11->SetValue(ValueMap);
-  }
-  void SetVValue(const double value)
-  {
-
-
+    cout<<"SetValue "<<"EquationV"<<'\n';
+    m11->SetValue(ValueMap);
   }
   void Print()
   {
@@ -130,39 +123,31 @@ public:
 class EquationVNumerical: public EquationV
 {
 public:
-  void SetVValue(const double value){}
   void SetValue(SMap &ValueMap)
   {
-    // cout<<"new EquationValue SetValue "<<m11->GetMathOperation()<<'\n';
-    // m11->GetType();
-    // m11->SetValue(ValueMap);
+    cout<<"new EquationVNumerical SetValue "<<'\n';
+    m11->SetValue(ValueMap);
   }
 };
 
 class EquationVConstant: public EquationV
 {
 public:
-  void SetVValue(const double value)
-  {
-
-  }
   void SetValue(SMap &ValueMap)
   {
-    // cout<<"new EquationValue SetValue "<<m11->GetMathOperation()<<'\n';
-    // m11->GetType();
-    // m11->SetValue(ValueMap);
+    cout<<this<<" EquationVConstant SetValue "<<v->GetName()<<" "<<std::stod(ValueMap[v->GetName()])<<" "<<next<<'\n';
+    v->SetValue(std::stod(ValueMap[v->GetName()]));
+    m11->SetValue(ValueMap);
   }
 };
 
 class EquationVVariable: public EquationV
 {
 public:
-  void SetVValue(const double value){}
   void SetValue(SMap &ValueMap)
   {
-    // cout<<"new EquationValue SetValue "<<m11->GetMathOperation()<<'\n';
-    // m11->GetType();
-    // m11->SetValue(ValueMap);
+    cout<<this<<" EquationVVariable SetValue "<<'\n';
+    m11->SetValue(ValueMap);
   }
 };
 
@@ -170,15 +155,10 @@ class VEquation: public EquationValue
 {
 public:
   void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
-  void SetVValue(const double value)
-  {
-
-  }
   void SetValue(SMap &ValueMap)
   {
-    // cout<<"new EquationValue SetValue "<<m11->GetMathOperation()<<'\n';
-    // m11->GetType();
-    // m11->SetValue(ValueMap);
+    cout<<"VEquation SetValue "<<'\n';
+    m11->SetValue(ValueMap);
   }
   void Print()
   {
@@ -193,39 +173,31 @@ public:
 class VEquationNumerical: public VEquation
 {
 public:
-  void SetVValue(const double value){}
   void SetValue(SMap &ValueMap)
   {
-    // cout<<"new EquationValue SetValue "<<m11->GetMathOperation()<<'\n';
-    // m11->GetType();
-    // m11->SetValue(ValueMap);
+    cout<<"VEquationNumerical SetValue "<<'\n';
+    m11->SetValue(ValueMap);
   }
 };
 
 class VEquationConstant: public VEquation
 {
 public:
-  void SetVValue(const double value)
-  {
-
-  }
   void SetValue(SMap &ValueMap)
   {
-    // cout<<"new EquationValue SetValue "<<m11->GetMathOperation()<<'\n';
-    // m11->GetType();
-    // m11->SetValue(ValueMap);
+    cout<<this<<" VEquationConstant SetValue "<<v->GetName()<<" "<<std::stod(ValueMap[v->GetName()])<<" "<<next<<'\n';
+    v->SetValue(std::stod(ValueMap[v->GetName()]));
+    m11->SetValue(ValueMap);
   }
 };
 
 class VEquationVariable: public VEquation
 {
 public:
-  void SetVValue(const double value){}
   void SetValue(SMap &ValueMap)
   {
-    // cout<<"new EquationValue SetValue "<<m11->GetMathOperation()<<'\n';
-    // m11->GetType();
-    // m11->SetValue(ValueMap);
+    cout<<"VEquationVariable SetValue "<<'\n';
+    m11->SetValue(ValueMap);
   }
 };
 

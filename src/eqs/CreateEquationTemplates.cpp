@@ -37,8 +37,9 @@ void CreateEquationTemplates(const Map<string, Equation*> equationMap, SMap &con
   cout<<"--------------------------------------"<<'\n';
   for(const auto &[name, equation]: equationMap)
     {
-      // cout<<"name "<<name<<" "<<equation<<'\n';
+      cout<<"name "<<name<<" "<<equation<<'\n';
       equation->SetValue(constantsMap);
+      cout<<" "<<'\n';
       Delete(equation);
 
       // GetValue(equation, data);
