@@ -89,7 +89,8 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   newhead->SetOperator(o);
   Equation *found=Search(head, stoi(s1.substr(1, s1.size())));
   newhead->Set(found);
-  newhead->GetMathOperation()=found->GetMathOperation();
+  // newhead->GetMathOperation()=found->GetMathOperation();
+  newhead->SetMathOperation(found->GetMathOperation());
   found->GetMathOperation()=nullptr;
   SetNext<EquationValue>(newhead, head, next, found, id);
   return newhead;

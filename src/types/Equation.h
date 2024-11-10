@@ -49,11 +49,11 @@ public:
 
   void SetValue(SMap &ValueMap)
   {
-    cout<<this<<" SetValue "<<"Equation"<<'\n';
+    cout<<this<<" Equation SetValue"<<'\n';
     // cout<<"Setting "<<this<<" "<<m1<<" "<<std::to_string(GetId())<<'\n';
     if(m1!=nullptr) m1->SetValue(ValueMap);
   }
-
+  void SetMathOperation(MathOperation *m){m1=m;}
   MathOperation *&GetMathOperation(){return m1;}
   // void SetOperator(const string &s)
   // {

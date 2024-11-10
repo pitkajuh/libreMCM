@@ -142,6 +142,7 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
     {
       Equation *mc=new Equation;
       mc->GetMathOperation()=CreateNewValueValueMathOperation(s1, s2, o, b1, b2);
+      // mc->SetMathOperation(CreateNewValueValueMathOperation(s1, s2, o, b1, b2));
       mc->Calculate();
       mc->next=next;
       mc->SetId(id);
