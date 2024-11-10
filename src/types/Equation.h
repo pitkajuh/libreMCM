@@ -37,10 +37,7 @@ public:
   virtual void Calculate()=0;
   virtual void GetType()=0;
   virtual void Print()=0;
-  // virtual ~EquationBase
-  // {
-  //   delete math_operator;
-  // }
+  virtual ~EquationBase(){delete math_operator;}
 };
 
 class Equation: public EquationBase
@@ -77,12 +74,12 @@ public:
   {
     printf("new normal Equation\n");
   }
-  virtual ~Equation()
-  // ~Equation()
+  // virtual ~Equation()
+  ~Equation()
   {
-    cout<<"Deleting "<<this<<" "<<std::to_string(GetId())<<'\n';
-    // delete m1;
-    delete math_operator;
+    cout<<"Deleting "<<this<<" "<<std::to_string(GetId())<<" "<<m1<<'\n';
+    delete m1;
+    // delete math_operator;
   }
 };
 
