@@ -37,6 +37,10 @@ public:
   virtual void Calculate()=0;
   virtual void GetType()=0;
   virtual void Print()=0;
+  // virtual ~EquationBase
+  // {
+  //   delete math_operator;
+  // }
 };
 
 class Equation: public EquationBase
@@ -52,6 +56,7 @@ public:
     cout<<this<<" Equation SetValue"<<'\n';
     // cout<<"Setting "<<this<<" "<<m1<<" "<<std::to_string(GetId())<<'\n';
     if(m1!=nullptr) m1->SetValue(ValueMap);
+    else cout<<"AE "<<m1<<'\n';
   }
   void SetMathOperation(MathOperation *m){m1=m;}
   MathOperation *&GetMathOperation(){return m1;}
@@ -73,9 +78,10 @@ public:
     printf("new normal Equation\n");
   }
   virtual ~Equation()
+  // ~Equation()
   {
     cout<<"Deleting "<<this<<" "<<std::to_string(GetId())<<'\n';
-    delete m1;
+    // delete m1;
     delete math_operator;
   }
 };
@@ -106,6 +112,7 @@ public:
   }
   virtual ~EquationValue()
   {
+    // delete m1;
     delete m11;
     delete v;
   }
@@ -249,6 +256,7 @@ public:
   }
   virtual ~EquationMath()
   {
+    // delete m1;
     delete m11;
     delete m21;
   }

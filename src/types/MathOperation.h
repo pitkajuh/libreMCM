@@ -136,7 +136,7 @@ class ConstantConstant: public MathOperation
 public:
   void SetValue(SMap &ValueMap)
   {
-    cout<<"SetValue ConstantConstant "<<std::stod(ValueMap[v1->GetName()])<<" "<<std::stod(ValueMap[v2->GetName()])<<'\n';
+    cout<<"SetValue ConstantConstant "<<v1->GetName()<<" "<<std::stod(ValueMap[v1->GetName()])<<" "<<v2->GetName()<<" "<<std::stod(ValueMap[v2->GetName()])<<'\n';
     v1->SetValue(std::stod(ValueMap[v1->GetName()]));
     v2->SetValue(std::stod(ValueMap[v2->GetName()]));
   }
