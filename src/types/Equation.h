@@ -19,9 +19,19 @@ class EquationBase
 {
 private:
   uint8_t id;
+protected:
+  MathOperator *math_operator=nullptr;
 public:
   double result=NAN;
   void SetId(const uint8_t id1){id=id1;}
+  void SetOperator(const string &s)
+  {
+    if(s==ADD) math_operator=new Add;
+    else if(s==SUBTRACT) math_operator=new Sub;
+    else if(s==MULTIPLY) math_operator=new Mul;
+    else if(s==DIVIDE) math_operator=new Div;
+    else if(s==EXP) math_operator=new Exp;
+  }
   const uint8_t GetId(){return id;}
   virtual void SetValue(SMap &ValueMap)=0;
   virtual void Calculate()=0;
@@ -32,7 +42,7 @@ public:
 class Equation: public EquationBase
 {
 protected:
-  MathOperator *math_operator=nullptr;
+  // MathOperator *math_operator=nullptr;
   MathOperation *m1=nullptr;
 public:
   Equation *next=nullptr;
@@ -45,14 +55,14 @@ public:
   }
 
   MathOperation *&GetMathOperation(){return m1;}
-  void SetOperator(const string &s)
-  {
-    if(s==ADD) math_operator=new Add;
-    else if(s==SUBTRACT) math_operator=new Sub;
-    else if(s==MULTIPLY) math_operator=new Mul;
-    else if(s==DIVIDE) math_operator=new Div;
-    else if(s==EXP) math_operator=new Exp;
-  }
+  // void SetOperator(const string &s)
+  // {
+  //   if(s==ADD) math_operator=new Add;
+  //   else if(s==SUBTRACT) math_operator=new Sub;
+  //   else if(s==MULTIPLY) math_operator=new Mul;
+  //   else if(s==DIVIDE) math_operator=new Div;
+  //   else if(s==EXP) math_operator=new Exp;
+  // }
   void Calculate(){result=m1->result;}
   void Print()
   {
@@ -139,6 +149,10 @@ public:
     v->SetValue(std::stod(ValueMap[v->GetName()]));
     m11->SetValue(ValueMap);
   }
+  void GetType()
+  {
+    printf("new EquationVConstant\n");
+  }
 };
 
 class EquationVVariable: public EquationV
@@ -148,6 +162,10 @@ public:
   {
     cout<<this<<" EquationVVariable SetValue "<<'\n';
     m11->SetValue(ValueMap);
+  }
+    void GetType()
+  {
+    printf("new EquationVVariable\n");
   }
 };
 

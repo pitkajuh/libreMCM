@@ -23,7 +23,7 @@ using namespace libremcm;
 class MathOperationBase
 {
 protected:
-  Value *v1;
+  Value *v1=nullptr;
 public:
   double result=NAN;
   Value *&GetV1(){return v1;}
@@ -63,13 +63,14 @@ public:
 class MathOperation: public MathOperationBase
 {
 protected:
-  Value *v2;
+  Value *v2=nullptr;
 private:
-  MathOperator *math_operator;
+  MathOperator *math_operator=nullptr;
 public:
   // virtual void SetValue(SMap &ValueMap)=0;
   void SetValue(SMap &ValueMap)
   {
+    cout<<"MathOperation SetValue"<<'\n';
     // cout<<"SetValue "<<std::stod(ValueMap[v2->GetName()])<<'\n';
     // v2->SetValue(std::stod(ValueMap[v2->GetName()]));
   }
