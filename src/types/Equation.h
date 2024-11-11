@@ -43,7 +43,6 @@ public:
 class Equation: public EquationBase
 {
 protected:
-  // MathOperator *math_operator=nullptr;
   MathOperation *m1=nullptr;
 public:
   Equation *next=nullptr;
@@ -51,20 +50,11 @@ public:
   void SetValue(SMap &ValueMap)
   {
     cout<<this<<" Equation SetValue"<<'\n';
-    // cout<<"Setting "<<this<<" "<<m1<<" "<<std::to_string(GetId())<<'\n';
     if(m1!=nullptr) m1->SetValue(ValueMap);
     else cout<<"AE "<<m1<<'\n';
   }
   void SetMathOperation(MathOperation *m){m1=m;}
   MathOperation *&GetMathOperation(){return m1;}
-  // void SetOperator(const string &s)
-  // {
-  //   if(s==ADD) math_operator=new Add;
-  //   else if(s==SUBTRACT) math_operator=new Sub;
-  //   else if(s==MULTIPLY) math_operator=new Mul;
-  //   else if(s==DIVIDE) math_operator=new Div;
-  //   else if(s==EXP) math_operator=new Exp;
-  // }
   void Calculate(){result=m1->result;}
   void Print()
   {
@@ -79,7 +69,6 @@ public:
   {
     cout<<"Deleting "<<this<<" "<<std::to_string(GetId())<<" "<<m1<<'\n';
     delete m1;
-    // delete math_operator;
   }
 };
 
