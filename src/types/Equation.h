@@ -64,7 +64,6 @@ public:
   {
     printf("new normal Equation\n");
   }
-  // virtual ~Equation()
   ~Equation()
   {
     cout<<"Deleting "<<this<<" "<<std::to_string(GetId())<<" "<<m1<<'\n';
