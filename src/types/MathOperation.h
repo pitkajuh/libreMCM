@@ -67,7 +67,6 @@ protected:
 private:
   MathOperator *math_operator=nullptr;
 public:
-  // virtual void SetValue(SMap &ValueMap)=0;
   void SetValue(SMap &ValueMap)
   {
     cout<<"MathOperation SetValue"<<'\n';
