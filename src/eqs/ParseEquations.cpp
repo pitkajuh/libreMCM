@@ -171,7 +171,6 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
       printeq(head);
       next=head;
 
-      if(equation.size()==3) cout<<"size 3"<<'\n';
       equation[i]="@"+to_string(id);
       equation.erase(equation.begin()+i+1);
       equation.erase(equation.begin()+i-1);

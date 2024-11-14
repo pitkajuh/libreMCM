@@ -74,6 +74,10 @@ void StringConvert(string &v, vector<string> &aa)
 
   if(i>-1)
     {
+      if(i==0)
+	{
+	  cout<<"i==0"<<'\n';
+	}
       const string s=v.substr(0, i);
       const string mathop{v[i]};
        if(!s.empty()) aa.emplace_back(s);

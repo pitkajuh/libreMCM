@@ -23,10 +23,20 @@ protected:
   double value=NAN;
   bool isNegative=0;
 public:
-  void SetName(const string &s){name=s;}
+  void SetName(const string &s)
+  {
+    name=s;
+
+    if(s[0]=='-')
+      {
+	isNegative=1;
+	name=name.substr(1, name.size());
+      }
+  }
   void SetValue(const double v)
   {
     value=v;
+
     if(isNegative)
       {
 	isNegative=0;
