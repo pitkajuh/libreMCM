@@ -219,16 +219,6 @@ void ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> 
     }
 }
 
-void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
-{
-  const uint8_t size=equation.size();
-
-  if(size>1) ParseOperators(equation, id, data, head, next, size);
-  else if(size==1) cout<<"size 1"<<'\n';
-  else cout<<"ELSE"<<'\n';
-  // else head=CreateSingleEquation(equation[0], id, data, next);
-}
-
 vector<string> RemoveOpenClose(vector<string> equation)
 {
   // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
@@ -255,13 +245,15 @@ vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open
   return result;
 }
 
-void GetOrderBasedOnSize(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
+void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
 {
-  if(equation.size()==1) head=CreateSingleEquation(equation[0], id, data, next);
+  const uint8_t size=equation.size();
+
+  if(size==1) head=CreateSingleEquation(equation[0], id, data, next);
   else
     {
-     equation=test(equation, id, data, head, next);
-      GetOrder(equation, id, data, head, next);
+      equation=test(equation, id, data, head, next);
+      ParseOperators(equation, id, data, head, next, size);
       head->next=nullptr;
     }
 }
@@ -287,13 +279,7 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
       v=RemoveOpenClose(v);
       cout<<"EQUATION"<<'\n';
       print_vector2(v);
-
-      GetOrderBasedOnSize(v, id, data, head, next);
-
-      // v=test(v, id, data, head, next);
-      // GetOrder(v, id, data, head, next);
-      // head->next=nullptr;
-
+      GetOrder(v, id, data, head, next);
       equationMap[name]=head;
       next=nullptr;
       id=0;
