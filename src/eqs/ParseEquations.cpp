@@ -200,7 +200,7 @@ Equation *CreateSingleEquation(const string &e, uint8_t &id, const vector<string
       m=new ConstantBase;
       m->SetV1(new Constant(e));
     }
-  else if(b.numeric)
+  else
     {
       m=new NumericBase;
       m->SetV1(new Numeric(e));

@@ -32,6 +32,8 @@ void Delete(Equation *head)
     }
 }
 
+
+
 void CreateEquationTemplates(const Map<string, Equation*> equationMap, SMap &constantsMap)
 {
   cout<<"--------------------------------------"<<'\n';
