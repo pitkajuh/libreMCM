@@ -206,6 +206,7 @@ Equation *CreateSingleEquation(const string &e, uint8_t &id, const vector<string
       m=new NumericBase;
       m->SetV1(new Numeric(e));
     }
+  newHead->SetMathOperation(m);
   return newHead;
 }
 
@@ -256,7 +257,8 @@ vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open
 
 void GetOrderBasedOnSize(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
 {
-  if(equation.size()==1) head=CreateSingleEquation(equation[0], id, data, next);
+  // if(equation.size()==1) head=CreateSingleEquation(equation[0], id, data, next);
+  if(equation.size()==1) CreateSingleEquation(equation[0], id, data, next);
   else
     {
      equation=test(equation, id, data, head, next);

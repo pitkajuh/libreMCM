@@ -20,7 +20,12 @@ using std::cout;
 
 using namespace libremcm;
 
-class MathOperationBase
+class Base
+{
+  virtual void SetValue(SMap &ValueMap)=0;
+};
+
+class MathOperationBase: public Base
 {
 protected:
   Value *v1=nullptr;
@@ -31,7 +36,8 @@ public:
   string GetV1Name(){return v1->GetName();} const
   void SetV1(Value *v){v1=v;}
   void Calculate(){result=GetV1Value();}
-  virtual void SetValue(SMap &ValueMap)=0;
+  // virtual void SetValue(SMap &ValueMap)=0;
+  void SetValue(SMap &ValueMap){cout<<"aoe"<<'\n';}
   virtual ~MathOperationBase(){delete v1;}
 };
 
@@ -58,6 +64,7 @@ public:
     // cout<<"SetValue "<<std::stod(ValueMap[v1->GetName()])<<'\n';
         cout<<"SetValue "<<'\n';
     v1->SetValue(std::stod(ValueMap[v1->GetName()]));
+    Calculate();
   }
 };
 
