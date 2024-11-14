@@ -182,7 +182,6 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
     }
 }
 
-
 Equation *CreateSingleEquation(const string &e, uint8_t &id, const vector<string> &data, Equation *&next)
 {
   const Bools b(e, data);
