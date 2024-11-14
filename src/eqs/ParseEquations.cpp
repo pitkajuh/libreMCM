@@ -79,7 +79,7 @@ MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &
     }
 }
 
-void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2, const uint8_t deltaid)
+void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *node1, Equation *&node2, const uint8_t deltaid)
 {
   node2->next=node1->next;
 
@@ -87,7 +87,7 @@ void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *&node1, E
   else newnode->next=node2->next;
 }
 
-void SelectNode(Equation *&head, EquationMath *&newnode, Equation *&node1, Equation *&node2)
+void SelectNode(Equation *&head, EquationMath *&newnode, Equation *node1, Equation *&node2)
 {
   Select(head, node2, newnode);
   Select(head, node1, newnode);
@@ -141,8 +141,7 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
   if(!b1.math and !b2.math)
     {
       Equation *mc=new Equation;
-      mc->GetMathOperation()=CreateNewValueValueMathOperation(s1, s2, o, b1, b2);
-      // mc->SetMathOperation(CreateNewValueValueMathOperation(s1, s2, o, b1, b2));
+       mc->SetMathOperation(CreateNewValueValueMathOperation(s1, s2, o, b1, b2));
       mc->Calculate();
       mc->next=next;
       mc->SetId(id);
@@ -168,10 +167,11 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
       cout<<"Adding "<<"@"+to_string(id)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
       head=Val2(head, equation, i, data, id, next);
 
-      // cout<<std::to_string(head->GetId())<<" head="<<head<<" next "<<head->next<<'\n';
       head->GetType();
       printeq(head);
       next=head;
+
+      if(equation.size()==3) cout<<"size 3"<<'\n';
       equation[i]="@"+to_string(id);
       equation.erase(equation.begin()+i+1);
       equation.erase(equation.begin()+i-1);
@@ -182,14 +182,6 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
     }
 }
 
-void ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next, const uint8_t size)
-{
-  for(const auto&i: OPERATORS)
-    {
-      if(size<2) break;
-      FindOperator(equation, i, id, data, head, next);
-    }
-}
 
 Equation *CreateSingleEquation(const string &e, uint8_t &id, const vector<string> &data, Equation *&next)
 {
@@ -217,11 +209,21 @@ Equation *CreateSingleEquation(const string &e, uint8_t &id, const vector<string
   return newHead;
 }
 
+void ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next, const uint8_t size)
+{
+  for(const auto&i: OPERATORS)
+    {
+      if(size<2) break;
+      FindOperator(equation, i, id, data, head, next);
+    }
+}
+
 void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
 {
   const uint8_t size=equation.size();
 
   if(size>1) ParseOperators(equation, id, data, head, next, size);
+  else if(size==1) cout<<"size 1"<<'\n';
   else cout<<"ELSE"<<'\n';
   // else head=CreateSingleEquation(equation[0], id, data, next);
 }
@@ -252,6 +254,17 @@ vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open
   return result;
 }
 
+void GetOrderBasedOnSize(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
+{
+  if(equation.size()==1) head=CreateSingleEquation(equation[0], id, data, next);
+  else
+    {
+     equation=test(equation, id, data, head, next);
+      GetOrder(equation, id, data, head, next);
+      head->next=nullptr;
+    }
+}
+
 Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<string> &data)
 {
   // Set calculation order of an equation according to order of operations:
@@ -273,9 +286,13 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
       v=RemoveOpenClose(v);
       cout<<"EQUATION"<<'\n';
       print_vector2(v);
-      v=test(v, id, data, head, next);
-      GetOrder(v, id, data, head, next);
-      head->next=nullptr;
+
+      GetOrderBasedOnSize(v, id, data, head, next);
+
+      // v=test(v, id, data, head, next);
+      // GetOrder(v, id, data, head, next);
+      // head->next=nullptr;
+
       equationMap[name]=head;
       next=nullptr;
       id=0;

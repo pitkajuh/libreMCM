@@ -40,9 +40,7 @@ public:
   void SetValue(SMap &ValueMap)
   {
     cout<<this<<" Equation SetValue"<<'\n';
-    // m1->SetValue(ValueMap);
-    if(m1!=nullptr) m1->SetValue(ValueMap);
-    else cout<<"AE "<<m1<<'\n';
+    m1->SetValue(ValueMap);
   }
   void SetMathOperation(MathOperation *m){m1=m;}
   MathOperation *&GetMathOperation(){return m1;}
@@ -88,7 +86,6 @@ public:
   {
     cout<<"SetValue "<<"EquationValue"<<'\n';
     m11->SetValue(ValueMap);
-    // v->SetValue(std::stod(ValueMap[v->GetName()]));
   }
   Value *GetValue(){return v;}
   void Set(Equation *m0){m11=m0;}

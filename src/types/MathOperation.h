@@ -55,7 +55,8 @@ class ConstantBase: public MathOperationBase
 public:
   void SetValue(SMap &ValueMap)
   {
-    cout<<"SetValue "<<std::stod(ValueMap[v1->GetName()])<<'\n';
+    // cout<<"SetValue "<<std::stod(ValueMap[v1->GetName()])<<'\n';
+        cout<<"SetValue "<<'\n';
     v1->SetValue(std::stod(ValueMap[v1->GetName()]));
   }
 };

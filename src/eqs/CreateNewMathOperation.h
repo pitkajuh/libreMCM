@@ -91,7 +91,7 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   newhead->Set(found);
   newhead->SetMathOperation(found->GetMathOperation());
   SetNext<EquationValue>(newhead, head, next, found, id);
-  newhead->GetMathOperation()=nullptr;
+  newhead->SetMathOperation(nullptr);
   return newhead;
 }
 
