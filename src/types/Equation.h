@@ -19,25 +19,15 @@ class EquationBase
 {
 private:
   uint8_t id;
-protected:
-  MathOperator *math_operator=nullptr;
 public:
   double result=NAN;
   void SetId(const uint8_t id1){id=id1;}
-  void SetOperator(const string &s)
-  {
-    if(s==ADD) math_operator=new Add;
-    else if(s==SUBTRACT) math_operator=new Sub;
-    else if(s==MULTIPLY) math_operator=new Mul;
-    else if(s==DIVIDE) math_operator=new Div;
-    else if(s==EXP) math_operator=new Exp;
-  }
   const uint8_t GetId(){return id;}
   virtual void SetValue(SMap &ValueMap)=0;
   virtual void Calculate()=0;
   virtual void GetType()=0;
   virtual void Print()=0;
-  virtual ~EquationBase(){delete math_operator;}
+  virtual ~EquationBase(){};
 };
 
 class Equation: public EquationBase
@@ -50,6 +40,7 @@ public:
   void SetValue(SMap &ValueMap)
   {
     cout<<this<<" Equation SetValue"<<'\n';
+    // m1->SetValue(ValueMap);
     if(m1!=nullptr) m1->SetValue(ValueMap);
     else cout<<"AE "<<m1<<'\n';
   }
@@ -71,7 +62,23 @@ public:
   }
 };
 
-class EquationValue: public Equation
+class EquationMathOperator: public Equation
+{
+protected:
+  MathOperator *math_operator=nullptr;
+public:
+  void SetOperator(const string &s)
+  {
+    if(s==ADD) math_operator=new Add;
+    else if(s==SUBTRACT) math_operator=new Sub;
+    else if(s==MULTIPLY) math_operator=new Mul;
+    else if(s==DIVIDE) math_operator=new Div;
+    else if(s==EXP) math_operator=new Exp;
+  }
+  ~EquationMathOperator(){delete math_operator;}
+};
+
+class EquationValue: public EquationMathOperator
 {
 protected:
   Equation *m11=nullptr;
@@ -97,7 +104,6 @@ public:
   }
   virtual ~EquationValue()
   {
-    // delete m1;
     delete m11;
     delete v;
   }
@@ -211,7 +217,7 @@ public:
   }
 };
 
-class EquationMath: public Equation
+class EquationMath: public EquationMathOperator
 {
 protected:
   Equation *m11=nullptr;
@@ -241,7 +247,6 @@ public:
   }
   virtual ~EquationMath()
   {
-    // delete m1;
     delete m11;
     delete m21;
   }

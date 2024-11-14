@@ -89,11 +89,9 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   newhead->SetOperator(o);
   Equation *found=Search(head, stoi(s1.substr(1, s1.size())));
   newhead->Set(found);
-  // newhead->GetMathOperation()=found->GetMathOperation();
   newhead->SetMathOperation(found->GetMathOperation());
-  // found->GetMathOperation()=nullptr;
-  // cout<<"Set MathOpertaion null"<<'\n';
   SetNext<EquationValue>(newhead, head, next, found, id);
+  newhead->GetMathOperation()=nullptr;
   return newhead;
 }
 
