@@ -33,7 +33,7 @@ public:
 class Equation: public EquationBase
 {
 protected:
-  MathOperation *m1=nullptr;
+  MathOperationBase *m1=nullptr;
 public:
   Equation *next=nullptr;
 
@@ -42,8 +42,8 @@ public:
     cout<<this<<" Equation SetValue"<<'\n';
     m1->SetValue(ValueMap);
   }
-  void SetMathOperation(MathOperation *m){m1=m;}
-  MathOperation *&GetMathOperation(){return m1;}
+  void SetMathOperation(MathOperationBase *m){m1=m;}
+  MathOperationBase *&GetMathOperation(){return m1;}
   void Calculate(){result=m1->result;}
   void Print()
   {

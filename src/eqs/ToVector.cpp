@@ -86,10 +86,10 @@ void StringConvert(string &v, vector<string> &aa)
 
 vector<string> ToVector(string v)
 {
-  const uint16_t size=v.size();
-  assert(size!=2 and size>0 && "The equation is too short.");
   vector<string> r;
   StringConvert(v, r);
-  assert(r.size()<=UINT8_MAX && "Equation size limit exceeded!");
+  const uint8_t size=r.size();
+  assert(size!=2 and size>0 && "The equation is too short.");
+  assert(size<=UINT8_MAX && "Equation size limit exceeded!");
   return r;
 }
