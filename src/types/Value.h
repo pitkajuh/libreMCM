@@ -37,11 +37,7 @@ public:
   {
     value=v;
 
-    if(isNegative)
-      {
-	isNegative=0;
-	value=-1*value;
-      }
+    if(isNegative) value=-1*value;
   }
   const string GetName(){return name;}
   double GetValue(){return value;}

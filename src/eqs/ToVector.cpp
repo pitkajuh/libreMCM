@@ -68,16 +68,35 @@ const int16_t FindIndex(const string &s)
   return r;
 }
 
+const bool Rules(string &v, const int16_t i, vector<string> &aa)
+{
+  cout<<v.size()<<" "<<aa.size()<<'\n';
+  if(i==0 and v[i]=='-' and v[i+1]!='(')
+    {
+      return 1;
+    }
+  return 0;
+}
+
 void StringConvert(string &v, vector<string> &aa)
 {
   const int16_t i=FindIndex(v);
+  // const bool rule=Rules(v, i, aa);
 
+  // if(rule)
+  //   {
+  //     const int16_t j=FindIndex(v.substr(i+1, std::distance(v.begin()+1,v.end())));
+  //     cout<<i<<" "<<j<<'\n';
+  //     const string mathop{v[j+1]};
+  //     const string test=v.substr(0, j+1);
+  //     v=v.substr(j+2, std::distance(v.begin()+1,v.end()));
+  //     aa.emplace_back(test);
+  //     cout<<"try "<<test<<";"<<mathop<<";"<<v<<'\n';
+  //     aa.emplace_back(mathop);
+  //     StringConvert(v, aa);
+  //   }
   if(i>-1)
     {
-      if(i==0)
-	{
-	  cout<<"i==0"<<'\n';
-	}
       const string s=v.substr(0, i);
       const string mathop{v[i]};
        if(!s.empty()) aa.emplace_back(s);
@@ -90,10 +109,12 @@ void StringConvert(string &v, vector<string> &aa)
 
 vector<string> ToVector(string v)
 {
+  cout<<v<<'\n';
   vector<string> r;
   StringConvert(v, r);
   const uint8_t size=r.size();
-  assert(size!=2 and size>0 && "The equation is too short.");
+  // assert(size!=2 and size>0 && "The equation is too short.");
+  assert(size>0 && "The equation is too short.");
   assert(size<=UINT8_MAX && "Equation size limit exceeded!");
   return r;
 }
