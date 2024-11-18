@@ -32,7 +32,6 @@ public:
   void SetV1(Value *v){v1=v;}
   void Calculate(){result=GetV1Value();}
   virtual void SetValue(SMap &ValueMap)=0;
-  // void SetValue(SMap &ValueMap){cout<<"aoe"<<'\n';}
   virtual ~MathOperationBase(){delete v1;}
 };
 
@@ -141,6 +140,8 @@ public:
     cout<<"SetValue ConstantConstant "<<v1->GetName()<<" "<<std::stod(ValueMap[v1->GetName()])<<" "<<v2->GetName()<<" "<<std::stod(ValueMap[v2->GetName()])<<'\n';
     v1->SetValue(std::stod(ValueMap[v1->GetName()]));
     v2->SetValue(std::stod(ValueMap[v2->GetName()]));
+    Calculate();
+    cout<<"result "<<result<<'\n';
   }
 };
 
@@ -166,6 +167,8 @@ public:
   {
     cout<<"SetValue "<<std::stod(ValueMap[v2->GetName()])<<'\n';
     v2->SetValue(std::stod(ValueMap[v2->GetName()]));
+    Calculate();
+    cout<<"result "<<result<<'\n';
   }
 };
 
@@ -177,6 +180,8 @@ public:
   {
     cout<<"SetValue "<<std::stod(ValueMap[v1->GetName()])<<'\n';
     v1->SetValue(std::stod(ValueMap[v1->GetName()]));
+    Calculate();
+    cout<<"result "<<result<<'\n';
   }
 };
 

@@ -15,6 +15,8 @@
 #include "MathOperator.h"
 #include <cstdint>
 
+class Equation;
+
 class EquationBase
 {
 private:
@@ -23,6 +25,8 @@ public:
   double result=NAN;
   void SetId(const uint8_t id1){id=id1;}
   const uint8_t GetId(){return id;}
+  virtual Equation *GetNext()=0;
+  virtual void Simplify()=0;
   virtual void SetValue(SMap &ValueMap)=0;
   virtual void Calculate()=0;
   virtual void GetType()=0;
@@ -37,6 +41,10 @@ protected:
 public:
   Equation *next=nullptr;
 
+  Equation *GetNext()
+  {
+    return this;
+  }
   void SetValue(SMap &ValueMap)
   {
     cout<<this<<" Equation SetValue"<<'\n';
@@ -45,6 +53,17 @@ public:
   void SetMathOperation(MathOperationBase *m){m1=m;}
   MathOperationBase *&GetMathOperation(){return m1;}
   void Calculate(){result=m1->result;}
+  void Simplify()
+  {
+    // cout<<this<<" Equation simplify"<<'\n';
+
+    if(!isnan(result))
+      {
+	delete m1;
+	m1=nullptr;
+      }
+
+  }
   void Print()
   {
     cout<<"Equation"<<'\n';
@@ -82,6 +101,31 @@ protected:
   Equation *m11=nullptr;
   Value *v=nullptr;
 public:
+  Equation *GetNext(){return m11->GetNext();}
+  void Simplify()
+  {
+    // cout<<this<<" EquationValue simplify"<<'\n';
+    // cout<<!isnan(m11->result)<<" "<<!isnan(v->GetValue())<<" "<<!isnan(result)<<" "<<result<<" "<<m11->result<<" "<<v->GetValue()<<" "<<m11->GetNext()<<" "<<m11->GetNext()->result<<" "<<m11->GetNext()->GetMathOperation()->result<<'\n';
+    m11->Simplify();
+
+
+
+    // cout<<!isnan(m11->result)<<" "<<!isnan(v->GetValue())<<" "<<!isnan(result)<<'\n';
+    if(!isnan(m11->GetNext()->result) )
+      {
+	// cout<<"!isnan(m11->result) and !isnan(v->GetValue()"<<'\n';
+
+      }
+
+    if(!isnan(result))
+      {
+	// cout<<"!isnan(result) "<<result<<'\n';
+	delete m11;
+	m11=nullptr;
+	delete v;
+	v=nullptr;
+      }
+  }
   void SetValue(SMap &ValueMap)
   {
     cout<<"SetValue "<<"EquationValue"<<'\n';
@@ -220,6 +264,21 @@ protected:
   Equation *m11=nullptr;
   Equation *m21=nullptr;
 public:
+  void Simplify()
+  {
+    // cout<<this<<" EquationMathsimplify "<<result<<'\n';
+
+    m11->Simplify();
+    m21->Simplify();
+
+    if(!isnan(result))
+      {
+	delete m11;
+	m11=nullptr;
+	delete m21;
+	m21=nullptr;
+      }
+  }
   void SetValue(SMap &ValueMap)
   {
     m11->SetValue(ValueMap);

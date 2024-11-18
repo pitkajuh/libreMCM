@@ -252,7 +252,6 @@ void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data,
     {
       equation=test(equation, id, data, head, next);
       ParseOperators(equation, id, data, head, next, size);
-      head->next=nullptr;
     }
 }
 
@@ -279,6 +278,8 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
       print_vector2(v);
       GetOrder(v, id, data, head, next);
       equationMap[name]=head;
+      printeq(head);
+      head->next=nullptr;
       next=nullptr;
       id=0;
       cout<<"ok"<<'\n';
