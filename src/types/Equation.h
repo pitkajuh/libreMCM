@@ -49,13 +49,14 @@ public:
   {
     cout<<this<<" Equation SetValue"<<'\n';
     m1->SetValue(ValueMap);
+    if(!isnan(m1->result)) result=m1->result;
   }
   void SetMathOperation(MathOperationBase *m){m1=m;}
   MathOperationBase *&GetMathOperation(){return m1;}
   void Calculate(){result=m1->result;}
   void Simplify()
   {
-    // cout<<this<<" Equation simplify"<<'\n';
+    cout<<this<<" "<<m1<<" "<<result<<" Equation simplify"<<'\n';
 
     if(!isnan(result))
       {
@@ -101,30 +102,75 @@ protected:
   Equation *m11=nullptr;
   Value *v=nullptr;
 public:
-  Equation *GetNext(){return m11->GetNext();}
+  Equation *GetNext()
+  {
+    if(!isnan(m11->result) and !isnan(v->GetValue()))
+      {
+	cout<<"result not nan "<<" previous "<<m11<<" "<<this<<'\n';
+	Calculate();
+	cout<<"result now "<<result<<'\n';
+	// delete m11;
+	// m11=nullptr;
+	// delete v;
+	// v=nullptr;
+	return this;
+	// m11->GetNext();
+      }
+    return m11->GetNext();
+  }
   void Simplify()
   {
-    // cout<<this<<" EquationValue simplify"<<'\n';
-    // cout<<!isnan(m11->result)<<" "<<!isnan(v->GetValue())<<" "<<!isnan(result)<<" "<<result<<" "<<m11->result<<" "<<v->GetValue()<<" "<<m11->GetNext()<<" "<<m11->GetNext()->result<<" "<<m11->GetNext()->GetMathOperation()->result<<'\n';
-    m11->Simplify();
+    cout<<this<<" "<<next<<" EquationValue simplify"<<" "<<result<<" "<<m11->result<<" "<<v->GetValue()<<" "<<m11->GetNext()<<'\n';
+
+    // if(!isnan(m11->result))
+    //   {
+    // 	cout<<this<<'\n';
+    // 	m11->Simplify();
+    //   }
+
+    // if(isnan(m11->result))
+    //   {
+    // 	cout<<this<<" "<<m11<<'\n';
+    // 	m11->Simplify();
+    //   }
+    // else
+    //   {
+    // 	Calculate();
+    // 	cout<<this<<" calculated "<<result<<'\n';
+    //   }
 
 
-
-    // cout<<!isnan(m11->result)<<" "<<!isnan(v->GetValue())<<" "<<!isnan(result)<<'\n';
-    if(!isnan(m11->GetNext()->result) )
+    // cout<<"NXT "<<m11->GetNext()<<'\n';
+    Equation *nxt=m11->GetNext();
+    // const double r=nxt->result;
+    // cout<<"isnan(r) "<<" "<<r<<'\n';
+    cout<<"nxt "<<nxt<<" "<<nxt->result<<'\n';
+    if(!isnan(nxt->result))
       {
-	// cout<<"!isnan(m11->result) and !isnan(v->GetValue()"<<'\n';
-
-      }
-
-    if(!isnan(result))
-      {
-	// cout<<"!isnan(result) "<<result<<'\n';
+	cout<<"!isnan(r) "<<nxt->result<<'\n';
+	// m11->result=next->result;
 	delete m11;
 	m11=nullptr;
 	delete v;
 	v=nullptr;
       }
+
+
+    // if(!isnan(m11->result) and !isnan(v->GetValue()))
+    //   {
+    // 	Calculate();
+    // 	cout<<this<<" calculated "<<result<<'\n';
+    // 	delete m11;
+    // 	m11=nullptr;
+    // 	delete v;
+    // 	v=nullptr;
+    //   }
+    // else
+    //   {
+    // 	cout<<"else "<<this<<" "<<m11<<'\n';
+    // 	m11->Simplify();
+    //   }
+
   }
   void SetValue(SMap &ValueMap)
   {
@@ -266,7 +312,7 @@ protected:
 public:
   void Simplify()
   {
-    // cout<<this<<" EquationMathsimplify "<<result<<'\n';
+    cout<<this<<" EquationMathsimplify "<<result<<'\n';
 
     m11->Simplify();
     m21->Simplify();
