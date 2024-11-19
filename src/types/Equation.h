@@ -109,10 +109,10 @@ public:
 	cout<<"result not nan "<<" previous "<<m11<<" "<<this<<'\n';
 	Calculate();
 	cout<<"result now "<<result<<'\n';
-	// delete m11;
-	// m11=nullptr;
-	// delete v;
-	// v=nullptr;
+	delete m11;
+	m11=nullptr;
+	delete v;
+	v=nullptr;
 	return this;
 	// m11->GetNext();
       }
@@ -120,26 +120,8 @@ public:
   }
   void Simplify()
   {
-    cout<<this<<" "<<next<<" EquationValue simplify"<<" "<<result<<" "<<m11->result<<" "<<v->GetValue()<<" "<<m11->GetNext()<<'\n';
-
-    // if(!isnan(m11->result))
-    //   {
-    // 	cout<<this<<'\n';
-    // 	m11->Simplify();
-    //   }
-
-    // if(isnan(m11->result))
-    //   {
-    // 	cout<<this<<" "<<m11<<'\n';
-    // 	m11->Simplify();
-    //   }
-    // else
-    //   {
-    // 	Calculate();
-    // 	cout<<this<<" calculated "<<result<<'\n';
-    //   }
-
-
+    // cout<<this<<" "<<next<<" EquationValue simplify"<<" "<<result<<" "<<m11->result<<" "<<v->GetValue()<<" "<<m11->GetNext()<<'\n';
+    m11->GetNext();
     // cout<<"NXT "<<m11->GetNext()<<'\n';
     Equation *nxt=m11->GetNext();
     // const double r=nxt->result;
@@ -149,28 +131,23 @@ public:
       {
 	cout<<"!isnan(r) "<<nxt->result<<'\n';
 	// m11->result=next->result;
+
+	MathOperationBase *n=new MathOperation;
+	n->result=nxt->result;
 	delete m11;
 	m11=nullptr;
-	delete v;
-	v=nullptr;
+	m11=new Equation;
+	m11->SetMathOperation(n);
+
+	// delete v;
+	// v=nullptr;
       }
-
-
-    // if(!isnan(m11->result) and !isnan(v->GetValue()))
-    //   {
-    // 	Calculate();
-    // 	cout<<this<<" calculated "<<result<<'\n';
-    // 	delete m11;
-    // 	m11=nullptr;
-    // 	delete v;
-    // 	v=nullptr;
-    //   }
-    // else
-    //   {
-    // 	cout<<"else "<<this<<" "<<m11<<'\n';
-    // 	m11->Simplify();
-    //   }
-
+    else
+      {
+	cout<<"ELSE"<<'\n';
+    // 	m11->GetNext();
+	nxt->Simplify();
+      }
   }
   void SetValue(SMap &ValueMap)
   {
@@ -317,16 +294,29 @@ public:
     m11->Simplify();
     m21->Simplify();
 
+    if(!isnan(m11->result) and !isnan(m21->result))
+      {
+	cout<<"!isnan(m11->result) and !isnan(m21->result)"<<'\n';
+	Calculate();
+
+      }
+
     if(!isnan(result))
       {
+	cout<<this<<" result "<<result<<'\n';
 	delete m11;
 	m11=nullptr;
 	delete m21;
 	m21=nullptr;
       }
+    else
+      {
+	cout<<"MATH ELSE"<<'\n';
+      }
   }
   void SetValue(SMap &ValueMap)
   {
+    cout<<this<<" EquationMath SetValue"<<'\n';
     m11->SetValue(ValueMap);
     m21->SetValue(ValueMap);
   }

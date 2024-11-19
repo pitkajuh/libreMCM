@@ -43,6 +43,7 @@ void CreateEquationTemplates(const Map<string, Equation*> equationMap, SMap &con
       equation->Simplify();
       cout<<" "<<'\n';
       delete equation;
+      cout<<"---------------------------------------------------------"<<'\n';
       // Delete(equation);
 
       // GetValue(equation, data);
