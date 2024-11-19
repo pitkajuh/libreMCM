@@ -81,6 +81,7 @@ MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &
 
 void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *node1, Equation *&node2, const uint8_t deltaid)
 {
+  cout<<"node2->next=node1->next; "<<node2->next<<" "<<node1->next<<'\n';
   node2->next=node1->next;
 
   if(deltaid>1) newnode->next=Search2(head, node2);
@@ -158,6 +159,32 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
   else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
 }
 
+void SwapHead(Equation *head)
+{
+  Equation *headNext=head->next;
+  cout<<headNext<<'\n';
+  // if(headNext!=nullptr)
+  //   {
+  //     Equation *headBck=head;
+  //     Equation *headBckNext=head->next;
+  //     Equation *headNextNext=head->next->next;
+  //     // cout<<"swap "<<temp1<<" "<<temp2<<" "<<head<<'\n';
+  //     cout<<"Change "<<head<<" "<<head->next<<" to "<<headNext<<" "<<headNextNext<<": "<<headBck<<" "<<headBckNext<<'\n';
+  //     cout<<"Change"<<'\n';
+  //     cout<<head<<" "<<head->next<<'\n';
+  //     cout<<headBckNext<<" "<<headNextNext<<'\n';
+  //     head->next=headNextNext;
+  //     // head->next=headBck;
+
+  //     cout<<1<<" "<<head<<" "<<head->next<<", "<<headNext<<" "<<headNextNext<<": "<<headBck<<" "<<headBckNext<<'\n';
+  //     head=headNext;
+  //     cout<<2<<" "<<head<<" "<<head->next<<", "<<headNext<<" "<<headNextNext<<": "<<headBck<<" "<<headBckNext<<'\n';
+  //     printeq(head);
+  //     // head->next->next=headNextNext;
+  //     // cout<<3<<'\n';
+  //   }
+}
+
 void FindOperator(vector<string> &equation, const string &find, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
 {
   const uint8_t i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
@@ -169,7 +196,14 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
 
       head->GetType();
       printeq(head);
+
+      SwapHead(head);
+
       next=head;
+      // cout<<"head "<<head->next<<'\n';
+      // next=head->next;
+      // cout<<"head "<<next<<'\n';
+      printeq(head);
 
       equation[i]="@"+to_string(id);
       equation.erase(equation.begin()+i+1);
@@ -269,7 +303,10 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
   Equation *head=nullptr;
   Equation *next=nullptr;
   Map<string, Equation*> equationMap;
-
+  // Value *v1=new Constant;
+  // v1->SetName("aoe");
+  // Value *v2=v1;
+  // cout<<v1<<" "<<v2<<'\n';
   for(const auto& [name, equation]: equations_map)
     {
       v=ToVector(equation);
@@ -277,9 +314,10 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
       cout<<"EQUATION"<<'\n';
       print_vector2(v);
       GetOrder(v, id, data, head, next);
-      equationMap[name]=head;
+
       printeq(head);
-      head->next=nullptr;
+      // head->next=nullptr;
+      equationMap[name]=head;
       next=nullptr;
       id=0;
       cout<<"ok"<<'\n';

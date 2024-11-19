@@ -15,7 +15,7 @@
 #include "MathOperator.h"
 #include <cstdint>
 
-class Equation;
+// class Equation;
 
 class EquationBase
 {
@@ -25,8 +25,12 @@ public:
   double result=NAN;
   void SetId(const uint8_t id1){id=id1;}
   const uint8_t GetId(){return id;}
-  virtual Equation *GetNext()=0;
-  virtual void Simplify()=0;
+  // virtual Equation *GetNext()=0;
+  //  EquationBase(const EquationBase &e)
+  // {
+  //   this->id=e.id;
+  // };
+  // virtual void Simplify()=0;
   virtual void SetValue(SMap &ValueMap)=0;
   virtual void Calculate()=0;
   virtual void GetType()=0;
@@ -41,31 +45,36 @@ protected:
 public:
   Equation *next=nullptr;
 
-  Equation *GetNext()
-  {
-    return this;
-  }
+  // Equation *GetNext()
+  // {
+  //   return this;
+  // }
   void SetValue(SMap &ValueMap)
   {
     cout<<this<<" Equation SetValue"<<'\n';
     m1->SetValue(ValueMap);
     if(!isnan(m1->result)) result=m1->result;
   }
+  // Equation(){}
+  // Equation(const Equation &e)
+  // {
+
+  // }
   void SetMathOperation(MathOperationBase *m){m1=m;}
   MathOperationBase *&GetMathOperation(){return m1;}
   void Calculate(){result=m1->result;}
-  void Simplify()
-  {
-    cout<<this<<" "<<m1<<" "<<result<<" Equation simplify"<<'\n';
+  // void Simplify()
+  // {
+  //   cout<<this<<" "<<m1<<" "<<result<<" Equation simplify"<<'\n';
 
-    if(!isnan(result))
-      {
-	cout<<"Equation EquationBase !isnan(result)"<<'\n';
-	delete m1;
-	m1=nullptr;
-      }
+  //   if(!isnan(result))
+  //     {
+  // 	cout<<"Equation EquationBase !isnan(result)"<<'\n';
+  // 	delete m1;
+  // 	m1=nullptr;
+  //     }
 
-  }
+  // }
   void Print()
   {
     cout<<"Equation"<<'\n';
@@ -103,56 +112,56 @@ protected:
   Equation *m11=nullptr;
   Value *v=nullptr;
 public:
-  Equation *GetNext()
-  {
-    if(!isnan(m11->result) and !isnan(v->GetValue()))
-      {
-	cout<<"result not nan "<<" previous "<<m11<<" "<<this<<'\n';
-	Calculate();
-	cout<<"result now "<<result<<'\n';
-	delete m11;
-	m11=nullptr;
-	delete v;
-	v=nullptr;
-	return this;
-	// m11->GetNext();
-      }
-    return m11->GetNext();
-  }
-  void Simplify()
-  {
-    // cout<<this<<" "<<next<<" EquationValue simplify"<<" "<<result<<" "<<m11->result<<" "<<v->GetValue()<<" "<<m11->GetNext()<<'\n';
-    m11->GetNext();
-    // cout<<"NXT "<<m11->GetNext()<<'\n';
-    Equation *nxt=m11->GetNext();
-    // const double r=nxt->result;
-    // cout<<"isnan(r) "<<" "<<r<<'\n';
-    cout<<"nxt "<<nxt<<" "<<nxt->result<<'\n';
-    if(!isnan(nxt->result))
-      {
-	cout<<"!isnan(r) "<<nxt->result<<'\n';
-	// m11->result=next->result;
+  // Equation *GetNext()
+  // {
+  //   if(!isnan(m11->result) and !isnan(v->GetValue()))
+  //     {
+  // 	cout<<"result not nan "<<" previous "<<m11<<" "<<this<<'\n';
+  // 	Calculate();
+  // 	cout<<"result now "<<result<<'\n';
+  // 	delete m11;
+  // 	m11=nullptr;
+  // 	delete v;
+  // 	v=nullptr;
+  // 	return this;
+  // 	// m11->GetNext();
+  //     }
+  //   return m11->GetNext();
+  // }
+  // void Simplify()
+  // {
+  //   // cout<<this<<" "<<next<<" EquationValue simplify"<<" "<<result<<" "<<m11->result<<" "<<v->GetValue()<<" "<<m11->GetNext()<<'\n';
+  //   m11->GetNext();
+  //   // cout<<"NXT "<<m11->GetNext()<<'\n';
+  //   Equation *nxt=m11->GetNext();
+  //   // const double r=nxt->result;
+  //   // cout<<"isnan(r) "<<" "<<r<<'\n';
+  //   cout<<"nxt "<<nxt<<" "<<nxt->result<<'\n';
+  //   if(!isnan(nxt->result))
+  //     {
+  // 	cout<<"!isnan(r) "<<nxt->result<<'\n';
+  // 	// m11->result=next->result;
 
-	MathOperationBase *n=new MathOperation;
-	n->result=nxt->result;
-	delete m11;
-	m11=nullptr;
-	m11=new Equation;
-	m11->SetMathOperation(n);
+  // 	MathOperationBase *n=new MathOperation;
+  // 	n->result=nxt->result;
+  // 	delete m11;
+  // 	m11=nullptr;
+  // 	m11=new Equation;
+  // 	m11->SetMathOperation(n);
 
-	// delete v;
-	// v=nullptr;
-      }
-    else
-      {
-	cout<<"ELSE "<<'\n';
-    // 	m11->GetNext();
-	nxt->Simplify();
-	// result=nxt->result;
-	Calculate();
-	cout<<nxt<<" "<<nxt->result<<" "<<result<<" "<<v->GetValue()<<'\n';
-      }
-  }
+  // 	// delete v;
+  // 	// v=nullptr;
+  //     }
+  //   else
+  //     {
+  // 	cout<<"ELSE "<<'\n';
+  //   // 	m11->GetNext();
+  // 	nxt->Simplify();
+  // 	// result=nxt->result;
+  // 	Calculate();
+  // 	cout<<nxt<<" "<<nxt->result<<" "<<result<<" "<<v->GetValue()<<'\n';
+  //     }
+  // }
   void SetValue(SMap &ValueMap)
   {
     cout<<"SetValue "<<"EquationValue"<<'\n';
@@ -294,31 +303,31 @@ protected:
   Equation *m11=nullptr;
   Equation *m21=nullptr;
 public:
-  void Simplify()
-  {
-    cout<<this<<" EquationMathsimplify "<<result<<'\n';
+  // void Simplify()
+  // {
+  //   cout<<this<<" EquationMathsimplify "<<result<<'\n';
 
-    m11->Simplify();
-    m21->Simplify();
+  //   m11->Simplify();
+  //   m21->Simplify();
 
-    if(!isnan(m11->result) and !isnan(m21->result))
-      {
-	cout<<"!isnan(m11->result) and !isnan(m21->result)"<<'\n';
-	Calculate();
-	cout<<this<<" result "<<result<<'\n';
-	cout<<m11<<" "<<m11->result<<" "<<m21<<" "<<m21->result<<'\n';
-	delete m11;
-	m11=nullptr;
-	delete m21;
-	m21=nullptr;
-	// Simplify();
-	// GetNext();
-      }
-    else
-      {
-	cout<<"MATH ELSE"<<'\n';
-      }
-  }
+  //   if(!isnan(m11->result) and !isnan(m21->result))
+  //     {
+  // 	cout<<"!isnan(m11->result) and !isnan(m21->result)"<<'\n';
+  // 	Calculate();
+  // 	cout<<this<<" result "<<result<<'\n';
+  // 	cout<<m11<<" "<<m11->result<<" "<<m21<<" "<<m21->result<<'\n';
+  // 	delete m11;
+  // 	m11=nullptr;
+  // 	delete m21;
+  // 	m21=nullptr;
+  // 	// Simplify();
+  // 	// GetNext();
+  //     }
+  //   else
+  //     {
+  // 	cout<<"MATH ELSE"<<'\n';
+  //     }
+  // }
   void SetValue(SMap &ValueMap)
   {
     cout<<this<<" EquationMath SetValue"<<'\n';
@@ -342,6 +351,7 @@ public:
   {
     printf("new EquationMath\n");
   }
+  // EquationMath(){}
   virtual ~EquationMath()
   {
     delete m11;

@@ -31,6 +31,13 @@ public:
   string GetV1Name(){return v1->GetName();} const
   void SetV1(Value *v){v1=v;}
   void Calculate(){result=GetV1Value();}
+  MathOperationBase(){}
+  MathOperationBase(const MathOperationBase &m)
+  {
+    // v1=new MathOperationBase;
+    cout<<"MathOperationBase copy"<<'\n';
+    this->v1=m.v1;
+  }
   virtual void SetValue(SMap &ValueMap)=0;
   virtual ~MathOperationBase(){delete v1;}
 };
@@ -56,7 +63,7 @@ public:
   void SetValue(SMap &ValueMap)
   {
     // cout<<"SetValue "<<std::stod(ValueMap[v1->GetName()])<<'\n';
-        cout<<"SetValue "<<'\n';
+    cout<<"SetValue "<<'\n';
     v1->SetValue(std::stod(ValueMap[v1->GetName()]));
     Calculate();
   }
@@ -66,7 +73,6 @@ class MathOperation: public MathOperationBase
 {
 protected:
   Value *v2=nullptr;
-private:
   MathOperator *math_operator=nullptr;
 public:
   void SetValue(SMap &ValueMap)
@@ -83,11 +89,21 @@ public:
     else if(s==DIVIDE) math_operator=new Div;
     else if(s==EXP) math_operator=new Exp;
   }
+  MathOperator *&GetMathOperator(){return math_operator;}
   Value *&GetV2(){return v2;}
   double GetV2Value(){return v2->GetValue();} const
   string GetV2Name(){return v2->GetName();} const
   void SetV2(Value *v){v2=v;}
   void Calculate(){result=math_operator->Calculate(GetV1Value(), GetV2Value());}
+  MathOperation(){}
+  MathOperation(const MathOperation &m)
+  {
+    // v1=new MathOperationBase;
+    cout<<"MathOperation copy"<<'\n';
+    this->v1=m.v1;
+    this->v2=m.v2;
+    this->math_operator=m.math_operator;
+  }
   ~MathOperation()
   {
     delete v2;
@@ -113,6 +129,15 @@ class ConstantVariable: public MathOperation
 {
   // Constant-variable math operation
 public:
+  ConstantVariable(){}
+  ConstantVariable(MathOperation &m)
+  {
+    // v1=new MathOperationBase;
+    cout<<"ConstantVariable copy"<<'\n';
+    this->v1=m.GetV1();
+    this->v2=m.GetV2();
+    this->math_operator=m.GetMathOperator();
+  }
   void SetValue(SMap &ValueMap)
   {
     cout<<"SetValue ConstantVariable "<<std::stod(ValueMap[v1->GetName()])<<'\n';

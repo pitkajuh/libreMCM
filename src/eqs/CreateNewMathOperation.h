@@ -59,6 +59,7 @@ Equation *Search2(Equation *&m, Equation *&f)
 
 void Select(Equation *&head, Equation *&node, EquationMath *&newnode)
 {
+  cout<<"SELECT"<<'\n';
   if(head==node) newnode->next=Search2(head, node)->next;
   else
     {
@@ -70,7 +71,14 @@ void Select(Equation *&head, Equation *&node, EquationMath *&newnode)
 template<typename T>
 void SetNext(T *&newhead, Equation *head, Equation *next, Equation *found, const uint8_t id)
 {
-  if(id-found->GetId()==1) newhead->next=found->next;
+  cout<<"set next"<<'\n';
+  if(id-found->GetId()==1)
+    {
+      cout<<"newhead->next=found->next "<<newhead->next<<" "<<found->next<<" "<<head<<" "<<newhead<<" "<<found<<'\n';
+      // newhead->next=found->next;
+      newhead->next=head;
+      // head->next=newhead;
+    }
   else
     {
       Equation *prev=Search2(head, found);
@@ -102,6 +110,11 @@ MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const 
   m->SetV1(new T(s1));
   m->SetV2(new U(s2));
   m->SetOperator(o);
+
+  MathOperation *m1=new L;
+  m1=m;
+  delete m1;
+
   return m;
 }
 
