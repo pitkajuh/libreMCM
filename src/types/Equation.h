@@ -26,10 +26,12 @@ public:
   void SetId(const uint8_t id1){id=id1;}
   const uint8_t GetId(){return id;}
   // virtual Equation *GetNext()=0;
-  //  EquationBase(const EquationBase &e)
-  // {
-  //   this->id=e.id;
-  // };
+  EquationBase(){}
+  EquationBase(const EquationBase &e)
+  {
+    this->id=e.id;
+    this->result=e.result;
+  };
   // virtual void Simplify()=0;
   virtual void SetValue(SMap &ValueMap)=0;
   virtual void Calculate()=0;
@@ -55,11 +57,11 @@ public:
     m1->SetValue(ValueMap);
     if(!isnan(m1->result)) result=m1->result;
   }
-  // Equation(){}
-  // Equation(const Equation &e)
-  // {
+  Equation(){}
+  Equation(const Equation &e)
+  {
 
-  // }
+  }
   void SetMathOperation(MathOperationBase *m){m1=m;}
   MathOperationBase *&GetMathOperation(){return m1;}
   void Calculate(){result=m1->result;}
