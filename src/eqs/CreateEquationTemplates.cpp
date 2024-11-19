@@ -32,15 +32,24 @@ void Delete(Equation *head)
     }
 }
 
+void Create(Equation *equation)
+{
+  cout<<"CEARTE"<<'\n';
+  // equation->GetNext();
+}
+
 void CreateEquationTemplates(const Map<string, Equation*> equationMap, SMap &constantsMap)
 {
   cout<<"--------------------------------------"<<'\n';
+  Map<string, Equation*> differentialEquationMap;
+
   for(const auto &[name, equation]: equationMap)
     {
       cout<<"name "<<name<<" "<<equation<<'\n';
-      equation->SetValue(constantsMap);
+      // equation->SetValue(constantsMap);
       cout<<" "<<'\n';
-      equation->Simplify();
+      // equation->Simplify();
+      // Create(equation);
       cout<<" "<<'\n';
       delete equation;
       cout<<"---------------------------------------------------------"<<'\n';

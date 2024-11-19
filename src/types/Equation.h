@@ -60,6 +60,7 @@ public:
 
     if(!isnan(result))
       {
+	cout<<"Equation EquationBase !isnan(result)"<<'\n';
 	delete m1;
 	m1=nullptr;
       }
@@ -144,9 +145,12 @@ public:
       }
     else
       {
-	cout<<"ELSE"<<'\n';
+	cout<<"ELSE "<<'\n';
     // 	m11->GetNext();
 	nxt->Simplify();
+	// result=nxt->result;
+	Calculate();
+	cout<<nxt<<" "<<nxt->result<<" "<<result<<" "<<v->GetValue()<<'\n';
       }
   }
   void SetValue(SMap &ValueMap)
@@ -168,6 +172,8 @@ public:
   }
   virtual ~EquationValue()
   {
+    // cout<<m11<<" "<<m11->result<<" "<<v->GetName()<<" "<<v->GetValue()<<'\n';
+    // cout<<m11<<" "<<m11->result<<" "<<'\n';
     delete m11;
     delete v;
   }
@@ -177,6 +183,7 @@ class EquationV: public EquationValue
 {
 public:
   void Calculate(){result=math_operator->Calculate(GetValue()->GetValue(), Get()->result);}
+
   void SetValue(SMap &ValueMap)
   {
     cout<<"SetValue "<<"EquationV"<<'\n';
@@ -298,16 +305,14 @@ public:
       {
 	cout<<"!isnan(m11->result) and !isnan(m21->result)"<<'\n';
 	Calculate();
-
-      }
-
-    if(!isnan(result))
-      {
 	cout<<this<<" result "<<result<<'\n';
+	cout<<m11<<" "<<m11->result<<" "<<m21<<" "<<m21->result<<'\n';
 	delete m11;
 	m11=nullptr;
 	delete m21;
 	m21=nullptr;
+	// Simplify();
+	// GetNext();
       }
     else
       {
