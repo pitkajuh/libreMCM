@@ -51,7 +51,7 @@ public:
     this->value=v.value;
     this->negative=v.negative;
   }
-  Value *clone() const {return new Value(*this);}
+  virtual Value *clone() const {return new Value(*this);}
   virtual ~Value(){}
 };
 
@@ -67,7 +67,7 @@ class Constant: public Value
     this->value=v.GetValue();
     this->negative=v.GetNegative();
   }
-  Constant *clone() const {return new Constant(*this);}
+  Constant *clone() const override {return new Constant(*this);}
 };
 
 class Variable: public Value
@@ -82,7 +82,7 @@ public:
     this->value=v.GetValue();
     this->negative=v.GetNegative();
   }
-  Variable *clone() const {return new Variable(*this);}
+  Variable *clone() const override {return new Variable(*this);}
 };
 
 class Numeric: public Value
@@ -97,7 +97,7 @@ public:
     this->value=v.GetValue();
     this->negative=v.GetNegative();
   }
-  Numeric *clone() const {return new Numeric(*this);}
+  Numeric *clone() const override {return new Numeric(*this);}
 };
 
 #endif
