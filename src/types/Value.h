@@ -20,7 +20,7 @@ using namespace libremcm;
 class Value
 {
 protected:
-  string name;
+  string name="";
   double value=NAN;
   bool negative=0;
 public:

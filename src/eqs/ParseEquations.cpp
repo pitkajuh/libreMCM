@@ -315,7 +315,7 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
   v11->SetName("aoeeoaeo");
   // Value *v2=new Constant;
   // cout<<v1<<" "<<v2<<'\n';
-  cout<<v11<<" "<<v22<<'\n';
+  cout<<"value "<<v11<<" "<<v22<<'\n';
   // delete v11;
   // delete v22;
 
@@ -329,7 +329,8 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
   MathOperation *mb2=new ConstantConstant(*mb1);
 
   cout<<mb1<<" "<<mb2<<'\n';
-  cout<<mb1->GetV1()<<" "<<mb2->GetV1()<<'\n';
+  // cout<<mb1->GetV1()<<" "<<mb1->GetV2()<<'\n';
+  // cout<<mb2->GetV1()<<" "<<mb2->GetV2()<<'\n';
 
   // delete v2;
   // delete v1;
