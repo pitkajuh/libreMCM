@@ -120,11 +120,6 @@ public:
   MathOperation(const MathOperation &m)
   {
     cout<<"MathOperation copy"<<'\n';
-    // this->v1=m.v1;
-    // this->v2=m.v2;
-    this->v1=m.v1;
-    this->v2=m.v2;
-    this->math_operator=m.math_operator;
   }
   MathOperation *clone() const override {return new MathOperation(*this);}
   ~MathOperation()
@@ -139,10 +134,15 @@ class NumericNumeric: public MathOperation
   // Numeric-numeric math operation
 public:
   void SetValue(SMap &ValueMap){}
-  // NumericNumeric *clone() const
-  // {
-  //   return new NumericNumeric;
-  // }
+  NumericNumeric(){}
+  NumericNumeric(MathOperation &m)
+  {
+    cout<<"NumericNumeric copy"<<'\n';
+    this->v1=new Numeric(*m.GetV1());
+    this->v2=new Numeric(*m.GetV2());
+    this->math_operator=m.GetMathOperator();
+  }
+  NumericNumeric *clone() const override {return new NumericNumeric(*this);}
 };
 
 class VariableVariable: public MathOperation
@@ -150,10 +150,15 @@ class VariableVariable: public MathOperation
   // Variable-variable math operation
 public:
   void SetValue(SMap &ValueMap){}
-  // VariableVariable *clone() const
-  // {
-  //   return new VariableVariable;
-  // }
+  VariableVariable(){}
+  VariableVariable(MathOperation &m)
+  {
+    cout<<"VariableVariable copy"<<'\n';
+    this->v1=new Variable(*m.GetV1());
+    this->v2=new Variable(*m.GetV2());
+    this->math_operator=m.GetMathOperator();
+  }
+  VariableVariable *clone() const override {return new VariableVariable(*this);}
 };
 
 class ConstantVariable: public MathOperation
@@ -165,10 +170,15 @@ public:
     cout<<"SetValue ConstantVariable "<<std::stod(ValueMap[v1->GetName()])<<'\n';
     v1->SetValue(std::stod(ValueMap[v1->GetName()]));
   }
-  // ConstantVariable *clone() const
-  // {
-  //   return new ConstantVariable;
-  // }
+  ConstantVariable(){}
+  ConstantVariable(MathOperation &m)
+  {
+    cout<<"ConstantVariable copy"<<'\n';
+    this->v1=new Constant(*m.GetV1());
+    this->v2=new Variable(*m.GetV2());
+    this->math_operator=m.GetMathOperator();
+  }
+  ConstantVariable *clone() const override {return new ConstantVariable(*this);}
 };
 
 class VariableConstant: public MathOperation
@@ -180,10 +190,15 @@ public:
     cout<<"SetValue VariableConstant "<<std::stod(ValueMap[v2->GetName()])<<'\n';
     v2->SetValue(std::stod(ValueMap[v2->GetName()]));
   }
-  // VariableConstant *clone() const
-  // {
-  //   return new VariableConstant;
-  // }
+  VariableConstant(){}
+  VariableConstant(MathOperation &m)
+  {
+    cout<<"VariableConstant copy"<<'\n';
+    this->v1=new Variable(*m.GetV1());
+    this->v2=new Constant(*m.GetV2());
+    this->math_operator=m.GetMathOperator();
+  }
+  VariableConstant *clone() const override {return new VariableConstant(*this);}
 };
 
 class ConstantConstant: public MathOperation
@@ -198,10 +213,15 @@ public:
     Calculate();
     cout<<"result "<<result<<'\n';
   }
-  // ConstantConstant *clone() const
-  // {
-  //   return new ConstantConstant;
-  // }
+  ConstantConstant(){}
+  ConstantConstant(MathOperation &m)
+  {
+    cout<<"ConstantConstant copy"<<'\n';
+    this->v1=new Constant(*m.GetV1());
+    this->v2=new Constant(*m.GetV2());
+    this->math_operator=m.GetMathOperator();
+  }
+  ConstantConstant *clone() const override {return new ConstantConstant(*this);}
 };
 
 class VariableNumeric: public MathOperation
@@ -209,10 +229,15 @@ class VariableNumeric: public MathOperation
   // Variable-numeric math operation
 public:
   void SetValue(SMap &ValueMap){}
-  // VariableNumeric *clone() const
-  // {
-  //   return new VariableNumeric;
-  // }
+  VariableNumeric(){}
+  VariableNumeric(MathOperation &m)
+  {
+    cout<<"VariableNumeric copy"<<'\n';
+    this->v1=new Variable(*m.GetV1());
+    this->v2=new Numeric(*m.GetV2());
+    this->math_operator=m.GetMathOperator();
+  }
+  VariableNumeric *clone() const override {return new VariableNumeric(*this);}
 };
 
 class NumericVariable: public MathOperation
@@ -220,10 +245,15 @@ class NumericVariable: public MathOperation
   // Numeric-variable math operation
 public:
   void SetValue(SMap &ValueMap){}
-  // NumericVariable *clone() const
-  // {
-  //   return new NumericVariable;
-  // }
+  NumericVariable(){}
+  NumericVariable(MathOperation &m)
+  {
+    cout<<"NumericVariable copy"<<'\n';
+    this->v1=new Numeric(*m.GetV1());
+    this->v2=new Variable(*m.GetV2());
+    this->math_operator=m.GetMathOperator();
+  }
+  NumericVariable *clone() const override {return new NumericVariable(*this);}
 };
 
 class NumericConstant: public MathOperation
@@ -237,10 +267,15 @@ public:
     Calculate();
     cout<<"result "<<result<<'\n';
   }
-  // NumericConstant *clone() const
-  // {
-  //   return new NumericConstant;
-  // }
+  NumericConstant(){}
+  NumericConstant(MathOperation &m)
+  {
+    cout<<"NumericConstant copy"<<'\n';
+    this->v1=new Numeric(*m.GetV1());
+    this->v2=new Variable(*m.GetV2());
+    this->math_operator=m.GetMathOperator();
+  }
+  NumericConstant *clone() const override {return new NumericConstant(*this);}
 };
 
 class ConstantNumeric: public MathOperation
@@ -254,10 +289,15 @@ public:
     Calculate();
     cout<<"result "<<result<<'\n';
   }
-  // ConstantNumeric *clone() const
-  // {
-  //   return new ConstantNumeric;
-  // }
+  ConstantNumeric(){}
+  ConstantNumeric(MathOperation &m)
+  {
+    cout<<"ConstantNumeric copy"<<'\n';
+    this->v1=new Constant(*m.GetV1());
+    this->v2=new Numeric(*m.GetV2());
+    this->math_operator=m.GetMathOperator();
+  }
+  ConstantNumeric *clone() const override {return new ConstantNumeric(*this);}
 };
 
 #endif

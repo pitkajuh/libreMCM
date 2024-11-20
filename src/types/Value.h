@@ -51,6 +51,17 @@ public:
     this->value=v.value;
     this->negative=v.negative;
   }
+  Value &operator=(Value &v)
+  {
+    std:: cout<<"Value ="<<'\n';
+    if(this==&v) return *this;
+
+    this->name=v.GetName();
+    this->value=v.GetValue();
+    this->negative=v.GetNegative();
+
+    return *this;
+  }
   virtual Value *clone() const {return new Value(*this);}
   virtual ~Value(){}
 };
@@ -67,6 +78,17 @@ class Constant: public Value
     this->value=v.GetValue();
     this->negative=v.GetNegative();
   }
+  Constant &operator=(Value &v)
+  {
+    std:: cout<<"Value ="<<'\n';
+    if(this==&v) return *this;
+
+    this->name=v.GetName();
+    this->value=v.GetValue();
+    this->negative=v.GetNegative();
+
+    return *this;
+  }
   Constant *clone() const override {return new Constant(*this);}
 };
 
@@ -82,6 +104,17 @@ public:
     this->value=v.GetValue();
     this->negative=v.GetNegative();
   }
+  Variable &operator=(Value &v)
+  {
+    std:: cout<<"Value ="<<'\n';
+    if(this==&v) return *this;
+
+    this->name=v.GetName();
+    this->value=v.GetValue();
+    this->negative=v.GetNegative();
+
+    return *this;
+  }
   Variable *clone() const override {return new Variable(*this);}
 };
 
@@ -96,6 +129,16 @@ public:
     std::cout<<"Numeric copy"<<'\n';
     this->value=v.GetValue();
     this->negative=v.GetNegative();
+  }
+  Numeric &operator=(Value &v)
+  {
+    std:: cout<<"Value ="<<'\n';
+    if(this==&v) return *this;
+
+    this->value=v.GetValue();
+    this->negative=v.GetNegative();
+
+    return *this;
   }
   Numeric *clone() const override {return new Numeric(*this);}
 };

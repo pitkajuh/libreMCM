@@ -305,27 +305,33 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
   Map<string, Equation*> equationMap;
 
 
-  Value *v1=new Value;
-  v1->SetName("aoe");
-  Value *v2=new Value(*v1);
+  // Value *v1=new Value;
+  // v1->SetName("aoe");
+  // Value *v2=new Value(*v1);
 
   Value *v11=new Constant;
-  v1->SetName("aoe");
+  v11->SetName("aoe");
   Value *v22=new Constant(*v11);
+  v11->SetName("aoeeoaeo");
   // Value *v2=new Constant;
-  cout<<v1<<" "<<v2<<'\n';
+  // cout<<v1<<" "<<v2<<'\n';
   cout<<v11<<" "<<v22<<'\n';
-  delete v11;
-  delete v22;
-  MathOperationBase *mb1=new MathOperationBase;
-  mb1->SetV1(v1);
-  MathOperationBase *mb2=new MathOperationBase(*mb1);
-  // MathOperation *mb1=new MathOperation;
+  // delete v11;
+  // delete v22;
+
+  // MathOperationBase *mb1=new MathOperationBase;
   // mb1->SetV1(v1);
-  // MathOperation *mb2=new MathOperation(*mb1);
+  // MathOperationBase *mb2=new MathOperationBase(*mb1);
+
+  MathOperation *mb1=new ConstantConstant;
+  mb1->SetV1(v11);
+  mb1->SetV1(v22);
+  MathOperation *mb2=new ConstantConstant(*mb1);
+
   cout<<mb1<<" "<<mb2<<'\n';
   cout<<mb1->GetV1()<<" "<<mb2->GetV1()<<'\n';
-  delete v2;
+
+  // delete v2;
   // delete v1;
   delete mb1;
   delete mb2;
