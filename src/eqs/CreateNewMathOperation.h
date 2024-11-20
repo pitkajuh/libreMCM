@@ -111,9 +111,10 @@ MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const 
   m->SetV2(new U(s2));
   m->SetOperator(o);
 
-  MathOperation *m1=new L;
-  m1=m;
-  delete m1;
+  // MathOperation *m1=new L;
+  // m1=m;
+  // cout<<m1<<'\n';
+  // // delete m1;
 
   return m;
 }

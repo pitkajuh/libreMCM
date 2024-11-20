@@ -34,11 +34,11 @@ public:
   MathOperationBase(){}
   MathOperationBase(const MathOperationBase &m)
   {
-    // v1=new MathOperationBase;
     cout<<"MathOperationBase copy"<<'\n';
-    this->v1=m.v1;
+    this->v1=new Value(*m.v1);
   }
-  virtual void SetValue(SMap &ValueMap)=0;
+  virtual MathOperationBase *clone() const {return new MathOperationBase(*this);}
+  virtual void SetValue(SMap &ValueMap){};
   virtual ~MathOperationBase(){delete v1;}
 };
 
@@ -47,6 +47,10 @@ class NumericBase: public MathOperationBase
   // Numeric math operation
 public:
   void SetValue(SMap &ValueMap){}
+  // NumericBase *clone() const
+  // {
+  //   return new NumericBase;
+  // }
 };
 
 class VariableBase: public MathOperationBase
@@ -54,6 +58,10 @@ class VariableBase: public MathOperationBase
   // Variable math operation
 public:
   void SetValue(SMap &ValueMap){}
+  // VariableBase *clone() const
+  // {
+  //   return new VariableBase;
+  // }
 };
 
 class ConstantBase: public MathOperationBase
@@ -67,6 +75,10 @@ public:
     v1->SetValue(std::stod(ValueMap[v1->GetName()]));
     Calculate();
   }
+  // ConstantBase *clone() const
+  // {
+  //   return new ConstantBase;
+  // }
 };
 
 class MathOperation: public MathOperationBase
@@ -104,6 +116,10 @@ public:
     this->v2=m.v2;
     this->math_operator=m.math_operator;
   }
+  MathOperation *clone() const override
+  {
+    return new MathOperation;
+  }
   ~MathOperation()
   {
     delete v2;
@@ -116,6 +132,10 @@ class NumericNumeric: public MathOperation
   // Numeric-numeric math operation
 public:
   void SetValue(SMap &ValueMap){}
+  // NumericNumeric *clone() const
+  // {
+  //   return new NumericNumeric;
+  // }
 };
 
 class VariableVariable: public MathOperation
@@ -123,26 +143,25 @@ class VariableVariable: public MathOperation
   // Variable-variable math operation
 public:
   void SetValue(SMap &ValueMap){}
+  // VariableVariable *clone() const
+  // {
+  //   return new VariableVariable;
+  // }
 };
 
 class ConstantVariable: public MathOperation
 {
   // Constant-variable math operation
 public:
-  ConstantVariable(){}
-  ConstantVariable(MathOperation &m)
-  {
-    // v1=new MathOperationBase;
-    cout<<"ConstantVariable copy"<<'\n';
-    this->v1=m.GetV1();
-    this->v2=m.GetV2();
-    this->math_operator=m.GetMathOperator();
-  }
   void SetValue(SMap &ValueMap)
   {
     cout<<"SetValue ConstantVariable "<<std::stod(ValueMap[v1->GetName()])<<'\n';
     v1->SetValue(std::stod(ValueMap[v1->GetName()]));
   }
+  // ConstantVariable *clone() const
+  // {
+  //   return new ConstantVariable;
+  // }
 };
 
 class VariableConstant: public MathOperation
@@ -154,6 +173,10 @@ public:
     cout<<"SetValue VariableConstant "<<std::stod(ValueMap[v2->GetName()])<<'\n';
     v2->SetValue(std::stod(ValueMap[v2->GetName()]));
   }
+  // VariableConstant *clone() const
+  // {
+  //   return new VariableConstant;
+  // }
 };
 
 class ConstantConstant: public MathOperation
@@ -168,6 +191,10 @@ public:
     Calculate();
     cout<<"result "<<result<<'\n';
   }
+  // ConstantConstant *clone() const
+  // {
+  //   return new ConstantConstant;
+  // }
 };
 
 class VariableNumeric: public MathOperation
@@ -175,6 +202,10 @@ class VariableNumeric: public MathOperation
   // Variable-numeric math operation
 public:
   void SetValue(SMap &ValueMap){}
+  // VariableNumeric *clone() const
+  // {
+  //   return new VariableNumeric;
+  // }
 };
 
 class NumericVariable: public MathOperation
@@ -182,6 +213,10 @@ class NumericVariable: public MathOperation
   // Numeric-variable math operation
 public:
   void SetValue(SMap &ValueMap){}
+  // NumericVariable *clone() const
+  // {
+  //   return new NumericVariable;
+  // }
 };
 
 class NumericConstant: public MathOperation
@@ -195,6 +230,10 @@ public:
     Calculate();
     cout<<"result "<<result<<'\n';
   }
+  // NumericConstant *clone() const
+  // {
+  //   return new NumericConstant;
+  // }
 };
 
 class ConstantNumeric: public MathOperation
@@ -208,6 +247,10 @@ public:
     Calculate();
     cout<<"result "<<result<<'\n';
   }
+  // ConstantNumeric *clone() const
+  // {
+  //   return new ConstantNumeric;
+  // }
 };
 
 #endif

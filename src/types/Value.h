@@ -22,7 +22,7 @@ class Value
 protected:
   string name;
   double value=NAN;
-  bool isNegative=0;
+  bool negative=0;
 public:
   void SetName(const string &s)
   {
@@ -30,7 +30,7 @@ public:
 
     if(s[0]=='-')
       {
-	isNegative=1;
+	negative=1;
 	name=name.substr(1, name.size());
       }
   }
@@ -38,8 +38,9 @@ public:
   {
     value=v;
 
-    if(isNegative) value=-1*value;
+    if(negative) value=-1*value;
   }
+  bool GetNegative(){return negative;}
   const string GetName(){return name;}
   double GetValue(){return value;}
   Value(){};
@@ -48,8 +49,9 @@ public:
     std::cout<<"Value copy"<<'\n';
     this->name=v.name;
     this->value=v.value;
-    this->isNegative=v.isNegative;
+    this->negative=v.negative;
   }
+  Value *clone() const {return new Value(*this);}
   virtual ~Value(){}
 };
 
@@ -58,6 +60,14 @@ class Constant: public Value
  public:
   Constant(const string &s){SetName(s);}
   Constant(){}
+  Constant(Value &v)
+  {
+    std::cout<<"Constant copy"<<'\n';
+    this->name=v.GetName();
+    this->value=v.GetValue();
+    this->negative=v.GetNegative();
+  }
+  Constant *clone() const {return new Constant(*this);}
 };
 
 class Variable: public Value
@@ -65,6 +75,14 @@ class Variable: public Value
 public:
   Variable(const string &s){SetName(s);}
   Variable(){}
+  Variable(Value &v)
+  {
+    std::cout<<"Variable copy"<<'\n';
+    this->name=v.GetName();
+    this->value=v.GetValue();
+    this->negative=v.GetNegative();
+  }
+  Variable *clone() const {return new Variable(*this);}
 };
 
 class Numeric: public Value
@@ -73,6 +91,13 @@ public:
   Numeric(const string &s){SetValue(std::stod(s));}
   Numeric(const double s){SetValue(s);}
   Numeric(){}
+  Numeric(Value &v)
+  {
+    std::cout<<"Numeric copy"<<'\n';
+    this->value=v.GetValue();
+    this->negative=v.GetNegative();
+  }
+  Numeric *clone() const {return new Numeric(*this);}
 };
 
 #endif

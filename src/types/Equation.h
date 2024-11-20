@@ -60,7 +60,7 @@ public:
   Equation(){}
   Equation(const Equation &e)
   {
-
+    cout<<"Equation copy"<<'\n';
   }
   void SetMathOperation(MathOperationBase *m){m1=m;}
   MathOperationBase *&GetMathOperation(){return m1;}
@@ -105,6 +105,11 @@ public:
     else if(s==DIVIDE) math_operator=new Div;
     else if(s==EXP) math_operator=new Exp;
   }
+  EquationMathOperator(){}
+  EquationMathOperator(const EquationMathOperator &e)
+  {
+    cout<<"EquationMathOperator copy"<<'\n';
+  }
   ~EquationMathOperator(){delete math_operator;}
 };
 
@@ -114,6 +119,11 @@ protected:
   Equation *m11=nullptr;
   Value *v=nullptr;
 public:
+  EquationValue(){}
+  EquationValue(const EquationValue &e)
+  {
+    cout<<"EquationValue copy"<<'\n';
+  }
   // Equation *GetNext()
   // {
   //   if(!isnan(m11->result) and !isnan(v->GetValue()))
@@ -305,6 +315,11 @@ protected:
   Equation *m11=nullptr;
   Equation *m21=nullptr;
 public:
+  EquationMath(){}
+  EquationMath(const EquationMath &e)
+  {
+    cout<<"EquationMath copy"<<'\n';
+  }
   // void Simplify()
   // {
   //   cout<<this<<" EquationMathsimplify "<<result<<'\n';
