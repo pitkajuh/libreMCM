@@ -47,10 +47,13 @@ class NumericBase: public MathOperationBase
   // Numeric math operation
 public:
   void SetValue(SMap &ValueMap){}
-  // NumericBase *clone() const
-  // {
-  //   return new NumericBase;
-  // }
+  NumericBase(){}
+  NumericBase(MathOperationBase &m)
+  {
+    cout<<" NumericBase copy"<<'\n';
+    this->v1=new Numeric(*m.GetV1());
+  }
+  NumericBase *clone() const override {return new NumericBase(*this);}
 };
 
 class VariableBase: public MathOperationBase
@@ -58,10 +61,13 @@ class VariableBase: public MathOperationBase
   // Variable math operation
 public:
   void SetValue(SMap &ValueMap){}
-  // VariableBase *clone() const
-  // {
-  //   return new VariableBase;
-  // }
+  VariableBase(){}
+  VariableBase(MathOperationBase &m)
+  {
+    cout<<" VariableBase copy"<<'\n';
+    this->v1=new Variable(*m.GetV1());
+  }
+  VariableBase *clone() const override {return new VariableBase(*this);}
 };
 
 class ConstantBase: public MathOperationBase
@@ -75,10 +81,13 @@ public:
     v1->SetValue(std::stod(ValueMap[v1->GetName()]));
     Calculate();
   }
-  // ConstantBase *clone() const
-  // {
-  //   return new ConstantBase;
-  // }
+  ConstantBase(){}
+  ConstantBase(MathOperationBase &m)
+  {
+    cout<<" ConstantBase copy"<<'\n';
+    this->v1=new Constant(*m.GetV1());
+  }
+  ConstantBase *clone() const override {return new ConstantBase(*this);}
 };
 
 class MathOperation: public MathOperationBase
@@ -110,16 +119,14 @@ public:
   MathOperation(){}
   MathOperation(const MathOperation &m)
   {
-    // v1=new MathOperationBase;
     cout<<"MathOperation copy"<<'\n';
+    // this->v1=m.v1;
+    // this->v2=m.v2;
     this->v1=m.v1;
     this->v2=m.v2;
     this->math_operator=m.math_operator;
   }
-  MathOperation *clone() const override
-  {
-    return new MathOperation;
-  }
+  MathOperation *clone() const override {return new MathOperation(*this);}
   ~MathOperation()
   {
     delete v2;

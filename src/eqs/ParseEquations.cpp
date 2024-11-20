@@ -303,6 +303,8 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
   Equation *head=nullptr;
   Equation *next=nullptr;
   Map<string, Equation*> equationMap;
+
+
   Value *v1=new Value;
   v1->SetName("aoe");
   Value *v2=new Value(*v1);
@@ -318,6 +320,9 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
   MathOperationBase *mb1=new MathOperationBase;
   mb1->SetV1(v1);
   MathOperationBase *mb2=new MathOperationBase(*mb1);
+  // MathOperation *mb1=new MathOperation;
+  // mb1->SetV1(v1);
+  // MathOperation *mb2=new MathOperation(*mb1);
   cout<<mb1<<" "<<mb2<<'\n';
   cout<<mb1->GetV1()<<" "<<mb2->GetV1()<<'\n';
   delete v2;
