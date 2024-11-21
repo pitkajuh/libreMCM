@@ -64,7 +64,7 @@ public:
     return *this;
   }
   virtual Value *clone() const {return new Value(*this);}
-  virtual Value *New() const {return new Value(*this);}
+  virtual Value *New(Value &v) const {return new Value(v);}
   virtual ~Value(){}
 };
 
@@ -96,7 +96,7 @@ class Constant: public Value
     return *this;
   }
   Constant *clone() const override {return new Constant(*this);}
-  Value *New() const override {return new Constant(*this);}
+  Value *New(Value &v) const override {return new Constant(v);}
 };
 
 class Variable: public Value
@@ -123,7 +123,7 @@ public:
     return *this;
   }
   Variable *clone() const override {return new Variable(*this);}
-  Value *New() const override {return new Variable(*this);}
+  Value *New(Value &v) const override {return new Variable(v);}
 };
 
 class Numeric: public Value
@@ -149,7 +149,7 @@ public:
     return *this;
   }
   Numeric *clone() const override {return new Numeric(*this);}
-  Value *New() const override {return new Numeric(*this);}
+  Value *New(Value &v) const override {return new Numeric(v);}
 };
 
 #endif

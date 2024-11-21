@@ -141,6 +141,7 @@ public:
     cout<<"EquationValue copy"<<'\n';
     this->SetId(e.GetId());
     this->result=e.result;
+    // this->v=e.GetValue()->New(*e.GetValue());
     // this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
   }
   // Equation *GetNext()
