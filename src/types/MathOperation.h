@@ -154,13 +154,23 @@ public:
   void SetV2(Value *v){v2=v;}
   void Calculate(){result=math_operator->Calculate(GetV1Value(), GetV2Value());}
   MathOperation(){}
-  MathOperation(MathOperation &m){}
+  MathOperation(MathOperation &m)
+  {
+    this->result=m.result;
+    this->v1=m.GetV1()->New(*m.GetV1());
+    this->v2=m.GetV1()->New(*m.GetV2());
+    this->math_operator=m.GetMathOperator()->New();
+  }
   MathOperation *clone() override {return new MathOperation(*this);}
-  // MathOperationBase *New(MathOperationBase &m) const {return new MathOperation(m);}
   virtual MathOperation *New(MathOperation &m) const {return new MathOperation(m);}
   MathOperation &operator=(MathOperation &m)
   {
     if(this==&m) return *this;
+
+    this->result=m.result;
+    this->v1=m.GetV1()->New(*m.GetV1());
+    this->v2=m.GetV1()->New(*m.GetV2());
+    this->math_operator=m.GetMathOperator()->New();
 
     return *this;
   }
@@ -181,17 +191,19 @@ public:
   NumericNumeric(MathOperation &m)
   {
     cout<<"NumericNumeric copy"<<'\n';
+    this->result=m.result;
     this->v1=new Numeric(*m.GetV1());
     this->v2=new Numeric(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
   }
   NumericNumeric *clone() override {return new NumericNumeric(*this);}
-  MathOperation *New(MathOperation &m) const {return new NumericNumeric(m);}
+  MathOperation *New(MathOperation &m) const override {return new NumericNumeric(m);}
   NumericNumeric &operator=(MathOperation &m)
   {
     std:: cout<<"NumericNumeric ="<<'\n';
     if(this==&m) return *this;
 
+    this->result=m.result;
     this->v1=new Numeric(*m.GetV1());
     this->v2=new Numeric(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
@@ -209,17 +221,19 @@ public:
   VariableVariable(MathOperation &m)
   {
     cout<<"VariableVariable copy"<<'\n';
+    this->result=m.result;
     this->v1=new Variable(*m.GetV1());
     this->v2=new Variable(*m.GetV2());
     this->math_operator=m.GetMathOperator();
   }
   VariableVariable *clone() override {return new VariableVariable(*this);}
-  MathOperation *New(MathOperation &m) const {return new VariableVariable(m);}
+  MathOperation *New(MathOperation &m) const override {return new VariableVariable(m);}
   VariableVariable &operator=(MathOperation &m)
   {
     std:: cout<<"VariableVariable ="<<'\n';
     if(this==&m) return *this;
 
+    this->result=m.result;
     this->v1=new Variable(*m.GetV1());
     this->v2=new Variable(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
@@ -241,17 +255,19 @@ public:
   ConstantVariable(MathOperation &m)
   {
     cout<<"ConstantVariable copy"<<'\n';
+    this->result=m.result;
     this->v1=new Constant(*m.GetV1());
     this->v2=new Variable(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
   }
   ConstantVariable *clone() override {return new ConstantVariable(*this);}
-  MathOperation *New(MathOperation &m) const {return new ConstantVariable(m);}
+  MathOperation *New(MathOperation &m) const override {return new ConstantVariable(m);}
   ConstantVariable &operator=(MathOperation &m)
   {
     std:: cout<<"ConstantVariable ="<<'\n';
     if(this==&m) return *this;
 
+    this->result=m.result;
     this->v1=new Constant(*m.GetV1());
     this->v2=new Variable(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
@@ -273,17 +289,19 @@ public:
   VariableConstant(MathOperation &m)
   {
     cout<<"VariableConstant copy"<<'\n';
+    this->result=m.result;
     this->v1=new Variable(*m.GetV1());
     this->v2=new Constant(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
   }
   VariableConstant *clone() override {return new VariableConstant(*this);}
-  MathOperation *New(MathOperation &m) const {return new VariableConstant(m);}
+  MathOperation *New(MathOperation &m) const override {return new VariableConstant(m);}
   VariableConstant &operator=(MathOperation &m)
   {
     std:: cout<<"VariableConstant ="<<'\n';
     if(this==&m) return *this;
 
+    this->result=m.result;
     this->v1=new Variable(*m.GetV1());
     this->v2=new Constant(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
@@ -308,6 +326,7 @@ public:
   ConstantConstant(MathOperation &m)
   {
     cout<<"ConstantConstant copy"<<'\n';
+    this->result=m.result;
     cout<<"copy v1"<<'\n';
     this->v1=new Constant(*m.GetV1());
     cout<<"copy v2"<<'\n';
@@ -317,12 +336,13 @@ public:
 
   }
   ConstantConstant *clone() override {return new ConstantConstant(*this);}
-  MathOperation *New(MathOperation &m) const {return new ConstantConstant(m);}
+  MathOperation *New(MathOperation &m) const override {return new ConstantConstant(m);}
   ConstantConstant &operator=(MathOperation &m)
   {
     std:: cout<<"ConstantConstant ="<<'\n';
     if(this==&m) return *this;
 
+    this->result=m.result;
     this->v1=new Constant(*m.GetV1());
     this->v2=new Constant(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
@@ -340,17 +360,19 @@ public:
   VariableNumeric(MathOperation &m)
   {
     cout<<"VariableNumeric copy"<<'\n';
+    this->result=m.result;
     this->v1=new Variable(*m.GetV1());
     this->v2=new Numeric(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
   }
   VariableNumeric *clone() override {return new VariableNumeric(*this);}
-  MathOperation *New(MathOperation &m) const {return new VariableNumeric(m);}
+  MathOperation *New(MathOperation &m) const override {return new VariableNumeric(m);}
   VariableNumeric &operator=(MathOperation &m)
   {
     std:: cout<<"VariableNumeric ="<<'\n';
     if(this==&m) return *this;
 
+    this->result=m.result;
     this->v1=new Variable(*m.GetV1());
     this->v2=new Numeric(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
@@ -368,17 +390,19 @@ public:
   NumericVariable(MathOperation &m)
   {
     cout<<"NumericVariable copy"<<'\n';
+    this->result=m.result;
     this->v1=new Numeric(*m.GetV1());
     this->v2=new Variable(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
   }
   NumericVariable *clone() override {return new NumericVariable(*this);}
-  MathOperation *New(MathOperation &m) const {return new NumericVariable(m);}
+  MathOperation *New(MathOperation &m) const override {return new NumericVariable(m);}
   NumericVariable &operator=(MathOperation &m)
   {
     std:: cout<<"NumericVariable ="<<'\n';
     if(this==&m) return *this;
 
+    this->result=m.result;
     this->v1=new Numeric(*m.GetV1());
     this->v2=new Variable(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
@@ -402,17 +426,19 @@ public:
   NumericConstant(MathOperation &m)
   {
     cout<<"NumericConstant copy"<<'\n';
+    this->result=m.result;
     this->v1=new Numeric(*m.GetV1());
     this->v2=new Variable(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
   }
   NumericConstant *clone() override {return new NumericConstant(*this);}
-  MathOperation *New(MathOperation &m) const {return new NumericConstant(m);}
+  MathOperation *New(MathOperation &m) const override {return new NumericConstant(m);}
   NumericConstant &operator=(MathOperation &m)
   {
     std:: cout<<"NumericConstant ="<<'\n';
     if(this==&m) return *this;
 
+    this->result=m.result;
     this->v1=new Numeric(*m.GetV1());
     this->v2=new Variable(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
@@ -436,17 +462,19 @@ public:
   ConstantNumeric(MathOperation &m)
   {
     cout<<"ConstantNumeric copy"<<'\n';
+    this->result=m.result;
     this->v1=new Constant(*m.GetV1());
     this->v2=new Numeric(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
   }
   ConstantNumeric *clone() override {return new ConstantNumeric(*this);}
-  MathOperation *New(MathOperation &m) const {return new ConstantNumeric(m);}
+  MathOperation *New(MathOperation &m) const override {return new ConstantNumeric(m);}
   ConstantNumeric &operator=(MathOperation &m)
   {
     std:: cout<<"ConstantNumeric ="<<'\n';
     if(this==&m) return *this;
 
+    this->result=m.result;
     this->v1=new Constant(*m.GetV1());
     this->v2=new Numeric(*m.GetV2());
     this->math_operator=m.GetMathOperator()->New();
