@@ -31,7 +31,17 @@ public:
   {
     this->id=e.id;
     this->result=e.result;
-  };
+  }
+  EquationBase &operator=(EquationBase &e)
+  {
+    std:: cout<<"EquationBase ="<<'\n';
+    if(this==&e) return *this;
+
+    this->id=e.id;
+    this->result=e.result;
+
+    return *this;
+  }
   // virtual void Simplify()=0;
   virtual void SetValue(SMap &ValueMap)=0;
   virtual void Calculate()=0;
@@ -58,9 +68,12 @@ public:
     if(!isnan(m1->result)) result=m1->result;
   }
   Equation(){}
-  Equation(const Equation &e)
+  Equation(Equation &e)
   {
     cout<<"Equation copy"<<'\n';
+    this->SetId(e.GetId());
+    this->result=e.result;
+    this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
   }
   void SetMathOperation(MathOperationBase *m){m1=m;}
   MathOperationBase *&GetMathOperation(){return m1;}
@@ -106,9 +119,12 @@ public:
     else if(s==EXP) math_operator=new Exp;
   }
   EquationMathOperator(){}
-  EquationMathOperator(const EquationMathOperator &e)
+  EquationMathOperator(EquationMathOperator &e)
   {
     cout<<"EquationMathOperator copy"<<'\n';
+    this->SetId(e.GetId());
+    this->result=e.result;
+    this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
   }
   ~EquationMathOperator(){delete math_operator;}
 };
@@ -120,9 +136,12 @@ protected:
   Value *v=nullptr;
 public:
   EquationValue(){}
-  EquationValue(const EquationValue &e)
+  EquationValue(EquationValue &e)
   {
     cout<<"EquationValue copy"<<'\n';
+    this->SetId(e.GetId());
+    this->result=e.result;
+    // this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
   }
   // Equation *GetNext()
   // {

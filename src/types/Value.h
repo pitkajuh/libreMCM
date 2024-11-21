@@ -15,14 +15,15 @@
 #include <math.h>
 #include "../inc/namespace.h"
 
+using std::cout;
 using namespace libremcm;
 
 class Value
 {
 protected:
+  bool negative=0;
   string name="";
   double value=NAN;
-  bool negative=0;
 public:
   void SetName(const string &s)
   {
@@ -63,6 +64,7 @@ public:
     return *this;
   }
   virtual Value *clone() const {return new Value(*this);}
+  virtual Value *New() const {return new Value(*this);}
   virtual ~Value(){}
 };
 
@@ -75,8 +77,12 @@ class Constant: public Value
   {
     std::cout<<"Constant copy"<<'\n';
     this->name=v.GetName();
+    // cout<<"Name"<<'\n';
     this->value=v.GetValue();
+    // cout<<"Value"<<'\n';
     this->negative=v.GetNegative();
+    // cout<<"Neg"<<'\n';
+    std::cout<<"Constant copied"<<'\n';
   }
   Constant &operator=(Value &v)
   {
@@ -90,6 +96,7 @@ class Constant: public Value
     return *this;
   }
   Constant *clone() const override {return new Constant(*this);}
+  Value *New() const override {return new Constant(*this);}
 };
 
 class Variable: public Value
@@ -116,6 +123,7 @@ public:
     return *this;
   }
   Variable *clone() const override {return new Variable(*this);}
+  Value *New() const override {return new Variable(*this);}
 };
 
 class Numeric: public Value
@@ -141,6 +149,7 @@ public:
     return *this;
   }
   Numeric *clone() const override {return new Numeric(*this);}
+  Value *New() const override {return new Numeric(*this);}
 };
 
 #endif
