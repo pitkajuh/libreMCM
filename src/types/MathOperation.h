@@ -20,6 +20,8 @@ using std::cout;
 
 using namespace libremcm;
 
+class MathOperation;
+
 class MathOperationBase
 {
 protected:
@@ -35,8 +37,8 @@ public:
   MathOperationBase(MathOperationBase &m)
   {
     cout<<"MathOperationBase copy"<<'\n';
-    this->result=m.result;
-    this->v1=m.GetV1()->New(*m.GetV1());
+    // this->result=m.result;
+    // this->v1=m.GetV1()->New(*m.GetV1());
   }
   MathOperationBase &operator=(MathOperationBase &m)
   {
@@ -60,6 +62,7 @@ public:
   NumericBase(MathOperationBase &m)
   {
     cout<<" NumericBase copy"<<'\n';
+    this->result=m.result;
     this->v1=new Numeric(*m.GetV1());
   }
   MathOperationBase *New(MathOperationBase &m) const {return new NumericBase(m);}
@@ -84,6 +87,7 @@ public:
   VariableBase(MathOperationBase &m)
   {
     cout<<" VariableBase copy"<<'\n';
+    this->result=m.result;
     this->v1=new Variable(*m.GetV1());
   }
   MathOperationBase *New(MathOperationBase &m) const {return new VariableBase(m);}
@@ -112,6 +116,7 @@ public:
   ConstantBase(MathOperationBase &m)
   {
     cout<<" ConstantBase copy"<<'\n';
+    this->result=m.result;
     this->v1=new Constant(*m.GetV1());
   }
   MathOperationBase *New(MathOperationBase &m) const {return new ConstantBase(m);}
@@ -149,7 +154,7 @@ public:
   void SetV2(Value *v){v2=v;}
   void Calculate(){result=math_operator->Calculate(GetV1Value(), GetV2Value());}
   MathOperation(){}
-  MathOperation(const MathOperation &m){}
+  MathOperation(MathOperation &m){}
   MathOperation *clone() override {return new MathOperation(*this);}
   MathOperationBase *New(MathOperationBase &m) const {return new MathOperation(m);}
   MathOperation &operator=(MathOperation &m)
