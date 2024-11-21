@@ -98,6 +98,80 @@ public:
   }
 };
 
+class EquationSingle: public Equation
+{
+protected:
+  MathOperationBase *m1=nullptr;
+public:
+  void SetValue(SMap &ValueMap)
+  {
+    cout<<this<<" Equation SetValue"<<'\n';
+    m1->SetValue(ValueMap);
+    if(!isnan(m1->result)) result=m1->result;
+  }
+  EquationSingle(){}
+  EquationSingle(EquationSingle &e)
+  {
+    cout<<"EquationSingle copy"<<'\n';
+    this->SetId(e.GetId());
+    this->result=e.result;
+    this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
+  }
+  void SetMathOperation(MathOperationBase *m){m1=m;}
+  MathOperationBase *&GetMathOperation(){return m1;}
+  void Calculate(){result=m1->result;}
+  void Print()
+  {
+    cout<<"EquationSingle"<<'\n';
+  }
+  void GetType()
+  {
+    printf("new EquationSingle\n");
+  }
+  ~EquationSingle()
+  {
+    cout<<"Deleting "<<this<<" "<<std::to_string(GetId())<<" "<<m1<<'\n';
+    delete m1;
+  }
+};
+
+class EquationMulti: public Equation
+{
+protected:
+  MathOperation *m1=nullptr;
+public:
+  void SetValue(SMap &ValueMap)
+  {
+    cout<<this<<" Equation SetValue"<<'\n';
+    m1->SetValue(ValueMap);
+    if(!isnan(m1->result)) result=m1->result;
+  }
+  EquationMulti(){}
+  EquationMulti(EquationMulti &e)
+  {
+    cout<<"EquationMulti copy"<<'\n';
+    this->SetId(e.GetId());
+    this->result=e.result;
+    this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
+  }
+  void SetMathOperation(MathOperation *m){m1=m;}
+  MathOperation *&GetMathOperation(){return m1;}
+  void Calculate(){result=m1->result;}
+  void Print()
+  {
+    cout<<"EquationMulti"<<'\n';
+  }
+  void GetType()
+  {
+    printf("new EquationMulti\n");
+  }
+  ~EquationMulti()
+  {
+    cout<<"Deleting "<<this<<" "<<std::to_string(GetId())<<" "<<m1<<'\n';
+    delete m1;
+  }
+};
+
 class EquationMathOperator: public Equation
 {
 protected:
