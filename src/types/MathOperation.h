@@ -20,8 +20,6 @@ using std::cout;
 
 using namespace libremcm;
 
-class MathOperation;
-
 class MathOperationBase
 {
 protected:

@@ -15,8 +15,6 @@
 #include "MathOperator.h"
 #include <cstdint>
 
-// class Equation;
-
 class EquationBase
 {
 private:
@@ -25,7 +23,6 @@ public:
   double result=NAN;
   void SetId(const uint8_t id1){id=id1;}
   const uint8_t GetId(){return id;}
-  // virtual Equation *GetNext()=0;
   EquationBase(){}
   EquationBase(const EquationBase &e)
   {
@@ -57,10 +54,6 @@ protected:
 public:
   Equation *next=nullptr;
 
-  // Equation *GetNext()
-  // {
-  //   return this;
-  // }
   void SetValue(SMap &ValueMap)
   {
     cout<<this<<" Equation SetValue"<<'\n';

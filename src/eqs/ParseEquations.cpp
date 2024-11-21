@@ -323,9 +323,16 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
 
   cout<<"mb2 "<<mb2<<'\n';
 
-  delete mb1;
-  delete mb2;
+  Equation *eq=new Equation;
+  eq->SetMathOperation(mb1);
 
+  Equation *eq2=new Equation(*eq);
+  // eq2->SetMathOperation(mb2);
+
+  // delete mb1;
+  delete mb2;
+  delete eq;
+  delete eq2;
   for(const auto& [name, equation]: equations_map)
     {
       v=ToVector(equation);
