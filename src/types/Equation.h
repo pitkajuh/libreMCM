@@ -281,7 +281,6 @@ public:
   virtual ~EquationValue()
   {
     // cout<<m11<<" "<<m11->result<<" "<<v->GetName()<<" "<<v->GetValue()<<'\n';
-    // cout<<m11<<" "<<m11->result<<" "<<'\n';
     delete m11;
     delete v;
   }
