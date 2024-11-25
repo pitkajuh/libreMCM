@@ -39,7 +39,6 @@ public:
 
     return *this;
   }
-  // virtual void Simplify()=0;
   virtual void SetValue(SMap &ValueMap)=0;
   virtual void Calculate()=0;
   virtual void GetType()=0;
