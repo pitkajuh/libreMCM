@@ -75,11 +75,9 @@ class Constant: public Value
   Constant(){}
   Constant(Value &v)
   {
-    std::cout<<"Constant copy"<<'\n';
     this->name=v.GetName();
     this->value=v.GetValue();
     this->negative=v.GetNegative();
-    std::cout<<"Constant copied"<<'\n';
   }
   Constant &operator=(Value &v)
   {
