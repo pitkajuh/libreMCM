@@ -22,22 +22,6 @@ public:
   double result=NAN;
   void SetId(const uint8_t id1){id=id1;}
   const uint8_t GetId(){return id;}
-  // EquationBase(){}
-  // EquationBase(const EquationBase &e)
-  // {
-  //   this->id=e.id;
-  //   this->result=e.result;
-  // }
-  // EquationBase &operator=(EquationBase &e)
-  // {
-  //   std:: cout<<"EquationBase ="<<'\n';
-  //   if(this==&e) return *this;
-
-  //   this->id=e.id;
-  //   this->result=e.result;
-
-  //   return *this;
-  // }
   virtual ~EquationBase(){};
 };
 
@@ -78,8 +62,9 @@ public:
     std:: cout<<"EquationSingle ="<<'\n';
     if(this==&e) return *this;
 
-    // this->id=e.id;
-    // this->result=e.result;
+    this->SetId(e.GetId());
+    this->result=e.result;
+    this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
 
     return *this;
   }
@@ -119,6 +104,17 @@ public:
     this->SetId(e.GetId());
     this->result=e.result;
     this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
+  }
+  EquationMulti &operator=(EquationMulti &e)
+  {
+    std:: cout<<"EquationMulti ="<<'\n';
+    if(this==&e) return *this;
+
+    this->SetId(e.GetId());
+    this->result=e.result;
+    this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
+
+    return *this;
   }
   void SetMathOperation(MathOperation *m)
   {
