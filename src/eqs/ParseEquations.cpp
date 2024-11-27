@@ -12,7 +12,6 @@
 #include "ToVector.h"
 #include "test.h"
 #include "../global/mathconst.h"
-#include "../types/MathOperation.h"
 #include "../types/Equation.h"
 #include "../util/IsIn.h"
 #include <algorithm>
@@ -141,9 +140,13 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
 
   if(!b1.math and !b2.math)
     {
-      Equation *mc=new Equation;
+      // Equation *mc=new Equation;
+      EquationMulti *mc=new EquationMulti;
+      cout<<"aou"<<'\n';
        mc->SetMathOperation(CreateNewValueValueMathOperation(s1, s2, o, b1, b2));
+       cout<<"aou2"<<'\n';
       mc->Calculate();
+      cout<<"aou3"<<'\n';
       mc->next=next;
       mc->SetId(id);
       return mc;
@@ -218,7 +221,7 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
 Equation *CreateSingleEquation(const string &e, uint8_t &id, const vector<string> &data, Equation *&next)
 {
   const Bools b(e, data);
-  Equation *newHead=new Equation;
+  EquationSingle *newHead=new EquationSingle;
   MathOperationBase *m;
   newHead->next=next;
   newHead->SetId(id);
@@ -323,10 +326,10 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
 
   cout<<"mb2 "<<mb2<<'\n';
 
-  Equation *eq=new Equation;
+  EquationMulti *eq=new EquationMulti;
   eq->SetMathOperation(mb1);
 
-  Equation *eq2=new Equation(*eq);
+  EquationMulti *eq2=new EquationMulti(*eq);
   // eq2->SetMathOperation(mb2);
 
   // delete mb1;

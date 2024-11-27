@@ -12,7 +12,6 @@
 #define EQUATION_H
 
 #include "MathOperation.h"
-// #include "MathOperator.h"
 #include <cstdint>
 
 class EquationBase
@@ -23,78 +22,36 @@ public:
   double result=NAN;
   void SetId(const uint8_t id1){id=id1;}
   const uint8_t GetId(){return id;}
-  EquationBase(){}
-  EquationBase(const EquationBase &e)
-  {
-    this->id=e.id;
-    this->result=e.result;
-  }
-  EquationBase &operator=(EquationBase &e)
-  {
-    std:: cout<<"EquationBase ="<<'\n';
-    if(this==&e) return *this;
+  // EquationBase(){}
+  // EquationBase(const EquationBase &e)
+  // {
+  //   this->id=e.id;
+  //   this->result=e.result;
+  // }
+  // EquationBase &operator=(EquationBase &e)
+  // {
+  //   std:: cout<<"EquationBase ="<<'\n';
+  //   if(this==&e) return *this;
 
-    this->id=e.id;
-    this->result=e.result;
+  //   this->id=e.id;
+  //   this->result=e.result;
 
-    return *this;
-  }
-  virtual void SetValue(SMap &ValueMap)=0;
-  virtual void Calculate()=0;
-  virtual void GetType()=0;
-  virtual void Print()=0;
+  //   return *this;
+  // }
   virtual ~EquationBase(){};
 };
 
 class Equation: public EquationBase
 {
-protected:
-  MathOperationBase *m1=nullptr;
 public:
   Equation *next=nullptr;
 
-  void SetValue(SMap &ValueMap)
-  {
-    cout<<this<<" Equation SetValue"<<'\n';
-    m1->SetValue(ValueMap);
-    if(!isnan(m1->result)) result=m1->result;
-  }
   Equation(){}
-  Equation(Equation &e)
-  {
-    cout<<"Equation copy"<<'\n';
-    this->SetId(e.GetId());
-    this->result=e.result;
-    this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
-  }
-  void SetMathOperation(MathOperationBase *m){m1=m;}
-  MathOperationBase *&GetMathOperation(){return m1;}
-  void Calculate(){result=m1->result;}
-  // void Simplify()
-  // {
-  //   cout<<this<<" "<<m1<<" "<<result<<" Equation simplify"<<'\n';
-
-  //   if(!isnan(result))
-  //     {
-  // 	cout<<"Equation EquationBase !isnan(result)"<<'\n';
-  // 	delete m1;
-  // 	m1=nullptr;
-  //     }
-
-  // }
-  void Print()
-  {
-    cout<<"Equation"<<'\n';
-  }
-  void GetType()
-  {
-    printf("new normal Equation\n");
-  }
-  ~Equation()
-  {
-    cout<<"Deleting "<<this<<" "<<std::to_string(GetId())<<" "<<m1<<'\n';
-    delete m1;
-  }
+  virtual ~Equation(){}
+  virtual void SetValue(SMap &ValueMap)=0;
+  virtual void Calculate()=0;
+  virtual void GetType()=0;
+  virtual void Print()=0;
 };
 
 class EquationSingle: public Equation
@@ -115,6 +72,16 @@ public:
     this->SetId(e.GetId());
     this->result=e.result;
     this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
+  }
+  EquationSingle &operator=(EquationSingle &e)
+  {
+    std:: cout<<"EquationSingle ="<<'\n';
+    if(this==&e) return *this;
+
+    // this->id=e.id;
+    // this->result=e.result;
+
+    return *this;
   }
   void SetMathOperation(MathOperationBase *m){m1=m;}
   MathOperationBase *&GetMathOperation(){return m1;}
@@ -153,7 +120,11 @@ public:
     this->result=e.result;
     this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
   }
-  void SetMathOperation(MathOperation *m){m1=m;}
+  void SetMathOperation(MathOperation *m)
+  {
+    cout<<"equation multi set math operation"<<'\n';
+    m1=m;
+  }
   MathOperation *&GetMathOperation(){return m1;}
   void Calculate(){result=m1->result;}
   void Print()
@@ -190,7 +161,7 @@ public:
     cout<<"EquationMathOperator copy"<<'\n';
     this->SetId(e.GetId());
     this->result=e.result;
-    this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
+    // this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
   }
   ~EquationMathOperator(){delete math_operator;}
 };
@@ -201,6 +172,7 @@ protected:
   Equation *m11=nullptr;
   Value *v=nullptr;
 public:
+  // void SetEquation(Equation *e){this->m11=e;}
   EquationValue(){}
   EquationValue(EquationValue &e)
   {
@@ -266,7 +238,7 @@ public:
     m11->SetValue(ValueMap);
   }
   Value *GetValue(){return v;}
-  void Set(Equation *m0){m11=m0;}
+  void Set(Equation *m0){this->m11=m0;}
   void SetValue(Value *w){v=w;}
   Equation *&Get(){return m11;}
   void Print()

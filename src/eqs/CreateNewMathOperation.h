@@ -97,9 +97,9 @@ Equation *NewMathValue(const string &s1, const string &s2, const string &o, cons
   newhead->SetOperator(o);
   Equation *found=Search(head, stoi(s1.substr(1, s1.size())));
   newhead->Set(found);
-  newhead->SetMathOperation(found->GetMathOperation());
+  // newhead->SetMathOperation(found->GetMathOperation());
   SetNext<EquationValue>(newhead, head, next, found, id);
-  newhead->SetMathOperation(nullptr);
+  // newhead->SetMathOperation(nullptr);
   return newhead;
 }
 
@@ -110,12 +110,6 @@ MathOperation *CreateNewMathOperation(const string &s1, const string &s2, const 
   m->SetV1(new T(s1));
   m->SetV2(new U(s2));
   m->SetOperator(o);
-
-  // MathOperation *m1=new L;
-  // m1=m;
-  // cout<<m1<<'\n';
-  // // delete m1;
-
   return m;
 }
 
