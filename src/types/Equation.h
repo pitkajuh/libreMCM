@@ -12,7 +12,7 @@
 #define EQUATION_H
 
 #include "MathOperation.h"
-#include "MathOperator.h"
+// #include "MathOperator.h"
 #include <cstdint>
 
 class EquationBase
