@@ -143,6 +143,7 @@ class EquationMathOperator: public Equation
 protected:
   MathOperator *math_operator=nullptr;
 public:
+  MathOperator *GetMathOperator(){return math_operator;}
   void SetOperator(const string &s)
   {
     if(s==ADD) math_operator=new Add;
@@ -157,6 +158,7 @@ public:
     cout<<"EquationMathOperator copy"<<'\n';
     this->SetId(e.GetId());
     this->result=e.result;
+    // this->math_operator=e.GetMathOperator()->New(*e.GetMathOperator());
     // this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
   }
   ~EquationMathOperator(){delete math_operator;}
