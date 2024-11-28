@@ -175,7 +175,6 @@ public:
   ~MathOperation()
   {
     delete v2;
-    cout<<"delete math_operator "<<math_operator<<'\n';
     delete math_operator;
   }
 };

@@ -158,8 +158,18 @@ public:
     cout<<"EquationMathOperator copy"<<'\n';
     this->SetId(e.GetId());
     this->result=e.result;
-    // this->math_operator=e.GetMathOperator()->New(*e.GetMathOperator());
-    // this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
+    this->math_operator=e.GetMathOperator()->New();
+  }
+  EquationMathOperator &operator=(EquationMathOperator &e)
+  {
+    std:: cout<<"EquationMathOperator ="<<'\n';
+    if(this==&e) return *this;
+
+    this->SetId(e.GetId());
+    this->result=e.result;
+    this->math_operator=e.GetMathOperator()->New();
+
+    return *this;
   }
   ~EquationMathOperator(){delete math_operator;}
 };
@@ -170,15 +180,20 @@ protected:
   Equation *m11=nullptr;
   Value *v=nullptr;
 public:
-  // void SetEquation(Equation *e){this->m11=e;}
   EquationValue(){}
   EquationValue(EquationValue &e)
   {
     cout<<"EquationValue copy"<<'\n';
     this->SetId(e.GetId());
     this->result=e.result;
-    // this->v=e.GetValue()->New(*e.GetValue());
-    // this->m1=e.GetMathOperation()->New(*e.GetMathOperation());
+
+    this->m11=e.Get();
+    // this->m11=e.New(e.Get());
+
+    // this->m11=new EquationValue();
+
+    this->math_operator=e.GetMathOperator()->New();
+    this->v=e.GetValue()->New(*e.GetValue());
   }
   // Equation *GetNext()
   // {
@@ -235,7 +250,7 @@ public:
     cout<<"SetValue "<<"EquationValue"<<'\n';
     m11->SetValue(ValueMap);
   }
-  Value *GetValue(){return v;}
+  Value *&GetValue(){return v;}
   void Set(Equation *m0){this->m11=m0;}
   void SetValue(Value *w){v=w;}
   Equation *&Get(){return m11;}
@@ -423,7 +438,6 @@ public:
   {
     printf("new EquationMath\n");
   }
-  // EquationMath(){}
   virtual ~EquationMath()
   {
     delete m11;
