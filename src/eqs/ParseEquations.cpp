@@ -60,14 +60,40 @@ public:
 
 MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2)
 {
-  if(b1.variable and b2.variable) return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
-  else if(b1.variable and b2.constant) return CreateNewMathOperation<Variable, Constant, VariableConstant>(s1, s2, o);
-  else if(b1.variable and b2.numeric) return CreateNewMathOperation<Variable, Numeric, VariableNumeric>(s1, s2, o);
-  else if(b1.constant and b2.variable) return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
-  else if(b1.constant and b2.constant) return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
-  else if(b1.constant and b2.numeric) return CreateNewMathOperation<Constant, Numeric, ConstantNumeric>(s1, s2, o);
-  else if(b1.numeric and b2.variable) return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
-  else if(b1.numeric and b2.constant) return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
+  // EdgeMathOperation *edge=nullptr;
+
+  if(b1.variable and b2.variable)
+    {
+      return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
+    }
+  else if(b1.variable and b2.constant)
+    {
+      return CreateNewMathOperation<Variable, Constant, VariableConstant>(s1, s2, o);
+    }
+  else if(b1.variable and b2.numeric)
+    {
+      return CreateNewMathOperation<Variable, Numeric, VariableNumeric>(s1, s2, o);
+    }
+  else if(b1.constant and b2.variable)
+    {
+      return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
+    }
+  else if(b1.constant and b2.constant)
+    {
+      return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
+    }
+  else if(b1.constant and b2.numeric)
+    {
+      return CreateNewMathOperation<Constant, Numeric, ConstantNumeric>(s1, s2, o);
+    }
+  else if(b1.numeric and b2.variable)
+    {
+      return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
+    }
+  else if(b1.numeric and b2.constant)
+    {
+      return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
+    }
   else
     {
       MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
@@ -141,13 +167,10 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
 
   if(!b1.math and !b2.math)
     {
-      // Equation *mc=new Equation;
       EquationMulti *mc=new EquationMulti;
-      cout<<"aou"<<'\n';
+      cout<<"!b1.math and !b2.math"<<'\n';
        mc->SetMathOperation(CreateNewValueValueMathOperation(s1, s2, o, b1, b2));
-       cout<<"aou2"<<'\n';
       mc->Calculate();
-      cout<<"aou3"<<'\n';
       mc->next=next;
       mc->SetId(id);
       return mc;
@@ -270,7 +293,7 @@ void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data,
   else
     {
       equation=test(equation, id, data, head, next, graph);
-      // ParseOperators(equation, id, data, head, next, size);
+      ParseOperators(equation, id, data, head, next, size, graph);
     }
 }
 

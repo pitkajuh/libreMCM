@@ -34,7 +34,16 @@ class GraphEquation: public Graph
 private:
 
 public:
-
+  void CreateEdge(const string &s1, const string &s2, const string &o)
+  {
+    Edge *edge=new EdgeMathOperation;
+    delete edge;
+  }
+  GraphEquation(){}
+  // GraphEquation(VertexValue *vertex)
+  // {
+  //   this->vertex=vertex;
+  // }
 };
 
 class GraphEquationSingle: public GraphEquation
