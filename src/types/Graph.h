@@ -29,4 +29,12 @@ public:
 
 };
 
+class GraphEquation: public Graph
+{
+private:
+
+public:
+
+};
+
 #endif
