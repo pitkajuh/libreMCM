@@ -13,6 +13,7 @@
 #include "test.h"
 #include "../global/mathconst.h"
 #include "../types/Equation.h"
+#include "../types/Bools.h"
 #include "../util/IsIn.h"
 #include <algorithm>
 #include <iostream>
@@ -40,62 +41,71 @@ void print_vector2(const vector<string> &vec)
   cout<<empty<<'\n';
 }
 
-struct Bools
-{
-public:
-  bool variable;
-  bool constant;
-  bool numeric;
-  bool math;
+// struct Bools
+// {
+// public:
+//   bool variable;
+//   bool constant;
+//   bool numeric;
+//   bool math;
 
-  Bools(const string &s1, const vector<string> &data)
-  {
-    variable=IsIn(s1, data);
-    numeric=IsNumerical(s1);
-    math=(s1.substr(0, 1)=="@") ? 1 : 0;
-    if(!variable and !numeric and !math) constant=1;
-    else constant=0;
-  }
-};
+//   Bools(const string &s1, const vector<string> &data)
+//   {
+//     variable=IsIn(s1, data);
+//     numeric=IsNumerical(s1);
+//     math=(s1.substr(0, 1)=="@") ? 1 : 0;
+//     if(!variable and !numeric and !math) constant=1;
+//     else constant=0;
+//   }
+// };
 
-MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2)
+MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2, GraphEquation *&graph)
 {
   // EdgeMathOperation *edge=nullptr;
 
   if(b1.variable and b2.variable)
     {
+      // graph->CreateEdge<Variable, Variable, VariableVariable>(s1, s2, o);
       return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
     }
   else if(b1.variable and b2.constant)
     {
+      // graph->CreateEdge<Variable, Constant, VariableConstant>(s1, s2, o);
       return CreateNewMathOperation<Variable, Constant, VariableConstant>(s1, s2, o);
     }
   else if(b1.variable and b2.numeric)
     {
+      // graph->CreateEdge<Variable, Numeric, VariableNumeric>(s1, s2, o);
       return CreateNewMathOperation<Variable, Numeric, VariableNumeric>(s1, s2, o);
     }
   else if(b1.constant and b2.variable)
     {
+      // graph->CreateEdge<Constant, Variable, ConstantVariable>(s1, s2, o);
       return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
     }
   else if(b1.constant and b2.constant)
     {
+      // graph->CreateEdge<Constant, Constant, ConstantConstant>(s1, s2, o);
       return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
     }
   else if(b1.constant and b2.numeric)
     {
+      // graph->CreateEdge<Constant, Numeric, ConstantNumeric>(s1, s2, o);
       return CreateNewMathOperation<Constant, Numeric, ConstantNumeric>(s1, s2, o);
     }
   else if(b1.numeric and b2.variable)
     {
+      // graph->CreateEdge<Numeric, Variable, NumericVariable>(s1, s2, o);
       return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
     }
   else if(b1.numeric and b2.constant)
     {
+      // graph->CreateEdge<Numeric, Constant, NumericConstant>(s1, s2, o);
       return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
     }
   else
     {
+      // graph->CreateEdge=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
       MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
       // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
       // simplified and performance of the calculation increased.
@@ -169,7 +179,7 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
     {
       EquationMulti *mc=new EquationMulti;
       cout<<"!b1.math and !b2.math"<<'\n';
-       mc->SetMathOperation(CreateNewValueValueMathOperation(s1, s2, o, b1, b2));
+      mc->SetMathOperation(CreateNewValueValueMathOperation(s1, s2, o, b1, b2, graph));
       mc->Calculate();
       mc->next=next;
       mc->SetId(id);

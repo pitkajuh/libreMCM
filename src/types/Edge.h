@@ -24,7 +24,7 @@ using std::cout;
 
 class Edge
 {
-private:
+protected:
   Vertex *vertex1=nullptr;
   Vertex *vertex2=nullptr;
 public:
@@ -110,14 +110,15 @@ private:
     else if(s==EXP) mathOperator=new EdgePower;
   }
 
-  template<typename T, typename U>
+public:
+  template<typename T, typename U, typename L>
   void CreateEdge(const string &s1, const string &s2, const string &o)
   {
-    this->vertex1=new T(s1);
-    this->vertex2=new U(s2);
-    this->SetOperator(o);
+    vertex1=new T(s1);
+    vertex2=new U(s2);
+    SetOperator(o);
   }
-public:
+
   double result=NAN;
   EdgeMathOperation(){}
   ~EdgeMathOperation(){delete mathOperator;}
