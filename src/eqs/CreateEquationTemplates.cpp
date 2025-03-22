@@ -43,18 +43,18 @@ void CreateEquationTemplates(const Map<string, Equation*> equationMap, SMap &con
   cout<<"--------------------------------------"<<'\n';
   Map<string, Equation*> differentialEquationMap;
 
-  for(const auto &[name, equation]: equationMap)
-    {
-      cout<<"name "<<name<<" "<<equation<<'\n';
-      // equation->SetValue(constantsMap);
-      cout<<" "<<'\n';
-      // equation->Simplify();
-      // Create(equation);
-      cout<<" "<<'\n';
-      delete equation;
-      cout<<"---------------------------------------------------------"<<'\n';
-      // Delete(equation);
+  // for(const auto &[name, equation]: equationMap)
+  //   {
+  //     cout<<"name "<<name<<" "<<equation<<'\n';
+  //     // equation->SetValue(constantsMap);
+  //     cout<<" "<<'\n';
+  //     // equation->Simplify();
+  //     // Create(equation);
+  //     cout<<" "<<'\n';
+  //     delete equation;
+  //     cout<<"---------------------------------------------------------"<<'\n';
+  //     // Delete(equation);
 
-      // GetValue(equation, data);
-    }
+  //     // GetValue(equation, data);
+  //   }
 }

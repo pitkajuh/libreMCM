@@ -25,10 +25,12 @@ using std::cout;
 class Edge
 {
 protected:
+  uint8_t id;
   Vertex *vertex1=nullptr;
   Vertex *vertex2=nullptr;
 public:
 
+  void SetId(uint8_t id){this->id=id;}
   Edge(){}
   Edge(Vertex *&vertex1, Vertex *&vertex2)
   {
@@ -98,8 +100,9 @@ public:
 
 class EdgeMathOperation: public Edge
 {
-private:
+protected:
   EdgeMathOperator *mathOperator=nullptr;
+  double result=NAN;
 
   void SetOperator(const string &s)
   {
@@ -119,7 +122,6 @@ public:
     SetOperator(o);
   }
 
-  double result=NAN;
   EdgeMathOperation(){}
   ~EdgeMathOperation(){delete mathOperator;}
 };

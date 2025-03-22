@@ -24,7 +24,7 @@ using std::cout;
 
 class Graph
 {
-private:
+protected:
   vector<Edge*> edges;
 public:
   virtual ~Graph(){}
@@ -32,17 +32,8 @@ public:
 
 class GraphEquation: public Graph
 {
-private:
 public:
-  // template<typename T, typename U, typename L>
-  // void CreateEdge1(const string &s1, const string &s2, const string &o)
-  // {
-  //   this->vertex1=new T(s1);
-  //   this->vertex2=new U(s2);
-  //   this->SetOperator(o);
-  // }
-
-  void CreateEdge(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2)
+  void CreateEdge(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2, const uint8_t id)
   {
     EdgeMathOperation *edge=nullptr;
 
@@ -88,22 +79,30 @@ public:
 	// cout<<"result "<<m->result<<'\n';
 	// return m;
       }
-
+    edge->SetId(id);
     // CreateEdge1(s1, s2, o);
-    delete edge;
+    // delete edge;
   }
   GraphEquation(){}
 };
 
 class GraphEquationSingle: public GraphEquation
 {
-private:
+protected:
   VertexValue *vertex=nullptr;
-public:
 
-  GraphEquationSingle(){}
-  GraphEquationSingle(VertexValue *vertex)
+  void CreateEdge(const Bools &b, const string &e)
   {
+    if(b.variable){vertex=new VertexVariable(e);}
+    else if(b.constant){vertex=new VertexConstant(e);}
+    else{vertex=new VertexNumeric(e);}
+  }
+public:
+  GraphEquationSingle(){}
+  GraphEquationSingle(const Bools &b, const string &e, const uint8_t id)
+  {
+    // this->id=id;
+    this->CreateEdge(b, e);
     this->vertex=vertex;
   }
   ~GraphEquationSingle(){delete vertex;}

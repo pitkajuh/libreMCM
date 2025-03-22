@@ -61,51 +61,40 @@ void print_vector2(const vector<string> &vec)
 
 MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2, GraphEquation *&graph)
 {
-  // EdgeMathOperation *edge=nullptr;
-
   if(b1.variable and b2.variable)
     {
-      // graph->CreateEdge<Variable, Variable, VariableVariable>(s1, s2, o);
       return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
     }
   else if(b1.variable and b2.constant)
     {
-      // graph->CreateEdge<Variable, Constant, VariableConstant>(s1, s2, o);
       return CreateNewMathOperation<Variable, Constant, VariableConstant>(s1, s2, o);
     }
   else if(b1.variable and b2.numeric)
     {
-      // graph->CreateEdge<Variable, Numeric, VariableNumeric>(s1, s2, o);
       return CreateNewMathOperation<Variable, Numeric, VariableNumeric>(s1, s2, o);
     }
   else if(b1.constant and b2.variable)
     {
-      // graph->CreateEdge<Constant, Variable, ConstantVariable>(s1, s2, o);
       return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
     }
   else if(b1.constant and b2.constant)
     {
-      // graph->CreateEdge<Constant, Constant, ConstantConstant>(s1, s2, o);
       return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
     }
   else if(b1.constant and b2.numeric)
     {
-      // graph->CreateEdge<Constant, Numeric, ConstantNumeric>(s1, s2, o);
       return CreateNewMathOperation<Constant, Numeric, ConstantNumeric>(s1, s2, o);
     }
   else if(b1.numeric and b2.variable)
     {
-      // graph->CreateEdge<Numeric, Variable, NumericVariable>(s1, s2, o);
       return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
     }
   else if(b1.numeric and b2.constant)
     {
-      // graph->CreateEdge<Numeric, Constant, NumericConstant>(s1, s2, o);
       return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
     }
   else
     {
-      // graph->CreateEdge=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
       MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
       // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
       // simplified and performance of the calculation increased.
@@ -225,40 +214,35 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
     }
 }
 
-Equation *CreateSingleEquation(const string &e, uint8_t &id, const vector<string> &data, Equation *&next, GraphEquation *&graph)
-{
-  const Bools b(e, data);
-  EquationSingle *newHead=new EquationSingle;
-  MathOperationBase *m;
-  newHead->next=next;
-  newHead->SetId(id);
-  cout<<"Single"<<'\n';
+// Equation *CreateSingleEquation(const string &e, uint8_t &id, const vector<string> &data, Equation *&next, GraphEquation *&graph)
+// {
+//   const Bools b(e, data);
+//   EquationSingle *newHead=new EquationSingle;
+//   MathOperationBase *m;
+//   newHead->next=next;
+//   newHead->SetId(id);
+//   cout<<"Single"<<'\n';
 
-  VertexValue *vertex=nullptr;
+//   if(b.variable)
+//     {
+//       m=new VariableBase;
+//       m->SetV1(new Variable(e));
+//     }
+//   else if(b.constant)
+//     {
+//       m=new ConstantBase;
+//       m->SetV1(new Constant(e));
+//     }
+//   else
+//     {
+//       m=new NumericBase;
+//       m->SetV1(new Numeric(e));
+//     }
 
-  if(b.variable)
-    {
-      m=new VariableBase;
-      m->SetV1(new Variable(e));
-      vertex=new VertexVariable(e);
-    }
-  else if(b.constant)
-    {
-      m=new ConstantBase;
-      m->SetV1(new Constant(e));
-      vertex=new VertexConstant(e);
-    }
-  else
-    {
-      m=new NumericBase;
-      m->SetV1(new Numeric(e));
-      vertex=new VertexNumeric(e);
-    }
-
-  graph=new GraphEquationSingle(vertex);
-  newHead->SetMathOperation(m);
-  return newHead;
-}
+//   graph=new GraphEquationSingle(b, e);
+//   newHead->SetMathOperation(m);
+//   return newHead;
+// }
 
 void ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next, const uint8_t size, GraphEquation *&graph)
 {
@@ -299,7 +283,12 @@ void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data,
 {
   const uint8_t size=equation.size();
 
-  if(size==1) head=CreateSingleEquation(equation[0], id, data, next, graph);
+  if(size==1)
+    {
+      const Bools b(equation[0], data);
+      graph=new GraphEquationSingle(b, equation[0], id);
+      // head=CreateSingleEquation(equation[0], id, data, next, graph);
+    }
   else
     {
       equation=test(equation, id, data, head, next, graph);
