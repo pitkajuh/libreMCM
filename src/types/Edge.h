@@ -34,6 +34,11 @@ public:
     this->vertex1=vertex1;
     this->vertex2=vertex2;
   }
+  ~Edge()
+  {
+    delete vertex1;
+    delete vertex2;
+  }
 };
 
 class EdgeMathOperator: public Edge
@@ -41,7 +46,62 @@ class EdgeMathOperator: public Edge
 private:
 
 public:
+  virtual double Calculate(const double v1, const double v2)=0;
+};
 
+class EdgeAdd: public EdgeMathOperator
+{
+private:
+
+public:
+  double Calculate(const double v1, const double v2){return v1+v2;}
+  EdgeAdd(){}
+};
+
+class EdgeSubtract: public EdgeMathOperator
+{
+private:
+
+public:
+  double Calculate(const double v1, const double v2){return v1-v2;}
+  EdgeSubtract(){}
+};
+
+class EdgeMultiply: public EdgeMathOperator
+{
+private:
+
+public:
+  double Calculate(const double v1, const double v2){return v1*v2;}
+  EdgeMultiply(){}
+};
+
+class EdgeDivide: public EdgeMathOperator
+{
+private:
+
+public:
+  double Calculate(const double v1, const double v2){return v1/v2;}
+  EdgeDivide(){}
+};
+
+class EdgePower: public EdgeMathOperator
+{
+private:
+
+public:
+  double Calculate(const double v1, const double v2){return pow(v1, v2);}
+  EdgePower(){}
+};
+
+class EdgeMathOperation: public Edge
+{
+private:
+  EdgeMathOperator *mathOperator=nullptr;
+public:
+  double result=NAN;
+  EdgeMathOperation(){}
+  virtual ~EdgeMathOperation(){delete mathOperator;}
 };
 
 #endif
