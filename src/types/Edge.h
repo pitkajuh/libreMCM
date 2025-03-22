@@ -47,6 +47,7 @@ private:
 
 public:
   virtual double Calculate(const double v1, const double v2)=0;
+  virtual ~EdgeMathOperator(){}
 };
 
 class EdgeAdd: public EdgeMathOperator
@@ -101,7 +102,7 @@ private:
 public:
   double result=NAN;
   EdgeMathOperation(){}
-  virtual ~EdgeMathOperation(){delete mathOperator;}
+  ~EdgeMathOperation(){delete mathOperator;}
 };
 
 #endif

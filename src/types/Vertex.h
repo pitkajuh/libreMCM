@@ -53,11 +53,11 @@ public:
     if(negative) value=-1*value;
   }
 
-  bool GetNegative(){return negative;}
+  const bool GetNegative(){return negative;}
   const string GetName(){return name;}
   double GetValue(){return value;}
   VertexValue(){};
-  virtual VertexValue(){};
+  virtual ~VertexValue(){};
 };
 
 class VertexConstant: public VertexValue

@@ -1,2 +1,6 @@
 .gitignore
 main
+bin
+compartment.csv
+compartments
+sim_params

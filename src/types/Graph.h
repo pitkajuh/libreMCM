@@ -14,7 +14,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
-#include "Vertex.h"
+#include "Edge.h"
 
 using std::string;
 using std::vector;
@@ -24,9 +24,9 @@ using std::cout;
 class Graph
 {
 private:
-  vector<Edge> edges;
+  vector<Edge*> edges;
 public:
-
+  virtual ~Graph(){}
 };
 
 class GraphEquation: public Graph
@@ -35,6 +35,20 @@ private:
 
 public:
 
+};
+
+class GraphEquationSingle: public GraphEquation
+{
+private:
+  VertexValue *vertex=nullptr;
+public:
+
+  GraphEquationSingle(){}
+  GraphEquationSingle(VertexValue *vertex)
+  {
+    this->vertex=vertex;
+  }
+  ~GraphEquationSingle(){delete vertex;}
 };
 
 #endif

@@ -19,6 +19,7 @@
 #include <cmath>
 #include <cassert>
 #include <cstdint>
+#include "../types/Graph.h"
 
 using std::to_string;
 using std::cout;
@@ -125,7 +126,7 @@ Equation *CreateNewMathMath(const string &s1, const string &s2, const string &o,
   return newhead;
 }
 
-Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i, const vector<string> &data, const uint8_t id, Equation *&next)
+Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i, const vector<string> &data, const uint8_t id, Equation *&next, GraphEquation *&graph)
 {
   const string s1=equation[i-1];
   const string s2=equation[i+1];
@@ -162,45 +163,18 @@ Equation *Val2(Equation *&head, const vector<string> &equation, const uint8_t i,
   else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
 }
 
-void SwapHead(Equation *head)
-{
-  Equation *headNext=head->next;
-  cout<<head<<" "<<headNext<<'\n';
-  // if(headNext!=nullptr)
-  //   {
-  //     Equation *headBck=head;
-  //     Equation *headBckNext=head->next;
-  //     Equation *headNextNext=head->next->next;
-  //     // cout<<"swap "<<temp1<<" "<<temp2<<" "<<head<<'\n';
-  //     cout<<"Change "<<head<<" "<<head->next<<" to "<<headNext<<" "<<headNextNext<<": "<<headBck<<" "<<headBckNext<<'\n';
-  //     cout<<"Change"<<'\n';
-  //     cout<<head<<" "<<head->next<<'\n';
-  //     cout<<headBckNext<<" "<<headNextNext<<'\n';
-  //     head->next=headNextNext;
-  //     // head->next=headBck;
-
-  //     cout<<1<<" "<<head<<" "<<head->next<<", "<<headNext<<" "<<headNextNext<<": "<<headBck<<" "<<headBckNext<<'\n';
-  //     head=headNext;
-  //     cout<<2<<" "<<head<<" "<<head->next<<", "<<headNext<<" "<<headNextNext<<": "<<headBck<<" "<<headBckNext<<'\n';
-  //     printeq(head);
-  //     // head->next->next=headNextNext;
-  //     // cout<<3<<'\n';
-  //   }
-}
-
-void FindOperator(vector<string> &equation, const string &find, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
+void FindOperator(vector<string> &equation, const string &find, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next, GraphEquation *&graph)
 {
   const uint8_t i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
 
   if(i<equation.size())
     {
       cout<<"Adding "<<"@"+to_string(id)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
-      head=Val2(head, equation, i, data, id, next);
+      head=Val2(head, equation, i, data, id, next, graph);
 
       head->GetType();
       printeq(head);
 
-      SwapHead(head);
 
       next=head;
       // cout<<"head "<<head->next<<'\n';
@@ -214,43 +188,51 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
 
       print_vector2(equation);
       id++;
-      FindOperator(equation, find, id, data, head, next);
+      FindOperator(equation, find, id, data, head, next, graph);
     }
 }
 
-Equation *CreateSingleEquation(const string &e, uint8_t &id, const vector<string> &data, Equation *&next)
+Equation *CreateSingleEquation(const string &e, uint8_t &id, const vector<string> &data, Equation *&next, GraphEquation *&graph)
 {
   const Bools b(e, data);
   EquationSingle *newHead=new EquationSingle;
   MathOperationBase *m;
   newHead->next=next;
   newHead->SetId(id);
+  cout<<"Single"<<'\n';
+
+  VertexValue *vertex=nullptr;
 
   if(b.variable)
     {
       m=new VariableBase;
       m->SetV1(new Variable(e));
+      vertex=new VertexVariable(e);
     }
   else if(b.constant)
     {
       m=new ConstantBase;
       m->SetV1(new Constant(e));
+      vertex=new VertexConstant(e);
     }
   else
     {
       m=new NumericBase;
       m->SetV1(new Numeric(e));
+      vertex=new VertexNumeric(e);
     }
+
+  graph=new GraphEquationSingle(vertex);
   newHead->SetMathOperation(m);
   return newHead;
 }
 
-void ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next, const uint8_t size)
+void ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next, const uint8_t size, GraphEquation *&graph)
 {
   for(const auto&i: OPERATORS)
     {
       if(size<2) break;
-      FindOperator(equation, i, id, data, head, next);
+      FindOperator(equation, i, id, data, head, next, graph);
     }
 }
 
@@ -263,11 +245,11 @@ vector<string> RemoveOpenClose(vector<string> equation)
   return equation;
 }
 
-vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
+vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next, GraphEquation *&graph)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
-  ParseOperators(v1, id, data, head, next, v1.size());
-  v1=test(v1, id, data, head, next);
+  ParseOperators(v1, id, data, head, next, v1.size(), graph);
+  v1=test(v1, id, data, head, next, graph);
   const vector<string> v2{equation.begin(), equation.begin()+open};
   const vector<string> v3{equation.begin()+close+1, equation.end()};
   vector<string> result;
@@ -280,15 +262,15 @@ vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open
   return result;
 }
 
-void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next)
+void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data, Equation *&head, Equation *&next, GraphEquation *&graph)
 {
   const uint8_t size=equation.size();
 
-  if(size==1) head=CreateSingleEquation(equation[0], id, data, next);
+  if(size==1) head=CreateSingleEquation(equation[0], id, data, next, graph);
   else
     {
-      equation=test(equation, id, data, head, next);
-      ParseOperators(equation, id, data, head, next, size);
+      equation=test(equation, id, data, head, next, graph);
+      // ParseOperators(equation, id, data, head, next, size);
     }
 }
 
@@ -309,46 +291,50 @@ Map<string, Equation*> ParseEquations(const SMap &equations_map, const vector<st
 
 
 
-  Value *v11=new Constant;
-  v11->SetName("aoe");
-  Value *v22=new Constant(*v11);
+  // Value *v11=new Constant;
+  // v11->SetName("aoe");
+  // Value *v22=new Constant(*v11);
 
-  cout<<"value "<<v11<<" "<<v22<<'\n';
-  cout<<"value "<<v11->GetName()<<" "<<v22->GetName()<<'\n';
+  // cout<<"value "<<v11<<" "<<v22<<'\n';
+  // cout<<"value "<<v11->GetName()<<" "<<v22->GetName()<<'\n';
 
-  MathOperation *mb1=new ConstantConstant;
-  mb1->SetV1(v11);
-  mb1->SetV2(v22);
-  string plus="+";
-  mb1->SetOperator(plus);
-  cout<<"mb1 "<<mb1<<'\n';
-  MathOperation *mb2=new ConstantConstant(*mb1);
+  // MathOperation *mb1=new ConstantConstant;
+  // mb1->SetV1(v11);
+  // mb1->SetV2(v22);
+  // string plus="+";
+  // mb1->SetOperator(plus);
+  // cout<<"mb1 "<<mb1<<'\n';
+  // MathOperation *mb2=new ConstantConstant(*mb1);
 
-  cout<<"mb2 "<<mb2<<'\n';
+  // cout<<"mb2 "<<mb2<<'\n';
 
-  EquationMulti *eq=new EquationMulti;
-  eq->SetMathOperation(mb1);
+  // EquationMulti *eq=new EquationMulti;
+  // eq->SetMathOperation(mb1);
 
-  EquationMulti *eq2=new EquationMulti(*eq);
-  // eq2->SetMathOperation(mb2);
+  // EquationMulti *eq2=new EquationMulti(*eq);
+  // // eq2->SetMathOperation(mb2);
 
-  // delete mb1;
-  delete mb2;
-  delete eq;
-  delete eq2;
+  // // delete mb1;
+  // delete mb2;
+  // delete eq;
+  // delete eq2;
+
+  GraphEquation *graphEquation=nullptr;
+
   for(const auto& [name, equation]: equations_map)
     {
       v=ToVector(equation);
       v=RemoveOpenClose(v);
       cout<<"EQUATION"<<'\n';
       print_vector2(v);
-      GetOrder(v, id, data, head, next);
+      GetOrder(v, id, data, head, next, graphEquation);
 
       printeq(head);
       // head->next=nullptr;
       equationMap[name]=head;
       next=nullptr;
       id=0;
+      delete graphEquation;
       cout<<"ok"<<'\n';
 
       cout<<" "<<'\n';
