@@ -84,14 +84,97 @@ public:
   VertexVariable(){}
 };
 
+class VertexMathOperator: public Vertex
+{
+private:
+
+public:
+  virtual double Calculate(const double v1, const double v2)=0;
+  virtual ~VertexMathOperator(){}
+};
+
+class VertexAdd: public VertexMathOperator
+{
+private:
+
+public:
+  double Calculate(const double v1, const double v2){return v1+v2;}
+  VertexAdd(){}
+};
+
+class VertexSubtract: public VertexMathOperator
+{
+private:
+
+public:
+  double Calculate(const double v1, const double v2){return v1-v2;}
+  VertexSubtract(){}
+};
+
+class VertexMultiply: public VertexMathOperator
+{
+private:
+
+public:
+  double Calculate(const double v1, const double v2){return v1*v2;}
+  VertexMultiply(){}
+};
+
+class VertexDivide: public VertexMathOperator
+{
+private:
+
+public:
+  double Calculate(const double v1, const double v2){return v1/v2;}
+  VertexDivide(){}
+};
+
+class VertexPower: public VertexMathOperator
+{
+private:
+
+public:
+  double Calculate(const double v1, const double v2){return pow(v1, v2);}
+  VertexPower(){}
+};
+
+
+
+
+
+
+
+
+
 class VertexMultiValue: public Vertex
 {
 protected:
   VertexValue *v1=nullptr;
   VertexValue *v2=nullptr;
+  VertexMathOperator *mathOperator=nullptr;
+
+  void SetOperator(const string &s)
+  {
+    if(s==ADD) mathOperator=new VertexAdd;
+    else if(s==SUBTRACT) mathOperator=new VertexSubtract;
+    else if(s==MULTIPLY) mathOperator=new VertexMultiply;
+    else if(s==DIVIDE) mathOperator=new VertexDivide;
+    else if(s==EXP) mathOperator=new VertexPower;
+  }
+
 public:
+
+  void SetVertices(VertexValue *v1, VertexValue *v2)
+  {
+    this->v1=v1;
+    this->v2=v2;
+  }
   VertexMultiValue(){}
-  ~VertexMultiValue(){}
+  ~VertexMultiValue()
+  {
+    delete v1;
+    delete v2;
+  }
 };
 
 class VertexVariableVariable: public VertexMultiValue

@@ -37,12 +37,14 @@ protected:
   template<typename T, typename U, typename L>
   void CreateVertex(const string &s1, const string &s2, const string &o)
   {
-    Vertex *v=new L;
+    VertexMultiValue *v=new L;
     VertexValue *vertex1=new T(s1);
     VertexValue *vertex2=new U(s2);
 
-    delete vertex1;
-    delete vertex2;
+    v->SetVertices(vertex1, vertex2);
+    vertices.emplace_back(v);
+    // delete vertex1;
+    // delete vertex2;
     delete v;
     // SetOperator(o);
   }
