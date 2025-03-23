@@ -84,4 +84,77 @@ public:
   VertexVariable(){}
 };
 
+class VertexMultiValue: public Vertex
+{
+protected:
+  VertexValue *v1=nullptr;
+  VertexValue *v2=nullptr;
+public:
+  VertexMultiValue(){}
+  ~VertexMultiValue(){}
+};
+
+class VertexVariableVariable: public VertexMultiValue
+{
+private:
+
+public:
+};
+
+class VertexVariableConstant: public VertexMultiValue
+{
+private:
+
+public:
+};
+
+class VertexVariableNumeric: public VertexMultiValue
+{
+private:
+
+public:
+};
+
+class VertexConstantVariable: public VertexMultiValue
+{
+private:
+
+public:
+};
+
+class VertexConstantConstant: public VertexMultiValue
+{
+private:
+
+public:
+};
+
+class VertexConstantNumeric: public VertexMultiValue
+{
+private:
+
+public:
+};
+
+class VertexNumericVariable: public VertexMultiValue
+{
+private:
+
+public:
+};
+
+class VertexNumericConstant: public VertexMultiValue
+{
+private:
+
+public:
+};
+
+class VertexNumericNumeric: public VertexMultiValue
+{
+private:
+
+public:
+};
+
 #endif
