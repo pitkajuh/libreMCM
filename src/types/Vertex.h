@@ -151,16 +151,6 @@ class VertexMultiValue: public Vertex
 protected:
   VertexValue *v1=nullptr;
   VertexValue *v2=nullptr;
-  VertexMathOperator *mathOperator=nullptr;
-
-  void SetOperator(const string &s)
-  {
-    if(s==ADD) mathOperator=new VertexAdd;
-    else if(s==SUBTRACT) mathOperator=new VertexSubtract;
-    else if(s==MULTIPLY) mathOperator=new VertexMultiply;
-    else if(s==DIVIDE) mathOperator=new VertexDivide;
-    else if(s==EXP) mathOperator=new VertexPower;
-  }
 
 public:
 
