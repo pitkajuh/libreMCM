@@ -34,19 +34,10 @@ public:
 class GraphEquation: public Graph
 {
 protected:
-  VertexMathOperator *SetOperator(const string &s)
-  {
-    if(s==ADD) return new VertexAdd;
-    else if(s==SUBTRACT) return new VertexSubtract;
-    else if(s==MULTIPLY) return new VertexMultiply;
-    else if(s==DIVIDE) return new VertexDivide;
-    else if(s==EXP) return new VertexPower;
-  }
-
-  template<typename T, typename U>
+  template<typename T, typename U, typename L>
   void CreateVertex(const string &s1, const string &s2, const string &o)
   {
-    VertexMathOperator *v=SetOperator(o);
+    VertexMultiValue *v=new L;
     VertexValue *vertex1=new T(s1);
     VertexValue *vertex2=new U(s2);
 
@@ -64,41 +55,43 @@ protected:
 public:
   void CreateEdge(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2, const uint8_t id)
   {
+    // EdgeMathOperation *edge=nullptr;
+
     if(b1.variable and b2.variable)
       {
-	CreateVertex<VertexVariable, VertexVariable>(s1, s2, o);
+	CreateVertex<VertexVariable, VertexVariable, VertexVariableVariable>(s1, s2, o);
       }
     else if(b1.variable and b2.constant)
       {
-	CreateVertex<VertexVariable, VertexConstant>(s1, s2, o);
+	CreateVertex<VertexVariable, VertexConstant, VertexVariableConstant>(s1, s2, o);
       }
     else if(b1.variable and b2.numeric)
       {
-	CreateVertex<VertexVariable, VertexNumeric>(s1, s2, o);
+	CreateVertex<VertexVariable, VertexNumeric, VertexVariableNumeric>(s1, s2, o);
       }
     else if(b1.constant and b2.variable)
       {
-	CreateVertex<VertexConstant, VertexVariable>(s1, s2, o);
+	CreateVertex<VertexConstant, VertexVariable, VertexConstantVariable>(s1, s2, o);
       }
     else if(b1.constant and b2.constant)
       {
-	CreateVertex<VertexConstant, VertexConstant>(s1, s2, o);
+	CreateVertex<VertexConstant, VertexConstant, VertexConstantConstant>(s1, s2, o);
       }
     else if(b1.constant and b2.numeric)
       {
-	CreateVertex<VertexConstant, VertexNumeric>(s1, s2, o);
+	CreateVertex<VertexConstant, VertexNumeric, VertexConstantNumeric>(s1, s2, o);
       }
     else if(b1.numeric and b2.variable)
       {
-	CreateVertex<VertexNumeric, VertexVariable>(s1, s2, o);
+	CreateVertex<VertexNumeric, VertexVariable, VertexNumericVariable>(s1, s2, o);
       }
     else if(b1.numeric and b2.constant)
       {
-	CreateVertex<VertexNumeric, VertexConstant>(s1, s2, o);
+	CreateVertex<VertexNumeric, VertexConstant, VertexNumericConstant>(s1, s2, o);
       }
     else
       {
-	CreateVertex<VertexNumeric, VertexNumeric>(s1, s2, o);
+	CreateVertex<VertexNumeric, VertexNumeric, VertexNumericNumeric>(s1, s2, o);
 	// MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
 	// // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
 	// // simplified and performance of the calculation increased.

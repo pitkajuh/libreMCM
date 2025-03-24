@@ -149,22 +149,18 @@ public:
 class VertexMultiValue: public Vertex
 {
 protected:
-  VertexValue *v1=nullptr;
-  VertexValue *v2=nullptr;
-
+  VertexMathOperator *mathOperator=nullptr;
 public:
-
-  void SetVertices(VertexValue *v1, VertexValue *v2)
-  {
-    this->v1=v1;
-    this->v2=v2;
-  }
   VertexMultiValue(){}
-  ~VertexMultiValue()
+  VertexMultiValue(const string &s)
   {
-    delete v1;
-    delete v2;
+    if(s==ADD) mathOperator=new VertexAdd;
+    else if(s==SUBTRACT) mathOperator=new VertexSubtract;
+    else if(s==MULTIPLY) mathOperator=new VertexMultiply;
+    else if(s==DIVIDE) mathOperator=new VertexDivide;
+    else if(s==EXP) mathOperator=new VertexPower;
   }
+  ~VertexMultiValue(){delete mathOperator;}
 };
 
 class VertexVariableVariable: public VertexMultiValue
