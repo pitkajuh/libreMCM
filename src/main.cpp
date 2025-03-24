@@ -74,7 +74,7 @@ void ReadInitialData(const string &directory)
   const Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
   const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
   const Map<string, Equation*> equationMap=ParseEquations(equations_map, csv.diagonal);
-  CreateEquationTemplates(equationMap, constants_map);
+  // CreateEquationTemplates(equationMap, constants_map);
 }
 
 int main(int argc, char** argv)

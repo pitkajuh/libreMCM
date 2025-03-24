@@ -11,8 +11,8 @@
 #ifndef CREATEEQUATIONTEMPLATES_H
 #define CREATEEQUATIONTEMPLATES_H
 
-#include "../types/MathOperation.h"
+#include "../types/Equation.h"
 
-void CreateEquationTemplates(const Map<string, Equation*> equationMap, SMap &constantsMap);
+void CreateEquationTemplates(SMap &constantsMap);
 
 #endif

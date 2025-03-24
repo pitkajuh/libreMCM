@@ -38,7 +38,7 @@ void Create(Equation *equation)
   // equation->GetNext();
 }
 
-void CreateEquationTemplates(const Map<string, Equation*> equationMap, SMap &constantsMap)
+void CreateEquationTemplates(SMap &constantsMap)
 {
   cout<<"--------------------------------------"<<'\n';
   Map<string, Equation*> differentialEquationMap;
