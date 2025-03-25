@@ -44,6 +44,68 @@ public:
   }
 };
 
+class EdgeVariableVariable: public Edge
+{
+private:
+
+public:
+};
+
+class EdgeVariableConstant: public Edge
+{
+private:
+
+public:
+};
+
+class EdgeVariableNumeric: public Edge
+{
+private:
+
+public:
+};
+
+class EdgeConstantVariable: public Edge
+{
+private:
+
+public:
+};
+
+class EdgeConstantConstant: public Edge
+{
+private:
+
+public:
+};
+
+class EdgeConstantNumeric: public Edge
+{
+private:
+
+public:
+};
+
+class EdgeNumericVariable: public Edge
+{
+private:
+
+public:
+};
+
+class EdgeNumericConstant: public Edge
+{
+private:
+
+public:
+};
+
+class EdgeNumericNumeric: public Edge
+{
+private:
+
+public:
+};
 
 
 #endif
