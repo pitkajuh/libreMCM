@@ -40,10 +40,8 @@ protected:
     VertexMultiValue *v=new L;
     VertexValue *vertex1=new T(s1);
     VertexValue *vertex2=new U(s2);
-
     Edge *edge1=new Edge(vertex1, v);
     Edge *edge2=new Edge(vertex2, v);
-
     vertices.emplace_back(v);
     vertices.emplace_back(vertex1);
     vertices.emplace_back(vertex2);
