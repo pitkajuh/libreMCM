@@ -46,63 +46,63 @@ public:
 
 class EdgeVariableVariable: public Edge
 {
-private:
+protected:
 
 public:
 };
 
 class EdgeVariableConstant: public Edge
 {
-private:
+protected:
 
 public:
 };
 
 class EdgeVariableNumeric: public Edge
 {
-private:
+protected:
 
 public:
 };
 
 class EdgeConstantVariable: public Edge
 {
-private:
+protected:
 
 public:
 };
 
 class EdgeConstantConstant: public Edge
 {
-private:
+protected:
 
 public:
 };
 
 class EdgeConstantNumeric: public Edge
 {
-private:
+protected:
 
 public:
 };
 
 class EdgeNumericVariable: public Edge
 {
-private:
+protected:
 
 public:
 };
 
 class EdgeNumericConstant: public Edge
 {
-private:
+protected:
 
 public:
 };
 
 class EdgeNumericNumeric: public Edge
 {
-private:
+protected:
 
 public:
 };
