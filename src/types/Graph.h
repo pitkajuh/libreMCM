@@ -28,69 +28,73 @@ protected:
   vector<Vertex*> vertices;
   vector<Edge*> edges;
 public:
-  virtual ~Graph(){}
+  virtual ~Graph()
+  {
+    // for(auto &i: vertices)
+    //   {
+    // 	delete i;
+    //   }
+
+    // for(auto &j: edges)
+    //   {
+    // 	delete j;
+    //   }
+  }
 };
 
 class GraphEquation: public Graph
 {
 protected:
-  template<typename T, typename U>
+  template<typename T, typename U, typename A, typename I>
   void CreateVertex(const string &s1, const string &s2, const string &o)
   {
-    VertexMultiValue *v1=new VertexMultiValue(o);
-    // Edge *v=new L;
-    // VertexValue *vertex1=new T(s1);
-    // VertexValue *vertex2=new U(s2);
-    // Edge *edge1=new Edge(vertex1, v);
-    // Edge *edge2=new Edge(vertex2, v);
-    // vertices.emplace_back(v);
-    // vertices.emplace_back(vertex1);
-    // vertices.emplace_back(vertex2);
-    // edges.emplace_back(edge1);
-    // edges.emplace_back(edge2);
-    delete v1;
-    // delete v;
+    VertexMultiValue *v=new VertexMultiValue(o);
+    VertexValue *vertex1=new T(s1);
+    VertexValue *vertex2=new U(s2);
+    Edge *edge1=new A(vertex1, v);
+    Edge *edge2=new I(vertex2, v);
+    vertices.emplace_back(v);
+    edges.emplace_back(edge1);
+    edges.emplace_back(edge2);
   }
 public:
   void CreateEdge(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2, const uint8_t id)
   {
-    // EdgeMathOperation *edge=nullptr;
-
     if(b1.variable and b2.variable)
       {
-	CreateVertex<VertexVariable, VertexVariable>(s1, s2, o);
+	CreateVertex<VertexVariable, VertexVariable, EdgeVariable, EdgeVariable>(s1, s2, o);
       }
     else if(b1.variable and b2.constant)
       {
-	CreateVertex<VertexVariable, VertexConstant>(s1, s2, o);
+	CreateVertex<VertexVariable, VertexConstant, EdgeVariable, EdgeConstant>(s1, s2, o);
       }
     else if(b1.variable and b2.numeric)
       {
-	CreateVertex<VertexVariable, VertexNumeric>(s1, s2, o);
+	CreateVertex<VertexVariable, VertexNumeric, EdgeVariable, EdgeNumeric>(s1, s2, o);
       }
     else if(b1.constant and b2.variable)
       {
-	CreateVertex<VertexConstant, VertexVariable>(s1, s2, o);
+	CreateVertex<VertexConstant, VertexVariable, EdgeConstant, EdgeVariable>(s1, s2, o);
       }
     else if(b1.constant and b2.constant)
       {
-	CreateVertex<VertexConstant, VertexConstant>(s1, s2, o);
+	CreateVertex<VertexConstant, VertexConstant, EdgeConstant, EdgeConstant>(s1, s2, o);
       }
     else if(b1.constant and b2.numeric)
       {
-	CreateVertex<VertexConstant, VertexNumeric>(s1, s2, o);
+	CreateVertex<VertexConstant, VertexNumeric, EdgeConstant, EdgeNumeric>(s1, s2, o);
       }
     else if(b1.numeric and b2.variable)
       {
-	CreateVertex<VertexNumeric, VertexVariable>(s1, s2, o);
+	CreateVertex<VertexNumeric, VertexVariable, EdgeNumeric, EdgeVariable>(s1, s2, o);
       }
     else if(b1.numeric and b2.constant)
       {
-	CreateVertex<VertexNumeric, VertexConstant>(s1, s2, o);
+	CreateVertex<VertexNumeric, VertexConstant, EdgeNumeric, EdgeConstant>(s1, s2, o);
       }
     else
       {
-	CreateVertex<VertexNumeric, VertexNumeric>(s1, s2, o);
+	CreateVertex<VertexNumeric, VertexNumeric, EdgeNumeric, EdgeNumeric>(s1, s2, o);
 	// MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
 	// // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
 	// // simplified and performance of the calculation increased.
@@ -118,11 +122,9 @@ protected:
   }
 public:
   GraphEquationSingle(){}
-  GraphEquationSingle(const Bools &b, const string &e, const uint8_t id)
+  GraphEquationSingle(const Bools &b, const string &e)
   {
-    // this->id=id;
     this->CreateEdge(b, e);
-    this->vertex=vertex;
   }
   ~GraphEquationSingle(){delete vertex;}
 };

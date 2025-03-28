@@ -229,7 +229,7 @@ void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data,
   if(size==1)
     {
       const Bools b(equation[0], data);
-      graph=new GraphEquationSingle(b, equation[0], id);
+      graph=new GraphEquationSingle(b, equation[0]);
       // head=CreateSingleEquation(equation[0], id, data, next, graph);
     }
   else
@@ -268,4 +268,5 @@ void ParseEquations(const SMap &equations_map, const vector<string> &data)
 
       cout<<" "<<'\n';
     }
+  delete graphEquation;
 }
