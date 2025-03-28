@@ -25,12 +25,10 @@ using std::cout;
 class Edge
 {
 protected:
-  uint8_t id;
   Vertex *vertex1=nullptr;
   Vertex *vertex2=nullptr;
 public:
 
-  void SetId(uint8_t id){this->id=id;}
   Edge(){}
   Edge(Vertex *vertex1, Vertex *vertex2)
   {
@@ -44,68 +42,140 @@ public:
   }
 };
 
-class EdgeVariableVariable: public Edge
+class EdgeEquation: public Edge
 {
 protected:
 
 public:
+
 };
 
-class EdgeVariableConstant: public Edge
+class EdgeVariable: public EdgeEquation
 {
 protected:
 
 public:
+  EdgeVariable(){}
+  EdgeVariable(Vertex *vertex1, VertexMultiValue *vertex2)
+  {
+    this->vertex1=vertex1;
+    this->vertex2=vertex2;
+  }
 };
 
-class EdgeVariableNumeric: public Edge
+class EdgeConstant: public EdgeEquation
 {
 protected:
 
 public:
+  EdgeConstant(){}
+  EdgeConstant(Vertex *vertex1, VertexMultiValue *vertex2)
+  {
+    this->vertex1=vertex1;
+    this->vertex2=vertex2;
+  }
 };
 
-class EdgeConstantVariable: public Edge
+class EdgeNumeric: public EdgeEquation
 {
 protected:
 
 public:
+  EdgeNumeric(){}
+  EdgeNumeric(Vertex *vertex1, VertexMultiValue *vertex2)
+  {
+    this->vertex1=vertex1;
+    this->vertex2=vertex2;
+  }
 };
 
-class EdgeConstantConstant: public Edge
-{
-protected:
 
-public:
-};
 
-class EdgeConstantNumeric: public Edge
-{
-protected:
 
-public:
-};
 
-class EdgeNumericVariable: public Edge
-{
-protected:
 
-public:
-};
 
-class EdgeNumericConstant: public Edge
-{
-protected:
 
-public:
-};
 
-class EdgeNumericNumeric: public Edge
-{
-protected:
 
-public:
-};
+// class EdgeConstantVariable: public Edge
+// {
+// protected:
+
+// public:
+//   EdgeConstantVariable(){}
+//   EdgeConstantVariable(Vertex *vertex1, Vertex *vertex2)
+//   {
+//     this->vertex1=vertex1;
+//     this->vertex2=vertex2;
+//   }
+// };
+
+// class EdgeConstantConstant: public Edge
+// {
+// protected:
+
+// public:
+//   EdgeConstantConstant(){}
+//   EdgeConstantConstant(Vertex *vertex1, Vertex *vertex2)
+//   {
+//     this->vertex1=vertex1;
+//     this->vertex2=vertex2;
+//   }
+// };
+
+// class EdgeConstantNumeric: public Edge
+// {
+// protected:
+
+// public:
+//   EdgeConstantNumeric(){}
+//   EdgeConstantNumeric(Vertex *vertex1, Vertex *vertex2)
+//   {
+//     this->vertex1=vertex1;
+//     this->vertex2=vertex2;
+//   }
+// };
+
+// class EdgeNumericVariable: public Edge
+// {
+// protected:
+
+// public:
+//   EdgeNumericVariable(){}
+//   EdgeNumericVariable(Vertex *vertex1, Vertex *vertex2)
+//   {
+//     this->vertex1=vertex1;
+//     this->vertex2=vertex2;
+//   }
+// };
+
+// class EdgeNumericConstant: public Edge
+// {
+// protected:
+
+// public:
+//   EdgeNumericConstant(){}
+//   EdgeNumericConstant(Vertex *vertex1, Vertex *vertex2)
+//   {
+//     this->vertex1=vertex1;
+//     this->vertex2=vertex2;
+//   }
+// };
+
+// class EdgeNumericNumeric: public Edge
+// {
+// protected:
+
+// public:
+//   EdgeNumericNumeric(){}
+//   EdgeNumericNumeric
+//   (Vertex *vertex1, Vertex *vertex2)
+//   {
+//     this->vertex1=vertex1;
+//     this->vertex2=vertex2;
+//   }
+// };
 
 
 #endif

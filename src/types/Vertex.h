@@ -138,14 +138,6 @@ public:
   VertexPower(){}
 };
 
-
-
-
-
-
-
-
-
 class VertexMultiValue: public Vertex
 {
 protected:
