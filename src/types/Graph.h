@@ -16,7 +16,9 @@
 #include <cstdint>
 #include "Edge.h"
 #include "Bools.h"
+#include <map>
 
+using std::map;
 using std::string;
 using std::vector;
 #include <iostream>
@@ -26,6 +28,7 @@ class Graph
 {
 protected:
   vector<Vertex*> vertices;
+  map<string, Vertex*> vmap;
   vector<Edge*> edges;
 public:
 
@@ -56,7 +59,13 @@ protected:
     VertexValue *vertex2=new U(s2);
     Edge *edge1=new L(vertex1, v);
     Edge *edge2=new I(vertex2, v);
+
+    vmap[s1]=vertex1;
+    vmap[s2]=vertex2;
+
     vertices.emplace_back(v);
+    // vertices.emplace_back(vertex1);
+    // vertices.emplace_back(vertex2);
     edges.emplace_back(edge1);
     edges.emplace_back(edge2);
   }
@@ -69,7 +78,51 @@ protected:
 	cout<<e<<'\n';
       }
   }
-
+  void Create(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2)
+  {
+    if(b1.variable and b2.variable)
+      {
+	CreateVertex<VertexVariable, VertexVariable, EdgeVariable, EdgeVariable>(s1, s2, o);
+      }
+    else if(b1.variable and b2.constant)
+      {
+	CreateVertex<VertexVariable, VertexConstant, EdgeVariable, EdgeConstant>(s1, s2, o);
+      }
+    else if(b1.variable and b2.numeric)
+      {
+	CreateVertex<VertexVariable, VertexNumeric, EdgeVariable, EdgeNumeric>(s1, s2, o);
+      }
+    else if(b1.constant and b2.variable)
+      {
+	CreateVertex<VertexConstant, VertexVariable, EdgeConstant, EdgeVariable>(s1, s2, o);
+      }
+    else if(b1.constant and b2.constant)
+      {
+	CreateVertex<VertexConstant, VertexConstant, EdgeConstant, EdgeConstant>(s1, s2, o);
+      }
+    else if(b1.constant and b2.numeric)
+      {
+	CreateVertex<VertexConstant, VertexNumeric, EdgeConstant, EdgeNumeric>(s1, s2, o);
+      }
+    else if(b1.numeric and b2.variable)
+      {
+	CreateVertex<VertexNumeric, VertexVariable, EdgeNumeric, EdgeVariable>(s1, s2, o);
+      }
+    else if(b1.numeric and b2.constant)
+      {
+	CreateVertex<VertexNumeric, VertexConstant, EdgeNumeric, EdgeConstant>(s1, s2, o);
+      }
+    else if(b1.numeric and b2.numeric)
+      {
+	CreateVertex<VertexNumeric, VertexNumeric, EdgeNumeric, EdgeNumeric>(s1, s2, o);
+	// MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
+	// // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
+	// // simplified and performance of the calculation increased.
+	// m->Calculate();
+	// cout<<"result "<<m->result<<'\n';
+	// return m;
+      }
+  }
 public:
   void CreateEdge(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2)
   {
