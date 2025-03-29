@@ -79,6 +79,23 @@ public:
   ~EdgeNumeric(){}
 };
 
+class EdgeEdge1: public Edge
+{
+protected:
+  Edge *edge1=nullptr;
+  Edge *edge2=nullptr;
+  Vertex *vertex=nullptr;
+public:
+  EdgeEdge1(){}
+  EdgeEdge1(Edge *edge1, Edge *edge2, Vertex *vertex)
+  {
+    this->edge1=edge1;
+    this->edge2=edge2;
+    this->vertex=vertex;
+  }
+  ~EdgeEdge1(){}
+};
+
 class EdgeEdge: public Edge
 {
 protected:

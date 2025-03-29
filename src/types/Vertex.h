@@ -14,6 +14,8 @@
 #include <iostream>
 using std::cout;
 
+class Edge;
+
 class Vertex
 {
 public:
@@ -147,5 +149,29 @@ public:
     delete mathOperator;
   }
 };
+
+class VertexMathVertex: public VertexMultiValue
+{
+protected:
+  Edge *edge1=nullptr;
+public:
+  VertexMathVertex(){}
+  VertexMathVertex(Edge *edge1){this->edge1=edge1;}
+  ~VertexMathVertex(){}
+};
+
+// class VertexMathVertex2: public VertexMathVertex
+// {
+// protected:
+//   Edge *edge2=nullptr;
+// public:
+//   VertexMathVertex2(){}
+//   VertexMathVertex2(Edge *edge1, Edge *edge2)
+//   {
+//     this->edge1=edge1;
+//     this->edge2=edge2;
+//   }
+//   ~VertexMathVertex(){}
+// };
 
 #endif

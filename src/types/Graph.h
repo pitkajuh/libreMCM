@@ -15,6 +15,7 @@
 #include <vector>
 #include <cstdint>
 #include "Edge.h"
+#include "Vertex.h"
 #include "Bools.h"
 #include <map>
 
@@ -62,10 +63,7 @@ protected:
 
     vmap[s1]=vertex1;
     vmap[s2]=vertex2;
-
     vertices.emplace_back(v);
-    // vertices.emplace_back(vertex1);
-    // vertices.emplace_back(vertex2);
     edges.emplace_back(edge1);
     edges.emplace_back(edge2);
   }
@@ -76,51 +74,6 @@ protected:
     for(auto &e: edges)
       {
 	cout<<e<<'\n';
-      }
-  }
-  void Create(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2)
-  {
-    if(b1.variable and b2.variable)
-      {
-	CreateVertex<VertexVariable, VertexVariable, EdgeVariable, EdgeVariable>(s1, s2, o);
-      }
-    else if(b1.variable and b2.constant)
-      {
-	CreateVertex<VertexVariable, VertexConstant, EdgeVariable, EdgeConstant>(s1, s2, o);
-      }
-    else if(b1.variable and b2.numeric)
-      {
-	CreateVertex<VertexVariable, VertexNumeric, EdgeVariable, EdgeNumeric>(s1, s2, o);
-      }
-    else if(b1.constant and b2.variable)
-      {
-	CreateVertex<VertexConstant, VertexVariable, EdgeConstant, EdgeVariable>(s1, s2, o);
-      }
-    else if(b1.constant and b2.constant)
-      {
-	CreateVertex<VertexConstant, VertexConstant, EdgeConstant, EdgeConstant>(s1, s2, o);
-      }
-    else if(b1.constant and b2.numeric)
-      {
-	CreateVertex<VertexConstant, VertexNumeric, EdgeConstant, EdgeNumeric>(s1, s2, o);
-      }
-    else if(b1.numeric and b2.variable)
-      {
-	CreateVertex<VertexNumeric, VertexVariable, EdgeNumeric, EdgeVariable>(s1, s2, o);
-      }
-    else if(b1.numeric and b2.constant)
-      {
-	CreateVertex<VertexNumeric, VertexConstant, EdgeNumeric, EdgeConstant>(s1, s2, o);
-      }
-    else if(b1.numeric and b2.numeric)
-      {
-	CreateVertex<VertexNumeric, VertexNumeric, EdgeNumeric, EdgeNumeric>(s1, s2, o);
-	// MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
-	// // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
-	// // simplified and performance of the calculation increased.
-	// m->Calculate();
-	// cout<<"result "<<m->result<<'\n';
-	// return m;
       }
   }
 public:
@@ -174,16 +127,16 @@ public:
 	cout<<"b1.math and b2.math "<<stoi(s1.substr(1, s1.size()))<<" "<<stoi(s2.substr(1, s2.size()))<<" "<<edges.size()<<'\n';
 	const uint8_t i1=stoi(s1.substr(1, s1.size()));
 	const uint8_t i2=stoi(s2.substr(1, s2.size()));
-	// GetEdges(stoi(s1.substr(1, s1.size())));
 
 	Edge *E=new EdgeEdge(edges[i1], edges[i1+1], edges[i2], edges[i2+1]);
 	edges.emplace_back(E);
-	// Edge *edge1;
-	// Edge *edge2;
       }
     else if(b1.math)
       {
 	cout<<"b1.math"<<'\n';
+	const uint8_t i1=stoi(s1.substr(1, s1.size()));
+	Edge *E=new EdgeEdge1(edges[i1], edges[i1+1], vmap[s2]);
+	edges.emplace_back(E);
       }
     else if(b2.math)
       {
