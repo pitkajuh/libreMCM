@@ -109,7 +109,7 @@ public:
       {
 	CreateVertex<VertexNumeric, VertexConstant, EdgeNumeric, EdgeConstant>(s1, s2, o);
       }
-    else
+    else if(b1.numeric and b2.numeric)
       {
 	CreateVertex<VertexNumeric, VertexNumeric, EdgeNumeric, EdgeNumeric>(s1, s2, o);
 	// MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
@@ -118,6 +118,14 @@ public:
 	// m->Calculate();
 	// cout<<"result "<<m->result<<'\n';
 	// return m;
+      }
+    else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
+      {
+	throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable or numeric value.");
+      }
+    else
+      {
+	std::invalid_argument("Value \""+s2+"\" is not a constant, variable or numeric value.");
       }
     this->Simplify();
     // SetId(id);
