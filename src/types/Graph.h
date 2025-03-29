@@ -34,7 +34,6 @@ public:
     cout<<"~Graph() "<<vertices.size()<<" "<<edges.size()<<'\n';
     for(auto &i: vertices)
       {
-	cout<<"delete "<<i<<'\n';
 	delete i;
       }
 
@@ -48,13 +47,10 @@ public:
 class GraphEquation: public Graph
 {
 protected:
-  // vector<VertexMultiValue*> vertices;
-  // vector<Edge*> edges;
-
   template<typename T, typename U, typename L, typename I>
   void CreateVertex(const string &s1, const string &s2, const string &o)
   {
-    cout<<"Create"<<'\n';
+    cout<<"Create "<<'\n';
     VertexMultiValue *v=new VertexMultiValue(o);
     VertexValue *vertex1=new T(s1);
     VertexValue *vertex2=new U(s2);
@@ -119,15 +115,28 @@ public:
 	// cout<<"result "<<m->result<<'\n';
 	// return m;
       }
+    else if(b1.math and b2.math)
+      {
+	cout<<"b1.math and b2.math"<<'\n';
+      }
+    else if(b1.math)
+      {
+	cout<<"b1.math"<<'\n';
+      }
+    else if(b2.math)
+      {
+	cout<<"b2.math"<<'\n';
+      }
     else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
       {
 	throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable or numeric value.");
       }
     else
       {
-	std::invalid_argument("Value \""+s2+"\" is not a constant, variable or numeric value.");
+	throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable or numeric value.");
       }
-    this->Simplify();
+    cout<<" "<<'\n';
+    // this->Simplify();
     // SetId(id);
     // CreateEdge1(s1, s2, o);
     // delete edge;

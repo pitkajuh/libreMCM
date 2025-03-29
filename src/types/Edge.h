@@ -17,19 +17,26 @@ using std::cout;
 
 class Edge
 {
+public:
+  Edge(){}
+  virtual ~Edge(){}
+};
+
+class Edge1: public Edge
+{
 protected:
   Vertex *vertex1=nullptr;
   Vertex *vertex2=nullptr;
 public:
-  Edge(){}
-  virtual ~Edge()
+  Edge1(){}
+  virtual ~Edge1()
   {
-    cout<<"~Edge()"<<'\n';
+    cout<<"~Edge1()"<<'\n';
     delete vertex1;
   };
 };
 
-class EdgeEquation: public Edge
+class EdgeEquation: public Edge1
 {
 public:
   EdgeEquation(){}
@@ -70,6 +77,16 @@ public:
     this->vertex2=vertex2;
   }
   ~EdgeNumeric(){}
+};
+
+class EdgeEdge: public Edge
+{
+protected:
+  Edge *edge1=nullptr;
+  Edge *edge2=nullptr;
+public:
+  EdgeEdge(){}
+  ~EdgeEdge(){}
 };
 
 #endif
