@@ -25,43 +25,40 @@ using std::cout;
 class Edge
 {
 protected:
-  Vertex *vertex1=nullptr;
-  Vertex *vertex2=nullptr;
+  // Vertex *vertex1=nullptr;
+  // Vertex *vertex2=nullptr;
 public:
 
   Edge(){}
-  Edge(Vertex *vertex1, Vertex *vertex2)
-  {
-    this->vertex1=vertex1;
-    this->vertex2=vertex2;
-  }
-  ~Edge()
-  {
-    delete vertex1;
-    delete vertex2;
-  }
+  virtual ~Edge(){};
 };
 
 class EdgeEquation: public Edge
 {
 protected:
-
+  Vertex *vertex1=nullptr;
+  VertexMultiValue *vertex2=nullptr;
 public:
-
-};
-
-class EdgeVariable: public EdgeEquation
-{
-protected:
-
-public:
-  EdgeVariable(){}
-  EdgeVariable(Vertex *vertex1, VertexMultiValue *vertex2)
+  EdgeEquation(){}
+  ~EdgeEquation()
   {
-    this->vertex1=vertex1;
-    this->vertex2=vertex2;
+    delete vertex1;
+    // delete vertex2;
   }
 };
+
+// class EdgeVariable: public EdgeEquation
+// {
+// protected:
+
+// public:
+//   EdgeVariable(){}
+//   EdgeVariable(Vertex *vertex1, VertexMultiValue *vertex2)
+//   {
+//     this->vertex1=vertex1;
+//     this->vertex2=vertex2;
+//   }
+// };
 
 class EdgeConstant: public EdgeEquation
 {
@@ -74,19 +71,24 @@ public:
     this->vertex1=vertex1;
     this->vertex2=vertex2;
   }
-};
-
-class EdgeNumeric: public EdgeEquation
-{
-protected:
-
-public:
-  EdgeNumeric(){}
-  EdgeNumeric(Vertex *vertex1, VertexMultiValue *vertex2)
+  ~EdgeConstant()
   {
-    this->vertex1=vertex1;
-    this->vertex2=vertex2;
+    // delete vertex1;
+    // delete vertex2;
   }
 };
+
+// class EdgeNumeric: public EdgeEquation
+// {
+// protected:
+
+// public:
+//   EdgeNumeric(){}
+//   EdgeNumeric(Vertex *vertex1, VertexMultiValue *vertex2)
+//   {
+//     this->vertex1=vertex1;
+//     this->vertex2=vertex2;
+//   }
+// };
 
 #endif

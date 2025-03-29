@@ -41,50 +41,50 @@ void print_vector2(const vector<string> &vec)
   cout<<empty<<'\n';
 }
 
-MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2, GraphEquation *&graph)
-{
-  if(b1.variable and b2.variable)
-    {
-      return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
-    }
-  else if(b1.variable and b2.constant)
-    {
-      return CreateNewMathOperation<Variable, Constant, VariableConstant>(s1, s2, o);
-    }
-  else if(b1.variable and b2.numeric)
-    {
-      return CreateNewMathOperation<Variable, Numeric, VariableNumeric>(s1, s2, o);
-    }
-  else if(b1.constant and b2.variable)
-    {
-      return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
-    }
-  else if(b1.constant and b2.constant)
-    {
-      return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
-    }
-  else if(b1.constant and b2.numeric)
-    {
-      return CreateNewMathOperation<Constant, Numeric, ConstantNumeric>(s1, s2, o);
-    }
-  else if(b1.numeric and b2.variable)
-    {
-      return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
-    }
-  else if(b1.numeric and b2.constant)
-    {
-      return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
-    }
-  else
-    {
-      MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
-      // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
-      // simplified and performance of the calculation increased.
-      m->Calculate();
-      cout<<"result "<<m->result<<'\n';
-      return m;
-    }
-}
+// MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2, GraphEquation *&graph)
+// {
+//   if(b1.variable and b2.variable)
+//     {
+//       return CreateNewMathOperation<Variable, Variable, VariableVariable>(s1, s2, o);
+//     }
+//   else if(b1.variable and b2.constant)
+//     {
+//       return CreateNewMathOperation<Variable, Constant, VariableConstant>(s1, s2, o);
+//     }
+//   else if(b1.variable and b2.numeric)
+//     {
+//       return CreateNewMathOperation<Variable, Numeric, VariableNumeric>(s1, s2, o);
+//     }
+//   else if(b1.constant and b2.variable)
+//     {
+//       return CreateNewMathOperation<Constant, Variable, ConstantVariable>(s1, s2, o);
+//     }
+//   else if(b1.constant and b2.constant)
+//     {
+//       return CreateNewMathOperation<Constant, Constant, ConstantConstant>(s1, s2, o);
+//     }
+//   else if(b1.constant and b2.numeric)
+//     {
+//       return CreateNewMathOperation<Constant, Numeric, ConstantNumeric>(s1, s2, o);
+//     }
+//   else if(b1.numeric and b2.variable)
+//     {
+//       return CreateNewMathOperation<Numeric, Variable, NumericVariable>(s1, s2, o);
+//     }
+//   else if(b1.numeric and b2.constant)
+//     {
+//       return CreateNewMathOperation<Numeric, Constant, NumericConstant>(s1, s2, o);
+//     }
+//   else
+//     {
+//       MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, o);
+//       // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
+//       // simplified and performance of the calculation increased.
+//       m->Calculate();
+//       cout<<"result "<<m->result<<'\n';
+//       return m;
+//     }
+// }
 
 // void ChangeHeadNode(Equation *&head, EquationMath *&newnode, Equation *node1, Equation *&node2, const uint8_t deltaid)
 // {
@@ -133,41 +133,43 @@ MathOperation *CreateNewValueValueMathOperation(const string &s1, const string &
 //   return newhead;
 // }
 
-Equation *Val2(const vector<string> &equation, const uint8_t i, const vector<string> &data, const uint8_t id, GraphEquation *&graph)
-{
-  const string s1=equation[i-1];
-  const string s2=equation[i+1];
-  const string o=equation[i];
-  const Bools b1(s1, data);
-  const Bools b2(s2, data);
+// Equation *Val2(const vector<string> &equation, const uint8_t i, const vector<string> &data, const uint8_t id, GraphEquation *&graph)
+// {
+//   const string s1=equation[i-1];
+//   const string s2=equation[i+1];
+//   const string o=equation[i];
+//   const Bools b1(s1, data);
+//   const Bools b2(s2, data);
 
-  cout<<"Math operation "<<'\n';
-  cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
-  cout<<"s1 "<<b1.variable<<" "<<b1.constant<<" "<<b1.numeric<<" "<<b1.math<<'\n';
-  cout<<"s2 "<<b2.variable<<" "<<b2.constant<<" "<<b2.numeric<<" "<<b2.math<<'\n';
+//   cout<<"Math operation "<<'\n';
+//   cout<<"   "<<"v"<<" "<<"c"<<" "<<"n"<<" "<<"m"<<'\n';
+//   cout<<"s1 "<<b1.variable<<" "<<b1.constant<<" "<<b1.numeric<<" "<<b1.math<<'\n';
+//   cout<<"s2 "<<b2.variable<<" "<<b2.constant<<" "<<b2.numeric<<" "<<b2.math<<'\n';
 
-  print_vector2(equation);
-  return {};
-  // if(!b1.math and !b2.math)
-  //   {
-  //     EquationMulti *mc=new EquationMulti;
-  //     cout<<"!b1.math and !b2.math"<<'\n';
-  //     mc->SetMathOperation(CreateNewValueValueMathOperation(s1, s2, o, b1, b2, graph));
-  //     mc->Calculate();
-  //     mc->next=next;
-  //     mc->SetId(id);
-  //     return mc;
-  //   }
-  // else if(b1.variable and b2.math) return NewMathValue<Variable, VEquationVariable>(s2, s1, o, id, head,  next);
-  // else if(b1.constant and b2.math) return NewMathValue<Constant, VEquationConstant>(s2, s1, o, id, head, next);
-  // else if(b1.numeric and b2.math) return NewMathValue<Numeric, VEquationNumerical>(s2, s1, o, id, head, next);
-  // else if(b1.math and b2.variable) return NewMathValue<Variable, EquationVVariable>(s1, s2, o, id, head, next);
-  // else if(b1.math and b2.constant) return NewMathValue<Constant, EquationVConstant>(s1, s2, o, id, head, next);
-  // else if(b1.math and b2.numeric) return NewMathValue<Numeric, EquationVNumerical>(s1, s2, o, id, head, next);
-  // else if(b1.math and b2.math) return CreateNewMathMath(s1, s2, o, id, head);
-  // else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math) throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
-  // else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
-}
+//   graph->CreateEdge(s1, s2, o, b1, b2);
+
+//   print_vector2(equation);
+//   return {};
+//   // if(!b1.math and !b2.math)
+//   //   {
+//   //     EquationMulti *mc=new EquationMulti;
+//   //     cout<<"!b1.math and !b2.math"<<'\n';
+//   //     mc->SetMathOperation(CreateNewValueValueMathOperation(s1, s2, o, b1, b2, graph));
+//   //     mc->Calculate();
+//   //     mc->next=next;
+//   //     mc->SetId(id);
+//   //     return mc;
+//   //   }
+//   // else if(b1.variable and b2.math) return NewMathValue<Variable, VEquationVariable>(s2, s1, o, id, head,  next);
+//   // else if(b1.constant and b2.math) return NewMathValue<Constant, VEquationConstant>(s2, s1, o, id, head, next);
+//   // else if(b1.numeric and b2.math) return NewMathValue<Numeric, VEquationNumerical>(s2, s1, o, id, head, next);
+//   // else if(b1.math and b2.variable) return NewMathValue<Variable, EquationVVariable>(s1, s2, o, id, head, next);
+//   // else if(b1.math and b2.constant) return NewMathValue<Constant, EquationVConstant>(s1, s2, o, id, head, next);
+//   // else if(b1.math and b2.numeric) return NewMathValue<Numeric, EquationVNumerical>(s1, s2, o, id, head, next);
+//   // else if(b1.math and b2.math) return CreateNewMathMath(s1, s2, o, id, head);
+//   // else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math) throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable/compartment or numeric value.");
+//   // else throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable/compartment or numeric value.");
+// }
 
 void FindOperator(vector<string> &equation, const string &find, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
 {
@@ -175,7 +177,13 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
 
   if(i<equation.size())
     {
-      cout<<"Adding "<<"@"+to_string(id)<<"="<<equation[i-1]<<equation[i]<<equation[i+1]<<" "<<'\n';
+      const string s1=equation[i-1];
+      const string s2=equation[i+1];
+      const string o=equation[i];
+      const Bools b1(s1, data);
+      const Bools b2(s2, data);
+      graph->CreateEdge(s1, s2, o, b1, b2);
+      cout<<"Adding "<<"@"+to_string(id)<<"="<<s1<<o<<s2<<" "<<'\n';
 
       equation[i]="@"+to_string(id);
       equation.erase(equation.begin()+i+1);
@@ -228,8 +236,8 @@ void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data,
 
   if(size==1)
     {
-      const Bools b(equation[0], data);
-      graph=new GraphEquationSingle(b, equation[0]);
+      // const Bools b(equation[0], data);
+      // graph=new GraphEquationSingle(b, equation[0]);
       // head=CreateSingleEquation(equation[0], id, data, next, graph);
     }
   else
@@ -263,10 +271,10 @@ void ParseEquations(const SMap &equations_map, const vector<string> &data)
       // head->next=nullptr;
       // equationMap[name]=head;
       id=0;
-      delete graphEquation;
+      // delete graphEquation;
       cout<<"ok"<<'\n';
 
       cout<<" "<<'\n';
     }
-  delete graphEquation;
+  // delete graphEquation;
 }
