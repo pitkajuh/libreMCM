@@ -236,9 +236,9 @@ void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data,
 
   if(size==1)
     {
-      // const Bools b(equation[0], data);
-      // graph=new GraphEquationSingle(b, equation[0]);
-      // head=CreateSingleEquation(equation[0], id, data, next, graph);
+      const Bools b(equation[0], data);
+      graph=new GraphEquationSingle(b, equation[0]);
+      delete graph;
     }
   else
     {
