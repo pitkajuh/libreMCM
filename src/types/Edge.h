@@ -84,8 +84,17 @@ class EdgeEdge: public Edge
 protected:
   Edge *edge1=nullptr;
   Edge *edge2=nullptr;
+  Edge *edge3=nullptr;
+  Edge *edge4=nullptr;
 public:
   EdgeEdge(){}
+  EdgeEdge(Edge *edge1, Edge *edge2, Edge *edge3, Edge *edge4)
+  {
+    this->edge1=edge1;
+    this->edge2=edge2;
+    this->edge3=edge3;
+    this->edge4=edge4;
+  }
   ~EdgeEdge(){}
 };
 

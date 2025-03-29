@@ -73,6 +73,7 @@ protected:
 public:
   void CreateEdge(const string &s1, const string &s2, const string &o, const Bools &b1, const Bools &b2)
   {
+    cout<<" "<<'\n';
     if(b1.variable and b2.variable)
       {
 	CreateVertex<VertexVariable, VertexVariable, EdgeVariable, EdgeVariable>(s1, s2, o);
@@ -117,7 +118,15 @@ public:
       }
     else if(b1.math and b2.math)
       {
-	cout<<"b1.math and b2.math"<<'\n';
+	cout<<"b1.math and b2.math "<<stoi(s1.substr(1, s1.size()))<<" "<<stoi(s2.substr(1, s2.size()))<<" "<<edges.size()<<'\n';
+	const uint8_t i1=stoi(s1.substr(1, s1.size()));
+	const uint8_t i2=stoi(s2.substr(1, s2.size()));
+	// GetEdges(stoi(s1.substr(1, s1.size())));
+
+	Edge *E=new EdgeEdge(edges[i1], edges[i1+1], edges[i2], edges[i2+1]);
+	edges.emplace_back(E);
+	// Edge *edge1;
+	// Edge *edge2;
       }
     else if(b1.math)
       {
@@ -135,7 +144,7 @@ public:
       {
 	throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable or numeric value.");
       }
-    cout<<" "<<'\n';
+
     // this->Simplify();
     // SetId(id);
     // CreateEdge1(s1, s2, o);

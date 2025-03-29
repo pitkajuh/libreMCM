@@ -52,7 +52,9 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
       const string o=equation[i];
       const Bools b1(s1, data);
       const Bools b2(s2, data);
+
       graph->CreateEdge(s1, s2, o, b1, b2);
+
       cout<<"Adding "<<"@"+to_string(id)<<"="<<s1<<o<<s2<<" "<<'\n';
 
       equation[i]="@"+to_string(id);
