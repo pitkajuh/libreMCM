@@ -79,54 +79,54 @@ void ReadInitialData(const string &directory)
 
 int main(int argc, char** argv)
 {
-  if(argc<2)
-    {
-      cout<<"Provide arguments."<<'\n';
-      return 0;
-    }
-  else
-    {
+  // if(argc<2)
+  //   {
+  //     cout<<"Provide arguments."<<'\n';
+  //     return 0;
+  //   }
+  // else
+  //   {
       // Get current working directory.
       char buff[FILENAME_MAX];
       GetCurrentDir(buff, FILENAME_MAX);
       string directory(buff);
       directory=directory+"/";
-      int c;
+      // int c;
 
-      while((c=getopt_long(argc, argv, "dp", options, NULL))!=-1)
-	{
-	  switch(c)
-	    {
-	    case 'd':
-	      run_deterministic_sim=true;
-	      break;
-	    case NUM_METHOD_OPTION:
-	      break;
-	    case TIME_START_OPTION:
-	      break;
-	    case TIME_END_OPTION:
-	      break;
-	    case STEP_SIZE_OPTION:
-	      break;
-	    default:
-	      exit(1);
-	    }
-	}
-
+      // while((c=getopt_long(argc, argv, "dp", options, NULL))!=-1)
+      // 	{
+      // 	  switch(c)
+      // 	    {
+      // 	    case 'd':
+      // 	      run_deterministic_sim=true;
+      // 	      break;
+      // 	    case NUM_METHOD_OPTION:
+      // 	      break;
+      // 	    case TIME_START_OPTION:
+      // 	      break;
+      // 	    case TIME_END_OPTION:
+      // 	      break;
+      // 	    case STEP_SIZE_OPTION:
+      // 	      break;
+      // 	    default:
+      // 	      exit(1);
+      // 	    }
+      // 	}
+      // ReadInitialData(directory);
       auto begin=std::chrono::high_resolution_clock::now();
       cout<<"Starting "<<directory<<'\n';
-
-      if(run_deterministic_sim)
-	{
-	  ReadInitialData(directory);
-	}
+      ReadInitialData(directory);
+      // if(run_deterministic_sim)
+      // 	{
+      // 	  ReadInitialData(directory);
+      // 	}
 
       auto end=std::chrono::high_resolution_clock::now();
       auto duration=std::chrono::duration_cast<std::chrono::microseconds>(end-begin);
 
       cout<<"Runtime: "<<duration.count()<<" microseconds "<<(double)duration.count()/1000<<" milliseconds"<<'\n';
       cout<<"################################################################"<<'\n';
-    }
+    // }
   return 0;
 
 }

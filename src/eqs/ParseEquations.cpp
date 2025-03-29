@@ -197,7 +197,7 @@ void FindOperator(vector<string> &equation, const string &find, uint8_t &id, con
 
 void ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> &data, const uint8_t size, GraphEquation *&graph)
 {
-  for(const auto&i: OPERATORS)
+  for(const auto &i: OPERATORS)
     {
       if(size<2) break;
       FindOperator(equation, i, id, data, graph);
@@ -238,10 +238,10 @@ void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data,
     {
       const Bools b(equation[0], data);
       graph=new GraphEquationSingle(b, equation[0]);
-      delete graph;
     }
   else
     {
+      graph=new GraphEquation;
       equation=test(equation, id, data, graph);
       ParseOperators(equation, id, data, size, graph);
     }
@@ -271,10 +271,11 @@ void ParseEquations(const SMap &equations_map, const vector<string> &data)
       // head->next=nullptr;
       // equationMap[name]=head;
       id=0;
-      // delete graphEquation;
+      delete graphEquation;
+      graphEquation=nullptr;
       cout<<"ok"<<'\n';
 
       cout<<" "<<'\n';
     }
-  // delete graphEquation;
+
 }

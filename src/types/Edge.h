@@ -22,7 +22,11 @@ protected:
   Vertex *vertex2=nullptr;
 public:
   Edge(){}
-  virtual ~Edge(){delete vertex1;};
+  virtual ~Edge()
+  {
+    cout<<"~Edge()"<<'\n';
+    delete vertex1;
+  };
 };
 
 class EdgeEquation: public Edge

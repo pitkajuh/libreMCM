@@ -28,23 +28,29 @@ protected:
   vector<Vertex*> vertices;
   vector<Edge*> edges;
 public:
+
   virtual ~Graph()
   {
-    // for(auto &i: vertices)
-    //   {
-    // 	delete i;
-    //   }
+    cout<<"~Graph() "<<vertices.size()<<" "<<edges.size()<<'\n';
+    for(auto &i: vertices)
+      {
+	cout<<"delete "<<i<<'\n';
+	delete i;
+      }
 
-    // for(auto &j: edges)
-    //   {
-    // 	delete j;
-    //   }
+    for(auto &j: edges)
+      {
+	delete j;
+      }
   }
 };
 
 class GraphEquation: public Graph
 {
 protected:
+  // vector<VertexMultiValue*> vertices;
+  // vector<Edge*> edges;
+
   template<typename T, typename U, typename L, typename I>
   void CreateVertex(const string &s1, const string &s2, const string &o)
   {
@@ -54,13 +60,9 @@ protected:
     VertexValue *vertex2=new U(s2);
     Edge *edge1=new L(vertex1, v);
     Edge *edge2=new I(vertex2, v);
-    cout<<edge1<<" "<<edge2<<'\n';
-    // vertices.emplace_back(v);
-    // edges.emplace_back(edge1);
-    // edges.emplace_back(edge2);
-    delete edge1;
-    delete edge2;
-    delete v;
+    vertices.emplace_back(v);
+    edges.emplace_back(edge1);
+    edges.emplace_back(edge2);
   }
 
   void Simplify()
@@ -117,12 +119,13 @@ public:
 	// cout<<"result "<<m->result<<'\n';
 	// return m;
       }
-    // this->Simplify();
+    this->Simplify();
     // SetId(id);
     // CreateEdge1(s1, s2, o);
     // delete edge;
   }
   GraphEquation(){}
+  ~GraphEquation(){cout<<"~GraphEquation"<<'\n';}
 };
 
 class GraphEquationSingle: public GraphEquation
