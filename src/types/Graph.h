@@ -38,7 +38,6 @@ public:
     cout<<"~Graph() "<<vertices.size()<<" "<<edges.size()<<'\n';
     for(auto &i: vertices)
       {
-	cout<<"delete "<<i<<'\n';
 	delete i;
       }
 
@@ -50,7 +49,6 @@ public:
 
     for(auto &j: edges)
       {
-	cout<<"delete "<<j<<'\n';
 	delete j;
       }
   }
@@ -80,10 +78,10 @@ protected:
   void Simplify()
   {
     cout<<"simpli"<<'\n';
-    for(auto &e: edges)
-      {
-	cout<<e<<'\n';
-      }
+    // for(auto &e: edges)
+    //   {
+    // 	cout<<e<<'\n';
+    //   }
   }
 public:
   void CreateEdge(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2)
@@ -124,6 +122,8 @@ public:
     else if(b1.numeric and b2.numeric)
       {
 	CreateVertex<VertexNumeric, VertexNumeric, EdgeNumeric, EdgeNumeric>(s1, s2, mathOperator);
+	this->Simplify();
+
 	// MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, mathOperator);
 	// // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
 	// // simplified and performance of the calculation increased.
@@ -143,27 +143,22 @@ public:
 	vertices.emplace_back(v1);
 	// edges.emplace_back(edge1);
 	// edges.emplace_back(edge2);
-
-
-
-
-	// delete v1;
-
-	// Edge *E=new EdgeEdge(edges[i1], edges[i1+1], edges[i2], edges[i2+1]);
-	// Vertex *v=new VertexMathVertex(E);
-	// vertices.emplace_back(v);
-	// edges.emplace_back(E);
       }
     else if(b1.math)
       {
 	cout<<"b1.math"<<'\n';
-	// const uint8_t i1=stoi(s1.substr(1, s1.size()));
+	const uint8_t i1=stoi(s1.substr(1, s1.size()));
+	Vertex *v1=new VertexVertices(vertices[i1], vmap[s2], mathOperator);
+	vertices.emplace_back(v1);
 	// Edge *E=new EdgeEdge1(edges[i1], edges[i1+1], vmap[s2]);
 	// edges.emplace_back(E);
       }
     else if(b2.math)
       {
 	cout<<"b2.math"<<'\n';
+	const uint8_t i2=stoi(s2.substr(1, s2.size()));
+	Vertex *v2=new VertexVertices(vmap[s2], vertices[i2], mathOperator);
+	vertices.emplace_back(v2);
       }
     else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
       {
@@ -174,13 +169,12 @@ public:
 	throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable or numeric value.");
       }
 
-    // this->Simplify();
     // SetId(id);
     // CreateEdge1(s1, s2, mathOperator);
     // delete edge;
   }
   GraphEquation(){}
-  ~GraphEquation(){cout<<"~GraphEquation"<<'\n';}
+  ~GraphEquation(){cout<<"~GraphEquation "<<vertices.size()<<" "<<edges.size()<<'\n';}
 };
 
 class GraphEquationSingle: public GraphEquation

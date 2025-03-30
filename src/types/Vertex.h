@@ -11,6 +11,7 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
+#include "MathOperator.h"
 #include <iostream>
 using std::cout;
 
@@ -21,6 +22,7 @@ class Vertex
 public:
   Vertex(){};
   virtual ~Vertex(){};
+  virtual double GetValue()=0;
 };
 
 class VertexValue: public Vertex
@@ -30,6 +32,8 @@ protected:
   string name="";
   double value=NAN;
 public:
+  // double GetValue(){return value;}
+
   void SetName(const string &s)
   {
     name=s;
@@ -59,6 +63,7 @@ class VertexConstant: public VertexValue
 {
 private:
 public:
+  // double GetValue(){return value;}
   VertexConstant(const string &s){SetName(s);}
   VertexConstant(){}
   ~VertexConstant(){}
@@ -68,6 +73,7 @@ class VertexNumeric: public VertexValue
 {
 private:
 public:
+  // double GetValue(){return value;}
   VertexNumeric(const string &s){SetName(s);}
   VertexNumeric(){}
   ~VertexNumeric(){}
@@ -77,72 +83,29 @@ class VertexVariable: public VertexValue
 {
 private:
 public:
+  // double GetValue(){return value;}
   VertexVariable(const string &s){SetName(s);}
   VertexVariable(){}
   ~VertexVariable(){}
 };
 
-class VertexMathOperator: public Vertex
-{
-public:
-  virtual double Calculate(const double v1, const double v2)=0;
-  ~VertexMathOperator(){}
-};
-
-class VertexAdd: public VertexMathOperator
-{
-public:
-  double Calculate(const double v1, const double v2){return v1+v2;}
-  VertexAdd(){}
-  ~VertexAdd(){}
-};
-
-class VertexSubtract: public VertexMathOperator
-{
-public:
-  double Calculate(const double v1, const double v2){return v1-v2;}
-  VertexSubtract(){}
-  ~VertexSubtract(){}
-};
-
-class VertexMultiply: public VertexMathOperator
-{
-public:
-  double Calculate(const double v1, const double v2){return v1*v2;}
-  VertexMultiply(){}
-  ~VertexMultiply(){}
-};
-
-class VertexDivide: public VertexMathOperator
-{
-public:
-  double Calculate(const double v1, const double v2){return v1/v2;}
-  VertexDivide(){}
-  ~VertexDivide(){}
-};
-
-class VertexPower: public VertexMathOperator
-{
-public:
-  double Calculate(const double v1, const double v2){return pow(v1, v2);}
-  VertexPower(){}
-  ~VertexPower(){}
-};
-
 class VertexMultiValue: public Vertex
 {
 protected:
-  VertexMathOperator *mathOperator=nullptr;
+  MathOperator *mathOperator=nullptr;
+  double result;
 
   void SetOperator(const string &s)
   {
-    if(s==ADD) mathOperator=new VertexAdd;
-    else if(s==SUBTRACT) mathOperator=new VertexSubtract;
-    else if(s==MULTIPLY) mathOperator=new VertexMultiply;
-    else if(s==DIVIDE) mathOperator=new VertexDivide;
-    else if(s==EXP) mathOperator=new VertexPower;
+    if(s==ADD) mathOperator=new Add;
+    else if(s==SUBTRACT) mathOperator=new Sub;
+    else if(s==MULTIPLY) mathOperator=new Mul;
+    else if(s==DIVIDE) mathOperator=new Div;
+    else if(s==EXP) mathOperator=new Exp;
   }
 public:
+  double GetValue(){return result;}
+  virtual void Calculate()=0;
   VertexMultiValue(){}
   VertexMultiValue(const string &s){this->SetOperator(s);}
   ~VertexMultiValue()
@@ -158,6 +121,10 @@ protected:
   Vertex *vertex1=nullptr;
   Vertex *vertex2=nullptr;
 public:
+  void Calculate()
+  {
+    // result=mathOperator->Calculate(vertex1->value, vertex2->value);
+  }
   VertexVertices(){}
   VertexVertices(Vertex *vertex1, Vertex *vertex2, const string &s)
   {
