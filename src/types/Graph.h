@@ -77,7 +77,9 @@ protected:
 
   void Simplify()
   {
-    cout<<"simpli"<<'\n';
+    vertices.back()->Calculate();
+    cout<<"simplify "<<vertices.back()->GetValue()<<'\n';
+
     // for(auto &e: edges)
     //   {
     // 	cout<<e<<'\n';

@@ -23,6 +23,7 @@ public:
   Vertex(){};
   virtual ~Vertex(){};
   virtual double GetValue()=0;
+  virtual void Calculate()=0;
 };
 
 class VertexValue: public Vertex
@@ -32,8 +33,6 @@ protected:
   string name="";
   double value=NAN;
 public:
-  // double GetValue(){return value;}
-
   void SetName(const string &s)
   {
     name=s;
@@ -54,7 +53,9 @@ public:
 
   const bool GetNegative(){return negative;}
   const string GetName(){return name;}
-  double GetValue(){return value;}
+  // double GetValue(){cout<<"VertexValue GetValue"<<'\n'; return value;}
+  virtual double GetValue(){return 0;};
+  void Calculate(){cout<<"VertexValue Calculate"<<'\n';}
   VertexValue(){};
   ~VertexValue(){};
 };
@@ -63,7 +64,6 @@ class VertexConstant: public VertexValue
 {
 private:
 public:
-  // double GetValue(){return value;}
   VertexConstant(const string &s){SetName(s);}
   VertexConstant(){}
   ~VertexConstant(){}
@@ -73,8 +73,9 @@ class VertexNumeric: public VertexValue
 {
 private:
 public:
-  // double GetValue(){return value;}
-  VertexNumeric(const string &s){SetName(s);}
+  // void Calculate(){cout<<"VertexNumeric Calculate"<<'\n';};
+  double GetValue(){cout<<"VertexNumeric GetValue"<<'\n'; return value;}
+  VertexNumeric(const string &s){SetValue(stod(s));}
   VertexNumeric(){}
   ~VertexNumeric(){}
 };
@@ -83,7 +84,6 @@ class VertexVariable: public VertexValue
 {
 private:
 public:
-  // double GetValue(){return value;}
   VertexVariable(const string &s){SetName(s);}
   VertexVariable(){}
   ~VertexVariable(){}
@@ -105,7 +105,7 @@ protected:
   }
 public:
   double GetValue(){return result;}
-  virtual void Calculate()=0;
+  void Calculate(){cout<<"VertexMultiValue Calculate"<<'\n';};
   VertexMultiValue(){}
   VertexMultiValue(const string &s){this->SetOperator(s);}
   ~VertexMultiValue()
@@ -123,7 +123,10 @@ protected:
 public:
   void Calculate()
   {
-    // result=mathOperator->Calculate(vertex1->value, vertex2->value);
+    cout<<"VertexVertices Calculate"<<'\n';
+    cout<<vertex1->GetValue()<<" "<<vertex2->GetValue()<<'\n';
+    result=mathOperator->Calculate(vertex1->GetValue(), vertex2->GetValue());
+    cout<<result<<'\n';
   }
   VertexVertices(){}
   VertexVertices(Vertex *vertex1, Vertex *vertex2, const string &s)
@@ -134,38 +137,5 @@ public:
   }
   ~VertexVertices(){}
 };
-
-// class VertexMathVertex: public VertexMultiValue
-// {
-// protected:
-//   Edge *edge1=nullptr;
-// public:
-//   VertexMathVertex(){}
-//   VertexMathVertex(Edge *edge1){this->edge1=edge1;}
-//   ~VertexMathVertex(){}
-// };
-
-// class VertexVertexEdge: public VertexMathVertex
-// {
-// protected:
-//   Vertex *vertex=nullptr;
-// public:
-//   VertexVertexEdge(){}
-//   ~VertexVertexEdge(){}
-// };
-
-// class VertexMathVertex2: public VertexMathVertex
-// {
-// protected:
-//   Edge *edge2=nullptr;
-// public:
-//   VertexMathVertex2(){}
-//   VertexMathVertex2(Edge *edge1, Edge *edge2)
-//   {
-//     this->edge1=edge1;
-//     this->edge2=edge2;
-//   }
-//   ~VertexMathVertex2(){}
-// };
 
 #endif
