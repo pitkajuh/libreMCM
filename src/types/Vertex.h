@@ -133,6 +133,7 @@ class VertexMultiValue: public Vertex
 {
 protected:
   VertexMathOperator *mathOperator=nullptr;
+  // Vertex *
 public:
   VertexMultiValue(){}
   VertexMultiValue(const string &s)
@@ -160,18 +161,18 @@ public:
   ~VertexMathVertex(){}
 };
 
-// class VertexMathVertex2: public VertexMathVertex
-// {
-// protected:
-//   Edge *edge2=nullptr;
-// public:
-//   VertexMathVertex2(){}
-//   VertexMathVertex2(Edge *edge1, Edge *edge2)
-//   {
-//     this->edge1=edge1;
-//     this->edge2=edge2;
-//   }
-//   ~VertexMathVertex(){}
-// };
+class VertexMathVertex2: public VertexMathVertex
+{
+protected:
+  Edge *edge2=nullptr;
+public:
+  VertexMathVertex2(){}
+  VertexMathVertex2(Edge *edge1, Edge *edge2)
+  {
+    this->edge1=edge1;
+    this->edge2=edge2;
+  }
+  ~VertexMathVertex2(){}
+};
 
 #endif

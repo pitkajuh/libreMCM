@@ -129,6 +129,8 @@ public:
 	const uint8_t i2=stoi(s2.substr(1, s2.size()));
 
 	Edge *E=new EdgeEdge(edges[i1], edges[i1+1], edges[i2], edges[i2+1]);
+	Vertex *v=new VertexMathVertex(E);
+	vertices.emplace_back(v);
 	edges.emplace_back(E);
       }
     else if(b1.math)
