@@ -79,11 +79,8 @@ protected:
   {
     vertices.back()->Calculate();
     cout<<"simplify "<<vertices.back()->GetValue()<<'\n';
-
-    // for(auto &e: edges)
-    //   {
-    // 	cout<<e<<'\n';
-    //   }
+    // Remove vertex at vertices.back()
+    // Create a new Vertex VertexNumeric
   }
 public:
   void CreateEdge(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2)
