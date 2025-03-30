@@ -43,6 +43,19 @@ public:
   ~EdgeEquation(){}
 };
 
+class Edge2: public EdgeEquation
+{
+public:
+  Edge2(){}
+  Edge2(Vertex *vertex1, Vertex *vertex2)
+  {
+    this->vertex1=vertex1;
+    this->vertex2=vertex2;
+  }
+  ~Edge2(){}
+};
+
+
 class EdgeVariable: public EdgeEquation
 {
 public:
@@ -77,42 +90,6 @@ public:
     this->vertex2=vertex2;
   }
   ~EdgeNumeric(){}
-};
-
-class EdgeEdge1: public Edge
-{
-protected:
-  Edge *edge1=nullptr;
-  Edge *edge2=nullptr;
-  Vertex *vertex=nullptr;
-public:
-  EdgeEdge1(){}
-  EdgeEdge1(Edge *edge1, Edge *edge2, Vertex *vertex)
-  {
-    this->edge1=edge1;
-    this->edge2=edge2;
-    this->vertex=vertex;
-  }
-  ~EdgeEdge1(){}
-};
-
-class EdgeEdge: public Edge
-{
-protected:
-  Edge *edge1=nullptr;
-  Edge *edge2=nullptr;
-  Edge *edge3=nullptr;
-  Edge *edge4=nullptr;
-public:
-  EdgeEdge(){}
-  EdgeEdge(Edge *edge1, Edge *edge2, Edge *edge3, Edge *edge4)
-  {
-    this->edge1=edge1;
-    this->edge2=edge2;
-    this->edge3=edge3;
-    this->edge4=edge4;
-  }
-  ~EdgeEdge(){}
 };
 
 #endif

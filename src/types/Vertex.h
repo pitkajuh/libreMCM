@@ -133,10 +133,8 @@ class VertexMultiValue: public Vertex
 {
 protected:
   VertexMathOperator *mathOperator=nullptr;
-  // Vertex *
-public:
-  VertexMultiValue(){}
-  VertexMultiValue(const string &s)
+
+  void SetOperator(const string &s)
   {
     if(s==ADD) mathOperator=new VertexAdd;
     else if(s==SUBTRACT) mathOperator=new VertexSubtract;
@@ -144,6 +142,9 @@ public:
     else if(s==DIVIDE) mathOperator=new VertexDivide;
     else if(s==EXP) mathOperator=new VertexPower;
   }
+public:
+  VertexMultiValue(){}
+  VertexMultiValue(const string &s){this->SetOperator(s);}
   ~VertexMultiValue()
   {
     cout<<"~VertexMultiValue()"<<'\n';
@@ -151,28 +152,53 @@ public:
   }
 };
 
-class VertexMathVertex: public VertexMultiValue
+class VertexVertices: public VertexMultiValue
 {
 protected:
-  Edge *edge1=nullptr;
+  Vertex *vertex1=nullptr;
+  Vertex *vertex2=nullptr;
 public:
-  VertexMathVertex(){}
-  VertexMathVertex(Edge *edge1){this->edge1=edge1;}
-  ~VertexMathVertex(){}
+  VertexVertices(){}
+  VertexVertices(Vertex *vertex1, Vertex *vertex2, const string &s)
+  {
+    this->vertex1=vertex1;
+    this->vertex2=vertex2;
+    this->SetOperator(s);
+  }
+  ~VertexVertices(){}
 };
 
-class VertexMathVertex2: public VertexMathVertex
-{
-protected:
-  Edge *edge2=nullptr;
-public:
-  VertexMathVertex2(){}
-  VertexMathVertex2(Edge *edge1, Edge *edge2)
-  {
-    this->edge1=edge1;
-    this->edge2=edge2;
-  }
-  ~VertexMathVertex2(){}
-};
+// class VertexMathVertex: public VertexMultiValue
+// {
+// protected:
+//   Edge *edge1=nullptr;
+// public:
+//   VertexMathVertex(){}
+//   VertexMathVertex(Edge *edge1){this->edge1=edge1;}
+//   ~VertexMathVertex(){}
+// };
+
+// class VertexVertexEdge: public VertexMathVertex
+// {
+// protected:
+//   Vertex *vertex=nullptr;
+// public:
+//   VertexVertexEdge(){}
+//   ~VertexVertexEdge(){}
+// };
+
+// class VertexMathVertex2: public VertexMathVertex
+// {
+// protected:
+//   Edge *edge2=nullptr;
+// public:
+//   VertexMathVertex2(){}
+//   VertexMathVertex2(Edge *edge1, Edge *edge2)
+//   {
+//     this->edge1=edge1;
+//     this->edge2=edge2;
+//   }
+//   ~VertexMathVertex2(){}
+// };
 
 #endif
