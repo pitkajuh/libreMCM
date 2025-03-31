@@ -110,7 +110,7 @@ public:
   VertexMultiValue(const string &s){this->SetOperator(s);}
   ~VertexMultiValue()
   {
-    cout<<"~VertexMultiValue()"<<'\n';
+    // cout<<"~VertexMultiValue()"<<'\n';
     delete mathOperator;
   }
 };

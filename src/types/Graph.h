@@ -28,29 +28,29 @@ using std::cout;
 class Graph
 {
 protected:
-  vector<Vertex*> vertices;
+  // vector<Vertex*> vertices;
   map<string, Vertex*> vmap;
   vector<Edge*> edges;
 public:
 
   virtual ~Graph()
   {
-    cout<<"~Graph() "<<vertices.size()<<" "<<edges.size()<<'\n';
-    for(auto &i: vertices)
-      {
-	delete i;
-      }
-
-    // for(auto &[i1, i2]: vmap)
+    // cout<<"~Graph() "<<vertices.size()<<" "<<edges.size()<<'\n';
+    // for(auto &i: vertices)
     //   {
-    // 	cout<<"delete "<<i2<<'\n';
-    // 	delete i2;
+    // 	delete i;
     //   }
 
-    for(auto &j: edges)
+    for(auto &[i1, i2]: vmap)
       {
-	delete j;
+	// cout<<"delete "<<i2<<'\n';
+	delete i2;
       }
+
+    // for(auto &j: edges)
+    //   {
+    // 	delete j;
+    //   }
   }
 };
 
@@ -58,70 +58,76 @@ class GraphEquation: public Graph
 {
 protected:
   template<typename T, typename U, typename L, typename I>
-  void CreateVertex(const string &s1, const string &s2, const string &mathOperator)
+  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id)
   {
-    cout<<"Create "<<'\n';
+    cout<<"Create "<<id<<'\n';
 
     VertexValue *vertex1=new T(s1);
     VertexValue *vertex2=new U(s2);
     VertexMultiValue *v=new VertexVertices(vertex1, vertex2, mathOperator);
-    Edge *edge1=new L(vertex1, v);
-    Edge *edge2=new I(vertex2, v);
-
+    // Edge *edge1=new L(vertex1, v);
+    // Edge *edge2=new I(vertex2, v);
+    cout<<s1<<" "<<s2<<" "<<"@"<<std::to_string(id)<<'\n';
     vmap[s1]=vertex1;
     vmap[s2]=vertex2;
-    vertices.emplace_back(v);
-    edges.emplace_back(edge1);
-    edges.emplace_back(edge2);
+    // vertices.emplace_back(v);
+    vmap["@"+std::to_string(id)]=v;
+    // edges.emplace_back(edge1);
+    // edges.emplace_back(edge2);
+    cout<<"Created"<<'\n';
   }
 
-  void Simplify()
+  void Simplify(const uint8_t id)
   {
-    vertices.back()->Calculate();
-    cout<<"simplify "<<vertices.back()->GetValue()<<'\n';
+    cout<<"ID "<<std::to_string(id)<<'\n';
+    // vmap.end()->second->Calculate();
+    // cout<<"simplify "<<vmap.end()->second->GetValue()<<'\n';
+
     // Remove vertex at vertices.back()
     // Create a new Vertex VertexNumeric
   }
 public:
-  void CreateEdge(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2)
+  void CreateEdge(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, const uint8_t id)
   {
     cout<<" "<<'\n';
     if(b1.variable and b2.variable)
       {
-	CreateVertex<VertexVariable, VertexVariable, EdgeVariable, EdgeVariable>(s1, s2, mathOperator);
+	CreateVertex<VertexVariable, VertexVariable, EdgeVariable, EdgeVariable>(s1, s2, mathOperator, id);
       }
     else if(b1.variable and b2.constant)
       {
-	CreateVertex<VertexVariable, VertexConstant, EdgeVariable, EdgeConstant>(s1, s2, mathOperator);
+	CreateVertex<VertexVariable, VertexConstant, EdgeVariable, EdgeConstant>(s1, s2, mathOperator, id);
       }
     else if(b1.variable and b2.numeric)
       {
-	CreateVertex<VertexVariable, VertexNumeric, EdgeVariable, EdgeNumeric>(s1, s2, mathOperator);
+	CreateVertex<VertexVariable, VertexNumeric, EdgeVariable, EdgeNumeric>(s1, s2, mathOperator, id);
       }
     else if(b1.constant and b2.variable)
       {
-	CreateVertex<VertexConstant, VertexVariable, EdgeConstant, EdgeVariable>(s1, s2, mathOperator);
+	CreateVertex<VertexConstant, VertexVariable, EdgeConstant, EdgeVariable>(s1, s2, mathOperator, id);
       }
     else if(b1.constant and b2.constant)
       {
-	CreateVertex<VertexConstant, VertexConstant, EdgeConstant, EdgeConstant>(s1, s2, mathOperator);
+	CreateVertex<VertexConstant, VertexConstant, EdgeConstant, EdgeConstant>(s1, s2, mathOperator, id);
       }
     else if(b1.constant and b2.numeric)
       {
-	CreateVertex<VertexConstant, VertexNumeric, EdgeConstant, EdgeNumeric>(s1, s2, mathOperator);
+	CreateVertex<VertexConstant, VertexNumeric, EdgeConstant, EdgeNumeric>(s1, s2, mathOperator, id);
       }
     else if(b1.numeric and b2.variable)
       {
-	CreateVertex<VertexNumeric, VertexVariable, EdgeNumeric, EdgeVariable>(s1, s2, mathOperator);
+	CreateVertex<VertexNumeric, VertexVariable, EdgeNumeric, EdgeVariable>(s1, s2, mathOperator, id);
       }
     else if(b1.numeric and b2.constant)
       {
-	CreateVertex<VertexNumeric, VertexConstant, EdgeNumeric, EdgeConstant>(s1, s2, mathOperator);
+	CreateVertex<VertexNumeric, VertexConstant, EdgeNumeric, EdgeConstant>(s1, s2, mathOperator, id);
       }
     else if(b1.numeric and b2.numeric)
       {
-	CreateVertex<VertexNumeric, VertexNumeric, EdgeNumeric, EdgeNumeric>(s1, s2, mathOperator);
-	this->Simplify();
+	cout<<"b1.numeric and b2.numeric"<<'\n';
+	// Do not use CreateVertex here. Just create a math operator with mathOperator and call it with s1 and s2, then create a new VertexNumeric.
+	// CreateVertex<VertexNumeric, VertexNumeric, EdgeNumeric, EdgeNumeric>(s1, s2, mathOperator, id);
+	// this->Simplify(id);
 
 	// MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, mathOperator);
 	// // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
@@ -132,32 +138,36 @@ public:
       }
     else if(b1.math and b2.math)
       {
-	cout<<"b1.math and b2.math "<<stoi(s1.substr(1, s1.size()))<<" "<<stoi(s2.substr(1, s2.size()))<<" "<<edges.size()<<" "<<vertices.size()<<'\n';
-	const uint8_t i1=stoi(s1.substr(1, s1.size()));
-	const uint8_t i2=stoi(s2.substr(1, s2.size()));
+	cout<<"b1.math and b2.math "<<'\n';
+	// const uint8_t i1=stoi(s1.substr(1, s1.size()));
+	// const uint8_t i2=stoi(s2.substr(1, s2.size()));
 
-	Vertex *v1=new VertexVertices(vertices[i1], vertices[i2], mathOperator);
+	Vertex *v1=new VertexVertices(vmap[s1], vmap[s2], mathOperator);
 	// Edge *edge1=new Edge2(vertices[i1], v1);
 	// Edge *edge2=new Edge2(vertices[i2], v1);
-	vertices.emplace_back(v1);
+
+	// vertices.emplace_back(v1);
+	vmap["@"+std::to_string(id)]=v1;
 	// edges.emplace_back(edge1);
 	// edges.emplace_back(edge2);
       }
     else if(b1.math)
       {
 	cout<<"b1.math"<<'\n';
-	const uint8_t i1=stoi(s1.substr(1, s1.size()));
-	Vertex *v1=new VertexVertices(vertices[i1], vmap[s2], mathOperator);
-	vertices.emplace_back(v1);
+	// const uint8_t i1=stoi(s1.substr(1, s1.size()));
+	Vertex *v1=new VertexVertices(vmap[s1], vmap[s2], mathOperator);
+	vmap["@"+std::to_string(id)]=v1;
+	// vertices.emplace_back(v1);
 	// Edge *E=new EdgeEdge1(edges[i1], edges[i1+1], vmap[s2]);
 	// edges.emplace_back(E);
       }
     else if(b2.math)
       {
 	cout<<"b2.math"<<'\n';
-	const uint8_t i2=stoi(s2.substr(1, s2.size()));
-	Vertex *v2=new VertexVertices(vmap[s2], vertices[i2], mathOperator);
-	vertices.emplace_back(v2);
+	// const uint8_t i2=stoi(s2.substr(1, s2.size()));
+	Vertex *v2=new VertexVertices(vmap[s2], vmap[s1], mathOperator);
+	// vertices.emplace_back(v2);
+	vmap["@"+std::to_string(id)]=v2;
       }
     else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
       {
@@ -173,7 +183,7 @@ public:
     // delete edge;
   }
   GraphEquation(){}
-  ~GraphEquation(){cout<<"~GraphEquation "<<vertices.size()<<" "<<edges.size()<<'\n';}
+  ~GraphEquation(){cout<<"~GraphEquation "<<'\n';}
 };
 
 class GraphEquationSingle: public GraphEquation
