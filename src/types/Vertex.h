@@ -74,7 +74,11 @@ class VertexNumeric: public VertexValue
 private:
 public:
   // void Calculate(){cout<<"VertexNumeric Calculate"<<'\n';};
-  double GetValue(){cout<<"VertexNumeric GetValue"<<'\n'; return value;}
+  double GetValue()
+  {
+    cout<<"VertexNumeric GetValue"<<'\n';
+    return value;
+  }
   VertexNumeric(const string &s){SetValue(stod(s));}
   VertexNumeric(){}
   ~VertexNumeric(){}
