@@ -64,7 +64,7 @@ protected:
     else cout<<"AA "<<vmap[s]<<'\n';
   }
 
-  template<typename T>
+  template<typename T, typename U>
   void CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id)
   {
     VertexValue *vertex1=new VertexNumeric(s1);
@@ -77,7 +77,7 @@ protected:
       }
     else vertex2=vmap[s2];
 
-    VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
+    VertexVertices *v=new U(vertex1, vertex2, mathOperator);
     vmap["@"+std::to_string(id)]=v;
   }
 
@@ -133,7 +133,7 @@ public:
       }
     else if(b1.variable and b2.numeric)
       {
-	CreateVertexNumeric<VertexVariable>(s2, s1, mathOperator, id);
+	CreateVertexNumeric<VertexVariable, VertexVerticesNumeric2>(s2, s1, mathOperator, id);
 	// CreateVertex<VertexVariable, VertexNumeric, EdgeVariable, EdgeNumeric>(s1, s2, mathOperator, id);
       }
     else if(b1.constant and b2.variable)
@@ -146,13 +146,13 @@ public:
       }
     else if(b1.constant and b2.numeric)
       {
-	CreateVertexNumeric<VertexConstant>(s2, s1, mathOperator, id);
+	CreateVertexNumeric<VertexConstant, VertexVerticesNumeric2>(s2, s1, mathOperator, id);
 	// CreateVertex<VertexConstant, VertexNumeric, EdgeConstant, EdgeNumeric>(s1, s2, mathOperator, id);
       }
     else if(b1.numeric and b2.variable)
       {
 	cout<<"b1.numeric and b2.variable"<<'\n';
-	CreateVertexNumeric<VertexVariable>(s1, s2, mathOperator, id);
+	CreateVertexNumeric<VertexVariable, VertexVerticesNumeric1>(s1, s2, mathOperator, id);
 	// VertexValue *vertex1=new VertexNumeric(s1);
 
 	// Vertex *vertex2=nullptr;
@@ -171,7 +171,7 @@ public:
       }
     else if(b1.numeric and b2.constant)
       {
-	CreateVertexNumeric<VertexConstant>(s1, s2, mathOperator, id);
+	CreateVertexNumeric<VertexConstant, VertexVerticesNumeric1>(s1, s2, mathOperator, id);
 	// CreateVertex<VertexNumeric, VertexConstant, EdgeNumeric, EdgeConstant>(s1, s2, mathOperator, id);
       }
     else if(b1.numeric and b2.numeric)

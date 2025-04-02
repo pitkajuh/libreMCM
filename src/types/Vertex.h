@@ -143,4 +143,32 @@ public:
   ~VertexVertices(){}
 };
 
+class VertexVerticesNumeric1: public VertexVertices
+{
+public:
+  VertexVerticesNumeric1(){}
+  VertexVerticesNumeric1(Vertex *vertex1, Vertex *vertex2, const string &s)
+  {
+    cout<<"VertexVerticesNumeric1"<<'\n';
+    this->vertex1=vertex1;
+    this->vertex2=vertex2;
+    this->SetOperator(s);
+  }
+  ~VertexVerticesNumeric1(){delete vertex1;}
+};
+
+class VertexVerticesNumeric2: public VertexVertices
+{
+public:
+  VertexVerticesNumeric2(){}
+  VertexVerticesNumeric2(Vertex *vertex1, Vertex *vertex2, const string &s)
+  {
+    cout<<"VertexVerticesNumeric2"<<'\n';
+    this->vertex1=vertex2;
+    this->vertex2=vertex1;
+    this->SetOperator(s);
+  }
+  ~VertexVerticesNumeric2(){delete vertex2;}
+};
+
 #endif
