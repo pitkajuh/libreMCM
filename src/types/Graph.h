@@ -134,7 +134,6 @@ public:
     else if(b1.variable and b2.numeric)
       {
 	CreateVertexNumeric<VertexVariable, VertexVerticesNumeric2>(s2, s1, mathOperator, id);
-	// CreateVertex<VertexVariable, VertexNumeric, EdgeVariable, EdgeNumeric>(s1, s2, mathOperator, id);
       }
     else if(b1.constant and b2.variable)
       {
@@ -147,32 +146,15 @@ public:
     else if(b1.constant and b2.numeric)
       {
 	CreateVertexNumeric<VertexConstant, VertexVerticesNumeric2>(s2, s1, mathOperator, id);
-	// CreateVertex<VertexConstant, VertexNumeric, EdgeConstant, EdgeNumeric>(s1, s2, mathOperator, id);
       }
     else if(b1.numeric and b2.variable)
       {
 	cout<<"b1.numeric and b2.variable"<<'\n';
 	CreateVertexNumeric<VertexVariable, VertexVerticesNumeric1>(s1, s2, mathOperator, id);
-	// VertexValue *vertex1=new VertexNumeric(s1);
-
-	// Vertex *vertex2=nullptr;
-
-	// if(!IsInMap(s2))
-	//   {
-	//     vertex2=new VertexVariable(s2);
-	//     AddToMap(vertex2, s2);
-	//   }
-	// else vertex2=vmap[s2];
-
-	// VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
-	// vmap["@"+std::to_string(id)]=v;
-
-	// CreateVertex<VertexNumeric, VertexVariable, EdgeNumeric, EdgeVariable>(s1, s2, mathOperator, id);
       }
     else if(b1.numeric and b2.constant)
       {
 	CreateVertexNumeric<VertexConstant, VertexVerticesNumeric1>(s1, s2, mathOperator, id);
-	// CreateVertex<VertexNumeric, VertexConstant, EdgeNumeric, EdgeConstant>(s1, s2, mathOperator, id);
       }
     else if(b1.numeric and b2.numeric)
       {
@@ -194,34 +176,19 @@ public:
     else if(b1.math and b2.math)
       {
 	cout<<"b1.math and b2.math "<<'\n';
-	// const uint8_t i1=stoi(s1.substr(1, s1.size()));
-	// const uint8_t i2=stoi(s2.substr(1, s2.size()));
-
 	VertexVertices *v1=new VertexVertices(vmap[s1], vmap[s2], mathOperator);
-	// Edge *edge1=new Edge2(vertices[i1], v1);
-	// Edge *edge2=new Edge2(vertices[i2], v1);
-	cout<<v1<<'\n';
-	// vertices.emplace_back(v1);
 	vmap["@"+std::to_string(id)]=v1;
-	// edges.emplace_back(edge1);
-	// edges.emplace_back(edge2);
       }
     else if(b1.math)
       {
 	cout<<"b1.math"<<'\n';
-	// const uint8_t i1=stoi(s1.substr(1, s1.size()));
 	VertexVertices *v1=new VertexVertices(vmap[s1], vmap[s2], mathOperator);
 	vmap["@"+std::to_string(id)]=v1;
-	// vertices.emplace_back(v1);
-	// Edge *E=new EdgeEdge1(edges[i1], edges[i1+1], vmap[s2]);
-	// edges.emplace_back(E);
       }
     else if(b2.math)
       {
 	cout<<"b2.math"<<'\n';
-	// const uint8_t i2=stoi(s2.substr(1, s2.size()));
 	VertexVertices *v2=new VertexVertices(vmap[s2], vmap[s1], mathOperator);
-	// vertices.emplace_back(v2);
 	vmap["@"+std::to_string(id)]=v2;
       }
     else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
