@@ -64,10 +64,27 @@ protected:
     else cout<<"AA "<<vmap[s]<<'\n';
   }
 
+  template<typename T>
+  void CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id)
+  {
+    VertexValue *vertex1=new VertexNumeric(s1);
+    Vertex *vertex2=nullptr;
+
+    if(!IsInMap(s2))
+      {
+	vertex2=new T(s2);
+	AddToMap(vertex2, s2);
+      }
+    else vertex2=vmap[s2];
+
+    VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
+    vmap["@"+std::to_string(id)]=v;
+  }
+
   template<typename T, typename U, typename L, typename I>
   void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id)
   {
-    cout<<"Create "<<id<<'\n';
+    cout<<"Create ID="<<std::to_string(id)<<", "<<s1<<" "<<s2<<'\n';
     Vertex *vertex1=nullptr;
     Vertex *vertex2=nullptr;
 
@@ -86,18 +103,9 @@ protected:
     else vertex2=vmap[s2];
 
     VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
-    // Edge *edge1=new L(vertex1, v);
-    // Edge *edge2=new I(vertex2, v);
     cout<<s1<<" "<<s2<<" "<<"@"<<std::to_string(id)<<'\n';
-    // cout<<vmap[s1]<<" "<<vmap.find(s1)<<'\n';
 
-
-    // vmap[s1]=vertex1;
-    // vmap[s2]=vertex2;
-    // vertices.emplace_back(v);
     vmap["@"+std::to_string(id)]=v;
-    // edges.emplace_back(edge1);
-    // edges.emplace_back(edge2);
     cout<<vertex1<<" "<<vertex2<<'\n';
     cout<<"Created"<<'\n';
   }
@@ -125,7 +133,8 @@ public:
       }
     else if(b1.variable and b2.numeric)
       {
-	CreateVertex<VertexVariable, VertexNumeric, EdgeVariable, EdgeNumeric>(s1, s2, mathOperator, id);
+	CreateVertexNumeric<VertexVariable>(s2, s1, mathOperator, id);
+	// CreateVertex<VertexVariable, VertexNumeric, EdgeVariable, EdgeNumeric>(s1, s2, mathOperator, id);
       }
     else if(b1.constant and b2.variable)
       {
@@ -137,18 +146,37 @@ public:
       }
     else if(b1.constant and b2.numeric)
       {
-	CreateVertex<VertexConstant, VertexNumeric, EdgeConstant, EdgeNumeric>(s1, s2, mathOperator, id);
+	CreateVertexNumeric<VertexConstant>(s2, s1, mathOperator, id);
+	// CreateVertex<VertexConstant, VertexNumeric, EdgeConstant, EdgeNumeric>(s1, s2, mathOperator, id);
       }
     else if(b1.numeric and b2.variable)
       {
-	CreateVertex<VertexNumeric, VertexVariable, EdgeNumeric, EdgeVariable>(s1, s2, mathOperator, id);
+	cout<<"b1.numeric and b2.variable"<<'\n';
+	CreateVertexNumeric<VertexVariable>(s1, s2, mathOperator, id);
+	// VertexValue *vertex1=new VertexNumeric(s1);
+
+	// Vertex *vertex2=nullptr;
+
+	// if(!IsInMap(s2))
+	//   {
+	//     vertex2=new VertexVariable(s2);
+	//     AddToMap(vertex2, s2);
+	//   }
+	// else vertex2=vmap[s2];
+
+	// VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
+	// vmap["@"+std::to_string(id)]=v;
+
+	// CreateVertex<VertexNumeric, VertexVariable, EdgeNumeric, EdgeVariable>(s1, s2, mathOperator, id);
       }
     else if(b1.numeric and b2.constant)
       {
-	CreateVertex<VertexNumeric, VertexConstant, EdgeNumeric, EdgeConstant>(s1, s2, mathOperator, id);
+	CreateVertexNumeric<VertexConstant>(s1, s2, mathOperator, id);
+	// CreateVertex<VertexNumeric, VertexConstant, EdgeNumeric, EdgeConstant>(s1, s2, mathOperator, id);
       }
     else if(b1.numeric and b2.numeric)
       {
+	cout<<"b1.numeric and b2.numeric "<<s1<<" "<<s2<<'\n';
 	VertexValue *vertex1=new VertexNumeric(s1);
 	VertexValue *vertex2=new VertexNumeric(s2);
 	VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
