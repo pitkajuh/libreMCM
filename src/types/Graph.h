@@ -64,7 +64,7 @@ protected:
 
     VertexValue *vertex1=new T(s1);
     VertexValue *vertex2=new U(s2);
-    VertexMultiValue *v=new VertexVertices(vertex1, vertex2, mathOperator);
+    VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
     // Edge *edge1=new L(vertex1, v);
     // Edge *edge2=new I(vertex2, v);
     cout<<s1<<" "<<s2<<" "<<"@"<<std::to_string(id)<<'\n';
@@ -124,17 +124,18 @@ public:
       }
     else if(b1.numeric and b2.numeric)
       {
-	cout<<"b1.numeric and b2.numeric"<<'\n';
-	// Do not use CreateVertex here. Just create a math operator with mathOperator and call it with s1 and s2, then create a new VertexNumeric.
-	// CreateVertex<VertexNumeric, VertexNumeric, EdgeNumeric, EdgeNumeric>(s1, s2, mathOperator, id);
-	// this->Simplify(id);
+	VertexValue *vertex1=new VertexNumeric(s1);
+	VertexValue *vertex2=new VertexNumeric(s2);
+	VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
+	v->Calculate();
+	VertexValue *calculated=new VertexNumeric(v->GetValue());
 
-	// MathOperation *m=CreateNewMathOperation<Numeric, Numeric, NumericNumeric>(s1, s2, mathOperator);
-	// // Result of numeric-numeric math operation can be calculated in advance, so the equation template can
+	vmap["@"+std::to_string(id)]=calculated;
+	delete vertex1;
+	delete vertex2;
+	delete v;
+	// // Result can be calculated in advance, so the equation template can
 	// // simplified and performance of the calculation increased.
-	// m->Calculate();
-	// cout<<"result "<<m->result<<'\n';
-	// return m;
       }
     else if(b1.math and b2.math)
       {

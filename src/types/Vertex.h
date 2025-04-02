@@ -80,6 +80,7 @@ public:
     return value;
   }
   VertexNumeric(const string &s){SetValue(stod(s));}
+  VertexNumeric(const double s){SetValue(s);}
   VertexNumeric(){}
   ~VertexNumeric(){}
 };
