@@ -181,6 +181,8 @@ public:
       }
     else if(b1.math)
       {
+
+	// else if(b1.math and b2.numeric)
 	cout<<"b1.math"<<'\n';
 	VertexVertices *v1=new VertexVertices(vmap[s1], vmap[s2], mathOperator);
 	vmap["@"+std::to_string(id)]=v1;
