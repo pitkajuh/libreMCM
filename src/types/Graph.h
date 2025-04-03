@@ -57,12 +57,8 @@ public:
 class GraphEquation: public Graph
 {
 protected:
-  bool IsInMap(const string &s){return vmap.count(s)>0;}
-  void AddToMap(Vertex *v, const string &s)
-  {
-    if(!IsInMap(s)) vmap[s]=v;
-    else cout<<"AA "<<vmap[s]<<'\n';
-  }
+  bool IsInMap(const string &s);
+  void AddToMap(Vertex *v, const string &s);
 
   template<typename T, typename U>
   void CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id)
@@ -109,16 +105,6 @@ protected:
     cout<<vertex1<<" "<<vertex2<<'\n';
     cout<<"Created"<<'\n';
   }
-
-  void Simplify(const uint8_t id)
-  {
-    cout<<"ID "<<std::to_string(id)<<'\n';
-    // vmap.end()->second->Calculate();
-    // cout<<"simplify "<<vmap.end()->second->GetValue()<<'\n';
-
-    // Remove vertex at vertices.back()
-    // Create a new Vertex VertexNumeric
-  }
 public:
   void CreateEdge(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, const uint8_t id)
   {
@@ -158,6 +144,8 @@ public:
       }
     else if(b1.numeric and b2.numeric)
       {
+	// Result can be calculated in advance, so the equation template can
+	// be simplified and performance of the calculation increased.
 	cout<<"b1.numeric and b2.numeric "<<s1<<" "<<s2<<'\n';
 	VertexValue *vertex1=new VertexNumeric(s1);
 	VertexValue *vertex2=new VertexNumeric(s2);
@@ -170,8 +158,6 @@ public:
 	delete vertex2;
 	delete v;
 	cout<<calculated<<'\n';
-	// // Result can be calculated in advance, so the equation template can
-	// // simplified and performance of the calculation increased.
       }
     else if(b1.math and b2.math)
       {
@@ -181,28 +167,35 @@ public:
       }
     else if(b1.math)
       {
-	if(vmap[s1]->GetValue()!=NAN) cout<<"vmap[s1].GetValue()!=NAN"<<'\n';
-	// else if(b1.math and b2.numeric)
 	cout<<"b1.math"<<'\n';
 	VertexVertices *v1=new VertexVertices(vmap[s1], vmap[s2], mathOperator);
 	vmap["@"+std::to_string(id)]=v1;
       }
-    else if(b1.numeric and b2.math)
+    else if(b1.numeric and b2.math and vmap[s2]->GetValue()!=NAN)
       {
-	if(vmap[s2]->GetValue()!=NAN)
-	  {
-	    cout<<"vmap[s1].GetValue()!=NAN "<<vmap[s2]->GetValue()<<'\n';
-	  }
+	// Result can be calculated in advance, so the equation template can
+	// be simplified and performance of the calculation increased.
+	VertexMultiValue *v1=new VertexMultiValue(mathOperator);
+	Vertex *v=new VertexNumeric(v1->GetOperator(std::stod(s1), vmap[s2]->GetValue()));
+	cout<<"vmap[s1].GetValue()!=NAN "<<s1<<" "<<vmap[s2]->GetValue()<<" "<<v->GetValue()<<'\n';
+	vmap["@"+std::to_string(id)]=v;
+	delete v1;
       }
     else if(b2.math)
       {
-	// if(vmap[s2]->GetValue()!=NAN)
-	//   {
-	//     cout<<"vmap[s1].GetValue()!=NAN"<<'\n';
-	//   }
 	cout<<"b2.math"<<'\n';
 	VertexVertices *v2=new VertexVertices(vmap[s2], vmap[s1], mathOperator);
 	vmap["@"+std::to_string(id)]=v2;
+      }
+    else if(b2.numeric and b1.math and vmap[s1]->GetValue()!=NAN)
+      {
+	// Result can be calculated in advance, so the equation template can
+	// be simplified and performance of the calculation increased.
+	VertexMultiValue *v1=new VertexMultiValue(mathOperator);
+	Vertex *v=new VertexNumeric(v1->GetOperator(vmap[s2]->GetValue(), std::stod(s1)));
+	cout<<"vmap[s1].GetValue()!=NAN "<<s2<<" "<<vmap[s1]->GetValue()<<" "<<v->GetValue()<<'\n';
+	vmap["@"+std::to_string(id)]=v;
+	delete v1;
       }
     else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
       {
@@ -212,10 +205,6 @@ public:
       {
 	throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable or numeric value.");
       }
-
-    // SetId(id);
-    // CreateEdge1(s1, s2, mathOperator);
-    // delete edge;
   }
   GraphEquation(){}
   ~GraphEquation(){cout<<"~GraphEquation "<<'\n';}

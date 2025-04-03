@@ -11,6 +11,11 @@
 #ifndef MATHOPERATOR_H
 #define MATHOPERATOR_H
 
+#include <string>
+#include <cmath>
+
+using std::string;
+
 class MathOperator
 {
 public:

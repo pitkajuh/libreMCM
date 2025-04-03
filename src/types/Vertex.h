@@ -12,6 +12,7 @@
 #define VERTEX_H
 
 #include "MathOperator.h"
+#include "../global/mathconst.h"
 #include <iostream>
 using std::cout;
 
@@ -72,11 +73,7 @@ class VertexNumeric: public VertexValue
 {
 public:
   // void Calculate(){cout<<"VertexNumeric Calculate"<<'\n';};
-  double GetValue()
-  {
-    cout<<"VertexNumeric GetValue"<<'\n';
-    return value;
-  }
+  double GetValue(){return value;}
   VertexNumeric(const string &s){SetValue(stod(s));}
   VertexNumeric(const double s){SetValue(s);}
   VertexNumeric(){}
@@ -106,6 +103,7 @@ protected:
     else if(s==EXP) mathOperator=new Exp;
   }
 public:
+  double GetOperator(const double d1, const double d2){return mathOperator->Calculate(d1, d2);}
   double GetValue(){return result;}
   void Calculate(){cout<<"VertexMultiValue Calculate"<<'\n';};
   VertexMultiValue(){}
