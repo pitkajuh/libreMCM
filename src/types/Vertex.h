@@ -54,7 +54,7 @@ public:
   const bool GetNegative(){return negative;}
   const string GetName(){return name;}
   // double GetValue(){cout<<"VertexValue GetValue"<<'\n'; return value;}
-  virtual double GetValue(){return 0;};
+  virtual double GetValue(){return value;};
   void Calculate(){cout<<"VertexValue Calculate"<<'\n';}
   VertexValue(){};
   ~VertexValue(){};
@@ -62,7 +62,6 @@ public:
 
 class VertexConstant: public VertexValue
 {
-private:
 public:
   VertexConstant(const string &s){SetName(s);}
   VertexConstant(){}
@@ -71,7 +70,6 @@ public:
 
 class VertexNumeric: public VertexValue
 {
-private:
 public:
   // void Calculate(){cout<<"VertexNumeric Calculate"<<'\n';};
   double GetValue()
@@ -87,7 +85,6 @@ public:
 
 class VertexVariable: public VertexValue
 {
-private:
 public:
   VertexVariable(const string &s){SetName(s);}
   VertexVariable(){}

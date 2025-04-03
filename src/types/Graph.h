@@ -181,14 +181,25 @@ public:
       }
     else if(b1.math)
       {
-
+	if(vmap[s1]->GetValue()!=NAN) cout<<"vmap[s1].GetValue()!=NAN"<<'\n';
 	// else if(b1.math and b2.numeric)
 	cout<<"b1.math"<<'\n';
 	VertexVertices *v1=new VertexVertices(vmap[s1], vmap[s2], mathOperator);
 	vmap["@"+std::to_string(id)]=v1;
       }
+    else if(b1.numeric and b2.math)
+      {
+	if(vmap[s2]->GetValue()!=NAN)
+	  {
+	    cout<<"vmap[s1].GetValue()!=NAN "<<vmap[s2]->GetValue()<<'\n';
+	  }
+      }
     else if(b2.math)
       {
+	// if(vmap[s2]->GetValue()!=NAN)
+	//   {
+	//     cout<<"vmap[s1].GetValue()!=NAN"<<'\n';
+	//   }
 	cout<<"b2.math"<<'\n';
 	VertexVertices *v2=new VertexVertices(vmap[s2], vmap[s1], mathOperator);
 	vmap["@"+std::to_string(id)]=v2;
