@@ -177,11 +177,11 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
     }
   else if(b2.numeric and b1.math and vmap[s1]->GetValue()!=NAN)
     {
-      cout<<"b2.numeric and b1.math and vmap[s1]->GetValue()!=NAN"<<'\n';
+      cout<<"b2.numeric and b1.math and vmap[s1]->GetValue()!=NAN"<<" "<<s1<<" "<<s2<<'\n';
       // Result can be calculated in advance, so the equation template can
       // be simplified and performance of the calculation increased.
       VertexMultiValue *v1=new VertexMultiValue(mathOperator);
-      Vertex *v=new VertexNumeric(v1->GetOperator(vmap[s2]->GetValue(), std::stod(s1)));
+      Vertex *v=new VertexNumeric(v1->GetOperator(vmap[s1]->GetValue(), std::stod(s2)));
       cout<<"vmap[s1].GetValue()!=NAN "<<s2<<" "<<vmap[s1]->GetValue()<<" "<<v->GetValue()<<'\n';
       vmap["@"+std::to_string(id)]=v;
       delete v1;
