@@ -16,8 +16,6 @@
 #include <iostream>
 using std::cout;
 
-class Edge;
-
 class Vertex
 {
 public:
@@ -34,29 +32,12 @@ protected:
   string name="";
   double value=NAN;
 public:
-  void SetName(const string &s)
-  {
-    name=s;
-
-    if(s[0]=='-')
-      {
-	negative=1;
-	name=name.substr(1, name.size());
-      }
-  }
-
-  void SetValue(const double v)
-  {
-    value=v;
-
-    if(negative) value=-1*value;
-  }
-
-  const bool GetNegative(){return negative;}
-  const string GetName(){return name;}
-  // double GetValue(){cout<<"VertexValue GetValue"<<'\n'; return value;}
+  void SetName(const string &s);
+  void SetValue(const double v);
+  const bool GetNegative();
+  const string GetName();
   virtual double GetValue(){return value;};
-  void Calculate(){cout<<"VertexValue Calculate"<<'\n';}
+  void Calculate();
   VertexValue(){};
   ~VertexValue(){};
 };
@@ -64,7 +45,8 @@ public:
 class VertexConstant: public VertexValue
 {
 public:
-  VertexConstant(const string &s){SetName(s);}
+  double GetValue();
+  VertexConstant(const string &s);
   VertexConstant(){}
   ~VertexConstant(){}
 };
@@ -72,10 +54,9 @@ public:
 class VertexNumeric: public VertexValue
 {
 public:
-  // void Calculate(){cout<<"VertexNumeric Calculate"<<'\n';};
-  double GetValue(){return value;}
-  VertexNumeric(const string &s){SetValue(stod(s));}
-  VertexNumeric(const double s){SetValue(s);}
+  double GetValue();
+  VertexNumeric(const string &s);
+  VertexNumeric(const double s);
   VertexNumeric(){}
   ~VertexNumeric(){}
 };
@@ -83,7 +64,8 @@ public:
 class VertexVariable: public VertexValue
 {
 public:
-  VertexVariable(const string &s){SetName(s);}
+  double GetValue();
+  VertexVariable(const string &s);
   VertexVariable(){}
   ~VertexVariable(){}
 };
@@ -93,26 +75,14 @@ class VertexMultiValue: public Vertex
 protected:
   MathOperator *mathOperator=nullptr;
   double result;
-
-  void SetOperator(const string &s)
-  {
-    if(s==ADD) mathOperator=new Add;
-    else if(s==SUBTRACT) mathOperator=new Sub;
-    else if(s==MULTIPLY) mathOperator=new Mul;
-    else if(s==DIVIDE) mathOperator=new Div;
-    else if(s==EXP) mathOperator=new Exp;
-  }
+  void SetOperator(const string &s);
 public:
-  double GetOperator(const double d1, const double d2){return mathOperator->Calculate(d1, d2);}
-  double GetValue(){return result;}
-  void Calculate(){cout<<"VertexMultiValue Calculate"<<'\n';};
+  double GetOperator(const double d1, const double d2);
+  double GetValue();
+  void Calculate();
   VertexMultiValue(){}
-  VertexMultiValue(const string &s){this->SetOperator(s);}
-  ~VertexMultiValue()
-  {
-    // cout<<"~VertexMultiValue()"<<'\n';
-    delete mathOperator;
-  }
+  VertexMultiValue(const string &s);
+  ~VertexMultiValue();
 };
 
 class VertexVertices: public VertexMultiValue
@@ -121,20 +91,9 @@ protected:
   Vertex *vertex1=nullptr;
   Vertex *vertex2=nullptr;
 public:
-  void Calculate()
-  {
-    cout<<"VertexVertices Calculate"<<'\n';
-    cout<<vertex1->GetValue()<<" "<<vertex2->GetValue()<<'\n';
-    result=mathOperator->Calculate(vertex1->GetValue(), vertex2->GetValue());
-    cout<<result<<'\n';
-  }
+  void Calculate();
   VertexVertices(){}
-  VertexVertices(Vertex *vertex1, Vertex *vertex2, const string &s)
-  {
-    this->vertex1=vertex1;
-    this->vertex2=vertex2;
-    this->SetOperator(s);
-  }
+  VertexVertices(Vertex *vertex1, Vertex *vertex2, const string &s);
   ~VertexVertices(){}
 };
 
@@ -142,28 +101,16 @@ class VertexVerticesNumeric1: public VertexVertices
 {
 public:
   VertexVerticesNumeric1(){}
-  VertexVerticesNumeric1(Vertex *vertex1, Vertex *vertex2, const string &s)
-  {
-    cout<<"VertexVerticesNumeric1"<<'\n';
-    this->vertex1=vertex1;
-    this->vertex2=vertex2;
-    this->SetOperator(s);
-  }
-  ~VertexVerticesNumeric1(){delete vertex1;}
+  VertexVerticesNumeric1(Vertex *vertex1, Vertex *vertex2, const string &s);
+  ~VertexVerticesNumeric1();
 };
 
 class VertexVerticesNumeric2: public VertexVertices
 {
 public:
   VertexVerticesNumeric2(){}
-  VertexVerticesNumeric2(Vertex *vertex1, Vertex *vertex2, const string &s)
-  {
-    cout<<"VertexVerticesNumeric2"<<'\n';
-    this->vertex1=vertex2;
-    this->vertex2=vertex1;
-    this->SetOperator(s);
-  }
-  ~VertexVerticesNumeric2(){delete vertex2;}
+  VertexVerticesNumeric2(Vertex *vertex1, Vertex *vertex2, const string &s);
+  ~VertexVerticesNumeric2();
 };
 
 #endif
