@@ -14,7 +14,7 @@ void GraphEquation::CreateVertexNumeric(const string &s1, const string &s2, cons
 {
   VertexValue *vertex1=new VertexNumeric(s1);
   Vertex *vertex2=nullptr;
-
+  cout<<"A "<<s1<<" "<<s2<<'\n';
   if(!IsInMap(s2))
     {
       vertex2=new T(s2);
@@ -48,7 +48,7 @@ void GraphEquation::SubstituteConstants(const SMap &constants_map)
     }
 }
 
-template<typename T, typename U, typename L, typename I>
+template<typename T, typename U>
 void GraphEquation::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id)
 {
   cout<<"Create ID="<<std::to_string(id)<<", "<<s1<<" "<<s2<<'\n';
@@ -67,11 +67,11 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
   cout<<" "<<'\n';
   if(b1.variable and b2.variable)
     {
-      CreateVertex<VertexVariable, VertexVariable, EdgeVariable, EdgeVariable>(s1, s2, mathOperator, id);
+      CreateVertex<VertexVariable, VertexVariable>(s1, s2, mathOperator, id);
     }
   else if(b1.variable and b2.constant)
     {
-      CreateVertex<VertexVariable, VertexConstant, EdgeVariable, EdgeConstant>(s1, s2, mathOperator, id);
+      CreateVertex<VertexVariable, VertexConstant>(s1, s2, mathOperator, id);
     }
   else if(b1.variable and b2.numeric)
     {
@@ -79,11 +79,11 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
     }
   else if(b1.constant and b2.variable)
     {
-      CreateVertex<VertexConstant, VertexVariable, EdgeConstant, EdgeVariable>(s1, s2, mathOperator, id);
+      CreateVertex<VertexConstant, VertexVariable>(s1, s2, mathOperator, id);
     }
   else if(b1.constant and b2.constant)
     {
-      CreateVertex<VertexConstant, VertexConstant, EdgeConstant, EdgeConstant>(s1, s2, mathOperator, id);
+      CreateVertex<VertexConstant, VertexConstant>(s1, s2, mathOperator, id);
     }
   else if(b1.constant and b2.numeric)
     {

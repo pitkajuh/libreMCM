@@ -36,6 +36,9 @@ class GraphEquation: public Graph
 {
 protected:
   map<string, Vertex*> vmap;
+  map<string, Vertex*> constants;
+  map<string, Vertex*> variables;
+
   bool IsInMap(const string &s);
   void AddToMap(Vertex *v, const string &s);
 
@@ -45,7 +48,7 @@ protected:
   template<typename T>
   Vertex *CreateVertex2(const string &s1);
 
-  template<typename T, typename U, typename L, typename I>
+  template<typename T, typename U>
   void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id);
 
 public:
@@ -56,6 +59,10 @@ public:
   {
     cout<<"~GraphEquation "<<'\n';
     for(auto &[i1, i2]: vmap)
+      delete i2;
+    for(auto &[i1, i2]: constants)
+      delete i2;
+    for(auto &[i1, i2]: variables)
       delete i2;
   }
 };
