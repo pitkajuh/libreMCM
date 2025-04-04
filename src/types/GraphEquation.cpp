@@ -26,27 +26,26 @@ void GraphEquation::CreateVertexNumeric(const string &s1, const string &s2, cons
   vmap["@"+std::to_string(id)]=v;
 }
 
+template<typename T>
+Vertex *GraphEquation::CreateVertex2(const string &s)
+{
+  Vertex *v=nullptr;
+
+  if(!IsInMap(s))
+    {
+      v=new T(s);
+      AddToMap(v, s);
+    }
+  else v=vmap[s];
+  return v;
+}
+
 template<typename T, typename U, typename L, typename I>
 void GraphEquation::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id)
 {
   cout<<"Create ID="<<std::to_string(id)<<", "<<s1<<" "<<s2<<'\n';
-  Vertex *vertex1=nullptr;
-  Vertex *vertex2=nullptr;
-
-  if(!IsInMap(s1))
-    {
-      vertex1=new T(s1);
-      AddToMap(vertex1, s1);
-    }
-  else vertex1=vmap[s1];
-
-  if(!IsInMap(s2))
-    {
-      vertex2=new T(s2);
-      AddToMap(vertex2, s2);
-    }
-  else vertex2=vmap[s2];
-
+  Vertex *vertex1=CreateVertex2<T>(s1);
+  Vertex *vertex2=CreateVertex2<T>(s2);
   VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
   cout<<s1<<" "<<s2<<" "<<"@"<<std::to_string(id)<<'\n';
 
@@ -155,3 +154,17 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
       throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable or numeric value.");
     }
 }
+
+void GraphEquationSingle::CreateVertex(const Bools &b, const string &e)
+{
+  if(b.variable){vertex=new VertexVariable(e);}
+  else if(b.constant){vertex=new VertexConstant(e);}
+  else{vertex=new VertexNumeric(e);}
+}
+
+GraphEquationSingle::GraphEquationSingle(const Bools &b, const string &e)
+{
+  this->CreateVertex(b, e);
+}
+
+GraphEquationSingle::~GraphEquationSingle(){delete vertex;}

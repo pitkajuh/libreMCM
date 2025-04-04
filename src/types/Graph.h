@@ -28,29 +28,13 @@ using std::cout;
 class Graph
 {
 protected:
-  // vector<Vertex*> vertices;
   map<string, Vertex*> vmap;
-  // vector<Edge*> edges;
 public:
 
   virtual ~Graph()
   {
-    // cout<<"~Graph() "<<vertices.size()<<" "<<edges.size()<<'\n';
-    // for(auto &i: vertices)
-    //   {
-    // 	delete i;
-    //   }
-    // cout<<vmap.size()<<'\n';
     for(auto &[i1, i2]: vmap)
-      {
-	// cout<<"delete "<<i1<<" "<<i2<<'\n';
-	delete i2;
-      }
-
-    // for(auto &j: edges)
-    //   {
-    // 	delete j;
-    //   }
+      delete i2;
   }
 };
 
@@ -62,6 +46,9 @@ protected:
 
   template<typename T, typename U>
   void CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id);
+
+  template<typename T>
+  Vertex *CreateVertex2(const string &s1);
 
   template<typename T, typename U, typename L, typename I>
   void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id);
@@ -77,19 +64,11 @@ class GraphEquationSingle: public GraphEquation
 protected:
   VertexValue *vertex=nullptr;
 
-  void CreateEdge(const Bools &b, const string &e)
-  {
-    if(b.variable){vertex=new VertexVariable(e);}
-    else if(b.constant){vertex=new VertexConstant(e);}
-    else{vertex=new VertexNumeric(e);}
-  }
+  void CreateVertex(const Bools &b, const string &e);
 public:
   GraphEquationSingle(){}
-  GraphEquationSingle(const Bools &b, const string &e)
-  {
-    this->CreateEdge(b, e);
-  }
-  ~GraphEquationSingle(){delete vertex;}
+  GraphEquationSingle(const Bools &b, const string &e);
+  ~GraphEquationSingle();
 };
 
 #endif
