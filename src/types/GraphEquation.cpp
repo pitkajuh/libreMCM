@@ -40,6 +40,14 @@ Vertex *GraphEquation::CreateVertex2(const string &s)
   return v;
 }
 
+void GraphEquation::SubstituteConstants(const SMap &constants_map)
+{
+  for(auto &[name, equation]:vmap)
+    {
+      cout<<name<<" "<<equation<<'\n';
+    }
+}
+
 template<typename T, typename U, typename L, typename I>
 void GraphEquation::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id)
 {

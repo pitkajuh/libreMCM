@@ -73,7 +73,13 @@ void ReadInitialData(const string &directory)
   const vector<string> iv_names=CreateAllInitialValues(ivs);
   const Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
   const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
-  ParseEquations(equations_map, csv.diagonal);
+  map<string, GraphEquation*> eqs=ParseEquations(equations_map, csv.diagonal);
+  for(auto &[name, equation]: eqs)
+    {
+      cout<<name<<" "<<equation<<'\n';
+      equation->SubstituteConstants(constants_map);
+      delete equation;
+    }
   // CreateEquationTemplates(equationMap, constants_map);
 }
 

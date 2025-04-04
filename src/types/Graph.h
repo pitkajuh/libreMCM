@@ -27,20 +27,15 @@ using std::cout;
 
 class Graph
 {
-protected:
-  map<string, Vertex*> vmap;
 public:
-
-  virtual ~Graph()
-  {
-    for(auto &[i1, i2]: vmap)
-      delete i2;
-  }
+  Graph(){}
+  virtual ~Graph(){}
 };
 
 class GraphEquation: public Graph
 {
 protected:
+  map<string, Vertex*> vmap;
   bool IsInMap(const string &s);
   void AddToMap(Vertex *v, const string &s);
 
@@ -54,9 +49,15 @@ protected:
   void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id);
 
 public:
+  void SubstituteConstants(const SMap &constants_map);
   void CreateEdge(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, const uint8_t id);
   GraphEquation(){}
-  ~GraphEquation(){cout<<"~GraphEquation "<<'\n';}
+  ~GraphEquation()
+  {
+    cout<<"~GraphEquation "<<'\n';
+    for(auto &[i1, i2]: vmap)
+      delete i2;
+  }
 };
 
 class GraphEquationSingle: public GraphEquation

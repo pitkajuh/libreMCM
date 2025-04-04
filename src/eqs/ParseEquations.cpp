@@ -119,7 +119,7 @@ void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data,
     }
 }
 
-void ParseEquations(const SMap &equations_map, const vector<string> &data)
+map<string, GraphEquation*> ParseEquations(const SMap &equations_map, const vector<string> &data)
 {
   // Set calculation order of an equation according to order of operations:
 
@@ -131,6 +131,7 @@ void ParseEquations(const SMap &equations_map, const vector<string> &data)
   vector<string> v;
   uint8_t id=0;
   GraphEquation *graphEquation=nullptr;
+  map<string, GraphEquation*> equations;
 
   for(const auto& [name, equation]: equations_map)
     {
@@ -143,11 +144,12 @@ void ParseEquations(const SMap &equations_map, const vector<string> &data)
       // head->next=nullptr;
       // equationMap[name]=head;
       id=0;
-      delete graphEquation;
+      equations[name]=graphEquation;
+      // delete graphEquation;
       graphEquation=nullptr;
       cout<<"ok"<<'\n';
 
       cout<<" "<<'\n';
     }
-
+  return equations;
 }
