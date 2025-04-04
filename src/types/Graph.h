@@ -39,17 +39,20 @@ protected:
   map<string, Vertex*> constants;
   map<string, Vertex*> variables;
 
-  bool IsInMap(const string &s);
-  void AddToMap(Vertex *v, const string &s);
+  bool IsInMap(const string &s, map<string, Vertex*> &map);
+  void AddToMap(Vertex *v, const string &s, map<string, Vertex*> &map);
 
   template<typename T, typename U>
-  void CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id);
+  void CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map);
 
   template<typename T>
-  Vertex *CreateVertex2(const string &s1);
+  Vertex *CreateVertex2(const string &s, map<string, Vertex*> &map);
 
   template<typename T, typename U>
-  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id);
+  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map1, map<string, Vertex*> &map2, map<string, Vertex*> &map3);
+
+  template<typename T>
+  void AddMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map1, map<string, Vertex*> &map2);
 
 public:
   void SubstituteConstants(const SMap &constants_map);
@@ -57,13 +60,24 @@ public:
   GraphEquation(){}
   ~GraphEquation()
   {
-    cout<<"~GraphEquation "<<'\n';
+    cout<<"~GraphEquation "<<vmap.size()<<" "<<constants.size()<<" "<<variables.size()<<'\n';
     for(auto &[i1, i2]: vmap)
-      delete i2;
+      {
+	cout<<"delete "<<i1<<" "<<i2<<'\n';
+	delete i2;
+      }
+    cout<<" "<<'\n';
     for(auto &[i1, i2]: constants)
-      delete i2;
+      {
+	cout<<"delete "<<i1<<" "<<i2<<'\n';
+	delete i2;
+      }
+    cout<<" "<<'\n';
     for(auto &[i1, i2]: variables)
-      delete i2;
+      {
+	cout<<"delete "<<i1<<" "<<i2<<'\n';
+	delete i2;
+      }
   }
 };
 
