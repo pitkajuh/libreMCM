@@ -34,10 +34,38 @@ protected:
 public:
   void SetName(const string &s);
   void SetValue(const double v);
+  void Calculate();
   const bool GetNegative();
   const string GetName();
   virtual double GetValue(){return value;};
-  void Calculate();
+  VertexValue(VertexValue &v)
+  {
+    this->negative=v.GetNegative();
+    this->name=v.name;
+    this->value=v.value;
+  }
+  VertexValue &operator=(VertexValue &v)
+  {
+    if(this==&v) return *this;
+
+    this->negative=v.GetNegative();
+    this->name=v.name;
+    this->value=v.value;
+  }
+  VertexValue(VertexValue &&v) noexcept
+  {
+    this->negative=v.GetNegative();
+    this->name=v.name;
+    this->value=v.value;
+  }
+  VertexValue &operator=(VertexValue &&v) noexcept
+  {
+    if(this==&v) return *this;
+
+    this->negative=v.GetNegative();
+    this->name=v.name;
+    this->value=v.value;
+  }
   VertexValue(){};
   ~VertexValue(){};
 };
