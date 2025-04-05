@@ -68,6 +68,7 @@ VertexVerticesNumeric1::VertexVerticesNumeric1(Vertex *vertex1, Vertex *vertex2,
   this->vertex2=vertex2;
   this->SetOperator(s);
 }
+
 VertexVerticesNumeric1::~VertexVerticesNumeric1(){delete vertex1;}
 
 VertexVerticesNumeric2::VertexVerticesNumeric2(Vertex *vertex1, Vertex *vertex2, const string &s)
@@ -77,4 +78,5 @@ VertexVerticesNumeric2::VertexVerticesNumeric2(Vertex *vertex1, Vertex *vertex2,
   this->vertex2=vertex1;
   this->SetOperator(s);
 }
+
 VertexVerticesNumeric2::~VertexVerticesNumeric2(){delete vertex2;}

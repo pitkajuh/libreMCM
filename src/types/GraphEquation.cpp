@@ -81,6 +81,7 @@ void GraphEquation::CreateVertex(const string &s1, const string &s2, const strin
 void GraphEquation::CreateEdge(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, const uint8_t id)
 {
   cout<<" "<<'\n';
+  cout<<s1<<" "<<s2<<'\n';
   if(b1.variable and b2.variable)
     {
       cout<<"b1.variable and b2.variable"<<'\n';
