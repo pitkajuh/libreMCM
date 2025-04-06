@@ -78,6 +78,23 @@ void GraphEquation::CreateVertex(const string &s1, const string &s2, const strin
   cout<<"Created"<<'\n';
 }
 
+void GraphEquation::CreateMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id)
+{
+  if(vmap[s1]->GetValue()!=NAN)
+    {
+      VertexMultiValue *v1=new VertexMultiValue(mathOperator);
+      Vertex *v=new VertexNumeric(v1->GetOperator(vmap[s1]->GetValue(), std::stod(s2)));
+      cout<<"vmap[s1].GetValue()!=NAN "<<s2<<" "<<vmap[s1]->GetValue()<<" "<<v->GetValue()<<'\n';
+      vmap["@"+std::to_string(id)]=v;
+      delete v1;
+    }
+  else
+    {
+      VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
+      vmap["@"+std::to_string(id)]=v;
+    }
+}
+
 void GraphEquation::CreateEdge(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, const uint8_t id)
 {
   cout<<" "<<'\n';

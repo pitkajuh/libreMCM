@@ -54,6 +54,8 @@ protected:
   template<typename T>
   void AddMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map1, map<string, Vertex*> &map2);
 
+  void CreateMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id);
+
 public:
   void SubstituteConstants(const SMap &constants_map);
   void CreateEdge(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, const uint8_t id);
