@@ -90,7 +90,7 @@ void GraphEquation::CreateMath(const string &s1, const string &s2, const string 
     }
   else
     {
-      VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
+      VertexVertices *v=new VertexVertices(vmap[s1], vertex2, mathOperator);
       vmap["@"+std::to_string(id)]=v;
     }
 }
