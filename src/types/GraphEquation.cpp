@@ -10,20 +10,20 @@ void GraphEquation::AddToMap(Vertex *v, const string &s, map<string, Vertex*> &m
 }
 
 template<typename T, typename U>
-void GraphEquation::CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map)
+void GraphEquation::CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map1, map<string, Vertex*> &map2)
 {
   VertexValue *vertex1=new VertexNumeric(s1);
   Vertex *vertex2=nullptr;
-  cout<<"A "<<s1<<" "<<s2<<'\n';
-  if(!IsInMap(s2, map))
+  cout<<"A "<<s1<<" "<<s2<<" "<<std::to_string(id)<<'\n';
+  if(!IsInMap(s2, map1))
     {
       vertex2=new T(s2);
-      AddToMap(vertex2, s2, map);
+      AddToMap(vertex2, s2, map1);
     }
-  else vertex2=map[s2];
+  else vertex2=map1[s2];
 
   VertexVertices *v=new U(vertex1, vertex2, mathOperator);
-  map["@"+std::to_string(id)]=v;
+  map2["@"+std::to_string(id)]=v;
 }
 
 template<typename T>
@@ -115,7 +115,7 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
   else if(b1.variable and b2.numeric)
     {
       cout<<"if(b1.variable and b2"<<'\n';
-      CreateVertexNumeric<VertexVariable, VertexVerticesNumeric2>(s2, s1, mathOperator, id, variables);
+      CreateVertexNumeric<VertexVariable, VertexVerticesNumeric2>(s2, s1, mathOperator, id, variables, vmap);
     }
   else if(b1.constant and b2.variable)
     {
@@ -130,17 +130,17 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
   else if(b1.constant and b2.numeric)
     {
       cout<<"b1.constant and b2.numeric"<<'\n';
-      CreateVertexNumeric<VertexConstant, VertexVerticesNumeric2>(s2, s1, mathOperator, id, constants);
+      CreateVertexNumeric<VertexConstant, VertexVerticesNumeric2>(s2, s1, mathOperator, id, constants, vmap);
     }
   else if(b1.numeric and b2.variable)
     {
       cout<<"b1.numeric and b2.variable"<<'\n';
-      CreateVertexNumeric<VertexVariable, VertexVerticesNumeric1>(s1, s2, mathOperator, id, variables);
+      CreateVertexNumeric<VertexVariable, VertexVerticesNumeric1>(s1, s2, mathOperator, id, variables, vmap);
     }
   else if(b1.numeric and b2.constant)
     {
       cout<<"b1.numeric and b2.constant"<<'\n';
-      CreateVertexNumeric<VertexConstant, VertexVerticesNumeric1>(s1, s2, mathOperator, id, constants);
+      CreateVertexNumeric<VertexConstant, VertexVerticesNumeric1>(s1, s2, mathOperator, id, constants, vmap);
     }
   else if(b1.numeric and b2.numeric)
     {

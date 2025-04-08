@@ -43,7 +43,7 @@ protected:
   void AddToMap(Vertex *v, const string &s, map<string, Vertex*> &map);
 
   template<typename T, typename U>
-  void CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map);
+  void CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map1, map<string, Vertex*> &map2);
 
   template<typename T>
   Vertex *CreateVertex2(const string &s, map<string, Vertex*> &map);
