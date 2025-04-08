@@ -177,19 +177,12 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
       cout<<"b1.math and b2.variable"<<'\n';
       AddMath<VertexVariable, unordered_map<string, Vertex*>, map<string, Vertex*>>(s1, s2, mathOperator, id, vmap, variables);
     }
-  // else if(b1.numeric and b2.math and vmap[s2]->GetValue()!=NAN)
   else if(b1.numeric and b2.math)
     {
       cout<<"b1.numeric and b2.math and vmap[s2]->GetValue()!=NAN"<<'\n';
       // Result can be calculated in advance, so the equation template can
       // be simplified and performance of the calculation increased.
       CreateMath(s2, s1, mathOperator, id);
-
-      // VertexMultiValue *v1=new VertexMultiValue(mathOperator);
-      // Vertex *v=new VertexNumeric(v1->GetOperator(std::stod(s1), vmap[s2]->GetValue()));
-      // cout<<"vmap[s1].GetValue()!=NAN "<<s1<<" "<<vmap[s2]->GetValue()<<" "<<v->GetValue()<<'\n';
-      // vmap["@"+std::to_string(id)]=v;
-      // delete v1;
     }
   else if(b2.math and b1.constant)
     {
@@ -201,20 +194,12 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
       cout<<"b2.math and b1.variable"<<'\n';
       AddMath<VertexConstant, map<string, Vertex*>, unordered_map<string, Vertex*>>(s2, s1, mathOperator, id, variables, vmap);
     }
-  // else if(b2.numeric and b1.math and vmap[s1]->GetValue()!=NAN)
   else if(b2.numeric and b1.math)
     {
       cout<<"b2.numeric and b1.math and vmap[s1]->GetValue()!=NAN"<<" "<<s1<<" "<<s2<<'\n';
       // Result can be calculated in advance, so the equation template can
       // be simplified and performance of the calculation increased.
       CreateMath(s1, s2, mathOperator, id);
-
-
-      // VertexMultiValue *v1=new VertexMultiValue(mathOperator);
-      // Vertex *v=new VertexNumeric(v1->GetOperator(vmap[s1]->GetValue(), std::stod(s2)));
-      // cout<<"vmap[s1].GetValue()!=NAN "<<s2<<" "<<vmap[s1]->GetValue()<<" "<<v->GetValue()<<'\n';
-      // vmap["@"+std::to_string(id)]=v;
-      // delete v1;
     }
   else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
     {
