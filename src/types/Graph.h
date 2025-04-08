@@ -18,7 +18,9 @@
 #include "Vertex.h"
 #include "Bools.h"
 #include <map>
+#include <unordered_map>
 
+using std::unordered_map;
 using std::map;
 using std::string;
 using std::vector;
@@ -35,24 +37,27 @@ public:
 class GraphEquation: public Graph
 {
 protected:
-  map<string, Vertex*> vmap;
+  unordered_map<string, Vertex*> vmap;
   map<string, Vertex*> constants;
   map<string, Vertex*> variables;
 
-  bool IsInMap(const string &s, map<string, Vertex*> &map);
-  void AddToMap(Vertex *v, const string &s, map<string, Vertex*> &map);
+  template<typename T>
+  bool IsInMap(const string &s, T &map);
+
+  template<typename T>
+  void AddToMap(Vertex *v, const string &s, T &map);
 
   template<typename T, typename U>
-  void CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map1, map<string, Vertex*> &map2);
+  void CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map1, unordered_map<string, Vertex*> &map2);
 
   template<typename T>
   Vertex *CreateVertex2(const string &s, map<string, Vertex*> &map);
 
   template<typename T, typename U>
-  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map1, map<string, Vertex*> &map2, map<string, Vertex*> &map3);
+  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, unordered_map<string, Vertex*> &map1, map<string, Vertex*> &map2, map<string, Vertex*> &map3);
 
-  template<typename T>
-  void AddMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map1, map<string, Vertex*> &map2);
+  template<typename T, typename U, typename L>
+  void AddMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2);
 
   void CreateMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id);
 
