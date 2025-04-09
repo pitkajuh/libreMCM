@@ -82,19 +82,17 @@ void GraphEquation::CreateVertex(const string &s1, const string &s2, const strin
 
 void GraphEquation::CreateMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id)
 {
-  cout<<"vmap[s1]->GetValue()!=NAN "<<s1<<'\n';
   if(vmap[s1]->GetValue()!=NAN)
     {
       VertexMultiValue *v1=new VertexMultiValue(mathOperator);
-      Vertex *v=new VertexNumeric(v1->GetOperator(vmap[s1]->GetValue(), std::stod(s2)));
-      // cout<<"vmap[s1].GetValue()!=NAN "<<s2<<" "<<vmap[s1]->GetValue()<<" "<<v->GetValue()<<'\n';
+      Vertex *v=new VertexNumeric(v1->GetOperator(vmap[s1]->GetValue(), stod(s2)));
       vmap["@"+std::to_string(id)]=v;
       delete v1;
     }
   else
     {
       cout<<"else"<<'\n';
-      Vertex *v1=new VertexNumeric(std::stod(s2));
+      Vertex *v1=new VertexNumeric(stod(s2));
       VertexVertices *v=new VertexVertices(vmap[s1], v1, mathOperator);
       vmap["@"+std::to_string(id)]=v;
     }
