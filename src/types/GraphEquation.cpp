@@ -211,9 +211,9 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
 
 void GraphEquationSingle::CreateVertex(const Bools &b, const string &e)
 {
-  if(b.variable){vertex=new VertexVariable(e);}
-  else if(b.constant){vertex=new VertexConstant(e);}
-  else{vertex=new VertexNumeric(e);}
+  if(b.variable) vertex=new VertexVariable(e);
+  else if(b.constant) vertex=new VertexConstant(e);
+  else vertex=new VertexNumeric(e);
 }
 
 GraphEquationSingle::GraphEquationSingle(const Bools &b, const string &e)
