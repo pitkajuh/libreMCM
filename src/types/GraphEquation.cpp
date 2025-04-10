@@ -12,7 +12,7 @@ void GraphEquation::AddToMap(Vertex *v, const string &s, T &map)
 }
 
 template<typename T, typename U>
-void GraphEquation::CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map1, unordered_map<string, Vertex*> &map2)
+void GraphEquation::CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map1, vector<Vertex*> &map2)
 {
   VertexValue *vertex1=new VertexNumeric(s1);
   Vertex *vertex2=nullptr;
@@ -25,7 +25,8 @@ void GraphEquation::CreateVertexNumeric(const string &s1, const string &s2, cons
   else vertex2=map1[s2];
 
   VertexVertices *v=new U(vertex1, vertex2, mathOperator);
-  map2["@"+std::to_string(id)]=v;
+  // map2["@"+std::to_string(id)]=v;
+  map2.emplace_back(v);
 }
 
 template<typename T>
@@ -44,10 +45,28 @@ Vertex *GraphEquation::CreateVertex2(const string &s, map<string, Vertex*> &map)
 
 void GraphEquation::SubstituteConstants(const SMap &constants_map)
 {
-  for(auto &[name, equation]:vmap)
+  // for(auto &[name, equation]:vmap)
+  //   {
+  //     cout<<name<<" "<<equation<<'\n';
+  //   }
+}
+
+template<typename T, typename U, typename L>
+void GraphEquation::AddMath2(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2)
+{
+  Vertex *v1=nullptr;
+  const uint8_t id1=std::stoi(s2.substr(1, s2.size()-1));
+
+  if(map2.size()<id1)
     {
-      cout<<name<<" "<<equation<<'\n';
+      v1=new T(s2);
+      // map2[s2]=v1;
+      map2.emplace_back(v1);
     }
+  else v1=map2[id1];
+
+  VertexVertices *v=new VertexVertices(map1[s1], v1, mathOperator);
+  map1["@"+std::to_string(id)]=v;
 }
 
 template<typename T, typename U, typename L>
@@ -62,12 +81,13 @@ void GraphEquation::AddMath(const string &s1, const string &s2, const string &ma
     }
   else v1=map2[s2];
 
-  VertexVertices *v=new VertexVertices(map1[s1], v1, mathOperator);
-  map1["@"+std::to_string(id)]=v;
+  VertexVertices *v=new VertexVertices(map1[std::stoi(s1.substr(1, s1.size()-1))], v1, mathOperator);
+  // map1["@"+std::to_string(id)]=v;
+  map1.emplace_back(v);
 }
 
 template<typename T, typename U>
-void GraphEquation::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, unordered_map<string, Vertex*> &map1, map<string, Vertex*> &map2, map<string, Vertex*> &map3)
+void GraphEquation::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, vector<Vertex*> &map1, map<string, Vertex*> &map2, map<string, Vertex*> &map3)
 {
   cout<<"Create ID="<<std::to_string(id)<<", "<<s1<<" "<<s2<<'\n';
   Vertex *vertex1=CreateVertex2<T>(s1, map2);
@@ -75,26 +95,29 @@ void GraphEquation::CreateVertex(const string &s1, const string &s2, const strin
   VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
   cout<<s1<<" "<<s2<<" "<<"@"<<std::to_string(id)<<'\n';
 
-  map1["@"+std::to_string(id)]=v;
+  // map1["@"+std::to_string(id)]=v;
+  map1.emplace_back(v);
   cout<<vertex1<<" "<<vertex2<<'\n';
   cout<<"Created"<<'\n';
 }
 
 void GraphEquation::CreateMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id)
 {
-  if(vmap[s1]->GetValue()!=NAN)
+  if(vmap[std::stoi(s1.substr(1, s1.size()-1))]->GetValue()!=NAN)
     {
       VertexMultiValue *v1=new VertexMultiValue(mathOperator);
-      Vertex *v=new VertexNumeric(v1->GetOperator(vmap[s1]->GetValue(), stod(s2)));
-      vmap["@"+std::to_string(id)]=v;
+      Vertex *v=new VertexNumeric(v1->GetOperator(vmap[std::stoi(s1.substr(1, s1.size()-1))]->GetValue(), stod(s2)));
+      // vmap["@"+std::to_string(id)]=v;
+      vmap.emplace_back(v);
       delete v1;
     }
   else
     {
       cout<<"else"<<'\n';
       Vertex *v1=new VertexNumeric(stod(s2));
-      VertexVertices *v=new VertexVertices(vmap[s1], v1, mathOperator);
-      vmap["@"+std::to_string(id)]=v;
+      VertexVertices *v=new VertexVertices(vmap[std::stoi(s1.substr(1, s1.size()-1))], v1, mathOperator);
+      // vmap["@"+std::to_string(id)]=v;
+      vmap.emplace_back(v);
     }
 }
 
@@ -153,7 +176,8 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
       v->Calculate();
       VertexValue *calculated=new VertexNumeric(v->GetValue());
 
-      vmap["@"+std::to_string(id)]=calculated;
+      // vmap["@"+std::to_string(id)]=calculated;
+      vmap.emplace_back(calculated);
       delete vertex1;
       delete vertex2;
       delete v;
@@ -162,18 +186,19 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
   else if(b1.math and b2.math)
     {
       cout<<"b1.math and b2.math "<<'\n';
-      VertexVertices *v1=new VertexVertices(vmap[s1], vmap[s2], mathOperator);
-      vmap["@"+std::to_string(id)]=v1;
+      VertexVertices *v1=new VertexVertices(vmap[std::stoi(s1.substr(1, s1.size()-1))], vmap[std::stoi(s2.substr(1, s1.size()-1))], mathOperator);
+      // vmap["@"+std::to_string(id)]=v1;
+      vmap.emplace_back(v1);
     }
   else if(b1.math and b2.constant)
     {
       cout<<"b1.math and b2.constant"<<'\n';
-      AddMath<VertexConstant, unordered_map<string, Vertex*>, map<string, Vertex*>>(s1, s2, mathOperator, id, vmap, constants);
+      AddMath<VertexConstant, vector<Vertex*>, map<string, Vertex*>>(s1, s2, mathOperator, id, vmap, constants);
     }
   else if(b1.math and b2.variable)
     {
       cout<<"b1.math and b2.variable"<<'\n';
-      AddMath<VertexVariable, unordered_map<string, Vertex*>, map<string, Vertex*>>(s1, s2, mathOperator, id, vmap, variables);
+      AddMath<VertexVariable, vector<Vertex*>, map<string, Vertex*>>(s1, s2, mathOperator, id, vmap, variables);
     }
   else if(b1.numeric and b2.math)
     {
@@ -185,12 +210,12 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
   else if(b2.math and b1.constant)
     {
       cout<<"b2.math and b1.constant"<<'\n';
-      AddMath<VertexConstant, map<string, Vertex*>, unordered_map<string, Vertex*>>(s2, s1, mathOperator, id, constants, vmap);
+      AddMath2<VertexConstant, map<string, Vertex*>, vector<Vertex*>>(s2, s1, mathOperator, id, constants, vmap);
     }
   else if(b2.math and b1.variable)
     {
       cout<<"b2.math and b1.variable"<<'\n';
-      AddMath<VertexConstant, map<string, Vertex*>, unordered_map<string, Vertex*>>(s2, s1, mathOperator, id, variables, vmap);
+      AddMath2<VertexConstant, map<string, Vertex*>, vector<Vertex*>>(s2, s1, mathOperator, id, variables, vmap);
     }
   else if(b2.numeric and b1.math)
     {

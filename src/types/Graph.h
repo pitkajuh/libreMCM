@@ -37,7 +37,8 @@ public:
 class GraphEquation: public Graph
 {
 protected:
-  unordered_map<string, Vertex*> vmap;
+  // unordered_map<string, Vertex*> vmap;
+  vector<Vertex*> vmap;
   map<string, Vertex*> constants;
   map<string, Vertex*> variables;
 
@@ -48,16 +49,19 @@ protected:
   void AddToMap(Vertex *v, const string &s, T &map);
 
   template<typename T, typename U>
-  void CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map1, unordered_map<string, Vertex*> &map2);
+  void CreateVertexNumeric(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, map<string, Vertex*> &map1, vector<Vertex*> &map2);
 
   template<typename T>
   Vertex *CreateVertex2(const string &s, map<string, Vertex*> &map);
 
   template<typename T, typename U>
-  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, unordered_map<string, Vertex*> &map1, map<string, Vertex*> &map2, map<string, Vertex*> &map3);
+  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, vector<Vertex*> &map1, map<string, Vertex*> &map2, map<string, Vertex*> &map3);
 
   template<typename T, typename U, typename L>
   void AddMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2);
+
+  template<typename T, typename U, typename L>
+  void AddMath2(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2);
 
   void CreateMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id);
 
@@ -68,9 +72,9 @@ public:
   ~GraphEquation()
   {
     cout<<"~GraphEquation "<<vmap.size()<<" "<<constants.size()<<" "<<variables.size()<<'\n';
-    for(auto &[i1, i2]: vmap)
+    for(auto &i2: vmap)
       {
-	cout<<"delete "<<i1<<" "<<i2<<'\n';
+	cout<<"delete "<<" "<<i2<<'\n';
 	delete i2;
       }
     cout<<" "<<'\n';
