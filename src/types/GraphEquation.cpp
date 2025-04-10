@@ -54,10 +54,12 @@ void GraphEquation::SubstituteConstants(const SMap &constants_map)
 template<typename T, typename U, typename L>
 void GraphEquation::AddMath2(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2)
 {
+  cout<<s2<<'\n';
   Vertex *v1=nullptr;
-  const uint8_t id1=std::stoi(s2.substr(1, s2.size()-1));
+  const int8_t id1=std::stoi(s2.substr(1, s2.size()-1));
+  const int8_t id2=map2.size();
 
-  if(map2.size()<id1)
+  if(id2<id1)
     {
       v1=new T(s2);
       // map2[s2]=v1;
@@ -209,13 +211,13 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
     }
   else if(b2.math and b1.constant)
     {
-      cout<<"b2.math and b1.constant"<<'\n';
-      AddMath2<VertexConstant, map<string, Vertex*>, vector<Vertex*>>(s2, s1, mathOperator, id, constants, vmap);
+      cout<<"b2.math and b1.constant "<<s1<<" "<<s2<<" "<<s2.substr(1, s2.size()-1)<<'\n';
+      AddMath2<VertexConstant, map<string, Vertex*>, vector<Vertex*>>(s1, s2, mathOperator, id, constants, vmap);
     }
   else if(b2.math and b1.variable)
     {
       cout<<"b2.math and b1.variable"<<'\n';
-      AddMath2<VertexConstant, map<string, Vertex*>, vector<Vertex*>>(s2, s1, mathOperator, id, variables, vmap);
+      AddMath2<VertexConstant, map<string, Vertex*>, vector<Vertex*>>(s1, s2, mathOperator, id, variables, vmap);
     }
   else if(b2.numeric and b1.math)
     {
