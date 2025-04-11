@@ -45,10 +45,7 @@ Vertex *GraphEquation::CreateVertex2(const string &s, map<string, Vertex*> &map)
 
 void GraphEquation::SubstituteConstants(const SMap &constants_map)
 {
-  // for(auto &[name, equation]:vmap)
-  //   {
-  //     cout<<name<<" "<<equation<<'\n';
-  //   }
+
 }
 
 template<typename T, typename U, typename L>
@@ -75,7 +72,7 @@ template<typename T, typename U, typename L>
 void GraphEquation::AddMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2)
 {
   Vertex *v1=nullptr;
-
+  cout<<s1<<" "<<s2<<'\n';
   if(!IsInMap(s2, map2))
     {
       v1=new T(s2);
