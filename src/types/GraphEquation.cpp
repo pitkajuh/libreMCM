@@ -59,7 +59,6 @@ void GraphEquation::AddMath2(const string &s1, const string &s2, const string &m
   if(id2<id1)
     {
       v1=new T(s2);
-      // map2[s2]=v1;
       map2.emplace_back(v1);
     }
   else v1=map2[id1];
