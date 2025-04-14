@@ -45,7 +45,6 @@ Vertex *GraphEquation::CreateVertex2(const string &s, map<string, Vertex*> &map)
 
 void GraphEquation::SubstituteConstants(const SMap &constants_map)
 {
-
 }
 
 template<typename T, typename U, typename L>
