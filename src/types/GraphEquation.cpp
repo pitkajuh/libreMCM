@@ -79,7 +79,6 @@ void GraphEquation::AddMath(const string &s1, const string &s2, const string &ma
   else v1=map2[s2];
 
   VertexVertices *v=new VertexVertices(map1[std::stoi(s1.substr(1, s1.size()-1))], v1, mathOperator);
-  // map1["@"+std::to_string(id)]=v;
   map1.emplace_back(v);
 }
 
@@ -92,7 +91,6 @@ void GraphEquation::CreateVertex(const string &s1, const string &s2, const strin
   VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
   cout<<s1<<" "<<s2<<" "<<"@"<<std::to_string(id)<<'\n';
 
-  // map1["@"+std::to_string(id)]=v;
   map1.emplace_back(v);
   cout<<vertex1<<" "<<vertex2<<'\n';
   cout<<"Created"<<'\n';
@@ -104,7 +102,6 @@ void GraphEquation::CreateMath(const string &s1, const string &s2, const string 
     {
       VertexMultiValue *v1=new VertexMultiValue(mathOperator);
       Vertex *v=new VertexNumeric(v1->GetOperator(vmap[std::stoi(s1.substr(1, s1.size()-1))]->GetValue(), stod(s2)));
-      // vmap["@"+std::to_string(id)]=v;
       vmap.emplace_back(v);
       delete v1;
     }
@@ -113,7 +110,6 @@ void GraphEquation::CreateMath(const string &s1, const string &s2, const string 
       cout<<"else"<<'\n';
       Vertex *v1=new VertexNumeric(stod(s2));
       VertexVertices *v=new VertexVertices(vmap[std::stoi(s1.substr(1, s1.size()-1))], v1, mathOperator);
-      // vmap["@"+std::to_string(id)]=v;
       vmap.emplace_back(v);
     }
 }
