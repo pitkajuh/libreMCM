@@ -58,10 +58,10 @@ protected:
   void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, vector<Vertex*> &map1, map<string, Vertex*> &map2, map<string, Vertex*> &map3);
 
   template<typename T, typename U, typename L, typename H, typename A>
-  void AddMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2, const bool b, const H s, const A h);
+  void AddMath(const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2, const bool b, const H s, const A h);
 
   template<typename T, typename U, typename L, typename H, typename A>
-  void AddMath2(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2, const bool b, const H s, const A h);
+  void AddMath2(const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2, const bool b, const H s, const A h);
 
   void CreateMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id);
 
