@@ -57,11 +57,11 @@ protected:
   template<typename T, typename U>
   void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, vector<Vertex*> &map1, map<string, Vertex*> &map2, map<string, Vertex*> &map3);
 
-  template<typename T, typename U, typename L>
-  void AddMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2);
+  template<typename T, typename U, typename L, typename H>
+  void AddMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2, const bool b, const H s);
 
-  template<typename T, typename U, typename L>
-  void AddMath2(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2);
+  template<typename T, typename U, typename L, typename H>
+  void AddMath2(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2, const bool b, const H s);
 
   void CreateMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id);
 
@@ -72,18 +72,23 @@ public:
   ~GraphEquation()
   {
     cout<<"~GraphEquation "<<vmap.size()<<" "<<constants.size()<<" "<<variables.size()<<'\n';
+    cout<<"delete math"<<'\n';
+
     for(auto &i2: vmap)
       {
 	cout<<"delete "<<" "<<i2<<'\n';
 	delete i2;
       }
+
     cout<<" "<<'\n';
+    cout<<"delete constants"<<'\n';
     for(auto &[i1, i2]: constants)
       {
 	cout<<"delete "<<i1<<" "<<i2<<'\n';
 	delete i2;
       }
     cout<<" "<<'\n';
+    cout<<"delete variables "<<'\n';
     for(auto &[i1, i2]: variables)
       {
 	cout<<"delete "<<i1<<" "<<i2<<'\n';
