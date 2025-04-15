@@ -47,8 +47,8 @@ void GraphEquation::SubstituteConstants(const SMap &constants_map)
 {
 }
 
-template<typename T, typename U, typename L, typename H>
-void GraphEquation::AddMath2(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2, const bool b, const H s)
+template<typename T, typename U, typename L, typename H, typename A>
+void GraphEquation::AddMath2(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2, const bool b, const H s, const A h)
 {
   cout<<s2<<'\n';
   Vertex *v1=nullptr;
@@ -62,7 +62,8 @@ void GraphEquation::AddMath2(const string &s1, const string &s2, const string &m
   else v1=map2[s];
   // else v1=map2[id1];
 
-  VertexVertices *v=new VertexVertices(map1[s1], v1, mathOperator);
+  // VertexVertices *v=new VertexVertices(map1[s1], v1, mathOperator);
+  VertexVertices *v=new VertexVertices(h, v1, mathOperator);
   map2.emplace_back(v);
 }
 
@@ -207,7 +208,7 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
       const int8_t id1=std::stoi(s2.substr(1, s2.size()-1));
       const int8_t id2=constants.size();
 
-      AddMath2<VertexConstant, map<string, Vertex*>, vector<Vertex*>, int8_t>(s1, s2, mathOperator, id, constants, vmap, id2<id1, id1);
+      AddMath2<VertexConstant, map<string, Vertex*>, vector<Vertex*>, int8_t, Vertex*>(s1, s2, mathOperator, id, constants, vmap, id2<id1, id1, constants[s1]);
     }
   else if(b2.math and b1.variable)
     {
@@ -216,7 +217,7 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
       const int8_t id1=std::stoi(s2.substr(1, s2.size()-1));
       const int8_t id2=vmap.size();
 
-      AddMath2<VertexConstant, map<string, Vertex*>, vector<Vertex*>, uint8_t>(s1, s2, mathOperator, id, variables, vmap, id2<id1, id1);
+      AddMath2<VertexConstant, map<string, Vertex*>, vector<Vertex*>, uint8_t, Vertex*>(s1, s2, mathOperator, id, variables, vmap, id2<id1, id1, variables[s1]);
     }
   else if(b2.numeric and b1.math)
     {

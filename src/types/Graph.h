@@ -60,8 +60,8 @@ protected:
   template<typename T, typename U, typename L, typename H>
   void AddMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2, const bool b, const H s);
 
-  template<typename T, typename U, typename L, typename H>
-  void AddMath2(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2, const bool b, const H s);
+  template<typename T, typename U, typename L, typename H, typename A>
+  void AddMath2(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2, const bool b, const H s, const A h);
 
   void CreateMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id);
 
