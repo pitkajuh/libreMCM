@@ -63,7 +63,8 @@ void GraphEquation::AddMath2(const string &s1, const string &s2, const string &m
   else v1=map2[id1];
 
   VertexVertices *v=new VertexVertices(map1[s1], v1, mathOperator);
-  map1["@"+std::to_string(id)]=v;
+  // map1["@"+std::to_string(id)]=v;
+  map2.emplace_back(v);
 }
 
 template<typename T, typename U, typename L>
