@@ -52,7 +52,6 @@ void GraphEquation::AddMath2(const string &s1, const string &s2, const string &m
 {
   cout<<s2<<'\n';
   Vertex *v1=nullptr;
-  // const int8_t id1=std::stoi(s2.substr(1, s2.size()-1));
 
   if(b)
     {
@@ -60,18 +59,17 @@ void GraphEquation::AddMath2(const string &s1, const string &s2, const string &m
       map2.emplace_back(v1);
     }
   else v1=map2[s];
-  // else v1=map2[id1];
 
-  // VertexVertices *v=new VertexVertices(map1[s1], v1, mathOperator);
   VertexVertices *v=new VertexVertices(h, v1, mathOperator);
   map2.emplace_back(v);
 }
 
-template<typename T, typename U, typename L, typename H>
-void GraphEquation::AddMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2, const bool b, const H s)
+template<typename T, typename U, typename L, typename H, typename A>
+void GraphEquation::AddMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id, U &map1, L &map2, const bool b, const H s, const A h)
 {
   Vertex *v1=nullptr;
   cout<<s1<<" "<<s2<<'\n';
+
   if(b)
     {
       v1=new T(s2);
@@ -79,7 +77,7 @@ void GraphEquation::AddMath(const string &s1, const string &s2, const string &ma
     }
   else v1=map2[s];
 
-  VertexVertices *v=new VertexVertices(map1[std::stoi(s1.substr(1, s1.size()-1))], v1, mathOperator);
+  VertexVertices *v=new VertexVertices(h, v1, mathOperator);
   map1.emplace_back(v);
 }
 
@@ -187,12 +185,12 @@ void GraphEquation::CreateEdge(const string &s1, const string &s2, const string 
   else if(b1.math and b2.constant)
     {
       cout<<"b1.math and b2.constant"<<'\n';
-      AddMath<VertexConstant, vector<Vertex*>, map<string, Vertex*>, string>(s1, s2, mathOperator, id, vmap, constants, !IsInMap(s2, constants), s2);
+      AddMath<VertexConstant, vector<Vertex*>, map<string, Vertex*>, string, Vertex*>(s1, s2, mathOperator, id, vmap, constants, !IsInMap(s2, constants), s2, vmap[std::stoi(s1.substr(1, s1.size()-1))]);
     }
   else if(b1.math and b2.variable)
     {
       cout<<"b1.math and b2.variable"<<'\n';
-      AddMath<VertexVariable, vector<Vertex*>, map<string, Vertex*>, string>(s1, s2, mathOperator, id, vmap, variables, !IsInMap(s2, variables), s2);
+      AddMath<VertexVariable, vector<Vertex*>, map<string, Vertex*>, string, Vertex*>(s1, s2, mathOperator, id, vmap, variables, !IsInMap(s2, variables), s2, vmap[std::stoi(s1.substr(1, s1.size()-1))]);
     }
   else if(b1.numeric and b2.math)
     {
