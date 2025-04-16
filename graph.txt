@@ -1,0 +1,13 @@
+Vertices
+{
+  r;
+  f;
+}
+
+Edges
+{
+  source, r, prey_birth;
+  source, f, predator_birth;
+  r, sink, prey_death;
+  f, sink, predator_death;
+}

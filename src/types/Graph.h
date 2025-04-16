@@ -37,7 +37,6 @@ public:
 class GraphEquation: public Graph
 {
 protected:
-  // unordered_map<string, Vertex*> vmap;
   vector<Vertex*> vmap;
   map<string, Vertex*> constants;
   map<string, Vertex*> variables;
