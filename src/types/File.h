@@ -22,7 +22,6 @@ protected:
   void ReadContent(ifstream &file, streampos &from)
   {
     string line;
-    // string linePrevious;
     file.seekg(from);
 
     while(getline(file, line) and line!="}")
@@ -33,12 +32,9 @@ protected:
 	if(line.size()>1)
 	  {
 	    cout<<"ReadContent "<<line<<" "<<line.size()<<'\n';
-
-	    // linePrevious=line;
 	  }
       }
     from=file.tellg();
-    // cout<<"stop at "<<line<<" "<<from<<'\n';
   }
 
   void ReadFile(const string &fileName, streampos &from)
@@ -54,7 +50,7 @@ protected:
 	// line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
 
 	if(line.size()==0) continue;
-	else if(line[line.size()-1]=='{')
+	else if(line.back()=='{')
 	  {
 	    from+=linePrevious.size();
 
@@ -63,6 +59,7 @@ protected:
 		linePrevious=line.substr(0, line.size()-1);
 		from+=linePrevious.size();
 	      }
+
 	    cout<<"Reading "<<linePrevious<<" "<<from<<'\n';
 	    ReadContent(file, from);
 	    cout<<" "<<'\n';
