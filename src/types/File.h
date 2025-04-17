@@ -22,18 +22,23 @@ protected:
   void ReadContent(ifstream &file, streampos &from)
   {
     string line;
-    string linePrevious;
+    // string linePrevious;
     file.seekg(from);
 
     while(getline(file, line) and line!="}")
       {
 	line.erase(remove(line.begin(), line.end(), ' '), line.end());
 	// line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
-	cout<<"ReadContent "<<line<<" "<<line.size()<<'\n';
 
-	linePrevious=line;
+	if(line.size()>1)
+	  {
+	    cout<<"ReadContent "<<line<<" "<<line.size()<<'\n';
+
+	    // linePrevious=line;
+	  }
       }
     from=file.tellg();
+    // cout<<"stop at "<<line<<" "<<from<<'\n';
   }
 
   void ReadFile(const string &fileName, streampos &from)
@@ -47,18 +52,22 @@ protected:
       {
 	line.erase(remove(line.begin(), line.end(), ' '), line.end());
 	// line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
-	// cout<<line<<" "<<line.size()<<'\n';
-	if(line=="{")
+
+	if(line.size()==0) continue;
+	else if(line[line.size()-1]=='{')
 	  {
-	    // cout<<"line=={"<<'\n';
-	    // from+=1;
-	    // file.seekg(from);
-	    cout<<"Reading "<<linePrevious<<'\n';
+	    from+=linePrevious.size();
+
+	    if(line.size()>1)
+	      {
+		linePrevious=line.substr(0, line.size()-1);
+		from+=linePrevious.size();
+	      }
+	    cout<<"Reading "<<linePrevious<<" "<<from<<'\n';
 	    ReadContent(file, from);
 	    cout<<" "<<'\n';
-	    // Read content
 	  }
-	linePrevious=line;
+	else linePrevious=line;
       }
     from=file.tellg();
   }
