@@ -21,6 +21,7 @@
 #include "eqs/EquationAddSubtract.h"
 #include "eqs/ParseEquations.h"
 #include "eqs/CreateEquationTemplates.h"
+#include "types/File.h"
 
 #define GetCurrentDir getcwd
 
@@ -49,6 +50,10 @@ static struct option const options[]=
 
 void ReadInitialData(const string &directory)
 {
+  streampos from=0;
+  File *test1=new FileGraph(directory+"graph.txt", from);
+  delete test1;
+
   ifstream bin(directory+"bin");
   streampos *f=new streampos;
   *f=0;
@@ -73,13 +78,13 @@ void ReadInitialData(const string &directory)
   const vector<string> iv_names=CreateAllInitialValues(ivs);
   const Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
   const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
-  map<string, GraphEquation*> eqs=ParseEquations(equations_map, csv.diagonal);
-  for(auto &[name, equation]: eqs)
-    {
-      cout<<name<<" "<<equation<<'\n';
-      equation->SubstituteConstants(constants_map);
-      delete equation;
-    }
+  // map<string, GraphEquation*> eqs=ParseEquations(equations_map, csv.diagonal);
+  // for(auto &[name, equation]: eqs)
+  //   {
+  //     cout<<name<<" "<<equation<<'\n';
+  //     equation->SubstituteConstants(constants_map);
+  //     delete equation;
+  //   }
   // CreateEquationTemplates(equationMap, constants_map);
 }
 
