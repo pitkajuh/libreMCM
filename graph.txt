@@ -1,28 +1,29 @@
-
-r
-
-
-
-
+vertex: r
 {
+  values
+  {
     r0=400;
-    n1=5;
-    g1=6;
+    r1=5;
+    r2=6;
+  }
+  edges
+  {
+    source, r, prey_birth;
+    r, sink, prey_death;
+  }
 }
 
-f{
-
-  f0=2;
-  d1=6;
-  h3=4;
-  n1=1;
-  r0=2;
-}
-
-Edges
+vertex: f
 {
-  source, r, prey_birth;
-  source, f, predator_birth;
-  r, sink, prey_death;
-  f, sink, predator_death;
+  values
+  {
+    f0=2;
+    f1=6;
+    f2=3;
+  }
+  edges
+  {
+    source, f, predator_birth;
+    f, sink, predator_death;
+  }
 }
