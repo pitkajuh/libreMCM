@@ -19,6 +19,18 @@ using std::cout;
 class File
 {
 protected:
+  void EraseLine(string &line)
+  {
+    line.erase(remove(line.begin(), line.end(), ' '), line.end());
+    // line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
+  }
+
+  string SplitLine(string line)
+  {
+    const uint8_t delimiterAt=distance();
+    return "";
+  }
+
   void ReadInitialValues(ifstream &file, streampos &from)
   {
     string line;
@@ -26,9 +38,8 @@ protected:
 
     while(getline(file, line))
       {
-	line.erase(remove(line.begin(), line.end(), ' '), line.end());
-	// line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
-	// cout<<line<<'\n';
+	EraseLine(line);
+
 	if(line.size()==0) continue;
 	else if(line=="}") break;
 	else cout<<"ReadInitialValues "<<line<<'\n';
@@ -43,11 +54,10 @@ protected:
 
     while(getline(file, line))
       {
-	line.erase(remove(line.begin(), line.end(), ' '), line.end());
-	// line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
+	EraseLine(line);
 
 	if(line.size()==0) continue;
-	else if(line==findString)
+	else if(line==findString or line==findString+"{")
 	  {
 	    cout<<"ReadContent "<<line<<" "<<line.size()<<" "<<from<<'\n';
 	    from=file.tellg();
@@ -68,8 +78,7 @@ protected:
 
     while(getline(file, line))
       {
-	line.erase(remove(line.begin(), line.end(), ' '), line.end());
-	// line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
+	EraseLine(line);
 
 	if(line.size()==0) continue;
 	else if(line.substr(0, 7)=="vertex:")
