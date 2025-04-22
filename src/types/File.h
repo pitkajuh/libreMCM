@@ -25,11 +25,11 @@ protected:
     // line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
   }
 
-  string SplitLine(string line)
-  {
-    const uint8_t delimiterAt=distance();
-    return "";
-  }
+  // string SplitLine(string line)
+  // {
+  //   const uint8_t delimiterAt=distance();
+  //   return "";
+  // }
 
   void ReadInitialValues(ifstream &file, streampos &from)
   {
@@ -72,7 +72,7 @@ protected:
   void ReadFile(const string &fileName, streampos &from)
   {
     string line;
-    string linePrevious;
+    // string linePrevious;
     ifstream file(fileName);
     file.seekg(from);
 
@@ -90,7 +90,7 @@ protected:
 	    ReadContent(file, from, "edges");
 	    cout<<"----------"<<'\n';
 	  }
-	else linePrevious=line;
+	// else linePrevious=line;
       }
     from=file.tellg();
   }
