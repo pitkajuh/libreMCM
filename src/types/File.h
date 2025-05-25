@@ -55,13 +55,14 @@ protected:
     while(getline(file, line))
       {
 	EraseLine(line);
+	const unsigned size=line.size();
 
-	if(line.size()==0) continue;
+	if(size==0) continue;
 	else if(line==findString or line==findString+"{")
 	  {
-	    cout<<"ReadContent "<<line<<" "<<line.size()<<" "<<from<<'\n';
+	    cout<<"ReadContent "<<line<<" "<<size<<" "<<from<<'\n';
 	    from=file.tellg();
-	    from+=line.size();
+	    from+=size;
 	    ReadInitialValues(file, from);
 	    break;
 	  }
@@ -79,12 +80,13 @@ protected:
     while(getline(file, line))
       {
 	EraseLine(line);
+	const unsigned size=line.size();
 
-	if(line.size()==0) continue;
+	if(size==0) continue;
 	else if(line.substr(0, 7)=="vertex:")
 	  {
-	    from+=line.size();
-	    line=line.substr(7, line.size());
+	    from+=size;
+	    line=line.substr(7, size);
 	    cout<<"vertex "<<line<<" "<<from<<'\n';
 	    ReadContent(file, from, "values");
 	    ReadContent(file, from, "edges");
