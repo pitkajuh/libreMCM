@@ -55,9 +55,9 @@ protected:
       {
 	EraseLine(line);
 	const unsigned size=line.size();
-	cout<<"line "<<line<<'\n';
+	// cout<<"line "<<line<<'\n';
 	if(size==0) continue;
-	else if(line==findString or line==findString+"{")
+	else if(line.substr(0, 6)==findString or line==findString+"{")
 	  {
 	    cout<<"ReadContent "<<line<<" "<<size<<" "<<from<<'\n';
 	    from=file.tellg();
@@ -83,9 +83,10 @@ protected:
 	if(size==0) continue;
 	else if(line.substr(0, 6)=="vertex")
 	  {
-	    from+=size;
+	    // from+=size;
 	    // line=line.substr(7, size);
 	    cout<<line<<" "<<from<<'\n';
+	    ReadContent(file, from, "vertex");
 	    // ReadContent(file, from, "values");
 	    // ReadContent(file, from, "edges");
 	    cout<<"----------"<<'\n';
