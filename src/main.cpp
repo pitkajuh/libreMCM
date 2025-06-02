@@ -59,9 +59,11 @@ void ReadInitialData(const string &directory)
   test2.set.clear();
   // delete test2;
   FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
+  double *results=nullptr;
+  test1.InitResults(results, timeStart);
   // File *test1=new FileGraph(directory+"graph.txt");
   // delete test1;
-
+  delete [] results;
 
 
   ifstream bin(directory+"bin");

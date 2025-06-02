@@ -216,11 +216,33 @@ protected:
       }
   }
 public:
+  void InitResults(double *&results, const unsigned timeStart)
+  {
+    cout<<"value "<<1+n*(1+nx*ny)<<" "<<n<<" "<<nx<<" "<<ny<<'\n';
+    results=new double[1+n*(1+nx*ny)];
+    results[0]=timeStart;
+
+    for(unsigned i=0; i<1+n*(1+nx*ny); i++)
+      {
+
+      }
+
+    for(auto &[name, value]: all)
+      {
+	cout<<name<<'\n';
+
+	for(const auto&[v1, v2]: value)
+	  {
+	    cout<<v1<<" "<<v2<<'\n';
+	  }
+      }
+  }
+
   FileGraph(const string &fileName, const unsigned timeStart, const unsigned timeEnd, const unsigned stepSize)
   {
     ny=(timeEnd-timeStart)/stepSize;
-    nx=initialValueNames.size();
     ReadFile(fileName);
+    nx=initialValueNames.size();
     n=all.size();
   }
 
