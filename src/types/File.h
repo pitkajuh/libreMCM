@@ -19,19 +19,15 @@ using std::cout;
 class File
 {
 protected:
+  const string vertex="vertex";
+  const string edges="edges";
+
   void EraseLine(string &line)
   {
     line.erase(remove(line.begin(), line.end(), ' '), line.end());
-    // line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
   }
 
-  // string SplitLine(string line)
-  // {
-  //   const uint8_t delimiterAt=distance();
-  //   return "";
-  // }
-
-  void ReadInitialValues(ifstream &file, streampos &from)
+  streampos ReadInitialValues(ifstream &file, streampos from)
   {
     string line;
     file.seekg(from);
@@ -43,34 +39,34 @@ protected:
 	else if(line=="}") break;
 	else cout<<"ReadInitialValues "<<line<<'\n';
       }
-    from=file.tellg();
+    return file.tellg();
   }
 
-  void ReadContent(ifstream &file, streampos &from, const string &findString)
+  streampos ReadContent(ifstream &file, streampos from, const string &findString)
   {
     string line;
     file.seekg(from);
-    cout<<"readcontent"<<'\n';
+
     while(getline(file, line))
       {
 	EraseLine(line);
 	const unsigned size=line.size();
-	// cout<<"line "<<line<<'\n';
+
 	if(size==0) continue;
 	else if(line.substr(0, 6)==findString or line==findString+"{")
 	  {
-	    cout<<"ReadContent "<<line<<" "<<size<<" "<<from<<'\n';
+	    cout<<"ReadContent "<<line<<'\n';
 	    from=file.tellg();
-	    // from+=size;
-	    ReadInitialValues(file, from);
+	    from=ReadInitialValues(file, from);
 	    break;
 	  }
       }
-    from=file.tellg();
+    return file.tellg();
   }
 
-  void ReadFile(const string &fileName, streampos &from)
+  void ReadFile(const string &fileName)
   {
+    streampos from=0;
     string line;
     ifstream file(fileName);
     file.seekg(from);
@@ -81,28 +77,16 @@ protected:
 	const unsigned size=line.size();
 
 	if(size==0) continue;
-	else if(line.substr(0, 6)=="vertex")
+	else if(line.substr(0, 6)==vertex)
 	  {
-	    // from+=size;
-	    // line=line.substr(7, size);
-	    cout<<line<<" "<<from<<'\n';
-	    ReadContent(file, from, "vertex");
-	    // ReadContent(file, from, "values");
-	    // ReadContent(file, from, "edges");
-	    cout<<"----------"<<'\n';
+	    from=ReadContent(file, from, vertex);
 	  }
-	else if(line.substr(0, 5)=="edges")
+	else if(line.substr(0, 5)==edges)
 	  {
-	    // from+=size;
-	    cout<<line<<" "<<from<<'\n';
-	    ReadContent(file, from, "edges");
-	    // line=line.substr(7, size);
-
-	    cout<<"----------"<<'\n';
+	    from=ReadContent(file, from, edges);
 	  }
-	// else linePrevious=line;
+	cout<<"----------"<<'\n';
       }
-    from=file.tellg();
   }
 public:
   File(){}
@@ -112,9 +96,9 @@ public:
 class FileGraph: public File
 {
 public:
-  FileGraph(const string &fileName, streampos &from)
+  FileGraph(const string &fileName)
   {
-    ReadFile(fileName, from);
+    ReadFile(fileName);
   }
 
   FileGraph(){}

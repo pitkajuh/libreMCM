@@ -50,8 +50,7 @@ static struct option const options[]=
 
 void ReadInitialData(const string &directory)
 {
-  streampos from=0;
-  File *test1=new FileGraph(directory+"graph.txt", from);
+  File *test1=new FileGraph(directory+"graph.txt");
   delete test1;
 
   ifstream bin(directory+"bin");
