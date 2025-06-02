@@ -80,6 +80,21 @@ public:
 class FileSettings: public File
 {
 protected:
+  map<string, string> GetSettings(const vector<string> &ivs)
+  {
+    string name;
+    string value;
+    map<string, string> result;
+
+    for(const auto &iv: ivs)
+      {
+	const unsigned at=iv.find("=");
+	name=iv.substr(0, at);
+	value=iv.substr(at+1, iv.size()-1);
+	result[name]=value;
+      }
+    return result;
+  }
   void ReadFile(const string &fileName)
   {
     streampos from=0;
@@ -98,11 +113,14 @@ protected:
 	else if(line.substr(0, size)==settings)
 	  {
 	    result=ReadContent(file, from, settings, size);
+	    set=GetSettings(result.second);
 	  }
       }
 
   }
 public:
+  map<string, string> set;
+
   FileSettings(const string &fileName)
   {
     ReadFile(fileName);
@@ -125,6 +143,9 @@ protected:
   }
 
   std::set<string> initialValueNames;
+  unsigned nx=0;
+  unsigned ny=0;
+  unsigned n=0;
 
   map<string, double> SetInitialValueName(const vector<string> &ivs)
   {
@@ -186,11 +207,13 @@ protected:
 	  }
 	cout<<" "<<'\n';
       }
-
+    n=all.size();
   }
 public:
-  FileGraph(const string &fileName)
+  FileGraph(const string &fileName, const unsigned timeStart, const unsigned timeEnd, const unsigned stepSize)
   {
+    ny=(timeEnd-timeStart)/stepSize;
+    nx=initialValueNames.size();
     ReadFile(fileName);
   }
 

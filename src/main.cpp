@@ -50,11 +50,19 @@ static struct option const options[]=
 
 void ReadInitialData(const string &directory)
 {
-  File *test1=new FileGraph(directory+"graph.txt");
-  delete test1;
+  // File *test2=new FileSettings(directory+"sim_params");
+  FileSettings test2(directory+"sim_params");
 
-  File *test2=new FileSettings(directory+"sim_params");
-  delete test2;
+  const unsigned timeStart=std::stoi(test2.set["time_start"]);
+  const unsigned timeEnd=std::stoi(test2.set["time_end"]);
+  const unsigned stepSize=std::stoi(test2.set["step_size"]);
+  test2.set.clear();
+  // delete test2;
+  FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
+  // File *test1=new FileGraph(directory+"graph.txt");
+  // delete test1;
+
+
 
   ifstream bin(directory+"bin");
   streampos *f=new streampos;
