@@ -84,6 +84,9 @@ void ReadInitialData(const string &directory)
   //     equation->SubstituteConstants(constants_map);
   //     delete equation;
   //   }
+
+
+
   // CreateEquationTemplates(equationMap, constants_map);
 }
 
