@@ -147,6 +147,7 @@ protected:
   unsigned nx=0;
   unsigned ny=0;
   unsigned n=0;
+  unsigned N=0;
 
   map<string, double> SetInitialValueName(const vector<string> &ivs)
   {
@@ -204,38 +205,31 @@ protected:
 	    value[v];
 	  }
       }
-    cout<<"------------------------"<<'\n';
-    for(auto &[name, value]: all)
-      {
-	cout<<name<<'\n';
-
-	for(const auto&[v1, v2]: value)
-	  {
-	    cout<<v1<<" "<<v2<<'\n';
-	  }
-      }
   }
 public:
   void InitResults(double *&results, const unsigned timeStart)
   {
+    N=1+n*(1+nx*ny);
     cout<<"value "<<1+n*(1+nx*ny)<<" "<<n<<" "<<nx<<" "<<ny<<'\n';
-    results=new double[1+n*(1+nx*ny)];
+    results=new double[N];
     results[0]=timeStart;
 
-    for(unsigned i=0; i<1+n*(1+nx*ny); i++)
-      {
-
-      }
+    unsigned i=1;
 
     for(auto &[name, value]: all)
       {
-	cout<<name<<'\n';
-
 	for(const auto&[v1, v2]: value)
 	  {
-	    cout<<v1<<" "<<v2<<'\n';
+	    results[i]=v2;
+	    i++;
 	  }
       }
+
+    for(unsigned i=0; i<n*nx; i++)
+      {
+	cout<<"i="<<i<<" "<<results[i]<<'\n';
+      }
+
   }
 
   FileGraph(const string &fileName, const unsigned timeStart, const unsigned timeEnd, const unsigned stepSize)
