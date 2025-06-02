@@ -16,7 +16,10 @@
 #include <iostream>
 #include <vector>
 #include <utility>
+#include <set>
+#include <map>
 
+using std::map;
 using std::cout;
 using std::vector;
 using std::pair;
@@ -40,11 +43,7 @@ protected:
 	EraseLine(line);
 	if(line.size()==0 or line=="{") continue;
 	else if(line=="}") break;
-	else
-	  {
-	    content.emplace_back(line);
-	    cout<<"ReadContentSub "<<line<<'\n';
-	  }
+	else content.emplace_back(line);
       }
     return {file.tellg(), content};
   }
@@ -62,7 +61,6 @@ protected:
 	if(line.size()==0) continue;
 	else if(line.substr(0, 6)==findString or line==findString+"{")
 	  {
-	    cout<<"ReadContent "<<line<<'\n';
 	    result=ReadContentSub(file, file.tellg());
 	    break;
 	  }
@@ -77,9 +75,6 @@ public:
 
 class FileGraph: public File
 {
-private:
-  const string vertex="vertex";
-  const string edges="edges";
 protected:
   string GetVertexName(string line)
   {
@@ -90,6 +85,25 @@ protected:
     return line;
   }
 
+  std::set<string> initialValueNames;
+
+  map<string, double> SetInitialValueName(const vector<string> &ivs)
+  {
+    string name;
+    double value;
+    map<string, double> result;
+
+    for(const auto &iv: ivs)
+      {
+	const unsigned at=iv.find("=");
+	name=iv.substr(0, at);
+	value=std::stod(iv.substr(at+1, iv.size()-1));
+	initialValueNames.insert(name);
+	result[name]=value;
+      }
+    return result;
+  }
+
   void ReadFile(const string &fileName)
   {
     streampos from=0;
@@ -98,6 +112,9 @@ protected:
     ifstream file(fileName);
     file.seekg(from);
     pair<streampos, vector<string>> result;
+    map<string, map<string, double>> all;
+    const string vertex="vertex";
+    const string edges="edges";
 
     while(getline(file, line))
       {
@@ -107,17 +124,30 @@ protected:
 	else if(line.substr(0, 6)==vertex)
 	  {
 	    vertexName=GetVertexName(line);
-	    cout<<"vertex name: "<<vertexName<<'\n';
 	    result=ReadContent(file, from, vertex);
 	    from=result.first;
+	    all[vertexName]=SetInitialValueName(result.second);
 	  }
 	else if(line.substr(0, 5)==edges)
 	  {
 	    result=ReadContent(file, from, edges);
 	    from=result.first;
 	  }
-	cout<<"----------"<<'\n';
       }
+
+    cout<<initialValueNames.size()<<" "<<all.size()<<'\n';
+
+    for(auto &[name, value]: all)
+      {
+	cout<<name<<'\n';
+	cout<<" "<<'\n';
+
+	for(const string &v: initialValueNames)
+	  {
+	    cout<<v<<" "<<value[v]<<'\n';
+	  }
+      }
+
   }
 public:
   FileGraph(const string &fileName)
