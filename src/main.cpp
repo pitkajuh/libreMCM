@@ -53,6 +53,9 @@ void ReadInitialData(const string &directory)
   File *test1=new FileGraph(directory+"graph.txt");
   delete test1;
 
+  File *test2=new FileSettings(directory+"sim_params");
+  delete test2;
+
   ifstream bin(directory+"bin");
   streampos *f=new streampos;
   *f=0;

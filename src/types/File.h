@@ -43,12 +43,16 @@ protected:
 	EraseLine(line);
 	if(line.size()==0 or line=="{") continue;
 	else if(line=="}") break;
-	else content.emplace_back(line);
+	else
+	  {
+	    cout<<line<<'\n';
+	    content.emplace_back(line);
+	  }
       }
     return {file.tellg(), content};
   }
 
-  pair<streampos, vector<string>> ReadContent(ifstream &file, streampos from, const string &findString)
+  pair<streampos, vector<string>> ReadContent(ifstream &file, streampos from, const string &findString, const unsigned size)
   {
     string line;
     pair<streampos, vector<string>> result;
@@ -59,7 +63,7 @@ protected:
 	EraseLine(line);
 
 	if(line.size()==0) continue;
-	else if(line.substr(0, 6)==findString or line==findString+"{")
+	else if(line.substr(0, size)==findString or line==findString+"{")
 	  {
 	    result=ReadContentSub(file, file.tellg());
 	    break;
@@ -71,6 +75,41 @@ public:
   virtual void ReadFile(const string &fileName)=0;
   File(){}
   virtual ~File(){}
+};
+
+class FileSettings: public File
+{
+protected:
+  void ReadFile(const string &fileName)
+  {
+    streampos from=0;
+    string line;
+    ifstream file(fileName);
+    file.seekg(from);
+    pair<streampos, vector<string>> result;
+    const string settings="simulation_settings";
+    const unsigned size=settings.size();
+
+    while(getline(file, line))
+      {
+	EraseLine(line);
+
+	if(line.size()==0) continue;
+	else if(line.substr(0, size)==settings)
+	  {
+	    result=ReadContent(file, from, settings, size);
+	  }
+      }
+
+  }
+public:
+  FileSettings(const string &fileName)
+  {
+    ReadFile(fileName);
+  }
+
+  FileSettings(){}
+  ~FileSettings(){}
 };
 
 class FileGraph: public File
@@ -124,13 +163,13 @@ protected:
 	else if(line.substr(0, 6)==vertex)
 	  {
 	    vertexName=GetVertexName(line);
-	    result=ReadContent(file, from, vertex);
+	    result=ReadContent(file, from, vertex, 6);
 	    from=result.first;
 	    all[vertexName]=SetInitialValueName(result.second);
 	  }
 	else if(line.substr(0, 5)==edges)
 	  {
-	    result=ReadContent(file, from, edges);
+	    result=ReadContent(file, from, edges, 5);
 	    from=result.first;
 	  }
       }
@@ -140,12 +179,12 @@ protected:
     for(auto &[name, value]: all)
       {
 	cout<<name<<'\n';
-	cout<<" "<<'\n';
 
 	for(const string &v: initialValueNames)
 	  {
 	    cout<<v<<" "<<value[v]<<'\n';
 	  }
+	cout<<" "<<'\n';
       }
 
   }
