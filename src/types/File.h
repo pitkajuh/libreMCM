@@ -143,6 +143,7 @@ protected:
   }
 
   std::set<string> initialValueNames;
+  map<string, map<string, double>> all;
   unsigned nx=0;
   unsigned ny=0;
   unsigned n=0;
@@ -172,7 +173,6 @@ protected:
     ifstream file(fileName);
     file.seekg(from);
     pair<streampos, vector<string>> result;
-    map<string, map<string, double>> all;
     const string vertex="vertex";
     const string edges="edges";
 
@@ -199,15 +199,21 @@ protected:
 
     for(auto &[name, value]: all)
       {
-	cout<<name<<'\n';
-
 	for(const string &v: initialValueNames)
 	  {
-	    cout<<v<<" "<<value[v]<<'\n';
+	    value[v];
 	  }
-	cout<<" "<<'\n';
       }
-    n=all.size();
+    cout<<"------------------------"<<'\n';
+    for(auto &[name, value]: all)
+      {
+	cout<<name<<'\n';
+
+	for(const auto&[v1, v2]: value)
+	  {
+	    cout<<v1<<" "<<v2<<'\n';
+	  }
+      }
   }
 public:
   FileGraph(const string &fileName, const unsigned timeStart, const unsigned timeEnd, const unsigned stepSize)
@@ -215,6 +221,7 @@ public:
     ny=(timeEnd-timeStart)/stepSize;
     nx=initialValueNames.size();
     ReadFile(fileName);
+    n=all.size();
   }
 
   FileGraph(){}
