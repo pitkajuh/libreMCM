@@ -6,153 +6,16 @@ edges
   f, sink, predator_death;
 }
 
-vertex: r
+vertex r
 {
   r0=400;
   r1=5;
   r2=6;
 }
 
-vertex: f
+vertex f
 {
   f0=2;
   f1=6;
   f2=3;
-}
-
-
-
-
-
-vertex: r
-{
-  values
-  {
-    r0=400;
-    r1=5;
-    r2=6;
-  }
-  edges
-  {
-    source, r, prey_birth;
-    r, sink, prey_death;
-  }
-}
-
-vertex: f
-{
-  values
-  {
-    f0=2;
-    f1=6;
-    f2=3;
-  }
-  edges
-  {
-    source, f, predator_birth;
-    f, sink, predator_death;
-  }
-}
-
-vertex: test
-{
-  values
-  {
-    o0=2;
-    o1=6;
-    o2=3;
-  }
-  edges
-  {
-    source, test, predator_birth;
-    test, sink, predator_death;
-  }
-}
-
-
-
-
-
-vertex: test1
-
-
-{
-
-
-
-  values{
-
-
-
-    o0=2;
-    o1=6;
-    o2=3;
-
-
-  }
-
-
-  edges
-
-
-  {
-
-
-    source, test1, predator_birth;
-
-
-
-    test1, sink, predator_death;
-  }
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-vertex: test2
-
-
-{
-
-
-
-  values{
-
-
-
-    o0=2;o1=6; o2=3;
-
-
-  }
-
-
-  edges
-
-
-  {
-
-
-    source, test2, predator_birth;
-
-
-
-    test2, sink, predator_death;
-  }
-
-
 }

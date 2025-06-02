@@ -39,8 +39,7 @@ protected:
     while(getline(file, line))
       {
 	EraseLine(line);
-
-	if(line.size()==0) continue;
+	if(line.size()==0 or line=="{") continue;
 	else if(line=="}") break;
 	else cout<<"ReadInitialValues "<<line<<'\n';
       }
@@ -51,18 +50,18 @@ protected:
   {
     string line;
     file.seekg(from);
-
+    cout<<"readcontent"<<'\n';
     while(getline(file, line))
       {
 	EraseLine(line);
 	const unsigned size=line.size();
-
+	cout<<"line "<<line<<'\n';
 	if(size==0) continue;
 	else if(line==findString or line==findString+"{")
 	  {
 	    cout<<"ReadContent "<<line<<" "<<size<<" "<<from<<'\n';
 	    from=file.tellg();
-	    from+=size;
+	    // from+=size;
 	    ReadInitialValues(file, from);
 	    break;
 	  }
@@ -73,7 +72,6 @@ protected:
   void ReadFile(const string &fileName, streampos &from)
   {
     string line;
-    // string linePrevious;
     ifstream file(fileName);
     file.seekg(from);
 
@@ -83,13 +81,22 @@ protected:
 	const unsigned size=line.size();
 
 	if(size==0) continue;
-	else if(line.substr(0, 7)=="vertex:")
+	else if(line.substr(0, 6)=="vertex")
 	  {
 	    from+=size;
-	    line=line.substr(7, size);
-	    cout<<"vertex "<<line<<" "<<from<<'\n';
-	    ReadContent(file, from, "values");
+	    // line=line.substr(7, size);
+	    cout<<line<<" "<<from<<'\n';
+	    // ReadContent(file, from, "values");
+	    // ReadContent(file, from, "edges");
+	    cout<<"----------"<<'\n';
+	  }
+	else if(line.substr(0, 5)=="edges")
+	  {
+	    // from+=size;
+	    cout<<line<<" "<<from<<'\n';
 	    ReadContent(file, from, "edges");
+	    // line=line.substr(7, size);
+
 	    cout<<"----------"<<'\n';
 	  }
 	// else linePrevious=line;
