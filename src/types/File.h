@@ -58,6 +58,8 @@ protected:
       }
   }
 
+  const bool LineCommented(const string &line){return line[0]=='/' and line[1]=='/';}
+
   pair<streampos, vector<string>> ReadContentSub(ifstream &file, streampos from)
   {
     string line;
@@ -67,7 +69,7 @@ protected:
     while(getline(file, line))
       {
 	EraseLine(line);
-	if(line.size()==0 or line=="{") continue;
+	if(line.size()==0 or line=="{" or LineCommented(line)) continue;
 	else if(line=="}") break;
 	else
 	  {
@@ -89,7 +91,7 @@ protected:
       {
 	EraseLine(line);
 
-	if(line.size()==0) continue;
+	if(line.size()==0 or LineCommented(line)) continue;
 	else if(line.substr(0, size)==findString or line==findString+"{")
 	  {
 	    result=ReadContentSub(file, file.tellg());
@@ -110,7 +112,7 @@ protected:
       {
 	EraseLine(line);
 
-	if(line.size()==0) continue;
+	if(line.size()==0 or LineCommented(line)) continue;
 	from=SA(file, from, line);
       }
 
