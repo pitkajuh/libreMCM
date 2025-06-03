@@ -71,8 +71,27 @@ protected:
       }
     return result;
   }
+
+  void ReadFile(const string &fileName)
+  {
+    streampos from=0;
+    string line;
+    ifstream file(fileName);
+    file.seekg(from);
+
+    while(getline(file, line))
+      {
+	EraseLine(line);
+
+	if(line.size()==0) continue;
+	SA(file, from, line);
+      }
+
+    file.close();
+  }
+
 public:
-  virtual void ReadFile(const string &fileName)=0;
+  virtual void SA(ifstream &file, streampos &from, const string &line)=0;
   File(){}
   virtual ~File(){}
 };
@@ -99,40 +118,6 @@ protected:
 	result=ReadContent(file, from, edges, edges.size());
 	// from=result.first;
       }
-  }
-
-  void ReadFile(const string &fileName)
-  {
-    streampos from=0;
-    string line;
-    // string vertexName;
-    ifstream file(fileName);
-    file.seekg(from);
-    // pair<streampos, vector<string>> result;
-    // const string vertex="constants";
-    // const string edges="equations";
-
-    while(getline(file, line))
-      {
-	EraseLine(line);
-
-	if(line.size()==0) continue;
-	SA(file, from, line);
-	// else if(line.substr(0, vertex.size())==vertex)
-	//   {
-	//     // vertexName=GetVertexName(line);
-	//     result=ReadContent(file, from, vertex, vertex.size());
-	//     // from=result.first;
-	//     // all[vertexName]=SetInitialValueName(result.second);
-	//   }
-	// else if(line.substr(0, edges.size())==edges)
-	//   {
-	//     result=ReadContent(file, from, edges, edges.size());
-	//     // from=result.first;
-	//   }
-      }
-
-    file.close();
   }
 public:
 
@@ -175,31 +160,6 @@ protected:
 	result=ReadContent(file, from, settings, size);
 	set=GetSettings(result.second);
       }
-  }
-
-  void ReadFile(const string &fileName)
-  {
-    streampos from=0;
-    string line;
-    ifstream file(fileName);
-    file.seekg(from);
-    // pair<streampos, vector<string>> result;
-    // const string settings="simulation_settings";
-    // const unsigned size=settings.size();
-
-    while(getline(file, line))
-      {
-	EraseLine(line);
-
-	if(line.size()==0) continue;
-	SA(file, from, line);
-	// else if(line.substr(0, size)==settings)
-	//   {
-	//     result=ReadContent(file, from, settings, size);
-	//     set=GetSettings(result.second);
-	//   }
-      }
-    file.close();
   }
 public:
   map<string, string> set;
@@ -270,41 +230,6 @@ protected:
       }
   }
 
-  void ReadFile(const string &fileName)
-  {
-    streampos from=0;
-    string line;
-    // string vertexName;
-    ifstream file(fileName);
-    file.seekg(from);
-    // pair<streampos, vector<string>> result;
-    // const string vertex="vertex";
-    // const string edges="edges";
-
-    while(getline(file, line))
-      {
-	EraseLine(line);
-
-	if(line.size()==0) continue;
-	SA(file, from, line);
-	// else if(line.substr(0, 6)==vertex)
-	//   {
-	//     vertexName=GetVertexName(line);
-	//     result=ReadContent(file, from, vertex, 6);
-	//     from=result.first;
-	//     all[vertexName]=SetInitialValueName(result.second);
-	//   }
-	// else if(line.substr(0, 5)==edges)
-	//   {
-	//     result=ReadContent(file, from, edges, 5);
-	//     from=result.first;
-	//   }
-      }
-
-    file.close();
-
-    cout<<initialValueNames.size()<<" "<<all.size()<<'\n';
-  }
 public:
   void InitResults(double *&results, const unsigned timeStart)
   {
