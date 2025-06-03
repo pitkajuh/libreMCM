@@ -13,7 +13,6 @@
 #include <getopt.h>
 #include <unistd.h>
 #include "namespace.h"
-#include "ParseEquations.h"
 #include "File.h"
 #include "GraphEquation.h"
 #include "FileSettings.h"
@@ -60,8 +59,8 @@ void ReadInitialData(const string &directory)
   delete [] results;
 
   FileEquations test3(directory+"bin");
-
-  map<string, GraphEquation*> eqs=ParseEquations(test3.equations2, test1.vertexNames);
+  map<string, GraphEquation*> eqs=test3.ParseEquations(test1.vertexNames);
+  // map<string, GraphEquation*> eqs=ParseEquations(test3.equations2, test1.vertexNames);
 
 
 
