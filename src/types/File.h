@@ -32,6 +32,22 @@ protected:
     line.erase(remove(line.begin(), line.end(), ' '), line.end());
   }
 
+  map<string, string> GetSettings(const vector<string> &ivs)
+  {
+    string name;
+    string value;
+    map<string, string> result;
+
+    for(const auto &iv: ivs)
+      {
+	const unsigned at=iv.find("=");
+	name=iv.substr(0, at);
+	value=iv.substr(at+1, iv.size()-1);
+	result[name]=value;
+      }
+    return result;
+  }
+
   pair<streampos, vector<string>> ReadContentSub(ifstream &file, streampos from)
   {
     string line;
@@ -84,14 +100,14 @@ protected:
 	EraseLine(line);
 
 	if(line.size()==0) continue;
-	SA(file, from, line);
+	from=SA(file, from, line);
       }
 
     file.close();
   }
 
 public:
-  virtual void SA(ifstream &file, streampos &from, const string &line)=0;
+  virtual streampos SA(ifstream &file, streampos from, const string &line)=0;
   File(){}
   virtual ~File(){}
 };
@@ -99,24 +115,38 @@ public:
 class FileEquations: public File
 {
 protected:
-  void SA(ifstream &file, streampos &from, const string &line)
+  void Convert(const map<string, string> &map)
+  {
+    for(const auto &[key, value]: map)
+      {
+	constants[key]=std::stod(value);
+      }
+  }
+
+  streampos SA(ifstream &file, streampos from, const string &line)
   {
     pair<streampos, vector<string>> result;
-    const string constants="constants";
-    const string equations="equations";
+    const string constants1="constants";
+    const string equations1="equations";
     const string sub=line.substr(0, 9);
 
-    if(sub==constants)
+    if(sub==constants1)
       {
-	result=ReadContent(file, from, constants, 9);
+	result=ReadContent(file, from, constants1, 9);
+	const map<string, string> map=GetSettings(result.second);
+	Convert(map);
       }
-    else if(sub==equations)
+    else if(sub==equations1)
       {
-	result=ReadContent(file, from, equations, 9);
+	result=ReadContent(file, from, equations1, 9);
+	equations=GetSettings(result.second);
       }
     from=result.first;
+    return from;
   }
 public:
+  map<string, double> constants;
+  map<string, string> equations;
 
   FileEquations(const string &fileName)
   {
@@ -130,23 +160,7 @@ public:
 class FileSettings: public File
 {
 protected:
-  map<string, string> GetSettings(const vector<string> &ivs)
-  {
-    string name;
-    string value;
-    map<string, string> result;
-
-    for(const auto &iv: ivs)
-      {
-	const unsigned at=iv.find("=");
-	name=iv.substr(0, at);
-	value=iv.substr(at+1, iv.size()-1);
-	result[name]=value;
-      }
-    return result;
-  }
-
-  void SA(ifstream &file, streampos &from, const string &line)
+  streampos SA(ifstream &file, streampos from, const string &line)
   {
     pair<streampos, vector<string>> result;
     const string settings="simulation_settings";
@@ -157,6 +171,7 @@ protected:
 	set=GetSettings(result.second);
       }
     from=result.first;
+    return from;
   }
 public:
   map<string, string> set;
@@ -206,7 +221,7 @@ protected:
     return result;
   }
 
-  void SA(ifstream &file, streampos &from, const string &line)
+  streampos SA(ifstream &file, streampos from, const string &line)
   {
     pair<streampos, vector<string>> result;
     string vertexName;
@@ -224,6 +239,7 @@ protected:
 	result=ReadContent(file, from, edges, 5);
       }
     from=result.first;
+    return from;
   }
 
 public:
