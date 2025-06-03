@@ -143,8 +143,27 @@ protected:
     from=result.first;
     return from;
   }
+
+  string print_vector3(const vector<string> &vec)
+  {
+    uint8_t i=0;
+    string empty="";
+    const uint8_t size=vec.size();
+
+    while(i<size)
+      {
+	if(i==0) empty=vec[i];
+	// else empty=empty+";"+vec[i];
+	else empty=empty+vec[i];
+	i++;
+      }
+    // cout<<empty<<'\n';
+    return empty;
+  }
+
   void ToVector(string eq)
   {
+    const string orig=eq;
     vector<string> equation;
     const string DIVIDE="/";
     const string MULTIPLY="*";
@@ -153,7 +172,7 @@ protected:
     const string OPEN="(";
     const string CLOSE=")";
     const string EXP="^";
-    const array<string, 7> OPERATORS2={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT, OPEN, CLOSE};
+    const string OPERATORS2[7]={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT, OPEN, CLOSE};
     unsigned size=eq.size();
 
     while(size>0)
@@ -165,15 +184,36 @@ protected:
 	    const unsigned a=eq.find(i);
 
 	    if(a<size and a<smallest) smallest=a;
-
+	  }
+	if(smallest==size)
+	  {
+	    equation.emplace_back(eq);
+	    break;
 	  }
 	// Check edge cases here
 	// e.g. if smallest=0 and eq[smallest]=/, then it is illegal operation
 	// smallest=0 eq[smallest]=- is ok
-	cout<<smallest<<" "<<eq[smallest]<<'\n';
+	// cout<<smallest<<" "<<eq[smallest]<<'\n';
 
-	break;
+	if(smallest>0)
+	  {
+	    const string aa=eq.substr(0, smallest);
+	    equation.emplace_back(aa);
+	    const string s{eq[smallest]};
+	    equation.emplace_back(s);
+	    if(size>1) eq=eq.substr(smallest+1, size);
+	  }
+	else
+	  {
+	    const string s{eq[0]};
+	    equation.emplace_back(s);
+	    eq.erase(eq.begin());
+	  }
       }
+
+    auto a1=print_vector3(equation);
+    if(a1==orig) cout<<"OK"<<'\n';
+    else cout<<"NOT OK"<<'\n';
   }
 public:
   map<string, double> constants;
@@ -187,10 +227,13 @@ public:
 	cout<<i<<" "<<v<<'\n';
       }
     cout<<" "<<'\n';
-    for(const auto &[i, v]: equations)
+    for(auto &[i, v]: equations)
       {
+	cout<<v<<" "<<v.size()<<'\n';
+	v.erase(v.end()-1);
 	cout<<i<<" "<<v<<'\n';
 	ToVector(v);
+	cout<<" "<<'\n';
       }
   }
 
