@@ -50,17 +50,17 @@ static struct option const options[]=
 
 void ReadInitialData(const string &directory)
 {
-  // FileSettings test2(directory+"sim_params");
-  // const unsigned timeStart=std::stoi(test2.set["time_start"]);
-  // const unsigned timeEnd=std::stoi(test2.set["time_end"]);
-  // const unsigned stepSize=std::stoi(test2.set["step_size"]);
-  // // Get other parameters here before clearing.
-  // test2.set.clear();
+  FileSettings test2(directory+"sim_params");
+  const unsigned timeStart=std::stoi(test2.set["time_start"]);
+  const unsigned timeEnd=std::stoi(test2.set["time_end"]);
+  const unsigned stepSize=std::stoi(test2.set["step_size"]);
+  // Get other parameters here before clearing.
+  test2.set.clear();
 
-  // FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
-  // double *results=nullptr;
-  // test1.InitResults(results, timeStart);
-  // delete [] results;
+  FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
+  double *results=nullptr;
+  test1.InitResults(results, timeStart);
+  delete [] results;
 
   FileEquations test3(directory+"bin");
 

@@ -311,6 +311,7 @@ protected:
 
   std::set<string> initialValueNames;
   map<string, map<string, double>> all;
+  vector<string> vertexNames;
   unsigned nx=0;
   unsigned ny=0;
   unsigned n=0;
@@ -343,6 +344,7 @@ protected:
     if(line.substr(0, 6)==vertex)
       {
 	vertexName=GetVertexName(line);
+	vertexNames.emplace_back(vertexName);
 	result=ReadContent(file, from, vertex, 6);
 	all[vertexName]=SetInitialValueName(result.second);
       }
