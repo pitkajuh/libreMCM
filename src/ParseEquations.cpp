@@ -9,7 +9,6 @@
 \*---------------------------------------------------------------------------*/
 
 #include "CreateNewMathOperation.h"
-#include "test.h"
 #include "mathconst.h"
 #include "Equation.h"
 #include "Bools.h"
@@ -19,12 +18,16 @@
 #include <cmath>
 #include <cassert>
 #include <cstdint>
-#include "Graph.h"
+#include "GraphEquation.h"
 
 using std::to_string;
 using std::cout;
 using std::stod;
 using std::stoi;
+
+vector<string> Remove(vector<string> equation, const uint8_t open, const uint8_t close);
+void ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> &data, const uint8_t size, GraphEquation *&graph);
+vector<string> test(vector<string> equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph);
 
 void print_vector2(const vector<string> &vec)
 {
@@ -39,6 +42,87 @@ void print_vector2(const vector<string> &vec)
     }
   cout<<empty<<'\n';
 }
+
+vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
+{
+  vector<string> v1{equation.begin()+open+1, equation.begin()+close};
+  ParseOperators(v1, id, data, v1.size(), graph);
+  v1=test(v1, id, data, graph);
+  const vector<string> v2{equation.begin(), equation.begin()+open};
+  const vector<string> v3{equation.begin()+close+1, equation.end()};
+  vector<string> result;
+  result.reserve(v1.size()+v2.size()+v3.size());
+
+  result.insert(result.begin(), v2.begin(), v2.end());
+  result.insert(result.end(), v1.begin(), v1.end());
+  result.insert(result.end(), v3.begin(), v3.end());
+  print_vector2(result);
+  return result;
+}
+
+vector<string> RemoveOpenClose(vector<string> equation)
+{
+  // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
+  const uint8_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
+  const uint8_t close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
+  if(open!=equation.size() and close!=equation.size()) equation=Remove(equation, open, close);
+  return equation;
+}
+
+vector<string> Remove(vector<string> equation, const uint8_t open, const uint8_t close)
+{
+  if(equation[open+1]==OPEN and equation[close+1]==CLOSE)
+    {
+      equation.erase(equation.begin()+open);
+      equation.erase(equation.begin()+close-1);
+      equation=RemoveOpenClose(equation);
+    }
+  return equation;
+}
+
+const bool IsOpen(const vector<string> &tmp)
+{
+  const uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
+
+  if(op==tmp.size()) return 1;
+  return 0;
+}
+
+vector<string> test2(vector<string> equation, uint8_t open, uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
+{
+  const vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
+  const uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
+
+  if(op<tmp.size())
+    {
+      open=distance(equation.begin()+open+1, find(equation.begin()+open+1, equation.end(), OPEN))+open+1;
+      equation=GetParenthesis(equation, open, close, id, data, graph);
+      open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
+      close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
+      equation=test2(equation, open, close, id, data, graph);
+    }
+  return equation;
+}
+
+vector<string> test(vector<string> equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
+{
+  uint8_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
+  uint8_t close;
+  vector<string> tmp;
+
+  while(open<equation.size())
+    {
+      close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
+      tmp={equation.begin()+open+1, equation.begin()+close};
+
+      if(IsOpen(tmp)) equation=GetParenthesis(equation, open, close, id, data, graph);
+      else equation=test2(equation, open, close, id, data, graph);
+      open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
+    }
+  return equation;
+}
+
+
 
 void FindOperator(vector<string> &equation, const string &find, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
 {
@@ -73,32 +157,6 @@ void ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> 
       if(size<2) break;
       FindOperator(equation, i, id, data, graph);
     }
-}
-
-vector<string> RemoveOpenClose(vector<string> equation)
-{
-  // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
-  const uint8_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
-  const uint8_t close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
-  if(open!=equation.size() and close!=equation.size()) equation=Remove(equation, open, close);
-  return equation;
-}
-
-vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
-{
-  vector<string> v1{equation.begin()+open+1, equation.begin()+close};
-  ParseOperators(v1, id, data, v1.size(), graph);
-  v1=test(v1, id, data, graph);
-  const vector<string> v2{equation.begin(), equation.begin()+open};
-  const vector<string> v3{equation.begin()+close+1, equation.end()};
-  vector<string> result;
-  result.reserve(v1.size()+v2.size()+v3.size());
-
-  result.insert(result.begin(), v2.begin(), v2.end());
-  result.insert(result.end(), v1.begin(), v1.end());
-  result.insert(result.end(), v3.begin(), v3.end());
-  print_vector2(result);
-  return result;
 }
 
 void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
