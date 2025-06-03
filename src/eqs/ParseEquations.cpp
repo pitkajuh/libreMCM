@@ -9,7 +9,6 @@
 \*---------------------------------------------------------------------------*/
 
 #include "CreateNewMathOperation.h"
-#include "ToVector.h"
 #include "test.h"
 #include "../global/mathconst.h"
 #include "../types/Equation.h"

@@ -23,6 +23,8 @@ using std::map;
 using std::cout;
 using std::vector;
 using std::pair;
+using std::streampos;
+using std::ifstream;
 
 class File
 {

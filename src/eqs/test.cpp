@@ -10,7 +10,6 @@
 
 #include "../types/MathOperation.h"
 #include "../global/mathconst.h"
-#include "ToVector.h"
 #include "ParseEquations.h"
 #include <algorithm>
 #include <iostream>

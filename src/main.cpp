@@ -13,14 +13,7 @@
 #include <getopt.h>
 #include <unistd.h>
 #include "inc/namespace.h"
-#include "rcfg/get_bin.h"
-#include "util/MapUtils.h"
-#include "util/CreateInitialValues.h"
-#include "util/ParseInitialValues.h"
-#include "comp/GetCompartment.h"
-#include "eqs/EquationAddSubtract.h"
 #include "eqs/ParseEquations.h"
-#include "eqs/CreateEquationTemplates.h"
 #include "types/File.h"
 
 #define GetCurrentDir getcwd
@@ -64,32 +57,6 @@ void ReadInitialData(const string &directory)
 
   FileEquations test3(directory+"bin");
 
-
-  // ifstream bin(directory+"bin");
-  // streampos *f=new streampos;
-  // *f=0;
-  // SMap constants_map=GetMap(bin, f);
-  // const SMap equations_map=GetMap(bin, f);
-  // bin.close();
-  // delete f;
-
-  // ifstream compartments(directory+"compartments");
-  // Map<string, InitialValues> ivs=GetInitialValues(compartments);
-  // compartments.close();
-
-  // ifstream compartment(directory+"compartment.csv");
-  // Csv csv=GetCompartment(compartment);
-  // csv.GetDiagonal();
-  // compartment.close();
-
-  // const vector<string> iv_names=CreateAllInitialValues(ivs);
-  // const Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
-  // const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
-
-  // map<string, GraphEquation*> eqs=ParseEquations(equations_map, csv.diagonal);
-
-
-
   map<string, GraphEquation*> eqs=ParseEquations(test3.equations2, test1.vertexNames);
 
 
@@ -103,7 +70,6 @@ void ReadInitialData(const string &directory)
 
 
 
-  // CreateEquationTemplates(equationMap, constants_map);
 }
 
 int main(int argc, char** argv)
