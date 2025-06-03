@@ -104,17 +104,17 @@ protected:
     pair<streampos, vector<string>> result;
     const string constants="constants";
     const string equations="equations";
-    const unsigned size1=constants.size();
-    const unsigned size2=equations.size();
+    const string sub=line.substr(0, 9);
 
-    if(line.substr(0, size1)==constants)
+    if(sub==constants)
       {
-	result=ReadContent(file, from, constants, size1);
+	result=ReadContent(file, from, constants, 9);
       }
-    else if(line.substr(0, size2)==equations)
+    else if(sub==equations)
       {
-	result=ReadContent(file, from, equations, size2);
+	result=ReadContent(file, from, equations, 9);
       }
+    from=result.first;
   }
 public:
 
@@ -150,13 +150,13 @@ protected:
   {
     pair<streampos, vector<string>> result;
     const string settings="simulation_settings";
-    const unsigned size=settings.size();
 
-    if(line.substr(0, size)==settings)
+    if(line.substr(0, 19)==settings)
       {
-	result=ReadContent(file, from, settings, size);
+	result=ReadContent(file, from, settings, 19);
 	set=GetSettings(result.second);
       }
+    from=result.first;
   }
 public:
   map<string, string> set;
@@ -217,14 +217,13 @@ protected:
       {
 	vertexName=GetVertexName(line);
 	result=ReadContent(file, from, vertex, 6);
-	from=result.first;
 	all[vertexName]=SetInitialValueName(result.second);
       }
     else if(line.substr(0, 5)==edges)
       {
 	result=ReadContent(file, from, edges, 5);
-	from=result.first;
       }
+    from=result.first;
   }
 
 public:
