@@ -190,7 +190,7 @@ protected:
     return smallest;
   }
 
-  void ToVector(string eq)
+  vector<string> ToVector(string eq)
   {
     const string orig=eq;
     vector<string> equation;
@@ -198,7 +198,7 @@ protected:
 
     // Check edge cases here
     // e.g. if smallest=0 and eq[smallest]=/, then it is illegal operation
-    // smallest=0 eq[smallest]=- is ok
+    // if smallest=0 eq[smallest]=- is ok
     // Create a list of forbidden symbols and compare to them.
 
     if(eq[0]=='-')
@@ -240,10 +240,12 @@ protected:
     auto a1=print_vector3(equation);
     if(a1==orig) cout<<"OK"<<'\n';
     else cout<<"NOT OK"<<'\n';
+    return equation;
   }
 public:
   map<string, double> constants;
   map<string, string> equations;
+  map<string, vector<string>> equations2;
 
   FileEquations(const string &fileName)
   {
@@ -257,9 +259,10 @@ public:
       {
 	cout<<v<<" "<<v.size()<<'\n';
 	cout<<i<<" "<<v<<'\n';
-	ToVector(v);
+	equations2[i]=ToVector(v);
 	cout<<" "<<'\n';
       }
+    equations.clear();
   }
 
   FileEquations(){}

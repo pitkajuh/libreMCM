@@ -73,18 +73,19 @@ void ReadInitialData(const string &directory)
   bin.close();
   delete f;
 
-  ifstream compartments(directory+"compartments");
-  Map<string, InitialValues> ivs=GetInitialValues(compartments);
-  compartments.close();
+  // ifstream compartments(directory+"compartments");
+  // Map<string, InitialValues> ivs=GetInitialValues(compartments);
+  // compartments.close();
 
   ifstream compartment(directory+"compartment.csv");
   Csv csv=GetCompartment(compartment);
   csv.GetDiagonal();
   compartment.close();
 
-  const vector<string> iv_names=CreateAllInitialValues(ivs);
-  const Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
-  const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
+  // const vector<string> iv_names=CreateAllInitialValues(ivs);
+  // const Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
+  // const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
+
   // map<string, GraphEquation*> eqs=ParseEquations(equations_map, csv.diagonal);
   // for(auto &[name, equation]: eqs)
   //   {
