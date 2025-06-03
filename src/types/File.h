@@ -309,9 +309,8 @@ protected:
     return line;
   }
 
-  std::set<string> initialValueNames;
   map<string, map<string, double>> all;
-  vector<string> vertexNames;
+
   unsigned nx=0;
   unsigned ny=0;
   unsigned n=0;
@@ -357,6 +356,9 @@ protected:
   }
 
 public:
+  std::set<string> initialValueNames;
+  vector<string> vertexNames;
+
   void InitResults(double *&results, const unsigned timeStart)
   {
     N=1+n*(1+nx*ny);

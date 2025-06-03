@@ -65,34 +65,41 @@ void ReadInitialData(const string &directory)
   FileEquations test3(directory+"bin");
 
 
-  ifstream bin(directory+"bin");
-  streampos *f=new streampos;
-  *f=0;
-  SMap constants_map=GetMap(bin, f);
-  const SMap equations_map=GetMap(bin, f);
-  bin.close();
-  delete f;
+  // ifstream bin(directory+"bin");
+  // streampos *f=new streampos;
+  // *f=0;
+  // SMap constants_map=GetMap(bin, f);
+  // const SMap equations_map=GetMap(bin, f);
+  // bin.close();
+  // delete f;
 
   // ifstream compartments(directory+"compartments");
   // Map<string, InitialValues> ivs=GetInitialValues(compartments);
   // compartments.close();
 
-  ifstream compartment(directory+"compartment.csv");
-  Csv csv=GetCompartment(compartment);
-  csv.GetDiagonal();
-  compartment.close();
+  // ifstream compartment(directory+"compartment.csv");
+  // Csv csv=GetCompartment(compartment);
+  // csv.GetDiagonal();
+  // compartment.close();
 
   // const vector<string> iv_names=CreateAllInitialValues(ivs);
   // const Map<string, DInitialValues> ivs_s=ParseInitialValues(ivs, iv_names);
   // const Map<string, AddSubtract> add_subtract=EquationAddSubtract(csv);
 
   // map<string, GraphEquation*> eqs=ParseEquations(equations_map, csv.diagonal);
-  // for(auto &[name, equation]: eqs)
-  //   {
-  //     cout<<name<<" "<<equation<<'\n';
-  //     equation->SubstituteConstants(constants_map);
-  //     delete equation;
-  //   }
+
+
+
+  map<string, GraphEquation*> eqs=ParseEquations(test3.equations2, test1.vertexNames);
+
+
+
+  for(auto &[name, equation]: eqs)
+    {
+      cout<<name<<" "<<equation<<'\n';
+      // equation->SubstituteConstants(constants_map);
+      delete equation;
+    }
 
 
 
