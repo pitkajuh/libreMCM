@@ -38,7 +38,7 @@ const int16_t FindIndexSub(const string &s, int16_t i)
   const int16_t found=s.find(OPERATORS2[i]);
   const int16_t size=OPERATORS2.size();
 
-  if (found==-1 and i<size)
+  if(found==-1 and i<size)
     {
       i++;
       return FindIndexSub(s, i);
@@ -101,7 +101,7 @@ void StringConvert(string &v, vector<string> &aa, uint8_t &t)
     {
       const string s=v.substr(0, i);
       const string mathop{v[i]};
-       if(!s.empty()) aa.emplace_back(s);
+      if(!s.empty()) aa.emplace_back(s);
       aa.emplace_back(mathop);
       v=v.substr(i+1, std::distance(v.begin()+1,v.end()));
       t=size1-v.size();

@@ -133,8 +133,7 @@ protected:
     if(sub==constants1)
       {
 	result=ReadContent(file, from, constants1, 9);
-	const map<string, string> map=GetSettings(result.second);
-	Convert(map);
+	Convert(GetSettings(result.second));
       }
     else if(sub==equations1)
       {
@@ -144,6 +143,38 @@ protected:
     from=result.first;
     return from;
   }
+  void ToVector(string eq)
+  {
+    vector<string> equation;
+    const string DIVIDE="/";
+    const string MULTIPLY="*";
+    const string ADD="+";
+    const string SUBTRACT="-";
+    const string OPEN="(";
+    const string CLOSE=")";
+    const string EXP="^";
+    const array<string, 7> OPERATORS2={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT, OPEN, CLOSE};
+    unsigned size=eq.size();
+
+    while(size>0)
+      {
+	unsigned smallest=size;
+
+	for(const auto &i: OPERATORS2)
+	  {
+	    const unsigned a=eq.find(i);
+
+	    if(a<size and a<smallest) smallest=a;
+
+	  }
+	// Check edge cases here
+	// e.g. if smallest=0 and eq[smallest]=/, then it is illegal operation
+	// smallest=0 eq[smallest]=- is ok
+	cout<<smallest<<" "<<eq[smallest]<<'\n';
+
+	break;
+      }
+  }
 public:
   map<string, double> constants;
   map<string, string> equations;
@@ -151,6 +182,16 @@ public:
   FileEquations(const string &fileName)
   {
     ReadFile(fileName);
+    for(const auto &[i, v]: constants)
+      {
+	cout<<i<<" "<<v<<'\n';
+      }
+    cout<<" "<<'\n';
+    for(const auto &[i, v]: equations)
+      {
+	cout<<i<<" "<<v<<'\n';
+	ToVector(v);
+      }
   }
 
   FileEquations(){}
