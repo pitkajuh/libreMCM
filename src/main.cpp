@@ -65,6 +65,8 @@ void ReadInitialData(const string &directory)
   // delete test1;
   delete [] results;
 
+  // FileEquations test3(directory+"bin");
+
 
   ifstream bin(directory+"bin");
   streampos *f=new streampos;
@@ -73,10 +75,6 @@ void ReadInitialData(const string &directory)
   const SMap equations_map=GetMap(bin, f);
   bin.close();
   delete f;
-
-  ifstream sim(directory+"sim_params");
-  const SMap test=GetMap(sim);
-  sim.close();
 
   ifstream compartments(directory+"compartments");
   Map<string, InitialValues> ivs=GetInitialValues(compartments);

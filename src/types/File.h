@@ -77,6 +77,52 @@ public:
   virtual ~File(){}
 };
 
+class FileEquations: public File
+{
+protected:
+  void ReadFile(const string &fileName)
+  {
+    streampos from=0;
+    string line;
+    string vertexName;
+    ifstream file(fileName);
+    file.seekg(from);
+    pair<streampos, vector<string>> result;
+    const string vertex="constants";
+    const string edges="equations";
+
+    while(getline(file, line))
+      {
+	EraseLine(line);
+
+	if(line.size()==0) continue;
+	else if(line.substr(0, vertex.size())==vertex)
+	  {
+	    // vertexName=GetVertexName(line);
+	    result=ReadContent(file, from, vertex, vertex.size());
+	    // from=result.first;
+	    // all[vertexName]=SetInitialValueName(result.second);
+	  }
+	else if(line.substr(0, edges.size())==edges)
+	  {
+	    result=ReadContent(file, from, edges, edges.size());
+	    // from=result.first;
+	  }
+      }
+
+    file.close();
+  }
+public:
+
+  FileEquations(const string &fileName)
+  {
+    ReadFile(fileName);
+  }
+
+  FileEquations(){}
+  ~FileEquations(){}
+};
+
 class FileSettings: public File
 {
 protected:
@@ -95,6 +141,7 @@ protected:
       }
     return result;
   }
+
   void ReadFile(const string &fileName)
   {
     streampos from=0;
@@ -116,7 +163,7 @@ protected:
 	    set=GetSettings(result.second);
 	  }
       }
-
+    file.close();
   }
 public:
   map<string, string> set;
@@ -166,51 +213,66 @@ protected:
     return result;
   }
 
+  void SA(ifstream &file, streampos &from, const string &line)
+  {
+    pair<streampos, vector<string>> result;
+    string vertexName;
+    const string vertex="vertex";
+    const string edges="edges";
+
+    if(line.substr(0, 6)==vertex)
+      {
+	vertexName=GetVertexName(line);
+	result=ReadContent(file, from, vertex, 6);
+	from=result.first;
+	all[vertexName]=SetInitialValueName(result.second);
+      }
+    else if(line.substr(0, 5)==edges)
+      {
+	result=ReadContent(file, from, edges, 5);
+	from=result.first;
+      }
+  }
+
   void ReadFile(const string &fileName)
   {
     streampos from=0;
     string line;
-    string vertexName;
+    // string vertexName;
     ifstream file(fileName);
     file.seekg(from);
-    pair<streampos, vector<string>> result;
-    const string vertex="vertex";
-    const string edges="edges";
+    // pair<streampos, vector<string>> result;
+    // const string vertex="vertex";
+    // const string edges="edges";
 
     while(getline(file, line))
       {
 	EraseLine(line);
 
 	if(line.size()==0) continue;
-	else if(line.substr(0, 6)==vertex)
-	  {
-	    vertexName=GetVertexName(line);
-	    result=ReadContent(file, from, vertex, 6);
-	    from=result.first;
-	    all[vertexName]=SetInitialValueName(result.second);
-	  }
-	else if(line.substr(0, 5)==edges)
-	  {
-	    result=ReadContent(file, from, edges, 5);
-	    from=result.first;
-	  }
+	SA(file, from, line);
+	// else if(line.substr(0, 6)==vertex)
+	//   {
+	//     vertexName=GetVertexName(line);
+	//     result=ReadContent(file, from, vertex, 6);
+	//     from=result.first;
+	//     all[vertexName]=SetInitialValueName(result.second);
+	//   }
+	// else if(line.substr(0, 5)==edges)
+	//   {
+	//     result=ReadContent(file, from, edges, 5);
+	//     from=result.first;
+	//   }
       }
+
+    file.close();
 
     cout<<initialValueNames.size()<<" "<<all.size()<<'\n';
-
-    for(auto &[name, value]: all)
-      {
-	for(const string &v: initialValueNames)
-	  {
-	    value[v];
-	  }
-      }
   }
 public:
   void InitResults(double *&results, const unsigned timeStart)
   {
     N=1+n*(1+nx*ny);
-    cout<<"value "<<1+n*(1+nx*ny)<<" "<<n<<" "<<nx<<" "<<ny<<'\n';
     results=new double[N];
     results[0]=timeStart;
 
@@ -225,17 +287,28 @@ public:
 	  }
       }
 
+    all.clear();
+
     for(unsigned i=0; i<n*nx; i++)
       {
 	cout<<"i="<<i<<" "<<results[i]<<'\n';
       }
-
   }
 
   FileGraph(const string &fileName, const unsigned timeStart, const unsigned timeEnd, const unsigned stepSize)
   {
     ny=(timeEnd-timeStart)/stepSize;
     ReadFile(fileName);
+
+
+    for(auto &[name, value]: all)
+      {
+	for(const string &v: initialValueNames)
+	  {
+	    value[v];
+	  }
+      }
+
     nx=initialValueNames.size();
     n=all.size();
   }
