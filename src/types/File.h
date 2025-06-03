@@ -80,34 +80,56 @@ public:
 class FileEquations: public File
 {
 protected:
+  void SA(ifstream &file, streampos &from, const string &line)
+  {
+    pair<streampos, vector<string>> result;
+    string vertexName;
+    const string vertex="constants";
+    const string edges="equations";
+
+    if(line.substr(0, vertex.size())==vertex)
+      {
+	// vertexName=GetVertexName(line);
+	result=ReadContent(file, from, vertex, vertex.size());
+	// from=result.first;
+	// all[vertexName]=SetInitialValueName(result.second);
+      }
+    else if(line.substr(0, edges.size())==edges)
+      {
+	result=ReadContent(file, from, edges, edges.size());
+	// from=result.first;
+      }
+  }
+
   void ReadFile(const string &fileName)
   {
     streampos from=0;
     string line;
-    string vertexName;
+    // string vertexName;
     ifstream file(fileName);
     file.seekg(from);
-    pair<streampos, vector<string>> result;
-    const string vertex="constants";
-    const string edges="equations";
+    // pair<streampos, vector<string>> result;
+    // const string vertex="constants";
+    // const string edges="equations";
 
     while(getline(file, line))
       {
 	EraseLine(line);
 
 	if(line.size()==0) continue;
-	else if(line.substr(0, vertex.size())==vertex)
-	  {
-	    // vertexName=GetVertexName(line);
-	    result=ReadContent(file, from, vertex, vertex.size());
-	    // from=result.first;
-	    // all[vertexName]=SetInitialValueName(result.second);
-	  }
-	else if(line.substr(0, edges.size())==edges)
-	  {
-	    result=ReadContent(file, from, edges, edges.size());
-	    // from=result.first;
-	  }
+	SA(file, from, line);
+	// else if(line.substr(0, vertex.size())==vertex)
+	//   {
+	//     // vertexName=GetVertexName(line);
+	//     result=ReadContent(file, from, vertex, vertex.size());
+	//     // from=result.first;
+	//     // all[vertexName]=SetInitialValueName(result.second);
+	//   }
+	// else if(line.substr(0, edges.size())==edges)
+	//   {
+	//     result=ReadContent(file, from, edges, edges.size());
+	//     // from=result.first;
+	//   }
       }
 
     file.close();
@@ -142,26 +164,40 @@ protected:
     return result;
   }
 
+  void SA(ifstream &file, streampos &from, const string &line)
+  {
+    pair<streampos, vector<string>> result;
+    const string settings="simulation_settings";
+    const unsigned size=settings.size();
+
+    if(line.substr(0, size)==settings)
+      {
+	result=ReadContent(file, from, settings, size);
+	set=GetSettings(result.second);
+      }
+  }
+
   void ReadFile(const string &fileName)
   {
     streampos from=0;
     string line;
     ifstream file(fileName);
     file.seekg(from);
-    pair<streampos, vector<string>> result;
-    const string settings="simulation_settings";
-    const unsigned size=settings.size();
+    // pair<streampos, vector<string>> result;
+    // const string settings="simulation_settings";
+    // const unsigned size=settings.size();
 
     while(getline(file, line))
       {
 	EraseLine(line);
 
 	if(line.size()==0) continue;
-	else if(line.substr(0, size)==settings)
-	  {
-	    result=ReadContent(file, from, settings, size);
-	    set=GetSettings(result.second);
-	  }
+	SA(file, from, line);
+	// else if(line.substr(0, size)==settings)
+	//   {
+	//     result=ReadContent(file, from, settings, size);
+	//     set=GetSettings(result.second);
+	//   }
       }
     file.close();
   }

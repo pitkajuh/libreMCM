@@ -65,7 +65,7 @@ void ReadInitialData(const string &directory)
   // delete test1;
   delete [] results;
 
-  // FileEquations test3(directory+"bin");
+  FileEquations test3(directory+"bin");
 
 
   ifstream bin(directory+"bin");
