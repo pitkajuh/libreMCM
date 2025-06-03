@@ -102,21 +102,18 @@ protected:
   void SA(ifstream &file, streampos &from, const string &line)
   {
     pair<streampos, vector<string>> result;
-    string vertexName;
-    const string vertex="constants";
-    const string edges="equations";
+    const string constants="constants";
+    const string equations="equations";
+    const unsigned size1=constants.size();
+    const unsigned size2=equations.size();
 
-    if(line.substr(0, vertex.size())==vertex)
+    if(line.substr(0, size1)==constants)
       {
-	// vertexName=GetVertexName(line);
-	result=ReadContent(file, from, vertex, vertex.size());
-	// from=result.first;
-	// all[vertexName]=SetInitialValueName(result.second);
+	result=ReadContent(file, from, constants, size1);
       }
-    else if(line.substr(0, edges.size())==edges)
+    else if(line.substr(0, size2)==equations)
       {
-	result=ReadContent(file, from, edges, edges.size());
-	// from=result.first;
+	result=ReadContent(file, from, equations, size2);
       }
   }
 public:
