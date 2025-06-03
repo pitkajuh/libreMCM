@@ -10,16 +10,16 @@
 
 #include "CreateNewMathOperation.h"
 #include "test.h"
-#include "../global/mathconst.h"
-#include "../types/Equation.h"
-#include "../types/Bools.h"
-#include "../util/IsIn.h"
+#include "mathconst.h"
+#include "Equation.h"
+#include "Bools.h"
+#include "IsIn.h"
 #include <algorithm>
 #include <iostream>
 #include <cmath>
 #include <cassert>
 #include <cstdint>
-#include "../types/Graph.h"
+#include "Graph.h"
 
 using std::to_string;
 using std::cout;

@@ -11,8 +11,8 @@
 #ifndef CREATENEWMATHOPERATION_H
 #define CREATENEWMATHOPERATION_H
 
-#include "../types/MathOperation.h"
-#include "../types/Equation.h"
+#include "MathOperation.h"
+#include "Equation.h"
 #include <iostream>
 using std::cout;
 

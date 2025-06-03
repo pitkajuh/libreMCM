@@ -14,7 +14,7 @@
 #include <vector>
 #include "Value.h"
 #include "MathOperator.h"
-#include "../global/mathconst.h"
+#include "mathconst.h"
 #include <iostream>
 using std::cout;
 

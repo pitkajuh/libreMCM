@@ -8,13 +8,38 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef TEST_H
-#define TEST_H
+#include <vector>
+#include <algorithm>
+#include <stdexcept>
+#include <vector>
+#include "namespace.h"
 
-#include "../types/MathOperation.h"
-#include "../types/Graph.h"
+using namespace libremcm;
+using std::vector;
 
-vector<string> test(vector<string> equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph);
-vector<string> Remove(vector<string> equation, const uint8_t open, const uint8_t close);
+const bool IsNumerical(const string &s)
+{
+  // Checks whether the string s in a number. Returns true, if string is a valid number.
+  bool r=true;
 
-#endif
+  try
+    {
+      const double d=std::stod(s);
+      (void) d;
+    }
+  catch(const std::invalid_argument &i)
+    {
+      r=false;
+    }
+  return r;
+}
+
+const bool IsIn(const string &s, const SMap &f)
+{
+  return f.find(s)!=f.end();
+}
+
+const bool IsIn(const string &s, const std::vector<string> &f)
+{
+  return std::find(f.begin(), f.end(), s)!=f.end();
+}

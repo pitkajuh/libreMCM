@@ -12,9 +12,10 @@
 #include <chrono>
 #include <getopt.h>
 #include <unistd.h>
-#include "inc/namespace.h"
-#include "eqs/ParseEquations.h"
-#include "types/File.h"
+#include "namespace.h"
+#include "ParseEquations.h"
+#include "File.h"
+#include "Graph.h"
 
 #define GetCurrentDir getcwd
 

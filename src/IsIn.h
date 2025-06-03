@@ -8,27 +8,17 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef BOOLS_H
-#define BOOLS_H
+#ifndef ISIN_H
+#define ISIN_H
 
-#include "../util/IsIn.h"
+#include <vector>
+#include "namespace.h"
 
-struct Bools
-{
-public:
-  bool variable;
-  bool constant;
-  bool numeric;
-  bool math;
+using namespace libremcm;
+using std::vector;
 
-  Bools(const string &s1, const vector<string> &data)
-  {
-    variable=IsIn(s1, data);
-    numeric=IsNumerical(s1);
-    math=(s1.substr(0, 1)=="@") ? 1 : 0;
-    if(!variable and !numeric and !math) constant=1;
-    else constant=0;
-  }
-};
+const bool IsNumerical(const string &s);
+const bool IsIn(const string &s, const SMap &f);
+const bool IsIn(const string &s, const vector<string> &f);
 
 #endif

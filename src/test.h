@@ -8,17 +8,13 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#ifndef ISIN_H
-#define ISIN_H
+#ifndef TEST_H
+#define TEST_H
 
-#include <vector>
-#include "../inc/namespace.h"
+#include "MathOperation.h"
+#include "Graph.h"
 
-using namespace libremcm;
-using std::vector;
-
-const bool IsNumerical(const string &s);
-const bool IsIn(const string &s, const SMap &f);
-const bool IsIn(const string &s, const vector<string> &f);
+vector<string> test(vector<string> equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph);
+vector<string> Remove(vector<string> equation, const uint8_t open, const uint8_t close);
 
 #endif

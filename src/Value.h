@@ -13,7 +13,7 @@
 
 #include <iostream>
 #include <math.h>
-#include "../inc/namespace.h"
+#include "namespace.h"
 
 using std::cout;
 using namespace libremcm;

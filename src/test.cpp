@@ -8,12 +8,12 @@
 |                               +===========+                                |
 \*---------------------------------------------------------------------------*/
 
-#include "../types/MathOperation.h"
-#include "../global/mathconst.h"
+#include "MathOperation.h"
+#include "mathconst.h"
 #include "ParseEquations.h"
 #include <algorithm>
 #include <iostream>
-#include "../types/Graph.h"
+#include "Graph.h"
 
 using std::to_string;
 using std::cout;
