@@ -55,6 +55,7 @@ protected:
 	const unsigned at=line.find(";");
 	content.emplace_back(line.substr(0, at));
 	line.erase(line.begin(), line.begin()+at+1);
+	// cout<<"TEST "<<line<<'\n';
       }
   }
 
@@ -74,8 +75,8 @@ protected:
 	else
 	  {
 	    cout<<line<<'\n';
-	    content.emplace_back(line);
-	    // AddLine(content, line);
+	    // content.emplace_back(line);
+	    AddLine(content, line);
 	  }
       }
     return {file.tellg(), content};
