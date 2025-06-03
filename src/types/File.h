@@ -48,6 +48,16 @@ protected:
     return result;
   }
 
+  void AddLine(vector<string> &content, string &line)
+  {
+    while(line.size()>1)
+      {
+	const unsigned at=line.find(";");
+	content.emplace_back(line.substr(0, at));
+	line.erase(line.begin(), line.begin()+at+1);
+      }
+  }
+
   pair<streampos, vector<string>> ReadContentSub(ifstream &file, streampos from)
   {
     string line;
@@ -63,6 +73,7 @@ protected:
 	  {
 	    cout<<line<<'\n';
 	    content.emplace_back(line);
+	    // AddLine(content, line);
 	  }
       }
     return {file.tellg(), content};
@@ -185,6 +196,8 @@ protected:
     // Check edge cases here
     // e.g. if smallest=0 and eq[smallest]=/, then it is illegal operation
     // smallest=0 eq[smallest]=- is ok
+    // Create a list of forbidden symbols and compare to them.
+
     if(eq[0]=='-')
       {
 	string eq1=eq;
@@ -240,7 +253,6 @@ public:
     for(auto &[i, v]: equations)
       {
 	cout<<v<<" "<<v.size()<<'\n';
-	v.erase(v.end()-1);
 	cout<<i<<" "<<v<<'\n';
 	ToVector(v);
 	cout<<" "<<'\n';
