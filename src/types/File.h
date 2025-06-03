@@ -152,6 +152,7 @@ protected:
 
     while(i<size)
       {
+	// cout<<vec[i]<<'\n';
 	if(i==0) empty=vec[i];
 	// else empty=empty+";"+vec[i];
 	else empty=empty+vec[i];
@@ -161,41 +162,50 @@ protected:
     return empty;
   }
 
+  unsigned FindOperator(const string &eq, const unsigned size)
+  {
+    unsigned smallest=size;
+    const string OPERATORS2[7]={"^", "/", "*", "+", "-", "(", ")"};
+
+    for(const auto &i: OPERATORS2)
+      {
+	const unsigned a=eq.find(i);
+
+	if(a<size and a<smallest) smallest=a;
+      }
+    return smallest;
+  }
+
   void ToVector(string eq)
   {
     const string orig=eq;
     vector<string> equation;
-    const string DIVIDE="/";
-    const string MULTIPLY="*";
-    const string ADD="+";
-    const string SUBTRACT="-";
-    const string OPEN="(";
-    const string CLOSE=")";
-    const string EXP="^";
-    const string OPERATORS2[7]={EXP, DIVIDE, MULTIPLY, ADD, SUBTRACT, OPEN, CLOSE};
     unsigned size=eq.size();
+
+    // Check edge cases here
+    // e.g. if smallest=0 and eq[smallest]=/, then it is illegal operation
+    // smallest=0 eq[smallest]=- is ok
+    if(eq[0]=='-')
+      {
+	string eq1=eq;
+	eq1.erase(eq1.begin());
+	const unsigned smallest1=FindOperator(eq1, size);
+	const string str1=eq.substr(0, smallest1+1);
+	equation.emplace_back(str1);
+	eq=eq.substr(smallest1+1, size);
+      }
 
     while(size>0)
       {
-	unsigned smallest=size;
+	size=eq.size();
+	const unsigned smallest=FindOperator(eq, size);
 
-	for(const auto &i: OPERATORS2)
-	  {
-	    const unsigned a=eq.find(i);
-
-	    if(a<size and a<smallest) smallest=a;
-	  }
 	if(smallest==size)
 	  {
 	    equation.emplace_back(eq);
 	    break;
 	  }
-	// Check edge cases here
-	// e.g. if smallest=0 and eq[smallest]=/, then it is illegal operation
-	// smallest=0 eq[smallest]=- is ok
-	// cout<<smallest<<" "<<eq[smallest]<<'\n';
-
-	if(smallest>0)
+	else if(smallest>0)
 	  {
 	    const string aa=eq.substr(0, smallest);
 	    equation.emplace_back(aa);
