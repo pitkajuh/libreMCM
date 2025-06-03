@@ -1,5 +1,5 @@
 #include "Vertex.h"
-#include "Graph.h"
+#include "GraphEquation.h"
 
 template<typename T>
 bool GraphEquation::IsInMap(const string &s, T &map){return map.count(s)>0;}

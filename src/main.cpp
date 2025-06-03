@@ -15,7 +15,7 @@
 #include "namespace.h"
 #include "ParseEquations.h"
 #include "File.h"
-#include "Graph.h"
+#include "GraphEquation.h"
 
 #define GetCurrentDir getcwd
 
