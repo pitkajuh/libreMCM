@@ -3,6 +3,14 @@
 
 #include "File.h"
 
+struct EdgeStruct
+{
+public:
+  string from;
+  string to;
+  string equationName;
+};
+
 class FileGraph: public File
 {
 protected:
@@ -17,10 +25,12 @@ protected:
 
   map<string, double> SetInitialValueName(const vector<string> &ivs);
   streampos SA(ifstream &file, streampos from, const string &line);
+  void CreateEdges(const vector<string> &v);
 
 public:
-  std::set<string> initialValueNames;
+  // std::set<string> initialValueNames;
   vector<string> vertexNames;
+  vector<EdgeStruct> edges;
 
   void InitResults(double *&results, const unsigned timeStart);
   FileGraph(const string &fileName, const unsigned timeStart, const unsigned timeEnd, const unsigned stepSize);

@@ -20,10 +20,36 @@ map<string, double> FileGraph::SetInitialValueName(const vector<string> &ivs)
       const unsigned at=iv.find("=");
       name=iv.substr(0, at);
       value=std::stod(iv.substr(at+1, iv.size()-1));
-      initialValueNames.insert(name);
+      // initialValueNames.insert(name);
       result[name]=value;
     }
   return result;
+}
+
+void FileGraph::CreateEdges(const vector<string> &v)
+{
+  for(string str: v)
+    {
+      string strs[3];
+      unsigned i=0;
+
+      while(str.size()>1)
+	{
+	  const unsigned at=str.find(",");
+
+	  if(at>=str.size())
+	    {
+	      strs[i]=str;
+	      break;
+	    }
+
+	  strs[i]=str.substr(0, at);
+	  str.erase(str.begin(), str.begin()+at+1);
+	  i++;
+	}
+      cout<<strs[0]<<":"<<strs[1]<<":"<<strs[2]<<":"<<'\n';
+      cout<<" "<<'\n';
+    }
 }
 
 streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
@@ -43,6 +69,7 @@ streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
   else if(line.substr(0, 5)==edges)
     {
       result=ReadContent(file, from, edges, 5);
+      CreateEdges(result.second);
     }
   from=result.first;
   return from;
@@ -51,27 +78,27 @@ streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
 
 void FileGraph::InitResults(double *&results, const unsigned timeStart)
 {
-  N=1+n*(1+nx*ny);
-  results=new double[N];
-  results[0]=timeStart;
+  // N=1+n*(1+nx*ny);
+  // results=new double[N];
+  // results[0]=timeStart;
 
-  unsigned i=1;
+  // unsigned i=1;
 
-  for(auto &[name, value]: all)
-    {
-      for(const auto&[v1, v2]: value)
-	{
-	  results[i]=v2;
-	  i++;
-	}
-    }
+  // for(auto &[name, value]: all)
+  //   {
+  //     for(const auto&[v1, v2]: value)
+  // 	{
+  // 	  results[i]=v2;
+  // 	  i++;
+  // 	}
+  //   }
 
-  all.clear();
+  // all.clear();
 
-  for(unsigned i=0; i<n*nx; i++)
-    {
-      cout<<"i="<<i<<" "<<results[i]<<'\n';
-    }
+  // for(unsigned i=0; i<n*nx; i++)
+  //   {
+  //     cout<<"i="<<i<<" "<<results[i]<<'\n';
+  //   }
 }
 
 FileGraph::FileGraph(const string &fileName, const unsigned timeStart, const unsigned timeEnd, const unsigned stepSize)
@@ -80,14 +107,14 @@ FileGraph::FileGraph(const string &fileName, const unsigned timeStart, const uns
   ReadFile(fileName);
 
 
-  for(auto &[name, value]: all)
-    {
-      for(const string &v: initialValueNames)
-	{
-	  value[v];
-	}
-    }
+  // for(auto &[name, value]: all)
+  //   {
+  //     for(const string &v: initialValueNames)
+  // 	{
+  // 	  value[v];
+  // 	}
+  //   }
 
-  nx=initialValueNames.size();
+  // nx=initialValueNames.size();
   n=all.size();
 }
