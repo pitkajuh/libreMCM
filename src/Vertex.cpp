@@ -34,11 +34,11 @@ VertexVariable::VertexVariable(const string &s){SetName(s);}
 
 void VertexMultiValue::SetOperator(const string &s)
 {
-  if(s==ADD) mathOperator=new Add;
-  else if(s==SUBTRACT) mathOperator=new Sub;
-  else if(s==MULTIPLY) mathOperator=new Mul;
-  else if(s==DIVIDE) mathOperator=new Div;
-  else if(s==EXP) mathOperator=new Exp;
+  if(s=="+") mathOperator=new Add;
+  else if(s=="-") mathOperator=new Sub;
+  else if(s=="*") mathOperator=new Mul;
+  else if(s=="/") mathOperator=new Div;
+  else if(s=="^") mathOperator=new Exp;
 }
 
 double VertexMultiValue::GetOperator(const double d1, const double d2){return mathOperator->Calculate(d1, d2);}

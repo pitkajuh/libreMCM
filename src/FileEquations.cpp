@@ -4,9 +4,8 @@
 
 using std::to_string;
 
-// vector<string> Remove(vector<string> equation, const uint8_t open, const uint8_t close);
-// void ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> &data, const uint8_t size, GraphEquation *&graph);
-// vector<string> test(vector<string> equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph);
+const string OPEN="(";
+const string CLOSE=")";
 
 void FileEquations::print_vector2(const vector<string> &vec)
 {
@@ -129,6 +128,8 @@ void FileEquations::FindOperator(vector<string> &equation, const string &find, u
 
 void FileEquations::ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> &data, const uint8_t size, GraphEquation *&graph)
 {
+  const string OPERATORS[5]={"^", "/", "*", "+", "-"};
+
   for(const auto &i: OPERATORS)
     {
       if(size<2) break;
