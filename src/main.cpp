@@ -56,7 +56,7 @@ void ReadInitialData(const string &directory)
   FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
   double *results=nullptr;
   test1.InitResults(results, timeStart);
-  delete [] results;
+
 
   FileEquations test3(directory+"bin");
   map<string, GraphEquation*> eqs=test3.ParseEquations(test1.vertexNames);
@@ -72,7 +72,7 @@ void ReadInitialData(const string &directory)
     }
 
 
-
+  delete [] results;
 }
 
 int main(int argc, char** argv)
