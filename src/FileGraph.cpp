@@ -47,8 +47,8 @@ void FileGraph::CreateEdges(const vector<string> &v)
 	  str.erase(str.begin(), str.begin()+at+1);
 	  i++;
 	}
-      cout<<strs[0]<<":"<<strs[1]<<":"<<strs[2]<<":"<<'\n';
-      cout<<" "<<'\n';
+      const EdgeStruct edge{strs[0], strs[1], strs[2]};
+      edges.emplace_back(edge);
     }
 }
 
