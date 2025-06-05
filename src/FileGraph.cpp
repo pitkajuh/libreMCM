@@ -102,19 +102,35 @@ void FileGraph::InitResults(double *&results, const uint16_t timeStart)
   //   }
 }
 
+void FileGraph::InitInitialValues(const string &vertex)
+{
+  for(const auto &edge: edges)
+    {
+      if(edge.to==vertex)
+	{
+	  for(const auto &[name, value]: all[edge.from])
+	    {
+	      all[vertex][name];
+	    }
+	}
+    }
+  for(const auto &[i, j]: all[vertex])
+    {
+      cout<<i<<" "<<j<<'\n';
+    }
+}
+
 FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize)
 {
   ny=(timeEnd-timeStart)/stepSize;
   ReadFile(fileName);
 
-
-  // for(auto &[name, value]: all)
-  //   {
-  //     for(const string &v: initialValueNames)
-  // 	{
-  // 	  value[v];
-  // 	}
-  //   }
+  for(auto &[name, value]: all)
+    {
+      cout<<name<<'\n';
+      InitInitialValues(name);
+      cout<<" "<<'\n';
+    }
 
   // nx=initialValueNames.size();
   n=all.size();

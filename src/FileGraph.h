@@ -26,6 +26,7 @@ protected:
   map<string, double> SetInitialValueName(const vector<string> &ivs);
   streampos SA(ifstream &file, streampos from, const string &line);
   void CreateEdges(const vector<string> &v);
+  void InitInitialValues(const string &vertex);
 
 public:
   // std::set<string> initialValueNames;

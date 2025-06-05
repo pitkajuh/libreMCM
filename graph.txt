@@ -4,6 +4,7 @@ edges
   r, sink, prey_death;
   source, f, predator_birth;
   f, sink, predator_death;
+  f, r, prey_death;
 }
 
 vertex r
@@ -19,12 +20,16 @@ vertex f
   f1=6;
   f2=3;
   r3=10;
-}
-
-vertex f1{
-a1=3;
+  a1=3;
   f0=2;
   f1=6;
   f2=3;
-
 }
+
+// vertex f1{
+// a1=3;
+//   f0=2;
+//   f1=6;
+//   f2=3;
+
+// }

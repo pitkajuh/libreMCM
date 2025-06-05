@@ -47,9 +47,9 @@ static struct option const options[]=
 void ReadInitialData(const string &directory)
 {
   FileSettings test2(directory+"sim_params");
-  const unsigned timeStart=std::stoi(test2.set[test2.settingsNames["time_start"]]);
-  const unsigned timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
-  const unsigned stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
+  const uint16_t timeStart=std::stoi(test2.set[test2.settingsNames["time_start"]]);
+  const uint16_t timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
+  const uint16_t stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
   // Get other parameters here before clearing.
   test2.set.clear();
 
@@ -59,17 +59,14 @@ void ReadInitialData(const string &directory)
   double *results=nullptr;
   test1.InitResults(results, timeStart);
 
-  map<uint16_t, GraphEquation*> eqs=test3.ParseEquations(test1.vertexNames);
-  // map<string, GraphEquation*> eqs=ParseEquations(test3.equations2, test1.vertexNames);
+  // map<uint16_t, GraphEquation*> eqs=test3.ParseEquations(test1.vertexNames);
 
-
-
-  for(auto &[name, equation]: eqs)
-    {
-      cout<<name<<" "<<equation<<'\n';
-      // equation->SubstituteConstants(constants_map);
-      delete equation;
-    }
+  // for(auto &[name, equation]: eqs)
+  //   {
+  //     cout<<name<<" "<<equation<<'\n';
+  //     // equation->SubstituteConstants(constants_map);
+  //     delete equation;
+  //   }
 
 
   delete [] results;
@@ -116,9 +113,18 @@ int main(int argc, char** argv)
       // 	{
       // 	  ReadInitialData(directory);
       //
+
+      // // int v[1000000];
+      // int *v=new int[1000000];
+      // // vector<int> v;
+      // // v.reserve(1000000);
+      // // for(int i=0; i<1e6; i++){v.push_back(i);}
+      // for(int i=0; i<1e6; i++){v[i]=i;}
+      // delete [] v;
+
       cout<<"Starting "<<directory<<'\n';
       auto begin=std::chrono::high_resolution_clock::now();
-      for(int i=0; i<1000; i++)
+      for(int i=0; i<1; i++)
 	{
 	  ReadInitialData(directory);
 	}

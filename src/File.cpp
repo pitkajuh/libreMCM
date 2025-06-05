@@ -46,6 +46,7 @@ map<uint16_t, string> File::GetSettings(const vector<string> &ivs, map<string, u
       name=iv.substr(0, at);
       name.reserve(name.size());
       value=iv.substr(at+1, iv.size()-1);
+      name.reserve(value.size());
       result[n]=value;
       nameMap[name]=n;
       n++;
