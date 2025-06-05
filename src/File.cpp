@@ -31,18 +31,21 @@ void File::EraseLine(string &line)
   line.erase(remove(line.begin(), line.end(), ' '), line.end());
 }
 
-map<string, string> File::GetSettings(const vector<string> &ivs)
+map<uint16_t, string> File::GetSettings(const vector<string> &ivs, map<string, uint16_t> &nameMap)
 {
+  uint16_t n=0;
   string name;
   string value;
-  map<string, string> result;
+  map<uint16_t, string> result;
 
   for(const auto &iv: ivs)
     {
       const unsigned at=iv.find("=");
       name=iv.substr(0, at);
       value=iv.substr(at+1, iv.size()-1);
-      result[name]=value;
+      result[n]=value;
+      nameMap[name]=n;
+      n++;
     }
   return result;
 }

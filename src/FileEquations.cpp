@@ -146,7 +146,7 @@ void FileEquations::GetOrder(vector<string> &equation, uint8_t id, const vector<
   // else error, size 2 is not allowed
 }
 
-map<string, GraphEquation*> FileEquations::ParseEquations(const vector<string> &data)
+map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string> &data)
 {
   // Set calculation order of an equation according to order of operations:
 
@@ -157,7 +157,7 @@ map<string, GraphEquation*> FileEquations::ParseEquations(const vector<string> &
 
   uint8_t id=0;
   GraphEquation *graphEquation=nullptr;
-  map<string, GraphEquation*> equations;
+  map<uint16_t, GraphEquation*> equations;
 
   for(auto& [name, equation]: equations2)
     {
@@ -176,7 +176,7 @@ map<string, GraphEquation*> FileEquations::ParseEquations(const vector<string> &
   return equations;
 }
 
-void FileEquations::Convert(const map<string, string> &map)
+void FileEquations::Convert(const map<uint16_t, string> &map)
 {
   for(const auto &[key, value]: map)
     {
@@ -194,12 +194,12 @@ streampos FileEquations::SA(ifstream &file, streampos from, const string &line)
   if(sub==constants1)
     {
       result=ReadContent(file, from, constants1, 9);
-      Convert(GetSettings(result.second));
+      Convert(GetSettings(result.second, constantNames));
     }
   else if(sub==equations1)
     {
       result=ReadContent(file, from, equations1, 9);
-      equations=GetSettings(result.second);
+      equations=GetSettings(result.second, equationNames);
     }
   from=result.first;
   return from;

@@ -47,19 +47,19 @@ static struct option const options[]=
 void ReadInitialData(const string &directory)
 {
   FileSettings test2(directory+"sim_params");
-  const unsigned timeStart=std::stoi(test2.set["time_start"]);
-  const unsigned timeEnd=std::stoi(test2.set["time_end"]);
-  const unsigned stepSize=std::stoi(test2.set["step_size"]);
+  const unsigned timeStart=std::stoi(test2.set[test2.settingsNames["time_start"]]);
+  const unsigned timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
+  const unsigned stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
   // Get other parameters here before clearing.
   test2.set.clear();
+
+  FileEquations test3(directory+"bin");
 
   FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
   double *results=nullptr;
   test1.InitResults(results, timeStart);
 
-
-  FileEquations test3(directory+"bin");
-  map<string, GraphEquation*> eqs=test3.ParseEquations(test1.vertexNames);
+  map<uint16_t, GraphEquation*> eqs=test3.ParseEquations(test1.vertexNames);
   // map<string, GraphEquation*> eqs=ParseEquations(test3.equations2, test1.vertexNames);
 
 

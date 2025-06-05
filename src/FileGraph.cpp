@@ -17,7 +17,7 @@ map<string, double> FileGraph::SetInitialValueName(const vector<string> &ivs)
 
   for(const auto &iv: ivs)
     {
-      const unsigned at=iv.find("=");
+      const uint16_t at=iv.find("=");
       name=iv.substr(0, at);
       value=std::stod(iv.substr(at+1, iv.size()-1));
       // initialValueNames.insert(name);
@@ -31,11 +31,11 @@ void FileGraph::CreateEdges(const vector<string> &v)
   for(string str: v)
     {
       string strs[3];
-      unsigned i=0;
+      uint8_t i=0;
 
       while(str.size()>1)
 	{
-	  const unsigned at=str.find(",");
+	  const uint16_t at=str.find(",");
 
 	  if(at>=str.size())
 	    {
@@ -76,7 +76,7 @@ streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
 }
 
 
-void FileGraph::InitResults(double *&results, const unsigned timeStart)
+void FileGraph::InitResults(double *&results, const uint16_t timeStart)
 {
   // N=1+n*(1+nx*ny);
   // results=new double[N];
@@ -101,7 +101,7 @@ void FileGraph::InitResults(double *&results, const unsigned timeStart)
   //   }
 }
 
-FileGraph::FileGraph(const string &fileName, const unsigned timeStart, const unsigned timeEnd, const unsigned stepSize)
+FileGraph::FileGraph(const string &fileName, const unsigned uint16_t, const uint16_t timeEnd, const uint16_t stepSize)
 {
   ny=(timeEnd-timeStart)/stepSize;
   ReadFile(fileName);

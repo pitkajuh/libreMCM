@@ -33,7 +33,7 @@ class File
 {
 protected:
   void EraseLine(string &line);
-  map<string, string> GetSettings(const vector<string> &ivs);
+  map<uint16_t, string> GetSettings(const vector<string> &ivs, map<string, uint16_t> &nameMap);
   void AddLine(vector<string> &content, string &line);
   const bool LineCommented(const string &line);
 

@@ -8,7 +8,7 @@ streampos FileSettings::SA(ifstream &file, streampos from, const string &line)
   if(line.substr(0, 19)==settings)
     {
       result=ReadContent(file, from, settings, 19);
-      set=GetSettings(result.second);
+      set=GetSettings(result.second, settingsNames);
     }
   from=result.first;
   return from;
