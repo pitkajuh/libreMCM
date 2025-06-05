@@ -18,10 +18,10 @@ protected:
 
   map<string, map<string, double>> all;
 
-  unsigned nx=0;
-  unsigned ny=0;
-  unsigned n=0;
-  unsigned N=0;
+  uint16_t nx=0;
+  uint16_t ny=0;
+  uint16_t n=0;
+  uint16_t N=0;
 
   map<string, double> SetInitialValueName(const vector<string> &ivs);
   streampos SA(ifstream &file, streampos from, const string &line);
@@ -32,8 +32,8 @@ public:
   vector<string> vertexNames;
   vector<EdgeStruct> edges;
 
-  void InitResults(double *&results, const unsigned timeStart);
-  FileGraph(const string &fileName, const unsigned timeStart, const unsigned timeEnd, const unsigned stepSize);
+  void InitResults(double *&results, const uint16_t timeStart);
+  FileGraph(const string &fileName, const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize);
 
   FileGraph(){}
   ~FileGraph(){}

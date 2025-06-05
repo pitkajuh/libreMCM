@@ -17,6 +17,8 @@
 #include <map>
 #include "File.h"
 #include <string>
+#include <cstdint>
+
 using std::string;
 
 using std::map;
@@ -40,8 +42,9 @@ map<uint16_t, string> File::GetSettings(const vector<string> &ivs, map<string, u
 
   for(const auto &iv: ivs)
     {
-      const unsigned at=iv.find("=");
+      const uint16_t at=iv.find("=");
       name=iv.substr(0, at);
+      name.reserve(name.size());
       value=iv.substr(at+1, iv.size()-1);
       result[n]=value;
       nameMap[name]=n;
@@ -54,7 +57,7 @@ void File::AddLine(vector<string> &content, string &line)
 {
   while(line.size()>1)
     {
-      const unsigned at=line.find(";");
+      const uint16_t at=line.find(";");
       content.emplace_back(line.substr(0, at));
       line.erase(line.begin(), line.begin()+at+1);
       // cout<<"TEST "<<line<<'\n';
@@ -84,7 +87,7 @@ pair<streampos, vector<string>> File::ReadContentSub(ifstream &file, streampos f
   return {file.tellg(), content};
 }
 
-pair<streampos, vector<string>> File::ReadContent(ifstream &file, streampos from, const string &findString, const unsigned size)
+pair<streampos, vector<string>> File::ReadContent(ifstream &file, streampos from, const string &findString, const uint16_t size)
 {
   string line;
   pair<streampos, vector<string>> result;

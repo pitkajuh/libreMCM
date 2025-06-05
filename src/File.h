@@ -39,7 +39,7 @@ protected:
 
   pair<streampos, vector<string>> ReadContentSub(ifstream &file, streampos from);
 
-  pair<streampos, vector<string>> ReadContent(ifstream &file, streampos from, const string &findString, const unsigned size);
+  pair<streampos, vector<string>> ReadContent(ifstream &file, streampos from, const string &findString, const uint16_t size);
 
   void ReadFile(const string &fileName);
 

@@ -1,4 +1,5 @@
 #include "FileGraph.h"
+#include <cstdint>
 
 string FileGraph::GetVertexName(string line)
 {
@@ -101,7 +102,7 @@ void FileGraph::InitResults(double *&results, const uint16_t timeStart)
   //   }
 }
 
-FileGraph::FileGraph(const string &fileName, const unsigned uint16_t, const uint16_t timeEnd, const uint16_t stepSize)
+FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize)
 {
   ny=(timeEnd-timeStart)/stepSize;
   ReadFile(fileName);
