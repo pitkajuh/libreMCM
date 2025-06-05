@@ -43,11 +43,11 @@ vector<string> FileEquations::RemoveOpenClose(vector<string> equation)
   // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
   const uint8_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
   const uint8_t close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
-  if(open!=equation.size() and close!=equation.size()) equation=Remove(equation, open, close);
+  if(open!=equation.size() and close!=equation.size()) Remove(equation, open, close);
   return equation;
 }
 
-vector<string> FileEquations::Remove(vector<string> equation, const uint8_t open, const uint8_t close)
+void FileEquations::Remove(vector<string> &equation, const uint8_t open, const uint8_t close)
 {
   if(equation[open+1]==OPEN and equation[close+1]==CLOSE)
     {
@@ -55,7 +55,6 @@ vector<string> FileEquations::Remove(vector<string> equation, const uint8_t open
       equation.erase(equation.begin()+close-1);
       equation=RemoveOpenClose(equation);
     }
-  return equation;
 }
 
 const bool FileEquations::IsOpen(const vector<string> &tmp)
