@@ -38,13 +38,12 @@ vector<string> FileEquations::GetParenthesis(const vector<string> &equation, con
   return result;
 }
 
-vector<string> FileEquations::RemoveOpenClose(vector<string> &equation)
+void FileEquations::RemoveOpenClose(vector<string> &equation)
 {
   // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
   const uint8_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
   const uint8_t close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
   if(open!=equation.size() and close!=equation.size()) Remove(equation, open, close);
-  return equation;
 }
 
 void FileEquations::Remove(vector<string> &equation, const uint8_t open, const uint8_t close)
@@ -53,7 +52,7 @@ void FileEquations::Remove(vector<string> &equation, const uint8_t open, const u
     {
       equation.erase(equation.begin()+open);
       equation.erase(equation.begin()+close-1);
-      equation=RemoveOpenClose(equation);
+      RemoveOpenClose(equation);
     }
 }
 
@@ -158,24 +157,19 @@ map<string, GraphEquation*> FileEquations::ParseEquations(const vector<string> &
   // 3. Multiplication and division
   // 4. Addition and subtraction
 
-  vector<string> v;
   uint8_t id=0;
   GraphEquation *graphEquation=nullptr;
   map<string, GraphEquation*> equations;
 
   for(auto& [name, equation]: equations2)
     {
-      // v=ToVector(equation);
-      v=RemoveOpenClose(equation);
+      RemoveOpenClose(equation);
       cout<<"EQUATION"<<'\n';
-      print_vector2(v);
-      GetOrder(v, id, data, graphEquation);
+      print_vector2(equation);
+      GetOrder(equation, id, data, graphEquation);
 
-      // head->next=nullptr;
-      // equationMap[name]=head;
       id=0;
       equations[name]=graphEquation;
-      // delete graphEquation;
       graphEquation=nullptr;
       cout<<"ok"<<'\n';
 
