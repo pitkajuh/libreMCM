@@ -56,26 +56,19 @@ void FileEquations::Remove(vector<string> &equation, const uint8_t open, const u
     }
 }
 
-const bool FileEquations::IsOpen(const vector<string> &tmp)
-{
-  const uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
-
-  if(op==tmp.size()) return 1;
-  return 0;
-}
-
 void FileEquations::test2(vector<string> &equation, uint8_t open, uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
 {
-  const vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
-  const uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
+  vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
+  uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
 
-  if(op<tmp.size())
+  while(op<tmp.size())
     {
       open=distance(equation.begin()+open+1, find(equation.begin()+open+1, equation.end(), OPEN))+open+1;
       equation=GetParenthesis(equation, open, close, id, data, graph);
       open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
       close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
-      test2(equation, open, close, id, data, graph);
+      tmp={equation.begin()+open+1, equation.begin()+close};
+      op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
     }
 }
 
@@ -88,7 +81,8 @@ void FileEquations::test(vector<string> &equation, uint8_t &id, const vector<str
       const uint8_t close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
       const vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
 
-      if(IsOpen(tmp)) equation=GetParenthesis(equation, open, close, id, data, graph);
+      const uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
+      if(op==tmp.size()) equation=GetParenthesis(equation, open, close, id, data, graph);
       else test2(equation, open, close, id, data, graph);
       open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
     }
@@ -96,9 +90,9 @@ void FileEquations::test(vector<string> &equation, uint8_t &id, const vector<str
 
 void FileEquations::FindOperator(vector<string> &equation, const string &find, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
 {
-  const uint8_t i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
+  uint8_t i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
 
-  if(i<equation.size())
+  while(i<equation.size())
     {
       const string s1=equation[i-1];
       const string s2=equation[i+1];
@@ -116,7 +110,7 @@ void FileEquations::FindOperator(vector<string> &equation, const string &find, u
 
       print_vector2(equation);
       id++;
-      FindOperator(equation, find, id, data, graph);
+      i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
     }
 }
 
@@ -225,14 +219,14 @@ string FileEquations::print_vector3(const vector<string> &vec)
   return empty;
 }
 
-unsigned FileEquations::FindOperator(const string &eq, const unsigned size)
+uint8_t FileEquations::FindOperator(const string &eq, const uint8_t size)
 {
-  unsigned smallest=size;
+  uint8_t smallest=size;
   const string OPERATORS2[7]={"^", "/", "*", "+", "-", "(", ")"};
 
   for(const auto &i: OPERATORS2)
     {
-      const unsigned a=eq.find(i);
+      const uint8_t a=eq.find(i);
 
       if(a<size and a<smallest) smallest=a;
     }
@@ -243,7 +237,7 @@ vector<string> FileEquations::ToVector(string eq)
 {
   const string orig=eq;
   vector<string> equation;
-  unsigned size=eq.size();
+  uint8_t size=eq.size();
 
   // Check edge cases here
   // e.g. if smallest=0 and eq[smallest]=/, then it is illegal operation
@@ -254,7 +248,7 @@ vector<string> FileEquations::ToVector(string eq)
     {
       string eq1=eq;
       eq1.erase(eq1.begin());
-      const unsigned smallest1=FindOperator(eq1, size);
+      const uint8_t smallest1=FindOperator(eq1, size);
       const string str1=eq.substr(0, smallest1+1);
       equation.emplace_back(str1);
       eq=eq.substr(smallest1+1, size);
@@ -263,7 +257,7 @@ vector<string> FileEquations::ToVector(string eq)
   while(size>0)
     {
       size=eq.size();
-      const unsigned smallest=FindOperator(eq, size);
+      const uint8_t smallest=FindOperator(eq, size);
 
       if(smallest==size)
 	{
