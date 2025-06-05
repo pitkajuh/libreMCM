@@ -9,7 +9,7 @@ class FileEquations: public File
 protected:
   void print_vector2(const vector<string> &vec);
   vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph);
-  vector<string> RemoveOpenClose(vector<string> equation);
+  vector<string> RemoveOpenClose(vector<string> &equation);
   void Remove(vector<string> &equation, const uint8_t open, const uint8_t close);
   const bool IsOpen(const vector<string> &tmp);
   void test2(vector<string> &equation, uint8_t open, uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph);

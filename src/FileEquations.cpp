@@ -38,7 +38,7 @@ vector<string> FileEquations::GetParenthesis(const vector<string> &equation, con
   return result;
 }
 
-vector<string> FileEquations::RemoveOpenClose(vector<string> equation)
+vector<string> FileEquations::RemoveOpenClose(vector<string> &equation)
 {
   // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
   const uint8_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
@@ -165,7 +165,7 @@ map<string, GraphEquation*> FileEquations::ParseEquations(const vector<string> &
   GraphEquation *graphEquation=nullptr;
   map<string, GraphEquation*> equations;
 
-  for(const auto& [name, equation]: equations2)
+  for(auto& [name, equation]: equations2)
     {
       // v=ToVector(equation);
       v=RemoveOpenClose(equation);
