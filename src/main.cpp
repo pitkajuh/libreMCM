@@ -111,18 +111,21 @@ int main(int argc, char** argv)
       // 	    }
       // 	}
       // ReadInitialData(directory);
-      auto begin=std::chrono::high_resolution_clock::now();
-      cout<<"Starting "<<directory<<'\n';
-      ReadInitialData(directory);
+
       // if(run_deterministic_sim)
       // 	{
       // 	  ReadInitialData(directory);
-      // 	}
-
+      //
+      cout<<"Starting "<<directory<<'\n';
+      auto begin=std::chrono::high_resolution_clock::now();
+      for(int i=0; i<1000; i++)
+	{
+	  ReadInitialData(directory);
+	}
       auto end=std::chrono::high_resolution_clock::now();
       auto duration=std::chrono::duration_cast<std::chrono::microseconds>(end-begin);
 
-      cout<<"Runtime: "<<duration.count()<<" microseconds "<<(double)duration.count()/1000<<" milliseconds"<<'\n';
+      cout<<"Runtime: "<<duration.count()/1000<<" milliseconds "<<(double)duration.count()/1e6<<" milliseconds"<<'\n';
       cout<<"################################################################"<<'\n';
     // }
   return 0;
