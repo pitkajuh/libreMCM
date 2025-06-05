@@ -24,8 +24,8 @@ void FileEquations::print_vector2(const vector<string> &vec)
 vector<string> FileEquations::GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
-  ParseOperators(v1, id, data, v1.size(), graph);
-  test(v1, id, data, graph);
+  id=ParseOperators(v1, id, data, v1.size(), graph);
+  id=test(v1, id, data, graph);
   const vector<string> v2{equation.begin(), equation.begin()+open};
   const vector<string> v3{equation.begin()+close+1, equation.end()};
   vector<string> result;
@@ -56,7 +56,7 @@ void FileEquations::Remove(vector<string> &equation, const uint8_t open, const u
     }
 }
 
-void FileEquations::test2(vector<string> &equation, uint8_t open, uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
+uint8_t FileEquations::test2(vector<string> &equation, uint8_t open, uint8_t close, uint8_t id, const vector<string> &data, GraphEquation *&graph)
 {
   vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
   uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
@@ -70,9 +70,10 @@ void FileEquations::test2(vector<string> &equation, uint8_t open, uint8_t close,
       tmp={equation.begin()+open+1, equation.begin()+close};
       op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
     }
+  return id;
 }
 
-void FileEquations::test(vector<string> &equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
+uint8_t FileEquations::test(vector<string> &equation, uint8_t id, const vector<string> &data, GraphEquation *&graph)
 {
   uint8_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
 
@@ -83,12 +84,13 @@ void FileEquations::test(vector<string> &equation, uint8_t &id, const vector<str
 
       const uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
       if(op==tmp.size()) equation=GetParenthesis(equation, open, close, id, data, graph);
-      else test2(equation, open, close, id, data, graph);
+      else id=test2(equation, open, close, id, data, graph);
       open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
     }
+  return id;
 }
 
-void FileEquations::FindOperator(vector<string> &equation, const string &find, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
+uint8_t FileEquations::FindOperator(vector<string> &equation, const string &find, uint8_t id, const vector<string> &data, GraphEquation *&graph)
 {
   uint8_t i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
 
@@ -112,19 +114,21 @@ void FileEquations::FindOperator(vector<string> &equation, const string &find, u
       id++;
       i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
     }
+  return id;
 }
 
-void FileEquations::ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> &data, const uint8_t size, GraphEquation *&graph)
+uint8_t FileEquations::ParseOperators(vector<string> &equation, uint8_t id, const vector<string> &data, const uint8_t size, GraphEquation *&graph)
 {
   const string OPERATORS[5]={"^", "/", "*", "+", "-"};
 
   for(const auto &i: OPERATORS)
     {
-      FindOperator(equation, i, id, data, graph);
+      id=FindOperator(equation, i, id, data, graph);
     }
+  return id;
 }
 
-void FileEquations::GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
+void FileEquations::GetOrder(vector<string> &equation, uint8_t id, const vector<string> &data, GraphEquation *&graph)
 {
   const uint8_t size=equation.size();
 
@@ -136,8 +140,8 @@ void FileEquations::GetOrder(vector<string> &equation, uint8_t &id, const vector
   else if(size>2)
     {
       graph=new GraphEquation;
-      test(equation, id, data, graph);
-      ParseOperators(equation, id, data, size, graph);
+      id=test(equation, id, data, graph);
+      id=ParseOperators(equation, id, data, size, graph);
     }
   // else error, size 2 is not allowed
 }
@@ -283,6 +287,7 @@ vector<string> FileEquations::ToVector(string eq)
   auto a1=print_vector3(equation);
   if(a1==orig) cout<<"OK"<<'\n';
   else cout<<"NOT OK"<<'\n';
+  equation.reserve(equation.size());
   return equation;
 }
 
