@@ -12,8 +12,8 @@ protected:
   vector<string> RemoveOpenClose(vector<string> equation);
   void Remove(vector<string> &equation, const uint8_t open, const uint8_t close);
   const bool IsOpen(const vector<string> &tmp);
-  vector<string> test2(vector<string> equation, uint8_t open, uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph);
-  vector<string> test(vector<string> equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph);
+  void test2(vector<string> &equation, uint8_t open, uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph);
+  void test(vector<string> &equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph);
   void FindOperator(vector<string> &equation, const string &find, uint8_t &id, const vector<string> &data, GraphEquation *&graph);
   void ParseOperators(vector<string> &equation, uint8_t &id, const vector<string> &data, const uint8_t size, GraphEquation *&graph);
   void GetOrder(vector<string> &equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph);

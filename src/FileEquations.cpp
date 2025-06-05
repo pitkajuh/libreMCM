@@ -25,7 +25,7 @@ vector<string> FileEquations::GetParenthesis(const vector<string> &equation, con
 {
   vector<string> v1{equation.begin()+open+1, equation.begin()+close};
   ParseOperators(v1, id, data, v1.size(), graph);
-  v1=test(v1, id, data, graph);
+  test(v1, id, data, graph);
   const vector<string> v2{equation.begin(), equation.begin()+open};
   const vector<string> v3{equation.begin()+close+1, equation.end()};
   vector<string> result;
@@ -65,7 +65,7 @@ const bool FileEquations::IsOpen(const vector<string> &tmp)
   return 0;
 }
 
-vector<string> FileEquations::test2(vector<string> equation, uint8_t open, uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
+void FileEquations::test2(vector<string> &equation, uint8_t open, uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
 {
   const vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
   const uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
@@ -76,12 +76,11 @@ vector<string> FileEquations::test2(vector<string> equation, uint8_t open, uint8
       equation=GetParenthesis(equation, open, close, id, data, graph);
       open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
       close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
-      equation=test2(equation, open, close, id, data, graph);
+      test2(equation, open, close, id, data, graph);
     }
-  return equation;
 }
 
-vector<string> FileEquations::test(vector<string> equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
+void FileEquations::test(vector<string> &equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
 {
   uint8_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
   uint8_t close;
@@ -93,10 +92,9 @@ vector<string> FileEquations::test(vector<string> equation, uint8_t &id, const v
       tmp={equation.begin()+open+1, equation.begin()+close};
 
       if(IsOpen(tmp)) equation=GetParenthesis(equation, open, close, id, data, graph);
-      else equation=test2(equation, open, close, id, data, graph);
+      else test2(equation, open, close, id, data, graph);
       open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
     }
-  return equation;
 }
 
 void FileEquations::FindOperator(vector<string> &equation, const string &find, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
@@ -148,7 +146,7 @@ void FileEquations::GetOrder(vector<string> &equation, uint8_t &id, const vector
   else
     {
       graph=new GraphEquation;
-      equation=test(equation, id, data, graph);
+      test(equation, id, data, graph);
       ParseOperators(equation, id, data, size, graph);
     }
 }
