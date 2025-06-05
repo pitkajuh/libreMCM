@@ -83,13 +83,11 @@ void FileEquations::test2(vector<string> &equation, uint8_t open, uint8_t close,
 void FileEquations::test(vector<string> &equation, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
 {
   uint8_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
-  uint8_t close;
-  vector<string> tmp;
 
   while(open<equation.size())
     {
-      close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
-      tmp={equation.begin()+open+1, equation.begin()+close};
+      const uint8_t close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
+      const vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
 
       if(IsOpen(tmp)) equation=GetParenthesis(equation, open, close, id, data, graph);
       else test2(equation, open, close, id, data, graph);
@@ -129,7 +127,6 @@ void FileEquations::ParseOperators(vector<string> &equation, uint8_t &id, const 
 
   for(const auto &i: OPERATORS)
     {
-      if(size<2) break;
       FindOperator(equation, i, id, data, graph);
     }
 }
@@ -143,12 +140,13 @@ void FileEquations::GetOrder(vector<string> &equation, uint8_t &id, const vector
       const Bools b(equation[0], data);
       graph=new GraphEquationSingle(b, equation[0]);
     }
-  else
+  else if(size>2)
     {
       graph=new GraphEquation;
       test(equation, id, data, graph);
       ParseOperators(equation, id, data, size, graph);
     }
+  // else error, size 2 is not allowed
 }
 
 map<string, GraphEquation*> FileEquations::ParseEquations(const vector<string> &data)
