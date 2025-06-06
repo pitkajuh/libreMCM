@@ -12,6 +12,7 @@
 #define EDGE_H
 
 #include "Vertex.h"
+#include "MathOperator.h"
 #include <iostream>
 using std::cout;
 
@@ -24,6 +25,8 @@ public:
 
 class Edge1: public Edge
 {
+private:
+  MathOperator *mathOperator=nullptr;
 protected:
   Vertex *vertex1=nullptr;
   Vertex *vertex2=nullptr;

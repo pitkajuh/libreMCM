@@ -68,7 +68,10 @@ void ReadInitialData(const string &directory)
     }
 
   // double *test=new double;
-  // test=&results[0];
+  // ptrdiff_t test;
+  // test=&results[0]-&results[1];
+  // cout<<test<<" "<<" "<<" "<<results[0]<<" "<<results[1]<<'\n';
+  // fr
   // cout<<test<<" "<<*test<<'\n';
   // // cout<<test<<" "<<results[0]<<" "<<&results[0]<<" "<<&test<<" "<<*test<<" "<<test-1<<'\n';
 

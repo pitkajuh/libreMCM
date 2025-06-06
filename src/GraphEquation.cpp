@@ -1,4 +1,3 @@
-#include "Vertex.h"
 #include "GraphEquation.h"
 
 template<typename T>
@@ -111,7 +110,7 @@ void GraphEquation::CreateMath(const string &s1, const string &s2, const string 
 void GraphEquation::CreateEdge(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, const uint8_t id)
 {
   // cout<<" "<<'\n';
-  // cout<<s1<<" "<<s2<<'\n';
+  cout<<s1<<" "<<s2<<" "<<"ID "<<std::to_string(id)<<'\n';
 
   if(b1.variable and b2.variable)
     {

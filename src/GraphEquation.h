@@ -11,6 +11,7 @@
 #include <map>
 #include <unordered_map>
 #include "MathOperator.h"
+#include "Edge.h"
 
 using std::unordered_map;
 using std::map;
@@ -21,12 +22,9 @@ using std::cout;
 
 class GraphEquationNew: public Graph
 {
-protected:
-  MathOperator *mathOperator=nullptr;
-  double *value1=nullptr;
-  double *value2=nullptr;
-  double *result=nullptr;
 public:
+  Edge *edge=nullptr;
+  Edge es[10];
 };
 
 class GraphEquation: public Graph
