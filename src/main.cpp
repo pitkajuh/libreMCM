@@ -67,8 +67,17 @@ void ReadInitialData(const string &directory)
       delete equation;
     }
 
+  // double *test=new double;
+  // test=&results[0];
+  // cout<<test<<" "<<*test<<'\n';
+  // // cout<<test<<" "<<results[0]<<" "<<&results[0]<<" "<<&test<<" "<<*test<<" "<<test-1<<'\n';
+
+  // test+=1;
+  // cout<<test<<" "<<*test<<'\n';
+  // delete test;
 
   delete [] results;
+  // delete test;
 }
 
 int main(int argc, char** argv)
