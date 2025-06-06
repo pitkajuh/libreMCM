@@ -20,7 +20,6 @@ protected:
 
   uint16_t nx=0;
   uint16_t ny=0;
-  uint16_t n=0;
   uint16_t N=0;
 
   map<string, double> SetInitialValueName(const vector<string> &ivs);
@@ -29,11 +28,10 @@ protected:
   void InitInitialValues(const string &vertex);
 
 public:
-  // std::set<string> initialValueNames;
   vector<string> vertexNames;
   vector<EdgeStruct> edges;
 
-  void InitResults(double *&results, const uint16_t timeStart);
+  void InitResults(double *&results);
   FileGraph(const string &fileName, const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize);
 
   FileGraph(){}

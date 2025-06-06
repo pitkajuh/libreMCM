@@ -61,7 +61,6 @@ void File::AddLine(vector<string> &content, string &line)
       const uint16_t at=line.find(";");
       content.emplace_back(line.substr(0, at));
       line.erase(line.begin(), line.begin()+at+1);
-      // cout<<"TEST "<<line<<'\n';
     }
 }
 
@@ -80,8 +79,6 @@ pair<streampos, vector<string>> File::ReadContentSub(ifstream &file, streampos f
       else if(line=="}") break;
       else
 	{
-	  cout<<line<<'\n';
-	  // content.emplace_back(line);
 	  AddLine(content, line);
 	}
     }

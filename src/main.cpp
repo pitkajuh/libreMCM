@@ -57,7 +57,7 @@ void ReadInitialData(const string &directory)
 
   FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
   double *results=nullptr;
-  test1.InitResults(results, timeStart);
+  test1.InitResults(results);
 
   // map<uint16_t, GraphEquation*> eqs=test3.ParseEquations(test1.vertexNames);
 

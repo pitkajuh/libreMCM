@@ -21,7 +21,6 @@ map<string, double> FileGraph::SetInitialValueName(const vector<string> &ivs)
       const uint16_t at=iv.find("=");
       name=iv.substr(0, at);
       value=std::stod(iv.substr(at+1, iv.size()-1));
-      // initialValueNames.insert(name);
       result[name]=value;
     }
   return result;
@@ -77,29 +76,28 @@ streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
 }
 
 
-void FileGraph::InitResults(double *&results, const uint16_t timeStart)
+void FileGraph::InitResults(double *&results)
 {
-  // N=1+n*(1+nx*ny);
-  // results=new double[N];
-  // results[0]=timeStart;
+  N=nx*ny;
+  results=new double[N];
 
-  // unsigned i=1;
+  uint16_t i=0;
 
-  // for(auto &[name, value]: all)
-  //   {
-  //     for(const auto&[v1, v2]: value)
-  // 	{
-  // 	  results[i]=v2;
-  // 	  i++;
-  // 	}
-  //   }
+  for(auto &[name, value]: all)
+    {
+      for(const auto&[v1, v2]: value)
+	{
+	  results[i]=v2;
+	  i++;
+	}
+    }
 
-  // all.clear();
+  all.clear();
 
-  // for(unsigned i=0; i<n*nx; i++)
-  //   {
-  //     cout<<"i="<<i<<" "<<results[i]<<'\n';
-  //   }
+  for(unsigned i=0; i<nx; i++)
+    {
+      cout<<"i="<<i<<" "<<results[i]<<'\n';
+    }
 }
 
 void FileGraph::InitInitialValues(const string &vertex)
@@ -114,10 +112,6 @@ void FileGraph::InitInitialValues(const string &vertex)
 	    }
 	}
     }
-  for(const auto &[i, j]: all[vertex])
-    {
-      cout<<i<<" "<<j<<'\n';
-    }
 }
 
 FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize)
@@ -127,11 +121,7 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
 
   for(auto &[name, value]: all)
     {
-      cout<<name<<'\n';
       InitInitialValues(name);
-      cout<<" "<<'\n';
+      nx+=value.size();
     }
-
-  // nx=initialValueNames.size();
-  n=all.size();
 }
