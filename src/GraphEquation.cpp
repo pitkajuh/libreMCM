@@ -91,17 +91,19 @@ void GraphEquation::CreateVertex(const string &s1, const string &s2, const strin
 
 void GraphEquation::CreateMath(const string &s1, const string &s2, const string &mathOperator, const uint8_t id)
 {
-  if(vmap[stoi(s1.substr(1, s1.size()-1))]->GetValue()!=NAN)
+  const auto str=vmap[stoi(s1.substr(1, s1.size()-1))];
+
+  if(str->GetValue()!=NAN)
     {
       VertexMultiValue *v1=new VertexMultiValue(mathOperator);
-      Vertex *v=new VertexNumeric(v1->GetOperator(vmap[stoi(s1.substr(1, s1.size()-1))]->GetValue(), stod(s2)));
+      Vertex *v=new VertexNumeric(v1->GetOperator(str->GetValue(), stod(s2)));
       vmap.emplace_back(v);
       delete v1;
     }
   else
     {
       Vertex *v1=new VertexNumeric(stod(s2));
-      VertexVertices *v=new VertexVertices(vmap[stoi(s1.substr(1, s1.size()-1))], v1, mathOperator);
+      VertexVertices *v=new VertexVertices(str, v1, mathOperator);
       vmap.emplace_back(v);
     }
 }

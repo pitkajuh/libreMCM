@@ -22,7 +22,7 @@ protected:
   uint16_t ny=0;
   uint16_t N=0;
 
-  map<string, double> SetInitialValueName(const vector<string> &ivs);
+  map<string, double> SetInitialValueName(vector<string> &ivs);
   streampos SA(ifstream &file, streampos from, const string &line);
   void CreateEdges(const vector<string> &v);
   void InitInitialValues(const string &vertex);

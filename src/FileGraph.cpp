@@ -10,18 +10,16 @@ string FileGraph::GetVertexName(string line)
   return line;
 }
 
-map<string, double> FileGraph::SetInitialValueName(const vector<string> &ivs)
+map<string, double> FileGraph::SetInitialValueName(vector<string> &ivs)
 {
-  string name;
-  double value;
   map<string, double> result;
 
-  for(const auto &iv: ivs)
+  for(auto &iv: ivs)
     {
       const uint16_t at=iv.find("=");
-      name=iv.substr(0, at);
-      value=std::stod(iv.substr(at+1, iv.size()-1));
-      result[name]=value;
+      const string name=iv.substr(0, at);
+      iv.erase(iv.begin(), iv.begin()+at+1);
+      result[name]=std::stod(iv);
     }
   return result;
 }
@@ -94,10 +92,10 @@ void FileGraph::InitResults(double *&results)
 
   all.clear();
 
-  // for(unsigned i=0; i<nx; i++)
-  //   {
-  //     cout<<"i="<<i<<" "<<results[i]<<'\n';
-  //   }
+  for(unsigned i=0; i<nx; i++)
+    {
+      cout<<"i="<<i<<" "<<results[i]<<'\n';
+    }
 }
 
 void FileGraph::InitInitialValues(const string &vertex)

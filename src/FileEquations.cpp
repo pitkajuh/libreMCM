@@ -163,16 +163,16 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
     {
       vector<string> equation=ToVector(v);
       RemoveOpenClose(equation);
-      // cout<<"EQUATION"<<'\n';
-      // print_vector2(equation);
+      cout<<"EQUATION"<<'\n';
+      print_vector2(equation);
       GetOrder(equation, id, data, graphEquation);
-
+      print_vector2(equation);
       id=0;
       equations1[name]=graphEquation;
       graphEquation=nullptr;
       // cout<<"ok"<<'\n';
 
-      // cout<<" "<<'\n';
+      cout<<" "<<'\n';
     }
   equations.clear();
   return equations1;
@@ -257,7 +257,7 @@ vector<string> FileEquations::ToVector(string eq)
       const uint8_t smallest1=FindOperator(eq1, size);
       const string str1=eq.substr(0, smallest1+1);
       equation.emplace_back(str1);
-      eq=eq.substr(smallest1+1, size);
+      eq.erase(eq.begin(), eq.begin()+smallest1+1);
     }
 
   while(size>0)
@@ -276,7 +276,11 @@ vector<string> FileEquations::ToVector(string eq)
 	  equation.emplace_back(aa);
 	  const string s{eq[smallest]};
 	  equation.emplace_back(s);
-	  if(size>1) eq=eq.substr(smallest+1, size);
+	  if(size>1)
+	    {
+	      eq.erase(eq.begin(), eq.begin()+smallest+1);
+	      // eq=eq.substr(smallest+1, size);
+	    }
 	}
       else
 	{
