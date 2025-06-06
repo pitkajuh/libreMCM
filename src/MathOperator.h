@@ -1,20 +1,7 @@
-/*--------------------------------*- C++ -*----------------------------------*\
-|                               +===========+                                |
-|                               | l         |                                |
-|                               |   i       | M ulti                         |
-|                               |     b     | C ompartment                   |
-|                               |       r   | M odelling                     |
-|                               |         e |                                |
-|                               +===========+                                |
-\*---------------------------------------------------------------------------*/
-
 #ifndef MATHOPERATOR_H
 #define MATHOPERATOR_H
 
-#include <string>
 #include <cmath>
-
-using std::string;
 
 class MathOperator
 {
