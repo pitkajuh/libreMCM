@@ -59,14 +59,13 @@ void ReadInitialData(const string &directory)
   double *results=nullptr;
   test1.InitResults(results);
 
-  // map<uint16_t, GraphEquation*> eqs=test3.ParseEquations(test1.vertexNames);
+  map<uint16_t, GraphEquation*> eqs=test3.ParseEquations(test1.vertexNames);
 
-  // for(auto &[name, equation]: eqs)
-  //   {
-  //     cout<<name<<" "<<equation<<'\n';
-  //     // equation->SubstituteConstants(constants_map);
-  //     delete equation;
-  //   }
+  for(auto &[name, equation]: eqs)
+    {
+      // cout<<name<<" "<<equation<<'\n';
+      delete equation;
+    }
 
 
   delete [] results;

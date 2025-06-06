@@ -24,7 +24,6 @@ protected:
 public:
   map<uint16_t, double> constants;
   map<uint16_t, string> equations;
-  map<uint16_t, vector<string>> equations2;
   map<string, uint16_t> equationNames;
   map<string, uint16_t> constantNames;
 

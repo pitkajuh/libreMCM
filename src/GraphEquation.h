@@ -64,27 +64,27 @@ public:
   GraphEquation(){}
   ~GraphEquation()
   {
-    cout<<"~GraphEquation "<<vmap.size()<<" "<<constants.size()<<" "<<variables.size()<<'\n';
-    cout<<"delete math"<<'\n';
+    // cout<<"~GraphEquation "<<vmap.size()<<" "<<constants.size()<<" "<<variables.size()<<'\n';
+    // cout<<"delete math"<<'\n';
 
     for(auto &i2: vmap)
       {
-	cout<<"delete "<<" "<<i2<<'\n';
+	// cout<<"delete "<<" "<<i2<<'\n';
 	delete i2;
       }
 
-    cout<<" "<<'\n';
-    cout<<"delete constants"<<'\n';
+    // cout<<" "<<'\n';
+    // cout<<"delete constants"<<'\n';
     for(auto &[i1, i2]: constants)
       {
-	cout<<"delete "<<i1<<" "<<i2<<'\n';
+	// cout<<"delete "<<i1<<" "<<i2<<'\n';
 	delete i2;
       }
-    cout<<" "<<'\n';
-    cout<<"delete variables "<<'\n';
+    // cout<<" "<<'\n';
+    // cout<<"delete variables "<<'\n';
     for(auto &[i1, i2]: variables)
       {
-	cout<<"delete "<<i1<<" "<<i2<<'\n';
+	// cout<<"delete "<<i1<<" "<<i2<<'\n';
 	delete i2;
       }
   }
