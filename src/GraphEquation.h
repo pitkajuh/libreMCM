@@ -1,13 +1,3 @@
-/*--------------------------------*- C++ -*----------------------------------*\
-|                               +===========+                                |
-|                               | l         |                                |
-|                               |   i       | M ulti                         |
-|                               |     b     | C ompartment                   |
-|                               |       r   | M odelling                     |
-|                               |         e |                                |
-|                               +===========+                                |
-\*---------------------------------------------------------------------------*/
-
 #ifndef GRAPHEQUATION_H
 #define GRAPHEQUATION_H
 
@@ -20,6 +10,7 @@
 #include "Bools.h"
 #include <map>
 #include <unordered_map>
+#include "MathOperator.h"
 
 using std::unordered_map;
 using std::map;
@@ -27,6 +18,16 @@ using std::string;
 using std::vector;
 #include <iostream>
 using std::cout;
+
+class GraphEquationNew: public Graph
+{
+protected:
+  MathOperator *mathOperator=nullptr;
+  double *value1=nullptr;
+  double *value2=nullptr;
+  double *result=nullptr;
+public:
+};
 
 class GraphEquation: public Graph
 {
