@@ -9,6 +9,11 @@ class FileEquations: public File
 protected:
   void print_vector2(const vector<string> &vec);
   vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph);
+
+  uint8_t FindOp(string &str);
+  void RemoveOpenClose(string &equation);
+  void Remove(string &equation, const uint8_t open, const uint8_t close);
+
   void RemoveOpenClose(vector<string> &equation);
   void Remove(vector<string> &equation, const uint8_t open, const uint8_t close);
   uint8_t test2(vector<string> &equation, uint8_t open, uint8_t close, uint8_t id, const vector<string> &data, GraphEquation *&graph);
