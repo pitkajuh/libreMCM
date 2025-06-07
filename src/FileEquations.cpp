@@ -339,18 +339,29 @@ uint8_t FileEquations::FindOp(string &str)
   uint8_t largest=0;
   uint8_t j=0;
 
-  while(j<8 and str.size()>0)
+  // while(j<7 and str.size()>2)
+  while(j<7)
     {
-      cout<<"Now "<<str<<'\n';
+      // cout<<"Now "<<str<<'\n';
       for(const auto &i: OPERATORS2)
 	{
 	  const uint8_t a=str.find(i);
-
-	  if(a>largest and a<str.size()) largest=a;
+	  // cout<<std::to_string(a)<<'\n';
+	  if(a>largest and a<str.size())
+	    {
+	      largest=a;
+	      // j=0;
+	    }
 	  else j++;
 	}
+      if(j==7) break;
+      // cout<<"j "<<std::to_string(j)<<" "<<str.size()<<'\n';
       str.erase(str.begin(), str.begin()+largest+1);
+      largest=0;
+      j=0;
     }
+  // cout<<str<<'\n';
+  // cout<<" "<<'\n';
   return largest;
 }
 
