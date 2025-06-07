@@ -60,7 +60,7 @@ void FileEquations::RemoveOpenClose(string &equation)
   const string OPERATORS2[7]={"^", "/", "*", "+", "-", OPEN, CLOSE};
   uint8_t size=close-openPrevious-1;
   string new1=equation.substr(openPrevious+1, size);
-  uint8_t id=0;
+  // uint8_t id=0;
 
   // while(size>1)
   //   {
@@ -74,18 +74,23 @@ void FileEquations::RemoveOpenClose(string &equation)
       // cout<<std::to_string(size)<<" "<<new1<<" "<<std::to_string(at)<<'\n';
       cout<<new1<<'\n';
       string a1=new1.substr(0, at);
-      // const uint8_t size1=a1.size();
+      const uint8_t size1=a1.size();
       cout<<a1<<'\n';
       auto from1=FindOp(a1);
-
+      const uint8_t fromNew1=from1+size1-a1.size()-2;
+      cout<<"a1 "<<a1<<" "<<std::to_string(fromNew1)<<'\n';
       // a1=a1.substr(from1+1);
 
       // cout<<a1<<'\n';
 
-      // string a2=new1.substr(at+1);
-      // // const uint8_t size2=a2.size();
-      // auto to=FindOperator(a2, a2.size());
-      // a2=a2.substr(0, to);
+      string a2=new1.substr(at+1);
+      const uint8_t size2=a2.size();
+      auto to=FindOperator(a2, a2.size());
+
+      a2=a2.substr(0, to);
+      const uint8_t toNew1=to+size2;
+      cout<<"a2 "<<a2<<" "<<std::to_string(toNew1)<<'\n';
+      cout<<a1<<" "<<new1[at]<<" "<<a2<<'\n';
       // // Save a1 new1[at] a2
       // cout<<":"<<a1<<":"<<new1[at]<<":"<<a2<<": "<<std::to_string(to)<<" "<<std::to_string(at-from1)<<'\n';
       // cout<<std::to_string(from1)<<" "<<std::to_string(to)<<'\n';
@@ -336,11 +341,15 @@ uint8_t FileEquations::FindOp(string &str)
 
   while(j<8)
     {
+      cout<<"Now "<<str<<'\n';
       for(const auto &i: OPERATORS2)
 	{
 	  const uint8_t a=str.find(i);
 
-	  if(a>largest and a<str.size()) largest=a;
+	  if(a>largest and a<str.size())
+	    {
+	      largest=a;
+	    }
 	  else j++;
 	}
       str.erase(str.begin(), str.begin()+largest+1);
