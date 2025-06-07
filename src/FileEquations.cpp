@@ -249,8 +249,8 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
   // 3. Multiplication and division
   // 4. Addition and subtraction
 
-  uint8_t id=0;
-  GraphEquation *graphEquation=nullptr;
+  // uint8_t id=0;
+  // GraphEquation *graphEquation=nullptr;
   map<uint16_t, GraphEquation*> equations1;
 
   for(const auto& [name, v]: equations)
@@ -339,22 +339,18 @@ uint8_t FileEquations::FindOp(string &str)
   uint8_t largest=0;
   uint8_t j=0;
 
-  while(j<8)
+  while(j<8 and str.size()>0)
     {
       cout<<"Now "<<str<<'\n';
       for(const auto &i: OPERATORS2)
 	{
 	  const uint8_t a=str.find(i);
 
-	  if(a>largest and a<str.size())
-	    {
-	      largest=a;
-	    }
+	  if(a>largest and a<str.size()) largest=a;
 	  else j++;
 	}
       str.erase(str.begin(), str.begin()+largest+1);
     }
-  cout<<"STR "<<str<<'\n';
   return largest;
 }
 
