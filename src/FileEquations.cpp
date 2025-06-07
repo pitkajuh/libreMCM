@@ -332,36 +332,18 @@ uint8_t FileEquations::FindOp(string &str)
 {
   const string OPERATORS2[7]={"^", "/", "*", "+", "-", "(", ")"};
   uint8_t largest=0;
-  uint8_t largestPrevious=1;
   uint8_t j=0;
-  // bool aa=largest>largestPrevious;
-  // cout<<"Aaoee "<<aa<<'\n';
-  // while(largest<str.size())
-  // while(largest<largestPrevious)
+
   while(j<8)
     {
-      //     cout<<"AL "<<std::to_string(largest)<<":"<<largestPrevious<<":"<<'\n';
       for(const auto &i: OPERATORS2)
 	{
 	  const uint8_t a=str.find(i);
-	  // cout<<std::to_string(a)<<'\n';
-	  if(a>largest and a<str.size())
-	    {
-	      largest=a;
-	      // cout<<"AT "<<std::to_string(a)<<'\n';
-	    }
+
+	  if(a>largest and a<str.size()) largest=a;
 	  else j++;
-	  // else if(j==6 and largest==largestPrevious) cout<<"AA"<<'\n';
-	  // j++;
 	}
-      // cout<<"j "<<std::to_string(j)<<'\n';
-      // j=0;
       str.erase(str.begin(), str.begin()+largest+1);
-      // cout<<"str "<<str<<" "<<std::to_string(largest)<<'\n';
-      // if(largest>largestPrevious) largestPrevious=largest;
-      // else if(largest==largestPrevious) cout<<"AAAAAA"<<'\n';
-      //       cout<<" "<<'\n';
-	    // j++;
     }
   cout<<"STR "<<str<<'\n';
   return largest;
