@@ -76,7 +76,7 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
       // cout<<equation<<" "<<std::to_string(open)<<" "<<std::to_string(close)<<'\n';
       if(open>equation.size())
 	{
-	  GetOrder(equation, id, a);
+	  // GetOrder(equation, id, a);
 	  cout<<"break"<<'\n';
 	  // stop=1;
 	  break;
@@ -84,17 +84,20 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
 
       string sub1=equation.substr(open+1, close-open-1);
       // Do something with sub1
-      RemoveOpenClose(sub1, id, a);
+      // RemoveOpenClose(sub1, id, a);
+      GetOrder(sub1, id, a);
 
-      if(sub1[0]=='@')
-	{
-	  cout<<"sub[0]==@"<<'\n';
-	  equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id-1));
-	}
-      else
-	{
-	  equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id));
-	}
+      equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id-1));
+
+      // if(sub1[0]=='@')
+      // 	{
+      // 	  cout<<"sub[0]==@"<<'\n';
+      // 	  equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id-1));
+      // 	}
+      // else
+      // 	{
+      // 	  equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id));
+      // 	}
 
       // equation.erase(equation.begin()+open+1, equation.begin()+close);
       // equation.replace(equation.begin()+open+1, equation.begin()+close, "AA"); // don't replace parenthesis
@@ -381,7 +384,7 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
 
       a.emplace_back(a11);
 
-      // cout<<str<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
+      cout<<str<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
       str.replace(str.begin()+size1-a1.size(), str.begin()+at+a2.size()+1, "@"+std::to_string(id));
       id++;
     }
@@ -404,6 +407,7 @@ vector<string> FileEquations::ToVector(string eq)
   uint8_t id=0;
 
   RemoveOpenClose(eq, id, a);
+  cout<<"EQ "<<eq<<'\n';
   GetOrder(eq, id, a);
   cout<<" "<<'\n';
   int j=0;
