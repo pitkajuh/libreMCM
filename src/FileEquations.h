@@ -4,15 +4,23 @@
 #include "FileGraph.h"
 #include "GraphEquation.h"
 
+class TestStr
+{
+public:
+  string str1;
+  string op;
+  string str2;
+};
+
 class FileEquations: public File
 {
 protected:
   void print_vector2(const vector<string> &vec);
   vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph);
   uint8_t GetOpen(const string &str, const uint8_t close);
-  void GetOrder(string &str, uint8_t &id);
+  void GetOrder(string &str, uint8_t &id, vector<TestStr> &a);
   uint8_t FindOp(string &str);
-  void RemoveOpenClose(string &equation, uint8_t &id);
+  void RemoveOpenClose(string &equation, uint8_t &id, vector<TestStr> &a);
   void Remove(string &equation, const uint8_t open, const uint8_t close);
 
   void RemoveOpenClose(vector<string> &equation);

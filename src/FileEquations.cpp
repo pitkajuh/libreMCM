@@ -63,21 +63,25 @@ uint8_t FileEquations::GetOpen(const string &str, const uint8_t close)
   return open;
 }
 
-void FileEquations::RemoveOpenClose(string &equation, uint8_t &id)
+void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestStr> &a)
 {
   uint8_t close=equation.find(CLOSE);
   // uint8_t open=0;
   uint8_t open=GetOpen(equation, close);
-
+  cout<<"RemoveOpenClose"<<'\n';
   while(open<equation.size())
     {
       open=GetOpen(equation, close);
       cout<<equation<<" "<<std::to_string(open)<<" "<<std::to_string(close)<<'\n';
-      if(open>equation.size()) break;
+      if(open>equation.size())
+	{
+	  // GetOrder(equation, id, a);
+	  break;
+	}
 
       string sub1=equation.substr(open+1, close-open-1);
       // Do something with sub1
-      RemoveOpenClose(sub1, id);
+      RemoveOpenClose(sub1, id, a);
 
 
 
@@ -86,77 +90,9 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id)
       equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id)); // replace parenthesis
       cout<<equation<<" "<<sub1<<" "<<equation.size()<<" SUB "<<sub1.size()<<'\n';
       close=equation.find(CLOSE);
-      id++;
+      // id++;
     }
-
-  // // uint8_t open=equation.find(OPEN);
-  // // uint8_t openPrevious=open;
-  // // cout<<equation<<'\n';
-  // // cout<<" "<<'\n';
-  // // cout<<"OPEN "<<std::to_string(open)<<" CLOSE "<<std::to_string(close)<<'\n';
-
-  // // while(open<close)
-  // //   {
-  // //     open=equation.find(OPEN, open+1);
-
-  // //     if(open>close) break;
-
-  // //     openPrevious=open;
-  // //   }
-
-  // // cout<<std::to_string(open)<<" "<<std::to_string(openPrevious)<<" "<<std::to_string(close)<<'\n';
-
-  // const string OPERATORS[5]={"^", "/", "*", "+", "-"};
-  // const string OPERATORS2[7]={"^", "/", "*", "+", "-", OPEN, CLOSE};
-
-  // // uint8_t size=close-openPrevious-1;
-  // // string new1=equation.substr(openPrevious+1, size);
-  // uint8_t size=close-open-1;
-  // string new1=equation.substr(open+1, size);
-  // uint8_t id=0;
-
-  // // while(size>1)
-  // //   {
-  // uint8_t at;
-
-  //     for(const auto &i: OPERATORS)
-  // 	{
-  // 	  at=new1.find(i);
-  // 	  if(at<new1.size()) break;
-  // 	}
-
-  //     cout<<new1<<" "<<std::to_string(at)<<" "<<std::to_string(at+equation.size()-new1.size())<<'\n';
-  //     string a1=new1.substr(0, at);
-  //     const uint8_t size1=a1.size();
-  //     cout<<a1<<'\n';
-  //     const uint8_t from1=FindOp(a1);
-  //     // const uint8_t fromNew1=from1+size1-a1.size()-2;
-  //     cout<<"a1 "<<a1<<'\n';
-  //     // a1=a1.substr(from1+1);
-
-  //     // cout<<a1<<'\n';
-
-  //     string a2=new1.substr(at+1);
-  //     const uint8_t size2=a2.size();
-  //     const uint8_t to=FindOperator(a2, a2.size());
-
-  //     a2=a2.substr(0, to);
-  //     // const uint8_t toNew1=to+size2;
-  //     cout<<"a2 "<<a2<<'\n';
-  //     cout<<a1<<" "<<new1[at]<<" "<<a2<<'\n';
-  //     cout<<std::to_string(size1)<<" "<<std::to_string(size2)<<'\n';
-  //     // // Save a1 new1[at] a2
-  //     // cout<<"Replace from "<<std::to_string(openPrevious+1)<<" "<<std::to_string(openPrevious+size)<<'\n';
-  //     // cout<<"Replace from "<<std::to_string(openPrevious+1)<<" "<<std::to_string(openPrevious+size)<<'\n';
-  //     cout<<"Replace from "<<std::to_string(open+1)<<" "<<std::to_string(open+size)<<'\n';
-  //     cout<<std::to_string(new1.size()+a1.size()+a2.size()-2)<<'\n';
-  //     // cout<<std::to_string()<<'\n';
-  //     // equation.replace(equation.begin()+openPrevious+1, equation.begin()+openPrevious+size, "@"+std::to_string(id));
-
-
-
-  //     cout<<equation<<'\n';
-  //   // }
+  GetOrder(equation, id, a);
 }
 
 void FileEquations::Remove(string &equation, const uint8_t open, const uint8_t close)
@@ -403,11 +339,11 @@ uint8_t FileEquations::FindOp(string &str)
   return largest;
 }
 
-void FileEquations::GetOrder(string &str, uint8_t &id)
+void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
 {
   const string OPERATORS[5]={"^", "/", "*", "+", "-"};
   uint8_t at=0;
-  cout<<str<<'\n';
+  cout<<"GetOrder "<<str<<'\n';
   while(str.size()>3)
     {
       for(const string &i: OPERATORS)
@@ -424,6 +360,12 @@ void FileEquations::GetOrder(string &str, uint8_t &id)
       string a2=str.substr(at+1);
       const uint8_t to=FindOperator(a2);
       a2=a2.substr(0, to);
+      TestStr a11;
+      a11.str1=a1;
+      a11.op=str[at];
+      a11.str2=a2;
+
+      a.emplace_back(a11);
 
       cout<<str<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
       str.replace(str.begin()+size1-a1.size(), str.begin()+at+a2.size()+1, "@"+std::to_string(id));
@@ -442,10 +384,17 @@ vector<string> FileEquations::ToVector(string eq)
   // e.g. if smallest=0 and eq[smallest]=/, then it is illegal operation
   // if smallest=0 eq[smallest]=- is ok
   // Create a list of forbidden symbols and compare to them.
+  vector<TestStr> a;
   uint8_t id=0;
-  GetOrder(eq, id);
-  // RemoveOpenClose(eq, id);
-
+  // GetOrder(eq, id);
+  RemoveOpenClose(eq, id, a);
+  cout<<" "<<'\n';
+  int j=0;
+  for(const auto &i: a)
+    {
+      cout<<"@"<<j<<" "<<i.str1<<i.op<<i.str2<<'\n';
+      j++;
+    }
   // const string orig=eq;
   // vector<string> equation;
   // uint8_t size=eq.size();
