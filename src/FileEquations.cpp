@@ -76,7 +76,7 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
       // cout<<equation<<" "<<std::to_string(open)<<" "<<std::to_string(close)<<'\n';
       if(open>equation.size())
 	{
-	  // GetOrder(equation, id, a);
+	  GetOrder(equation, id, a);
 	  cout<<"break"<<'\n';
 	  // stop=1;
 	  break;
@@ -104,7 +104,7 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
       // id++;
     }
   // if(!stop)
-  GetOrder(equation, id, a);
+  // GetOrder(equation, id, a);
   cout<<" "<<'\n';
 }
 
@@ -402,8 +402,9 @@ vector<string> FileEquations::ToVector(string eq)
   // Create a list of forbidden symbols and compare to them.
   vector<TestStr> a;
   uint8_t id=0;
-  // GetOrder(eq, id);
+
   RemoveOpenClose(eq, id, a);
+  GetOrder(eq, id, a);
   cout<<" "<<'\n';
   int j=0;
   for(const auto &i: a)
