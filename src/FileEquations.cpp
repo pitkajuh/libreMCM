@@ -339,12 +339,15 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
 
   while(str.size()>2)
     {
+      uint j=0;
       for(const string &i: OPERATORS)
 	{
 	  at=str.find(i);
 	  if(at<str.size()) break;
+	  else j++;
 	}
-
+      if(j==5) break;
+      // Split the string into two parts around index "at" (left side and right side).
       string a1=str.substr(0, at);
       const uint8_t size1=a1.size();
       const uint8_t from1=FindOp(a1);
@@ -353,19 +356,31 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
       string a2=str.substr(at+1);
       const uint8_t to=FindOperator(a2);
       a2=a2.substr(0, to);
-      TestStr a11;
-      a11.str1=a1;
-      a11.op=str[at];
-      a11.str2=a2;
+      const uint8_t size2=at+a2.size()+1;
+      const string a3{str[at]};
+      const TestStr a11{a1, a3, a2};
 
       a.emplace_back(a11);
 
-      cout<<str<<" "<<str.size()<<" "<<size1-a1.size()<<" "<<at+a2.size()+1<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
-      str.replace(str.begin()+size1-a1.size(), str.begin()+at+a2.size()+1, "@"+std::to_string(id));
+      // cout<<str<<" "<<str.size()<<" "<<size1-a1.size()<<" "<<std::to_string(size2)<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
+      // cout<<str<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
+      // cout<<"from "<<size1-a1.size()<<" to "<<std::to_string(size2)<<" "<<str.size()<<'\n';
+      // if(str.size()==size2 and size1-a1.size()==0)
+      // 	{
+      // 	  cout<<"str.size()==size2 and size1-a1.size()=0"<<'\n';
+      // 	}
+      // if(str.size()>size2)
+      // 	{
+      // 	  cout<<"str.size()>size2"<<'\n';
+	  str.replace(str.begin()+size1-a1.size(), str.begin()+size2, "@"+std::to_string(id));
+	  // cout<<"AOE"<<'\n';
+      // 	}
+      // else continue;
+      // else str.replace(str.begin()+size1-a1.size(), str.begin()+size2-1, "@"+std::to_string(id));
       id++;
     }
   // if(str.size()<=3)
-  cout<<"-------------------------------------"<<std::to_string(id)<<'\n';
+  cout<<"-------------------------------------"<<'\n';
   // cout<<str<<" "<<str.size()<<'\n';
 }
 
