@@ -407,21 +407,22 @@ void FileEquations::GetOrder(string &str, uint8_t &id)
   const string OPERATORS[5]={"^", "/", "*", "+", "-"};
   uint8_t at=0;
   cout<<str<<'\n';
-  // while(equation.size()>3)
-  //   {
+  while(str.size()>3)
+    {
       for(const string &i: OPERATORS)
 	{
 	  at=str.find(i);
 	  if(at<str.size()) break;
 	}
+
       string a1=str.substr(0, at);
-      cout<<"a1 "<<a1<<'\n';
+      // cout<<"a1 "<<a1<<'\n';
       const uint8_t size1=a1.size();
       const uint8_t from1=FindOp(a1);
       a1=a1.substr(from1);
 
       string a2=str.substr(at+1);
-      cout<<"a2 "<<a2<<'\n';
+      // cout<<"a2 "<<a2<<'\n';
       const uint8_t size2=a2.size();
       const uint8_t to=FindOperator(a2, size2);
       a2=a2.substr(0, to);
@@ -441,12 +442,14 @@ void FileEquations::GetOrder(string &str, uint8_t &id)
       // t2=to+size2-a2.size();
       t2=at+a2.size()+1;
 
-      cout<<std::to_string(t1)<<" "<<std::to_string(t2)<<'\n';
+      // cout<<std::to_string(t1)<<" "<<std::to_string(t2)<<'\n';
+      cout<<str<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
       str.replace(str.begin()+t1, str.begin()+t2, "@"+std::to_string(id));
-      cout<<str<<'\n';
+
 
       // cout<<std::to_string(from1)<<" "<<std::to_string(at)<<" "<<a1<<" "<<std::to_string(to)<<" "<<a2<<'\n';
-    // }
+    }
+  cout<<str<<" "<<str.size()<<'\n';
 }
 
 vector<string> FileEquations::ToVector(string eq)
