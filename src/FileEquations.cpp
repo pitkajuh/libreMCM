@@ -305,29 +305,21 @@ uint8_t FileEquations::FindOp(string &str)
   uint8_t largest=0;
   uint8_t j=0;
 
-  // while(j<7 and str.size()>2)
   while(j<7)
     {
-      // cout<<"Now "<<str<<'\n';
       for(const auto &i: OPERATORS2)
 	{
 	  const uint8_t a=str.find(i);
-	  // cout<<std::to_string(a)<<'\n';
-	  if(a>largest and a<str.size())
-	    {
-	      largest=a;
-	      // j=0;
-	    }
+
+	  if(a>largest and a<str.size()) largest=a;
 	  else j++;
 	}
       if(j==7) break;
-      // cout<<"j "<<std::to_string(j)<<" "<<str.size()<<'\n';
+
       str.erase(str.begin(), str.begin()+largest+1);
       largest=0;
       j=0;
     }
-  // cout<<str<<'\n';
-  // cout<<" "<<'\n';
   return largest;
 }
 
@@ -347,6 +339,7 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
 	  else j++;
 	}
       if(j==5) break;
+      j=0;
       // Split the string into two parts around index "at" (left side and right side).
       string a1=str.substr(0, at);
       const uint8_t size1=a1.size();
