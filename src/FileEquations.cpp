@@ -63,11 +63,11 @@ uint8_t FileEquations::GetOpen(const string &str, const uint8_t close)
   return open;
 }
 
-void FileEquations::RemoveOpenClose(string &equation)
+void FileEquations::RemoveOpenClose(string &equation, uint8_t &id)
 {
   uint8_t close=equation.find(CLOSE);
-  uint8_t open=0;
-  uint8_t id=0;
+  // uint8_t open=0;
+  uint8_t open=GetOpen(equation, close);
 
   while(open<equation.size())
     {
@@ -77,11 +77,14 @@ void FileEquations::RemoveOpenClose(string &equation)
 
       string sub1=equation.substr(open+1, close-open-1);
       // Do something with sub1
+      RemoveOpenClose(sub1, id);
+
+
 
       // equation.erase(equation.begin()+open+1, equation.begin()+close);
       // equation.replace(equation.begin()+open+1, equation.begin()+close, "AA"); // don't replace parenthesis
       equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id)); // replace parenthesis
-      cout<<equation<<" "<<sub1<<" "<<equation.size()<<'\n';
+      cout<<equation<<" "<<sub1<<" "<<equation.size()<<" SUB "<<sub1.size()<<'\n';
       close=equation.find(CLOSE);
       id++;
     }
@@ -158,12 +161,12 @@ void FileEquations::RemoveOpenClose(string &equation)
 
 void FileEquations::Remove(string &equation, const uint8_t open, const uint8_t close)
 {
-  if(equation[open+1]=='(' and equation[close+1]==')')
-    {
-      equation.erase(equation.begin()+open);
-      equation.erase(equation.begin()+close-1);
-      RemoveOpenClose(equation);
-    }
+  // if(equation[open+1]=='(' and equation[close+1]==')')
+  //   {
+  //     equation.erase(equation.begin()+open);
+  //     equation.erase(equation.begin()+close-1);
+  //     RemoveOpenClose(equation);
+  //   }
 }
 
 void FileEquations::RemoveOpenClose(vector<string> &equation)
@@ -291,8 +294,8 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
     {
       vector<string> equation=ToVector(v);
       // RemoveOpenClose(equation);
-      cout<<"EQUATION"<<'\n';
-      print_vector2(equation);
+      // cout<<"EQUATION"<<'\n';
+      // print_vector2(equation);
       // GetOrder(equation, id, data, graphEquation);
       // // print_vector2(equation);
       // id=0;
@@ -399,66 +402,103 @@ uint8_t FileEquations::FindOp(string &str)
   return largest;
 }
 
+void FileEquations::GetOrder(string &str, uint8_t &id)
+{
+  const string OPERATORS[5]={"^", "/", "*", "+", "-"};
+  uint8_t at=0;
+  cout<<str<<'\n';
+  // while(equation.size()>3)
+  //   {
+      for(const string &i: OPERATORS)
+	{
+	  at=str.find(i);
+	  if(at<str.size()) break;
+	}
+      string a1=str.substr(0, at);
+      const uint8_t size1=a1.size();
+      const uint8_t from1=FindOp(a1);
+      a1=a1.substr(from1);
+
+      string a2=str.substr(at+1);
+      const uint8_t size2=a2.size();
+      const uint8_t to=FindOperator(a2, size2);
+      a2=a2.substr(0, to);
+
+      cout<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
+      // cout<<std::to_string(a1.size()+a2.size()+1)<<'\n';
+      // cout<<std::to_string(size1)<<" "<<std::to_string(size2)<<'\n';
+      // cout<<std::to_string(from1)<<" "<<std::to_string(to)<<" "<<std::to_string(at)<<'\n';
+      // cout<<std::to_string(at-a1.size())<<" "<<std::to_string(to+size2+a2.size())<<'\n';
+
+      str.replace(str.begin()+at-a1.size(), str.begin()+to+size2+a2.size(), "@"+std::to_string(id));
+      cout<<str<<'\n';
+
+      // cout<<std::to_string(from1)<<" "<<std::to_string(at)<<" "<<a1<<" "<<std::to_string(to)<<" "<<a2<<'\n';
+    // }
+}
+
 vector<string> FileEquations::ToVector(string eq)
 {
   // const string orig=eq;
-  // vector<string> equation;
+  vector<string> equation;
   // uint8_t size=eq.size();
 
   // Check edge cases here
   // e.g. if smallest=0 and eq[smallest]=/, then it is illegal operation
   // if smallest=0 eq[smallest]=- is ok
   // Create a list of forbidden symbols and compare to them.
-  RemoveOpenClose(eq);
+  uint8_t id=0;
+  GetOrder(eq, id);
+  // RemoveOpenClose(eq, id);
 
-  const string orig=eq;
-  vector<string> equation;
-  uint8_t size=eq.size();
+  // const string orig=eq;
+  // vector<string> equation;
+  // uint8_t size=eq.size();
 
-  if(eq[0]=='-')
-    {
-      string eq1=eq;
-      eq1.erase(eq1.begin());
-      const uint8_t smallest1=FindOperator(eq1, size);
-      const string str1=eq.substr(0, smallest1+1);
-      equation.emplace_back(str1);
-      eq.erase(eq.begin(), eq.begin()+smallest1+1);
-    }
+  // if(eq[0]=='-')
+  //   {
+  //     string eq1=eq;
+  //     eq1.erase(eq1.begin());
+  //     const uint8_t smallest1=FindOperator(eq1, size);
+  //     const string str1=eq.substr(0, smallest1+1);
+  //     equation.emplace_back(str1);
+  //     eq.erase(eq.begin(), eq.begin()+smallest1+1);
+  //   }
 
-  while(size>0)
-    {
-      size=eq.size();
-      const uint8_t smallest=FindOperator(eq, size);
+  // while(size>0)
+  //   {
+  //     size=eq.size();
+  //     const uint8_t smallest=FindOperator(eq, size);
 
-      if(smallest==size)
-	{
-	  equation.emplace_back(eq);
-	  break;
-	}
-      else if(smallest>0)
-	{
-	  const string aa=eq.substr(0, smallest);
-	  equation.emplace_back(aa);
-	  const string s{eq[smallest]};
-	  equation.emplace_back(s);
-	  if(size>1)
-	    {
-	      eq.erase(eq.begin(), eq.begin()+smallest+1);
-	      // eq=eq.substr(smallest+1, size);
-	    }
-	}
-      else
-	{
-	  const string s{eq[0]};
-	  equation.emplace_back(s);
-	  eq.erase(eq.begin());
-	}
-    }
+  //     if(smallest==size)
+  // 	{
+  // 	  equation.emplace_back(eq);
+  // 	  break;
+  // 	}
+  //     else if(smallest>0)
+  // 	{
+  // 	  const string aa=eq.substr(0, smallest);
+  // 	  equation.emplace_back(aa);
+  // 	  const string s{eq[smallest]};
+  // 	  equation.emplace_back(s);
+  // 	  if(size>1)
+  // 	    {
+  // 	      eq.erase(eq.begin(), eq.begin()+smallest+1);
+  // 	      // eq=eq.substr(smallest+1, size);
+  // 	    }
+  // 	}
+  //     else
+  // 	{
+  // 	  const string s{eq[0]};
+  // 	  equation.emplace_back(s);
+  // 	  eq.erase(eq.begin());
+  // 	}
+  //   }
 
-  // auto a1=print_vector3(equation);
-  // if(a1==orig) cout<<"OK"<<'\n';
-  // else cout<<"NOT OK"<<'\n';
-  equation.reserve(equation.size());
+  // // auto a1=print_vector3(equation);
+  // // if(a1==orig) cout<<"OK"<<'\n';
+  // // else cout<<"NOT OK"<<'\n';
+  // equation.reserve(equation.size());
   return equation;
 }
 
