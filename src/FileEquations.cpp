@@ -38,74 +38,122 @@ vector<string> FileEquations::GetParenthesis(const vector<string> &equation, con
   return result;
 }
 
-void FileEquations::RemoveOpenClose(string &equation)
+uint8_t FileEquations::GetOpen(const string &str, const uint8_t close)
 {
-  uint8_t close=equation.find(CLOSE);
-  uint8_t open=equation.find(OPEN);
+  uint8_t open=str.find(OPEN);
   uint8_t openPrevious=open;
-  cout<<equation<<'\n';
-  cout<<" "<<'\n';
-  cout<<"OPEN "<<std::to_string(open)<<" CLOSE "<<std::to_string(close)<<'\n';
+  // cout<<str<<'\n';
+  // cout<<" "<<'\n';
+  // cout<<"OPEN "<<std::to_string(open)<<" CLOSE "<<std::to_string(close)<<'\n';
 
   while(open<close)
     {
-      open=equation.find(OPEN, open+1);
+      open=str.find(OPEN, open+1);
 
-      if(open>close) break;
+      if(open>close)
+	{
+	  open=openPrevious;
+	  break;
+	}
 
       openPrevious=open;
     }
 
-  cout<<std::to_string(open)<<" "<<std::to_string(openPrevious)<<" "<<std::to_string(close)<<'\n';
+  // cout<<std::to_string(open)<<" "<<std::to_string(openPrevious)<<" "<<std::to_string(close)<<'\n';
+  return open;
+}
 
-  const string OPERATORS[5]={"^", "/", "*", "+", "-"};
-  const string OPERATORS2[7]={"^", "/", "*", "+", "-", OPEN, CLOSE};
-  uint8_t size=close-openPrevious-1;
-  string new1=equation.substr(openPrevious+1, size);
-
+void FileEquations::RemoveOpenClose(string &equation)
+{
+  uint8_t close=equation.find(CLOSE);
+  uint8_t open=0;
   uint8_t id=0;
 
-  // while(size>1)
-  //   {
-  uint8_t at;
+  while(open<equation.size())
+    {
+      open=GetOpen(equation, close);
+      cout<<equation<<" "<<std::to_string(open)<<" "<<std::to_string(close)<<'\n';
+      if(open>equation.size()) break;
 
-      for(const auto &i: OPERATORS)
-	{
-	  at=new1.find(i);
-	  if(at<new1.size()) break;
-	}
+      string sub1=equation.substr(open+1, close-open-1);
+      // Do something with sub1
 
-      cout<<new1<<" "<<std::to_string(at)<<" "<<std::to_string(at+equation.size()-new1.size())<<'\n';
-      string a1=new1.substr(0, at);
-      const uint8_t size1=a1.size();
-      cout<<a1<<'\n';
-      const uint8_t from1=FindOp(a1);
-      // const uint8_t fromNew1=from1+size1-a1.size()-2;
-      cout<<"a1 "<<a1<<'\n';
-      // a1=a1.substr(from1+1);
+      // equation.erase(equation.begin()+open+1, equation.begin()+close);
+      // equation.replace(equation.begin()+open+1, equation.begin()+close, "AA"); // don't replace parenthesis
+      equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id)); // replace parenthesis
+      cout<<equation<<" "<<sub1<<" "<<equation.size()<<'\n';
+      close=equation.find(CLOSE);
+      id++;
+    }
 
-      // cout<<a1<<'\n';
+  // // uint8_t open=equation.find(OPEN);
+  // // uint8_t openPrevious=open;
+  // // cout<<equation<<'\n';
+  // // cout<<" "<<'\n';
+  // // cout<<"OPEN "<<std::to_string(open)<<" CLOSE "<<std::to_string(close)<<'\n';
 
-      string a2=new1.substr(at+1);
-      const uint8_t size2=a2.size();
-      const uint8_t to=FindOperator(a2, a2.size());
+  // // while(open<close)
+  // //   {
+  // //     open=equation.find(OPEN, open+1);
 
-      a2=a2.substr(0, to);
-      // const uint8_t toNew1=to+size2;
-      cout<<"a2 "<<a2<<'\n';
-      cout<<a1<<" "<<new1[at]<<" "<<a2<<'\n';
-      cout<<std::to_string(size1)<<" "<<std::to_string(size2)<<'\n';
-      // // Save a1 new1[at] a2
-      // cout<<"Replace from "<<std::to_string(openPrevious+1)<<" "<<std::to_string(openPrevious+size)<<'\n';
-      cout<<"Replace from "<<std::to_string(openPrevious+1)<<" "<<std::to_string(openPrevious+size)<<'\n';
-      cout<<std::to_string(new1.size()+a1.size()+a2.size()-2)<<'\n';
-      // cout<<std::to_string()<<'\n';
-      // equation.replace(equation.begin()+openPrevious+1, equation.begin()+openPrevious+size, "@"+std::to_string(id));
+  // //     if(open>close) break;
+
+  // //     openPrevious=open;
+  // //   }
+
+  // // cout<<std::to_string(open)<<" "<<std::to_string(openPrevious)<<" "<<std::to_string(close)<<'\n';
+
+  // const string OPERATORS[5]={"^", "/", "*", "+", "-"};
+  // const string OPERATORS2[7]={"^", "/", "*", "+", "-", OPEN, CLOSE};
+
+  // // uint8_t size=close-openPrevious-1;
+  // // string new1=equation.substr(openPrevious+1, size);
+  // uint8_t size=close-open-1;
+  // string new1=equation.substr(open+1, size);
+  // uint8_t id=0;
+
+  // // while(size>1)
+  // //   {
+  // uint8_t at;
+
+  //     for(const auto &i: OPERATORS)
+  // 	{
+  // 	  at=new1.find(i);
+  // 	  if(at<new1.size()) break;
+  // 	}
+
+  //     cout<<new1<<" "<<std::to_string(at)<<" "<<std::to_string(at+equation.size()-new1.size())<<'\n';
+  //     string a1=new1.substr(0, at);
+  //     const uint8_t size1=a1.size();
+  //     cout<<a1<<'\n';
+  //     const uint8_t from1=FindOp(a1);
+  //     // const uint8_t fromNew1=from1+size1-a1.size()-2;
+  //     cout<<"a1 "<<a1<<'\n';
+  //     // a1=a1.substr(from1+1);
+
+  //     // cout<<a1<<'\n';
+
+  //     string a2=new1.substr(at+1);
+  //     const uint8_t size2=a2.size();
+  //     const uint8_t to=FindOperator(a2, a2.size());
+
+  //     a2=a2.substr(0, to);
+  //     // const uint8_t toNew1=to+size2;
+  //     cout<<"a2 "<<a2<<'\n';
+  //     cout<<a1<<" "<<new1[at]<<" "<<a2<<'\n';
+  //     cout<<std::to_string(size1)<<" "<<std::to_string(size2)<<'\n';
+  //     // // Save a1 new1[at] a2
+  //     // cout<<"Replace from "<<std::to_string(openPrevious+1)<<" "<<std::to_string(openPrevious+size)<<'\n';
+  //     // cout<<"Replace from "<<std::to_string(openPrevious+1)<<" "<<std::to_string(openPrevious+size)<<'\n';
+  //     cout<<"Replace from "<<std::to_string(open+1)<<" "<<std::to_string(open+size)<<'\n';
+  //     cout<<std::to_string(new1.size()+a1.size()+a2.size()-2)<<'\n';
+  //     // cout<<std::to_string()<<'\n';
+  //     // equation.replace(equation.begin()+openPrevious+1, equation.begin()+openPrevious+size, "@"+std::to_string(id));
 
 
 
-      cout<<equation<<'\n';
-    // }
+  //     cout<<equation<<'\n';
+  //   // }
 }
 
 void FileEquations::Remove(string &equation, const uint8_t open, const uint8_t close)
