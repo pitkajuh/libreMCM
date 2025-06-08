@@ -65,17 +65,20 @@ uint8_t FileEquations::GetOpen(const string &str, const uint8_t close)
 
 void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestStr> &a)
 {
+  // bool stop=0;
   uint8_t close=equation.find(CLOSE);
   // uint8_t open=0;
   uint8_t open=GetOpen(equation, close);
-  cout<<"RemoveOpenClose"<<'\n';
+  cout<<"RemoveOpenClose "<<equation<<'\n';
   while(open<equation.size())
     {
       open=GetOpen(equation, close);
-      cout<<equation<<" "<<std::to_string(open)<<" "<<std::to_string(close)<<'\n';
+      // cout<<equation<<" "<<std::to_string(open)<<" "<<std::to_string(close)<<'\n';
       if(open>equation.size())
 	{
 	  // GetOrder(equation, id, a);
+	  cout<<"break"<<'\n';
+	  // stop=1;
 	  break;
 	}
 
@@ -83,16 +86,26 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
       // Do something with sub1
       RemoveOpenClose(sub1, id, a);
 
-
+      if(sub1[0]=='@')
+	{
+	  cout<<"sub[0]==@"<<'\n';
+	  equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id-1));
+	}
+      else
+	{
+	  equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id));
+	}
 
       // equation.erase(equation.begin()+open+1, equation.begin()+close);
       // equation.replace(equation.begin()+open+1, equation.begin()+close, "AA"); // don't replace parenthesis
-      equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id)); // replace parenthesis
-      cout<<equation<<" "<<sub1<<" "<<equation.size()<<" SUB "<<sub1.size()<<'\n';
+      // equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id)); // replace parenthesis
+      cout<<equation<<" "<<sub1<<'\n';
       close=equation.find(CLOSE);
       // id++;
     }
+  // if(!stop)
   GetOrder(equation, id, a);
+  cout<<" "<<'\n';
 }
 
 void FileEquations::Remove(string &equation, const uint8_t open, const uint8_t close)
@@ -344,6 +357,7 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
   const string OPERATORS[5]={"^", "/", "*", "+", "-"};
   uint8_t at=0;
   cout<<"GetOrder "<<str<<'\n';
+  // Is there a problem if size>3?, e.g. if @111?
   while(str.size()>3)
     {
       for(const string &i: OPERATORS)
@@ -371,7 +385,9 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
       str.replace(str.begin()+size1-a1.size(), str.begin()+at+a2.size()+1, "@"+std::to_string(id));
       id++;
     }
-  cout<<str<<" "<<str.size()<<'\n';
+  // if(str.size()<=3)
+  cout<<"-------------------------------------"<<std::to_string(id)<<'\n';
+  // cout<<str<<" "<<str.size()<<'\n';
 }
 
 vector<string> FileEquations::ToVector(string eq)
