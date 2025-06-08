@@ -384,7 +384,7 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
 
       a.emplace_back(a11);
 
-      cout<<str<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
+      cout<<str<<" "<<str.size()<<" "<<size1-a1.size()<<" "<<at+a2.size()+1<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
       str.replace(str.begin()+size1-a1.size(), str.begin()+at+a2.size()+1, "@"+std::to_string(id));
       id++;
     }
