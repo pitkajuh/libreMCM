@@ -362,26 +362,10 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
 
       a.emplace_back(a11);
 
-      // cout<<str<<" "<<str.size()<<" "<<size1-a1.size()<<" "<<std::to_string(size2)<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
-      // cout<<str<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
-      // cout<<"from "<<size1-a1.size()<<" to "<<std::to_string(size2)<<" "<<str.size()<<'\n';
-      // if(str.size()==size2 and size1-a1.size()==0)
-      // 	{
-      // 	  cout<<"str.size()==size2 and size1-a1.size()=0"<<'\n';
-      // 	}
-      // if(str.size()>size2)
-      // 	{
-      // 	  cout<<"str.size()>size2"<<'\n';
-	  str.replace(str.begin()+size1-a1.size(), str.begin()+size2, "@"+std::to_string(id));
-	  // cout<<"AOE"<<'\n';
-      // 	}
-      // else continue;
-      // else str.replace(str.begin()+size1-a1.size(), str.begin()+size2-1, "@"+std::to_string(id));
+      str.replace(str.begin()+size1-a1.size(), str.begin()+size2, "@"+std::to_string(id));
       id++;
     }
-  // if(str.size()<=3)
   cout<<"-------------------------------------"<<'\n';
-  // cout<<str<<" "<<str.size()<<'\n';
 }
 
 vector<string> FileEquations::ToVector(string eq)
