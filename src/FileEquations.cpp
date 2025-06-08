@@ -73,41 +73,17 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
   while(open<equation.size())
     {
       open=GetOpen(equation, close);
-      // cout<<equation<<" "<<std::to_string(open)<<" "<<std::to_string(close)<<'\n';
-      if(open>equation.size())
-	{
-	  // GetOrder(equation, id, a);
-	  cout<<"break"<<'\n';
-	  // stop=1;
-	  break;
-	}
+
+      if(open>equation.size()) break;
 
       string sub1=equation.substr(open+1, close-open-1);
-      // Do something with sub1
-      // RemoveOpenClose(sub1, id, a);
       GetOrder(sub1, id, a);
 
       equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id-1));
 
-      // if(sub1[0]=='@')
-      // 	{
-      // 	  cout<<"sub[0]==@"<<'\n';
-      // 	  equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id-1));
-      // 	}
-      // else
-      // 	{
-      // 	  equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id));
-      // 	}
-
-      // equation.erase(equation.begin()+open+1, equation.begin()+close);
-      // equation.replace(equation.begin()+open+1, equation.begin()+close, "AA"); // don't replace parenthesis
-      // equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id)); // replace parenthesis
       cout<<equation<<" "<<sub1<<'\n';
       close=equation.find(CLOSE);
-      // id++;
     }
-  // if(!stop)
-  // GetOrder(equation, id, a);
   cout<<" "<<'\n';
 }
 
