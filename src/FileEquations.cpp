@@ -356,10 +356,11 @@ string FileEquations::print_vector3(const vector<string> &vec)
   return empty;
 }
 
-uint8_t FileEquations::FindOperator(const string &eq, const uint8_t size)
+uint8_t FileEquations::FindOperator(const string &eq)
 {
-  uint8_t smallest=size;
+  uint8_t smallest=eq.size();
   const string OPERATORS2[7]={"^", "/", "*", "+", "-", "(", ")"};
+  const uint8_t size=smallest;
 
   for(const auto &i: OPERATORS2)
     {
@@ -421,12 +422,12 @@ void FileEquations::GetOrder(string &str, uint8_t &id)
       a1=a1.substr(from1);
 
       string a2=str.substr(at+1);
-      const uint8_t size2=a2.size();
-      const uint8_t to=FindOperator(a2, size2);
+      const uint8_t to=FindOperator(a2);
       a2=a2.substr(0, to);
 
       cout<<str<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
       str.replace(str.begin()+size1-a1.size(), str.begin()+at+a2.size()+1, "@"+std::to_string(id));
+      id++;
     }
   cout<<str<<" "<<str.size()<<'\n';
 }

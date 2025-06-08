@@ -25,7 +25,7 @@ protected:
   void Convert(const map<uint16_t, string> &map);
   streampos SA(ifstream &file, streampos from, const string &line);
   string print_vector3(const vector<string> &vec);
-  uint8_t FindOperator(const string &eq, const uint8_t size);
+  uint8_t FindOperator(const string &eq);
   vector<string> ToVector(string eq);
 public:
   map<uint16_t, double> constants;
