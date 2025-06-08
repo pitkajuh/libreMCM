@@ -357,8 +357,8 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
   const string OPERATORS[5]={"^", "/", "*", "+", "-"};
   uint8_t at=0;
   cout<<"GetOrder "<<str<<'\n';
-  // Is there a problem if size>3?, e.g. if @111?
-  while(str.size()>3)
+
+  while(str.size()>2)
     {
       for(const string &i: OPERATORS)
 	{
@@ -381,7 +381,7 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
 
       a.emplace_back(a11);
 
-      cout<<str<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
+      // cout<<str<<", "<<"|"<<a1<<":"<<str[at]<<":"<<a2<<"|"<<'\n';
       str.replace(str.begin()+size1-a1.size(), str.begin()+at+a2.size()+1, "@"+std::to_string(id));
       id++;
     }
