@@ -6,6 +6,8 @@ using std::to_string;
 
 const string OPEN="(";
 const string CLOSE=")";
+const string OPERATORS2[7]={"^", "/", "*", "+", "-", OPEN, CLOSE};
+const string OPERATORS[5]={"^", "/", "*", "+", "-"};
 
 void FileEquations::print_vector2(const vector<string> &vec)
 {
@@ -284,10 +286,10 @@ string FileEquations::print_vector3(const vector<string> &vec)
   return empty;
 }
 
-uint8_t FileEquations::FindOperator(const string &eq)
+uint8_t FileEquations::GetRight(const string &eq)
 {
   uint8_t smallest=eq.size();
-  const string OPERATORS2[7]={"^", "/", "*", "+", "-", "(", ")"};
+
   const uint8_t size=smallest;
 
   for(const auto &i: OPERATORS2)
@@ -299,9 +301,8 @@ uint8_t FileEquations::FindOperator(const string &eq)
   return smallest;
 }
 
-uint8_t FileEquations::FindOp(string &str)
+uint8_t FileEquations::GetLeft(string &str)
 {
-  const string OPERATORS2[7]={"^", "/", "*", "+", "-", "(", ")"};
   uint8_t largest=0;
   uint8_t j=0;
 
@@ -325,7 +326,6 @@ uint8_t FileEquations::FindOp(string &str)
 
 void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
 {
-  const string OPERATORS[5]={"^", "/", "*", "+", "-"};
   uint8_t at=0;
   cout<<"GetOrder "<<str<<'\n';
 
@@ -343,11 +343,11 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
       // Split the string into two parts around index "at" (left side and right side).
       string a1=str.substr(0, at);
       const uint8_t size1=a1.size();
-      const uint8_t from1=FindOp(a1);
+      const uint8_t from1=GetLeft(a1);
       a1=a1.substr(from1);
 
       string a2=str.substr(at+1);
-      const uint8_t to=FindOperator(a2);
+      const uint8_t to=GetRight(a2);
       a2=a2.substr(0, to);
       const uint8_t size2=at+a2.size()+1;
       const string a3{str[at]};
