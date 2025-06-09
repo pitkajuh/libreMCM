@@ -44,9 +44,6 @@ uint8_t FileEquations::GetOpen(const string &str, const uint8_t close)
 {
   uint8_t open=str.find(OPEN);
   uint8_t openPrevious=open;
-  // cout<<str<<'\n';
-  // cout<<" "<<'\n';
-  // cout<<"OPEN "<<std::to_string(open)<<" CLOSE "<<std::to_string(close)<<'\n';
 
   while(open<close)
     {
@@ -61,7 +58,6 @@ uint8_t FileEquations::GetOpen(const string &str, const uint8_t close)
       openPrevious=open;
     }
 
-  // cout<<std::to_string(open)<<" "<<std::to_string(openPrevious)<<" "<<std::to_string(close)<<'\n';
   return open;
 }
 
