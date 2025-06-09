@@ -363,14 +363,7 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
 
 vector<string> FileEquations::ToVector(string eq)
 {
-  // const string orig=eq;
   vector<string> equation;
-  // uint8_t size=eq.size();
-
-  // Check edge cases here
-  // e.g. if smallest=0 and eq[smallest]=/, then it is illegal operation
-  // if smallest=0 eq[smallest]=- is ok
-  // Create a list of forbidden symbols and compare to them.
   vector<TestStr> a;
   uint8_t id=0;
 
@@ -378,60 +371,14 @@ vector<string> FileEquations::ToVector(string eq)
   cout<<"EQ "<<eq<<'\n';
   GetOrder(eq, id, a);
   cout<<" "<<'\n';
+
   int j=0;
+
   for(const auto &i: a)
     {
       cout<<"@"<<j<<" "<<i.str1<<i.op<<i.str2<<'\n';
       j++;
     }
-  // const string orig=eq;
-  // vector<string> equation;
-  // uint8_t size=eq.size();
-
-  // if(eq[0]=='-')
-  //   {
-  //     string eq1=eq;
-  //     eq1.erase(eq1.begin());
-  //     const uint8_t smallest1=FindOperator(eq1, size);
-  //     const string str1=eq.substr(0, smallest1+1);
-  //     equation.emplace_back(str1);
-  //     eq.erase(eq.begin(), eq.begin()+smallest1+1);
-  //   }
-
-  // while(size>0)
-  //   {
-  //     size=eq.size();
-  //     const uint8_t smallest=FindOperator(eq, size);
-
-  //     if(smallest==size)
-  // 	{
-  // 	  equation.emplace_back(eq);
-  // 	  break;
-  // 	}
-  //     else if(smallest>0)
-  // 	{
-  // 	  const string aa=eq.substr(0, smallest);
-  // 	  equation.emplace_back(aa);
-  // 	  const string s{eq[smallest]};
-  // 	  equation.emplace_back(s);
-  // 	  if(size>1)
-  // 	    {
-  // 	      eq.erase(eq.begin(), eq.begin()+smallest+1);
-  // 	      // eq=eq.substr(smallest+1, size);
-  // 	    }
-  // 	}
-  //     else
-  // 	{
-  // 	  const string s{eq[0]};
-  // 	  equation.emplace_back(s);
-  // 	  eq.erase(eq.begin());
-  // 	}
-  //   }
-
-  // // auto a1=print_vector3(equation);
-  // // if(a1==orig) cout<<"OK"<<'\n';
-  // // else cout<<"NOT OK"<<'\n';
-  // equation.reserve(equation.size());
   return equation;
 }
 
