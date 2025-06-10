@@ -42,6 +42,9 @@ vector<string> FileEquations::GetParenthesis(const vector<string> &equation, con
 
 uint8_t FileEquations::GetOpen(const string &str, const uint8_t close)
 {
+  // Find the index of the innermost open parenthesis (.
+  // Variable uint8_t close is the index for the corresponding closing
+  // parenthesis
   uint8_t open=str.find(OPEN);
   uint8_t openPrevious=open;
 
@@ -63,11 +66,11 @@ uint8_t FileEquations::GetOpen(const string &str, const uint8_t close)
 
 void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestStr> &a)
 {
-  // bool stop=0;
+  // Find math operations inside parenthesis ( and ).
   uint8_t close=equation.find(CLOSE);
-  // uint8_t open=0;
   uint8_t open=GetOpen(equation, close);
   cout<<"RemoveOpenClose "<<equation<<'\n';
+
   while(open<equation.size())
     {
       open=GetOpen(equation, close);
@@ -77,12 +80,13 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
       string sub1=equation.substr(open+1, close-open-1);
       GetOrder(sub1, id, a);
 
-      equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+std::to_string(id-1));
+      // String "@"+to_string(id-1) is a placeholder variable.
+      equation.replace(equation.begin()+open, equation.begin()+close+1, "@"+to_string(id-1));
 
       cout<<equation<<" "<<sub1<<'\n';
       close=equation.find(CLOSE);
     }
-  cout<<" "<<'\n';
+  cout<<"+++++++++++"<<'\n';
 }
 
 void FileEquations::Remove(string &equation, const uint8_t open, const uint8_t close)
@@ -326,7 +330,7 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
 
   while(str.size()>2)
     {
-      uint j=0;
+      uint8_t j=0;
       for(const string &i: OPERATORS)
 	{
 	  at=str.find(i);
@@ -337,8 +341,10 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
       // looping through them, the string has no math operators.
       if(j==5) break;
       j=0;
-      // Split the string into two parts around index "at" (left side and right side).
-      // For example str[at]="+", LHS="10" and RHS="3", then the string is "10+x".
+      // Split the string into two parts around index "at" (left side
+      // and right side).
+      // For example str[at]="+", LHS="10" and RHS="3", then the string
+      // is "10+x".
 
       // Get left hand side.
       string LHS=str.substr(0, at);
@@ -356,7 +362,7 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
 
       a.emplace_back(LHS1);
 
-      str.replace(str.begin()+size1-LHS.size(), str.begin()+size2, "@"+std::to_string(id));
+      str.replace(str.begin()+size1-LHS.size(), str.begin()+size2, "@"+to_string(id));
       id++;
     }
   cout<<"-------------------------------------"<<'\n';
@@ -371,6 +377,15 @@ vector<string> FileEquations::ToVector(string eq)
   RemoveOpenClose(eq, id, a);
   cout<<"EQ "<<eq<<'\n';
   GetOrder(eq, id, a);
+  a.reserve(id);
+
+  if(a.size()==0)
+    {
+      cout<<"is zero"<<'\n';
+      a.reserve(1);
+      const TestStr mo{eq, "+", "0"};
+      a.emplace_back(mo);
+    }
   cout<<" "<<'\n';
 
   int j=0;
