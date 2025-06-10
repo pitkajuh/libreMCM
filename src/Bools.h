@@ -23,12 +23,14 @@ public:
   bool constant=0;
   bool numeric=0;
   bool math=0;
+  bool negative=0;
 
   Bools(const string &s1, const vector<string> &variables, const map<string, uint16_t> &constants)
   {
     variable=IsIn(s1, variables);
     constant=constants.find(s1)!=constants.end();
     math=(s1.substr(0, 1)=="@")?1:0;
+    negative=s1[0]=='-';
 
     if(!variable and !constant and !math) numeric=1;
   }

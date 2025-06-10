@@ -24,7 +24,6 @@ class GraphEquationNew: public Graph
 {
 public:
   Edge *edge=nullptr;
-  Edge es[10];
 };
 
 class GraphEquation: public Graph
