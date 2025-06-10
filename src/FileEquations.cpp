@@ -268,9 +268,28 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.math and b2.math)
     {
       cout<<"b1.math and b2.math "<<'\n';
-      // VertexVertices *v1=new VertexVertices(vmap[stoi(s1.substr(1, s1.size()-1))], vmap[stoi(s2.substr(1, s1.size()-1))], mathOperator);
-      // vmap["@"+std::to_string(id)]=v1;
-      // vmap.emplace_back(v1);
+      VertexNew v0=vv[stoi(s1.substr(1, s1.size()-1))];
+      VertexNew v1=vv[stoi(s2.substr(1, s2.size()-1))];
+      VertexNew v;
+
+      if(v0.result!=nullptr and v1.result!=nullptr)
+	{
+	  double d=operators.GetOperator(mathOperator)->Calculate(*v0.result, *v1.result);
+	  v.result=new double(d);
+	}
+      else if(v0.result!=nullptr and v1.result==nullptr)
+	{
+
+	}
+      else if(v0.result==nullptr and v1.result!=nullptr)
+	{
+
+	}
+      else
+	{
+
+	}
+      vv.emplace_back(v);
     }
   else if(b1.math and b2.constant)
     {
@@ -284,12 +303,18 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     }
   else if(b1.numeric and b2.math)
     {
-      cout<<"b1.numeric and b2.math and vmap[s2]->GetValue()!=NAN"<<'\n';
+      cout<<"b1.numeric and b2.math "<<vv.size()<<" "<<stoi(s2.substr(1, s2.size()-1))<<'\n';
       VertexNew v0;
       VertexNew v1=vv[stoi(s2.substr(1, s2.size()-1))];
-      double d=operators.GetOperator(mathOperator)->Calculate(stod(s1), *v1.result);
-      v0.result=new double(d);
-      cout<<"result "<<*v0.result<<'\n';
+
+      if(v1.result!=nullptr)
+	{
+	  cout<<"v1.result!=nullptr"<<'\n';
+	  double d=operators.GetOperator(mathOperator)->Calculate(stod(s1), *v1.result);
+	  v0.result=new double(d);
+	  cout<<"result "<<*v0.result<<'\n';
+	}
+      else v0.result=v1.result;
       vv.emplace_back(v0);
     }
   else if(b2.math and b1.constant)
