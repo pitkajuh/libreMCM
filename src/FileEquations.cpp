@@ -285,7 +285,6 @@ string FileEquations::print_vector3(const vector<string> &vec)
 uint8_t FileEquations::GetRight(const string &eq)
 {
   uint8_t smallest=eq.size();
-
   const uint8_t size=smallest;
 
   for(const auto &i: OPERATORS2)
@@ -334,24 +333,30 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
 	  if(at<str.size()) break;
 	  else j++;
 	}
+      // If j is equal to the total number of math operators after
+      // looping through them, the string has no math operators.
       if(j==5) break;
       j=0;
       // Split the string into two parts around index "at" (left side and right side).
-      string a1=str.substr(0, at);
-      const uint8_t size1=a1.size();
-      const uint8_t from1=GetLeft(a1);
-      a1=a1.substr(from1);
+      // For example str[at]="+", LHS="10" and RHS="3", then the string is "10+x".
 
-      string a2=str.substr(at+1);
-      const uint8_t to=GetRight(a2);
-      a2=a2.substr(0, to);
-      const uint8_t size2=at+a2.size()+1;
+      // Get left hand side.
+      string LHS=str.substr(0, at);
+      const uint8_t size1=LHS.size();
+      const uint8_t from1=GetLeft(LHS);
+      LHS=LHS.substr(from1);
+
+      // Get right hand side.
+      string RHS=str.substr(at+1);
+      const uint8_t to=GetRight(RHS);
+      RHS=RHS.substr(0, to);
+      const uint8_t size2=at+RHS.size()+1;
       const string a3{str[at]};
-      const TestStr a11{a1, a3, a2};
+      const TestStr LHS1{LHS, a3, RHS};
 
-      a.emplace_back(a11);
+      a.emplace_back(LHS1);
 
-      str.replace(str.begin()+size1-a1.size(), str.begin()+size2, "@"+std::to_string(id));
+      str.replace(str.begin()+size1-LHS.size(), str.begin()+size2, "@"+std::to_string(id));
       id++;
     }
   cout<<"-------------------------------------"<<'\n';
