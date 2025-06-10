@@ -277,18 +277,12 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  double d=operators.GetOperator(mathOperator)->Calculate(*v0.result, *v1.result);
 	  v.result=new double(d);
 	}
-      else if(v0.result!=nullptr and v1.result==nullptr)
-	{
-
-	}
-      else if(v0.result==nullptr and v1.result!=nullptr)
-	{
-
-	}
       else
 	{
-
+	  v.value1=v0.result;
+	  v.value2=v1.result;
 	}
+
       vv.emplace_back(v);
     }
   else if(b1.math and b2.constant)
