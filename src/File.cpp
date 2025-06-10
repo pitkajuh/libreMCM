@@ -25,7 +25,7 @@ void File::EraseLine(string &line)
 
 map<uint16_t, string> File::GetSettings(const vector<string> &ivs, map<string, uint16_t> &nameMap)
 {
-  uint16_t n=0;
+  uint16_t n=1;
   string name;
   string value;
   map<uint16_t, string> result;

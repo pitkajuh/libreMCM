@@ -11,23 +11,26 @@
 #ifndef BOOLS_H
 #define BOOLS_H
 
+#include <map>
 #include "IsIn.h"
+
+using std::map;
 
 struct Bools
 {
 public:
-  bool variable;
-  bool constant;
-  bool numeric;
-  bool math;
+  bool variable=0;
+  bool constant=0;
+  bool numeric=0;
+  bool math=0;
 
-  Bools(const string &s1, const vector<string> &data)
+  Bools(const string &s1, const vector<string> &variables, const map<string, uint16_t> &constants)
   {
-    variable=IsIn(s1, data);
-    numeric=IsNumerical(s1);
-    math=(s1.substr(0, 1)=="@") ? 1 : 0;
-    if(!variable and !numeric and !math) constant=1;
-    else constant=0;
+    variable=IsIn(s1, variables);
+    constant=constants.find(s1)!=constants.end();
+    math=(s1.substr(0, 1)=="@")?1:0;
+
+    if(!variable and !constant and !math) numeric=1;
   }
 };
 

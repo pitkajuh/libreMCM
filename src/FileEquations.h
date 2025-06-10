@@ -12,6 +12,26 @@ public:
   string str2;
 };
 
+struct MathOperators
+{
+public:
+  MathOperator *add=new Add;
+  MathOperator *subtract=new Sub;
+  MathOperator *multiply=new Mul;
+  MathOperator *divide=new Div;
+  MathOperator *power=new Exp;
+
+  MathOperators(){}
+  ~MathOperators()
+  {
+    delete add;
+    delete subtract;
+    delete multiply;
+    delete divide;
+    delete power;
+  }
+};
+
 class FileEquations: public File
 {
 protected:
@@ -32,16 +52,15 @@ protected:
   void GetOrder(vector<string> &equation, uint8_t id, const vector<string> &data, GraphEquation *&graph);
   void Convert(const map<uint16_t, string> &map);
   streampos SA(ifstream &file, streampos from, const string &line);
-  string print_vector3(const vector<string> &vec);
   uint8_t GetRight(const string &eq);
-  vector<string> ToVector(string eq);
+  vector<TestStr> ToVector(string eq);
 public:
   map<uint16_t, double> constants;
   map<uint16_t, string> equations;
   map<string, uint16_t> equationNames;
   map<string, uint16_t> constantNames;
 
-  map<uint16_t, GraphEquation*> ParseEquations(const vector<string> &data);
+  map<uint16_t, GraphEquation*> ParseEquations(const vector<string> &data, const MathOperators &operators);
 
   FileEquations(const string &fileName);
 

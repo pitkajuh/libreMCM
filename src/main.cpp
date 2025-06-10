@@ -59,7 +59,9 @@ void ReadInitialData(const string &directory)
   double *results=nullptr;
   test1.InitResults(results);
 
-  map<uint16_t, GraphEquation*> eqs=test3.ParseEquations(test1.vertexNames);
+  const MathOperators operators;
+
+  map<uint16_t, GraphEquation*> eqs=test3.ParseEquations(test1.vertexNames, operators);
 
   for(auto &[name, equation]: eqs)
     {

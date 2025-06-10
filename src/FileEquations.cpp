@@ -153,28 +153,28 @@ uint8_t FileEquations::test(vector<string> &equation, uint8_t id, const vector<s
 
 uint8_t FileEquations::FindOperator(vector<string> &equation, const string &find, uint8_t id, const vector<string> &data, GraphEquation *&graph)
 {
-  uint8_t i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
+  // uint8_t i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
 
-  while(i<equation.size())
-    {
-      const string s1=equation[i-1];
-      const string s2=equation[i+1];
-      const string o=equation[i];
-      const Bools b1(s1, data);
-      const Bools b2(s2, data);
+  // while(i<equation.size())
+  //   {
+  //     const string s1=equation[i-1];
+  //     const string s2=equation[i+1];
+  //     const string o=equation[i];
+  //     const Bools b1(s1, data);
+  //     const Bools b2(s2, data);
 
-      graph->CreateEdge(s1, s2, o, b1, b2, id);
+  //     graph->CreateEdge(s1, s2, o, b1, b2, id);
 
-      // cout<<"Adding "<<"@"+to_string(id)<<"="<<s1<<o<<s2<<" "<<'\n';
+  //     // cout<<"Adding "<<"@"+to_string(id)<<"="<<s1<<o<<s2<<" "<<'\n';
 
-      equation[i]="@"+to_string(id);
-      equation.erase(equation.begin()+i+1);
-      equation.erase(equation.begin()+i-1);
+  //     equation[i]="@"+to_string(id);
+  //     equation.erase(equation.begin()+i+1);
+  //     equation.erase(equation.begin()+i-1);
 
-      // print_vector2(equation);
-      id++;
-      i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
-    }
+  //     // print_vector2(equation);
+  //     id++;
+  //     i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
+  //   }
   return id;
 }
 
@@ -195,8 +195,8 @@ void FileEquations::GetOrder(vector<string> &equation, uint8_t id, const vector<
 
   if(size==1)
     {
-      const Bools b(equation[0], data);
-      graph=new GraphEquationSingle(b, equation[0]);
+      // const Bools b(equation[0], data);
+      // graph=new GraphEquationSingle(b, equation[0]);
     }
   else if(size>2)
     {
@@ -207,7 +207,7 @@ void FileEquations::GetOrder(vector<string> &equation, uint8_t id, const vector<
   // else error, size 2 is not allowed
 }
 
-map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string> &data)
+map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string> &data, const MathOperators &operators)
 {
   // Set calculation order of an equation according to order of operations:
 
@@ -216,13 +216,24 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
   // 3. Multiplication and division
   // 4. Addition and subtraction
 
-  // uint8_t id=0;
-  // GraphEquation *graphEquation=nullptr;
+  GraphEquation *graphEquation=nullptr;
   map<uint16_t, GraphEquation*> equations1;
 
   for(const auto& [name, v]: equations)
     {
-      vector<string> equation=ToVector(v);
+      const vector<TestStr> equation=ToVector(v);
+
+      for(const TestStr &eq: equation)
+	{
+	  const string s1=eq.str1;
+	  const string s2=eq.str2;
+	  const string o=eq.op;
+	  const Bools b1(s1, data, constantNames);
+	  const Bools b2(s2, data, constantNames);
+
+	  // graphEquation->CreateEdge(s1, s2, o, b1, b2, id);
+	}
+
       // RemoveOpenClose(equation);
       // cout<<"EQUATION"<<'\n';
       // print_vector2(equation);
@@ -266,24 +277,6 @@ streampos FileEquations::SA(ifstream &file, streampos from, const string &line)
     }
   from=result.first;
   return from;
-}
-
-string FileEquations::print_vector3(const vector<string> &vec)
-{
-  uint8_t i=0;
-  string empty="";
-  const uint8_t size=vec.size();
-
-  while(i<size)
-    {
-      // cout<<vec[i]<<'\n';
-      if(i==0) empty=vec[i];
-      // else empty=empty+";"+vec[i];
-      else empty=empty+vec[i];
-      i++;
-    }
-  // cout<<empty<<'\n';
-  return empty;
 }
 
 uint8_t FileEquations::GetRight(const string &eq)
@@ -368,7 +361,7 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
   cout<<"-------------------------------------"<<'\n';
 }
 
-vector<string> FileEquations::ToVector(string eq)
+vector<TestStr> FileEquations::ToVector(string eq)
 {
   vector<string> equation;
   vector<TestStr> a;
@@ -381,7 +374,6 @@ vector<string> FileEquations::ToVector(string eq)
 
   if(a.size()==0)
     {
-      cout<<"is zero"<<'\n';
       a.reserve(1);
       const TestStr mo{eq, "+", "0"};
       a.emplace_back(mo);
@@ -395,7 +387,7 @@ vector<string> FileEquations::ToVector(string eq)
       cout<<"@"<<j<<" "<<i.str1<<i.op<<i.str2<<'\n';
       j++;
     }
-  return equation;
+  return a;
 }
 
 FileEquations::FileEquations(const string &fileName)

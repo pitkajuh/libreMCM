@@ -1,13 +1,3 @@
-/*--------------------------------*- C++ -*----------------------------------*\
-|                               +===========+                                |
-|                               | l         |                                |
-|                               |   i       | M ulti                         |
-|                               |     b     | C ompartment                   |
-|                               |       r   | M odelling                     |
-|                               |         e |                                |
-|                               +===========+                                |
-\*---------------------------------------------------------------------------*/
-
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
@@ -16,23 +6,6 @@
 
 using namespace libremcm;
 using std::vector;
-
-const bool IsNumerical(const string &s)
-{
-  // Checks whether the string s in a number. Returns true, if string is a valid number.
-  bool r=true;
-
-  try
-    {
-      const double d=std::stod(s);
-      (void) d;
-    }
-  catch(const std::invalid_argument &i)
-    {
-      r=false;
-    }
-  return r;
-}
 
 const bool IsIn(const string &s, const SMap &f)
 {
