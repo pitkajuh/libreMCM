@@ -260,7 +260,6 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       cout<<"b1.numeric and b2.numeric "<<s1<<" "<<s2<<'\n';
       VertexNew v1;
-      v1.mathOperator=operators.GetOperator(mathOperator);
       v1.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), stod(s2)));
       cout<<*v1.result<<'\n';
       vv.emplace_back(v1);
@@ -271,7 +270,6 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       VertexNew v0=vv[stoi(s1.substr(1, s1.size()-1))];
       VertexNew v1=vv[stoi(s2.substr(1, s2.size()-1))];
       VertexNew v;
-      v.mathOperator=operators.GetOperator(mathOperator);
 
       if(v0.result!=nullptr and v1.result!=nullptr)
 	{
@@ -279,6 +277,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	}
       else
 	{
+	  v.mathOperator=operators.GetOperator(mathOperator);
 	  v.value1=v0.result;
 	  v.value2=v1.result;
 	}
@@ -299,7 +298,6 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       cout<<"b1.numeric and b2.math "<<vv.size()<<" "<<stoi(s2.substr(1, s2.size()-1))<<'\n';
       VertexNew v0;
       VertexNew v1=vv[stoi(s2.substr(1, s2.size()-1))];
-      v0.mathOperator=operators.GetOperator(mathOperator);
 
       if(v1.result!=nullptr)
 	{
@@ -307,7 +305,11 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), *v1.result));
 	  cout<<"result "<<*v0.result<<'\n';
 	}
-      else v0.result=v1.result;
+      else
+	{
+	  v0.mathOperator=operators.GetOperator(mathOperator);
+	  v0.result=v1.result;
+	}
       vv.emplace_back(v0);
     }
   else if(b2.math and b1.constant)
@@ -337,7 +339,6 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       VertexNew v0;
       VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
       cout<<stoi(s1.substr(1, s1.size()-1))<<" "<<vv.size()<<'\n';
-      v0.mathOperator=operators.GetOperator(mathOperator);
 
       if(v1.result!=nullptr)
 	{
@@ -347,7 +348,11 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.result=new double(d);
 	  cout<<"result "<<*v0.result<<'\n';
 	}
-      else v0.result=v1.result;
+      else
+	{
+	  v0.mathOperator=operators.GetOperator(mathOperator);
+	  v0.result=v1.result;
+	}
 
       vv.emplace_back(v0);
     }
