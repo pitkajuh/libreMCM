@@ -26,6 +26,14 @@ public:
   double *value1=nullptr;
   double *value2=nullptr;
   double *result=nullptr;
+
+  VertexNew(){}
+  // ~VertexNew()
+  // {
+  //   delete value1;
+  //   delete value2;
+  //   delete result;
+  // }
 };
 
 class VertexValue: public Vertex

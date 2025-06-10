@@ -239,7 +239,12 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.constant and b2.numeric)
     {
       cout<<"b1.constant and b2.numeric"<<'\n';
-      // CreateVertexNumeric<VertexConstant, VertexVerticesNumeric2>(s2, s1, mathOperator, id, constants, vmap);
+      VertexNew v0;
+
+      v0.value1=new double(constants[constantNames[s1]]);
+      v0.value2=new double(stod(s2));
+      // Calculate?
+      vv.emplace_back(v0);
     }
   else if(b1.numeric and b2.variable)
     {
@@ -253,25 +258,12 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     }
   else if(b1.numeric and b2.numeric)
     {
-      // Result can be calculated in advance, so the equation template can
-      // be simplified and performance of the calculation increased.
       cout<<"b1.numeric and b2.numeric "<<s1<<" "<<s2<<'\n';
       VertexNew v1;
       double d=operators.GetOperator(mathOperator)->Calculate(stod(s1), stod(s2));
-      v1.result=&d;
+      v1.result=new double(d);
+      cout<<*v1.result<<'\n';
       vv.emplace_back(v1);
-      // VertexValue *vertex1=new VertexNumeric(s1);
-      // VertexValue *vertex2=new VertexNumeric(s2);
-      // VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
-      // v->Calculate();
-      // VertexValue *calculated=new VertexNumeric(v->GetValue());
-
-      // // vmap["@"+std::to_string(id)]=calculated;
-      // vmap.emplace_back(calculated);
-      // delete vertex1;
-      // delete vertex2;
-      // delete v;
-      // // cout<<calculated<<'\n';
     }
   else if(b1.math and b2.math)
     {
@@ -293,20 +285,12 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.numeric and b2.math)
     {
       cout<<"b1.numeric and b2.math and vmap[s2]->GetValue()!=NAN"<<'\n';
-      // Result can be calculated in advance, so the equation template can
-      // be simplified and performance of the calculation increased.
-      // CreateMath(s2, s1, mathOperator, id);
       VertexNew v0;
-      // double d=stod(s1);
-      // v0.value1=&d;
-
       VertexNew v1=vv[stoi(s2.substr(1, s2.size()-1))];
-
-      // v0.value2=v1.result;
-
-
       double d=operators.GetOperator(mathOperator)->Calculate(stod(s1), *v1.result);
-      v0.result=&d;
+      v0.result=new double(d);
+      cout<<"result "<<*v0.result<<'\n';
+      vv.emplace_back(v0);
     }
   else if(b2.math and b1.constant)
     {
@@ -328,10 +312,25 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     }
   else if(b2.numeric and b1.math)
     {
-      cout<<"b2.numeric and b1.math and vmap[s1]->GetValue()!=NAN"<<" "<<s1<<" "<<s2<<'\n';
+      cout<<"b2.numeric and b1.math"<<" "<<s1<<" "<<s2<<'\n';
       // Result can be calculated in advance, so the equation template can
       // be simplified and performance of the calculation increased.
-      // CreateMath(s1, s2, mathOperator, id);
+
+      VertexNew v0;
+      VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
+      cout<<stoi(s1.substr(1, s1.size()-1))<<" "<<vv.size()<<'\n';
+
+      if(v1.result!=nullptr)
+	{
+	  cout<<"v1.result!=nullptr"<<'\n';
+	  cout<<*v1.result<<'\n';
+	  double d=operators.GetOperator(mathOperator)->Calculate(*v1.result, stod(s2));
+	  v0.result=new double(d);
+	  cout<<"result "<<*v0.result<<'\n';
+	}
+      else v0.result=v1.result;
+
+      vv.emplace_back(v0);
     }
   else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
     {
@@ -370,7 +369,8 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
 
 	  CreateVertex(s1, s2, o, b1, b2, operators, vv);
 	}
-      // vv.clear();
+      vertices.emplace_back(vv);
+      vv.clear();
       // RemoveOpenClose(equation);
       // cout<<"EQUATION"<<'\n';
       // print_vector2(equation);
@@ -383,6 +383,17 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
 
       cout<<" "<<'\n';
     }
+
+  for(const auto &i: vertices)
+    {
+      for(const auto &j: i)
+	{
+	  delete j.value1;
+	  delete j.value2;
+	  delete j.result;
+	}
+    }
+
   equations.clear();
   return equations1;
 }
