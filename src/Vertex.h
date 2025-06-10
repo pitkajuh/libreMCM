@@ -16,13 +16,13 @@ public:
   virtual void Calculate()=0;
 };
 
-class VertexNew: public Vertex
+class VertexNew
 {
-private:
+public:
   bool value1Negative=0;
   bool value2Negative=0;
   MathOperator *mathOperator=nullptr;
-public:
+
   double *value1=nullptr;
   double *value2=nullptr;
   double *result=nullptr;

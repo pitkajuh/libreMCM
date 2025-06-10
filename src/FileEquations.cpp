@@ -207,7 +207,143 @@ void FileEquations::GetOrder(vector<string> &equation, uint8_t id, const vector<
   // else error, size 2 is not allowed
 }
 
-map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string> &data, const MathOperators &operators)
+void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv)
+{
+  cout<<"Create "<<s1<<mathOperator<<s2<<'\n';
+
+    if(b1.variable and b2.variable)
+    {
+      cout<<"b1.variable and b2.variable"<<'\n';
+      // CreateVertex<VertexVariable, VertexVariable>(s1, s2, mathOperator, id, vmap, variables, variables);
+    }
+  else if(b1.variable and b2.constant)
+    {
+      cout<<"if(b1.variable and b2"<<'\n';
+      // CreateVertex<VertexVariable, VertexConstant>(s1, s2, mathOperator, id, vmap, variables, constants);
+    }
+  else if(b1.variable and b2.numeric)
+    {
+      cout<<"if(b1.variable and b2"<<'\n';
+      // CreateVertexNumeric<VertexVariable, VertexVerticesNumeric2>(s2, s1, mathOperator, id, variables, vmap);
+    }
+  else if(b1.constant and b2.variable)
+    {
+      cout<<"b1.constant and b2.variable"<<'\n';
+      // CreateVertex<VertexConstant, VertexVariable>(s1, s2, mathOperator, id, vmap, constants, variables);
+    }
+  else if(b1.constant and b2.constant)
+    {
+      cout<<"b1.constant and b2.constant"<<'\n';
+      // CreateVertex<VertexConstant, VertexConstant>(s1, s2, mathOperator, id, vmap, constants, constants);
+    }
+  else if(b1.constant and b2.numeric)
+    {
+      cout<<"b1.constant and b2.numeric"<<'\n';
+      // CreateVertexNumeric<VertexConstant, VertexVerticesNumeric2>(s2, s1, mathOperator, id, constants, vmap);
+    }
+  else if(b1.numeric and b2.variable)
+    {
+      cout<<"b1.numeric and b2.variable"<<'\n';
+      // CreateVertexNumeric<VertexVariable, VertexVerticesNumeric1>(s1, s2, mathOperator, id, variables, vmap);
+    }
+  else if(b1.numeric and b2.constant)
+    {
+      cout<<"b1.numeric and b2.constant"<<'\n';
+      // CreateVertexNumeric<VertexConstant, VertexVerticesNumeric1>(s1, s2, mathOperator, id, constants, vmap);
+    }
+  else if(b1.numeric and b2.numeric)
+    {
+      // Result can be calculated in advance, so the equation template can
+      // be simplified and performance of the calculation increased.
+      cout<<"b1.numeric and b2.numeric "<<s1<<" "<<s2<<'\n';
+      VertexNew v1;
+      double d=operators.GetOperator(mathOperator)->Calculate(stod(s1), stod(s2));
+      v1.result=&d;
+      vv.emplace_back(v1);
+      // VertexValue *vertex1=new VertexNumeric(s1);
+      // VertexValue *vertex2=new VertexNumeric(s2);
+      // VertexVertices *v=new VertexVertices(vertex1, vertex2, mathOperator);
+      // v->Calculate();
+      // VertexValue *calculated=new VertexNumeric(v->GetValue());
+
+      // // vmap["@"+std::to_string(id)]=calculated;
+      // vmap.emplace_back(calculated);
+      // delete vertex1;
+      // delete vertex2;
+      // delete v;
+      // // cout<<calculated<<'\n';
+    }
+  else if(b1.math and b2.math)
+    {
+      cout<<"b1.math and b2.math "<<'\n';
+      // VertexVertices *v1=new VertexVertices(vmap[stoi(s1.substr(1, s1.size()-1))], vmap[stoi(s2.substr(1, s1.size()-1))], mathOperator);
+      // vmap["@"+std::to_string(id)]=v1;
+      // vmap.emplace_back(v1);
+    }
+  else if(b1.math and b2.constant)
+    {
+      cout<<"b1.math and b2.constant"<<'\n';
+      // AddMath<VertexConstant, vector<Vertex*>, map<string, Vertex*>, string, Vertex*>(s2, mathOperator, id, vmap, constants, !IsInMap(s2, constants), s2, vmap[stoi(s1.substr(1, s1.size()-1))]);
+    }
+  else if(b1.math and b2.variable)
+    {
+      cout<<"b1.math and b2.variable"<<'\n';
+      // AddMath<VertexVariable, vector<Vertex*>, map<string, Vertex*>, string, Vertex*>(s2, mathOperator, id, vmap, variables, !IsInMap(s2, variables), s2, vmap[stoi(s1.substr(1, s1.size()-1))]);
+    }
+  else if(b1.numeric and b2.math)
+    {
+      cout<<"b1.numeric and b2.math and vmap[s2]->GetValue()!=NAN"<<'\n';
+      // Result can be calculated in advance, so the equation template can
+      // be simplified and performance of the calculation increased.
+      // CreateMath(s2, s1, mathOperator, id);
+      VertexNew v0;
+      // double d=stod(s1);
+      // v0.value1=&d;
+
+      VertexNew v1=vv[stoi(s2.substr(1, s2.size()-1))];
+
+      // v0.value2=v1.result;
+
+
+      double d=operators.GetOperator(mathOperator)->Calculate(stod(s1), *v1.result);
+      v0.result=&d;
+    }
+  else if(b2.math and b1.constant)
+    {
+      cout<<"b2.math and b1.constant "<<s1<<" "<<s2<<" "<<s2.substr(1, s2.size()-1)<<'\n';
+
+      // const int8_t id1=stoi(s2.substr(1, s2.size()-1));
+      // const int8_t id2=constants.size();
+
+      // AddMath2<VertexConstant, map<string, Vertex*>, vector<Vertex*>, int8_t, Vertex*>(s2, mathOperator, id, constants, vmap, id2<id1, id1, constants[s1]);
+    }
+  else if(b2.math and b1.variable)
+    {
+      cout<<"b2.math and b1.variable"<<'\n';
+
+      // const int8_t id1=stoi(s2.substr(1, s2.size()-1));
+      // const int8_t id2=vmap.size();
+
+      // AddMath2<VertexConstant, map<string, Vertex*>, vector<Vertex*>, uint8_t, Vertex*>(s2, mathOperator, id, variables, vmap, id2<id1, id1, variables[s1]);
+    }
+  else if(b2.numeric and b1.math)
+    {
+      cout<<"b2.numeric and b1.math and vmap[s1]->GetValue()!=NAN"<<" "<<s1<<" "<<s2<<'\n';
+      // Result can be calculated in advance, so the equation template can
+      // be simplified and performance of the calculation increased.
+      // CreateMath(s1, s2, mathOperator, id);
+    }
+  else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
+    {
+      throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable or numeric value.");
+    }
+  else
+    {
+      throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable or numeric value.");
+    }
+}
+
+map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string> &data, MathOperators &operators)
 {
   // Set calculation order of an equation according to order of operations:
 
@@ -222,6 +358,7 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
   for(const auto& [name, v]: equations)
     {
       const vector<TestStr> equation=ToVector(v);
+      vector<VertexNew> vv;
 
       for(const TestStr &eq: equation)
 	{
@@ -231,9 +368,9 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
 	  const Bools b1(s1, data, constantNames);
 	  const Bools b2(s2, data, constantNames);
 
-	  // graphEquation->CreateEdge(s1, s2, o, b1, b2, id);
+	  CreateVertex(s1, s2, o, b1, b2, operators, vv);
 	}
-
+      // vv.clear();
       // RemoveOpenClose(equation);
       // cout<<"EQUATION"<<'\n';
       // print_vector2(equation);

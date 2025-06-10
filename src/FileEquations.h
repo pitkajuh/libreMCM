@@ -21,6 +21,16 @@ public:
   MathOperator *divide=new Div;
   MathOperator *power=new Exp;
 
+  MathOperator *GetOperator(const string &o)
+  {
+    if(o=="+") return add;
+    else if(o=="-") return subtract;
+    else if(o=="*") return multiply;
+    else if(o=="/") return divide;
+    else return power;
+
+  }
+
   MathOperators(){}
   ~MathOperators()
   {
@@ -35,6 +45,7 @@ public:
 class FileEquations: public File
 {
 protected:
+  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv);
   void print_vector2(const vector<string> &vec);
   vector<string> GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph);
   uint8_t GetOpen(const string &str, const uint8_t close);
@@ -59,8 +70,9 @@ public:
   map<uint16_t, string> equations;
   map<string, uint16_t> equationNames;
   map<string, uint16_t> constantNames;
+  vector<vector<VertexNew>> vertices;
 
-  map<uint16_t, GraphEquation*> ParseEquations(const vector<string> &data, const MathOperators &operators);
+  map<uint16_t, GraphEquation*> ParseEquations(const vector<string> &data, MathOperators &operators);
 
   FileEquations(const string &fileName);
 
