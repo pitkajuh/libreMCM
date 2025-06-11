@@ -210,26 +210,22 @@ void FileEquations::GetOrder(vector<string> &equation, uint8_t id, const vector<
 void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv)
 {
   cout<<"Create "<<s1<<mathOperator<<s2<<'\n';
+  VertexNew v0;
 
   if(b1.variable and b2.variable)
     {
       cout<<"b1.variable and b2.variable"<<'\n';
-      VertexNew v0;
       v0.mathOperator=operators.GetOperator(mathOperator);
-      vv.emplace_back(v0);
     }
   else if(b1.variable and b2.constant)
     {
       cout<<"if(b1.variable and b2 constant"<<'\n';
-      VertexNew v0;
       v0.value2=new double(constants[constantNames[s2]]);
       v0.mathOperator=operators.GetOperator(mathOperator);
-      vv.emplace_back(v0);
     }
   else if(b1.variable and b2.numeric)
     {
       cout<<"if(b1.variable and b2 numeric"<<'\n';
-      VertexNew v0;
       v0.value2=new double(stod(s2));
       v0.mathOperator=operators.GetOperator(mathOperator);
       vv.emplace_back(v0);
@@ -237,97 +233,77 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.constant and b2.variable)
     {
       cout<<"b1.constant and b2.variable"<<'\n';
-      VertexNew v0;
       v0.value1=new double(constants[constantNames[s1]]);
       v0.mathOperator=operators.GetOperator(mathOperator);
-      vv.emplace_back(v0);
     }
   else if(b1.constant and b2.constant)
     {
       cout<<"b1.constant and b2.constant"<<'\n';
-      VertexNew v0;
       v0.value1=new double(constants[constantNames[s1]]);
       v0.value2=new double(constants[constantNames[s2]]);
       v0.mathOperator=operators.GetOperator(mathOperator);
-      vv.emplace_back(v0);
     }
   else if(b1.constant and b2.numeric)
     {
       cout<<"b1.constant and b2.numeric"<<'\n';
-      VertexNew v0;
       v0.value1=new double(constants[constantNames[s1]]);
       v0.value2=new double(stod(s2));
       v0.mathOperator=operators.GetOperator(mathOperator);
       // Calculate?
-      vv.emplace_back(v0);
     }
   else if(b1.numeric and b2.variable)
     {
       cout<<"b1.numeric and b2.variable"<<'\n';
-      VertexNew v0;
       v0.value1=new double(stod(s1));
       v0.mathOperator=operators.GetOperator(mathOperator);
-      vv.emplace_back(v0);
     }
   else if(b1.numeric and b2.constant)
     {
       cout<<"b1.numeric and b2.constant"<<'\n';
-      VertexNew v0;
       v0.value1=new double(stod(s1));
       v0.value2=new double(constants[constantNames[s2]]);
       v0.mathOperator=operators.GetOperator(mathOperator);
-      vv.emplace_back(v0);
     }
   else if(b1.numeric and b2.numeric)
     {
       cout<<"b1.numeric and b2.numeric "<<s1<<" "<<s2<<'\n';
-      VertexNew v1;
-      v1.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), stod(s2)));
-      cout<<*v1.result<<'\n';
-      vv.emplace_back(v1);
+      v0.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), stod(s2)));
     }
   else if(b1.math and b2.math)
     {
       cout<<"b1.math and b2.math "<<'\n';
-      const VertexNew v0=vv[stoi(s1.substr(1, s1.size()-1))];
-      const VertexNew v1=vv[stoi(s2.substr(1, s2.size()-1))];
-      VertexNew v;
+      const VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
+      const VertexNew v2=vv[stoi(s2.substr(1, s2.size()-1))];
 
-      if(v0.result!=nullptr and v1.result!=nullptr)
+      if(v1.result!=nullptr and v2.result!=nullptr)
 	{
-	  v.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.result, *v1.result));
+	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v1.result, *v2.result));
 	}
       else
 	{
-	  v.mathOperator=operators.GetOperator(mathOperator);
-	  v.value1=v0.result;
-	  v.value2=v1.result;
+	  v0.mathOperator=operators.GetOperator(mathOperator);
+	  v0.value1=v1.result;
+	  v0.value2=v2.result;
 	}
-      vv.emplace_back(v);
     }
   else if(b1.math and b2.constant)
     {
       cout<<"b1.math and b2.constant"<<'\n';
-      VertexNew v0;
       v0.mathOperator=operators.GetOperator(mathOperator);
       v0.value2=new double(constants[constantNames[s2]]);
       const VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
       v0.value1=v1.result;
-      vv.emplace_back(v0);
     }
   else if(b1.math and b2.variable)
     {
       cout<<"b1.math and b2.variable"<<'\n';
-      VertexNew v0;
       v0.mathOperator=operators.GetOperator(mathOperator);
       const VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
       v0.value1=v1.result;
-      vv.emplace_back(v0);
     }
   else if(b1.numeric and b2.math)
     {
       cout<<"b1.numeric and b2.math "<<vv.size()<<" "<<stoi(s2.substr(1, s2.size()-1))<<'\n';
-      VertexNew v0;
       v0.value1=new double(stod(s1));
       const VertexNew v2=vv[stoi(s2.substr(1, s2.size()-1))];
       v0.mathOperator=operators.GetOperator(mathOperator);
@@ -342,12 +318,10 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	{
 	  v0.value2=v2.result;
 	}
-      vv.emplace_back(v0);
     }
   else if(b2.math and b1.constant)
     {
       cout<<"b2.math and b1.constant "<<s1<<" "<<s2<<" "<<s2.substr(1, s2.size()-1)<<'\n';
-      VertexNew v0;
       v0.mathOperator=operators.GetOperator(mathOperator);
       v0.value1=new double(constants[constantNames[s1]]);
       const VertexNew v2=vv[stoi(s2.substr(1, s2.size()-1))];
@@ -362,14 +336,11 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	{
 	  v0.value2=v2.result;
 	}
-      vv.emplace_back(v0);
     }
   else if(b2.math and b1.variable)
     {
       cout<<"b2.math and b1.variable"<<'\n';
-      VertexNew v0;
       v0.mathOperator=operators.GetOperator(mathOperator);
-
       const VertexNew v2=vv[stoi(s2.substr(1, s2.size()-1))];
 
       if(v2.result!=nullptr)
@@ -382,13 +353,10 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	{
 	  v0.value2=v2.result;
 	}
-      vv.emplace_back(v0);
     }
   else if(b2.numeric and b1.math)
     {
       cout<<"b2.numeric and b1.math"<<" "<<s1<<" "<<s2<<'\n';
-
-      VertexNew v0;
       v0.mathOperator=operators.GetOperator(mathOperator);
       const VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
       cout<<stoi(s1.substr(1, s1.size()-1))<<" "<<vv.size()<<'\n';
@@ -404,7 +372,6 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	{
 	  v0.result=v1.result;
 	}
-      vv.emplace_back(v0);
     }
   else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
     {
@@ -414,6 +381,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable or numeric value.");
     }
+  vv.emplace_back(v0);
 }
 
 map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string> &data, MathOperators &operators)
@@ -465,13 +433,10 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
 	{
 	  cout<<"Delete value1 "<<j.value1<<'\n';
 	  delete j.value1;
-	  j.value1=nullptr;
 	  cout<<"Delete value2 "<<j.value2<<'\n';
 	  delete j.value2;
-	  j.value2=nullptr;
 	  cout<<"Delete result "<<j.result<<'\n';
 	  delete j.result;
-	  j.result=nullptr;
 	}
     }
 
