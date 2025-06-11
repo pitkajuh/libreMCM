@@ -363,10 +363,6 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value2=v2.result;
 	}
       vv.emplace_back(v0);
-      // const int8_t id1=stoi(s2.substr(1, s2.size()-1));
-      // const int8_t id2=constants.size();
-
-
     }
   else if(b2.math and b1.variable)
     {
@@ -447,6 +443,7 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
 
 	  CreateVertex(s1, s2, o, b1, b2, operators, vv);
 	}
+      cout<<"ok"<<'\n';
       vertices.emplace_back(vv);
       vv.clear();
       // RemoveOpenClose(equation);
@@ -462,13 +459,19 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
       cout<<" "<<'\n';
     }
 
-  for(const auto &i: vertices)
+  for(auto &i: vertices)
     {
-      for(const auto &j: i)
+      for(auto &j: i)
 	{
+	  cout<<"Delete value1 "<<j.value1<<'\n';
 	  delete j.value1;
+	  j.value1=nullptr;
+	  cout<<"Delete value2 "<<j.value2<<'\n';
 	  delete j.value2;
+	  j.value2=nullptr;
+	  cout<<"Delete result "<<j.result<<'\n';
 	  delete j.result;
+	  j.result=nullptr;
 	}
     }
 
