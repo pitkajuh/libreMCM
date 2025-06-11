@@ -359,7 +359,6 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       cout<<"b2.numeric and b1.math"<<" "<<s1<<" "<<s2<<'\n';
       v0.mathOperator=operators.GetOperator(mathOperator);
       const VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
-      cout<<stoi(s1.substr(1, s1.size()-1))<<" "<<vv.size()<<'\n';
 
       if(v1.result!=nullptr)
 	{
@@ -429,15 +428,22 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
 
   for(auto &i: vertices)
     {
+      vector<double*> aoea(i.size());
+
       for(auto &j: i)
 	{
-	  cout<<"Delete value1 "<<j.value1<<'\n';
-	  delete j.value1;
-	  cout<<"Delete value2 "<<j.value2<<'\n';
-	  delete j.value2;
-	  cout<<"Delete result "<<j.result<<'\n';
-	  delete j.result;
+	  if(std::find(aoea.begin(), aoea.end(), j.value1)==aoea.end()) aoea.emplace_back(j.value1);
+	  if(std::find(aoea.begin(), aoea.end(), j.value2)==aoea.end()) aoea.emplace_back(j.value2);
+	  if(std::find(aoea.begin(), aoea.end(), j.result)==aoea.end()) aoea.emplace_back(j.result);
+
+	  // delete j.result;
 	}
+      for(auto k: aoea)
+	{
+	  cout<<k<<'\n';
+	  delete k;
+	}
+      aoea.clear();
     }
 
   equations.clear();
