@@ -61,28 +61,9 @@ void ReadInitialData(const string &directory)
 
   MathOperators operators;
 
-  map<uint16_t, GraphEquation*> eqs=test3.ParseEquations(test1.vertexNames, operators);
+  test3.ParseEquations(test1.vertexNames, operators);
 
-  for(auto &[name, equation]: eqs)
-    {
-      // cout<<name<<" "<<equation<<'\n';
-      delete equation;
-    }
-
-  // double *test=new double;
-  // ptrdiff_t test;
-  // test=&results[0]-&results[1];
-  // cout<<test<<" "<<" "<<" "<<results[0]<<" "<<results[1]<<'\n';
-  // fr
-  // cout<<test<<" "<<*test<<'\n';
-  // // cout<<test<<" "<<results[0]<<" "<<&results[0]<<" "<<&test<<" "<<*test<<" "<<test-1<<'\n';
-
-  // test+=1;
-  // cout<<test<<" "<<*test<<'\n';
-  // delete test;
-
-  delete [] results;
-  // delete test;
+    delete [] results;
 }
 
 int main(int argc, char** argv)

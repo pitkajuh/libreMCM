@@ -23,23 +23,6 @@ void FileEquations::print_vector2(const vector<string> &vec)
   cout<<empty<<'\n';
 }
 
-vector<string> FileEquations::GetParenthesis(const vector<string> &equation, const uint8_t open, const uint8_t close, uint8_t &id, const vector<string> &data, GraphEquation *&graph)
-{
-  vector<string> v1{equation.begin()+open+1, equation.begin()+close};
-  id=ParseOperators(v1, id, data, v1.size(), graph);
-  id=test(v1, id, data, graph);
-  const vector<string> v2{equation.begin(), equation.begin()+open};
-  const vector<string> v3{equation.begin()+close+1, equation.end()};
-  vector<string> result;
-  result.reserve(v1.size()+v2.size()+v3.size());
-
-  result.insert(result.begin(), v2.begin(), v2.end());
-  result.insert(result.end(), v1.begin(), v1.end());
-  result.insert(result.end(), v3.begin(), v3.end());
-  // print_vector2(result);
-  return result;
-}
-
 uint8_t FileEquations::GetOpen(const string &str, const uint8_t close)
 {
   // Find the index of the innermost open parenthesis (.
@@ -87,124 +70,6 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
       close=equation.find(CLOSE);
     }
   cout<<"+++++++++++"<<'\n';
-}
-
-void FileEquations::Remove(string &equation, const uint8_t open, const uint8_t close)
-{
-  // if(equation[open+1]=='(' and equation[close+1]==')')
-  //   {
-  //     equation.erase(equation.begin()+open);
-  //     equation.erase(equation.begin()+close-1);
-  //     RemoveOpenClose(equation);
-  //   }
-}
-
-void FileEquations::RemoveOpenClose(vector<string> &equation)
-{
-  // Removes unnecessary parenthesis from equations such as ((1+(a+b)))
-  const uint8_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
-  const uint8_t close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
-  if(open!=equation.size() and close!=equation.size()) Remove(equation, open, close);
-}
-
-void FileEquations::Remove(vector<string> &equation, const uint8_t open, const uint8_t close)
-{
-  if(equation[open+1]==OPEN and equation[close+1]==CLOSE)
-    {
-      equation.erase(equation.begin()+open);
-      equation.erase(equation.begin()+close-1);
-      RemoveOpenClose(equation);
-    }
-}
-
-uint8_t FileEquations::test2(vector<string> &equation, uint8_t open, uint8_t close, uint8_t id, const vector<string> &data, GraphEquation *&graph)
-{
-  vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
-  uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
-
-  while(op<tmp.size())
-    {
-      open=distance(equation.begin()+open+1, find(equation.begin()+open+1, equation.end(), OPEN))+open+1;
-      equation=GetParenthesis(equation, open, close, id, data, graph);
-      open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
-      close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
-      tmp={equation.begin()+open+1, equation.begin()+close};
-      op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
-    }
-  return id;
-}
-
-uint8_t FileEquations::test(vector<string> &equation, uint8_t id, const vector<string> &data, GraphEquation *&graph)
-{
-  uint8_t open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
-
-  while(open<equation.size())
-    {
-      const uint8_t close=distance(equation.begin(), find(equation.begin(), equation.end(), CLOSE));
-      const vector<string> tmp={equation.begin()+open+1, equation.begin()+close};
-
-      const uint8_t op=distance(tmp.begin(), find(tmp.begin(), tmp.end(), OPEN));
-      if(op==tmp.size()) equation=GetParenthesis(equation, open, close, id, data, graph);
-      else id=test2(equation, open, close, id, data, graph);
-      open=distance(equation.begin(), find(equation.begin(), equation.end(), OPEN));
-    }
-  return id;
-}
-
-uint8_t FileEquations::FindOperator(vector<string> &equation, const string &find, uint8_t id, const vector<string> &data, GraphEquation *&graph)
-{
-  // uint8_t i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
-
-  // while(i<equation.size())
-  //   {
-  //     const string s1=equation[i-1];
-  //     const string s2=equation[i+1];
-  //     const string o=equation[i];
-  //     const Bools b1(s1, data);
-  //     const Bools b2(s2, data);
-
-  //     graph->CreateEdge(s1, s2, o, b1, b2, id);
-
-  //     // cout<<"Adding "<<"@"+to_string(id)<<"="<<s1<<o<<s2<<" "<<'\n';
-
-  //     equation[i]="@"+to_string(id);
-  //     equation.erase(equation.begin()+i+1);
-  //     equation.erase(equation.begin()+i-1);
-
-  //     // print_vector2(equation);
-  //     id++;
-  //     i=distance(equation.begin(), std::find(equation.begin(), equation.end(), find));
-  //   }
-  return id;
-}
-
-uint8_t FileEquations::ParseOperators(vector<string> &equation, uint8_t id, const vector<string> &data, const uint8_t size, GraphEquation *&graph)
-{
-  const string OPERATORS[5]={"^", "/", "*", "+", "-"};
-
-  for(const auto &i: OPERATORS)
-    {
-      id=FindOperator(equation, i, id, data, graph);
-    }
-  return id;
-}
-
-void FileEquations::GetOrder(vector<string> &equation, uint8_t id, const vector<string> &data, GraphEquation *&graph)
-{
-  const uint8_t size=equation.size();
-
-  if(size==1)
-    {
-      // const Bools b(equation[0], data);
-      // graph=new GraphEquationSingle(b, equation[0]);
-    }
-  else if(size>2)
-    {
-      graph=new GraphEquation;
-      id=test(equation, id, data, graph);
-      id=ParseOperators(equation, id, data, size, graph);
-    }
-  // else error, size 2 is not allowed
 }
 
 void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv)
@@ -383,7 +248,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   vv.emplace_back(v0);
 }
 
-map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string> &data, MathOperators &operators)
+void FileEquations::ParseEquations(const vector<string> &data, MathOperators &operators)
 {
   // Set calculation order of an equation according to order of operations:
 
@@ -391,9 +256,6 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
   // 2. Exponents
   // 3. Multiplication and division
   // 4. Addition and subtraction
-
-  GraphEquation *graphEquation=nullptr;
-  map<uint16_t, GraphEquation*> equations1;
 
   for(const auto& [name, v]: equations)
     {
@@ -410,44 +272,29 @@ map<uint16_t, GraphEquation*> FileEquations::ParseEquations(const vector<string>
 
 	  CreateVertex(s1, s2, o, b1, b2, operators, vv);
 	}
-      cout<<"ok"<<'\n';
       vertices.emplace_back(vv);
       vv.clear();
-      // RemoveOpenClose(equation);
-      // cout<<"EQUATION"<<'\n';
-      // print_vector2(equation);
-      // GetOrder(equation, id, data, graphEquation);
-      // // print_vector2(equation);
-      // id=0;
-      // equations1[name]=graphEquation;
-      // graphEquation=nullptr;
-      // cout<<"ok"<<'\n';
-
       cout<<" "<<'\n';
     }
+  vector<double*> aoea;
 
   for(auto &i: vertices)
     {
-      vector<double*> aoea(i.size());
-
       for(auto &j: i)
 	{
 	  if(std::find(aoea.begin(), aoea.end(), j.value1)==aoea.end()) aoea.emplace_back(j.value1);
 	  if(std::find(aoea.begin(), aoea.end(), j.value2)==aoea.end()) aoea.emplace_back(j.value2);
 	  if(std::find(aoea.begin(), aoea.end(), j.result)==aoea.end()) aoea.emplace_back(j.result);
+	}
+    }
 
-	  // delete j.result;
-	}
-      for(auto k: aoea)
-	{
-	  cout<<k<<'\n';
-	  delete k;
-	}
-      aoea.clear();
+  for(auto k: aoea)
+    {
+      cout<<k<<'\n';
+      delete k;
     }
 
   equations.clear();
-  return equations1;
 }
 
 void FileEquations::Convert(const map<uint16_t, string> &map)
