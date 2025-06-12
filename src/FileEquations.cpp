@@ -284,6 +284,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       cout<<"b2.math and b1.variable"<<'\n';
       v0.mathOperator=operators.GetOperator(mathOperator);
       const VertexNew v2=vv[stoi(s2.substr(1, s2.size()-1))];
+      v0.value1Negative=b1.negative;
 
       if(v2.result!=nullptr)
 	{
