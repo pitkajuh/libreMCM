@@ -121,4 +121,13 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
       noOfInitialValue.emplace_back(value.size());
       nx+=value.size();
     }
+
+  uint16_t n=0;
+
+  for(const string &name: vertexNames)
+    {
+      vertexNamesMap[name]=n;
+      n++;
+    }
+  vertexNames.clear();
 }

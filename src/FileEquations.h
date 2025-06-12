@@ -44,7 +44,7 @@ public:
 class FileEquations: public File
 {
 protected:
-  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, const double *variableValue);
+  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, const double *variableValue, const vector<uint16_t> &noOfInitialValue);
   void print_vector2(const vector<string> &vec);
   void GetOrder(string &str, uint8_t &id, vector<TestStr> &a);
   void RemoveOpenClose(string &equation, uint8_t &id, vector<TestStr> &a);
@@ -61,7 +61,7 @@ public:
   map<string, uint16_t> constantNames;
   vector<vector<VertexNew>> vertices;
 
-  void ParseEquations(const vector<string> &data, MathOperators &operators, const double *variableValue);
+  void ParseEquations(const map<string, uint16_t> &data, MathOperators &operators, const double *variableValue, const vector<uint16_t> &noOfInitialValue);
 
   FileEquations(const string &fileName);
   FileEquations(){}

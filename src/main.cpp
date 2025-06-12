@@ -57,11 +57,10 @@ void ReadInitialData(const string &directory)
   test1.InitResults(results);
 
   MathOperators operators;
-  // double *variableValue=nullptr;
 
-  test3.ParseEquations(test1.vertexNames, operators, results);
-  // variableValue=new double[test1.N];
-  // delete [] variableValue;
+  cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
+  test3.ParseEquations(test1.vertexNamesMap, operators, results, test1.noOfInitialValue);
+
   delete [] results;
 }
 

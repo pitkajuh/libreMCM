@@ -26,6 +26,7 @@ public:
   uint16_t N=0;
   vector<uint16_t> noOfInitialValue;
   vector<string> vertexNames;
+  map<string, uint16_t> vertexNamesMap;
   vector<EdgeStruct> edges;
 
   void InitResults(double *&results);

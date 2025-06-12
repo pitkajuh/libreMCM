@@ -72,7 +72,7 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
   cout<<"+++++++++++"<<'\n';
 }
 
-void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, const double *variableValue)
+void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, const double *variableValue, const vector<uint16_t> &noOfInitialValue)
 {
   cout<<"Create "<<s1<<mathOperator<<s2<<'\n';
   VertexNew v0;
@@ -292,7 +292,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   vv.emplace_back(v0);
 }
 
-void FileEquations::ParseEquations(const vector<string> &data, MathOperators &operators, const double *variableValue)
+void FileEquations::ParseEquations(const map<string, uint16_t> &data, MathOperators &operators, const double *variableValue, const vector<uint16_t> &noOfInitialValue)
 {
   // Set calculation order of an equation according to order of operations:
 
@@ -314,7 +314,7 @@ void FileEquations::ParseEquations(const vector<string> &data, MathOperators &op
 	  const Bools b1(s1, data, constantNames);
 	  const Bools b2(s2, data, constantNames);
 
-	  CreateVertex(s1, s2, o, b1, b2, operators, vv, variableValue);
+	  CreateVertex(s1, s2, o, b1, b2, operators, vv, variableValue, noOfInitialValue);
 	}
       vertices.emplace_back(vv);
       vv.clear();
@@ -326,9 +326,9 @@ void FileEquations::ParseEquations(const vector<string> &data, MathOperators &op
     {
       for(auto &j: i)
 	{
-	  if(std::find(aoea.begin(), aoea.end(), j.value1)==aoea.end()) aoea.emplace_back(j.value1);
-	  if(std::find(aoea.begin(), aoea.end(), j.value2)==aoea.end()) aoea.emplace_back(j.value2);
-	  if(std::find(aoea.begin(), aoea.end(), j.result)==aoea.end()) aoea.emplace_back(j.result);
+	  if(find(aoea.begin(), aoea.end(), j.value1)==aoea.end()) aoea.emplace_back(j.value1);
+	  if(find(aoea.begin(), aoea.end(), j.value2)==aoea.end()) aoea.emplace_back(j.value2);
+	  if(find(aoea.begin(), aoea.end(), j.result)==aoea.end()) aoea.emplace_back(j.result);
 	}
     }
 
