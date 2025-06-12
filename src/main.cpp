@@ -1,13 +1,3 @@
-/*--------------------------------*- C++ -*----------------------------------*\
-|                               +===========+                                |
-|                               | l         |                                |
-|                               |   i       | M ulti                         |
-|                               |     b     | C ompartment                   |
-|                               |       r   | M odelling                     |
-|                               |         e |                                |
-|                               +===========+                                |
-\*---------------------------------------------------------------------------*/
-
 #include <iostream>
 #include <chrono>
 #include <getopt.h>
@@ -17,6 +7,7 @@
 #include "FileSettings.h"
 #include "FileGraph.h"
 #include "FileEquations.h"
+#include "NumericalMethod.h"
 
 #define GetCurrentDir getcwd
 
@@ -47,6 +38,7 @@ void ReadInitialData(const string &directory)
   const uint16_t timeStart=std::stoi(test2.set[test2.settingsNames["time_start"]]);
   const uint16_t timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
   const uint16_t stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
+
   // Get other parameters here before clearing.
   test2.set.clear();
 
@@ -59,8 +51,9 @@ void ReadInitialData(const string &directory)
   MathOperators operators;
 
   cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
+  NumericalMethod *numMethod=new RungeKutta4;
   test3.ParseEquations(test1.vertexNamesMap, operators, results, test1.noOfInitialValue);
-
+  delete numMethod;
   delete [] results;
 }
 
