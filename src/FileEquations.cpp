@@ -94,10 +94,8 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value2Negative=1;
 	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
 	}
-      else
-	{
-	  v0.value2=new double(constants[constantNames[s2]]);
-	}
+      else v0.value2=new double(constants[constantNames[s2]]);
+
       v0.mathOperator=operators.GetOperator(mathOperator);
     }
   else if(b1.variable and b2.numeric)
@@ -118,10 +116,8 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value1Negative=1;
 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
 	}
-      else
-	{
-	  v0.value1=new double(constants[constantNames[s1]]);
-	}
+      else v0.value1=new double(constants[constantNames[s1]]);
+
       v0.mathOperator=operators.GetOperator(mathOperator);
     }
   else if(b1.constant and b2.constant)
@@ -132,20 +128,15 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value1Negative=1;
 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
 	}
-      else
-	{
-	  v0.value1=new double(constants[constantNames[s1]]);
-	}
+      else v0.value1=new double(constants[constantNames[s1]]);
 
       if(b2.negative)
 	{
 	  v0.value2Negative=1;
 	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
 	}
-      else
-	{
-	  v0.value2=new double(constants[constantNames[s2]]);
-	}
+      else v0.value2=new double(constants[constantNames[s2]]);
+
       v0.mathOperator=operators.GetOperator(mathOperator);
     }
   else if(b1.constant and b2.numeric)
@@ -156,13 +147,9 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value1Negative=1;
 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
 	}
-      else
-	{
-	  v0.value1=new double(constants[constantNames[s1]]);
-	}
+      else v0.value1=new double(constants[constantNames[s1]]);
       v0.value2=new double(stod(s2));
       v0.mathOperator=operators.GetOperator(mathOperator);
-      // Calculate?
     }
   else if(b1.numeric and b2.variable)
     {
@@ -181,10 +168,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value2Negative=1;
 	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
 	}
-      else
-	{
-	  v0.value2=new double(constants[constantNames[s2]]);
-	}
+      else v0.value2=new double(constants[constantNames[s2]]);
       v0.mathOperator=operators.GetOperator(mathOperator);
     }
   else if(b1.numeric and b2.numeric)
@@ -219,10 +203,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value2Negative=1;
 	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
 	}
-      else
-	{
-	  v0.value2=new double(constants[constantNames[s2]]);
-	}
+      else v0.value2=new double(constants[constantNames[s2]]);
       const VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
       v0.value1=v1.result;
     }
@@ -247,10 +228,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
 	  cout<<"result "<<*v0.result<<'\n';
 	}
-      else
-	{
-	  v0.value2=v2.result;
-	}
+      else v0.value2=v2.result;
     }
   else if(b2.math and b1.constant)
     {
@@ -263,10 +241,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value1Negative=1;
 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
 	}
-      else
-	{
-	  v0.value1=new double(constants[constantNames[s1]]);
-	}
+      else v0.value1=new double(constants[constantNames[s1]]);
 
       if(v2.result!=nullptr)
 	{
@@ -274,10 +249,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value2=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
 	  cout<<"result "<<*v0.result<<'\n';
 	}
-      else
-	{
-	  v0.value2=v2.result;
-	}
+      else v0.value2=v2.result;
     }
   else if(b2.math and b1.variable)
     {
@@ -292,10 +264,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value2=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
 	  cout<<"result "<<*v0.result<<'\n';
 	}
-      else
-	{
-	  v0.value2=v2.result;
-	}
+      else v0.value2=v2.result;
     }
   else if(b2.numeric and b1.math)
     {
@@ -310,10 +279,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v1.result, stod(s2)));
 	  cout<<"result "<<*v0.result<<'\n';
 	}
-      else
-	{
-	  v0.result=v1.result;
-	}
+      else v0.result=v1.result;
     }
   else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
     {
