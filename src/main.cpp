@@ -12,7 +12,6 @@
 #include <chrono>
 #include <getopt.h>
 #include <unistd.h>
-#include "namespace.h"
 #include "File.h"
 #include "GraphEquation.h"
 #include "FileSettings.h"
@@ -22,8 +21,6 @@
 #define GetCurrentDir getcwd
 
 using std::cout;
-using namespace libremcm;
-using InitialValues=SMap;
 bool run_deterministic_sim=false;
 
 enum
