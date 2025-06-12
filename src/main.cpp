@@ -57,10 +57,12 @@ void ReadInitialData(const string &directory)
   test1.InitResults(results);
 
   MathOperators operators;
+  // double *variableValue=nullptr;
 
-  test3.ParseEquations(test1.vertexNames, operators);
-
-    delete [] results;
+  test3.ParseEquations(test1.vertexNames, operators, results);
+  // variableValue=new double[test1.N];
+  // delete [] variableValue;
+  delete [] results;
 }
 
 int main(int argc, char** argv)
@@ -104,14 +106,6 @@ int main(int argc, char** argv)
       // 	{
       // 	  ReadInitialData(directory);
       //
-
-      // // int v[1000000];
-      // int *v=new int[1000000];
-      // // vector<int> v;
-      // // v.reserve(1000000);
-      // // for(int i=0; i<1e6; i++){v.push_back(i);}
-      // for(int i=0; i<1e6; i++){v[i]=i;}
-      // delete [] v;
 
       cout<<"Starting "<<directory<<'\n';
       auto begin=std::chrono::high_resolution_clock::now();

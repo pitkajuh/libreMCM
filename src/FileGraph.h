@@ -15,19 +15,16 @@ class FileGraph: public File
 {
 protected:
   string GetVertexName(string line);
-
   map<string, map<string, double>> all;
-
-  uint16_t nx=0;
-  uint16_t ny=0;
-  uint16_t N=0;
-
   map<string, double> SetInitialValueName(vector<string> &ivs);
   streampos SA(ifstream &file, streampos from, const string &line);
   void CreateEdges(const vector<string> &v);
   void InitInitialValues(const string &vertex);
-
 public:
+  uint16_t nx=0;
+  uint16_t ny=0;
+  uint16_t N=0;
+  vector<uint16_t> noOfInitialValue;
   vector<string> vertexNames;
   vector<EdgeStruct> edges;
 

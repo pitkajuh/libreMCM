@@ -73,12 +73,10 @@ streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
   return from;
 }
 
-
 void FileGraph::InitResults(double *&results)
 {
   N=nx*ny;
   results=new double[N];
-
   uint16_t i=0;
 
   for(auto &[name, value]: all)
@@ -92,17 +90,17 @@ void FileGraph::InitResults(double *&results)
 
   all.clear();
 
-  // for(unsigned i=0; i<nx; i++)
-  //   {
-  //     cout<<"i="<<i<<" "<<results[i]<<'\n';
-  //   }
+  for(unsigned i=0; i<nx; i++)
+    {
+      cout<<"i="<<i<<" "<<results[i]<<'\n';
+    }
 }
 
 void FileGraph::InitInitialValues(const string &vertex)
 {
   for(const auto &edge: edges)
     {
-      if(edge.to==vertex)
+      if(edge.to==vertex and edge.to!="sink" and edge.from!="source")
 	{
 	  for(const auto &[name, value]: all[edge.from])
 	    {
@@ -120,6 +118,7 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
   for(auto &[name, value]: all)
     {
       InitInitialValues(name);
+      noOfInitialValue.emplace_back(value.size());
       nx+=value.size();
     }
 }

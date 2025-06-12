@@ -72,7 +72,7 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
   cout<<"+++++++++++"<<'\n';
 }
 
-void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv)
+void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, const double *variableValue)
 {
   cout<<"Create "<<s1<<mathOperator<<s2<<'\n';
   VertexNew v0;
@@ -292,7 +292,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   vv.emplace_back(v0);
 }
 
-void FileEquations::ParseEquations(const vector<string> &data, MathOperators &operators)
+void FileEquations::ParseEquations(const vector<string> &data, MathOperators &operators, const double *variableValue)
 {
   // Set calculation order of an equation according to order of operations:
 
@@ -314,7 +314,7 @@ void FileEquations::ParseEquations(const vector<string> &data, MathOperators &op
 	  const Bools b1(s1, data, constantNames);
 	  const Bools b2(s2, data, constantNames);
 
-	  CreateVertex(s1, s2, o, b1, b2, operators, vv);
+	  CreateVertex(s1, s2, o, b1, b2, operators, vv, variableValue);
 	}
       vertices.emplace_back(vv);
       vv.clear();
