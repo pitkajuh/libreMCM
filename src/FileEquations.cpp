@@ -72,7 +72,40 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
   cout<<"+++++++++++"<<'\n';
 }
 
-void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, const double *variableValue, const vector<uint16_t> &noOfInitialValue)
+void FileEquations::ParseVariableValues(const uint16_t id, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, const uint16_t from, const uint16_t to)
+{
+  // for(auto i=id*noOfInitialValue[id]; i<noOfInitialValue[id]; i++)
+  for(auto i=from; i<to; i++)
+    {
+      cout<<variableValue[i]<<'\n';
+    }
+}
+
+void FileEquations::GetVariableValue(const string &s1, const string &s2, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, const bool s1Negative, const bool s2Negative)
+{
+  const uint16_t id1=data[(s1Negative)?s1.substr(1):s1];
+  const uint16_t id2=data[(s2Negative)?s2.substr(1):s2];
+
+  cout<<s1<<" "<<id1*noOfInitialValue[id1]<<" "<<noOfInitialValue[id1]<<'\n';
+
+  if(id1>id2)
+    {
+      cout<<s1<<'\n';
+      ParseVariableValues(id1, variableValue, noOfInitialValue, data, id1*noOfInitialValue[id1], noOfInitialValue[id1]);
+      cout<<s2<<'\n';
+      ParseVariableValues(id2, variableValue, noOfInitialValue, data, id2*noOfInitialValue[id2], noOfInitialValue[id2]);
+    }
+  else
+    {
+      cout<<s2<<'\n';
+      ParseVariableValues(id2, variableValue, noOfInitialValue, data, id2*noOfInitialValue[id2], noOfInitialValue[id2]);
+      cout<<s1<<'\n';
+      ParseVariableValues(id1, variableValue, noOfInitialValue, data, id1*noOfInitialValue[id1], noOfInitialValue[id1]);
+    }
+  cout<<"--"<<'\n';
+}
+
+void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data)
 {
   cout<<"Create "<<s1<<mathOperator<<s2<<'\n';
   VertexNew v0;
@@ -83,6 +116,22 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       v0.mathOperator=operators.GetOperator(mathOperator);
       v0.value1Negative=b1.negative;
       v0.value2Negative=b2.negative;
+      GetVariableValue(s1, s2, variableValue, noOfInitialValue, data, b1.negative, b2.negative);
+      // const uint16_t id1=data[(b1.negative)?s1.substr(1):s1];
+      // const uint16_t id2=data[(b2.negative)?s2.substr(1):s2];
+      // // cout<<to_string(id1)<<" "<<to_string(id2)<<" "<<s1<<" "<<s2<<'\n';
+      // cout<<s1<<" "<<id1*noOfInitialValue[id1]<<" "<<noOfInitialValue[id1]<<'\n';
+      // for(auto i=id1*noOfInitialValue[id1]; i<noOfInitialValue[id1]; i++)
+      // 	{
+      // 	  cout<<s1<<" "<<variableValue[i]<<'\n';
+      // 	}
+      // cout<<" "<<'\n';
+      // cout<<s2<<" "<<id2*noOfInitialValue[id2]<<" "<<noOfInitialValue[id2]<<'\n';
+      // for(auto i=id2*noOfInitialValue[id2]; i<noOfInitialValue[id2]; i++)
+      // 	{
+      // 	  cout<<s2<<" "<<variableValue[i]<<'\n';
+      // 	}
+      // cout<<"--"<<'\n';
     }
   else if(b1.variable and b2.constant)
     {
@@ -292,7 +341,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   vv.emplace_back(v0);
 }
 
-void FileEquations::ParseEquations(const map<string, uint16_t> &data, MathOperators &operators, const double *variableValue, const vector<uint16_t> &noOfInitialValue)
+void FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &operators, const double *variableValue, const vector<uint16_t> &noOfInitialValue)
 {
   // Set calculation order of an equation according to order of operations:
 
@@ -314,7 +363,7 @@ void FileEquations::ParseEquations(const map<string, uint16_t> &data, MathOperat
 	  const Bools b1(s1, data, constantNames);
 	  const Bools b2(s2, data, constantNames);
 
-	  CreateVertex(s1, s2, o, b1, b2, operators, vv, variableValue, noOfInitialValue);
+	  CreateVertex(s1, s2, o, b1, b2, operators, vv, variableValue, noOfInitialValue, data);
 	}
       vertices.emplace_back(vv);
       vv.clear();

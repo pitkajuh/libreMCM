@@ -53,7 +53,7 @@ void ReadInitialData(const string &directory)
   cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
   NumericalMethod *numMethod=new RungeKutta4(test1.N);
   std::copy(results, results+test1.N, numMethod->currentValues);
-  test3.ParseEquations(test1.vertexNamesMap, operators, results, test1.noOfInitialValue);
+  test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
   delete numMethod;
   delete [] results;
 }
