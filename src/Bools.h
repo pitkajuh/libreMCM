@@ -1,23 +1,22 @@
-/*--------------------------------*- C++ -*----------------------------------*\
-|                               +===========+                                |
-|                               | l         |                                |
-|                               |   i       | M ulti                         |
-|                               |     b     | C ompartment                   |
-|                               |       r   | M odelling                     |
-|                               |         e |                                |
-|                               +===========+                                |
-\*---------------------------------------------------------------------------*/
-
 #ifndef BOOLS_H
 #define BOOLS_H
 
 #include <map>
-#include "IsIn.h"
 
 using std::map;
 
 struct Bools
 {
+private:
+  const bool IsIn(const string &s, const map<string, string> &f)
+  {
+    return f.find(s)!=f.end();
+  }
+
+  const bool IsIn(const string &s, const vector<string> &f)
+  {
+    return std::find(f.begin(), f.end(), s)!=f.end();
+  }
 public:
   bool variable=0;
   bool constant=0;
