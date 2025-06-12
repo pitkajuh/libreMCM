@@ -124,9 +124,18 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     }
   else if(b1.numeric and b2.constant)
     {
-      cout<<"b1.numeric and b2.constant"<<'\n';
+      cout<<"b1.numeric and b2.constant "<<s1<<" "<<s2<<'\n';
       v0.value1=new double(stod(s1));
-      v0.value2=new double(constants[constantNames[s2]]);
+
+      if(b2.negative)
+	{
+	  v0.value2Negative=1;
+	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
+	}
+      else
+	{
+	  v0.value2=new double(constants[constantNames[s2]]);
+	}
       v0.mathOperator=operators.GetOperator(mathOperator);
     }
   else if(b1.numeric and b2.numeric)

@@ -46,13 +46,13 @@ class FileEquations: public File
 protected:
   void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv);
   void print_vector2(const vector<string> &vec);
-  uint8_t GetOpen(const string &str, const uint8_t close);
   void GetOrder(string &str, uint8_t &id, vector<TestStr> &a);
-  uint8_t GetLeft(string &str);
   void RemoveOpenClose(string &equation, uint8_t &id, vector<TestStr> &a);
   void Convert(const map<uint16_t, string> &map);
-  streampos SA(ifstream &file, streampos from, const string &line);
+  uint8_t GetOpen(const string &str, const uint8_t close);
+  uint8_t GetLeft(string &str);
   uint8_t GetRight(const string &eq);
+  streampos SA(ifstream &file, streampos from, const string &line);
   vector<TestStr> ToVector(string eq);
 public:
   map<uint16_t, double> constants;

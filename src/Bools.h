@@ -28,9 +28,9 @@ public:
   Bools(const string &s1, const vector<string> &variables, const map<string, uint16_t> &constants)
   {
     variable=IsIn(s1, variables);
-    constant=constants.find(s1)!=constants.end();
-    math=(s1.substr(0, 1)=="@")?1:0;
     negative=s1[0]=='-';
+    constant=(negative)?constants.find(s1.substr(1))!=constants.end():constants.find(s1)!=constants.end();
+    math=(s1.substr(0, 1)=="@")?1:0;
 
     if(!variable and !constant and !math) numeric=1;
   }
