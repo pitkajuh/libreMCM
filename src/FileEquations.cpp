@@ -110,12 +110,21 @@ void FileEquations::GetVariableValue(const string &s1, const string &s2, const d
 	}
       cout<<"a1 "<<a1<<'\n';
       cout<<"!b1"<<'\n';
+      // cout<<s1<<'\n';
+      // ParseVariableValues(id1, variableValue, noOfInitialValue, data, id1*noOfInitialValue[id1], noOfInitialValue[id1]);
+
+      // cout<<s2<<'\n';
+      // ParseVariableValues(id2, variableValue, noOfInitialValue, data, id2*noOfInitialValue[id2], a1);
       cout<<s1<<'\n';
-      ParseVariableValues(id1, variableValue, noOfInitialValue, data, id1*noOfInitialValue[id1], noOfInitialValue[id1]);
+      // auto from1=id1*noOfInitialValue[id1];
+      auto from1=(id1==0)?0:noOfInitialValue[id1];
+      auto to1=noOfInitialValue[id1];
+      ParseVariableValues(id1, variableValue, noOfInitialValue, data, from1, to1);
 
       cout<<s2<<'\n';
-      ParseVariableValues(id2, variableValue, noOfInitialValue, data, id2*noOfInitialValue[id2], a1);
-
+      auto from2=id2*noOfInitialValue[id2];
+      auto to2=a1;
+      ParseVariableValues(id2, variableValue, noOfInitialValue, data, from2, to2);
     }
   else if(b1)
     {
@@ -129,10 +138,14 @@ void FileEquations::GetVariableValue(const string &s1, const string &s2, const d
       cout<<"a1 "<<a1<<'\n';
       cout<<"b1"<<'\n';
       cout<<s1<<'\n';
-      ParseVariableValues(id1, variableValue, noOfInitialValue, data, id1*noOfInitialValue[id1], a1);
+      auto from1=id1*noOfInitialValue[id1];
+      auto to1=a1;
+      ParseVariableValues(id1, variableValue, noOfInitialValue, data, from1, to1);
 
       cout<<s2<<'\n';
-      ParseVariableValues(id2, variableValue, noOfInitialValue, data, id2*noOfInitialValue[id2], noOfInitialValue[id2]);
+      auto from2=id2*noOfInitialValue[id2];
+      auto to2=noOfInitialValue[id2];
+      ParseVariableValues(id2, variableValue, noOfInitialValue, data, from2, to2);
     }
   cout<<"--"<<'\n';
 }

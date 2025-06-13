@@ -119,8 +119,8 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
   for(auto &[name, value]: all)
     {
       InitInitialValues(name);
-      // noOfInitialValue.emplace_back(value.size()+nx);
-      noOfInitialValue.emplace_back(value.size());
+      noOfInitialValue.emplace_back(value.size()+nx);
+      // noOfInitialValue.emplace_back(value.size());
       // cout<<value.size()+nx<<'\n';
       nx+=value.size();
     }
