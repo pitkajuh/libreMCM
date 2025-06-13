@@ -72,34 +72,33 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
   cout<<"+++++++++++"<<'\n';
 }
 
-void FileEquations::ParseVariableValues(const uint16_t id, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, const uint16_t from, const uint16_t to)
+// void FileEquations::ParseVariableValues(const uint16_t id, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, const uint16_t from, const uint16_t to)
+// {
+//   cout<<"FROM "<<from<<" TO "<<to<<'\n';
+//   for(auto i=from; i<to; i++)
+//     {
+//       cout<<variableValue[i]<<'\n';
+//     }
+// }
+
+void FileEquations::GetVariableValue(const uint16_t id1, const uint16_t id2, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, VertexNew &v0)
 {
-  cout<<"FROM "<<from<<" TO "<<to<<'\n';
-  for(auto i=from; i<to; i++)
-    {
-      cout<<variableValue[i]<<'\n';
-    }
-}
+  uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
+  uint16_t to1=noOfInitialValue[id1];
+  uint16_t from2=(id2==0)?0:noOfInitialValue[id2-1];
+  uint16_t to2=noOfInitialValue[id2];
 
-void FileEquations::GetVariableValue(const uint16_t id1, const uint16_t id2, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data)
-{
-  // const uint16_t id1=data[(s1Negative)?s1.substr(1):s1];
-  // const uint16_t id2=data[(s2Negative)?s2.substr(1):s2];
+  if(to1-from1!=to2-from2) cout<<"Warning, different number of initial values."<<'\n';
 
-  cout<<"IDS "<<id1<<" "<<id2<<'\n';
-
-  auto from1=(id1==0)?0:noOfInitialValue[id1-1];
-  auto to1=noOfInitialValue[id1];
-  auto from2=(id2==0)?0:noOfInitialValue[id2-1];
-  auto to2=noOfInitialValue[id2];
-
-  ParseVariableValues(id1, variableValue, noOfInitialValue, data, from1, to1);
-  ParseVariableValues(id2, variableValue, noOfInitialValue, data, from2, to2);
-
+  // ParseVariableValues(id1, variableValue, noOfInitialValue, data, from1, to1);
+  // ParseVariableValues(id2, variableValue, noOfInitialValue, data, from2, to2);
+  // v0.value1=&variableValue[from1];
+  // v0.value2=&variableValue[from2];
+  // cout<<*v0.value1<<" "<<*v0.value2<<'\n';
   cout<<"--"<<'\n';
 }
 
-void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data)
+void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data)
 {
   cout<<"Create "<<s1<<mathOperator<<s2<<'\n';
   VertexNew v0;
@@ -112,22 +111,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       v0.value2Negative=b2.negative;
       const uint16_t id1=data[(b1.negative)?s1.substr(1):s1];
       const uint16_t id2=data[(b2.negative)?s2.substr(1):s2];
-      GetVariableValue(id1, id2, variableValue, noOfInitialValue, data);
-      // const uint16_t id1=data[(b1.negative)?s1.substr(1):s1];
-      // const uint16_t id2=data[(b2.negative)?s2.substr(1):s2];
-      // // cout<<to_string(id1)<<" "<<to_string(id2)<<" "<<s1<<" "<<s2<<'\n';
-      // cout<<s1<<" "<<id1*noOfInitialValue[id1]<<" "<<noOfInitialValue[id1]<<'\n';
-      // for(auto i=id1*noOfInitialValue[id1]; i<noOfInitialValue[id1]; i++)
-      // 	{
-      // 	  cout<<s1<<" "<<variableValue[i]<<'\n';
-      // 	}
-      // cout<<" "<<'\n';
-      // cout<<s2<<" "<<id2*noOfInitialValue[id2]<<" "<<noOfInitialValue[id2]<<'\n';
-      // for(auto i=id2*noOfInitialValue[id2]; i<noOfInitialValue[id2]; i++)
-      // 	{
-      // 	  cout<<s2<<" "<<variableValue[i]<<'\n';
-      // 	}
-      // cout<<"--"<<'\n';
+      GetVariableValue(id1, id2, variableValue, noOfInitialValue, data, v0);
     }
   else if(b1.variable and b2.constant)
     {
@@ -337,7 +321,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   vv.emplace_back(v0);
 }
 
-void FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &operators, const double *variableValue, const vector<uint16_t> &noOfInitialValue)
+void FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &operators, double *variableValue, const vector<uint16_t> &noOfInitialValue)
 {
   // Set calculation order of an equation according to order of operations:
 

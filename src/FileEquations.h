@@ -44,9 +44,9 @@ public:
 class FileEquations: public File
 {
 protected:
-  void ParseVariableValues(const uint16_t id, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, const uint16_t from, const uint16_t to);
-  void GetVariableValue(const uint16_t id1, const uint16_t id2, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data);
-  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data);
+  // void ParseVariableValues(const uint16_t id, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, const uint16_t from, const uint16_t to);
+  void GetVariableValue(const uint16_t id1, const uint16_t id2, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, VertexNew &v0);
+  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data);
   void print_vector2(const vector<string> &vec);
   void GetOrder(string &str, uint8_t &id, vector<TestStr> &a);
   void RemoveOpenClose(string &equation, uint8_t &id, vector<TestStr> &a);
@@ -63,7 +63,7 @@ public:
   map<string, uint16_t> constantNames;
   vector<vector<VertexNew>> vertices;
 
-  void ParseEquations(map<string, uint16_t> &data, MathOperators &operators, const double *variableValue, const vector<uint16_t> &noOfInitialValue);
+  void ParseEquations(map<string, uint16_t> &data, MathOperators &operators, double *variableValue, const vector<uint16_t> &noOfInitialValue);
 
   FileEquations(const string &fileName);
   FileEquations(){}
