@@ -92,9 +92,10 @@ void FileEquations::GetVariableValue(const uint16_t id1, const uint16_t id2, dou
 
   // ParseVariableValues(id1, variableValue, noOfInitialValue, data, from1, to1);
   // ParseVariableValues(id2, variableValue, noOfInitialValue, data, from2, to2);
-  // v0.value1=&variableValue[from1];
-  // v0.value2=&variableValue[from2];
-  // cout<<*v0.value1<<" "<<*v0.value2<<'\n';
+  v0.value1=&variableValue[from1];
+  v0.value2=&variableValue[from2];
+  cout<<*v0.value1<<" "<<*v0.value2<<'\n';
+  cout<<v0.value1<<" "<<v0.value2<<'\n';
   cout<<"--"<<'\n';
 }
 

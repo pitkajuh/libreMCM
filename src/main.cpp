@@ -51,8 +51,16 @@ void ReadInitialData(const string &directory)
   MathOperators operators;
 
   cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
-  NumericalMethod *numMethod=new RungeKutta4(test1.N);
-  std::copy(results, results+test1.N, numMethod->currentValues);
+  // NumericalMethod *numMethod=new RungeKutta4(test1.N);
+  NumericalMethod *numMethod=new RungeKutta4(test1.nx);
+  // std::copy(results, results+test1.N, numMethod->currentValues);
+  std::copy(results, results+test1.nx, numMethod->currentValues);
+
+  for(int i=0; i<test1.nx; i++)
+    {
+      cout<<i<<" "<<numMethod->currentValues[i]<<'\n';
+    }
+
   test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
   delete numMethod;
   delete [] results;
