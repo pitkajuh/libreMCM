@@ -74,7 +74,7 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
 
 void FileEquations::ParseVariableValues(const uint16_t id, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, const uint16_t from, const uint16_t to)
 {
-  // for(auto i=id*noOfInitialValue[id]; i<noOfInitialValue[id]; i++)
+  cout<<"FROM "<<from<<" TO "<<to<<'\n';
   for(auto i=from; i<to; i++)
     {
       cout<<variableValue[i]<<'\n';
@@ -87,51 +87,53 @@ void FileEquations::GetVariableValue(const string &s1, const string &s2, const d
   const uint16_t id2=data[(s2Negative)?s2.substr(1):s2];
   const bool b1=id1>id2;
   const uint16_t delta=(b1)?id1-id2:id2-id1;
-
-  cout<<s1<<" "<<id1*noOfInitialValue[id1]<<" "<<noOfInitialValue[id1]<<'\n';
+  // cout<<id1<<" "<<id2<<'\n';
+  // cout<<s1<<" "<<s2<<'\n';
   cout<<"Delta "<<delta<<'\n';
-
-  if(delta==0 and id1==0)
+  // cout<<delta<<" "<<id1<<'\n';
+  cout<<"IDS "<<id1<<" "<<id2<<'\n';
+  if(delta==0)
     {
-      cout<<s1<<'\n';
-      ParseVariableValues(id1, variableValue, noOfInitialValue, data, 0, noOfInitialValue[id1]);
-      cout<<s2<<'\n';
-      ParseVariableValues(id2, variableValue, noOfInitialValue, data, 0, noOfInitialValue[id2]);
-      // cout<<s1<<" from "<<0<<" to "<<noOfInitialValue[id1]<<'\n';
-      // cout<<s2<<" from "<<0<<" to "<<noOfInitialValue[id2]<<'\n';
+      cout<<"S1 "<<s1<<'\n';
+      ParseVariableValues(id1, variableValue, noOfInitialValue, data, id1*noOfInitialValue[id1], noOfInitialValue[id1]+noOfInitialValue[id1-1]);
+      cout<<"S2 "<<s2<<'\n';
+      ParseVariableValues(id2, variableValue, noOfInitialValue, data, id2*noOfInitialValue[id2], noOfInitialValue[id2]+noOfInitialValue[id2-1]);
     }
-  // else if(b1 and delta==1)
-  else
+  else if(!b1)
     {
-      cout<<s2<<'\n';
-      ParseVariableValues(id2, variableValue, noOfInitialValue, data, 0, noOfInitialValue[id2]);
-      cout<<s1<<'\n';
-      ParseVariableValues(id1, variableValue, noOfInitialValue, data, noOfInitialValue[id2], noOfInitialValue[id1]);
+      auto a1=0;
 
-      // cout<<s2<<" from "<<0<<" to "<<noOfInitialValue[id2]<<'\n';
-      // cout<<s1<<" from "<<noOfInitialValue[id2]<<" to "<<noOfInitialValue[id1]<<'\n';
+      for(auto i=id1; i<=id2; i++)
+	{
+	  cout<<"i="<<i<<" "<<a1<<'\n';
+	  a1+=noOfInitialValue[i];
+	}
+      cout<<"a1 "<<a1<<'\n';
+      cout<<"!b1"<<'\n';
+      cout<<s1<<'\n';
+      ParseVariableValues(id1, variableValue, noOfInitialValue, data, id1*noOfInitialValue[id1], noOfInitialValue[id1]);
+
+      cout<<s2<<'\n';
+      ParseVariableValues(id2, variableValue, noOfInitialValue, data, id2*noOfInitialValue[id2], a1);
 
     }
-  // else cout<<"LESO"<<'\n';
+  else if(b1)
+    {
+      auto a1=0;
 
-  // if(id1<id2)
-  //   {
-  //     cout<<s1<<'\n';
-  //     // ParseVariableValues(id1, variableValue, noOfInitialValue, data, id1*noOfInitialValue[id1], noOfInitialValue[id1]);
-  //     cout<<s2<<'\n';
-  //     // ParseVariableValues(id2, variableValue, noOfInitialValue, data, id2*noOfInitialValue[id2], noOfInitialValue[id2]);
-  //     cout<<"from "<<id1*noOfInitialValue[id1]<<" to "<<noOfInitialValue[id1]<<'\n';
-  //     cout<<"from "<<id2*noOfInitialValue[id2]<<" to "<<noOfInitialValue[id2]<<'\n';
-  //   }
-  // else
-  //   {
-  //     cout<<s2<<'\n';
-  //     // ParseVariableValues(id2, variableValue, noOfInitialValue, data, id2*noOfInitialValue[id2], noOfInitialValue[id2]);
-  //     cout<<s1<<'\n';
-  //     // ParseVariableValues(id1, variableValue, noOfInitialValue, data, id1*noOfInitialValue[id1], noOfInitialValue[id1]);
-  //     cout<<"from "<<id2*noOfInitialValue[id2]<<" to "<<noOfInitialValue[id2]<<'\n';
-  //     cout<<"from "<<id1*noOfInitialValue[id1]<<" to "<<noOfInitialValue[id1]<<'\n';
-  //   }
+      for(auto i=id2; i<=id1; i++)
+	{
+	  cout<<"i="<<i<<" "<<a1<<'\n';
+	  a1+=noOfInitialValue[i];
+	}
+      cout<<"a1 "<<a1<<'\n';
+      cout<<"b1"<<'\n';
+      cout<<s1<<'\n';
+      ParseVariableValues(id1, variableValue, noOfInitialValue, data, id1*noOfInitialValue[id1], a1);
+
+      cout<<s2<<'\n';
+      ParseVariableValues(id2, variableValue, noOfInitialValue, data, id2*noOfInitialValue[id2], noOfInitialValue[id2]);
+    }
   cout<<"--"<<'\n';
 }
 

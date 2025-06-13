@@ -53,14 +53,15 @@ void FileGraph::CreateEdges(const vector<string> &v)
 streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
 {
   pair<streampos, vector<string>> result;
-  string vertexName;
+
   const string vertex="vertex";
   const string edges="edges";
 
   if(line.substr(0, 6)==vertex)
     {
-      vertexName=GetVertexName(line);
-      vertexNames.emplace_back(vertexName);
+      const string vertexName=GetVertexName(line);
+      // vertexNames.emplace_back(vertexName);
+      vertexNames.insert(vertexName);
       result=ReadContent(file, from, vertex, 6);
       all[vertexName]=SetInitialValueName(result.second);
     }
@@ -118,8 +119,9 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
   for(auto &[name, value]: all)
     {
       InitInitialValues(name);
-      noOfInitialValue.emplace_back(value.size()+nx);
-      cout<<value.size()+nx<<'\n';
+      // noOfInitialValue.emplace_back(value.size()+nx);
+      noOfInitialValue.emplace_back(value.size());
+      // cout<<value.size()+nx<<'\n';
       nx+=value.size();
     }
 
@@ -128,6 +130,7 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
   for(const string &name: vertexNames)
     {
       vertexNamesMap[name]=n;
+      cout<<"NAME "<<name<<" "<<n<<'\n';
       n++;
     }
   vertexNames.clear();
