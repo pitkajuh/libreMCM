@@ -120,8 +120,6 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
     {
       InitInitialValues(name);
       noOfInitialValue.emplace_back(value.size()+nx);
-      // noOfInitialValue.emplace_back(value.size());
-      // cout<<value.size()+nx<<'\n';
       nx+=value.size();
     }
 

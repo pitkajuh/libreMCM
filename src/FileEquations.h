@@ -45,7 +45,7 @@ class FileEquations: public File
 {
 protected:
   void ParseVariableValues(const uint16_t id, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, const uint16_t from, const uint16_t to);
-  void GetVariableValue(const string &s1, const string &s2, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, const bool s1Negative, const bool s2Negative);
+  void GetVariableValue(const uint16_t id1, const uint16_t id2, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data);
   void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data);
   void print_vector2(const vector<string> &vec);
   void GetOrder(string &str, uint8_t &id, vector<TestStr> &a);
