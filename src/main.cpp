@@ -71,84 +71,41 @@ void ReadInitialData(const string &directory)
     {
       for(auto &j: i)
 	{
-	  // auto aa=find(variableValue.begin(), variableValue.end(), *j.value1)==variableValue.end();
-	  // cout<<aa<<'\n';
-	  // if(find(variableValue.begin(), variableValue.begin(), j.value1)==variableValue.end()) cout<<"AA"<<'\n';;
-
-
-
-	  //-----------------------------
-
 	  auto b=numMethod->currentValues;
 	  auto b1=b+test1.nx;
 
-	  auto a12=std::find(b, b1, *j.value1);
-	  cout<<"a12 "<<a12<<'\n';
-	  // auto a122=find(aoea.begin(), aoea.end(), j.value1)==aoea.end();
-	  // auto a1222=find(aoea.begin(), aoea.end(), a12)!=aoea.end();
-
-	  cout<<a12<<" "<<j.value1<<'\n';
-
-	  if(a12!=j.value1)
+	  if(j.value1!=nullptr)
 	    {
-	      cout<<"aoea.emplace_back(j.value1);"<<'\n';
-	      aoea.emplace_back(j.value1);
+	      auto a12=std::find(b, b1, *j.value1);
+
+	      if(a12!=j.value1)
+		{
+		  cout<<"aoea.emplace_back(j.value1);"<<'\n';
+		  aoea.emplace_back(j.value1);
+		}
 	    }
 
-	  // if(a122 and a1222)
-	  //   {
-	  //     cout<<"find(aoea.begin(), aoea.end(), j.value1)==aoea.end() and find(aoea.begin(), aoea.end(), a12)!=aoea.end()"<<'\n';
-	  //     cout<<"Add "<<j.value1<<" "<<*j.value1<<'\n';
-	  //     aoea.emplace_back(j.value1);
-	  //   }
-
-	  auto a13=std::find(b, b1, *j.value2);
-	  cout<<"a13 "<<a13<<'\n';
-	  // auto a133=find(aoea.begin(), aoea.end(), j.value2)==aoea.end();
-	  // auto a1333=find(aoea.begin(), aoea.end(), a13)!=aoea.end();
-
-	  cout<<a13<<" "<<j.value2<<'\n';
-
-	  if(a13!=j.value2)
+	  if(j.value2!=nullptr)
 	    {
-	      cout<<"a13!=j.value1"<<'\n';
-	      aoea.emplace_back(j.value2);
+	      auto a13=std::find(b, b1, *j.value2);
+
+	      if(a13!=j.value2)
+		{
+		  cout<<"a13!=j.value1"<<'\n';
+		  aoea.emplace_back(j.value2);
+		}
 	    }
-
-	  // if(a133 and a1333)
-	  //   {
-	  //     cout<<"find(aoea.begin(), aoea.end(), j.value2)==aoea.end() and find(aoea.begin(), aoea.end(), a13)!=aoea.end()"<<'\n';
-	  //     cout<<"Add13 "<<j.value1<<" "<<*j.value1<<'\n';
-	  //     aoea.emplace_back(j.value2);
-	  //   }
-
 
 	  if(j.result!=nullptr)
 	    {
 	      auto a14=std::find(b, b1, *j.result);
-	      cout<<"a14 "<<a14<<'\n';
-	      // auto a15=find(aoea.begin(), aoea.end(), j.result)==aoea.end();
-	      // auto a16=find(aoea.begin(), aoea.end(), a14)!=aoea.end();
-	      if(a14!=j.result) aoea.emplace_back(j.result);
+
+	      if(a14!=j.result)
+		{
+		  cout<<"a14!=j.result"<<'\n';
+		  aoea.emplace_back(j.result);
+		}
 	    }
-
-
-	  // if(a15 and a16)
-	  //   {
-	  //     cout<<"find(aoea.begin(), aoea.end(), j.result)==aoea.end() and find(aoea.begin(), aoea.end(), a14)!=aoea.end()"<<'\n';
-	  //     cout<<"result add "<<'\n';
-	  //     aoea.emplace_back(j.result);
-	  //   }
-
-	  //-----------------------------
-
-	  // if(find(aoea.begin(), aoea.end(), j.value1)==aoea.end()) aoea.emplace_back(j.value1);
-	  // if(find(aoea.begin(), aoea.end(), j.value2)==aoea.end()) aoea.emplace_back(j.value2);
-	  // if(find(aoea.begin(), aoea.end(), j.result)==aoea.end()) aoea.emplace_back(j.result);
-
-	  // if(find(aoea.begin(), aoea.end(), j.value1)==aoea.end()) aoea.emplace_back(j.value1);
-	  // if(find(aoea.begin(), aoea.end(), j.value2)==aoea.end()) aoea.emplace_back(j.value2);
-	  // if(find(aoea.begin(), aoea.end(), j.result)==aoea.end()) aoea.emplace_back(j.result);
 	}
     }
 
