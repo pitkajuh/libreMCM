@@ -53,7 +53,7 @@ protected:
   uint8_t GetLeft(string &str);
   uint8_t GetRight(const string &eq);
   streampos SA(ifstream &file, streampos from, const string &line);
-  vector<TestStr> ToVector(string eq);
+  vector<TestStr> ToVector(string &eq);
 public:
   map<uint16_t, double> constants;
   map<uint16_t, string> equations;

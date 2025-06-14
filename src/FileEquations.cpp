@@ -333,7 +333,7 @@ void FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &o
   // 3. Multiplication and division
   // 4. Addition and subtraction
 
-  for(const auto& [name, v]: equations)
+  for(auto& [name, v]: equations)
     {
       const vector<TestStr> equation=ToVector(v);
       vector<VertexNew> vv;
@@ -463,7 +463,7 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
   cout<<"-------------------------------------"<<'\n';
 }
 
-vector<TestStr> FileEquations::ToVector(string eq)
+vector<TestStr> FileEquations::ToVector(string &eq)
 {
   vector<string> equation;
   vector<TestStr> a;
