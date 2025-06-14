@@ -59,7 +59,6 @@ public:
   map<uint16_t, string> equations;
   map<string, uint16_t> equationNames;
   map<string, uint16_t> constantNames;
-  vector<vector<VertexNew>> vertices;
 
   Equations ParseEquations(map<string, uint16_t> &data, MathOperators &operators, double *variableValue, const vector<uint16_t> &noOfInitialValue);
 

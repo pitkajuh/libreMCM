@@ -58,6 +58,8 @@ void ReadInitialData(const string &directory)
 
   Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
 
+  test1.CreateEdge(test3.equationNames, equations);
+
   for(auto &i: equations.equations)
     {
       for(auto &j: i.vertices)

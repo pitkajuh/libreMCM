@@ -2,6 +2,7 @@
 #define FILEGRAPH_H
 
 #include "File.h"
+#include "GraphEquation.h"
 
 struct EdgeStruct
 {
@@ -14,8 +15,9 @@ public:
 class FileGraph: public File
 {
 protected:
-  string GetVertexName(string line);
   map<string, map<string, double>> all;
+
+  string GetVertexName(string line);
   map<string, double> SetInitialValueName(vector<string> &ivs);
   streampos SA(ifstream &file, streampos from, const string &line);
   void CreateEdges(const vector<string> &v);
@@ -26,9 +28,11 @@ public:
   uint16_t N=0;
   vector<uint16_t> noOfInitialValue;
   std::set<string> vertexNames;
+  // map<string, uint16_t> vertexNamesMap={{"source", 0}, {"sink", 1}};
   map<string, uint16_t> vertexNamesMap;
   vector<EdgeStruct> edges;
 
+  void CreateEdge(map<string, uint16_t> &equationNames, Equations &equations);
   void InitResults(double *&results);
   FileGraph(const string &fileName, const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize);
 

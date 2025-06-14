@@ -1,5 +1,7 @@
-#include "FileGraph.h"
 #include <cstdint>
+#include "FileGraph.h"
+#include "GraphEquation.h"
+#include "Edge.h"
 
 string FileGraph::GetVertexName(string line)
 {
@@ -22,6 +24,16 @@ map<string, double> FileGraph::SetInitialValueName(vector<string> &ivs)
       result[name]=std::stod(iv);
     }
   return result;
+}
+
+void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equations)
+{
+  for(const auto &edge: edges)
+    {
+      cout<<edge.from<<" "<<edge.to<<'\n';
+      Edge e(&equations.equations[equationNames[edge.equationName]], vertexNamesMap[edge.from], vertexNamesMap[edge.to]);
+    }
+  edges.clear();
 }
 
 void FileGraph::CreateEdges(const vector<string> &v)
@@ -122,6 +134,7 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
       nx+=value.size();
     }
 
+  // uint16_t n=2;
   uint16_t n=0;
 
   for(const string &name: vertexNames)
