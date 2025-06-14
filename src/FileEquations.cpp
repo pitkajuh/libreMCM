@@ -340,13 +340,10 @@ void FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &o
 
       for(const TestStr &eq: equation)
 	{
-	  const string s1=eq.str1;
-	  const string s2=eq.str2;
-	  const string o=eq.op;
-	  const Bools b1(s1, data, constantNames);
-	  const Bools b2(s2, data, constantNames);
+	  const Bools b1(eq.str1, data, constantNames);
+	  const Bools b2(eq.str2, data, constantNames);
 
-	  CreateVertex(s1, s2, o, b1, b2, operators, vv, variableValue, noOfInitialValue, data);
+	  CreateVertex(eq.str1, eq.str2, eq.op, b1, b2, operators, vv, variableValue, noOfInitialValue, data);
 	}
       vertices.emplace_back(vv);
       vv.clear();

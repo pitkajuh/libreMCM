@@ -108,8 +108,6 @@ void ReadInitialData(const string &directory)
       cout<<"k="<<k<<'\n';
       delete k;
     }
-
-
 }
 
 int main(int argc, char** argv)
