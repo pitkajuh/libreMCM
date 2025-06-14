@@ -52,18 +52,9 @@ void ReadInitialData(const string &directory)
 
   cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
   NumericalMethod *numMethod=new RungeKutta4(test1.nx);
-  // NumericalMethod *numMethod=new RungeKutta4(test1.nx);
   std::copy(results, results+test1.nx, numMethod->currentValues);
-  // std::copy(results, results+test1.nx, numMethod->currentValues);
 
   vector<double*> aoea;
-
-  for(int i=0; i<test1.nx; i++)
-    {
-      cout<<"i="<<i<<" "<<&numMethod->currentValues[i]<<" "<<&results[i]<<" "<<numMethod->currentValues[i]<<" "<<results[i]<<'\n';
-      // aoea.emplace_back(&numMethod->currentValues[i]);
-      // numMethod->currentValues[i]=results[i];
-    }
 
   test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
 
@@ -71,39 +62,39 @@ void ReadInitialData(const string &directory)
     {
       for(auto &j: i)
 	{
-	  auto b=numMethod->currentValues;
-	  auto b1=b+test1.nx;
-
 	  if(j.value1!=nullptr)
 	    {
-	      auto a12=std::find(b, b1, *j.value1);
+	      auto a12=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.value1);
 
 	      if(a12!=j.value1 and std::find(aoea.begin(), aoea.end(), j.value1)==aoea.end())
 		{
 		  cout<<"a12!=j.value1; "<<j.value1<<'\n';
 		  aoea.emplace_back(j.value1);
+		  // delete j.value1;
 		}
 	    }
 
 	  if(j.value2!=nullptr)
 	    {
-	      auto a13=std::find(b, b1, *j.value2);
+	      auto a13=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.value2);
 
 	      if(a13!=j.value2 and std::find(aoea.begin(), aoea.end(), j.value2)==aoea.end())
 		{
 		  cout<<"a13!=j.value2 "<<j.value2<<'\n';
 		  aoea.emplace_back(j.value2);
+		  // delete j.value2;
 		}
 	    }
 
 	  if(j.result!=nullptr)
 	    {
-	      auto a14=std::find(b, b1, *j.result);
+	      auto a14=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.result);
 
 	      if(a14!=j.result and std::find(aoea.begin(), aoea.end(), j.result)==aoea.end())
 		{
 		  cout<<"a14!=j.result "<<j.result<<'\n';
 		  aoea.emplace_back(j.result);
+		  // delete j.result;
 		}
 	    }
 	}
@@ -111,7 +102,7 @@ void ReadInitialData(const string &directory)
 
   delete [] results;
   delete numMethod;
-  cout<<"SIZE "<<aoea.size()<<'\n';
+
   for(auto k: aoea)
     {
       cout<<"k="<<k<<'\n';
