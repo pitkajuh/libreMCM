@@ -1,9 +1,12 @@
 #ifndef BOOLS_H
 #define BOOLS_H
 
+#include <cstdint>
+#include <string>
 #include <map>
 
 using std::map;
+using std::string;
 
 struct Bools
 {

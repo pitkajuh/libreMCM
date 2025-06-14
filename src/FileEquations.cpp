@@ -320,10 +320,11 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
 
   Equations equationsNew;
 
-  for(auto& [name, v]: equations)
+  for(auto& [id, v]: equations)
     {
       const vector<TestStr> equation=ToVector(v);
       Equation equationNew;
+      equationNew.id=id;
 
       for(const TestStr &eq: equation)
 	{
@@ -332,9 +333,11 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
 
 	  CreateVertex(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data);
 	}
+      equationNew.vertices.reserve(equationNew.vertices.size());
       equationsNew.equations.emplace_back(equationNew);
       cout<<" "<<'\n';
     }
+  equationsNew.equations.reserve(equationsNew.equations.size());
   equations.clear();
   return equationsNew;
 }

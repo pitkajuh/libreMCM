@@ -1,6 +1,7 @@
 #ifndef FILEEQUATIONS_H
 #define FILEEQUATIONS_H
 
+#include "Bools.h"
 #include "FileGraph.h"
 #include "GraphEquation.h"
 
