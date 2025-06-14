@@ -72,33 +72,6 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
   cout<<"+++++++++++"<<'\n';
 }
 
-// void FileEquations::ParseVariableValues(const uint16_t id, const double *currentValues, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, const uint16_t from, const uint16_t to)
-// {
-//   cout<<"FROM "<<from<<" TO "<<to<<'\n';
-//   for(auto i=from; i<to; i++)
-//     {
-//       cout<<variableValue[i]<<'\n';
-//     }
-// }
-
-void FileEquations::GetVariableValue(const uint16_t id1, const uint16_t id2, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, VertexNew &v0)
-{
-  const uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
-  const uint16_t to1=noOfInitialValue[id1];
-  const uint16_t from2=(id2==0)?0:noOfInitialValue[id2-1];
-  const uint16_t to2=noOfInitialValue[id2];
-
-  if(to1-from1!=to2-from2) cout<<"Warning, different number of initial values."<<'\n';
-
-  // ParseVariableValues(id1, variableValue, noOfInitialValue, data, from1, to1);
-  // ParseVariableValues(id2, variableValue, noOfInitialValue, data, from2, to2);
-  v0.value1=&variableValue[from1];
-  v0.value2=&variableValue[from2];
-  // cout<<*v0.value1<<" "<<*v0.value2<<'\n';
-  // cout<<v0.value1<<" "<<v0.value2<<'\n';
-  cout<<"--"<<'\n';
-}
-
 void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data)
 {
   cout<<"Create "<<s1<<mathOperator<<s2<<'\n';
@@ -110,9 +83,19 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       v0.mathOperator=operators.GetOperator(mathOperator);
       v0.value1Negative=b1.negative;
       v0.value2Negative=b2.negative;
+
       const uint16_t id1=data[(b1.negative)?s1.substr(1):s1];
+      const uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
+      const uint16_t to1=noOfInitialValue[id1];
+
       const uint16_t id2=data[(b2.negative)?s2.substr(1):s2];
-      GetVariableValue(id1, id2, variableValue, noOfInitialValue, data, v0);
+      const uint16_t from2=(id2==0)?0:noOfInitialValue[id2-1];
+      const uint16_t to2=noOfInitialValue[id2];
+
+      if(to1-from1!=to2-from2) cout<<"Warning, different number of initial values."<<'\n';
+      // GetVariableValue(id1, id2, variableValue, noOfInitialValue, data, v0);
+      v0.value1=&variableValue[from1];
+      v0.value2=&variableValue[from2];
       cout<<"ok1"<<'\n';
     }
   else if(b1.variable and b2.constant)
