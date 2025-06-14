@@ -56,11 +56,11 @@ void ReadInitialData(const string &directory)
 
   vector<double*> aoea;
 
-  test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
+  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
 
-  for(auto &i: test3.vertices)
+  for(auto &i: equations.equations)
     {
-      for(auto &j: i)
+      for(auto &j: i.vertices)
 	{
 	  if(j.value1!=nullptr)
 	    {

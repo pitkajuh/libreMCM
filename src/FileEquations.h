@@ -60,7 +60,7 @@ public:
   map<string, uint16_t> constantNames;
   vector<vector<VertexNew>> vertices;
 
-  void ParseEquations(map<string, uint16_t> &data, MathOperators &operators, double *variableValue, const vector<uint16_t> &noOfInitialValue);
+  Equations ParseEquations(map<string, uint16_t> &data, MathOperators &operators, double *variableValue, const vector<uint16_t> &noOfInitialValue);
 
   FileEquations(const string &fileName);
   FileEquations(){}

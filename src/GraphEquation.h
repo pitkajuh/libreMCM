@@ -1,7 +1,7 @@
 #ifndef GRAPHEQUATION_H
 #define GRAPHEQUATION_H
 
-#include "Graph.h"
+// #include "Graph.h"
 #include <string>
 #include <vector>
 #include <cstdint>
@@ -10,8 +10,8 @@
 #include "Bools.h"
 #include <map>
 #include <unordered_map>
-#include "MathOperator.h"
-#include "Edge.h"
+// #include "MathOperator.h"
+// #include "Edge.h"
 
 using std::unordered_map;
 using std::map;
@@ -20,10 +20,17 @@ using std::vector;
 #include <iostream>
 using std::cout;
 
-class GraphEquationNew: public Graph
+struct Equation
 {
 public:
-  Edge *edge=nullptr;
+  uint16_t id;
+  vector<VertexNew> vertices;
+};
+
+struct Equations
+{
+public:
+  vector<Equation> equations;
 };
 
 #endif

@@ -309,7 +309,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   vv.emplace_back(v0);
 }
 
-void FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &operators, double *variableValue, const vector<uint16_t> &noOfInitialValue)
+Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &operators, double *variableValue, const vector<uint16_t> &noOfInitialValue)
 {
   // Set calculation order of an equation according to order of operations:
 
@@ -318,23 +318,25 @@ void FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &o
   // 3. Multiplication and division
   // 4. Addition and subtraction
 
+  Equations equationsNew;
+
   for(auto& [name, v]: equations)
     {
       const vector<TestStr> equation=ToVector(v);
-      vector<VertexNew> vv;
+      Equation equationNew;
 
       for(const TestStr &eq: equation)
 	{
 	  const Bools b1(eq.str1, data, constantNames);
 	  const Bools b2(eq.str2, data, constantNames);
 
-	  CreateVertex(eq.str1, eq.str2, eq.op, b1, b2, operators, vv, variableValue, noOfInitialValue, data);
+	  CreateVertex(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data);
 	}
-      vertices.emplace_back(vv);
-      vv.clear();
+      equationsNew.equations.emplace_back(equationNew);
       cout<<" "<<'\n';
     }
   equations.clear();
+  return equationsNew;
 }
 
 void FileEquations::Convert(const map<uint16_t, string> &map)
