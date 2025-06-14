@@ -9,20 +9,6 @@ const string CLOSE=")";
 const string OPERATORS2[7]={"^", "/", "*", "+", "-", OPEN, CLOSE};
 const string OPERATORS[5]={"^", "/", "*", "+", "-"};
 
-void FileEquations::print_vector2(const vector<string> &vec)
-{
-  uint8_t i=0;
-  string empty="";
-  const uint8_t size=vec.size();
-  while(i<size)
-    {
-      if(i==0) empty=vec[i];
-      else empty=empty+";"+vec[i];
-      i++;
-    }
-  cout<<empty<<'\n';
-}
-
 uint8_t FileEquations::GetOpen(const string &str, const uint8_t close)
 {
   // Find the index of the innermost open parenthesis (.
@@ -40,7 +26,6 @@ uint8_t FileEquations::GetOpen(const string &str, const uint8_t close)
 	  open=openPrevious;
 	  break;
 	}
-
       openPrevious=open;
     }
 

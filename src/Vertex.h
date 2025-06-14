@@ -16,7 +16,7 @@ public:
   virtual void Calculate()=0;
 };
 
-class VertexNew
+struct VertexNew
 {
 public:
   bool value1Negative=0;

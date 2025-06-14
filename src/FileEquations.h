@@ -4,7 +4,7 @@
 #include "FileGraph.h"
 #include "GraphEquation.h"
 
-class TestStr
+struct TestStr
 {
 public:
   string str1;
@@ -45,7 +45,6 @@ class FileEquations: public File
 {
 protected:
   void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data);
-  void print_vector2(const vector<string> &vec);
   void GetOrder(string &str, uint8_t &id, vector<TestStr> &a);
   void RemoveOpenClose(string &equation, uint8_t &id, vector<TestStr> &a);
   void Convert(const map<uint16_t, string> &map);
