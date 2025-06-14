@@ -78,9 +78,9 @@ void ReadInitialData(const string &directory)
 	    {
 	      auto a12=std::find(b, b1, *j.value1);
 
-	      if(a12!=j.value1)
+	      if(a12!=j.value1 and std::find(aoea.begin(), aoea.end(), j.value1)==aoea.end())
 		{
-		  cout<<"aoea.emplace_back(j.value1);"<<'\n';
+		  cout<<"a12!=j.value1; "<<j.value1<<'\n';
 		  aoea.emplace_back(j.value1);
 		}
 	    }
@@ -89,9 +89,9 @@ void ReadInitialData(const string &directory)
 	    {
 	      auto a13=std::find(b, b1, *j.value2);
 
-	      if(a13!=j.value2)
+	      if(a13!=j.value2 and std::find(aoea.begin(), aoea.end(), j.value2)==aoea.end())
 		{
-		  cout<<"a13!=j.value1"<<'\n';
+		  cout<<"a13!=j.value2 "<<j.value2<<'\n';
 		  aoea.emplace_back(j.value2);
 		}
 	    }
@@ -100,9 +100,9 @@ void ReadInitialData(const string &directory)
 	    {
 	      auto a14=std::find(b, b1, *j.result);
 
-	      if(a14!=j.result)
+	      if(a14!=j.result and std::find(aoea.begin(), aoea.end(), j.result)==aoea.end())
 		{
-		  cout<<"a14!=j.result"<<'\n';
+		  cout<<"a14!=j.result "<<j.result<<'\n';
 		  aoea.emplace_back(j.result);
 		}
 	    }
