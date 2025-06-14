@@ -72,7 +72,7 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
   cout<<"+++++++++++"<<'\n';
 }
 
-// void FileEquations::ParseVariableValues(const uint16_t id, const double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, const uint16_t from, const uint16_t to)
+// void FileEquations::ParseVariableValues(const uint16_t id, const double *currentValues, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, const uint16_t from, const uint16_t to)
 // {
 //   cout<<"FROM "<<from<<" TO "<<to<<'\n';
 //   for(auto i=from; i<to; i++)
@@ -83,10 +83,10 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
 
 void FileEquations::GetVariableValue(const uint16_t id1, const uint16_t id2, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, VertexNew &v0)
 {
-  uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
-  uint16_t to1=noOfInitialValue[id1];
-  uint16_t from2=(id2==0)?0:noOfInitialValue[id2-1];
-  uint16_t to2=noOfInitialValue[id2];
+  const uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
+  const uint16_t to1=noOfInitialValue[id1];
+  const uint16_t from2=(id2==0)?0:noOfInitialValue[id2-1];
+  const uint16_t to2=noOfInitialValue[id2];
 
   if(to1-from1!=to2-from2) cout<<"Warning, different number of initial values."<<'\n';
 
@@ -94,8 +94,8 @@ void FileEquations::GetVariableValue(const uint16_t id1, const uint16_t id2, dou
   // ParseVariableValues(id2, variableValue, noOfInitialValue, data, from2, to2);
   v0.value1=&variableValue[from1];
   v0.value2=&variableValue[from2];
-  cout<<*v0.value1<<" "<<*v0.value2<<'\n';
-  cout<<v0.value1<<" "<<v0.value2<<'\n';
+  // cout<<*v0.value1<<" "<<*v0.value2<<'\n';
+  // cout<<v0.value1<<" "<<v0.value2<<'\n';
   cout<<"--"<<'\n';
 }
 
@@ -113,6 +113,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       const uint16_t id1=data[(b1.negative)?s1.substr(1):s1];
       const uint16_t id2=data[(b2.negative)?s2.substr(1):s2];
       GetVariableValue(id1, id2, variableValue, noOfInitialValue, data, v0);
+      cout<<"ok1"<<'\n';
     }
   else if(b1.variable and b2.constant)
     {
@@ -350,24 +351,6 @@ void FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &o
       vv.clear();
       cout<<" "<<'\n';
     }
-  vector<double*> aoea;
-
-  for(auto &i: vertices)
-    {
-      for(auto &j: i)
-	{
-	  if(find(aoea.begin(), aoea.end(), j.value1)==aoea.end()) aoea.emplace_back(j.value1);
-	  if(find(aoea.begin(), aoea.end(), j.value2)==aoea.end()) aoea.emplace_back(j.value2);
-	  if(find(aoea.begin(), aoea.end(), j.result)==aoea.end()) aoea.emplace_back(j.result);
-	}
-    }
-
-  for(auto k: aoea)
-    {
-      cout<<k<<'\n';
-      delete k;
-    }
-
   equations.clear();
 }
 

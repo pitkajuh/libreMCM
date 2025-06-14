@@ -51,41 +51,21 @@ void ReadInitialData(const string &directory)
   MathOperators operators;
 
   cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
-  NumericalMethod *numMethod=new RungeKutta4(test1.N);
+  NumericalMethod *numMethod=new RungeKutta4(test1.nx);
   // NumericalMethod *numMethod=new RungeKutta4(test1.nx);
-  std::copy(results, results+test1.N, numMethod->currentValues);
+  std::copy(results, results+test1.nx, numMethod->currentValues);
   // std::copy(results, results+test1.nx, numMethod->currentValues);
 
+  vector<double*> aoea;
 
-  // for(int i=0; i<test1.nx; i++)
-  //   {
-  //     // cout<<"i="<<i<<" "<<&numMethod->currentValues[i]<<" "<<&results[i]<<'\n';
-  //     numMethod->currentValues[i]=results[i];
-  //   }
+  for(int i=0; i<test1.nx; i++)
+    {
+      cout<<"i="<<i<<" "<<&numMethod->currentValues[i]<<" "<<&results[i]<<" "<<numMethod->currentValues[i]<<" "<<results[i]<<'\n';
+      // aoea.emplace_back(&numMethod->currentValues[i]);
+      // numMethod->currentValues[i]=results[i];
+    }
 
   test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
-
-  // double *a=new double[2];
-  // a[0]=1;
-  // a[1]=2;
-
-  // double *a1=new double[2];
-  // a1[0]=a[0];
-  // a1[1]=a[1];
-
-  // double *b1=new double;
-  // double *b2=new double;
-  // b1=&a1[0];
-  // b2=&a1[1];
-  // delete b1;
-  // cout<<&a[0]<<" "<<b1<<'\n';
-  // delete [] a;
-  // delete [] a1;
-  // // delete b1;
-  // delete b2;
-
-
-  vector<double*> aoea;
 
   for(auto &i: test3.vertices)
     {
@@ -95,9 +75,76 @@ void ReadInitialData(const string &directory)
 	  // cout<<aa<<'\n';
 	  // if(find(variableValue.begin(), variableValue.begin(), j.value1)==variableValue.end()) cout<<"AA"<<'\n';;
 
-	  if(find(aoea.begin(), aoea.end(), j.value1)==aoea.end()) aoea.emplace_back(j.value1);
-	  if(find(aoea.begin(), aoea.end(), j.value2)==aoea.end()) aoea.emplace_back(j.value2);
-	  if(find(aoea.begin(), aoea.end(), j.result)==aoea.end()) aoea.emplace_back(j.result);
+
+
+	  //-----------------------------
+
+	  auto b=numMethod->currentValues;
+	  auto b1=b+test1.nx;
+
+	  auto a12=std::find(b, b1, *j.value1);
+	  cout<<"a12 "<<a12<<'\n';
+	  // auto a122=find(aoea.begin(), aoea.end(), j.value1)==aoea.end();
+	  // auto a1222=find(aoea.begin(), aoea.end(), a12)!=aoea.end();
+
+	  cout<<a12<<" "<<j.value1<<'\n';
+
+	  if(a12!=j.value1)
+	    {
+	      cout<<"aoea.emplace_back(j.value1);"<<'\n';
+	      aoea.emplace_back(j.value1);
+	    }
+
+	  // if(a122 and a1222)
+	  //   {
+	  //     cout<<"find(aoea.begin(), aoea.end(), j.value1)==aoea.end() and find(aoea.begin(), aoea.end(), a12)!=aoea.end()"<<'\n';
+	  //     cout<<"Add "<<j.value1<<" "<<*j.value1<<'\n';
+	  //     aoea.emplace_back(j.value1);
+	  //   }
+
+	  auto a13=std::find(b, b1, *j.value2);
+	  cout<<"a13 "<<a13<<'\n';
+	  // auto a133=find(aoea.begin(), aoea.end(), j.value2)==aoea.end();
+	  // auto a1333=find(aoea.begin(), aoea.end(), a13)!=aoea.end();
+
+	  cout<<a13<<" "<<j.value2<<'\n';
+
+	  if(a13!=j.value2)
+	    {
+	      cout<<"a13!=j.value1"<<'\n';
+	      aoea.emplace_back(j.value2);
+	    }
+
+	  // if(a133 and a1333)
+	  //   {
+	  //     cout<<"find(aoea.begin(), aoea.end(), j.value2)==aoea.end() and find(aoea.begin(), aoea.end(), a13)!=aoea.end()"<<'\n';
+	  //     cout<<"Add13 "<<j.value1<<" "<<*j.value1<<'\n';
+	  //     aoea.emplace_back(j.value2);
+	  //   }
+
+
+	  if(j.result!=nullptr)
+	    {
+	      auto a14=std::find(b, b1, *j.result);
+	      cout<<"a14 "<<a14<<'\n';
+	      // auto a15=find(aoea.begin(), aoea.end(), j.result)==aoea.end();
+	      // auto a16=find(aoea.begin(), aoea.end(), a14)!=aoea.end();
+	      if(a14!=j.result) aoea.emplace_back(j.result);
+	    }
+
+
+	  // if(a15 and a16)
+	  //   {
+	  //     cout<<"find(aoea.begin(), aoea.end(), j.result)==aoea.end() and find(aoea.begin(), aoea.end(), a14)!=aoea.end()"<<'\n';
+	  //     cout<<"result add "<<'\n';
+	  //     aoea.emplace_back(j.result);
+	  //   }
+
+	  //-----------------------------
+
+	  // if(find(aoea.begin(), aoea.end(), j.value1)==aoea.end()) aoea.emplace_back(j.value1);
+	  // if(find(aoea.begin(), aoea.end(), j.value2)==aoea.end()) aoea.emplace_back(j.value2);
+	  // if(find(aoea.begin(), aoea.end(), j.result)==aoea.end()) aoea.emplace_back(j.result);
 
 	  // if(find(aoea.begin(), aoea.end(), j.value1)==aoea.end()) aoea.emplace_back(j.value1);
 	  // if(find(aoea.begin(), aoea.end(), j.value2)==aoea.end()) aoea.emplace_back(j.value2);
@@ -105,12 +152,12 @@ void ReadInitialData(const string &directory)
 	}
     }
 
-  // delete [] results;
-  // delete numMethod;
-
+  delete [] results;
+  delete numMethod;
+  cout<<"SIZE "<<aoea.size()<<'\n';
   for(auto k: aoea)
     {
-      cout<<k<<'\n';
+      cout<<"k="<<k<<'\n';
       delete k;
     }
 
