@@ -28,7 +28,6 @@ public:
   uint16_t N=0;
   vector<uint16_t> noOfInitialValue;
   std::set<string> vertexNames;
-  // map<string, uint16_t> vertexNamesMap={{"source", 0}, {"sink", 1}};
   map<string, uint16_t> vertexNamesMap;
   vector<EdgeStruct> edges;
 
