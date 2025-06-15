@@ -268,7 +268,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       if(v2.result!=nullptr)
 	{
 	  cout<<"v2.result!=nullptr"<<'\n';
-	  v0.value2=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
+	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
 	  cout<<"result "<<*v0.result<<'\n';
 	  indexRemove.emplace_back(id2);
 	}
@@ -284,15 +284,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       const uint16_t id1=data[(b1.negative)?s1.substr(1):s1];
       const uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
       v0.value1=&variableValue[from1];
-
-      if(v2.result!=nullptr)
-	{
-	  cout<<"v2.result!=nullptr"<<'\n';
-	  v0.value2=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
-	  cout<<"result "<<*v0.result<<'\n';
-	  indexRemove.emplace_back(id2);
-	}
-      else v0.value2=v2.result;
+      v0.value2=v2.result;
     }
   else if(b2.numeric and b1.math)
     {
