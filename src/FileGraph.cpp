@@ -104,158 +104,62 @@ void FileGraph::InitResults(double *&results)
 	}
     }
 
-  all.clear();
-  cout<<"ALL cleared"<<'\n';
+  if(hasSink or hasSource)
+    {
+      for(auto &[name, value]: sinkAndSource)
+	{
+	  for(const auto&[v1, v2]: value)
+	    {
+	      results[i]=v2;
+	      i++;
+	    }
+	}
+      sinkAndSource.clear();
+    }
+
   for(unsigned i=0; i<nx; i++)
     {
       cout<<"i="<<i<<" "<<results[i]<<'\n';
     }
+
+  all.clear();
+  cout<<"ALL cleared"<<'\n';
 }
 
 void FileGraph::InitInitialValues()
 {
   for(const auto &edge: edges)
     {
-      // // if(edge.to==vertex and edge.from!=source)
-      // if(edge.to==vertex)
-      // 	{
-      // 	  cout<<"TO "<<vertex<<" "<<edge.from<<'\n';
-      // 	  for(const auto &[name, value]: all[edge.from])
-      // 	    {
-      // 	      if(edge.to==sink) sinkAndSource[sink][name];
-      // 	      else
-      // 		{
-      // 		  cout<<"BB "<<vertex<<'\n';
-      // 		  all[vertex][name];
-      // 		}
-      // 	    }
-      // 	}
-
-
-
-
-
-
-
-
-      // if(edge.to==vertex and edge.from!=source)
-      // if(edge.from==vertex)
-      // 	{
-	  // cout<<"TO "<<vertex<<" "<<edge.from<<'\n';
-	  if(edge.from==source)
+      if(edge.from==source)
+	{
+	  for(const auto &[name, value]: all[edge.to])
 	    {
-	      for(const auto &[name, value]: all[edge.to])
-		{
-		  // sinkAndSource[source][name]=std::numeric_limits<double>::max();
-		  sinkAndSource[source][name]=std::numeric_limits<double>::infinity();
-		}
+	      // sinkAndSource[source][name]=std::numeric_limits<double>::max();
+	      sinkAndSource[source][name]=std::numeric_limits<double>::infinity();
+	    }
+	}
+
+      if(edge.to==sink)
+	{
+	  for(const auto &[name, value]: all[edge.from])
+	    {
+	      sinkAndSource[sink][name];
+	    }
+	}
+
+      if(edge.from!=source and edge.to!=sink)
+	{
+	  cout<<"edge.from!=source and edge.to!=sink"<<'\n';
+	  for(const auto &[name, value]: all[edge.to])
+	    {
+	      all[edge.from][name];
 	    }
 
-	  if(edge.to==sink)
+	  for(const auto &[name, value]: all[edge.from])
 	    {
-	      for(const auto &[name, value]: all[edge.from])
-		{
-		  sinkAndSource[sink][name];
-		}
+	      all[edge.to][name];
 	    }
-
-	  if(edge.from!=source and edge.to!=sink)
-	    {
-	      cout<<"edge.from!=source and edge.to!=sink"<<'\n';
-	      for(const auto &[name, value]: all[edge.to])
-		{
-		  // if(edge.to==sink) sinkAndSource[sink][name];
-		  // else
-		  //   {
-
-		      all[edge.from][name];
-		    // }
-		}
-
-	      for(const auto &[name, value]: all[edge.from])
-		{
-		  // if(edge.to==sink) sinkAndSource[sink][name];
-		  // else
-		  //   {
-
-		      all[edge.to][name];
-		    // }
-		}
-	    }
-	// }
-
-	  // if(edge.to==sink)
-	  //   {
-	  //     for(const auto &[name, value]: all[edge.from])
-	  // 	{
-	  // 	  sinkAndSource[sink][name];
-	  // 	}
-	  //   }
-
-
-
-
-
-      // // if(edge.from==vertex and edge.to!=sink)
-      // if(edge.from==vertex)
-      // 	{
-      // 	  // cout<<"FROM "<<vertex<<" "<<edge.to<<'\n';
-      // 	  for(const auto &[name, value]: all[edge.to])
-      // 	    {
-      // 	      // Which one is better, max or infty?
-      // 	      // if(edge.from==source) all[source][name]=std::numeric_limits<double>::max();
-      // 	      if(edge.from==source) sinkAndSource[source][name]=std::numeric_limits<double>::infinity();
-      // 	      else
-      // 		{
-      // 		  cout<<"AA "<<vertex<<'\n';
-      // 		  all[vertex][name];
-      // 		}
-      // 	    }
-      // 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      // // if(edge.from==vertex and edge.to!=sink)
-      // if(edge.from==vertex)
-      // 	{
-      // 	  // cout<<"FROM "<<vertex<<" "<<edge.to<<'\n';
-      // 	  for(const auto &[name, value]: all[edge.to])
-      // 	    {
-      // 	      // Which one is better, max or infty?
-      // 	      // if(edge.from==source) all[source][name]=std::numeric_limits<double>::max();
-      // 	      if(edge.from==source) sinkAndSource[source][name]=std::numeric_limits<double>::infinity();
-      // 	      else
-      // 		{
-      // 		  cout<<"AA "<<vertex<<'\n';
-      // 		  all[vertex][name];
-      // 		}
-      // 	    }
-      // 	}
+	}
     }
 }
 
@@ -263,41 +167,18 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
 {
   ny=(timeEnd-timeStart)/stepSize;
   ReadFile(fileName);
+  InitInitialValues();
 
   for(auto &[name, value]: all)
     {
-      cout<<"NAME "<<name<<'\n';
-      // InitInitialValues(name);
       noOfInitialValue.emplace_back(value.size()+nx);
       nx+=value.size();
     }
 
-  InitInitialValues();
-
-  cout<<" "<<'\n';
-  for(auto &[name, value]: all)
-    {
-      cout<<"NAME "<<name<<'\n';
-      for(auto &[i, j]: value)
-	{
-	  cout<<i<<" "<<j<<'\n';
-	}
-
-    }
-
-
-
-
-
   for(const auto &[i, j]: sinkAndSource)
     {
-      cout<<"sink and source: "<<i<<" "<<j.size()<<'\n';
       noOfInitialValue.emplace_back(noOfInitialValue.back()+j.size());
-    }
-
-  for(auto &i: noOfInitialValue)
-    {
-      cout<<i<<'\n';
+      nx+=j.size();
     }
 
   uint16_t n=0;
@@ -316,12 +197,5 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
   else if(hasSink) vertexNamesMap[sink]=n;
   else if(hasSource) vertexNamesMap[source]=n;
 
-  cout<<" "<<'\n';
-  for(const auto &[i, j]: vertexNamesMap)
-    {
-      cout<<i<<" "<<j<<'\n';
-    }
-
-  sinkAndSource.clear();
   vertexNames.clear();
 }

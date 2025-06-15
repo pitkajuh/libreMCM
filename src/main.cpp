@@ -42,74 +42,74 @@ void ReadInitialData(const string &directory)
   // Get other parameters here before clearing.
   test2.set.clear();
 
-  // FileEquations test3(directory+"bin");
+  FileEquations test3(directory+"bin");
 
   FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
-  // double *results=nullptr;
-  // test1.InitResults(results);
+  double *results=nullptr;
+  test1.InitResults(results);
 
-  // MathOperators operators;
+  MathOperators operators;
 
-  // cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
-  // NumericalMethod *numMethod=new RungeKutta4(test1.nx);
-  // std::copy(results, results+test1.nx, numMethod->currentValues);
+  cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
+  NumericalMethod *numMethod=new RungeKutta4(test1.nx);
+  std::copy(results, results+test1.nx, numMethod->currentValues);
 
-  // vector<double*> aoea;
+  vector<double*> aoea;
 
-  // Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
+  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
 
-  // test1.CreateEdge(test3.equationNames, equations);
+  test1.CreateEdge(test3.equationNames, equations);
 
-  // for(auto &i: equations.equations)
-  //   {
-  //     for(auto &j: i.vertices)
-  // 	{
-  // 	  if(j.value1!=nullptr)
-  // 	    {
-  // 	      auto a12=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.value1);
+  for(auto &i: equations.equations)
+    {
+      for(auto &j: i.vertices)
+	{
+	  if(j.value1!=nullptr)
+	    {
+	      auto a12=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.value1);
 
-  // 	      if(a12!=j.value1 and std::find(aoea.begin(), aoea.end(), j.value1)==aoea.end())
-  // 		{
-  // 		  cout<<"a12!=j.value1; "<<j.value1<<'\n';
-  // 		  aoea.emplace_back(j.value1);
-  // 		  // delete j.value1;
-  // 		}
-  // 	    }
+	      if(a12!=j.value1 and std::find(aoea.begin(), aoea.end(), j.value1)==aoea.end())
+		{
+		  cout<<"a12!=j.value1; "<<j.value1<<'\n';
+		  aoea.emplace_back(j.value1);
+		  // delete j.value1;
+		}
+	    }
 
-  // 	  if(j.value2!=nullptr)
-  // 	    {
-  // 	      auto a13=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.value2);
+	  if(j.value2!=nullptr)
+	    {
+	      auto a13=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.value2);
 
-  // 	      if(a13!=j.value2 and std::find(aoea.begin(), aoea.end(), j.value2)==aoea.end())
-  // 		{
-  // 		  cout<<"a13!=j.value2 "<<j.value2<<'\n';
-  // 		  aoea.emplace_back(j.value2);
-  // 		  // delete j.value2;
-  // 		}
-  // 	    }
+	      if(a13!=j.value2 and std::find(aoea.begin(), aoea.end(), j.value2)==aoea.end())
+		{
+		  cout<<"a13!=j.value2 "<<j.value2<<'\n';
+		  aoea.emplace_back(j.value2);
+		  // delete j.value2;
+		}
+	    }
 
-  // 	  if(j.result!=nullptr)
-  // 	    {
-  // 	      auto a14=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.result);
+	  if(j.result!=nullptr)
+	    {
+	      auto a14=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.result);
 
-  // 	      if(a14!=j.result and std::find(aoea.begin(), aoea.end(), j.result)==aoea.end())
-  // 		{
-  // 		  cout<<"a14!=j.result "<<j.result<<'\n';
-  // 		  aoea.emplace_back(j.result);
-  // 		  // delete j.result;
-  // 		}
-  // 	    }
-  // 	}
-  //   }
+	      if(a14!=j.result and std::find(aoea.begin(), aoea.end(), j.result)==aoea.end())
+		{
+		  cout<<"a14!=j.result "<<j.result<<'\n';
+		  aoea.emplace_back(j.result);
+		  // delete j.result;
+		}
+	    }
+	}
+    }
 
-  // delete [] results;
-  // delete numMethod;
+  delete [] results;
+  delete numMethod;
 
-  // for(auto k: aoea)
-  //   {
-  //     cout<<"k="<<k<<'\n';
-  //     delete k;
-  //   }
+  for(auto k: aoea)
+    {
+      cout<<"k="<<k<<'\n';
+      delete k;
+    }
 }
 
 int main(int argc, char** argv)
