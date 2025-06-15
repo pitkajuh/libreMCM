@@ -42,19 +42,19 @@ void ReadInitialData(const string &directory)
   // Get other parameters here before clearing.
   test2.set.clear();
 
-  FileEquations test3(directory+"bin");
+  // FileEquations test3(directory+"bin");
 
   FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
-  double *results=nullptr;
-  test1.InitResults(results);
+  // double *results=nullptr;
+  // test1.InitResults(results);
 
-  MathOperators operators;
+  // MathOperators operators;
 
-  cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
-  NumericalMethod *numMethod=new RungeKutta4(test1.nx);
-  std::copy(results, results+test1.nx, numMethod->currentValues);
+  // cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
+  // NumericalMethod *numMethod=new RungeKutta4(test1.nx);
+  // std::copy(results, results+test1.nx, numMethod->currentValues);
 
-  vector<double*> aoea;
+  // vector<double*> aoea;
 
   // Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
 
@@ -102,8 +102,8 @@ void ReadInitialData(const string &directory)
   // 	}
   //   }
 
-  delete [] results;
-  delete numMethod;
+  // delete [] results;
+  // delete numMethod;
 
   // for(auto k: aoea)
   //   {

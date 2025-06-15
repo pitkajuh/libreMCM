@@ -16,12 +16,13 @@ class FileGraph: public File
 {
 protected:
   map<string, map<string, double>> all;
+  map<string, map<string, double>> sinkAndSource;
 
   string GetVertexName(string line);
   map<string, double> SetInitialValueName(vector<string> &ivs);
   streampos SA(ifstream &file, streampos from, const string &line);
   void CreateEdges(const vector<string> &v);
-  void InitInitialValues(const string &vertex);
+  void InitInitialValues();
 public:
   bool hasSink=0;
   bool hasSource=0;
