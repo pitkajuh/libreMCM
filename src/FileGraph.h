@@ -3,16 +3,13 @@
 
 #include "File.h"
 #include "GraphEquation.h"
-#include <string_view>
-
-using std::string_view;
 
 struct EdgeStruct
 {
 public:
-  string_view from;
-  string_view to;
-  string_view equationName;
+  string from;
+  string to;
+  string equationName;
 };
 
 class FileGraph: public File
