@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <limits>
 #include "FileGraph.h"
 #include "GraphEquation.h"
 #include "Edge.h"
@@ -58,6 +59,8 @@ void FileGraph::CreateEdges(const vector<string> &v)
 	  i++;
 	}
       cout<<strs[0]<<" "<<strs[1]<<" "<<strs[2]<<'\n';
+      if(strs[0]=="source") hasSource=1;
+      if(strs[1]=="sink") hasSink=1;
       const EdgeStruct edge{strs[0], strs[1], strs[2]};
       edges.emplace_back(edge);
     }
@@ -101,7 +104,7 @@ void FileGraph::InitResults(double *&results)
     }
 
   all.clear();
-
+  cout<<"ALL cleared"<<'\n';
   for(unsigned i=0; i<nx; i++)
     {
       cout<<"i="<<i<<" "<<results[i]<<'\n';
@@ -112,13 +115,26 @@ void FileGraph::InitInitialValues(const string &vertex)
 {
   for(const auto &edge: edges)
     {
-      if(edge.to==vertex and edge.to!="sink" and edge.from!="source")
+      if(edge.to==vertex)
 	{
 	  for(const auto &[name, value]: all[edge.from])
 	    {
+	      cout<<vertex<<" "<<name<<" "<<value<<'\n';
 	      all[vertex][name];
 	    }
 	}
+      if(edge.from==vertex)
+	{
+	  for(const auto &[name, value]: all[edge.to])
+	    {
+	      cout<<vertex<<" "<<name<<'\n';
+	      // if(edge.from=="source") all["source"][name]=std::numeric_limits<double>::max();
+	      if(edge.from=="source") all["source"][name]=std::numeric_limits<double>::infinity();
+
+	      else all[vertex][name];
+	    }
+	}
+      cout<<" "<<'\n';
     }
 }
 
@@ -129,9 +145,17 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
 
   for(auto &[name, value]: all)
     {
+      cout<<"NAME "<<name<<'\n';
       InitInitialValues(name);
       noOfInitialValue.emplace_back(value.size()+nx);
       nx+=value.size();
+    }
+
+  cout<<"Now "<<'\n';
+
+  for(auto &i: noOfInitialValue)
+    {
+      cout<<i<<'\n';
     }
 
   uint16_t n=0;
@@ -142,5 +166,14 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
       cout<<"NAME "<<name<<" "<<n<<'\n';
       n++;
     }
+
+  if(hasSink and hasSource)
+    {
+      vertexNamesMap["sink"]=n;
+      vertexNamesMap["source"]=n+1;
+    }
+  else if(hasSink) vertexNamesMap["sink"]=n;
+  else if(hasSource) vertexNamesMap["source"]=n;
+
   vertexNames.clear();
 }

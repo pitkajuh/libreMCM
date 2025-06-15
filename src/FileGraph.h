@@ -3,6 +3,7 @@
 
 #include "File.h"
 #include "GraphEquation.h"
+#include <unordered_map>
 
 struct EdgeStruct
 {
@@ -23,6 +24,8 @@ protected:
   void CreateEdges(const vector<string> &v);
   void InitInitialValues(const string &vertex);
 public:
+  bool hasSink=0;
+  bool hasSource=0;
   uint16_t nx=0;
   uint16_t ny=0;
   uint16_t N=0;

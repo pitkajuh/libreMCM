@@ -102,14 +102,15 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     }
   else if(b1.variable and b2.numeric)
     {
-      cout<<"if(b1.variable and b2 numeric"<<'\n';
+      cout<<"b1.variable and b2 numeric"<<'\n';
       v0.value1Negative=b1.negative;
       const uint16_t id1=data[(b1.negative)?s1.substr(1):s1];
+      cout<<"ID "<<id1<<'\n';
       const uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
+      cout<<"ID "<<id1<<'\n';
       v0.value1=&variableValue[from1];
       v0.value2=new double(stod(s2));
       v0.mathOperator=operators.GetOperator(mathOperator);
-      vv.emplace_back(v0);
     }
   else if(b1.constant and b2.variable)
     {
