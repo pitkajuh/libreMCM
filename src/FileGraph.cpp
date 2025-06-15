@@ -34,7 +34,6 @@ void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equa
 {
   for(const auto &edge: edges)
     {
-      cout<<edge.from<<" "<<edge.to<<'\n';
       Edge e(&equations.equations[equationNames[edge.equationName]], vertexNamesMap[edge.from], vertexNamesMap[edge.to]);
     }
   edges.clear();
@@ -61,7 +60,6 @@ void FileGraph::CreateEdges(const vector<string> &v)
 	  str.erase(str.begin(), str.begin()+at+1);
 	  i++;
 	}
-      cout<<strs[0]<<" "<<strs[1]<<" "<<strs[2]<<'\n';
       if(strs[0]==source) hasSource=1;
       if(strs[1]==sink) hasSink=1;
       const EdgeStruct edge{strs[0], strs[1], strs[2]};
@@ -129,9 +127,9 @@ void FileGraph::InitInitialValues(const string &vertex)
 	{
 	  for(const auto &[name, value]: all[edge.to])
 	    {
+	      // Which one is better, max or infty?
 	      // if(edge.from==source) all[source][name]=std::numeric_limits<double>::max();
 	      if(edge.from==source) all[source][name]=std::numeric_limits<double>::infinity();
-
 	      else all[vertex][name];
 	    }
 	}
@@ -151,8 +149,6 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
       nx+=value.size();
     }
 
-  cout<<"Now "<<'\n';
-
   for(auto &i: noOfInitialValue)
     {
       cout<<i<<'\n';
@@ -163,7 +159,7 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
   for(const string &name: vertexNames)
     {
       vertexNamesMap[name]=n;
-      cout<<"NAME "<<name<<" "<<n<<'\n';
+      // cout<<"NAME "<<name<<" "<<n<<'\n';
       n++;
     }
 
@@ -174,6 +170,11 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
     }
   else if(hasSink) vertexNamesMap[sink]=n;
   else if(hasSource) vertexNamesMap[source]=n;
+  cout<<" "<<'\n';
+  for(const auto &[i, j]: vertexNamesMap)
+    {
+      cout<<i<<" "<<j<<'\n';
+    }
 
   vertexNames.clear();
 }
