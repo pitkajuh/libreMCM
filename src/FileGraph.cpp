@@ -122,7 +122,6 @@ void FileGraph::InitInitialValues(const string &vertex)
 	{
 	  for(const auto &[name, value]: all[edge.from])
 	    {
-	      cout<<vertex<<" "<<name<<" "<<value<<'\n';
 	      all[vertex][name];
 	    }
 	}
@@ -130,14 +129,12 @@ void FileGraph::InitInitialValues(const string &vertex)
 	{
 	  for(const auto &[name, value]: all[edge.to])
 	    {
-	      cout<<vertex<<" "<<name<<'\n';
 	      // if(edge.from==source) all[source][name]=std::numeric_limits<double>::max();
 	      if(edge.from==source) all[source][name]=std::numeric_limits<double>::infinity();
 
 	      else all[vertex][name];
 	    }
 	}
-      cout<<" "<<'\n';
     }
 }
 
