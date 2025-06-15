@@ -57,7 +57,7 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
   cout<<"+++++++++++"<<'\n';
 }
 
-void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data)
+void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, vector<uint16_t> &indexRemove)
 {
   cout<<"Create "<<s1<<mathOperator<<s2<<'\n';
   VertexNew v0;
@@ -191,12 +191,16 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.math and b2.math)
     {
       cout<<"b1.math and b2.math "<<'\n';
-      const VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
-      const VertexNew v2=vv[stoi(s2.substr(1, s2.size()-1))];
+      const uint16_t id1=stoi(s1.substr(1, s1.size()-1));
+      const uint16_t id2=stoi(s2.substr(1, s2.size()-1));
+      const VertexNew v1=vv[id1];
+      const VertexNew v2=vv[id2];
 
       if(v1.result!=nullptr and v2.result!=nullptr)
 	{
 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v1.result, *v2.result));
+	  indexRemove.emplace_back(id1);
+	  indexRemove.emplace_back(id2);
 	}
       else
 	{
@@ -223,8 +227,8 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       cout<<"b1.math and b2.variable"<<'\n';
       v0.value2Negative=b2.negative;
-      const uint16_t id2=data[(b2.negative)?s2.substr(1):s2];
-      const uint16_t from2=(id2==0)?0:noOfInitialValue[id2-1];
+      const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
+      const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
       v0.value2=&variableValue[from2];
       v0.mathOperator=operators.GetOperator(mathOperator);
       const VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
@@ -234,7 +238,8 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       cout<<"b1.numeric and b2.math "<<vv.size()<<" "<<stoi(s2.substr(1, s2.size()-1))<<'\n';
       v0.value1=new double(stod(s1));
-      const VertexNew v2=vv[stoi(s2.substr(1, s2.size()-1))];
+      const uint8_t id2=stoi(s2.substr(1, s2.size()-1));
+      const VertexNew v2=vv[id2];
       v0.mathOperator=operators.GetOperator(mathOperator);
 
       if(v2.result!=nullptr)
@@ -242,6 +247,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  cout<<"v2.result!=nullptr "<<*v2.result<<'\n';
 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
 	  cout<<"result "<<*v0.result<<'\n';
+	  indexRemove.emplace_back(id2);
 	}
       else v0.value2=v2.result;
     }
@@ -249,7 +255,8 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       cout<<"b2.math and b1.constant "<<s1<<" "<<s2<<" "<<s2.substr(1, s2.size()-1)<<'\n';
       v0.mathOperator=operators.GetOperator(mathOperator);
-      const VertexNew v2=vv[stoi(s2.substr(1, s2.size()-1))];
+      const uint8_t id2=stoi(s2.substr(1, s2.size()-1));
+      const VertexNew v2=vv[id2];
 
       if(b1.negative)
 	{
@@ -263,6 +270,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  cout<<"v2.result!=nullptr"<<'\n';
 	  v0.value2=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
 	  cout<<"result "<<*v0.result<<'\n';
+	  indexRemove.emplace_back(id2);
 	}
       else v0.value2=v2.result;
     }
@@ -270,7 +278,8 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       cout<<"b2.math and b1.variable"<<'\n';
       v0.mathOperator=operators.GetOperator(mathOperator);
-      const VertexNew v2=vv[stoi(s2.substr(1, s2.size()-1))];
+      const uint8_t id2=stoi(s2.substr(1, s2.size()-1));
+      const VertexNew v2=vv[id2];
       v0.value1Negative=b1.negative;
       const uint16_t id1=data[(b1.negative)?s1.substr(1):s1];
       const uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
@@ -281,6 +290,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  cout<<"v2.result!=nullptr"<<'\n';
 	  v0.value2=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
 	  cout<<"result "<<*v0.result<<'\n';
+	  indexRemove.emplace_back(id2);
 	}
       else v0.value2=v2.result;
     }
@@ -288,7 +298,8 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       cout<<"b2.numeric and b1.math"<<" "<<s1<<" "<<s2<<'\n';
       v0.mathOperator=operators.GetOperator(mathOperator);
-      const VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
+      const uint8_t id1=stoi(s1.substr(1, s1.size()-1));
+      const VertexNew v1=vv[id1];
 
       if(v1.result!=nullptr)
 	{
@@ -296,8 +307,9 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  cout<<*v1.result<<'\n';
 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v1.result, stod(s2)));
 	  cout<<"result "<<*v0.result<<'\n';
+	  indexRemove.emplace_back(id1);
 	}
-      else v0.result=v1.result;
+      else v0.value1=v1.result;
     }
   else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
     {
@@ -324,6 +336,7 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
   for(auto& [id, v]: equations)
     {
       const vector<TestStr> equation=ToVector(v);
+      vector<uint16_t> indexRemove;
       Equation equationNew;
       equationNew.id=id;
 
@@ -332,7 +345,7 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
 	  const Bools b1(eq.str1, data, constantNames);
 	  const Bools b2(eq.str2, data, constantNames);
 
-	  CreateVertex(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data);
+	  CreateVertex(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data, indexRemove);
 	}
       equationNew.vertices.reserve(equationNew.vertices.size());
       equationsNew.equations.emplace_back(equationNew);

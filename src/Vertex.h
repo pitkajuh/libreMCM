@@ -1,11 +1,9 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#include <string>
 #include "MathOperator.h"
 #include <iostream>
 using std::cout;
-using std::string;
 
 class Vertex
 {
@@ -26,6 +24,11 @@ public:
   double *value1=nullptr;
   double *value2=nullptr;
   double *result=nullptr;
+
+  void Calculate()
+  {
+    result=new double(mathOperator->Calculate(*value1, *value2));
+  }
 
   VertexNew(){}
   ~VertexNew(){}
