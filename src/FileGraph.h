@@ -3,14 +3,16 @@
 
 #include "File.h"
 #include "GraphEquation.h"
-#include <unordered_map>
+#include <string_view>
+
+using std::string_view;
 
 struct EdgeStruct
 {
 public:
-  string from;
-  string to;
-  string equationName;
+  string_view from;
+  string_view to;
+  string_view equationName;
 };
 
 class FileGraph: public File
