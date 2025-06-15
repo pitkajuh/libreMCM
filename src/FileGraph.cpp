@@ -91,6 +91,9 @@ streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
 
 void FileGraph::InitResults(double *&results)
 {
+  // Results from the simulation are added to an array of doubles.
+  // The initial values, provided by the user are added to the results
+  // because they represent the status of the system at t=0.
   N=nx*ny;
   results=new double[N];
   uint16_t i=0;
@@ -104,6 +107,11 @@ void FileGraph::InitResults(double *&results)
 	}
     }
 
+  all.clear();
+
+  // The values of sink (several zeros) and source (several numbers, either
+  // infty or really large number) are also added to the results as initial
+  // values.
   if(hasSink or hasSource)
     {
       for(auto &[name, value]: sinkAndSource)
@@ -121,24 +129,33 @@ void FileGraph::InitResults(double *&results)
     {
       cout<<"i="<<i<<" "<<results[i]<<'\n';
     }
-
-  all.clear();
-  cout<<"ALL cleared"<<'\n';
 }
 
 void FileGraph::InitInitialValues()
 {
+  // Initialize the initial values for each vertex according to edges of
+  // the graph. For example, if vertex A={a1=10, a2=20} is connected to
+  // vertex B={b1=5, b2=2}, initial values a1 and a2 must be initialized
+  // with value of zero in B, so B={a1=0, a2=0 b1=5, b2=2}. Same logic applies
+  // when vertex is either sink or source.
   for(const auto &edge: edges)
     {
+      // Initializes values for source vertex, so there are quantity,
+      // the equations can draw from.
       if(edge.from==source)
 	{
 	  for(const auto &[name, value]: all[edge.to])
 	    {
+	      // Source vertex is supposed to have in infinite amount of
+	      // quantity inside it. Is it better to use infinity or maximum
+	      // value of double?
 	      // sinkAndSource[source][name]=std::numeric_limits<double>::max();
 	      sinkAndSource[source][name]=std::numeric_limits<double>::infinity();
 	    }
 	}
 
+      // Initialize the values to zero for sink vertex. Sink has an infinite
+      // amount of space, so any amount of quantity can be deposited to it.
       if(edge.to==sink)
 	{
 	  for(const auto &[name, value]: all[edge.from])
@@ -147,9 +164,9 @@ void FileGraph::InitInitialValues()
 	    }
 	}
 
+      // Initialize values for vertices, other than sink and source.
       if(edge.from!=source and edge.to!=sink)
 	{
-	  cout<<"edge.from!=source and edge.to!=sink"<<'\n';
 	  for(const auto &[name, value]: all[edge.to])
 	    {
 	      all[edge.from][name];
@@ -189,6 +206,8 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
       n++;
     }
 
+  vertexNames.clear();
+
   if(hasSink and hasSource)
     {
       vertexNamesMap[sink]=n;
@@ -196,6 +215,4 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
     }
   else if(hasSink) vertexNamesMap[sink]=n;
   else if(hasSource) vertexNamesMap[source]=n;
-
-  vertexNames.clear();
 }
