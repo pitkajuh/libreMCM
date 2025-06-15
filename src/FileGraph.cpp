@@ -1,7 +1,7 @@
 #include <cstdint>
 #include <limits>
 #include "FileGraph.h"
-#include "GraphEquation.h"
+#include "Equation.h"
 #include "Edge.h"
 
 const string source="source";
@@ -32,9 +32,11 @@ map<string, double> FileGraph::SetInitialValueName(vector<string> &ivs)
 
 void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equations)
 {
+  edgesNew.reserve(edges.size());
   for(const auto &edge: edges)
     {
       Edge e(&equations.equations[equationNames[edge.equationName]], vertexNamesMap[edge.from], vertexNamesMap[edge.to]);
+      edgesNew.emplace_back(e);
     }
   edges.clear();
 }
@@ -93,7 +95,7 @@ void FileGraph::InitResults(double *&results)
 {
   // Results from the simulation are added to an array of doubles.
   // The initial values, provided by the user are added to the results
-  // because they represent the status of the system at t=0.
+  // because they represent the status of the system at t=timeStart.
   N=nx*ny;
   results=new double[N];
   uint16_t i=0;

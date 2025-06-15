@@ -2,7 +2,8 @@
 #define FILEGRAPH_H
 
 #include "File.h"
-#include "GraphEquation.h"
+#include "Edge.h"
+#include "Equation.h"
 
 struct EdgeStruct
 {
@@ -33,6 +34,7 @@ public:
   std::set<string> vertexNames;
   map<string, uint16_t> vertexNamesMap;
   vector<EdgeStruct> edges;
+  vector<Edge> edgesNew;
 
   void CreateEdge(map<string, uint16_t> &equationNames, Equations &equations);
   void InitResults(double *&results);

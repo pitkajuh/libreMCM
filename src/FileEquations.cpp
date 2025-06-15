@@ -1,6 +1,6 @@
 #include "FileEquations.h"
 #include "FileGraph.h"
-#include "GraphEquation.h"
+#include "Equation.h"
 
 using std::to_string;
 

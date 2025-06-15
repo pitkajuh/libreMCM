@@ -3,7 +3,7 @@
 #include <getopt.h>
 #include <unistd.h>
 #include "File.h"
-#include "GraphEquation.h"
+#include "Equation.h"
 #include "FileSettings.h"
 #include "FileGraph.h"
 #include "FileEquations.h"

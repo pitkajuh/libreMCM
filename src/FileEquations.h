@@ -3,7 +3,7 @@
 
 #include "Bools.h"
 #include "FileGraph.h"
-#include "GraphEquation.h"
+#include "Equation.h"
 
 struct TestStr
 {
