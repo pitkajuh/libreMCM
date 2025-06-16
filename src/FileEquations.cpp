@@ -401,13 +401,13 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b2.numeric and b1.math)
     {
       // cout<<"b2.numeric and b1.math"<<" "<<s1<<" "<<s2<<'\n';
-      v0.mathOperator=operators.GetOperator(mathOperator);
+
       const uint8_t id1=stoi(s1.substr(1, s1.size()-1));
       const VertexNew v1=vv[id1];
 
       if(v1.result!=nullptr)
 	{
-	  // cout<<"v1.result!=nullptr"<<'\n';
+	  cout<<"v1.result!=nullptr"<<'\n';
 	  // cout<<*v1.result<<'\n';
 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v1.result, stod(s2)));
 	  // cout<<"result "<<*v0.result<<'\n';
@@ -417,7 +417,12 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  removeAddress.insert(v1.value2);
 	  removeAddress.insert(v1.result);
 	}
-      else v0.value1=v1.result;
+      else
+	{
+	  v0.mathOperator=operators.GetOperator(mathOperator);
+	  v0.value1=v1.result;
+	  v0.value2=new double(stod(s2));
+	}
     }
   else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
     {
