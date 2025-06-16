@@ -57,15 +57,6 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
   cout<<"+++++++++++"<<'\n';
 }
 
-Types FileEquations::GetTypes(const Bools &b)
-{
-  if(b.variable) return Types::variable;
-  if(b.constant) return Types::constant;
-  if(b.numeric) return Types::numeric;
-  if(b.math) return Types::math;
-  return Types::NotFound;
-}
-
 void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, vector<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress)
 {
   cout<<"Create "<<s1<<mathOperator<<s2<<'\n';
@@ -289,19 +280,6 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
 	}
       else v0.value1=new double(constants[constantNames[s1]]);
-
-      // if(v2.result!=nullptr)
-      // 	{
-      // 	  cout<<"v2.result!=nullptr"<<'\n';
-      // 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
-      // 	  removeIndices.emplace_back(id2);
-      // 	  removeAddress.insert(v2.value1);
-      // 	  removeAddress.insert(v2.value2);
-      // 	  removeAddress.insert(v2.result);
-      // 	  // cout<<"result "<<*v0.result<<'\n';
-      // 	  // remove.emplace_back(id2);
-      // 	}
-      // else
     }
   else if(b2.math and b1.variable)
     {
@@ -379,21 +357,16 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
 	}
       cout<<equationNew.vertices.size()<<'\n';
       cout<<"SIZES "<<removeAddress.size()<<" "<<removeIndices.size()<<'\n';
-      // for(const auto &i: removeIndices)
-      // 	{
-      // 	  equationNew.vertices.erase(equationNew.vertices.begin()+i);
-      // 	}
+      for(const auto &i: removeIndices)
+	{
+	  equationNew.vertices.erase(equationNew.vertices.begin()+i);
+	}
 
-      // for(const auto &i: removeAddress)
-      // 	{
-      // 	  cout<<"first "<<i<<'\n';
-      // 	  // delete i;
-      // 	  // cout<<std::to_string(i)<<" Deleting "<<equationNew.vertices[i].value1<<" "<<equationNew.vertices[i].value2<<" "<<equationNew.vertices[i].result<<" "<<'\n';
-      // 	  // delete equationNew.vertices[i].value1;
-      // 	  // delete equationNew.vertices[i].value2;
-      // 	  // delete equationNew.vertices[i].result;
-      // 	  // equationNew.vertices.erase(equationNew.vertices.begin()+i);
-      // 	}
+      for(const auto &i: removeAddress)
+	{
+	  cout<<"first "<<i<<'\n';
+	  delete i;
+	}
       cout<<equationNew.vertices.size()<<'\n';
       equationNew.vertices.reserve(equationNew.vertices.size());
       equationsNew.equations.emplace_back(equationNew);

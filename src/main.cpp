@@ -57,15 +57,17 @@ void ReadInitialData(const string &directory)
 
   std::unordered_set<double*> aoea;
 
-
   Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
 
   test1.CreateEdge(test3.equationNames, equations);
+
+  cout<<"Start clearing"<<'\n';
 
   for(auto &i: equations.equations)
     {
       for(auto &j: i.vertices)
 	{
+	  cout<<j.value1<<" "<<j.value2<<" "<<j.result<<'\n';
 	  if(j.value1!=nullptr)
 	    {
 	      auto a12=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.value1);
