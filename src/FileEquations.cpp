@@ -70,91 +70,6 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 {
   cout<<"Create "<<s1<<mathOperator<<s2<<'\n';
   VertexNew v0;
-  // VertexNew v1;
-  // uint8_t id1;
-  // uint8_t id2;
-
-  // if(b1.variable)
-  //   {
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
-  //     v0.value1Negative=b1.negative;
-  //     id1=data[(b1.negative)?s1.substr(1):s1];
-  //     const uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
-  //     const uint16_t to1=noOfInitialValue[id1];
-  //     v0.value1=&variableValue[from1];
-  //   }
-  // else if(b1.constant and b1.negative)
-  //   {
-  //     v0.value1Negative=1;
-  //     v0.value1=new double(constants[constantNames[s1.substr(1)]]);
-  //   }
-  // else if(b1.constant) v0.value1=new double(constants[constantNames[s1]]);
-  // else if(b1.numeric) v0.value1=new double(stod(s1));
-  // else if(b1.math)
-  //   {
-  //     id1=stoi(s1.substr(1));
-  //     v1=vv[id1];
-  //     v0.value1=v1.result;
-  //   }
-
-  // if(b2.variable)
-  //   {
-  //     v0.value2Negative=b2.negative;
-  //     id2=data[(b2.negative)?s2.substr(1):s2];
-  //     const uint16_t from2=(id2==0)?0:noOfInitialValue[id2-1];
-  //     const uint16_t to2=noOfInitialValue[id2];
-  //     v0.value2=&variableValue[from2];
-  //     if(v0.value1!=nullptr) cout<<"b2.variable v0.value1!=nullptr"<<'\n';
-  //     if(v1.result!=nullptr) cout<<"b2.variable v1.result!=nullptr"<<'\n';
-  //   }
-  // else if(b2.constant and b2.negative)
-  //   {
-  //     v0.value2Negative=1;
-  //     v0.value2=new double(constants[constantNames[s2.substr(1)]]);
-  //     if(v0.value1!=nullptr) cout<<"b2.constant and neg v0.value1!=nullptr"<<'\n';
-  //     if(v1.result!=nullptr) cout<<"b2.constant and neg v1.result!=nullptr"<<'\n';
-  //   }
-  // else if(b2.constant)
-  //   {
-  //     v0.value2=new double(constants[constantNames[s2]]);
-  //     if(v0.value1!=nullptr) cout<<"b2.constant v0.value1!=nullptr"<<'\n';
-  //     if(v1.result!=nullptr) cout<<"b2.constant v1.result!=nullptr"<<'\n';
-  //   }
-  // else if(b2.numeric)
-  //   {
-  //     v0.value2=new double(stod(s2));
-  //     if(v0.value1!=nullptr) cout<<"b2.numeric v0.value1!=nullptr"<<'\n';
-  //     if(v1.result!=nullptr) cout<<"b2.numeric v1.result!=nullptr"<<'\n';
-  //   }
-  // else if(b2.math)
-  //   {
-  //     id2=stoi(s2.substr(1));
-  //     const VertexNew v2=vv[id2];
-
-  //     if(v0.value1!=nullptr and v2.result!=nullptr)
-  // 	{
-  // 	  cout<<"v0.value1!=nullptr and v2.result!=nullptr"<<'\n';
-  // 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
-  // 	  v0.value1=nullptr;
-
-  // 	  const vector<double*> v11={v2.value1, v2.value2};
-  // 	  const std::pair<uint8_t, vector<double*>> v01{id2, v11};
-  // 	  remove.emplace_back(v01);
-
-  // 	  const vector<double*> v21={v1.value1, v1.value2};
-  // 	  const std::pair<uint8_t, vector<double*>> v02{id2, v21};
-  // 	  remove.emplace_back(v02);
-  // 	}
-  //     else
-  // 	{
-  // 	  v0.mathOperator=operators.GetOperator(mathOperator);
-  // 	  v0.value2=v2.result;
-  // 	}
-  //   }
-
-
-
-
 
   if(b1.variable and b2.variable)
     {
@@ -366,6 +281,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       v0.mathOperator=operators.GetOperator(mathOperator);
       const uint8_t id2=stoi(s2.substr(1, s2.size()-1));
       const VertexNew v2=vv[id2];
+      v0.value2=v2.result;
 
       if(b1.negative)
 	{
@@ -374,18 +290,18 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	}
       else v0.value1=new double(constants[constantNames[s1]]);
 
-      if(v2.result!=nullptr)
-	{
-	  cout<<"v2.result!=nullptr"<<'\n';
-	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
-	  removeIndices.emplace_back(id2);
-	  removeAddress.insert(v2.value1);
-	  removeAddress.insert(v2.value2);
-	  removeAddress.insert(v2.result);
-	  // cout<<"result "<<*v0.result<<'\n';
-	  // remove.emplace_back(id2);
-	}
-      else v0.value2=v2.result;
+      // if(v2.result!=nullptr)
+      // 	{
+      // 	  cout<<"v2.result!=nullptr"<<'\n';
+      // 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
+      // 	  removeIndices.emplace_back(id2);
+      // 	  removeAddress.insert(v2.value1);
+      // 	  removeAddress.insert(v2.value2);
+      // 	  removeAddress.insert(v2.result);
+      // 	  // cout<<"result "<<*v0.result<<'\n';
+      // 	  // remove.emplace_back(id2);
+      // 	}
+      // else
     }
   else if(b2.math and b1.variable)
     {
