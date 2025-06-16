@@ -2,6 +2,7 @@
 #include <chrono>
 #include <getopt.h>
 #include <unistd.h>
+#include <unordered_set>
 #include "File.h"
 #include "Equation.h"
 #include "FileSettings.h"
@@ -54,7 +55,7 @@ void ReadInitialData(const string &directory)
   NumericalMethod *numMethod=new RungeKutta4(test1.nx);
   std::copy(results, results+test1.nx, numMethod->currentValues);
 
-  std::set<double*> aoea;
+  std::unordered_set<double*> aoea;
 
 
   Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);

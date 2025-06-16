@@ -66,333 +66,347 @@ Types FileEquations::GetTypes(const Bools &b)
   return Types::NotFound;
 }
 
-void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, vector<std::pair<uint8_t, vector<double*>>> &remove)
+void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, vector<uint8_t> &removeIndices, std::unordered_set<double*> removeAddress)
 {
   cout<<"Create "<<s1<<mathOperator<<s2<<'\n';
   VertexNew v0;
-  VertexNew v1;
-  uint8_t id1;
-  uint8_t id2;
+  // VertexNew v1;
+  // uint8_t id1;
+  // uint8_t id2;
 
-  if(b1.variable)
-    {
-      v0.mathOperator=operators.GetOperator(mathOperator);
-      v0.value1Negative=b1.negative;
-      id1=data[(b1.negative)?s1.substr(1):s1];
-      const uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
-      const uint16_t to1=noOfInitialValue[id1];
-      v0.value1=&variableValue[from1];
-    }
-  else if(b1.constant and b1.negative)
-    {
-      v0.value1Negative=1;
-      v0.value1=new double(constants[constantNames[s1.substr(1)]]);
-    }
-  else if(b1.constant) v0.value1=new double(constants[constantNames[s1]]);
-  else if(b1.numeric) v0.value1=new double(stod(s1));
-  else if(b1.math)
-    {
-      id1=stoi(s1.substr(1));
-      v1=vv[id1];
-      v0.value1=v1.result;
-    }
-
-  if(b2.variable)
-    {
-      v0.value2Negative=b2.negative;
-      id2=data[(b2.negative)?s2.substr(1):s2];
-      const uint16_t from2=(id2==0)?0:noOfInitialValue[id2-1];
-      const uint16_t to2=noOfInitialValue[id2];
-      v0.value2=&variableValue[from2];
-    }
-  else if(b2.constant and b2.negative)
-    {
-      v0.value2Negative=1;
-      v0.value2=new double(constants[constantNames[s2.substr(1)]]);
-    }
-  else if(b2.constant) v0.value2=new double(constants[constantNames[s2]]);
-  else if(b2.numeric) v0.value2=new double(stod(s2));
-  else if(b2.math)
-    {
-      id2=stoi(s2.substr(1));
-      const VertexNew v2=vv[id2];
-
-      if(v0.value1!=nullptr and v2.result!=nullptr)
-	{
-	  cout<<"v0.value1!=nullptr and v2.result!=nullptr"<<'\n';
-	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
-	  v0.value1=nullptr;
-
-	  const vector<double*> v11={v2.value1, v2.value2};
-	  const std::pair<uint8_t, vector<double*>> v01{id2, v11};
-	  remove.emplace_back(v01);
-
-	  const vector<double*> v21={v1.value1, v1.value2};
-	  const std::pair<uint8_t, vector<double*>> v02{id2, v21};
-	  remove.emplace_back(v02);
-	}
-      else
-	{
-	  v0.mathOperator=operators.GetOperator(mathOperator);
-	  v0.value2=v2.result;
-	}
-    }
-
-
-
-
-
-  // if(b1.variable and b2.variable)
+  // if(b1.variable)
   //   {
-  //     // cout<<"b1.variable and b2.variable"<<'\n';
   //     v0.mathOperator=operators.GetOperator(mathOperator);
   //     v0.value1Negative=b1.negative;
-  //     v0.value2Negative=b2.negative;
-
-  //     const uint16_t id1=data[(b1.negative)?s1.substr(1):s1];
+  //     id1=data[(b1.negative)?s1.substr(1):s1];
   //     const uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
   //     const uint16_t to1=noOfInitialValue[id1];
+  //     v0.value1=&variableValue[from1];
+  //   }
+  // else if(b1.constant and b1.negative)
+  //   {
+  //     v0.value1Negative=1;
+  //     v0.value1=new double(constants[constantNames[s1.substr(1)]]);
+  //   }
+  // else if(b1.constant) v0.value1=new double(constants[constantNames[s1]]);
+  // else if(b1.numeric) v0.value1=new double(stod(s1));
+  // else if(b1.math)
+  //   {
+  //     id1=stoi(s1.substr(1));
+  //     v1=vv[id1];
+  //     v0.value1=v1.result;
+  //   }
 
-  //     const uint16_t id2=data[(b2.negative)?s2.substr(1):s2];
+  // if(b2.variable)
+  //   {
+  //     v0.value2Negative=b2.negative;
+  //     id2=data[(b2.negative)?s2.substr(1):s2];
   //     const uint16_t from2=(id2==0)?0:noOfInitialValue[id2-1];
   //     const uint16_t to2=noOfInitialValue[id2];
-
-  //     // if(to1-from1!=to2-from2) cout<<"Warning, different number of initial values."<<'\n';
-
-  //     v0.value1=&variableValue[from1];
   //     v0.value2=&variableValue[from2];
-  //     // cout<<"ok1"<<'\n';
+  //     if(v0.value1!=nullptr) cout<<"b2.variable v0.value1!=nullptr"<<'\n';
+  //     if(v1.result!=nullptr) cout<<"b2.variable v1.result!=nullptr"<<'\n';
   //   }
-  // else if(b1.variable and b2.constant)
+  // else if(b2.constant and b2.negative)
   //   {
-  //     // cout<<"b1.variable and b2 constant"<<'\n';
-  //     v0.value1Negative=b1.negative;
-  //     const uint16_t id1=data[(b1.negative)?s1.substr(1):s1];
-  //     const uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
-  //     v0.value1=&variableValue[from1];
-
-  //     if(b2.negative)
-  // 	{
-  // 	  v0.value2Negative=1;
-  // 	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
-  // 	}
-  //     else v0.value2=new double(constants[constantNames[s2]]);
-
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
+  //     v0.value2Negative=1;
+  //     v0.value2=new double(constants[constantNames[s2.substr(1)]]);
+  //     if(v0.value1!=nullptr) cout<<"b2.constant and neg v0.value1!=nullptr"<<'\n';
+  //     if(v1.result!=nullptr) cout<<"b2.constant and neg v1.result!=nullptr"<<'\n';
   //   }
-  // else if(b1.variable and b2.numeric)
+  // else if(b2.constant)
   //   {
-  //     // cout<<"b1.variable and b2 numeric"<<'\n';
-  //     v0.value1Negative=b1.negative;
-  //     const uint16_t id1=data[(b1.negative)?s1.substr(1):s1];
-  //     // cout<<"ID "<<id1<<'\n';
-  //     const uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
-  //     // cout<<"ID "<<id1<<'\n';
-  //     v0.value1=&variableValue[from1];
+  //     v0.value2=new double(constants[constantNames[s2]]);
+  //     if(v0.value1!=nullptr) cout<<"b2.constant v0.value1!=nullptr"<<'\n';
+  //     if(v1.result!=nullptr) cout<<"b2.constant v1.result!=nullptr"<<'\n';
+  //   }
+  // else if(b2.numeric)
+  //   {
   //     v0.value2=new double(stod(s2));
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
+  //     if(v0.value1!=nullptr) cout<<"b2.numeric v0.value1!=nullptr"<<'\n';
+  //     if(v1.result!=nullptr) cout<<"b2.numeric v1.result!=nullptr"<<'\n';
   //   }
-  // else if(b1.constant and b2.variable)
+  // else if(b2.math)
   //   {
-  //     // cout<<"b1.constant and b2.variable"<<'\n';
-  //     v0.value2Negative=b2.negative;
-  //     const uint16_t id2=data[(b2.negative)?s2.substr(1):s2];
-  //     const uint16_t from2=(id2==0)?0:noOfInitialValue[id2-1];
-  //     v0.value2=&variableValue[from2];
-
-  //     if(b1.negative)
-  // 	{
-  // 	  v0.value1Negative=1;
-  // 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
-  // 	}
-  //     else v0.value1=new double(constants[constantNames[s1]]);
-
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
-  //   }
-  // else if(b1.constant and b2.constant)
-  //   {
-  //     // cout<<"b1.constant and b2.constant"<<'\n';
-  //     if(b1.negative)
-  // 	{
-  // 	  v0.value1Negative=1;
-  // 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
-  // 	}
-  //     else v0.value1=new double(constants[constantNames[s1]]);
-
-  //     if(b2.negative)
-  // 	{
-  // 	  v0.value2Negative=1;
-  // 	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
-  // 	}
-  //     else v0.value2=new double(constants[constantNames[s2]]);
-
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
-  //   }
-  // else if(b1.constant and b2.numeric)
-  //   {
-  //     // cout<<"b1.constant and b2.numeric"<<'\n';
-  //     if(b1.negative)
-  // 	{
-  // 	  v0.value1Negative=1;
-  // 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
-  // 	}
-  //     else v0.value1=new double(constants[constantNames[s1]]);
-  //     v0.value2=new double(stod(s2));
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
-  //   }
-  // else if(b1.numeric and b2.variable)
-  //   {
-  //     // cout<<"b1.numeric and b2.variable"<<'\n';
-  //     v0.value1=new double(stod(s1));
-  //     v0.value2Negative=b2.negative;
-  //     const uint16_t id2=data[(b2.negative)?s2.substr(1):s2];
-  //     const uint16_t from2=(id2==0)?0:noOfInitialValue[id2-1];
-  //     v0.value2=&variableValue[from2];
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
-  //   }
-  // else if(b1.numeric and b2.constant)
-  //   {
-  //     // cout<<"b1.numeric and b2.constant "<<s1<<" "<<s2<<'\n';
-  //     v0.value1=new double(stod(s1));
-
-  //     if(b2.negative)
-  // 	{
-  // 	  v0.value2Negative=1;
-  // 	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
-  // 	}
-  //     else v0.value2=new double(constants[constantNames[s2]]);
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
-  //   }
-  // else if(b1.numeric and b2.numeric)
-  //   {
-  //     // cout<<"b1.numeric and b2.numeric "<<s1<<" "<<s2<<'\n';
-  //     v0.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), stod(s2)));
-  //   }
-  // else if(b1.math and b2.math)
-  //   {
-  //     // cout<<"b1.math and b2.math "<<'\n';
-  //     const uint8_t id1=stoi(s1.substr(1));
-  //     const uint8_t id2=stoi(s2.substr(1));
-  //     const VertexNew v1=vv[id1];
+  //     id2=stoi(s2.substr(1));
   //     const VertexNew v2=vv[id2];
 
-  //     if(v1.result!=nullptr and v2.result!=nullptr)
+  //     if(v0.value1!=nullptr and v2.result!=nullptr)
   // 	{
-  // 	  // cout<<"v1.result!=nullptr and v2.result!=nullptr"<<'\n';
-  // 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v1.result, *v2.result));
-  // 	  // remove.emplace_back({id1});
-  // 	  // remove.emplace_back(id2);
+  // 	  cout<<"v0.value1!=nullptr and v2.result!=nullptr"<<'\n';
+  // 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
+  // 	  v0.value1=nullptr;
+
+  // 	  const vector<double*> v11={v2.value1, v2.value2};
+  // 	  const std::pair<uint8_t, vector<double*>> v01{id2, v11};
+  // 	  remove.emplace_back(v01);
+
+  // 	  const vector<double*> v21={v1.value1, v1.value2};
+  // 	  const std::pair<uint8_t, vector<double*>> v02{id2, v21};
+  // 	  remove.emplace_back(v02);
   // 	}
   //     else
   // 	{
   // 	  v0.mathOperator=operators.GetOperator(mathOperator);
-  // 	  // cout<<"else "<<id1<<" "<<id2<<" "<<v2.result<<'\n';
-  // 	  v0.value1=v1.result;
   // 	  v0.value2=v2.result;
   // 	}
   //   }
-  // else if(b1.math and b2.constant)
-  //   {
-  //     // cout<<"b1.math and b2.constant"<<'\n';
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
 
-  //     if(b2.negative)
-  // 	{
-  // 	  v0.value2Negative=1;
-  // 	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
-  // 	}
-  //     else v0.value2=new double(constants[constantNames[s2]]);
-  //     const VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
-  //     v0.value1=v1.result;
-  //   }
-  // else if(b1.math and b2.variable)
-  //   {
-  //     // cout<<"b1.math and b2.variable"<<'\n';
-  //     v0.value2Negative=b2.negative;
-  //     const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
-  //     const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
-  //     v0.value2=&variableValue[from2];
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
-  //     const VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
-  //     v0.value1=v1.result;
-  //   }
-  // else if(b1.numeric and b2.math)
-  //   {
-  //     // cout<<"b1.numeric and b2.math "<<vv.size()<<" "<<stoi(s2.substr(1, s2.size()-1))<<'\n';
-  //     v0.value1=new double(stod(s1));
-  //     const uint8_t id2=stoi(s2.substr(1, s2.size()-1));
-  //     const VertexNew v2=vv[id2];
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
 
-  //     if(v2.result!=nullptr)
-  // 	{
-  // 	  // cout<<"v2.result!=nullptr "<<*v2.result<<'\n';
-  // 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
-  // 	  // cout<<"result "<<*v0.result<<" "<<v0.result<<'\n';
-  // 	  // remove.emplace_back(id2);
-  // 	}
-  //     else v0.value2=v2.result;
-  //   }
-  // else if(b2.math and b1.constant)
-  //   {
-  //     // cout<<"b2.math and b1.constant "<<s1<<" "<<s2<<" "<<s2.substr(1, s2.size()-1)<<'\n';
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
-  //     const uint8_t id2=stoi(s2.substr(1, s2.size()-1));
-  //     const VertexNew v2=vv[id2];
 
-  //     if(b1.negative)
-  // 	{
-  // 	  v0.value1Negative=1;
-  // 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
-  // 	}
-  //     else v0.value1=new double(constants[constantNames[s1]]);
 
-  //     if(v2.result!=nullptr)
-  // 	{
-  // 	  // cout<<"v2.result!=nullptr"<<'\n';
-  // 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
-  // 	  // cout<<"result "<<*v0.result<<'\n';
-  // 	  // remove.emplace_back(id2);
-  // 	}
-  //     else v0.value2=v2.result;
-  //   }
-  // else if(b2.math and b1.variable)
-  //   {
-  //     // cout<<"b2.math and b1.variable"<<'\n';
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
-  //     const uint8_t id2=stoi(s2.substr(1, s2.size()-1));
-  //     const VertexNew v2=vv[id2];
-  //     v0.value1Negative=b1.negative;
-  //     const uint16_t id1=data[(b1.negative)?s1.substr(1):s1];
-  //     const uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
-  //     v0.value1=&variableValue[from1];
-  //     v0.value2=v2.result;
-  //   }
-  // else if(b2.numeric and b1.math)
-  //   {
-  //     // cout<<"b2.numeric and b1.math"<<" "<<s1<<" "<<s2<<'\n';
-  //     v0.mathOperator=operators.GetOperator(mathOperator);
-  //     const uint8_t id1=stoi(s1.substr(1, s1.size()-1));
-  //     const VertexNew v1=vv[id1];
 
-  //     if(v1.result!=nullptr)
-  // 	{
-  // 	  // cout<<"v1.result!=nullptr"<<'\n';
-  // 	  // cout<<*v1.result<<'\n';
-  // 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v1.result, stod(s2)));
-  // 	  // cout<<"result "<<*v0.result<<'\n';
-  // 	  // remove.emplace_back(id1);
-  // 	}
-  //     else v0.value1=v1.result;
-  //   }
-  // else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
-  //   {
-  //     throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable or numeric value.");
-  //   }
-  // else
-  //   {
-  //     throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable or numeric value.");
-  //   }
+  if(b1.variable and b2.variable)
+    {
+      // cout<<"b1.variable and b2.variable"<<'\n';
+      v0.mathOperator=operators.GetOperator(mathOperator);
+      v0.value1Negative=b1.negative;
+      v0.value2Negative=b2.negative;
+
+      const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
+      const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
+      const uint8_t to1=noOfInitialValue[id1];
+
+      const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
+      const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
+      const uint8_t to2=noOfInitialValue[id2];
+
+      if(to1-from1!=to2-from2) cout<<"Warning, different number of initial values."<<'\n';
+
+      v0.value1=&variableValue[from1];
+      v0.value2=&variableValue[from2];
+      // cout<<"ok1"<<'\n';
+    }
+  else if(b1.variable and b2.constant)
+    {
+      // cout<<"b1.variable and b2 constant"<<'\n';
+      v0.value1Negative=b1.negative;
+      const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
+      const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
+      v0.value1=&variableValue[from1];
+
+      if(b2.negative)
+	{
+	  v0.value2Negative=1;
+	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
+	}
+      else v0.value2=new double(constants[constantNames[s2]]);
+
+      v0.mathOperator=operators.GetOperator(mathOperator);
+    }
+  else if(b1.variable and b2.numeric)
+    {
+      // cout<<"b1.variable and b2 numeric"<<'\n';
+      v0.value1Negative=b1.negative;
+      const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
+      // cout<<"ID "<<id1<<'\n';
+      const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
+      // cout<<"ID "<<id1<<'\n';
+      v0.value1=&variableValue[from1];
+      v0.value2=new double(stod(s2));
+      v0.mathOperator=operators.GetOperator(mathOperator);
+    }
+  else if(b1.constant and b2.variable)
+    {
+      // cout<<"b1.constant and b2.variable"<<'\n';
+      v0.value2Negative=b2.negative;
+      const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
+      const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
+      v0.value2=&variableValue[from2];
+
+      if(b1.negative)
+	{
+	  v0.value1Negative=1;
+	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
+	}
+      else v0.value1=new double(constants[constantNames[s1]]);
+
+      v0.mathOperator=operators.GetOperator(mathOperator);
+    }
+  else if(b1.constant and b2.constant)
+    {
+      // cout<<"b1.constant and b2.constant"<<'\n';
+      if(b1.negative)
+	{
+	  v0.value1Negative=1;
+	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
+	}
+      else v0.value1=new double(constants[constantNames[s1]]);
+
+      if(b2.negative)
+	{
+	  v0.value2Negative=1;
+	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
+	}
+      else v0.value2=new double(constants[constantNames[s2]]);
+
+      v0.mathOperator=operators.GetOperator(mathOperator);
+    }
+  else if(b1.constant and b2.numeric)
+    {
+      // cout<<"b1.constant and b2.numeric"<<'\n';
+      if(b1.negative)
+	{
+	  v0.value1Negative=1;
+	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
+	}
+      else v0.value1=new double(constants[constantNames[s1]]);
+      v0.value2=new double(stod(s2));
+      v0.mathOperator=operators.GetOperator(mathOperator);
+    }
+  else if(b1.numeric and b2.variable)
+    {
+      // cout<<"b1.numeric and b2.variable"<<'\n';
+      v0.value1=new double(stod(s1));
+      v0.value2Negative=b2.negative;
+      const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
+      const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
+      v0.value2=&variableValue[from2];
+      v0.mathOperator=operators.GetOperator(mathOperator);
+    }
+  else if(b1.numeric and b2.constant)
+    {
+      // cout<<"b1.numeric and b2.constant "<<s1<<" "<<s2<<'\n';
+      v0.value1=new double(stod(s1));
+
+      if(b2.negative)
+	{
+	  v0.value2Negative=1;
+	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
+	}
+      else v0.value2=new double(constants[constantNames[s2]]);
+      v0.mathOperator=operators.GetOperator(mathOperator);
+    }
+  else if(b1.numeric and b2.numeric)
+    {
+      // cout<<"b1.numeric and b2.numeric "<<s1<<" "<<s2<<'\n';
+      v0.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), stod(s2)));
+    }
+  else if(b1.math and b2.math)
+    {
+      // cout<<"b1.math and b2.math "<<'\n';
+      const uint8_t id1=stoi(s1.substr(1));
+      const uint8_t id2=stoi(s2.substr(1));
+      const VertexNew v1=vv[id1];
+      const VertexNew v2=vv[id2];
+
+      if(v1.result!=nullptr and v2.result!=nullptr)
+	{
+	  // cout<<"v1.result!=nullptr and v2.result!=nullptr"<<'\n';
+	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v1.result, *v2.result));
+	  // remove.emplace_back({id1});
+	  // remove.emplace_back(id2);
+	}
+      else
+	{
+	  v0.mathOperator=operators.GetOperator(mathOperator);
+	  // cout<<"else "<<id1<<" "<<id2<<" "<<v2.result<<'\n';
+	  v0.value1=v1.result;
+	  v0.value2=v2.result;
+	}
+    }
+  else if(b1.math and b2.constant)
+    {
+      // cout<<"b1.math and b2.constant"<<'\n';
+      v0.mathOperator=operators.GetOperator(mathOperator);
+
+      if(b2.negative)
+	{
+	  v0.value2Negative=1;
+	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
+	}
+      else v0.value2=new double(constants[constantNames[s2]]);
+      const VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
+      v0.value1=v1.result;
+    }
+  else if(b1.math and b2.variable)
+    {
+      // cout<<"b1.math and b2.variable"<<'\n';
+      v0.value2Negative=b2.negative;
+      const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
+      const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
+      v0.value2=&variableValue[from2];
+      v0.mathOperator=operators.GetOperator(mathOperator);
+      const VertexNew v1=vv[stoi(s1.substr(1, s1.size()-1))];
+      v0.value1=v1.result;
+    }
+  else if(b1.numeric and b2.math)
+    {
+      // cout<<"b1.numeric and b2.math "<<vv.size()<<" "<<stoi(s2.substr(1, s2.size()-1))<<'\n';
+      v0.value1=new double(stod(s1));
+      const uint8_t id2=stoi(s2.substr(1, s2.size()-1));
+      const VertexNew v2=vv[id2];
+      v0.mathOperator=operators.GetOperator(mathOperator);
+
+      if(v2.result!=nullptr)
+	{
+	  // cout<<"v2.result!=nullptr "<<*v2.result<<'\n';
+	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
+	  // cout<<"result "<<*v0.result<<" "<<v0.result<<'\n';
+	  // remove.emplace_back(id2);
+	}
+      else v0.value2=v2.result;
+    }
+  else if(b2.math and b1.constant)
+    {
+      // cout<<"b2.math and b1.constant "<<s1<<" "<<s2<<" "<<s2.substr(1, s2.size()-1)<<'\n';
+      v0.mathOperator=operators.GetOperator(mathOperator);
+      const uint8_t id2=stoi(s2.substr(1, s2.size()-1));
+      const VertexNew v2=vv[id2];
+
+      if(b1.negative)
+	{
+	  v0.value1Negative=1;
+	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
+	}
+      else v0.value1=new double(constants[constantNames[s1]]);
+
+      if(v2.result!=nullptr)
+	{
+	  // cout<<"v2.result!=nullptr"<<'\n';
+	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
+	  // cout<<"result "<<*v0.result<<'\n';
+	  // remove.emplace_back(id2);
+	}
+      else v0.value2=v2.result;
+    }
+  else if(b2.math and b1.variable)
+    {
+      // cout<<"b2.math and b1.variable"<<'\n';
+      v0.mathOperator=operators.GetOperator(mathOperator);
+      const uint8_t id2=stoi(s2.substr(1, s2.size()-1));
+      const VertexNew v2=vv[id2];
+      v0.value1Negative=b1.negative;
+      const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
+      const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
+      v0.value1=&variableValue[from1];
+      v0.value2=v2.result;
+    }
+  else if(b2.numeric and b1.math)
+    {
+      // cout<<"b2.numeric and b1.math"<<" "<<s1<<" "<<s2<<'\n';
+      v0.mathOperator=operators.GetOperator(mathOperator);
+      const uint8_t id1=stoi(s1.substr(1, s1.size()-1));
+      const VertexNew v1=vv[id1];
+
+      if(v1.result!=nullptr)
+	{
+	  // cout<<"v1.result!=nullptr"<<'\n';
+	  // cout<<*v1.result<<'\n';
+	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v1.result, stod(s2)));
+	  // cout<<"result "<<*v0.result<<'\n';
+	  // remove.emplace_back(id1);
+	}
+      else v0.value1=v1.result;
+    }
+  else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
+    {
+      throw std::invalid_argument("Value \""+s1+"\" is not a constant, variable or numeric value.");
+    }
+  else
+    {
+      throw std::invalid_argument("Value \""+s2+"\" is not a constant, variable or numeric value.");
+    }
   vv.emplace_back(v0);
 }
 
@@ -410,7 +424,8 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
   for(auto& [id, v]: equations)
     {
       const vector<TestStr> equation=ToVector(v);
-      vector<std::pair<uint8_t, vector<double*>>> remove;
+      vector<uint8_t> removeIndices;
+      std::unordered_set<double*> removeAddress;
       Equation equationNew;
       equationNew.id=id;
 
@@ -419,19 +434,19 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
 	  const Bools b1(eq.str1, data, constantNames);
 	  const Bools b2(eq.str2, data, constantNames);
 
-	  CreateVertex(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data, remove);
+	  CreateVertex(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data, removeIndices, removeAddress);
 	}
       cout<<equationNew.vertices.size()<<'\n';
-      for(const auto &i: remove)
-	{
-	  cout<<"first "<<i.first<<'\n';
-	  // delete ;
-	  // cout<<std::to_string(i)<<" Deleting "<<equationNew.vertices[i].value1<<" "<<equationNew.vertices[i].value2<<" "<<equationNew.vertices[i].result<<" "<<'\n';
-	  // delete equationNew.vertices[i].value1;
-	  // delete equationNew.vertices[i].value2;
-	  // delete equationNew.vertices[i].result;
-	  // equationNew.vertices.erase(equationNew.vertices.begin()+i);
-	}
+      // for(const auto &i: remove)
+      // 	{
+      // 	  cout<<"first "<<i.first<<'\n';
+      // 	  // delete ;
+      // 	  // cout<<std::to_string(i)<<" Deleting "<<equationNew.vertices[i].value1<<" "<<equationNew.vertices[i].value2<<" "<<equationNew.vertices[i].result<<" "<<'\n';
+      // 	  // delete equationNew.vertices[i].value1;
+      // 	  // delete equationNew.vertices[i].value2;
+      // 	  // delete equationNew.vertices[i].result;
+      // 	  // equationNew.vertices.erase(equationNew.vertices.begin()+i);
+      // 	}
       cout<<equationNew.vertices.size()<<'\n';
       equationNew.vertices.reserve(equationNew.vertices.size());
       equationsNew.equations.emplace_back(equationNew);
