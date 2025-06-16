@@ -54,7 +54,8 @@ void ReadInitialData(const string &directory)
   NumericalMethod *numMethod=new RungeKutta4(test1.nx);
   std::copy(results, results+test1.nx, numMethod->currentValues);
 
-  vector<double*> aoea;
+  std::set<double*> aoea;
+
 
   Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
 
@@ -68,10 +69,10 @@ void ReadInitialData(const string &directory)
 	    {
 	      auto a12=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.value1);
 
-	      if(a12!=j.value1 and std::find(aoea.begin(), aoea.end(), j.value1)==aoea.end())
+	      if(a12!=j.value1)
 		{
 		  cout<<"a12!=j.value1; "<<j.value1<<'\n';
-		  aoea.emplace_back(j.value1);
+		  aoea.insert(j.value1);
 		  // delete j.value1;
 		}
 	    }
@@ -80,10 +81,10 @@ void ReadInitialData(const string &directory)
 	    {
 	      auto a13=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.value2);
 
-	      if(a13!=j.value2 and std::find(aoea.begin(), aoea.end(), j.value2)==aoea.end())
+	      if(a13!=j.value2)
 		{
 		  cout<<"a13!=j.value2 "<<j.value2<<'\n';
-		  aoea.emplace_back(j.value2);
+		  aoea.insert(j.value2);
 		  // delete j.value2;
 		}
 	    }
@@ -92,10 +93,10 @@ void ReadInitialData(const string &directory)
 	    {
 	      auto a14=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.result);
 
-	      if(a14!=j.result and std::find(aoea.begin(), aoea.end(), j.result)==aoea.end())
+	      if(a14!=j.result)
 		{
 		  cout<<"a14!=j.result "<<j.result<<'\n';
-		  aoea.emplace_back(j.result);
+		  aoea.insert(j.result);
 		  // delete j.result;
 		}
 	    }
