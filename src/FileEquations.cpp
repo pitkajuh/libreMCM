@@ -70,12 +70,15 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 {
   cout<<"Create "<<s1<<mathOperator<<s2<<'\n';
   VertexNew v0;
+  VertexNew v1;
+  uint8_t id1;
+  uint8_t id2;
 
   if(b1.variable)
     {
       v0.mathOperator=operators.GetOperator(mathOperator);
       v0.value1Negative=b1.negative;
-      const uint16_t id1=data[(b1.negative)?s1.substr(1):s1];
+      id1=data[(b1.negative)?s1.substr(1):s1];
       const uint16_t from1=(id1==0)?0:noOfInitialValue[id1-1];
       const uint16_t to1=noOfInitialValue[id1];
       v0.value1=&variableValue[from1];
@@ -89,15 +92,15 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.numeric) v0.value1=new double(stod(s1));
   else if(b1.math)
     {
-      const uint8_t id1=stoi(s1.substr(1));
-      const VertexNew v1=vv[id1];
+      id1=stoi(s1.substr(1));
+      v1=vv[id1];
       v0.value1=v1.result;
     }
 
   if(b2.variable)
     {
       v0.value2Negative=b2.negative;
-      const uint16_t id2=data[(b2.negative)?s2.substr(1):s2];
+      id2=data[(b2.negative)?s2.substr(1):s2];
       const uint16_t from2=(id2==0)?0:noOfInitialValue[id2-1];
       const uint16_t to2=noOfInitialValue[id2];
       v0.value2=&variableValue[from2];
@@ -111,18 +114,22 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b2.numeric) v0.value2=new double(stod(s2));
   else if(b2.math)
     {
-      const uint8_t id2=stoi(s2.substr(1));
+      id2=stoi(s2.substr(1));
       const VertexNew v2=vv[id2];
 
       if(v0.value1!=nullptr and v2.result!=nullptr)
 	{
+	  cout<<"v0.value1!=nullptr and v2.result!=nullptr"<<'\n';
 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
 	  v0.value1=nullptr;
-	  // remove.emplace_back({id1, {v0.value1, v0.value2}});
-	  // remove.emplace_back(id2);
-	  const vector<double*> v1={v2.value1, v2.value2};
-	  const std::pair<uint8_t, vector<double*>> v01={id2, v1};
+
+	  const vector<double*> v11={v2.value1, v2.value2};
+	  const std::pair<uint8_t, vector<double*>> v01{id2, v11};
 	  remove.emplace_back(v01);
+
+	  const vector<double*> v21={v1.value1, v1.value2};
+	  const std::pair<uint8_t, vector<double*>> v02{id2, v21};
+	  remove.emplace_back(v02);
 	}
       else
 	{
@@ -415,15 +422,16 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
 	  CreateVertex(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data, remove);
 	}
       cout<<equationNew.vertices.size()<<'\n';
-      // for(const auto i: remove)
-      // 	{
-      // 	  delete ;
-      // 	  // cout<<std::to_string(i)<<" Deleting "<<equationNew.vertices[i].value1<<" "<<equationNew.vertices[i].value2<<" "<<equationNew.vertices[i].result<<" "<<'\n';
-      // 	  // delete equationNew.vertices[i].value1;
-      // 	  // delete equationNew.vertices[i].value2;
-      // 	  // delete equationNew.vertices[i].result;
-      // 	  // equationNew.vertices.erase(equationNew.vertices.begin()+i);
-      // 	}
+      for(const auto &i: remove)
+	{
+	  cout<<"first "<<i.first<<'\n';
+	  // delete ;
+	  // cout<<std::to_string(i)<<" Deleting "<<equationNew.vertices[i].value1<<" "<<equationNew.vertices[i].value2<<" "<<equationNew.vertices[i].result<<" "<<'\n';
+	  // delete equationNew.vertices[i].value1;
+	  // delete equationNew.vertices[i].value2;
+	  // delete equationNew.vertices[i].result;
+	  // equationNew.vertices.erase(equationNew.vertices.begin()+i);
+	}
       cout<<equationNew.vertices.size()<<'\n';
       equationNew.vertices.reserve(equationNew.vertices.size());
       equationsNew.equations.emplace_back(equationNew);
