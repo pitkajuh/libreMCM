@@ -64,13 +64,13 @@ void ReadInitialData(const string &directory)
   equations.Calculate();
 
   cout<<"Start clearing"<<'\n';
-  int k=0;
+  // int k=0;
   for(auto &i: equations.equations)
     {
 
       for(auto &j: i.vertices)
 	{
-	  cout<<k<<'\n';
+	  // cout<<k<<'\n';
 	  if(j.value1!=nullptr)
 	    {
 	      auto a12=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.value1);
@@ -106,8 +106,8 @@ void ReadInitialData(const string &directory)
 		  // delete j.result;
 		}
 	    }
-	  k++;
-	  cout<<" "<<'\n';
+	  // k++;
+	  // cout<<" "<<'\n';
 	}
 
 
