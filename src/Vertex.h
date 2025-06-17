@@ -27,7 +27,20 @@ public:
 
   void Calculate()
   {
-    result=new double(mathOperator->Calculate(*value1, *value2));
+    if(value1!=nullptr and value2!=nullptr)
+      {
+	cout<<"value1!=nullptr and value2!=nullptr "<<*value1<<" "<<*value2<<'\n';
+      }
+    else if(value1!=nullptr)
+      {
+	cout<<"value1!=nullptr"<<'\n';
+      }
+    else if(value2!=nullptr)
+      {
+	cout<<"value2!=nullptr"<<'\n';
+      }
+    // result=new double(mathOperator->Calculate(*value1, *value2));
+    *result=mathOperator->Calculate(*value1, *value2);
   }
 
   VertexNew(){}

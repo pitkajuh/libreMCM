@@ -61,21 +61,23 @@ void ReadInitialData(const string &directory)
 
   test1.CreateEdge(test3.equationNames, equations);
 
-  cout<<"Start clearing"<<'\n';
+  equations.Calculate();
 
+  cout<<"Start clearing"<<'\n';
+  int k=0;
   for(auto &i: equations.equations)
     {
-      cout<<i.vertices.size()<<'\n';
+
       for(auto &j: i.vertices)
 	{
-	  cout<<j.value1<<" "<<j.value2<<" "<<j.result<<'\n';
+	  cout<<k<<'\n';
 	  if(j.value1!=nullptr)
 	    {
 	      auto a12=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.value1);
 
 	      if(a12!=j.value1)
 		{
-		  cout<<"a12!=j.value1; "<<j.value1<<'\n';
+		  cout<<"a12!=j.value1; "<<*j.value1<<'\n';
 		  aoea.insert(j.value1);
 		  // delete j.value1;
 		}
@@ -87,7 +89,7 @@ void ReadInitialData(const string &directory)
 
 	      if(a13!=j.value2)
 		{
-		  cout<<"a13!=j.value2 "<<j.value2<<'\n';
+		  cout<<"a13!=j.value2 "<<*j.value2<<'\n';
 		  aoea.insert(j.value2);
 		  // delete j.value2;
 		}
@@ -99,12 +101,16 @@ void ReadInitialData(const string &directory)
 
 	      if(a14!=j.result)
 		{
-		  cout<<"a14!=j.result "<<j.result<<'\n';
+		  cout<<"a14!=j.result "<<*j.result<<'\n';
 		  aoea.insert(j.result);
 		  // delete j.result;
 		}
 	    }
+	  k++;
+	  cout<<" "<<'\n';
 	}
+
+
     }
 
   delete [] results;

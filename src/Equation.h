@@ -12,9 +12,12 @@ public:
 
   void Calculate()
   {
+    int n=0;
     for(VertexNew &vertex: vertices)
       {
 	vertex.Calculate();
+	cout<<n<<" "<<*vertex.result<<'\n';
+	n++;
       }
   }
 };
@@ -26,6 +29,7 @@ public:
 
   void Calculate()
   {
+    cout<<"Calculate"<<'\n';
     for(Equation &equation: equations)
       {
 	equation.Calculate();
