@@ -46,7 +46,7 @@ public:
 class FileEquations: public File
 {
 protected:
-  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, vector<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress);
+  void CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress);
   void GetOrder(string &str, uint8_t &id, vector<TestStr> &a);
   void RemoveOpenClose(string &equation, uint8_t &id, vector<TestStr> &a);
   void Convert(const map<uint16_t, string> &map);
