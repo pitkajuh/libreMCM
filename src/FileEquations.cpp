@@ -143,6 +143,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.constant and b2.constant)
     {
       cout<<"b1.constant and b2.constant"<<'\n';
+      v0.result=new double;
       if(b1.negative)
 	{
 	  v0.value1Negative=-1;
@@ -285,6 +286,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b2.math and b1.constant)
     {
       cout<<"b2.math and b1.constant "<<s1<<" "<<s2<<" "<<s2.substr(1)<<'\n';
+      v0.result=new double;
       v0.mathOperator=operators.GetOperator(mathOperator);
       const uint8_t id2=stoi(s2.substr(1));
       const VertexNew v2=vv[id2];
