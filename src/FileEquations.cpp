@@ -87,6 +87,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 
       if(to1-from1!=to2-from2) cout<<"Warning, different number of initial values."<<'\n';
 
+      // Multiply by -1 if b1.negative=1 and b2.negative=1?
       v0.value1=&variableValue[from1];
       v0.value2=&variableValue[from2];
       // cout<<"ok1"<<'\n';
@@ -101,7 +102,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 
       if(b2.negative)
 	{
-	  v0.value2Negative=1;
+	  v0.value2Negative=-1;
 	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
 	}
       else v0.value2=new double(constants[constantNames[s2]]);
@@ -130,7 +131,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 
       if(b1.negative)
 	{
-	  v0.value1Negative=1;
+	  v0.value1Negative=-1;
 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
 	}
       else v0.value1=new double(constants[constantNames[s1]]);
@@ -142,14 +143,14 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       cout<<"b1.constant and b2.constant"<<'\n';
       if(b1.negative)
 	{
-	  v0.value1Negative=1;
+	  v0.value1Negative=-1;
 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
 	}
       else v0.value1=new double(constants[constantNames[s1]]);
 
       if(b2.negative)
 	{
-	  v0.value2Negative=1;
+	  v0.value2Negative=-1;
 	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
 	}
       else v0.value2=new double(constants[constantNames[s2]]);
@@ -161,7 +162,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       cout<<"b1.constant and b2.numeric"<<'\n';
       if(b1.negative)
 	{
-	  v0.value1Negative=1;
+	  v0.value1Negative=-1;
 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
 	}
       else v0.value1=new double(constants[constantNames[s1]]);
@@ -185,7 +186,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 
       if(b2.negative)
 	{
-	  v0.value2Negative=1;
+	  v0.value2Negative=-1;
 	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
 	}
       else v0.value2=new double(constants[constantNames[s2]]);
@@ -230,7 +231,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 
       if(b2.negative)
 	{
-	  v0.value2Negative=1;
+	  v0.value2Negative=-1;
 	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
 	}
       else v0.value2=new double(constants[constantNames[s2]]);
@@ -274,7 +275,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 
       if(b1.negative)
 	{
-	  v0.value1Negative=1;
+	  v0.value1Negative=-1;
 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
 	}
       else v0.value1=new double(constants[constantNames[s1]]);

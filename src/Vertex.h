@@ -17,8 +17,8 @@ public:
 struct VertexNew
 {
 public:
-  bool value1Negative=0;
-  bool value2Negative=0;
+  int8_t value1Negative=1;
+  int8_t value2Negative=1;
   MathOperator *mathOperator=nullptr;
 
   double *value1=nullptr;
