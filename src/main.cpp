@@ -65,6 +65,7 @@ void ReadInitialData(const string &directory)
 
   for(auto &i: equations.equations)
     {
+      cout<<i.vertices.size()<<'\n';
       for(auto &j: i.vertices)
 	{
 	  cout<<j.value1<<" "<<j.value2<<" "<<j.result<<'\n';
