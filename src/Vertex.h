@@ -40,6 +40,7 @@ public:
 	cout<<"value2!=nullptr"<<'\n';
       }
     // result=new double(mathOperator->Calculate(*value1, *value2));
+    cout<<"Calculate "<<value1<<" "<<value2<<" "<<result<<'\n';
     *result=mathOperator->Calculate(*value1, *value2);
   }
 
