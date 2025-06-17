@@ -73,6 +73,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   if(b1.variable and b2.variable)
     {
       cout<<"b1.variable and b2.variable"<<'\n';
+      v0.result=new double;
       v0.mathOperator=operators.GetOperator(mathOperator);
       v0.value1Negative=b1.negative;
       v0.value2Negative=b2.negative;
@@ -95,6 +96,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.variable and b2.constant)
     {
       cout<<"b1.variable and b2 constant"<<'\n';
+      v0.result=new double;
       v0.value1Negative=b1.negative;
       const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
       const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
@@ -112,6 +114,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.variable and b2.numeric)
     {
       cout<<"b1.variable and b2 numeric"<<'\n';
+      v0.result=new double;
       v0.value1Negative=b1.negative;
       const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
       // cout<<"ID "<<id1<<'\n';
@@ -124,6 +127,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.constant and b2.variable)
     {
       cout<<"b1.constant and b2.variable"<<'\n';
+      v0.result=new double;
       v0.value2Negative=b2.negative;
       const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
       const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
@@ -177,6 +181,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.numeric and b2.variable)
     {
       cout<<"b1.numeric and b2.variable"<<'\n';
+      v0.result=new double;
       v0.value1=new double(stod(s1));
       v0.value2Negative=b2.negative;
       const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
@@ -187,6 +192,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.numeric and b2.constant)
     {
       cout<<"b1.numeric and b2.constant "<<s1<<" "<<s2<<'\n';
+      v0.result=new double;
       v0.value1=new double(stod(s1));
 
       if(b2.negative)
@@ -244,7 +250,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       cout<<"b1.math and b2.constant"<<'\n';
       v0.mathOperator=operators.GetOperator(mathOperator);
-
+      v0.result=new double;
       if(b2.negative)
 	{
 	  v0.value2Negative=-1;
@@ -257,6 +263,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.math and b2.variable)
     {
       cout<<"b1.math and b2.variable"<<'\n';
+      v0.result=new double;
       v0.value2Negative=b2.negative;
       const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
       const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
@@ -302,13 +309,18 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b2.math and b1.variable)
     {
       cout<<"b2.math and b1.variable"<<'\n';
-      v0.mathOperator=operators.GetOperator(mathOperator);
       const uint8_t id2=stoi(s2.substr(1));
       const VertexNew v2=vv[id2];
-      v0.value1Negative=b1.negative;
       const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
       const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
+
+      v0.result=new double;
+      v0.mathOperator=operators.GetOperator(mathOperator);
+
+      v0.value1Negative=b1.negative;
+
       v0.value1=&variableValue[from1];
+      v0.value2=v2.result;
     }
   else if(b2.numeric and b1.math)
     {
