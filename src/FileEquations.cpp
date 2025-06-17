@@ -57,6 +57,14 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
   cout<<"+++++++++++"<<'\n';
 }
 
+void FileEquations::RemoveVertex(const uint8_t id, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, const VertexNew &v)
+{
+  removeIndices.insert(id);
+  removeAddress.insert(v.value1);
+  removeAddress.insert(v.value2);
+  removeAddress.insert(v.result);
+}
+
 void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress)
 {
   cout<<"Create "<<s1<<mathOperator<<s2<<'\n';
@@ -201,14 +209,10 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	{
 	  cout<<"v1.result!=nullptr and v2.result!=nullptr"<<'\n';
 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v1.result, *v2.result));
-	  removeIndices.insert(id1);
-	  removeIndices.insert(id2);
-	  removeAddress.insert(v1.value1);
-	  removeAddress.insert(v1.value2);
-	  removeAddress.insert(v1.result);
-	  removeAddress.insert(v2.value1);
-	  removeAddress.insert(v2.value2);
-	  removeAddress.insert(v2.result);
+
+	  RemoveVertex(id1, removeIndices, removeAddress, v1);
+	  RemoveVertex(id2, removeIndices, removeAddress, v2);
+
 	  cout<<v2.result<<" "<<v1.result<<'\n';
 	}
       else
@@ -256,11 +260,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	{
 	  cout<<"v2.result!=nullptr "<<*v2.result<<'\n';
 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v0.value1, *v2.result));
-	  removeIndices.insert(id2);
-	  removeAddress.insert(v2.value1);
-	  removeAddress.insert(v2.value2);
-	  removeAddress.insert(v2.result);
-	  // cout<<"result "<<*v0.result<<" "<<v0.result<<'\n';
+	  RemoveVertex(id2, removeIndices, removeAddress, v2);
 	}
       else v0.value2=v2.result;
     }
@@ -300,16 +300,12 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       if(v1.result!=nullptr)
 	{
 	  cout<<"v1.result!=nullptr "<<std::to_string(id1)<<" "<<vv.size()<<'\n';
-	  // cout<<*v1.result<<'\n';
 	  v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v1.result, stod(s2)));
-	  // cout<<"result "<<*v0.result<<'\n';
-	  removeIndices.insert(id1);
-	  removeAddress.insert(v1.value1);
-	  removeAddress.insert(v1.value2);
-	  removeAddress.insert(v1.result);
+
+	  RemoveVertex(id1, removeIndices, removeAddress, v1);
+
 	  cout<<"@"<<std::to_string(id1)<<" "<<v1.value1<<" "<<v1.value2<<"="<<v1.result<<'\n';
 	  cout<<v0.value1<<" "<<v0.value2<<" "<<v0.result<<'\n';
-	  // cout<<v0.result<<" "<<v1.result<<" "<<v1.value1<<" "<<v1.value2<<" "<<vv.size()<<'\n';
 	}
       else
 	{
@@ -347,50 +343,30 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
       std::unordered_set<double*> removeAddress;
       Equation equationNew;
       equationNew.id=id;
-      uint8_t N=0;
 
       for(const TestStr &eq: equation)
 	{
 	  const Bools b1(eq.str1, data, constantNames);
 	  const Bools b2(eq.str2, data, constantNames);
 	  CreateVertex(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data, removeIndices, removeAddress);
-	  cout<<"N="<<std::to_string(N)<<", "<<equationNew.vertices[N].result<<'\n';
-
-	  N++;
 	}
 
-      N=0;
-      cout<<equationNew.vertices.size()<<'\n';
-      cout<<"SIZES "<<removeAddress.size()<<" "<<removeIndices.size()<<'\n';
       uint8_t j=0;
+
       for(const auto &i: removeIndices)
 	{
-	  // cout<<"Remove "<<std::to_string(i)<<", "<<equationNew.vertices.value1<<" "<<equationNew.vertices.value2<<"="<<equationNew.vertices.result<<'\n';
-	  cout<<"I="<<std::to_string(i)<<'\n';
-	  auto a1=equationNew.vertices[i];
-	  cout<<a1.value1<<" "<<a1.value2<<" "<<a1.result<<'\n';
-	  // for(const VertexNew &j: a1)
-	  //   {
-	  //     cout<<j.value1<<'\n';
-	  //   }
 	  equationNew.vertices.erase(equationNew.vertices.begin()+i-j);
 	  j++;
 	}
 
-      // if(equationNew.vertices.size()>1)
-      // 	{
-	  for(const auto &i: removeAddress)
-	    {
-	      // cout<<"first "<<i<<" "<<*i<<'\n';
-	      cout<<"first "<<i<<" "<<'\n';
-	      delete i;
-	    }
-	// }
+      for(const auto &i: removeAddress)
+	{
+	  delete i;
+	}
 
-	  removeAddress.clear();
-	  removeIndices.clear();
+      removeAddress.clear();
+      removeIndices.clear();
 
-      cout<<equationNew.vertices.size()<<'\n';
       equationNew.vertices.reserve(equationNew.vertices.size());
       equationsNew.equations.emplace_back(equationNew);
       cout<<" "<<'\n';
