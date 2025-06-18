@@ -28,7 +28,7 @@ public:
   void Calculate()
   {
     cout<<this<<'\n';
-    cout<<"Calculate1 "<<value1<<" "<<mathOperator<<" "<<value2<<" "<<result<<'\n';
+    cout<<"Calculate1 "<<"v1 "<<value1<<" math "<<mathOperator<<" v2 "<<value2<<"="<<result<<'\n';
     if(value1!=nullptr and value2!=nullptr)
       {
 	cout<<"value1!=nullptr and value2!=nullptr "<<*value1<<" "<<*value2<<'\n';

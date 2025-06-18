@@ -32,7 +32,6 @@ public:
 
   void Calculate()
   {
-    cout<<"Calculate "<<equations.size()<<'\n';
     for(Equation &equation: equations)
       {
 	equation.Calculate();
