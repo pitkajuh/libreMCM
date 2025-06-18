@@ -15,8 +15,8 @@ public:
     int n=0;
     for(VertexNew &vertex: vertices)
       {
-	cout<<"Calculating "<<vertex.value1<<" "<<vertex.value2<<" "<<vertex.result<<'\n';
-	cout<<"Calculating "<<*vertex.value1<<" "<<*vertex.value2<<" "<<vertex.result<<'\n';
+	cout<<"Calculating "<<vertex.mathOperator<<" "<<vertex.value1<<" "<<vertex.value2<<" "<<vertex.result<<'\n';
+	cout<<"Calculating "<<vertex.mathOperator<<" "<<*vertex.value1<<" "<<*vertex.value2<<" "<<vertex.result<<'\n';
 	vertex.Calculate();
 	cout<<"Result is "<<*vertex.result<<'\n';
 	// cout<<n<<" "<<*vertex.result<<'\n';
