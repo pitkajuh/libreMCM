@@ -310,7 +310,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	{
 	  cout<<"v1.result!=nullptr and v2.result!=nullptr "<<vv.size()-removeIndices.size()<<'\n';
 
-
+	  v0.mathOperator=operators.GetOperator(mathOperator);
 
 	  cout<<"VV "<<std::to_string(n)<<" "<<std::to_string(size)<<" "<<vv.size()<<" "<<removeIndices.size()<<'\n';
 
