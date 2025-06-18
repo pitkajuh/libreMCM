@@ -27,6 +27,8 @@ public:
 
   void Calculate()
   {
+    cout<<this<<'\n';
+    cout<<"Calculate1 "<<value1<<" "<<value2<<" "<<result<<'\n';
     if(value1!=nullptr and value2!=nullptr)
       {
 	cout<<"value1!=nullptr and value2!=nullptr "<<*value1<<" "<<*value2<<'\n';
@@ -40,7 +42,8 @@ public:
 	cout<<"value2!=nullptr"<<'\n';
       }
     // result=new double(mathOperator->Calculate(*value1, *value2));
-    cout<<"Calculate "<<value1<<" "<<value2<<" "<<result<<'\n';
+    cout<<"AOEA"<<'\n';
+
     *result=mathOperator->Calculate(*value1, *value2);
   }
 

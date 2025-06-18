@@ -15,8 +15,11 @@ public:
     int n=0;
     for(VertexNew &vertex: vertices)
       {
+	cout<<"Calculating "<<vertex.value1<<" "<<vertex.value2<<" "<<vertex.result<<'\n';
+	cout<<"Calculating "<<*vertex.value1<<" "<<*vertex.value2<<" "<<vertex.result<<'\n';
 	vertex.Calculate();
-	cout<<n<<" "<<*vertex.result<<'\n';
+	cout<<"Result is "<<*vertex.result<<'\n';
+	// cout<<n<<" "<<*vertex.result<<'\n';
 	n++;
       }
   }
@@ -29,7 +32,7 @@ public:
 
   void Calculate()
   {
-    cout<<"Calculate"<<'\n';
+    cout<<"Calculate "<<equations.size()<<'\n';
     for(Equation &equation: equations)
       {
 	equation.Calculate();

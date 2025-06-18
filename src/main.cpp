@@ -59,7 +59,7 @@ void ReadInitialData(const string &directory)
 
   Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
 
-  test1.CreateEdge(test3.equationNames, equations);
+  // test1.CreateEdge(test3.equationNames, equations);
 
   equations.Calculate();
 
@@ -77,7 +77,7 @@ void ReadInitialData(const string &directory)
 
 	      if(a12!=j.value1)
 		{
-		  cout<<"a12!=j.value1; "<<*j.value1<<'\n';
+		  cout<<"a12!=j.value1; "<<j.value1<<" "<<*j.value1<<'\n';
 		  aoea.insert(j.value1);
 		  // delete j.value1;
 		}
@@ -89,7 +89,7 @@ void ReadInitialData(const string &directory)
 
 	      if(a13!=j.value2)
 		{
-		  cout<<"a13!=j.value2 "<<*j.value2<<'\n';
+		  cout<<"a13!=j.value2 "<<j.value2<<" "<<*j.value2<<'\n';
 		  aoea.insert(j.value2);
 		  // delete j.value2;
 		}
@@ -101,7 +101,7 @@ void ReadInitialData(const string &directory)
 
 	      if(a14!=j.result)
 		{
-		  cout<<"a14!=j.result "<<*j.result<<'\n';
+		  cout<<"a14!=j.result "<<j.result<<" "<<*j.result<<'\n';
 		  aoea.insert(j.result);
 		  // delete j.result;
 		}
