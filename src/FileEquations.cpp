@@ -371,9 +371,19 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       if(v2.result!=nullptr)
 	{
 	  cout<<"v2.result!=nullptr "<<*v2.result<<'\n';
+	  v0.mathOperator=operators.GetOperator(mathOperator);
+	  v0.value2=v2.result;
+	  v0.value1=new double(stod(s1));
+
+	  if(v0.result==nullptr)
+	    {
+	      cout<<"v0.result==nullptr"<<'\n';
+	      v0.result=new double;
+	    }
+	  v0.Calculate();
 	  // v0.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), *v2.result));
-	  if(v0.result==nullptr) v0.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), *v2.result));
-	  else *v0.result=operators.GetOperator(mathOperator)->Calculate(stod(s1), *v2.result);
+	  // if(v0.result==nullptr) v0.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), *v2.result));
+	  // else *v0.result=operators.GetOperator(mathOperator)->Calculate(stod(s1), *v2.result);
 	  RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv);
 	}
       else
@@ -426,6 +436,9 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       if(v1.result!=nullptr)
 	{
 	  cout<<"v1.result!=nullptr "<<std::to_string(id1)<<" "<<vv.size()<<'\n';
+
+	  v0.mathOperator=operators.GetOperator(mathOperator);
+
 	  // v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v1.result, stod(s2)));
 	  // v0.mathOperator=operators.GetOperator(mathOperator);
 	  v0.value1=v1.result;
