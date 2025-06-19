@@ -57,15 +57,15 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
   cout<<"+++++++++++"<<'\n';
 }
 
-void FileEquations::RemoveVertex(const uint8_t id, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, const VertexNew &v, const uint8_t n, const uint8_t size, const uint8_t size2, const VertexNew &v0, const vector<VertexNew> &vv)
+void FileEquations::RemoveVertex(const uint8_t id, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, const VertexNew &v, const uint8_t n, const uint8_t size, const uint8_t size2, const VertexNew &v0, const vector<VertexNew> &vv, double *data, const uint8_t at)
 {
-  for(const auto &i: removeIndices)
-    {
-      cout<<std::to_string(i)<<'\n';
-    }
-  auto a1=find(removeIndices.begin(), removeIndices.end(), n)==removeIndices.end();
+  // for(const auto &i: removeIndices)
+  //   {
+  //     cout<<std::to_string(i)<<'\n';
+  //   }
+  // auto a1=find(removeIndices.begin(), removeIndices.end(), n)==removeIndices.end();
 
-  cout<<"SIZES "<<std::to_string(size2)<<" "<<std::to_string(size)<<" n="<<std::to_string(n)<<" "<<a1<<" IF:"<<n-1<<" "<<'\n';
+  cout<<"SIZES "<<std::to_string(size2)<<" "<<std::to_string(size)<<" n="<<std::to_string(n)<<" IF:"<<n-1<<" "<<'\n';
 
   cout<<"REMOVE "<<std::to_string(id)<<'\n';
 
@@ -92,7 +92,9 @@ void FileEquations::RemoveVertex(const uint8_t id, std::set<uint8_t> &removeIndi
     {
       cout<<"ADDING FOR REMOVAL"<<'\n';
       // removeIndices.insert(id);
-      if(v.value1!=nullptr and v.value1!=v0.value1)
+      auto a1=find(data.begin(), data.end(), v.value1)==data.end();
+
+      if(v.value1!=nullptr and v.value1!=v0.value1 and a1)
       // if(v.value1!=nullptr)
 	{
 	  removeIndices.insert(id);
@@ -308,8 +310,8 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  // if(v0.result==nullptr) v0.result=new double(operators.GetOperator(mathOperator)->Calculate(*v1.result, *v2.result));
 	  // else *v0.result=operators.GetOperator(mathOperator)->Calculate(*v1.result, *v2.result);
 
-	  RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv);
-	  RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv);
+	  RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue);
+	  RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue);
 
 	  cout<<v2.result<<" "<<v1.result<<'\n';
 	}
@@ -373,7 +375,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  // v0.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), *v2.result));
 	  // if(v0.result==nullptr) v0.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), *v2.result));
 	  // else *v0.result=operators.GetOperator(mathOperator)->Calculate(stod(s1), *v2.result);
-	  RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv);
+	  RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue);
 	}
       else
 	{
@@ -440,7 +442,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  // else
 	  v0.Calculate();
 	  cout<<"VV "<<std::to_string(n)<<" "<<std::to_string(size)<<" "<<vv.size()<<" "<<removeIndices.size()<<'\n';
-	  RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv);
+	  RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue);
 
 	  // cout<<"@"<<std::to_string(id1)<<" "<<v1.value1<<" "<<v1.value2<<"="<<v1.result<<'\n';
 	  // cout<<v0.value1<<" "<<v0.value2<<" "<<v0.result<<'\n';
