@@ -92,10 +92,10 @@ private:
 		aa+=";";
 	      }
 
-	    // for(uint16_t i=equation.id*N2; i<(equation.id+1)*N2; i++)
-	    //   {
-	    // 	cout<<i<<" "<<r[i]<<'\n';
-	    //   }
+	    for(uint16_t i=equation.id*N2; i<(equation.id+1)*N2; i++)
+	      {
+		cout<<i<<" "<<r[i]<<'\n';
+	      }
 
 	    cout<<aa<<'\n';
 	  }
@@ -108,9 +108,9 @@ private:
 	      }
 	    // cout<<e.from<<" "<<e.to<<'\n';
 	    const uint16_t id=e.equation->id;
-	    cout<<"ID "<<id<<'\n';
 	    // Subtract from e.from
-
+	    cout<<noOfInitialValue[e.from-1]<<" "<<noOfInitialValue[e.from]<<'\n';
+	    cout<<noOfInitialValue[e.to-1]<<" "<<noOfInitialValue[e.to]<<'\n';
 	    for(uint16_t i=noOfInitialValue[e.from-1]; i<noOfInitialValue[e.from]; i++)
 	      {
 		cout<<"FROM "<<i<<'\n';
