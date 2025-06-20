@@ -57,7 +57,7 @@ void ReadInitialData(const string &directory)
 
   std::unordered_set<double*> aoea;
 
-  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue);
+  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue, test1.nx);
 
   // test1.CreateEdge(test3.equationNames, equations);
 
