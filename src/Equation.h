@@ -15,7 +15,6 @@ public:
     for(VertexNew &vertex: vertices)
       {
 	vertex.Calculate();
-	cout<<"Result is "<<*vertex.result<<'\n';
       }
   }
 };
