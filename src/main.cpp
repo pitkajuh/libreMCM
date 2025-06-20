@@ -55,6 +55,11 @@ void ReadInitialData(const string &directory)
   NumericalMethod *numMethod=new RungeKutta4(test1.nx);
   std::copy(results, results+test1.nx, numMethod->currentValues);
 
+  for(int i=0; i<test1.nx; i++)
+    {
+      cout<<i<<" "<<&numMethod->currentValues[i]<<" "<<numMethod->currentValues[i]<<'\n';
+    }
+
   std::unordered_set<double*> aoea;
 
   Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue, test1.nx);
