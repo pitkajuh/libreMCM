@@ -10,12 +10,13 @@ public:
   uint16_t id;
   vector<VertexNew> vertices;
 
-  void Calculate()
+  double Calculate()
   {
     for(VertexNew &vertex: vertices)
       {
 	vertex.Calculate();
       }
+    return *vertices.back().result;
   }
 };
 

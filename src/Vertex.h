@@ -2,8 +2,6 @@
 #define VERTEX_H
 
 #include "MathOperator.h"
-#include <iostream>
-using std::cout;
 
 class Vertex
 {
@@ -28,7 +26,6 @@ public:
   void Calculate()
   {
     *result=mathOperator->Calculate(*value1, *value2);
-    cout<<"Result is "<<*result<<'\n';
   }
 
   VertexNew(){}
