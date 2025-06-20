@@ -13,7 +13,6 @@ public:
   Edge(){}
   Edge(Equation *equation, const uint16_t from, const uint16_t to)
   {
-    cout<<"FROM "<<from<<" "<<"TO "<<to<<'\n';
     this->equation=equation;
     this->from=from;
     this->to=to;

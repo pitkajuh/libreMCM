@@ -66,6 +66,10 @@ void ReadInitialData(const string &directory)
 
   test1.CreateEdge(test3.equationNames, equations);
 
+
+  numMethod->Calculate(timeStart, timeEnd, stepSize, test1.edgesNew);
+
+
   equations.Calculate();
 
   cout<<"Start clearing"<<'\n';
@@ -172,7 +176,7 @@ int main(int argc, char** argv)
 
       cout<<"Starting "<<directory<<'\n';
       auto begin=std::chrono::high_resolution_clock::now();
-      for(int i=0; i<5000; i++)
+      for(int i=0; i<1; i++)
 	{
 	  ReadInitialData(directory);
 	}
