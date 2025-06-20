@@ -46,14 +46,15 @@ void ReadInitialData(const string &directory)
   FileEquations test3(directory+"bin");
 
   FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
-  double *results=nullptr;
-  test1.InitResults(results);
+  NumericalMethod *numMethod=new RungeKutta4(test1.nx);
+  // double *results=nullptr;
+  test1.InitResults(numMethod->results);
 
   MathOperators operators;
 
   cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
-  NumericalMethod *numMethod=new RungeKutta4(test1.nx);
-  std::copy(results, results+test1.nx, numMethod->currentValues);
+
+  std::copy(numMethod->results, numMethod->results+test1.nx, numMethod->currentValues);
 
   for(int i=0; i<test1.nx; i++)
     {
@@ -67,10 +68,10 @@ void ReadInitialData(const string &directory)
   test1.CreateEdge(test3.equationNames, equations);
 
 
-  numMethod->Calculate(timeStart, timeEnd, stepSize, test1.edgesNew);
+  numMethod->Calculate(timeStart, timeEnd, stepSize, test1.edgesNew, test1.noOfInitialValue);
 
 
-  equations.Calculate();
+  // equations.Calculate();
 
   cout<<"Start clearing"<<'\n';
   // int k=0;
@@ -86,7 +87,7 @@ void ReadInitialData(const string &directory)
 
 	      if(a12!=j.value1)
 		{
-		  cout<<"a12!=j.value1; "<<j.value1<<" "<<*j.value1<<'\n';
+		  // cout<<"a12!=j.value1; "<<j.value1<<" "<<*j.value1<<'\n';
 		  aoea.insert(j.value1);
 		  // delete j.value1;
 		}
@@ -98,7 +99,7 @@ void ReadInitialData(const string &directory)
 
 	      if(a13!=j.value2)
 		{
-		  cout<<"a13!=j.value2 "<<j.value2<<" "<<*j.value2<<'\n';
+		  // cout<<"a13!=j.value2 "<<j.value2<<" "<<*j.value2<<'\n';
 		  aoea.insert(j.value2);
 		  // delete j.value2;
 		}
@@ -110,7 +111,7 @@ void ReadInitialData(const string &directory)
 
 	      if(a14!=j.result)
 		{
-		  cout<<"a14!=j.result "<<j.result<<" "<<*j.result<<'\n';
+		  // cout<<"a14!=j.result "<<j.result<<" "<<*j.result<<'\n';
 		  aoea.insert(j.result);
 		  // delete j.result;
 		}
@@ -122,12 +123,12 @@ void ReadInitialData(const string &directory)
 
     }
 
-  delete [] results;
+  // delete [] results;
   delete numMethod;
 
   for(auto k: aoea)
     {
-      cout<<"k="<<k<<'\n';
+      // cout<<"k="<<k<<'\n';
       delete k;
     }
 }
