@@ -397,11 +397,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value2=v2.result;
 	  v0.value1=new double(stod(s1));
 
-	  // if(v0.result==nullptr)
-	  //   {
-	  //     cout<<"v0.result==nullptr"<<'\n';
-	      v0.result=new double(std::numeric_limits<double>::quiet_NaN());
-	    // }
+	  v0.result=new double(std::numeric_limits<double>::quiet_NaN());
 	  v0.Calculate();
 	  // v0.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), *v2.result));
 	  // if(v0.result==nullptr) v0.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), *v2.result));
