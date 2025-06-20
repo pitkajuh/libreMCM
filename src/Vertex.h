@@ -28,6 +28,7 @@ public:
   void Calculate()
   {
     *result=mathOperator->Calculate(*value1, *value2);
+    cout<<"Result is "<<*result<<'\n';
   }
 
   VertexNew(){}
