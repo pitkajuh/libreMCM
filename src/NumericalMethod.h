@@ -14,7 +14,7 @@ public:
   uint16_t N=0;
 
   NumericalMethod(){}
-  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, const vector<Edge> &edges, const vector<uint16_t> &noOfInitialValue)=0;
+  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, const vector<Edge> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations)=0;
   virtual ~NumericalMethod()
   {
     delete [] newValues;
@@ -26,7 +26,7 @@ public:
 class RungeKutta4: public NumericalMethod
 {
 private:
-  void k(const uint16_t from, const uint16_t to, Equation *equation, double *k, const double constant, double *kPrevious)
+  void k(Equation *equation, double *k, const double constant, const double *kPrevious)
   {
     // Replace values in currentValues
 
@@ -56,7 +56,7 @@ private:
       }
   }
 
-  void RK4(const uint16_t from, const uint16_t to, Equation *equation)
+  void RK4(const vector<Edge> &edges, Equations &equations)
   {
     uint16_t t=stepSize;
     double *k1=new double[N];
@@ -67,20 +67,24 @@ private:
 
     while(t<=timeEnd)
       {
-	cout<<"t="<<t<<" "<<from<<" "<<to<<'\n';
-	k0(equation, k1);
-	k(from, to, equation, k2, 0.5, k1);
-	k(from, to, equation, k3, 0.5, k2);
-	k(from, to, equation, k4, 1, k3);
+	cout<<"t="<<t<<'\n';
 
-	for(uint16_t i=0; i<N; i++)
+	for(Equation &equation: equations.equations)
 	  {
-	    r[i]=currentValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
-	    currentValues[i]=r[i];
-	  }
+	    k0(&equation, k1);
+	    k(&equation, k2, 0.5, k1);
+	    k(&equation, k3, 0.5, k2);
+	    k(&equation, k4, 1, k3);
 
+	    for(uint16_t i=0; i<N; i++)
+	      {
+		r[i]=currentValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+		currentValues[i]=r[i];
+	      }
+	  }
 	t+=stepSize;
       }
+
     delete [] k1;
     delete [] k2;
     delete [] k3;
@@ -88,7 +92,7 @@ private:
     delete [] r;
   }
 public:
-  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, const vector<Edge> &edges, const vector<uint16_t> &noOfInitialValue)
+  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, const vector<Edge> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations)
   {
     std::copy(currentValues, currentValues+N, newValues);
     this->noOfInitialValue=noOfInitialValue;
@@ -96,12 +100,14 @@ public:
     this->timeEnd=timeEnd;
     this->stepSize=stepSize;
 
-    for(const Edge &e: edges)
-      {
-	cout<<"From "<<e.from<<" To "<<e.to<<'\n';
-	RK4(e.from, e.to, e.equation);
-	break;
-      }
+    RK4(edges, equations);
+
+    // for(const Edge &e: edges)
+    //   {
+    // 	cout<<"From "<<e.from<<" To "<<e.to<<'\n';
+    // 	RK4(e.from, e.to, e.equation);
+    // 	break;
+    //   }
   }
 
   RungeKutta4(){}
