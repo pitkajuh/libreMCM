@@ -172,7 +172,7 @@ int main(int argc, char** argv)
 
       cout<<"Starting "<<directory<<'\n';
       auto begin=std::chrono::high_resolution_clock::now();
-      for(int i=0; i<1; i++)
+      for(int i=0; i<5000; i++)
 	{
 	  ReadInitialData(directory);
 	}

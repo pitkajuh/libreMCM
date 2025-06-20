@@ -1,13 +1,3 @@
-/*--------------------------------*- C++ -*----------------------------------*\
-|                               +===========+                                |
-|                               | l         |                                |
-|                               |   i       | M ulti                         |
-|                               |     b     | C ompartment                   |
-|                               |       r   | M odelling                     |
-|                               |         e |                                |
-|                               +===========+                                |
-\*---------------------------------------------------------------------------*/
-
 #ifndef FILE_H
 #define FILE_H
 
@@ -20,6 +10,8 @@
 #include <set>
 #include <map>
 #include <string>
+#include <string_view>
+using std::string_view;
 using std::string;
 
 using std::map;

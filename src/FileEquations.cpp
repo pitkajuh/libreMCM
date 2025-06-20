@@ -6,10 +6,10 @@
 using std::to_string;
 using std::string_view;
 
-const string_view OPEN="(";
-const string_view CLOSE=")";
-const string_view OPERATORS2[7]={"^", "/", "*", "+", "-", OPEN, CLOSE};
-const string_view OPERATORS[5]={"^", "/", "*", "+", "-"};
+constexpr string_view OPEN="(";
+constexpr string_view CLOSE=")";
+constexpr string_view OPERATORS2[7]={"^", "/", "*", "+", "-", OPEN, CLOSE};
+constexpr string_view OPERATORS[5]={"^", "/", "*", "+", "-"};
 constexpr double notSet=std::numeric_limits<double>::quiet_NaN();
 
 uint8_t FileEquations::GetOpen(const string &str, const uint8_t close)
