@@ -26,7 +26,7 @@ public:
 class RungeKutta4: public NumericalMethod
 {
 private:
-  void k(Equation *equation, double *k, const double constant, const double *kPrevious)
+  void k(Equation equation, double *k, const double constant, const double *kPrevious)
   {
     // Replace values in currentValues
 
@@ -37,22 +37,22 @@ private:
 
     for(uint16_t i=0; i<N; i++)
       {
-	k[i]=stepSize*equation->Calculate();
+	k[i]=stepSize*equation.Calculate();
       }
 
     // copy from newValues to currentValues
-    cout<<" "<<'\n';
+
     for(uint16_t i=0; i<N; i++)
       {
 	currentValues[i]=newValues[i];
       }
   }
 
-  void k0(Equation *equation, double *k)
+  void k0(Equation equation, double *k)
   {
     for(uint16_t i=0; i<N; i++)
       {
-	k[i]=stepSize*equation->Calculate();
+	k[i]=stepSize*equation.Calculate();
       }
   }
 
@@ -71,10 +71,10 @@ private:
 
 	for(Equation &equation: equations.equations)
 	  {
-	    k0(&equation, k1);
-	    k(&equation, k2, 0.5, k1);
-	    k(&equation, k3, 0.5, k2);
-	    k(&equation, k4, 1, k3);
+	    k0(equation, k1);
+	    k(equation, k2, 0.5, k1);
+	    k(equation, k3, 0.5, k2);
+	    k(equation, k4, 1, k3);
 
 	    for(uint16_t i=0; i<N; i++)
 	      {
@@ -82,6 +82,12 @@ private:
 		currentValues[i]=r[i];
 	      }
 	  }
+
+	for(const Edge &e: edges)
+	  {
+	    cout<<e.from<<" "<<e.to<<'\n';
+	  }
+
 	t+=stepSize;
       }
 
