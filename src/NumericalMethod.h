@@ -60,7 +60,8 @@ private:
   {
     uint16_t t=stepSize;
     uint16_t n=1;
-    const uint16_t N2=equations.equations.size()*(timeEnd-timeStart)/stepSize;
+    // const uint16_t N2=equations.equations.size()*(timeEnd-timeStart)/stepSize;
+    const uint16_t N2=equations.equations.size()*N;
     double *k1=new double[N];
     double *k2=new double[N];
     double *k3=new double[N];
@@ -75,6 +76,7 @@ private:
 
 	for(Equation &equation: equations.equations)
 	  {
+	    cout<<"ID "<<equation.id<<'\n';
 	    k0(equation, k1);
 	    k(equation, k2, 0.5, k1);
 	    k(equation, k3, 0.5, k2);
@@ -88,6 +90,13 @@ private:
 		currentValues[i]=r[i];
 		aa+=std::to_string(r[i]);
 		aa+=";";
+	      }
+
+	    cout<<equation.id*N2<<" "<<(equation.id+1)*N2<<'\n';
+
+	    for(uint16_t i=equation.id*N2; i<(equation.id+1)*N2; i++)
+	      {
+		cout<<i<<'\n';
 	      }
 
 	    cout<<aa<<'\n';
