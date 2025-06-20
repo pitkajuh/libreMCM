@@ -76,35 +76,52 @@ private:
 
 	for(Equation &equation: equations.equations)
 	  {
-	    cout<<"ID "<<equation.id<<'\n';
 	    k0(equation, k1);
 	    k(equation, k2, 0.5, k1);
 	    k(equation, k3, 0.5, k2);
 	    k(equation, k4, 1, k3);
 	    string aa;
-	    for(uint16_t i=0; i<N; i++)
+	    // for(uint16_t i=0; i<N; i++)
+	    for(uint16_t i=equation.id*N2; i<(equation.id+1)*N2; i++)
 	      {
 		// cout<<k1[i]<<"+"<<2*k2[i]<<"+"<<2*k3[i]<<"+"<<k4[i]<<"="<<k1[i]+2*k2[i]+2*k3[i]+k4[i]<<'\n';
 		r[i]=currentValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
 		// cout<<r[i]<<'\n';
-		currentValues[i]=r[i];
+		// currentValues[i]=r[i]; // Set later
 		aa+=std::to_string(r[i]);
 		aa+=";";
 	      }
 
-	    cout<<equation.id*N2<<" "<<(equation.id+1)*N2<<'\n';
-
-	    for(uint16_t i=equation.id*N2; i<(equation.id+1)*N2; i++)
-	      {
-		cout<<i<<'\n';
-	      }
+	    // for(uint16_t i=equation.id*N2; i<(equation.id+1)*N2; i++)
+	    //   {
+	    // 	cout<<i<<" "<<r[i]<<'\n';
+	    //   }
 
 	    cout<<aa<<'\n';
 	  }
 
 	for(const Edge &e: edges)
 	  {
+	    for(const auto &i: noOfInitialValue)
+	      {
+		cout<<i<<'\n';
+	      }
 	    // cout<<e.from<<" "<<e.to<<'\n';
+	    const uint16_t id=e.equation->id;
+	    cout<<"ID "<<id<<'\n';
+	    // Subtract from e.from
+
+	    for(uint16_t i=noOfInitialValue[e.from-1]; i<noOfInitialValue[e.from]; i++)
+	      {
+		cout<<"FROM "<<i<<'\n';
+	      }
+
+	    // Add to e.to
+
+	    for(uint16_t i=noOfInitialValue[e.to-1]; i<noOfInitialValue[e.to]; i++)
+	      {
+		cout<<"To "<<i<<'\n';
+	      }
 	  }
 
 	t+=stepSize;
