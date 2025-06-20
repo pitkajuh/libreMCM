@@ -321,7 +321,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       // v0.value1=v1.result;
       // v0.value2=v2.result;
       // v0.mathOperator=operators.GetOperator(mathOperator);
-
+      cout<<*v1.result<<" "<<*v2.result<<'\n';
       if(!std::isnan(*v1.result) and !std::isnan(*v2.result))
 	{
 	  cout<<"!std::isnan(*v1.result) and !std::isnan(*v2.result) "<<*v1.result<<" "<<*v2.result<<'\n';
@@ -344,6 +344,26 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
 
 	  cout<<v2.result<<" "<<v1.result<<'\n';
+	}
+      else if(!std::isnan(*v1.result))
+	{
+	  v0.result=new double(notSet);
+	  v0.mathOperator=operators.GetOperator(mathOperator);
+	  // cout<<"else "<<id1<<" "<<id2<<" "<<v2.result<<'\n';
+	  v0.value1=v1.result;
+	  v0.value2=v2.result;
+	  RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
+	  // v0.Calculate();
+	}
+      else if(!std::isnan(*v2.result))
+	{
+	  v0.result=new double(notSet);
+	  v0.mathOperator=operators.GetOperator(mathOperator);
+	  // cout<<"else "<<id1<<" "<<id2<<" "<<v2.result<<'\n';
+	  v0.value1=v1.result;
+	  v0.value2=v2.result;
+	  RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
+	  // v0.Calculate();
 	}
       else
 	{
@@ -509,7 +529,8 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   vv.emplace_back(v0);
   cout<<"OUT"<<'\n';
   cout<<v0.value1<<" "<<v0.value2<<"="<<v0.result<<'\n';
-  if(v0.value1!=nullptr) cout<<*v0.value1<<" "<<*v0.value2<<"="<<*v0.result<<'\n';
+  if(v0.value1!=nullptr and v0.value2!=nullptr) cout<<*v0.value1<<" "<<*v0.value2<<"="<<*v0.result<<'\n';
+  else cout<<"Result now, "<<*v0.result<<'\n';
   cout<<" "<<'\n';
 }
 
