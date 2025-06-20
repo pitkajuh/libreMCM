@@ -66,7 +66,7 @@ void ReadInitialData(const string &directory)
 
   // test1.CreateEdge(test3.equationNames, equations);
 
-  equations.Calculate();
+  // equations.Calculate();
 
   cout<<"Start clearing"<<'\n';
   // int k=0;
