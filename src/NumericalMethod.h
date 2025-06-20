@@ -58,10 +58,9 @@ private:
       {
 	cout<<"t="<<t<<" "<<from<<" "<<to<<'\n';
 	k0(from, to, equation, k1);
-	k(from, to, equation, k2, 0.5, k1);
-	// k2=;
-	// k3=;
-	// k4=;
+	// k(from, to, equation, k2, 0.5, k1);
+	// k(from, to, equation, k3, 0.5, k2);
+	// k(from, to, equation, k4, 0, k3);
 
 	t+=stepSize;
       }
