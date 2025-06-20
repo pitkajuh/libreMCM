@@ -26,7 +26,7 @@ public:
 class RungeKutta4: public NumericalMethod
 {
 private:
-  void k(Equation equation, double *k, const double constant, const double *kPrevious)
+  void k(Equation &equation, double *&k, const double constant, const double *kPrevious)
   {
     // Replace values in currentValues
 
@@ -48,7 +48,7 @@ private:
       }
   }
 
-  void k0(Equation equation, double *k)
+  void k0(Equation &equation, double *&k)
   {
     for(uint16_t i=0; i<N; i++)
       {
@@ -59,15 +59,19 @@ private:
   void RK4(const vector<Edge> &edges, Equations &equations)
   {
     uint16_t t=stepSize;
+    uint16_t n=1;
+    const uint16_t N2=equations.equations.size()*(timeEnd-timeStart)/stepSize;
     double *k1=new double[N];
     double *k2=new double[N];
     double *k3=new double[N];
     double *k4=new double[N];
-    double *r=new double[N];
-
-    while(t<=timeEnd)
+    double *r=new double[N2];
+    // double *r=new double[N];
+    cout<<N<<" "<<N2<<'\n';
+    // while(t<=timeEnd)
+    while(n<=(timeEnd-timeStart)/stepSize)
       {
-	cout<<"t="<<t<<'\n';
+	// cout<<"t="<<t<<'\n';
 
 	for(Equation &equation: equations.equations)
 	  {
@@ -75,20 +79,27 @@ private:
 	    k(equation, k2, 0.5, k1);
 	    k(equation, k3, 0.5, k2);
 	    k(equation, k4, 1, k3);
-
+	    string aa;
 	    for(uint16_t i=0; i<N; i++)
 	      {
+		// cout<<k1[i]<<"+"<<2*k2[i]<<"+"<<2*k3[i]<<"+"<<k4[i]<<"="<<k1[i]+2*k2[i]+2*k3[i]+k4[i]<<'\n';
 		r[i]=currentValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+		// cout<<r[i]<<'\n';
 		currentValues[i]=r[i];
+		aa+=std::to_string(r[i]);
+		aa+=";";
 	      }
+
+	    cout<<aa<<'\n';
 	  }
 
 	for(const Edge &e: edges)
 	  {
-	    cout<<e.from<<" "<<e.to<<'\n';
+	    // cout<<e.from<<" "<<e.to<<'\n';
 	  }
 
 	t+=stepSize;
+	n++;
       }
 
     delete [] k1;

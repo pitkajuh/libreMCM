@@ -1,9 +1,10 @@
 edges
 {
   source, r, prey_birth;
-  r, sink, prey_death;
-  source, f, predator_birth;
-  f, sink, predator_death;
+  // r, sink, prey_death;
+  // source, f, predator_birth;
+  // f, sink, predator_death;
+
   // zzzzz, sink, prey_death;
   // source, zzzzz, predator_birth;
   // f, r, predator_death;
