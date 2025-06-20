@@ -1,13 +1,16 @@
+#include <string_view>
 #include "FileEquations.h"
 #include "FileGraph.h"
 #include "Equation.h"
 
 using std::to_string;
+using std::string_view;
 
-const string OPEN="(";
-const string CLOSE=")";
-const string OPERATORS2[7]={"^", "/", "*", "+", "-", OPEN, CLOSE};
-const string OPERATORS[5]={"^", "/", "*", "+", "-"};
+const string_view OPEN="(";
+const string_view CLOSE=")";
+const string_view OPERATORS2[7]={"^", "/", "*", "+", "-", OPEN, CLOSE};
+const string_view OPERATORS[5]={"^", "/", "*", "+", "-"};
+constexpr double notSet=std::numeric_limits<double>::quiet_NaN();
 
 uint8_t FileEquations::GetOpen(const string &str, const uint8_t close)
 {
@@ -151,7 +154,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   if(b1.variable and b2.variable)
     {
       cout<<"b1.variable and b2.variable"<<'\n';
-      v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+      v0.result=new double(notSet);
       v0.mathOperator=operators.GetOperator(mathOperator);
       v0.value1Negative=b1.negative;
       v0.value2Negative=b2.negative;
@@ -176,7 +179,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       cout<<"b1.variable and b2 constant"<<'\n';
       // if(v0.result==nullptr)
-      v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+      v0.result=new double(notSet);
       v0.value1Negative=b1.negative;
       const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
       const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
@@ -197,7 +200,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       cout<<"b1.variable and b2 numeric"<<'\n';
       // if(v0.result==nullptr)
-      v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+      v0.result=new double(notSet);
       v0.value1Negative=b1.negative;
       const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
       // cout<<"ID "<<id1<<'\n';
@@ -217,7 +220,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
       v0.value2=&variableValue[from2];
 
-      v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+      v0.result=new double(notSet);
 
       v0.mathOperator=operators.GetOperator(mathOperator);
 
@@ -232,7 +235,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.constant and b2.constant)
     {
       cout<<"b1.constant and b2.constant"<<'\n';
-      v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+      v0.result=new double(notSet);
 
       if(b1.negative)
 	{
@@ -254,7 +257,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.constant and b2.numeric)
     {
       cout<<"b1.constant and b2.numeric"<<'\n';
-      v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+      v0.result=new double(notSet);
       if(b1.negative)
 	{
 	  v0.value1Negative=-1;
@@ -269,7 +272,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.numeric and b2.variable)
     {
       cout<<"b1.numeric and b2.variable"<<'\n';
-      v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+      v0.result=new double(notSet);
       v0.value1=new double(stod(s1));
       v0.value2Negative=b2.negative;
       const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
@@ -281,7 +284,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b1.numeric and b2.constant)
     {
       cout<<"b1.numeric and b2.constant "<<s1<<" "<<s2<<'\n';
-      v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+      v0.result=new double(notSet);
       v0.value1=new double(stod(s1));
 
       if(b2.negative)
@@ -327,7 +330,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value2=v2.result;
 	  v0.value1=v1.result;
 
-	  v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+	  v0.result=new double(notSet);
 
 
 	  v0.Calculate();
@@ -344,7 +347,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	}
       else
 	{
-	  v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+	  v0.result=new double(notSet);
 	  v0.mathOperator=operators.GetOperator(mathOperator);
 	  // cout<<"else "<<id1<<" "<<id2<<" "<<v2.result<<'\n';
 	  v0.value1=v1.result;
@@ -357,7 +360,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       cout<<"b1.math and b2.constant"<<'\n';
       v0.mathOperator=operators.GetOperator(mathOperator);
-      v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+      v0.result=new double(notSet);
 
       if(b2.negative)
 	{
@@ -365,21 +368,28 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value2=new double(constants[constantNames[s2.substr(1)]]);
 	}
       else v0.value2=new double(constants[constantNames[s2]]);
-      const VertexNew v1=vv[stoi(s1.substr(1))];
+      const uint8_t id1=stoi(s1.substr(1));
+      const VertexNew v1=vv[id1];
+      if(!std::isnan(*v1.result)) RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
       v0.value1=v1.result;
       // v0.Calculate();
     }
   else if(b1.math and b2.variable)
     {
       cout<<"b1.math and b2.variable"<<'\n';
-      v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+      v0.result=new double(notSet);
       v0.value2Negative=b2.negative;
       const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
       const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
       v0.value2=&variableValue[from2];
       v0.mathOperator=operators.GetOperator(mathOperator);
-      const VertexNew v1=vv[stoi(s1.substr(1))];
+      const uint8_t id1=stoi(s1.substr(1));
+      const VertexNew v1=vv[id1];
+
+      if(!std::isnan(*v1.result)) RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
       v0.value1=v1.result;
+
+
       // v0.Calculate();
     }
   else if(b1.numeric and b2.math)
@@ -397,7 +407,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value2=v2.result;
 	  v0.value1=new double(stod(s1));
 
-	  v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+	  v0.result=new double(notSet);
 	  v0.Calculate();
 	  // v0.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), *v2.result));
 	  // if(v0.result==nullptr) v0.result=new double(operators.GetOperator(mathOperator)->Calculate(stod(s1), *v2.result));
@@ -408,7 +418,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	{
 	  v0.mathOperator=operators.GetOperator(mathOperator);
 	  // if(v0.result==nullptr)
-	  v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+	  v0.result=new double(notSet);
 	  v0.value1=new double(stod(s1));
 	  v0.value2=v2.result;
 	}
@@ -416,11 +426,11 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
   else if(b2.math and b1.constant)
     {
       cout<<"b2.math and b1.constant "<<s1<<" "<<s2<<" "<<s2.substr(1)<<'\n';
-      v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+      v0.result=new double(notSet);
       v0.mathOperator=operators.GetOperator(mathOperator);
       const uint8_t id2=stoi(s2.substr(1));
       const VertexNew v2=vv[id2];
-      v0.value2=v2.result;
+
 
       if(b1.negative)
 	{
@@ -428,6 +438,10 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value1=new double(constants[constantNames[s1.substr(1)]]);
 	}
       else v0.value1=new double(constants[constantNames[s1]]);
+
+      if(!std::isnan(*v2.result)) RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
+      v0.value2=v2.result;
+
       // v0.Calculate();
     }
   else if(b2.math and b1.variable)
@@ -438,12 +452,13 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
       const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
 
-      v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+      v0.result=new double(notSet);
       v0.mathOperator=operators.GetOperator(mathOperator);
 
       v0.value1Negative=b1.negative;
 
       v0.value1=&variableValue[from1];
+      if(!std::isnan(*v2.result)) RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
       v0.value2=v2.result;
       // v0.Calculate();
     }
@@ -465,7 +480,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value1=v1.result;
 	  v0.value2=new double(stod(s2));
 
-	  v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+	  v0.result=new double(notSet);
 
 	  // else
 	  // v0.Calculate();
@@ -480,7 +495,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.mathOperator=operators.GetOperator(mathOperator);
 	  v0.value1=v1.result;
 	  v0.value2=new double(stod(s2));
-	  v0.result=new double(std::numeric_limits<double>::quiet_NaN());
+	  v0.result=new double(notSet);
 	}
     }
   else if(!b1.variable and !b1.constant and !b1.numeric and !b1.math)
@@ -628,7 +643,7 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
   while(str.size()>2)
     {
       uint8_t j=0;
-      for(const string &i: OPERATORS)
+      for(const auto &i: OPERATORS)
 	{
 	  at=str.find(i);
 	  if(at<str.size()) break;
