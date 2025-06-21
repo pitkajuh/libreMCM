@@ -127,10 +127,10 @@ void FileGraph::InitResults(double *&results)
       sinkAndSource.clear();
     }
 
-  for(unsigned i=0; i<nx; i++)
-    {
-      cout<<"i="<<i<<" "<<results[i]<<'\n';
-    }
+  // for(unsigned i=0; i<nx; i++)
+  //   {
+  //     cout<<"i="<<i<<" "<<results[i]<<'\n';
+  //   }
 }
 
 void FileGraph::InitInitialValues()
