@@ -59,10 +59,10 @@ void ReadInitialData(const string &directory)
 
   std::copy(numMethod.results, numMethod.results+test1.nx, numMethod.currentValues);
 
-  for(int i=0; i<test1.nx; i++)
-    {
-      cout<<i<<" "<<&numMethod.currentValues[i]<<" "<<numMethod.currentValues[i]<<'\n';
-    }
+  // for(int i=0; i<test1.nx; i++)
+  //   {
+  //     cout<<i<<" "<<&numMethod.currentValues[i]<<" "<<numMethod.currentValues[i]<<'\n';
+  //   }
 
   std::unordered_set<double*> aoea;
 

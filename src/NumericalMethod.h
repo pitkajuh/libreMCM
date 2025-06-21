@@ -95,26 +95,35 @@ private:
 		j++;
 	      }
 	    j=0;
-	    // cout<<aa<<'\n';
+	    cout<<aa<<'\n';
 	  }
 
 	for(const Edge &e: edges)
 	  {
 	    const uint16_t id=e.equation->id;
-	    uint16_t ri_from=nx*id;
-	    uint16_t ri_to=nx*(id+1);
+	    uint16_t ri_from=e.from;
+	    uint16_t ri_to=e.from+1;
+	    // ri_from=nx*id;
+	    // ri_to=nx*(id+1);
 
 	    cout<<"r[i], from "<<ri_from<<" to "<<ri_to<<'\n';
 
+	    for(uint16_t i=ri_from; i<ri_to; i++)
+	      {
+		cout<<"i="<<std::to_string(i)<<'\n';
+	      }
 
 
 	    // SUBTRACT FROM e.from
-	    uint16_t results_subtract_from=n*nx+(e.from-1);
-	    uint16_t results_subtract_to=n*nx+e.from;
+	    uint16_t from=n*nx+(e.from-1);
+	    uint16_t to=n*nx+e.from;
 
-	    cout<<"Results subtract "<<results_subtract_from<<" "<<results_subtract_to<<'\n';
+	    // from=nx*(n-1);
+	    // to=nx*n;
 
-	    for(uint16_t i=n*nx+(e.from-1); i<n*nx+e.from; i++)
+	    cout<<"Results subtract "<<from<<" "<<to<<'\n';
+
+	    for(uint16_t i=from; i<to; i++)
 	      {
 		cout<<"SUBTRACT "<<std::to_string(i)<<'\n';
 
@@ -140,9 +149,9 @@ private:
 	    uint16_t results_add_to=n*nx+e.to;
 
 	    cout<<"Results add "<<results_add_from<<" "<<results_add_to<<'\n';
-
+	    cout<<" "<<'\n';
 	  }
-	cout<<" "<<'\n';
+	cout<<"------------------------------"<<'\n';
 	t+=stepSize;
 	n++;
       }
