@@ -103,8 +103,8 @@ private:
 	    const uint16_t id=e.equation->id;
 	    uint16_t ri_from=e.from;
 	    uint16_t ri_to=e.from+1;
-	    // ri_from=nx*id;
-	    // ri_to=nx*(id+1);
+	    ri_from=nx*id;
+	    ri_to=nx*(id+1);
 
 	    cout<<"r[i], from "<<ri_from<<" to "<<ri_to<<'\n';
 
@@ -118,37 +118,33 @@ private:
 	    uint16_t from=n*nx+(e.from-1);
 	    uint16_t to=n*nx+e.from;
 
-	    // from=nx*(n-1);
-	    // to=nx*n;
+	    from=nx*(n-1);
+	    to=nx*n;
 
 	    cout<<"Results subtract "<<from<<" "<<to<<'\n';
 
-	    for(uint16_t i=from; i<to; i++)
+	    for(uint16_t i=0; i<nx; i++)
 	      {
-		cout<<"SUBTRACT "<<std::to_string(i)<<'\n';
-
+		cout<<"SUBTRACT "<<std::to_string(from)<<'\n';
+		from++;
+		ri_from++;
 	      }
-
-	    // uint16_t from=nx*id;
-	    // uint16_t from2=nx*(n-1);
-	    // for(uint16_t i=0; i<nx; i++)
-	    //   {
-	    // 	results[from2]=results[from2]-r[from];
-	    // 	// currentValues[i]=r[from];
-	    // 	from++;
-	    // 	from2++;
-	    //   }
-
-	    // for(uint16_t i=nx*id; i<(id+1)*nx; i++)
-	    //   {
-
-	    //   }
 
 	    // ADD TO e.to
 	    uint16_t results_add_from=n*nx+(e.to-1);
 	    uint16_t results_add_to=n*nx+e.to;
+	    ri_from=nx*id;
 
 	    cout<<"Results add "<<results_add_from<<" "<<results_add_to<<'\n';
+
+	    for(uint16_t i=0; i<nx; i++)
+	      {
+		cout<<"ADD "<<std::to_string(results_add_from)<<'\n';
+		results_add_from++;
+		ri_from++;
+	      }
+
+
 	    cout<<" "<<'\n';
 	  }
 	cout<<"------------------------------"<<'\n';
