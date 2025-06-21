@@ -84,45 +84,55 @@ private:
 	    // for(uint16_t i=0; i<N; i++)
 	    for(uint16_t i=equation.id*N2; i<(equation.id+1)*N2; i++)
 	      {
+		cout<<i<<"/"<<(equation.id+1)*N2-1<<'\n';
 		// cout<<k1[i]<<"+"<<2*k2[i]<<"+"<<2*k3[i]<<"+"<<k4[i]<<"="<<k1[i]+2*k2[i]+2*k3[i]+k4[i]<<'\n';
-		r[i]=currentValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+		double value=0;
+
+		for(uint16_t i=0; i<N; i++)
+		  {
+		    value+=currentValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+		  }
+
+		// r[i]=currentValues[i]+stepSize*value/6;//+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+		r[i]=value;//currentValues[i]+stepSize*value/6;//+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+		value=0;
 		// cout<<r[i]<<'\n';
 		// currentValues[i]=r[i]; // Set later
 		aa+=std::to_string(r[i]);
 		aa+=";";
 	      }
 
-	    for(uint16_t i=equation.id*N2; i<(equation.id+1)*N2; i++)
-	      {
-		cout<<i<<" "<<r[i]<<'\n';
-	      }
+	    // for(uint16_t i=equation.id*N2; i<(equation.id+1)*N2; i++)
+	    //   {
+	    // 	cout<<i<<" "<<r[i]<<'\n';
+	    //   }
 
 	    cout<<aa<<'\n';
 	  }
 
-	for(const Edge &e: edges)
-	  {
-	    for(const auto &i: noOfInitialValue)
-	      {
-		cout<<i<<'\n';
-	      }
-	    // cout<<e.from<<" "<<e.to<<'\n';
-	    const uint16_t id=e.equation->id;
-	    // Subtract from e.from
-	    cout<<noOfInitialValue[e.from-1]<<" "<<noOfInitialValue[e.from]<<'\n';
-	    cout<<noOfInitialValue[e.to-1]<<" "<<noOfInitialValue[e.to]<<'\n';
-	    for(uint16_t i=noOfInitialValue[e.from-1]; i<noOfInitialValue[e.from]; i++)
-	      {
-		cout<<"FROM "<<i<<'\n';
-	      }
+	// for(const Edge &e: edges)
+	//   {
+	//     for(const auto &i: noOfInitialValue)
+	//       {
+	// 	cout<<i<<'\n';
+	//       }
+	//     // cout<<e.from<<" "<<e.to<<'\n';
+	//     const uint16_t id=e.equation->id;
+	//     // Subtract from e.from
+	//     cout<<"FROM1 "<<noOfInitialValue[e.from-1]<<" TO1 "<<noOfInitialValue[e.from]<<'\n';
+	//     cout<<"FROM1 "<<noOfInitialValue[e.to-1]<<" TO2 "<<noOfInitialValue[e.to]<<'\n';
+	//     for(uint16_t i=noOfInitialValue[e.from-1]; i<noOfInitialValue[e.from]; i++)
+	//       {
+	// 	cout<<"FROM "<<i<<'\n';
+	//       }
 
-	    // Add to e.to
+	//     // Add to e.to
 
-	    for(uint16_t i=noOfInitialValue[e.to-1]; i<noOfInitialValue[e.to]; i++)
-	      {
-		cout<<"To "<<i<<'\n';
-	      }
-	  }
+	//     for(uint16_t i=noOfInitialValue[e.to-1]; i<noOfInitialValue[e.to]; i++)
+	//       {
+	// 	cout<<"To "<<i<<'\n';
+	//       }
+	//   }
 
 	t+=stepSize;
 	n++;
