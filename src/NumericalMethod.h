@@ -60,15 +60,13 @@ private:
   {
     uint16_t t=stepSize;
     uint16_t n=1;
-    // const uint16_t N2=equations.equations.size()*(timeEnd-timeStart)/stepSize;
-    const uint16_t N2=equations.equations.size()*nx;
     double *k1=new double[nx];
     double *k2=new double[nx];
     double *k3=new double[nx];
     double *k4=new double[nx];
-    double *r=new double[N2];
+    double *r=new double[equations.equations.size()*nx];
     // double *r=new double[nx];
-    cout<<nx<<" "<<N2<<'\n';
+    cout<<nx<<" "<<equations.equations.size()*nx<<'\n';
     // while(t<=timeEnd)
     while(n<=(timeEnd-timeStart)/stepSize)
       {
@@ -81,58 +79,47 @@ private:
 	    k(equation, k3, 0.5, k2);
 	    k(equation, k4, 1, k3);
 	    string aa;
-	    // for(uint16_t i=0; i<nx; i++)
-	    // for(uint16_t i=equation.id*N2; i<(equation.id+1)*N2; i++)
+
+	    uint16_t j=0;
+
 	    for(uint16_t i=equation.id*nx; i<(equation.id+1)*nx; i++)
 	      {
-		cout<<i<<"/"<<(equation.id+1)*nx-1<<'\n';
-		// cout<<k1[i]<<"+"<<2*k2[i]<<"+"<<2*k3[i]<<"+"<<k4[i]<<"="<<k1[i]+2*k2[i]+2*k3[i]+k4[i]<<'\n';
-		double value=0;
+		// cout<<equation.id<<" "<<i<<"/"<<(equation.id+1)*nx-1<<" "<<nx-1<<" "<<(equation.id+1)*nx-equation.id*nx-1<<'\n';
 
-		for(uint16_t j=0; j<nx; j++)
-		  {
-		    value+=currentValues[j]+stepSize*(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
-		  }
 
-		// r[i]=currentValues[i]+stepSize*value/6;//+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
-		r[i]=value;//currentValues[i]+stepSize*value/6;//+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
-		value=0;
-		// cout<<r[i]<<'\n';
+		r[i]=currentValues[j]+stepSize*(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
 		// currentValues[i]=r[i]; // Set later
 		aa+=std::to_string(r[i]);
 		aa+=";";
+		j++;
 	      }
-
-	    // for(uint16_t i=equation.id*N2; i<(equation.id+1)*N2; i++)
-	    //   {
-	    // 	cout<<i<<" "<<r[i]<<'\n';
-	    //   }
-
+	    j=0;
 	    cout<<aa<<'\n';
 	  }
-
+	cout<<" "<<'\n';
 	// for(const Edge &e: edges)
 	//   {
-	//     for(const auto &i: noOfInitialValue)
-	//       {
-	// 	cout<<i<<'\n';
-	//       }
-	//     // cout<<e.from<<" "<<e.to<<'\n';
-	//     const uint16_t id=e.equation->id;
-	//     // Subtract from e.from
-	//     cout<<"FROM1 "<<noOfInitialValue[e.from-1]<<" TO1 "<<noOfInitialValue[e.from]<<'\n';
-	//     cout<<"FROM1 "<<noOfInitialValue[e.to-1]<<" TO2 "<<noOfInitialValue[e.to]<<'\n';
-	//     for(uint16_t i=noOfInitialValue[e.from-1]; i<noOfInitialValue[e.from]; i++)
-	//       {
-	// 	cout<<"FROM "<<i<<'\n';
-	//       }
+	//     // for(const auto &i: noOfInitialValue)
+	//     //   {
+	//     // 	cout<<i<<'\n';
+	//     //   }
 
-	//     // Add to e.to
+	//     // // cout<<e.from<<" "<<e.to<<'\n';
+	//     // const uint16_t id=e.equation->id;
+	//     // // Subtract from e.from
+	//     // cout<<"FROM1 "<<noOfInitialValue[e.from-1]<<" TO1 "<<noOfInitialValue[e.from]<<'\n';
+	//     // cout<<"FROM1 "<<noOfInitialValue[e.to-1]<<" TO2 "<<noOfInitialValue[e.to]<<'\n';
+	//     // for(uint16_t i=noOfInitialValue[e.from-1]; i<noOfInitialValue[e.from]; i++)
+	//     //   {
+	//     // 	cout<<"FROM "<<i<<'\n';
+	//     //   }
 
-	//     for(uint16_t i=noOfInitialValue[e.to-1]; i<noOfInitialValue[e.to]; i++)
-	//       {
-	// 	cout<<"To "<<i<<'\n';
-	//       }
+	//     // // Add to e.to
+
+	//     // for(uint16_t i=noOfInitialValue[e.to-1]; i<noOfInitialValue[e.to]; i++)
+	//     //   {
+	//     // 	cout<<"To "<<i<<'\n';
+	//     //   }
 	//   }
 
 	t+=stepSize;
