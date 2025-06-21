@@ -11,7 +11,7 @@ public:
   uint16_t timeStart=0;
   uint16_t timeEnd=0;
   uint16_t stepSize=0;
-  uint16_t N=0;
+  uint16_t nx=0;
 
   NumericalMethod(){}
   virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, const vector<Edge> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations)=0;
@@ -30,19 +30,19 @@ private:
   {
     // Replace values in currentValues
 
-    for(uint16_t i=0; i<N; i++)
+    for(uint16_t i=0; i<nx; i++)
       {
 	currentValues[i]=currentValues[i]+constant*kPrevious[i];
       }
 
-    for(uint16_t i=0; i<N; i++)
+    for(uint16_t i=0; i<nx; i++)
       {
 	k[i]=stepSize*equation.Calculate();
       }
 
     // copy from newValues to currentValues
 
-    for(uint16_t i=0; i<N; i++)
+    for(uint16_t i=0; i<nx; i++)
       {
 	currentValues[i]=newValues[i];
       }
@@ -50,7 +50,7 @@ private:
 
   void k0(Equation &equation, double *&k)
   {
-    for(uint16_t i=0; i<N; i++)
+    for(uint16_t i=0; i<nx; i++)
       {
 	k[i]=stepSize*equation.Calculate();
       }
@@ -61,14 +61,14 @@ private:
     uint16_t t=stepSize;
     uint16_t n=1;
     // const uint16_t N2=equations.equations.size()*(timeEnd-timeStart)/stepSize;
-    const uint16_t N2=equations.equations.size()*N;
-    double *k1=new double[N];
-    double *k2=new double[N];
-    double *k3=new double[N];
-    double *k4=new double[N];
+    const uint16_t N2=equations.equations.size()*nx;
+    double *k1=new double[nx];
+    double *k2=new double[nx];
+    double *k3=new double[nx];
+    double *k4=new double[nx];
     double *r=new double[N2];
-    // double *r=new double[N];
-    cout<<N<<" "<<N2<<'\n';
+    // double *r=new double[nx];
+    cout<<nx<<" "<<N2<<'\n';
     // while(t<=timeEnd)
     while(n<=(timeEnd-timeStart)/stepSize)
       {
@@ -81,16 +81,17 @@ private:
 	    k(equation, k3, 0.5, k2);
 	    k(equation, k4, 1, k3);
 	    string aa;
-	    // for(uint16_t i=0; i<N; i++)
-	    for(uint16_t i=equation.id*N2; i<(equation.id+1)*N2; i++)
+	    // for(uint16_t i=0; i<nx; i++)
+	    // for(uint16_t i=equation.id*N2; i<(equation.id+1)*N2; i++)
+	    for(uint16_t i=equation.id*nx; i<(equation.id+1)*nx; i++)
 	      {
-		cout<<i<<"/"<<(equation.id+1)*N2-1<<'\n';
+		cout<<i<<"/"<<(equation.id+1)*nx-1<<'\n';
 		// cout<<k1[i]<<"+"<<2*k2[i]<<"+"<<2*k3[i]<<"+"<<k4[i]<<"="<<k1[i]+2*k2[i]+2*k3[i]+k4[i]<<'\n';
 		double value=0;
 
-		for(uint16_t i=0; i<N; i++)
+		for(uint16_t j=0; j<nx; j++)
 		  {
-		    value+=currentValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+		    value+=currentValues[j]+stepSize*(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
 		  }
 
 		// r[i]=currentValues[i]+stepSize*value/6;//+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
@@ -147,7 +148,7 @@ private:
 public:
   void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, const vector<Edge> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations)
   {
-    std::copy(currentValues, currentValues+N, newValues);
+    std::copy(currentValues, currentValues+nx, newValues);
     this->noOfInitialValue=noOfInitialValue;
     this->timeStart=timeStart;
     this->timeEnd=timeEnd;
@@ -164,12 +165,12 @@ public:
   }
 
   RungeKutta4(){}
-  RungeKutta4(const uint16_t N)
+  RungeKutta4(const uint16_t nx)
   {
-    this->N=N;
-    cout<<"N "<<N<<'\n';
-    currentValues=new double[N];
-    newValues=new double[N];
+    this->nx=nx;
+    cout<<"nx "<<nx<<'\n';
+    currentValues=new double[nx];
+    newValues=new double[nx];
   }
   ~RungeKutta4(){}
 };
