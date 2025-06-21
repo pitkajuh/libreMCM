@@ -100,44 +100,46 @@ private:
 
 	for(const Edge &e: edges)
 	  {
-	    // for(const auto &i: noOfInitialValue)
-	    //   {
-	    // 	cout<<i<<'\n';
-	    //   }
-
-	    // cout<<e.from<<" "<<e.to<<'\n';
 	    const uint16_t id=e.equation->id;
+	    uint16_t ri_from=nx*id;
+	    uint16_t ri_to=nx*(id+1);
 
-	    cout<<"r[i], from "<<nx*id<<" to "<<nx*(id+1)<<'\n';
-
-	    // cout<<"results "<<e.from*nx*n<<" to "<<e.from*(nx*n+1)-1<<" N="<<N<<'\n';
-	    // cout<<"results "<<(e.from)*nx<<" "<<(e.from)*(nx+1)-1<<" "<<N<<" "<<n<<" "<<n*nx<<'\n';
-	    // cout<<"results "<<n<<" "<<(n-1)*nx<<" "<<n*nx<<'\n';
+	    cout<<"r[i], from "<<ri_from<<" to "<<ri_to<<'\n';
 
 
-
-	    // cout<<"results "<<id<<" from "<<(n)*(nx)+(e.from-1)<<" to "<<n*(nx)+e.from<<" r.size "<<equations.equations.size()*nx<<'\n';
-	    cout<<"results "<<id<<" from "<<(n-1)*(nx)<<" to "<<n*(nx)<<" r.size "<<equations.equations.size()*nx<<'\n';
-
-
-
-	    for(uint16_t i=0; i<nx; i++)
-	      {
-		for(uint16_t j=0; j<n; j++)
-		  {
-
-		  }
-	      }
 
 	    // SUBTRACT FROM e.from
+	    uint16_t results_subtract_from=n*nx+(e.from-1);
+	    uint16_t results_subtract_to=n*nx+e.from;
 
-	    for(uint16_t i=nx*id; i<(id+1)*nx; i++)
+	    cout<<"Results subtract "<<results_subtract_from<<" "<<results_subtract_to<<'\n';
+
+	    for(uint16_t i=n*nx+(e.from-1); i<n*nx+e.from; i++)
 	      {
+		cout<<"SUBTRACT "<<std::to_string(i)<<'\n';
 
 	      }
 
-	    // ADD TO e.to
+	    // uint16_t from=nx*id;
+	    // uint16_t from2=nx*(n-1);
+	    // for(uint16_t i=0; i<nx; i++)
+	    //   {
+	    // 	results[from2]=results[from2]-r[from];
+	    // 	// currentValues[i]=r[from];
+	    // 	from++;
+	    // 	from2++;
+	    //   }
 
+	    // for(uint16_t i=nx*id; i<(id+1)*nx; i++)
+	    //   {
+
+	    //   }
+
+	    // ADD TO e.to
+	    uint16_t results_add_from=n*nx+(e.to-1);
+	    uint16_t results_add_to=n*nx+e.to;
+
+	    cout<<"Results add "<<results_add_from<<" "<<results_add_to<<'\n';
 
 	  }
 	cout<<" "<<'\n';
