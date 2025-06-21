@@ -33,6 +33,7 @@ private:
 
     for(uint16_t i=0; i<nx; i++)
       {
+	// currentValues[i]=currentValues[i]+constant*kPrevious[i];
 	currentValues[i]=currentValues[i]+constant*kPrevious[i];
       }
 
@@ -55,6 +56,23 @@ private:
       {
 	k[i]=stepSize*equation.Calculate();
       }
+  }
+
+  void UpdateValues(double *r, const uint16_t n)
+  {
+    uint16_t j=0;
+    string a;
+    for(uint16_t i=nx*(n-1); i<nx*n; i++)
+      {
+	// currentValues[j]=results[i];
+	// currentValues[j]=r[i];
+	newValues[j]=results[i];
+	currentValues[j]=results[i];
+	a+=std::to_string(results[i])+";";
+	j++;
+      }
+    cout<<nx*(n-1)<<" "<<nx*n<<'\n';
+    cout<<a<<'\n';
   }
 
   void ao(const vector<Edge> &edges, const uint16_t n, double *r)
@@ -91,7 +109,7 @@ private:
 
 	for(uint16_t i=from; i<to; i++)
 	  {
-	    cout<<"SUBTRACT "<<std::to_string(i)<<'\n';
+	    cout<<"SUBTRACT "<<std::to_string(i)<<" "<<results[i]<<'\n';
 	    results[i]=results[i]-r[ri_from];
 	    // results[i]=results[i]-r[ri_from];
 	    // results[i]=results[(n-1)*nx+(e.from-1)]-r[ri_from];
@@ -116,15 +134,7 @@ private:
 	    ri_from++;
 	  }
 
-	uint16_t j=0;
-
-	for(uint16_t i=nx*(n-1); i<nx*n; i++)
-	  {
-	    // currentValues[j]=results[i];
-	    currentValues[j]=r[i];
-	    newValues[j]=results[i];
-	    j++;
-	  }
+	UpdateValues(r, n);
 
 	cout<<" "<<'\n';
       }
@@ -152,20 +162,21 @@ private:
 	    k(equation, k2, 0.5, k1);
 	    k(equation, k3, 0.5, k2);
 	    k(equation, k4, 1, k3);
-	    string aa;
+	    // string aa;
 
 	    uint16_t j=0;
 
 	    for(uint16_t i=equation.id*nx; i<(equation.id+1)*nx; i++)
 	      {
-		r[i]=currentValues[j]+stepSize*(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
+		// r[i]=currentValues[j]+stepSize*(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
+		r[i]=newValues[j]+stepSize*(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
 		// currentValues[i]=r[i]; // Set later
-		aa+=std::to_string(r[i]);
-		aa+=";";
+		// aa+=std::to_string(r[i]);
+		// aa+=";";
 		j++;
 	      }
 	    j=0;
-	    cout<<aa<<'\n';
+	    // cout<<aa<<'\n';
 	  }
 	ao(edges, n, r);
 	cout<<"------------------------------"<<'\n';
