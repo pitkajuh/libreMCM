@@ -108,12 +108,18 @@ private:
 	    // cout<<e.from<<" "<<e.to<<'\n';
 	    const uint16_t id=e.equation->id;
 
-	    // cout<<"r[i], from "<<nx*id<<" to "<<nx*(id+1)-1<<'\n';
+	    cout<<"r[i], from "<<nx*id<<" to "<<nx*(id+1)<<'\n';
 
 	    // cout<<"results "<<e.from*nx*n<<" to "<<e.from*(nx*n+1)-1<<" N="<<N<<'\n';
 	    // cout<<"results "<<(e.from)*nx<<" "<<(e.from)*(nx+1)-1<<" "<<N<<" "<<n<<" "<<n*nx<<'\n';
 	    // cout<<"results "<<n<<" "<<(n-1)*nx<<" "<<n*nx<<'\n';
-	    cout<<"results "<<id<<" "<<(n)*(nx)+(e.from-1)<<" "<<n*(nx)+e.from<<'\n';
+
+
+
+	    // cout<<"results "<<id<<" from "<<(n)*(nx)+(e.from-1)<<" to "<<n*(nx)+e.from<<" r.size "<<equations.equations.size()*nx<<'\n';
+	    cout<<"results "<<id<<" from "<<(n-1)*(nx)<<" to "<<n*(nx)<<" r.size "<<equations.equations.size()*nx<<'\n';
+
+
 
 	    for(uint16_t i=0; i<nx; i++)
 	      {
