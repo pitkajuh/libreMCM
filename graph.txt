@@ -1,9 +1,9 @@
 edges
 {
   source, r, prey_birth;
-  // r, sink, prey_death;
-  // source, f, predator_birth;
-  // f, sink, predator_death;
+  r, sink, prey_death;
+  source, f, predator_birth;
+  f, sink, predator_death;
 
   // zzzzz, sink, prey_death;
   // source, zzzzz, predator_birth;
@@ -17,14 +17,14 @@ vertex r
   // r2=6;
 }
 
-// vertex f
-// {
-//   f0=8;
-//   // f1=6;
-//   // f2=3;
-//   // r3=10;
-//   // a1=3;
-// }
+vertex f
+{
+  f0=8;
+  // f1=6;
+  // f2=3;
+  // r3=10;
+  // a1=3;
+}
 
 
 // vertex zzzzz
