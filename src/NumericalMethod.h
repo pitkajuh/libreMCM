@@ -12,9 +12,10 @@ public:
   uint16_t timeEnd=0;
   uint16_t stepSize=0;
   uint16_t nx=0;
+  uint16_t N=0;
 
   NumericalMethod(){}
-  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, const vector<Edge> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations)=0;
+  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, const vector<Edge> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations, const uint16_t N)=0;
   virtual ~NumericalMethod()
   {
     delete [] newValues;
@@ -66,11 +67,11 @@ private:
     double *k4=new double[nx];
     double *r=new double[equations.equations.size()*nx];
     // double *r=new double[nx];
-    cout<<nx<<" "<<equations.equations.size()*nx<<'\n';
+    cout<<nx<<" "<<equations.equations.size()*nx<<" "<<std::to_string((timeEnd-timeStart)/stepSize)<<'\n';
     // while(t<=timeEnd)
     while(n<=(timeEnd-timeStart)/stepSize)
       {
-	// cout<<"t="<<t<<'\n';
+	cout<<"t="<<t<<'\n';
 
 	for(Equation &equation: equations.equations)
 	  {
@@ -94,34 +95,46 @@ private:
 		j++;
 	      }
 	    j=0;
-	    cout<<aa<<'\n';
+	    // cout<<aa<<'\n';
+	  }
+
+	for(const Edge &e: edges)
+	  {
+	    // for(const auto &i: noOfInitialValue)
+	    //   {
+	    // 	cout<<i<<'\n';
+	    //   }
+
+	    // cout<<e.from<<" "<<e.to<<'\n';
+	    const uint16_t id=e.equation->id;
+
+	    // cout<<"r[i], from "<<nx*id<<" to "<<nx*(id+1)-1<<'\n';
+
+	    // cout<<"results "<<e.from*nx*n<<" to "<<e.from*(nx*n+1)-1<<" N="<<N<<'\n';
+	    // cout<<"results "<<(e.from)*nx<<" "<<(e.from)*(nx+1)-1<<" "<<N<<" "<<n<<" "<<n*nx<<'\n';
+	    // cout<<"results "<<n<<" "<<(n-1)*nx<<" "<<n*nx<<'\n';
+	    cout<<"results "<<id<<" "<<(n)*(nx)+(e.from-1)<<" "<<n*(nx)+e.from<<'\n';
+
+	    for(uint16_t i=0; i<nx; i++)
+	      {
+		for(uint16_t j=0; j<n; j++)
+		  {
+
+		  }
+	      }
+
+	    // SUBTRACT FROM e.from
+
+	    for(uint16_t i=nx*id; i<(id+1)*nx; i++)
+	      {
+
+	      }
+
+	    // ADD TO e.to
+
+
 	  }
 	cout<<" "<<'\n';
-	// for(const Edge &e: edges)
-	//   {
-	//     // for(const auto &i: noOfInitialValue)
-	//     //   {
-	//     // 	cout<<i<<'\n';
-	//     //   }
-
-	//     // // cout<<e.from<<" "<<e.to<<'\n';
-	//     // const uint16_t id=e.equation->id;
-	//     // // Subtract from e.from
-	//     // cout<<"FROM1 "<<noOfInitialValue[e.from-1]<<" TO1 "<<noOfInitialValue[e.from]<<'\n';
-	//     // cout<<"FROM1 "<<noOfInitialValue[e.to-1]<<" TO2 "<<noOfInitialValue[e.to]<<'\n';
-	//     // for(uint16_t i=noOfInitialValue[e.from-1]; i<noOfInitialValue[e.from]; i++)
-	//     //   {
-	//     // 	cout<<"FROM "<<i<<'\n';
-	//     //   }
-
-	//     // // Add to e.to
-
-	//     // for(uint16_t i=noOfInitialValue[e.to-1]; i<noOfInitialValue[e.to]; i++)
-	//     //   {
-	//     // 	cout<<"To "<<i<<'\n';
-	//     //   }
-	//   }
-
 	t+=stepSize;
 	n++;
       }
@@ -133,14 +146,14 @@ private:
     delete [] r;
   }
 public:
-  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, const vector<Edge> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations)
+  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, const vector<Edge> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations, const uint16_t N)
   {
     std::copy(currentValues, currentValues+nx, newValues);
     this->noOfInitialValue=noOfInitialValue;
     this->timeStart=timeStart;
     this->timeEnd=timeEnd;
     this->stepSize=stepSize;
-
+    this->N=N;
     RK4(edges, equations);
 
     // for(const Edge &e: edges)

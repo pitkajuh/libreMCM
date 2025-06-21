@@ -40,35 +40,38 @@ void ReadInitialData(const string &directory)
   const uint16_t timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
   const uint16_t stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
 
+  if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
+  if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
+
   // Get other parameters here before clearing.
   test2.set.clear();
 
   FileEquations test3(directory+"bin");
 
   FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
-  NumericalMethod *numMethod=new RungeKutta4(test1.nx);
+  RungeKutta4 numMethod(test1.nx);
   // double *results=nullptr;
-  test1.InitResults(numMethod->results);
+  test1.InitResults(numMethod.results);
 
   MathOperators operators;
 
   cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
 
-  std::copy(numMethod->results, numMethod->results+test1.nx, numMethod->currentValues);
+  std::copy(numMethod.results, numMethod.results+test1.nx, numMethod.currentValues);
 
   for(int i=0; i<test1.nx; i++)
     {
-      cout<<i<<" "<<&numMethod->currentValues[i]<<" "<<numMethod->currentValues[i]<<'\n';
+      cout<<i<<" "<<&numMethod.currentValues[i]<<" "<<numMethod.currentValues[i]<<'\n';
     }
 
   std::unordered_set<double*> aoea;
 
-  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod->currentValues, test1.noOfInitialValue, test1.nx);
+  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.currentValues, test1.noOfInitialValue, test1.nx);
 
   test1.CreateEdge(test3.equationNames, equations);
 
 
-  numMethod->Calculate(timeStart, timeEnd, stepSize, test1.edgesNew, test1.noOfInitialValue, equations);
+  numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew, test1.noOfInitialValue, equations, test1.N);
 
 
   // equations.Calculate();
@@ -83,7 +86,7 @@ void ReadInitialData(const string &directory)
 	  // cout<<k<<'\n';
 	  if(j.value1!=nullptr)
 	    {
-	      auto a12=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.value1);
+	      auto a12=std::find(numMethod.currentValues, numMethod.currentValues+test1.nx, *j.value1);
 
 	      if(a12!=j.value1)
 		{
@@ -95,7 +98,7 @@ void ReadInitialData(const string &directory)
 
 	  if(j.value2!=nullptr)
 	    {
-	      auto a13=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.value2);
+	      auto a13=std::find(numMethod.currentValues, numMethod.currentValues+test1.nx, *j.value2);
 
 	      if(a13!=j.value2)
 		{
@@ -107,7 +110,7 @@ void ReadInitialData(const string &directory)
 
 	  if(j.result!=nullptr)
 	    {
-	      auto a14=std::find(numMethod->currentValues, numMethod->currentValues+test1.nx, *j.result);
+	      auto a14=std::find(numMethod.currentValues, numMethod.currentValues+test1.nx, *j.result);
 
 	      if(a14!=j.result)
 		{
@@ -124,7 +127,7 @@ void ReadInitialData(const string &directory)
     }
 
   // delete [] results;
-  delete numMethod;
+  // delete numMethod;
 
   for(auto k: aoea)
     {
