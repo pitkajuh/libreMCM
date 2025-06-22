@@ -71,11 +71,11 @@ void ReadInitialData(const string &directory)
   test1.CreateEdge(test3.equationNames, equations, test1.noivs, test1.noOfInitialValue);
 
 
-  // numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew, test1.noOfInitialValue, equations, test1.N);
+  numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew, test1.noOfInitialValue, equations, test1.N);
 
 
   // equations.Calculate();
-
+  cout<<sizeof(Edge)<<'\n';
   cout<<"Start clearing"<<'\n';
   // int k=0;
   for(auto &i: equations.equations)
