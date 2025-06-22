@@ -50,28 +50,28 @@ void ReadInitialData(const string &directory)
 
   FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
   RungeKutta4 numMethod(test1.nx);
-  // double *results=nullptr;
-  test1.InitResults(numMethod.results);
+  // double *y_np1=nullptr;
+  test1.InitResults(numMethod.y_np1);
 
   MathOperators operators;
 
   cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
 
-  std::copy(numMethod.results, numMethod.results+test1.nx, numMethod.currentValues);
+  std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
 
   // for(int i=0; i<test1.nx; i++)
   //   {
-  //     cout<<i<<" "<<&numMethod.currentValues[i]<<" "<<numMethod.currentValues[i]<<'\n';
+  //     cout<<i<<" "<<&numMethod.y_n[i]<<" "<<numMethod.y_n[i]<<'\n';
   //   }
 
   std::unordered_set<double*> aoea;
 
-  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.currentValues, test1.noOfInitialValue, test1.nx);
+  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.y_n, test1.noOfInitialValue, test1.nx);
 
-  test1.CreateEdge(test3.equationNames, equations);
+  test1.CreateEdge(test3.equationNames, equations, test1.noivs, test1.noOfInitialValue);
 
 
-  numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew, test1.noOfInitialValue, equations, test1.N);
+  // numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew, test1.noOfInitialValue, equations, test1.N);
 
 
   // equations.Calculate();
@@ -86,7 +86,7 @@ void ReadInitialData(const string &directory)
 	  // cout<<k<<'\n';
 	  if(j.value1!=nullptr)
 	    {
-	      auto a12=std::find(numMethod.currentValues, numMethod.currentValues+test1.nx, *j.value1);
+	      auto a12=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value1);
 
 	      if(a12!=j.value1)
 		{
@@ -98,7 +98,7 @@ void ReadInitialData(const string &directory)
 
 	  if(j.value2!=nullptr)
 	    {
-	      auto a13=std::find(numMethod.currentValues, numMethod.currentValues+test1.nx, *j.value2);
+	      auto a13=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value2);
 
 	      if(a13!=j.value2)
 		{
@@ -110,7 +110,7 @@ void ReadInitialData(const string &directory)
 
 	  if(j.result!=nullptr)
 	    {
-	      auto a14=std::find(numMethod.currentValues, numMethod.currentValues+test1.nx, *j.result);
+	      auto a14=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.result);
 
 	      if(a14!=j.result)
 		{
@@ -126,7 +126,7 @@ void ReadInitialData(const string &directory)
 
     }
 
-  // delete [] results;
+  // delete [] y_np1;
   // delete numMethod;
 
   for(auto k: aoea)

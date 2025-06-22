@@ -30,12 +30,12 @@ map<string, double> FileGraph::SetInitialValueName(vector<string> &ivs)
   return result;
 }
 
-void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equations)
+void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equations, const vector<uint16_t> &noivs, const vector<uint16_t> &noOfInitialValue)
 {
   edgesNew.reserve(edges.size());
   for(const auto &edge: edges)
     {
-      Edge e(&equations.equations[equationNames[edge.equationName]], vertexNamesMap[edge.from], vertexNamesMap[edge.to]);
+      Edge e(&equations.equations[equationNames[edge.equationName]], vertexNamesMap[edge.from], vertexNamesMap[edge.to], noivs, noOfInitialValue);
       edgesNew.emplace_back(e);
     }
   edges.clear();
@@ -191,12 +191,14 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
   for(auto &[name, value]: all)
     {
       noOfInitialValue.emplace_back(value.size()+nx);
+      noivs.emplace_back(value.size());
       nx+=value.size();
     }
 
   for(const auto &[i, j]: sinkAndSource)
     {
       noOfInitialValue.emplace_back(noOfInitialValue.back()+j.size());
+      noivs.emplace_back(j.size());
       nx+=j.size();
     }
 

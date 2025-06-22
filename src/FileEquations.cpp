@@ -585,13 +585,13 @@ vector<TestStr> FileEquations::ToVector(string &eq)
     }
   // cout<<" "<<'\n';
 
-  int j=0;
+  // int j=0;
 
-  for(const auto &i: a)
-    {
-      // cout<<"@"<<j<<" "<<i.str1<<i.op<<i.str2<<'\n';
-      j++;
-    }
+  // for(const auto &i: a)
+  //   {
+  //     // cout<<"@"<<j<<" "<<i.str1<<i.op<<i.str2<<'\n';
+  //     j++;
+  //   }
   return a;
 }
 
