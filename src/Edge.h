@@ -15,25 +15,13 @@ private:
 
     if(noivs[from]>noivs[to])
       {
-	if(noOfInitialValue[from]-noOfInitialValue[to]>from1)
-	  {
-	    f1-=noivs[to];
-	  }
-	else
-	  {
-	    from1+=noivs[to];
-	  }
+	if(noOfInitialValue[from]-noOfInitialValue[to]>from1) f1-=noivs[to];
+	else from1+=noivs[to];
       }
     else
       {
-	if(to1>f1)
-	  {
-	    t1-=f1;
-	  }
-	else
-	  {
-	    to1+=from1;
-	  }
+	if(to1>f1) t1-=f1;
+	else to1+=from1;
       }
     p1={from1, f1};
     p2={to1, t1};

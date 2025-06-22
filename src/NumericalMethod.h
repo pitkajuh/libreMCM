@@ -91,16 +91,18 @@ private:
 	    auto id=equation.id;
 
 	    cout<<"("<<e.p1.first<<" "<<e.p1.second<<"), ("<<e.p2.first<<" "<<e.p2.second<<")"<<'\n';
+	    const auto from=e.p1.first;
+	    const auto to=e.p1.second;
+	    k0(equation, k1, from, to);
+	    k(equation, k2, 0.5, k1, from, to);
+	    k(equation, k3, 0.5, k2, from, to);
+	    k(equation, k4, 1, k3, from, to);
 
-	    // k0(equation, k1, from, to);
-	    // k(equation, k2, 0.5, k1, from, to);
-	    // k(equation, k3, 0.5, k2, from, to);
-	    // k(equation, k4, 1, k3, from, to);
-
-	    // for(uint16_t i=)
-	    //   {
-	    // 	// r[i]=newValues[j]+stepSize*(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
-	    //   }
+	    for(uint16_t i=from; i<to; i++)
+	      {
+		// r[i]=newValues[j]+stepSize*(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
+		cout<<newValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
+	      }
 
 	    cout<<" "<<'\n';
 	  }
