@@ -90,18 +90,18 @@ private:
 	//     cout<<newValues[i]<<" "<<y_n[i]<<'\n';
 	//   }
 
-	const uint16_t id=e.equation->id;
-	uint16_t ri_from=e.from;
-	uint16_t ri_to=e.from+1;
-	ri_from=nx*id;
-	ri_to=nx*(id+1);
+	// const uint16_t id=e.equation->id;
+	// uint16_t ri_from=e.from;
+	// uint16_t ri_to=e.from+1;
+	// ri_from=nx*id;
+	// ri_to=nx*(id+1);
 
-	cout<<"Equation "<<id<<" r[i], from "<<ri_from<<" to "<<ri_to<<'\n';
+	// cout<<"Equation "<<id<<" r[i], from "<<ri_from<<" to "<<ri_to<<'\n';
 
-	for(uint16_t i=ri_from; i<ri_to; i++)
-	  {
-	    cout<<"i="<<std::to_string(i)<<" "<<std::to_string(r[i])<<'\n';
-	  }
+	// for(uint16_t i=ri_from; i<ri_to; i++)
+	//   {
+	//     cout<<"i="<<std::to_string(i)<<" "<<std::to_string(r[i])<<'\n';
+	//   }
 
 
 	// // SUBTRACT FROM e.from
@@ -157,7 +157,7 @@ private:
     double *r=new double[equations.equations.size()*nx];
     double *d=new double[nx];
     // double *r=new double[nx];
-    cout<<nx<<" "<<equations.equations.size()*nx<<" "<<std::to_string((timeEnd-timeStart)/stepSize)<<" N="<<N<<'\n';
+    // cout<<nx<<" "<<equations.equations.size()*nx<<" "<<std::to_string((timeEnd-timeStart)/stepSize)<<" N="<<N<<'\n';
     // while(t<=timeEnd)
     // while(n<(timeEnd-timeStart)/stepSize)
     //   {
@@ -208,7 +208,7 @@ private:
 	  {
 	    auto equation=*e.equation;
 	    auto id=equation.id;
-	    cout<<"ID "<<id<<" from "<<e.from<<" to "<<e.to<<", "<<nx<<" "<<edges.size()<<" n="<<n<<'\n';
+	    // cout<<"ID "<<id<<" from "<<e.from<<" to "<<e.to<<", "<<nx<<" "<<edges.size()<<" n="<<n<<'\n';
 
 	    // uint16_t from;
 	    // uint16_t to;

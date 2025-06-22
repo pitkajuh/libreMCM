@@ -6,7 +6,7 @@
 struct Edge
 {
 private:
-  void a(const vector<uint16_t> &noivs, const vector<uint16_t> &noOfInitialValue)
+  void a(const vector<uint16_t> &noivs, const vector<uint16_t> &noOfInitialValue, const uint16_t from, const uint16_t to)
   {
     cout<<"FROM "<<from<<" TO "<<to<<'\n';
 
@@ -18,10 +18,6 @@ private:
     cout<<"f1 "<<f1<<" t1 "<<t1<<'\n';
     if(noivs[from]>noivs[to])
       {
-	// cout<<"noivs[from]>noivs[to] "<<noivs[from]<<" "<<noivs[to]<<'\n';
-	// cout<<"noOfInitialValue[from]>noOfInitialValue[to] "<<noOfInitialValue[from]<<" "<<noOfInitialValue[to]<<'\n';
-	// cout<<noOfInitialValue[from]-noOfInitialValue[to]<<'\n';
-
 	if(noOfInitialValue[from]-noOfInitialValue[to]>from1)
 	  {
 	    f1-=noivs[to];
@@ -30,31 +26,22 @@ private:
 	  {
 	    from1+=noivs[to];
 	  }
-
       }
     else
       {
-	// cout<<"noivs[from]<noivs[to] "<<noivs[from]<<" "<<noivs[to]<<'\n';
-	// cout<<noOfInitialValue[from]<<" "<<noOfInitialValue[to]<<'\n';
-	// cout<<noOfInitialValue[to]-noOfInitialValue[from]<<'\n';
-
 	if(to1>f1)
 	  {
-	    // cout<<"to1>f1"<<'\n';
 	    t1-=f1;
 	  }
 	else
 	  {
-	    // cout<<"ELSE"<<'\n';
-	    // f1-=t1;
 	    to1+=from1;
 	  }
       }
-
-
-
-    const std::pair<uint16_t, uint16_t> p1{from1, f1};
-    const std::pair<uint16_t, uint16_t> p2{to1, t1};
+    p1={from1, f1};
+    p2={to1, t1};
+    // const std::pair<uint16_t, uint16_t> p1{from1, f1};
+    // const std::pair<uint16_t, uint16_t> p2{to1, t1};
     // cout<<"From1 "<<from1<<" to1 "<<to1<<'\n';
     cout<<p1.first<<" "<<p1.second<<'\n';
     cout<<p2.first<<" "<<p2.second<<'\n';
@@ -66,16 +53,16 @@ private:
   }
 public:
   Equation *equation=nullptr;
-  uint16_t from;
-  uint16_t to;
+  // uint16_t from;
+  // uint16_t to;
+  std::pair<uint16_t, uint16_t> p1;
+  std::pair<uint16_t, uint16_t> p2;
 
   Edge(){}
   Edge(Equation *equation, const uint16_t from, const uint16_t to, const vector<uint16_t> &noivs, const vector<uint16_t> &noOfInitialValue)
   {
     this->equation=equation;
-    this->from=from;
-    this->to=to;
-    a(noivs, noOfInitialValue);
+    a(noivs, noOfInitialValue, from, to);
   }
   virtual ~Edge(){}
 };
