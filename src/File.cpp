@@ -26,17 +26,13 @@ void File::EraseLine(string &line)
 map<uint16_t, string> File::GetSettings(const vector<string> &ivs, map<string, uint16_t> &nameMap)
 {
   uint16_t n=0;
-  string name;
-  string value;
   map<uint16_t, string> result;
 
   for(const auto &iv: ivs)
     {
       const uint16_t at=iv.find("=");
-      name=iv.substr(0, at);
-      name.reserve(name.size());
-      value=iv.substr(at+1, iv.size()-1);
-      name.reserve(value.size());
+      const string name=iv.substr(0, at);
+      const string value=iv.substr(at+1, iv.size()-1);
       result[n]=value;
       nameMap[name]=n;
       n++;
