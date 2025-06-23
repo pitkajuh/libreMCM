@@ -116,8 +116,8 @@ private:
 	    for(uint16_t i=0; i<nx; i++)
 	      {
 		// r[i]=newValues[j]+stepSize*(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
-		cout<<i<<" "<<y_n[i]<<" "<<k1[i]<<" "<<k2[i]<<" "<<k3[i]<<" "<<k4[i]<<'\n';
-		cout<<"i="<<i<<" "<<y_n[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
+		cout<<i<<" "<<newValues[i]<<" "<<k1[i]<<" "<<k2[i]<<" "<<k3[i]<<" "<<k4[i]<<'\n';
+		cout<<"i="<<i<<" "<<newValues[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
 		// cout<<"i="<<i<<" "<<newValues[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
 		// newValues[i]+=newValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
 		// j++;
