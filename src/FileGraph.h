@@ -17,7 +17,7 @@ class FileGraph: public File
 {
 protected:
   map<string, map<string, double>> all;
-  map<string, map<string, double>> sinkAndSource;
+  map<string, map<string, double>> sinkMap;
 
   string GetVertexName(string line);
   map<string, double> SetInitialValueName(vector<string> &ivs);
@@ -26,7 +26,6 @@ protected:
   void InitInitialValues();
 public:
   bool hasSink=0;
-  bool hasSource=0;
   uint16_t nx=0;
   uint16_t ny=0;
   uint16_t N=0;

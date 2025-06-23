@@ -68,9 +68,9 @@ void FileGraph::CreateEdges(const vector<string> &v)
 	  str.erase(str.begin(), str.begin()+at+1);
 	  i++;
 	}
-      if(strs[0]==source) hasSource=1;
+      EdgeStruct edge{strs[0], strs[1], strs[2]};
       if(strs[1]==sink) hasSink=1;
-      const EdgeStruct edge{strs[0], strs[1], strs[2]};
+      if(strs[0]==source) edge.from=edge.to;
       edges.emplace_back(edge);
     }
 }
@@ -117,12 +117,11 @@ void FileGraph::InitResults(double *&results)
 
   all.clear();
 
-  // The values of sink (several zeros) and source (several numbers, either
-  // infty or really large number) are also added to the results as initial
-  // values.
-  if(hasSink or hasSource)
+  // The values of sink (several zeros) are also added to
+  // the results as initial values.
+  if(hasSink)
     {
-      for(auto &[name, value]: sinkAndSource)
+      for(auto &[name, value]: sinkMap)
 	{
 	  for(const auto&[v1, v2]: value)
 	    {
@@ -130,7 +129,7 @@ void FileGraph::InitResults(double *&results)
 	      i++;
 	    }
 	}
-      sinkAndSource.clear();
+      sinkMap.clear();
     }
 
   // for(unsigned i=0; i<nx; i++)
@@ -148,27 +147,13 @@ void FileGraph::InitInitialValues()
   // when vertex is either sink or source.
   for(const auto &edge: edges)
     {
-      // Initializes values for source vertex, so there are quantity,
-      // the equations can draw from.
-      if(edge.from==source)
-	{
-	  for(const auto &[name, value]: all[edge.to])
-	    {
-	      // Source vertex is supposed to have in infinite amount of
-	      // quantity inside it. Is it better to use infinity or maximum
-	      // value of double?
-	      // sinkAndSource[source][name]=std::numeric_limits<double>::max();
-	      sinkAndSource[source][name]=std::numeric_limits<double>::infinity();
-	    }
-	}
-
       // Initialize the values to zero for sink vertex. Sink has an infinite
       // amount of space, so any amount of quantity can be deposited to it.
       if(edge.to==sink)
 	{
 	  for(const auto &[name, value]: all[edge.from])
 	    {
-	      sinkAndSource[sink][name];
+	      sinkMap[sink][name];
 	    }
 	}
 
@@ -194,16 +179,14 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
   ReadFile(fileName);
   InitInitialValues();
 
-
-
-  for(auto &[name, value]: all)
+  for(auto &[i, j]: all)
     {
-      noOfInitialValue.emplace_back(value.size()+nx);
-      noivs.emplace_back(value.size());
-      nx+=value.size();
+      noOfInitialValue.emplace_back(j.size()+nx);
+      noivs.emplace_back(j.size());
+      nx+=j.size();
     }
 
-  for(const auto &[i, j]: sinkAndSource)
+  for(const auto &[i, j]: sinkMap)
     {
       noOfInitialValue.emplace_back(noOfInitialValue.back()+j.size());
       noivs.emplace_back(j.size());
@@ -220,11 +203,5 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
 
   vertexNames.clear();
 
-  if(hasSink and hasSource)
-    {
-      vertexNamesMap[sink]=n;
-      vertexNamesMap[source]=n+1;
-    }
-  else if(hasSink) vertexNamesMap[sink]=n;
-  else if(hasSource) vertexNamesMap[source]=n;
+  if(hasSink) vertexNamesMap[sink]=n;
 }
