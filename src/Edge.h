@@ -12,8 +12,12 @@ private:
     uint16_t to1=noOfInitialValue[to]-noivs[to];
     uint16_t f1=from1+noivs[from];
     uint16_t t1=to1+noivs[to];
-    cout<<from<<" "<<to<<'\n';
-    cout<<"BEFORE "<<"("<<from1<<", "<<f1<<") ("<<to1<<", "<<t1<<")"<<'\n';
+
+    // for(uint16_t i=0; i<4; i++)
+    //   {
+    // 	cout<<noivs[i]<<" "<<noOfInitialValue[i]<<'\n';
+    //   }
+    // cout<<" "<<'\n';
     if(from==to)
       {
 	to1=from1;
@@ -21,21 +25,16 @@ private:
       }
     else if(noivs[from]>noivs[to])
       {
-	cout<<"noivs[from]>noivs[to]"<<'\n';
 	if(noOfInitialValue[from]-noOfInitialValue[to]>from1) f1-=noivs[to];
 	else from1+=noivs[to];
       }
     else
       {
-	cout<<"ELSE"<<'\n';
 	if(to1>f1) t1-=f1;
 	else to1+=from1;
       }
-
-    cout<<"AFTER "<<"("<<from1<<", "<<f1<<") ("<<to1<<", "<<t1<<")"<<'\n';
     p1={from1, f1};
     p2={to1, t1};
-    cout<<" "<<'\n';
   }
 public:
   Equation *equation=nullptr;
