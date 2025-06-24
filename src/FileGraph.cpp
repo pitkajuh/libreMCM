@@ -103,6 +103,7 @@ void FileGraph::InitResults(double *&results)
   // The initial values, provided by the user are added to the results
   // because they represent the status of the system at t=timeStart.
   N=nx*ny;
+  cout<<"N "<<N<<" "<<nx<<" "<<ny<<'\n';
   results=new double[N];
   uint16_t i=0;
 
