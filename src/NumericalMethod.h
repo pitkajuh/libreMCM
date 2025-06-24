@@ -54,10 +54,11 @@ private:
 
     // copy from newValues to y_n
 
-    for(uint16_t i=from; i<to; i++)
+    // for(uint16_t i=from; i<to; i++)
+    for(uint16_t i=0; i<nx; i++)
       {
 	y_n[i]=newValues[i];
-	cout<<y_n[i]<<" "<<newValues[i]<<'\n';
+	cout<<"Replace "<<y_n[i]<<" "<<newValues[i]<<'\n';
       }
   }
 
@@ -115,7 +116,7 @@ private:
 	    for(uint16_t i=fromFrom; i<toFrom; i++)
 	    // for(uint16_t i=0; i<nx; i++)
 	      {
-		cout<<i<<" "<<newValues[i]<<" "<<k1[i]<<" "<<k2[i]<<" "<<k3[i]<<" "<<k4[i]<<'\n';
+		cout<<"i="<<i<<" "<<newValues[i]<<" "<<k1[i]<<" "<<k2[i]<<" "<<k3[i]<<" "<<k4[i]<<'\n';
 		cout<<"i="<<i<<" "<<newValues[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
 
 		// y_n[i]=y_n[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
