@@ -31,9 +31,9 @@ private:
   {
     for(uint16_t i=from; i<to; i++)
       {
-	// auto aa=y_n[i];
+	auto aa=y_n[i];
 	y_n[i]=y_n[i]+constant*kPrevious[i];
-	// cout<<"y_n[i] "<<aa<<"+"<<constant<<"*"<<kPrevious[i]<<"="<<y_n[i]<<'\n';
+	cout<<"y_n[i] "<<aa<<"+"<<constant<<"*"<<kPrevious[i]<<"="<<y_n[i]<<'\n';
       }
   }
 
@@ -42,7 +42,7 @@ private:
     for(uint16_t i=from; i<to; i++)
       {
 	k[i]=stepSize*equation.Calculate();
-	// cout<<"k[i] "<<stepSize<<"*"<<equation.Calculate()<<"="<<k[i]<<'\n';
+	cout<<"k[i] "<<stepSize<<"*"<<equation.Calculate()<<"="<<k[i]<<'\n';
       }
   }
 
@@ -57,7 +57,7 @@ private:
     for(uint16_t i=from; i<to; i++)
       {
 	y_n[i]=newValues[i];
-	// cout<<y_n[i]<<" "<<newValues[i]<<'\n';
+	cout<<y_n[i]<<" "<<newValues[i]<<'\n';
       }
   }
 
@@ -67,7 +67,7 @@ private:
     for(uint16_t i=from; i<to; i++)
       {
 	k[i]=stepSize*equation.Calculate();
-	// cout<<"k0 "<<stepSize<<"*"<<equation.Calculate()<<"="<<k[i]<<'\n';
+	cout<<"k0 "<<stepSize<<"*"<<equation.Calculate()<<"="<<k[i]<<'\n';
       }
   }
 
@@ -98,13 +98,13 @@ private:
 	    cout<<"("<<e.p1.first<<" "<<e.p1.second<<"), ("<<e.p2.first<<" "<<e.p2.second<<")"<<'\n';
 	    const uint16_t fromFrom=e.p1.first;
 	    const uint16_t toFrom=e.p1.second;
-	    cout<<"k0"<<'\n';
+	    // cout<<"k0"<<'\n';
 	    k0(equation, k1, fromFrom, toFrom);
-	    cout<<"k1"<<'\n';
+	    // cout<<"k1"<<'\n';
 	    k(equation, k2, 0.5, k1, fromFrom, toFrom);
-	    cout<<"k2"<<'\n';
+	    // cout<<"k2"<<'\n';
 	    k(equation, k3, 0.5, k2, fromFrom, toFrom);
-	    cout<<"k3"<<'\n';
+	    // cout<<"k3"<<'\n';
 	    k(equation, k4, 1, k3, fromFrom, toFrom);
 
 	    const uint16_t fromTo=e.p2.first;
@@ -112,14 +112,13 @@ private:
 
 	    // uint16_t j=fromTo;
 	    cout<<"FROM"<<'\n';
-	    // for(uint16_t i=fromFrom; i<toFrom; i++)
-	    for(uint16_t i=0; i<nx; i++)
+	    for(uint16_t i=fromFrom; i<toFrom; i++)
+	    // for(uint16_t i=0; i<nx; i++)
 	      {
-		// r[i]=newValues[j]+stepSize*(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
 		cout<<i<<" "<<newValues[i]<<" "<<k1[i]<<" "<<k2[i]<<" "<<k3[i]<<" "<<k4[i]<<'\n';
 		cout<<"i="<<i<<" "<<newValues[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
-		// cout<<"i="<<i<<" "<<newValues[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
-		// newValues[i]+=newValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+
+		y_n[i]=y_n[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
 		// j++;
 	      }
 	    // cout<<"TO"<<'\n';
@@ -131,8 +130,12 @@ private:
 
 	    cout<<" "<<'\n';
 	  }
-	cout<<"++++++++++++++++++++++++++++++"<<'\n';
-
+	cout<<"++++++++++++++++++++++++++++++ "<<(n)*nx<<" "<<(n+1)*nx<<'\n';
+	for(uint16_t i=(n)*nx; i<(n+1)*nx; i++)
+	  {
+	    cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[i-nx]<<'\n';
+	    y_np1[i]=y_n[i-nx];
+	  }
 	cout<<"------------------------------"<<'\n';
 	t+=stepSize;
 	n++;
