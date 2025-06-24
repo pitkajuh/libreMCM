@@ -5,7 +5,7 @@ class NumericalMethod
 {
 public:
   double *y_np1=nullptr; // results
-  double *y_n=nullptr;
+  double *y_n=nullptr; // gets automatically substituted to the equations
   double *newValues=nullptr;
   vector<uint16_t> noOfInitialValue;
   uint16_t timeStart=0;
@@ -90,11 +90,11 @@ private:
     while(n<(timeEnd-timeStart)/stepSize)
       {
 	cout<<"t="<<t<<'\n';
-
+	Equation equation;
 	for(Edge &e: edges)
 	  {
-	    auto equation=*e.equation;
-
+	    // auto equation=*e.equation;
+	    equation=*e.equation;
 	    cout<<"("<<e.p1.first<<" "<<e.p1.second<<"), ("<<e.p2.first<<" "<<e.p2.second<<")"<<'\n';
 	    const uint16_t fromFrom=e.p1.first;
 	    const uint16_t toFrom=e.p1.second;
@@ -118,7 +118,8 @@ private:
 		cout<<i<<" "<<newValues[i]<<" "<<k1[i]<<" "<<k2[i]<<" "<<k3[i]<<" "<<k4[i]<<'\n';
 		cout<<"i="<<i<<" "<<newValues[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
 
-		y_n[i]=y_n[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+		// y_n[i]=y_n[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+		newValues[i]=newValues[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
 		// j++;
 	      }
 	    // cout<<"TO"<<'\n';
@@ -133,8 +134,16 @@ private:
 	cout<<"++++++++++++++++++++++++++++++ "<<(n)*nx<<" "<<(n+1)*nx<<'\n';
 	for(uint16_t i=(n)*nx; i<(n+1)*nx; i++)
 	  {
-	    cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[i-nx]<<'\n';
-	    y_np1[i]=y_n[i-nx];
+	    cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[i-nx]<<" "<<newValues[i-nx]<<'\n';
+	    cout<<equation.Calculate()<<'\n';
+	    y_np1[i]=newValues[i-nx];
+	    y_n[i-nx]=newValues[i-nx];
+	    cout<<equation.Calculate()<<'\n';
+	  }
+	cout<<"results now"<<'\n';
+	for(uint16_t i=0; i<nx*2; i++)
+	  {
+	    cout<<y_np1[i]<<'\n';
 	  }
 	cout<<"------------------------------"<<'\n';
 	t+=stepSize;
