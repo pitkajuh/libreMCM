@@ -3,6 +3,13 @@
 
 #include "Equation.h"
 
+struct Edge2
+{
+public:
+
+
+};
+
 struct Edge
 {
 private:

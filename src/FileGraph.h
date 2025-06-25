@@ -26,6 +26,7 @@ protected:
   void InitInitialValues();
 public:
   bool hasSink=0;
+  bool hasSource=0;
   uint16_t nx=0;
   uint16_t ny=0;
   uint16_t N=0;
@@ -33,6 +34,7 @@ public:
   vector<uint16_t> noivs;
   std::set<string> vertexNames;
   map<string, uint16_t> vertexNamesMap;
+  map<string, std::pair<vector<string>, vector<string>>> vertexEquationsAddSubtract;
   vector<EdgeStruct> edges;
   vector<Edge> edgesNew;
 

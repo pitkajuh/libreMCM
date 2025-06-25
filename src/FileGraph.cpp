@@ -32,33 +32,43 @@ map<string, double> FileGraph::SetInitialValueName(vector<string> &ivs)
 
 void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equations, const vector<uint16_t> &noivs, const vector<uint16_t> &noOfInitialValue)
 {
-  // edgesNew.reserve(edges.size());
   // std::set<std::pair<uint16_t, uint16_t>> aa;
   for(const auto &[name, id]: vertexNamesMap)
     {
       cout<<"Find "<<name<<'\n';
+      int i=0;
       for(const auto &edge: edges)
 	{
-	  auto from=edge.from;
-	  auto to=edge.to;
-
-	  if(name==from) cout<<"from "<<name<<'\n';
+	  // auto from=edge.from;
+	  cout<<i<<" "<<edge.from<<" "<<edge.to<<" "<<edge.equationName<<'\n';
+	  // if(name==from) cout<<"FOUND from "<<name<<" "<<edge.equationName<<'\n';
+	  i++;
 	}
+
+      // for(const auto &edge: edges)
+      // 	{
+      // 	  auto to=edge.to;
+
+      // 	  if(name==to) cout<<"to "<<name<<'\n';
+      // 	}
+      cout<<" "<<'\n';
     }
-  for(const auto &edge: edges)
-    {
-      Edge e(&equations.equations[equationNames[edge.equationName]], vertexNamesMap[edge.from], vertexNamesMap[edge.to], noivs, noOfInitialValue);
-      edgesNew.emplace_back(e);
-      // aa.insert(e.p1);
-      // aa.insert(e.p2);
-    }
-  // cout<<aa.size()<<'\n';
-  // for(const auto &i: aa){cout<<"AA "<<i.first<<" "<<i.second<<'\n';}
-  edges.clear();
+  // for(const auto &edge: edges)
+  //   {
+  //     Edge e(&equations.equations[equationNames[edge.equationName]], vertexNamesMap[edge.from], vertexNamesMap[edge.to], noivs, noOfInitialValue);
+  //     edgesNew.emplace_back(e);
+  //     // aa.insert(e.p1);
+  //     // aa.insert(e.p2);
+  //   }
+  // // cout<<aa.size()<<'\n';
+  // // for(const auto &i: aa){cout<<"AA "<<i.first<<" "<<i.second<<'\n';}
+  // edges.clear();
 }
 
 void FileGraph::CreateEdges(const vector<string> &v)
 {
+  cout<<vertexNamesMap.size()<<'\n';
+  std::pair<vector<string>, vector<string>> equationsAddSubtract;
   for(string str: v)
     {
       string strs[3];
@@ -78,10 +88,32 @@ void FileGraph::CreateEdges(const vector<string> &v)
 	  str.erase(str.begin(), str.begin()+at+1);
 	  i++;
 	}
+
       EdgeStruct edge{strs[0], strs[1], strs[2]};
+
+      if(vertexEquationsAddSubtract.find(strs[0])==vertexEquationsAddSubtract.end())
+	{
+	  cout<<"NO "<<strs[0]<<'\n';
+	  vertexEquationsAddSubtract[strs[0]];
+	}
+      if(vertexEquationsAddSubtract.find(strs[1])==vertexEquationsAddSubtract.end())
+	{
+	  cout<<"NO "<<strs[1]<<'\n';
+	  vertexEquationsAddSubtract[strs[1]];
+	}
+
+      vertexEquationsAddSubtract[strs[0]].second.emplace_back(strs[2]);
+      vertexEquationsAddSubtract[strs[1]].first.emplace_back(strs[2]);
+
+
       if(strs[1]==sink) hasSink=1;
-      if(strs[0]==source) edge.from=edge.to;
+      if(strs[0]==source) hasSource=1;
+      // if(strs[0]==source) edge.from=edge.to;
       edges.emplace_back(edge);
+    }
+  for(const auto &[i, j]: vertexEquationsAddSubtract)
+    {
+      cout<<"AA "<<i<<" "<<j.first.size()<<" "<<j.second.size()<<'\n';
     }
 }
 

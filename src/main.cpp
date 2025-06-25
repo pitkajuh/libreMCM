@@ -79,7 +79,6 @@ void ReadInitialData(const string &directory)
   // int k=0;
   for(auto &i: equations.equations)
     {
-
       for(auto &j: i.vertices)
 	{
 	  // cout<<k<<'\n';
