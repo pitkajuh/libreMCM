@@ -7,6 +7,7 @@ class MathOperator
 {
 public:
   MathOperator(){}
+  virtual string GetOp()=0;
   virtual double Calculate(const double v1, const double v2)=0;
   virtual ~MathOperator(){}
 };
@@ -14,6 +15,7 @@ public:
 class Add:public MathOperator
 {
 public:
+  string GetOp(){return "+";}
   double Calculate(const double v1, const double v2){return v1+v2;}
   Add(){}
   ~Add(){}
@@ -22,6 +24,7 @@ public:
 class Sub:public MathOperator
 {
 public:
+  string GetOp(){return "-";}
   double Calculate(const double v1, const double v2){return v1-v2;}
   Sub(){}
   ~Sub(){}
@@ -30,6 +33,7 @@ public:
 class Mul:public MathOperator
 {
 public:
+  string GetOp(){return "*";}
   double Calculate(const double v1, const double v2){return v1*v2;}
   Mul(){}
   ~Mul(){}
@@ -38,6 +42,7 @@ public:
 class Div:public MathOperator
 {
 public:
+  string GetOp(){return "/";}
   double Calculate(const double v1, const double v2){return v1/v2;}
   Div(){}
   ~Div(){}
@@ -46,6 +51,7 @@ public:
 class Exp:public MathOperator
 {
 public:
+  string GetOp(){return "^";}
   double Calculate(const double v1, const double v2){return pow(v1, v2);}
   Exp(){}
   ~Exp(){}

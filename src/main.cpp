@@ -55,14 +55,14 @@ void ReadInitialData(const string &directory)
 
   MathOperators operators;
 
-  cout<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
+  cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
 
   std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
 
-  // for(int i=0; i<test1.nx; i++)
-  //   {
-  //     cout<<i<<" "<<&numMethod.y_n[i]<<" "<<numMethod.y_n[i]<<'\n';
-  //   }
+  for(int i=0; i<test1.nx; i++)
+    {
+      cout<<"I="<<i<<" "<<&numMethod.y_n[i]<<" "<<numMethod.y_n[i]<<'\n';
+    }
 
   std::unordered_set<double*> aoea;
 
@@ -70,8 +70,7 @@ void ReadInitialData(const string &directory)
 
   test1.CreateEdge(test3.equationNames, equations, test1.noivs, test1.noOfInitialValue);
 
-
-  numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew, test1.noOfInitialValue, equations, test1.N);
+  // numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew, test1.noOfInitialValue, equations, test1.N);
 
 
   // equations.Calculate();

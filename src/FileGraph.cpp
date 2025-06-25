@@ -34,7 +34,17 @@ void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equa
 {
   // edgesNew.reserve(edges.size());
   // std::set<std::pair<uint16_t, uint16_t>> aa;
+  for(const auto &[name, id]: vertexNamesMap)
+    {
+      cout<<"Find "<<name<<'\n';
+      for(const auto &edge: edges)
+	{
+	  auto from=edge.from;
+	  auto to=edge.to;
 
+	  if(name==from) cout<<"from "<<name<<'\n';
+	}
+    }
   for(const auto &edge: edges)
     {
       Edge e(&equations.equations[equationNames[edge.equationName]], vertexNamesMap[edge.from], vertexNamesMap[edge.to], noivs, noOfInitialValue);
@@ -106,6 +116,11 @@ void FileGraph::InitResults(double *&results)
   cout<<"N "<<N<<" "<<nx<<" "<<ny<<'\n';
   results=new double[N];
   uint16_t i=0;
+
+  for(uint16_t i=0; i<N; i++)
+    {
+      results[i]=0;
+    }
 
   for(auto &[name, value]: all)
     {
@@ -185,15 +200,17 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
       noOfInitialValue.emplace_back(j.size()+nx);
       noivs.emplace_back(j.size());
       nx+=j.size();
+      cout<<"nx "<<nx<<" "<<j.size()<<'\n';
     }
 
-  for(const auto &[i, j]: sinkMap)
-    {
-      noOfInitialValue.emplace_back(noOfInitialValue.back()+j.size());
-      noivs.emplace_back(j.size());
-      nx+=j.size();
-    }
-
+  // for(const auto &[i, j]: sinkMap)
+  //   {
+  //     noOfInitialValue.emplace_back(noOfInitialValue.back()+j.size());
+  //     noivs.emplace_back(j.size());
+  //     nx+=j.size();
+  //     cout<<"nx "<<nx<<'\n';
+  //   }
+  cout<<"nx "<<nx<<'\n';
   uint16_t n=0;
 
   for(const string &name: vertexNames)
