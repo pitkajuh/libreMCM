@@ -16,7 +16,7 @@ public:
   uint16_t ny=0;
 
   NumericalMethod(){}
-  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations, const uint16_t N)=0;
+  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge2> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations, const uint16_t N)=0;
   virtual ~NumericalMethod()
   {
     delete [] newValues;
@@ -93,7 +93,7 @@ private:
       }
   }
 
-  void RK4(vector<Edge> &edges, Equations &equations)
+  void RK4(vector<Edge2> &edges, Equations &equations)
   {
     uint16_t t=stepSize;
     uint16_t n=1;
@@ -112,49 +112,49 @@ private:
       {
 	cout<<"t="<<t<<'\n';
 
-	for(Equation &equation: equations.equations)
-	  {
-	    cout<<"ID "<<equation.id<<'\n';
-	    // auto equation=*e.equation;
-	    // equation=*e.equation;
-	    // cout<<"("<<e.p1.first<<" "<<e.p1.second<<"), ("
-	    // <<e.p2.first<<" "<<e.p2.second<<")"<<'\n';
-	    const uint16_t fromFrom=0;
-	    const uint16_t toFrom=nx;
-	    k0(equation, k1, fromFrom, toFrom);
-	    k(equation, k2, 0.5, k1, fromFrom, toFrom);
-	    k(equation, k3, 0.5, k2, fromFrom, toFrom);
-	    k(equation, k4, 1, k3, fromFrom, toFrom);
+	// for(Equation &equation: equations.equations)
+	//   {
+	//     cout<<"ID "<<equation.id<<'\n';
+	//     // auto equation=*e.equation;
+	//     // equation=*e.equation;
+	//     // cout<<"("<<e.p1.first<<" "<<e.p1.second<<"), ("
+	//     // <<e.p2.first<<" "<<e.p2.second<<")"<<'\n';
+	//     const uint16_t fromFrom=0;
+	//     const uint16_t toFrom=nx;
+	//     k0(equation, k1, fromFrom, toFrom);
+	//     k(equation, k2, 0.5, k1, fromFrom, toFrom);
+	//     k(equation, k3, 0.5, k2, fromFrom, toFrom);
+	//     k(equation, k4, 1, k3, fromFrom, toFrom);
 
-	    cout<<"FROM "<<fromFrom<<" "<<toFrom<<" "<<N<<" "<<nx<<'\n';
+	//     cout<<"FROM "<<fromFrom<<" "<<toFrom<<" "<<N<<" "<<nx<<'\n';
 
-	    for(uint16_t i=fromFrom; i<toFrom; i++)
-	      {
-		// cout<<"i="<<i<<" "<<newValues[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
-		newValues[i]+=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
-	      }
+	//     for(uint16_t i=fromFrom; i<toFrom; i++)
+	//       {
+	// 	// cout<<"i="<<i<<" "<<newValues[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
+	// 	newValues[i]+=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+	//       }
 
 
-	    // uint16_t j=0;
+	//     // uint16_t j=0;
 
-	    // for(uint16_t i=n*nx; i<(n+1)*nx; i++)
-	    // for(uint16_t i=0; i<nx; i++)
-	    //   {
-	    // 	// cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<newValues[j]<<'\n';
-	    // 	// y_np1[i]=newValues[j];
-	    // 	y_n[i]=newValues[i];
-	    // 	// j++;
-	    //   }
+	//     // for(uint16_t i=n*nx; i<(n+1)*nx; i++)
+	//     // for(uint16_t i=0; i<nx; i++)
+	//     //   {
+	//     // 	// cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<newValues[j]<<'\n';
+	//     // 	// y_np1[i]=newValues[j];
+	//     // 	y_n[i]=newValues[i];
+	//     // 	// j++;
+	//     //   }
 
-	    // cout<<"TO"<<'\n';
-	    // for(uint16_t i=fromTo; i<toTo; i++)
-	    //   {
-	    // 	cout<<"i="<<i<<" "<<newValues[i]<<'\n';
-	    // 	// newValues[i]+=newValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
-	    //   }
+	//     // cout<<"TO"<<'\n';
+	//     // for(uint16_t i=fromTo; i<toTo; i++)
+	//     //   {
+	//     // 	cout<<"i="<<i<<" "<<newValues[i]<<'\n';
+	//     // 	// newValues[i]+=newValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+	//     //   }
 
-	    cout<<" "<<'\n';
-	  }
+	//     cout<<" "<<'\n';
+	//   }
 
 	// Equation equation;
 	// for(Edge &e: edges)
@@ -245,7 +245,7 @@ private:
     // delete [] d;
   }
 public:
-  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations, const uint16_t N)
+  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge2> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations, const uint16_t N)
   {
     std::copy(y_n, y_n+nx, newValues);
     this->noOfInitialValue=noOfInitialValue;

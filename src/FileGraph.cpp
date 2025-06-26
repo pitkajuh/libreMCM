@@ -32,41 +32,23 @@ map<string, double> FileGraph::SetInitialValueName(vector<string> &ivs)
 
 void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equations, const vector<uint16_t> &noivs, const vector<uint16_t> &noOfInitialValue)
 {
-  cout<<" "<<'\n';
-  // Edge2 e;
-
+  // vertexNamesMap[edge.from], vertexNamesMap[edge.to]
   for(const auto &[i, j]: vertexEquationsAddSubtract)
     {
-      // Edge2 e(j.first.size(), j.second.size());
-      cout<<"Vertex "<<i<<" "<<j.first.size()<<" "<<j.second.size()<<'\n';
       Edge2 e(j.first.size(), j.second.size());
-      uint16_t l=0;
 
       for(const auto &equationName: j.first)
 	{
-	  cout<<"Add "<<equationName<<'\n';
 	  e.equationsAdd.emplace_back(equations.equations[equationNames[equationName]]);
-	  l++;
 	}
-
-      l=0;
 
       for(const auto &equationName: j.second)
 	{
-	  cout<<"Subtract "<<equationName<<'\n';
 	  e.equationsSubtract.emplace_back(equations.equations[equationNames[equationName]]);
-	  l++;
 	}
-
       edgesNew2.emplace_back(e);
-
-      // for(const auto &k: j.second)
-      // 	{
-      // 	  cout<<"Subtract "<<k<<'\n';
-      // 	}
     }
-  cout<<" "<<'\n';
-
+  vertexEquationsAddSubtract.clear();
 
   // std::set<std::pair<uint16_t, uint16_t>> aa;
   // for(const auto &[name, id]: vertexNamesMap)
