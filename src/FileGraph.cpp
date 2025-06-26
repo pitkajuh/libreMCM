@@ -32,27 +32,65 @@ map<string, double> FileGraph::SetInitialValueName(vector<string> &ivs)
 
 void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equations, const vector<uint16_t> &noivs, const vector<uint16_t> &noOfInitialValue)
 {
-  // std::set<std::pair<uint16_t, uint16_t>> aa;
-  for(const auto &[name, id]: vertexNamesMap)
+  cout<<" "<<'\n';
+  // Edge2 e;
+
+  for(const auto &[i, j]: vertexEquationsAddSubtract)
     {
-      cout<<"Find "<<name<<'\n';
-      int i=0;
-      for(const auto &edge: edges)
+      // Edge2 e(j.first.size(), j.second.size());
+      cout<<"Vertex "<<i<<" "<<j.first.size()<<" "<<j.second.size()<<'\n';
+      Edge2 e;
+      e.Create(j.first.size(), j.second.size());
+
+      uint16_t l=0;
+
+      for(const auto &equationName: j.first)
 	{
-	  // auto from=edge.from;
-	  cout<<i<<" "<<edge.from<<" "<<edge.to<<" "<<edge.equationName<<'\n';
-	  // if(name==from) cout<<"FOUND from "<<name<<" "<<edge.equationName<<'\n';
-	  i++;
+	  cout<<"Add "<<equationName<<'\n';
+	  e.equationAdd.emplace_back(equations.equations[equationNames[equationName]]);
+	  l++;
 	}
 
-      // for(const auto &edge: edges)
-      // 	{
-      // 	  auto to=edge.to;
+      l=0;
 
-      // 	  if(name==to) cout<<"to "<<name<<'\n';
+      for(const auto &equationName: j.second)
+	{
+	  cout<<"Subtract "<<equationName<<'\n';
+	  e.equationSubtract.emplace_back(equations.equations[equationNames[equationName]]);
+	  l++;
+	}
+
+      edgesNew2.emplace_back(e);
+
+      // for(const auto &k: j.second)
+      // 	{
+      // 	  cout<<"Subtract "<<k<<'\n';
       // 	}
-      cout<<" "<<'\n';
     }
+  cout<<" "<<'\n';
+
+
+  // std::set<std::pair<uint16_t, uint16_t>> aa;
+  // for(const auto &[name, id]: vertexNamesMap)
+  //   {
+  //     cout<<"Find "<<name<<'\n';
+  //     int i=0;
+  //     for(const auto &edge: edges)
+  // 	{
+  // 	  // auto from=edge.from;
+  // 	  cout<<i<<" "<<edge.from<<" "<<edge.to<<" "<<edge.equationName<<'\n';
+  // 	  // if(name==from) cout<<"FOUND from "<<name<<" "<<edge.equationName<<'\n';
+  // 	  i++;
+  // 	}
+
+  //     // for(const auto &edge: edges)
+  //     // 	{
+  //     // 	  auto to=edge.to;
+
+  //     // 	  if(name==to) cout<<"to "<<name<<'\n';
+  //     // 	}
+  //     cout<<" "<<'\n';
+  //   }
   // for(const auto &edge: edges)
   //   {
   //     Edge e(&equations.equations[equationNames[edge.equationName]], vertexNamesMap[edge.from], vertexNamesMap[edge.to], noivs, noOfInitialValue);
@@ -83,7 +121,6 @@ void FileGraph::CreateEdges(const vector<string> &v)
 	      strs[i]=str;
 	      break;
 	    }
-
 	  strs[i]=str.substr(0, at);
 	  str.erase(str.begin(), str.begin()+at+1);
 	  i++;
@@ -91,29 +128,16 @@ void FileGraph::CreateEdges(const vector<string> &v)
 
       EdgeStruct edge{strs[0], strs[1], strs[2]};
 
-      if(vertexEquationsAddSubtract.find(strs[0])==vertexEquationsAddSubtract.end())
-	{
-	  cout<<"NO "<<strs[0]<<'\n';
-	  vertexEquationsAddSubtract[strs[0]];
-	}
-      if(vertexEquationsAddSubtract.find(strs[1])==vertexEquationsAddSubtract.end())
-	{
-	  cout<<"NO "<<strs[1]<<'\n';
-	  vertexEquationsAddSubtract[strs[1]];
-	}
+      // Add checks here for detecting not allowed edges, e.g. from source to sink, from sink to anything etc.
 
-      vertexEquationsAddSubtract[strs[0]].second.emplace_back(strs[2]);
-      vertexEquationsAddSubtract[strs[1]].first.emplace_back(strs[2]);
-
+      // What if same equations adds or subtract twice?
+      if(strs[0]!=source) vertexEquationsAddSubtract[strs[0]].second.insert(strs[2]);
+      if(strs[1]!=sink) vertexEquationsAddSubtract[strs[1]].first.insert(strs[2]);
 
       if(strs[1]==sink) hasSink=1;
       if(strs[0]==source) hasSource=1;
       // if(strs[0]==source) edge.from=edge.to;
       edges.emplace_back(edge);
-    }
-  for(const auto &[i, j]: vertexEquationsAddSubtract)
-    {
-      cout<<"AA "<<i<<" "<<j.first.size()<<" "<<j.second.size()<<'\n';
     }
 }
 

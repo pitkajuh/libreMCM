@@ -5,6 +5,8 @@
 #include "Edge.h"
 #include "Equation.h"
 
+using std::set;
+
 struct EdgeStruct
 {
 public:
@@ -32,11 +34,12 @@ public:
   uint16_t N=0;
   vector<uint16_t> noOfInitialValue;
   vector<uint16_t> noivs;
-  std::set<string> vertexNames;
+  set<string> vertexNames;
   map<string, uint16_t> vertexNamesMap;
-  map<string, std::pair<vector<string>, vector<string>>> vertexEquationsAddSubtract;
+  map<string, std::pair<set<string>, set<string>>> vertexEquationsAddSubtract;
   vector<EdgeStruct> edges;
   vector<Edge> edgesNew;
+  vector<Edge2> edgesNew2;
 
   void CreateEdge(map<string, uint16_t> &equationNames, Equations &equations, const vector<uint16_t> &noivs, const vector<uint16_t> &noOfInitialValue);
   void InitResults(double *&results);

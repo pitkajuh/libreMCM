@@ -74,7 +74,7 @@ void ReadInitialData(const string &directory)
 
 
   // equations.Calculate();
-  cout<<sizeof(Edge)<<'\n';
+
   cout<<"Start clearing"<<'\n';
   // int k=0;
   for(auto &i: equations.equations)

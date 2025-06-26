@@ -6,8 +6,17 @@
 struct Edge2
 {
 public:
+  vector<Equation> equationAdd;
+  vector<Equation> equationSubtract;
 
+  void Create(const uint16_t sizeAdd, const uint16_t sizeSubtract)
+  {
+    equationAdd.reserve(sizeAdd);
+    equationSubtract.reserve(sizeSubtract);
+  }
 
+  Edge2(){}
+  ~Edge2(){}
 };
 
 struct Edge
