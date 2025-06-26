@@ -6,13 +6,29 @@
 struct Edge2
 {
 public:
-  vector<Equation> equationAdd;
-  vector<Equation> equationSubtract;
+  vector<Equation> equationsAdd;
+  vector<Equation> equationsSubtract;
 
-  void Create(const uint16_t sizeAdd, const uint16_t sizeSubtract)
+  double Calculate()
   {
-    equationAdd.reserve(sizeAdd);
-    equationSubtract.reserve(sizeSubtract);
+    double result=0;
+
+    for(Equation &equationAdd: equationsAdd)
+      {
+	result+=equationAdd.Calculate();
+      }
+
+    for(Equation &equationSubtract: equationsSubtract)
+      {
+	result-=equationSubtract.Calculate();
+      }
+    return result;
+  }
+
+  Edge2(const uint16_t sizeAdd, const uint16_t sizeSubtract)
+  {
+    equationsAdd.reserve(sizeAdd);
+    equationsSubtract.reserve(sizeSubtract);
   }
 
   Edge2(){}

@@ -39,15 +39,13 @@ void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equa
     {
       // Edge2 e(j.first.size(), j.second.size());
       cout<<"Vertex "<<i<<" "<<j.first.size()<<" "<<j.second.size()<<'\n';
-      Edge2 e;
-      e.Create(j.first.size(), j.second.size());
-
+      Edge2 e(j.first.size(), j.second.size());
       uint16_t l=0;
 
       for(const auto &equationName: j.first)
 	{
 	  cout<<"Add "<<equationName<<'\n';
-	  e.equationAdd.emplace_back(equations.equations[equationNames[equationName]]);
+	  e.equationsAdd.emplace_back(equations.equations[equationNames[equationName]]);
 	  l++;
 	}
 
@@ -56,7 +54,7 @@ void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equa
       for(const auto &equationName: j.second)
 	{
 	  cout<<"Subtract "<<equationName<<'\n';
-	  e.equationSubtract.emplace_back(equations.equations[equationNames[equationName]]);
+	  e.equationsSubtract.emplace_back(equations.equations[equationNames[equationName]]);
 	  l++;
 	}
 
