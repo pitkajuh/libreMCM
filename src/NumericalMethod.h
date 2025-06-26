@@ -52,20 +52,20 @@ private:
       }
   }
 
-  void EquationCalculate(Edge2 &equation, double *&k, const double constant, const uint16_t from, const uint16_t to)
+  void EquationCalculate(vector<Edge2> &equation, double *&k, const double constant, const uint16_t from, const uint16_t to)
   {
     print(k);
     for(uint16_t i=from; i<to; i++)
     // for(uint16_t i=0; i<nx; i++)
       {
-	auto a1=equation.Calculate();
+	auto a1=equation[i].Calculate();
 	// k[i]=stepSize*equation.Calculate();
 	k[i]=stepSize*a1;
 	cout<<"k[i] "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
       }
   }
 
-  void k(Edge2 &equation, double *&k, const double constant, const double *kPrevious, const uint16_t from, const uint16_t to)
+  void k(vector<Edge2> &equation, double *&k, const double constant, const double *kPrevious, const uint16_t from, const uint16_t to)
   {
     // Replace values in y_n
     EquationSubstitute(constant, kPrevious, from, to);
@@ -81,12 +81,12 @@ private:
       }
   }
 
-  void k0(Edge2 &equation, double *&k, const uint16_t from, const uint16_t to)
+  void k0(vector<Edge2> &equation, double *&k, const uint16_t from, const uint16_t to)
   {
     for(uint16_t i=from; i<to; i++)
     // for(uint16_t i=0; i<nx; i++)
       {
-	auto a1=equation.Calculate();
+	auto a1=equation[i].Calculate();
 	// k[i]=stepSize*equation.Calculate();
 	k[i]=stepSize*a1;
 	cout<<"k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
@@ -122,13 +122,15 @@ private:
 	for(uint16_t i=0; i<noOfInitialValue.size(); i++)
 	  {
 	    cout<<"FROM "<<noOfInitialValue[i]<<" TO "<<noOfInitialValue[i]+1<<'\n';
-	    const uint16_t fromFrom=noOfInitialValue[i];
-	    const uint16_t toFrom=noOfInitialValue[i]+1;
-	    auto e=edges[i];
-	    k0(e, k1, fromFrom, toFrom);
-	    k(e, k2, 0.5, k1, fromFrom, toFrom);
-	    k(e, k3, 0.5, k2, fromFrom, toFrom);
-	    k(e, k4, 1, k3, fromFrom, toFrom);
+	    // const uint16_t fromFrom=noOfInitialValue[i];
+	    // const uint16_t toFrom=noOfInitialValue[i]+1;
+	    const uint16_t fromFrom=0;
+	    const uint16_t toFrom=nx;
+	    // auto e=edges[i];
+	    k0(edges, k1, fromFrom, toFrom);
+	    k(edges, k2, 0.5, k1, fromFrom, toFrom);
+	    k(edges, k3, 0.5, k2, fromFrom, toFrom);
+	    k(edges, k4, 1, k3, fromFrom, toFrom);
 
 	    for(uint16_t i=fromFrom; i<toFrom; i++)
 	      {
