@@ -40,16 +40,18 @@ private:
   }
   void EquationSubstitute(const double constant, const double *kPrevious, const uint16_t from, const uint16_t to)
   {
-    cout<<"SUBSTITUTING"<<'\n';
-    print(kPrevious);
+    // cout<<"SUBSTITUTING"<<'\n';
+    // print(kPrevious);
     for(uint16_t i=from; i<to; i++)
     // for(uint16_t i=0; i<nx; i++)
       {
 	auto aa=y_n[i];
 	// y_n[i]=y_n[i]+constant*kPrevious[i];
 	y_n[i]+=constant*kPrevious[i];
-	cout<<"y_n[i] "<<aa<<"+"<<constant<<"*"<<kPrevious[i]<<"="<<y_n[i]<<'\n';
+	// cout<<"y_n[i] "<<aa<<"+"<<constant<<"*"<<kPrevious[i]<<"="<<y_n[i]<<'\n';
       }
+    cout<<"SUBSTITUTING"<<'\n';
+    print(y_n);
   }
 
   void EquationCalculate(vector<Edge2> &equation, double *&k, const double constant, const uint16_t from, const uint16_t to)
@@ -127,9 +129,13 @@ private:
 	    const uint16_t fromFrom=0;
 	    const uint16_t toFrom=nx;
 	    // auto e=edges[i];
+	    cout<<"-----------k0-----------"<<'\n';
 	    k0(edges, k1, fromFrom, toFrom);
+	    cout<<"-----------k1-----------"<<'\n';
 	    k(edges, k2, 0.5, k1, fromFrom, toFrom);
+	    cout<<"-----------k2-----------"<<'\n';
 	    k(edges, k3, 0.5, k2, fromFrom, toFrom);
+	    cout<<"-------------k3-----------"<<'\n';
 	    k(edges, k4, 1, k3, fromFrom, toFrom);
 
 	    for(uint16_t i=fromFrom; i<toFrom; i++)
@@ -139,96 +145,6 @@ private:
 	      }
 	  }
 
-	// for(Equation &equation: equations.equations)
-	//   {
-	//     cout<<"ID "<<equation.id<<'\n';
-	//     // auto equation=*e.equation;
-	//     // equation=*e.equation;
-	//     // cout<<"("<<e.p1.first<<" "<<e.p1.second<<"), ("
-	//     // <<e.p2.first<<" "<<e.p2.second<<")"<<'\n';
-	//     const uint16_t fromFrom=0;
-	//     const uint16_t toFrom=nx;
-	//     k0(equation, k1, fromFrom, toFrom);
-	//     k(equation, k2, 0.5, k1, fromFrom, toFrom);
-	//     k(equation, k3, 0.5, k2, fromFrom, toFrom);
-	//     k(equation, k4, 1, k3, fromFrom, toFrom);
-
-	//     cout<<"FROM "<<fromFrom<<" "<<toFrom<<" "<<N<<" "<<nx<<'\n';
-
-	//     for(uint16_t i=fromFrom; i<toFrom; i++)
-	//       {
-	// 	// cout<<"i="<<i<<" "<<newValues[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
-	// 	newValues[i]+=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
-	//       }
-
-
-	//     // uint16_t j=0;
-
-	//     // for(uint16_t i=n*nx; i<(n+1)*nx; i++)
-	//     // for(uint16_t i=0; i<nx; i++)
-	//     //   {
-	//     // 	// cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<newValues[j]<<'\n';
-	//     // 	// y_np1[i]=newValues[j];
-	//     // 	y_n[i]=newValues[i];
-	//     // 	// j++;
-	//     //   }
-
-	//     // cout<<"TO"<<'\n';
-	//     // for(uint16_t i=fromTo; i<toTo; i++)
-	//     //   {
-	//     // 	cout<<"i="<<i<<" "<<newValues[i]<<'\n';
-	//     // 	// newValues[i]+=newValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
-	//     //   }
-
-	//     cout<<" "<<'\n';
-	//   }
-
-	// Equation equation;
-	// for(Edge &e: edges)
-	//   {
-	//     // auto equation=*e.equation;
-	//     equation=*e.equation;
-	//     cout<<"("<<e.p1.first<<" "<<e.p1.second<<"), ("
-	//     <<e.p2.first<<" "<<e.p2.second<<")"<<'\n';
-	//     const uint16_t fromFrom=e.p1.first;
-	//     const uint16_t toFrom=e.p1.second;
-	//     k0(equation, k1, fromFrom, toFrom);
-	//     k(equation, k2, 0.5, k1, fromFrom, toFrom);
-	//     k(equation, k3, 0.5, k2, fromFrom, toFrom);
-	//     k(equation, k4, 1, k3, fromFrom, toFrom);
-
-	//     const uint16_t fromTo=e.p2.first;
-	//     const uint16_t toTo=e.p2.second;
-
-	//     cout<<"FROM "<<fromFrom<<" "<<toFrom<<" "<<N<<" "<<nx<<'\n';
-
-	//     for(uint16_t i=fromFrom; i<toFrom; i++)
-	//       {
-	// 	// cout<<"i="<<i<<" "<<newValues[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
-	// 	newValues[i]+=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
-	//       }
-
-
-	//     // uint16_t j=0;
-
-	//     // for(uint16_t i=n*nx; i<(n+1)*nx; i++)
-	//     // for(uint16_t i=0; i<nx; i++)
-	//     //   {
-	//     // 	// cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<newValues[j]<<'\n';
-	//     // 	// y_np1[i]=newValues[j];
-	//     // 	y_n[i]=newValues[i];
-	//     // 	// j++;
-	//     //   }
-
-	//     // cout<<"TO"<<'\n';
-	//     // for(uint16_t i=fromTo; i<toTo; i++)
-	//     //   {
-	//     // 	cout<<"i="<<i<<" "<<newValues[i]<<'\n';
-	//     // 	// newValues[i]+=newValues[i]+stepSize*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
-	//     //   }
-
-	//     cout<<" "<<'\n';
-	//   }
 	cout<<"++++++++++++++++++++++++++++++ "<<(n)*nx<<" "<<(n+1)*nx<<" n="<<n<<'\n';
 	uint16_t j=0;
 
