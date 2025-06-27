@@ -68,7 +68,7 @@ void ReadInitialData(const string &directory)
 
   Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.y_n, test1.noOfInitialValue, test1.nx);
 
-  test1.CreateEdge(test3.equationNames, equations, test1.noivs, test1.noOfInitialValue);
+  test1.CreateEdge(test3.equationNames, equations);
 
   numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew2, equations, test1.N);
 

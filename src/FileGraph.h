@@ -30,14 +30,13 @@ public:
   uint16_t ny=0;
   uint16_t N=0;
   vector<uint16_t> noOfInitialValue;
-  vector<uint16_t> noivs;
   set<string> vertexNames;
   map<string, uint16_t> vertexNamesMap;
   map<string, std::pair<set<string>, set<string>>> vertexEquationsAddSubtract;
   vector<EdgeStruct> edges;
   vector<Edge2> edgesNew2;
 
-  void CreateEdge(map<string, uint16_t> &equationNames, Equations &equations, const vector<uint16_t> &noivs, const vector<uint16_t> &noOfInitialValue);
+  void CreateEdge(map<string, uint16_t> &equationNames, Equations &equations);
   void InitResults(double *&results);
   FileGraph(const string &fileName, const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize);
 

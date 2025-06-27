@@ -30,7 +30,7 @@ map<string, double> FileGraph::SetInitialValueName(vector<string> &ivs)
   return result;
 }
 
-void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equations, const vector<uint16_t> &noivs, const vector<uint16_t> &noOfInitialValue)
+void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equations)
 {
   for(const auto &[i, j]: vertexEquationsAddSubtract)
     {
@@ -167,7 +167,6 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
   for(auto &[i, j]: all)
     {
       noOfInitialValue.emplace_back(j.size()+nx);
-      noivs.emplace_back(j.size());
       nx+=j.size();
       cout<<"nx "<<nx<<" "<<j.size()<<'\n';
     }
