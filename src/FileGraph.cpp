@@ -52,8 +52,8 @@ void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equa
 
 void FileGraph::CreateEdges(const vector<string> &v)
 {
-  cout<<vertexNamesMap.size()<<'\n';
   std::pair<vector<string>, vector<string>> equationsAddSubtract;
+
   for(string str: v)
     {
       string strs[3];
@@ -80,10 +80,6 @@ void FileGraph::CreateEdges(const vector<string> &v)
       // What if same equations adds or subtract twice?
       if(strs[0]!=source) vertexEquationsAddSubtract[strs[0]].second.insert(strs[2]);
       if(strs[1]!=sink) vertexEquationsAddSubtract[strs[1]].first.insert(strs[2]);
-
-      if(strs[1]==sink) hasSink=1;
-      if(strs[0]==source) hasSource=1;
-      // if(strs[0]==source) edge.from=edge.to;
       edges.emplace_back(edge);
     }
 }
@@ -133,28 +129,7 @@ void FileGraph::InitResults(double *&results)
 	  i++;
 	}
     }
-
   all.clear();
-
-  // The values of sink (several zeros) are also added to
-  // the results as initial values.
-  if(hasSink)
-    {
-      for(auto &[name, value]: sinkMap)
-	{
-	  for(const auto&[v1, v2]: value)
-	    {
-	      results[i]=v2;
-	      i++;
-	    }
-	}
-      sinkMap.clear();
-    }
-
-  // for(unsigned i=0; i<nx; i++)
-  //   {
-  //     cout<<"i="<<i<<" "<<results[i]<<'\n';
-  //   }
 }
 
 void FileGraph::InitInitialValues()
@@ -162,20 +137,11 @@ void FileGraph::InitInitialValues()
   // Initialize the initial values for each vertex according to edges of
   // the graph. For example, if vertex A={a1=10, a2=20} is connected to
   // vertex B={b1=5, b2=2}, initial values a1 and a2 must be initialized
-  // with value of zero in B, so B={a1=0, a2=0 b1=5, b2=2}. Same logic applies
-  // when vertex is either sink or source.
+  // with value of zero in B, so B={a1=0, a2=0 b1=5, b2=2}. Sink and
+  // source are skipped
+
   for(const auto &edge: edges)
     {
-      // Initialize the values to zero for sink vertex. Sink has an infinite
-      // amount of space, so any amount of quantity can be deposited to it.
-      if(edge.to==sink)
-	{
-	  for(const auto &[name, value]: all[edge.from])
-	    {
-	      sinkMap[sink][name];
-	    }
-	}
-
       // Initialize values for vertices, other than sink and source.
       if(edge.from!=source and edge.to!=sink)
 	{
@@ -206,14 +172,6 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
       cout<<"nx "<<nx<<" "<<j.size()<<'\n';
     }
 
-  // for(const auto &[i, j]: sinkMap)
-  //   {
-  //     noOfInitialValue.emplace_back(noOfInitialValue.back()+j.size());
-  //     noivs.emplace_back(j.size());
-  //     nx+=j.size();
-  //     cout<<"nx "<<nx<<'\n';
-  //   }
-  cout<<"nx "<<nx<<'\n';
   uint16_t n=0;
 
   for(const string &name: vertexNames)
@@ -221,8 +179,5 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
       vertexNamesMap[name]=n;
       n++;
     }
-
   vertexNames.clear();
-
-  if(hasSink) vertexNamesMap[sink]=n;
 }
