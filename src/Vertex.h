@@ -3,16 +3,7 @@
 
 #include "MathOperator.h"
 
-class Vertex
-{
-public:
-  Vertex(){};
-  virtual ~Vertex(){};
-  virtual double GetValue()=0;
-  virtual void Calculate()=0;
-};
-
-struct VertexNew
+struct Vertex
 {
 public:
   int8_t value1Negative=1;
@@ -29,8 +20,8 @@ public:
     cout<<*value1<<mathOperator->GetOp()<<*value2<<"="<<*result<<'\n';
   }
 
-  VertexNew(){}
-  ~VertexNew(){}
+  Vertex(){}
+  ~Vertex(){}
 };
 
 #endif

@@ -34,7 +34,7 @@ public:
   map<string, uint16_t> vertexNamesMap;
   map<string, std::pair<set<string>, set<string>>> vertexEquationsAddSubtract;
   vector<EdgeStruct> edges;
-  vector<Edge2> edgesNew2;
+  vector<Edge> edgesNew2;
 
   void CreateEdge(map<string, uint16_t> &equationNames, Equations &equations);
   void InitResults(double *&results);

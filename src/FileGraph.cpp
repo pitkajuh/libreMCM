@@ -34,7 +34,7 @@ void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equa
 {
   for(const auto &[i, j]: vertexEquationsAddSubtract)
     {
-      Edge2 e(j.first.size(), j.second.size());
+      Edge e(j.first.size(), j.second.size());
 
       for(const auto &equationName: j.first)
 	{

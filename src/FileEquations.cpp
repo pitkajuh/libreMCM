@@ -60,7 +60,7 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
   // cout<<"+++++++++++"<<'\n';
 }
 
-void FileEquations::RemoveVertex(const uint8_t id, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, const VertexNew &v, const uint8_t n, const uint8_t size, const uint8_t size2, const VertexNew &v0, const vector<VertexNew> &vv, double *data, const uint16_t N)
+void FileEquations::RemoveVertex(const uint8_t id, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, const Vertex &v, const uint8_t n, const uint8_t size, const uint8_t size2, const Vertex &v0, const vector<Vertex> &vv, double *data, const uint16_t N)
 {
   // cout<<"SIZES "<<std::to_string(size2)<<" "<<std::to_string(size)<<" n="<<std::to_string(n)<<" IF:"<<n-1<<" "<<'\n';
 
@@ -89,9 +89,9 @@ void FileEquations::RemoveVertex(const uint8_t id, std::set<uint8_t> &removeIndi
     }
 }
 
-void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<VertexNew> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, uint8_t n, const uint8_t size, const uint16_t N)
+void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<Vertex> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, uint8_t n, const uint8_t size, const uint16_t N)
 {
-  VertexNew v0;
+  Vertex v0;
   // cout<<"Create "<<&v0<<" "<<s1<<mathOperator<<s2<<'\n';
 
   if(b1.variable and b2.variable)
@@ -232,8 +232,8 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       // cout<<"b1.math and b2.math "<<'\n';
       const uint8_t id1=stoi(s1.substr(1));
       const uint8_t id2=stoi(s2.substr(1));
-      const VertexNew v1=vv[id1];
-      const VertexNew v2=vv[id2];
+      const Vertex v1=vv[id1];
+      const Vertex v2=vv[id2];
 
       if(!std::isnan(*v1.result) and !std::isnan(*v2.result))
 	{
@@ -283,7 +283,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	}
       else v0.value2=new double(constants[constantNames[s2]]);
       const uint8_t id1=stoi(s1.substr(1));
-      const VertexNew v1=vv[id1];
+      const Vertex v1=vv[id1];
 
       if(!std::isnan(*v1.result)) RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
       v0.value1=v1.result;
@@ -298,7 +298,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       v0.value2=&variableValue[from2];
       v0.mathOperator=operators.GetOperator(mathOperator);
       const uint8_t id1=stoi(s1.substr(1));
-      const VertexNew v1=vv[id1];
+      const Vertex v1=vv[id1];
 
       if(!std::isnan(*v1.result)) RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
       v0.value1=v1.result;
@@ -307,7 +307,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       // cout<<"b1.numeric and b2.math"<<'\n';
       const uint8_t id2=stoi(s2.substr(1));
-      const VertexNew v2=vv[id2];
+      const Vertex v2=vv[id2];
 
       if(!std::isnan(*v2.result))
 	{
@@ -332,7 +332,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       v0.result=new double(notSet);
       v0.mathOperator=operators.GetOperator(mathOperator);
       const uint8_t id2=stoi(s2.substr(1));
-      const VertexNew v2=vv[id2];
+      const Vertex v2=vv[id2];
 
       if(b1.negative)
 	{
@@ -348,7 +348,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       // cout<<"b2.math and b1.variable"<<'\n';
       const uint8_t id2=stoi(s2.substr(1));
-      const VertexNew v2=vv[id2];
+      const Vertex v2=vv[id2];
       const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
       const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
 
@@ -366,7 +366,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       // cout<<"b2.numeric and b1.math"<<" "<<s1<<" "<<s2<<'\n';
 
       const uint8_t id1=stoi(s1.substr(1));
-      const VertexNew v1=vv[id1];
+      const Vertex v1=vv[id1];
 
       if(!std::isnan(*v1.result))
 	{

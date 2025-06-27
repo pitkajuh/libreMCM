@@ -3,7 +3,7 @@
 
 #include "Equation.h"
 
-struct Edge2
+struct Edge
 {
 public:
   vector<Equation> equationsAdd;
@@ -25,14 +25,14 @@ public:
     return result;
   }
 
-  Edge2(const uint16_t sizeAdd, const uint16_t sizeSubtract)
+  Edge(const uint16_t sizeAdd, const uint16_t sizeSubtract)
   {
     equationsAdd.reserve(sizeAdd);
     equationsSubtract.reserve(sizeSubtract);
   }
 
-  Edge2(){}
-  ~Edge2(){}
+  Edge(){}
+  ~Edge(){}
 };
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef GRAPHEQUATION_H
-#define GRAPHEQUATION_H
+#ifndef EQUATION_H
+#define EQUATION_H
 
 #include <cstdint>
 #include "Vertex.h"
@@ -8,11 +8,11 @@ struct Equation
 {
 public:
   uint16_t id;
-  vector<VertexNew> vertices;
+  vector<Vertex> vertices;
 
   double Calculate()
   {
-    for(VertexNew &vertex: vertices)
+    for(Vertex &vertex: vertices)
       {
 	vertex.Calculate();
       }

@@ -15,7 +15,7 @@ public:
   uint16_t ny=0;
 
   NumericalMethod(){}
-  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge2> &edges,  Equations &equations, const uint16_t N)=0;
+  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges,  Equations &equations, const uint16_t N)=0;
   virtual ~NumericalMethod()
   {
     delete [] newValues;
@@ -52,7 +52,7 @@ private:
     print(y_n);
   }
 
-  void EquationCalculate(vector<Edge2> &equation, double *&k, const double constant)
+  void EquationCalculate(vector<Edge> &equation, double *&k, const double constant)
   {
     // print(k);
     for(uint16_t i=0; i<nx; i++)
@@ -65,7 +65,7 @@ private:
       }
   }
 
-  void k(vector<Edge2> &equation, double *&k, const double constant, double *kPrevious)
+  void k(vector<Edge> &equation, double *&k, const double constant, double *kPrevious)
   {
     // Replace values in y_n
     EquationSubstitute(constant, kPrevious);
@@ -83,7 +83,7 @@ private:
       }
   }
 
-  void k0(vector<Edge2> &equation, double *&k)
+  void k0(vector<Edge> &equation, double *&k)
   {
     for(uint16_t i=0; i<nx; i++)
       {
@@ -94,7 +94,7 @@ private:
       }
   }
 
-  void RK4(vector<Edge2> &edges, Equations &equations)
+  void RK4(vector<Edge> &edges, Equations &equations)
   {
     uint16_t t=stepSize;
     uint16_t n=1;
@@ -163,7 +163,7 @@ private:
     delete [] k4;
   }
 public:
-  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge2> &edges, Equations &equations, const uint16_t N)
+  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, Equations &equations, const uint16_t N)
   {
     std::copy(y_n, y_n+nx, newValues);
     this->timeStart=timeStart;
