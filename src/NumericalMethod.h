@@ -38,12 +38,11 @@ private:
       }
     cout<<a<<'\n';
   }
-  void EquationSubstitute(const double constant, const double *kPrevious, const uint16_t from, const uint16_t to)
+  void EquationSubstitute(const double constant, const double *kPrevious)
   {
     // cout<<"SUBSTITUTING"<<'\n';
     // print(kPrevious);
-    for(uint16_t i=from; i<to; i++)
-    // for(uint16_t i=0; i<nx; i++)
+    for(uint16_t i=0; i<nx; i++)
       {
 	auto aa=y_n[i];
 	// y_n[i]=y_n[i]+constant*kPrevious[i];
@@ -54,11 +53,10 @@ private:
     print(y_n);
   }
 
-  void EquationCalculate(vector<Edge2> &equation, double *&k, const double constant, const uint16_t from, const uint16_t to, double *kPrevious)
+  void EquationCalculate(vector<Edge2> &equation, double *&k, const double constant)
   {
     // print(k);
-    for(uint16_t i=from; i<to; i++)
-    // for(uint16_t i=0; i<nx; i++)
+    for(uint16_t i=0; i<nx; i++)
       {
 	auto a1=equation[i].Calculate();
 	// k[i]=stepSize*equation.Calculate();
@@ -68,16 +66,15 @@ private:
       }
   }
 
-  void k(vector<Edge2> &equation, double *&k, const double constant, double *kPrevious, const uint16_t from, const uint16_t to)
+  void k(vector<Edge2> &equation, double *&k, const double constant, double *kPrevious)
   {
     // Replace values in y_n
-    EquationSubstitute(constant, kPrevious, from, to);
-    EquationCalculate(equation, k, constant, from, to, kPrevious);
+    EquationSubstitute(constant, kPrevious);
+    EquationCalculate(equation, k, constant);
 
     // copy from newValues to y_n
 
-    for(uint16_t i=from; i<to; i++)
-    // for(uint16_t i=0; i<nx; i++)
+    for(uint16_t i=0; i<nx; i++)
       {
 	cout<<"Replace "<<y_n[i]<<" "<<newValues[i]<<'\n';
 	// newValues[i]=y_n[i];
@@ -87,10 +84,9 @@ private:
       }
   }
 
-  void k0(vector<Edge2> &equation, double *&k, const uint16_t from, const uint16_t to)
+  void k0(vector<Edge2> &equation, double *&k)
   {
-    for(uint16_t i=from; i<to; i++)
-    // for(uint16_t i=0; i<nx; i++)
+    for(uint16_t i=0; i<nx; i++)
       {
 	auto a1=equation[i].Calculate();
 	// k[i]=stepSize*equation.Calculate();
@@ -112,12 +108,12 @@ private:
     cout<<" "<<'\n';
     cout<<"NY "<<ny<<" N="<<N<<'\n';
 
-    print(y_n);
-    print(y_np1);
-    for(const auto &i: noOfInitialValue)
-      {
-	cout<<"I="<<i<<'\n';
-      }
+    // print(y_n);
+    // print(y_np1);
+    // for(const auto &i: noOfInitialValue)
+    //   {
+    // 	cout<<"I="<<i<<'\n';
+    //   }
     while(n<(timeEnd-timeStart)/stepSize)
       {
 	cout<<"t="<<t<<'\n';
@@ -130,21 +126,21 @@ private:
 	    cout<<"FROM "<<noOfInitialValue[i]<<" TO "<<noOfInitialValue[i]+1<<'\n';
 	    // const uint16_t fromFrom=noOfInitialValue[i];
 	    // const uint16_t toFrom=noOfInitialValue[i]+1;
-	    const uint16_t fromFrom=0;
-	    const uint16_t toFrom=nx;
+	    // const uint16_t fromFrom=0;
+	    // const uint16_t toFrom=nx;
 	    // auto e=edges[i];
 	    cout<<"-----------k0-----------"<<'\n';
-	    k0(edges, k1, fromFrom, toFrom);
+	    k0(edges, k1);
 	    cout<<" "<<'\n';
 	    cout<<"-----------k1-----------"<<'\n';
-	    k(edges, k2, 0.5, k1, fromFrom, toFrom);
+	    k(edges, k2, 0.5, k1);
 	    cout<<" "<<'\n';
 	    cout<<"-----------k2-----------"<<'\n';
-	    k(edges, k3, 0.5, k2, fromFrom, toFrom);
+	    k(edges, k3, 0.5, k2);
 	    cout<<"-------------k3-----------"<<'\n';
-	    k(edges, k4, 1, k3, fromFrom, toFrom);
+	    k(edges, k4, 1, k3);
 
-	    for(uint16_t i=fromFrom; i<toFrom; i++)
+	    for(uint16_t i=0; i<nx; i++)
 	      {
 		// cout<<"i="<<i<<" "<<newValues[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
 		newValues[i]+=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
@@ -154,35 +150,35 @@ private:
 	  }
 
 	cout<<"++++++++++++++++++++++++++++++ "<<(n)*nx<<" "<<(n+1)*nx<<" n="<<n<<'\n';
-	// uint16_t j=0;
+	uint16_t j=0;
 
-	// for(uint16_t i=n*nx; i<(n+1)*nx; i++)
-	//   {
-	//     cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<newValues[j]<<'\n';
-	//     y_np1[i]=newValues[j];
-	//     y_n[j]=newValues[j];
-	//     j++;
-	//   }
-	// j=0;
+	for(uint16_t i=n*nx; i<(n+1)*nx; i++)
+	  {
+	    cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<newValues[j]<<'\n';
+	    y_np1[i]=newValues[j];
+	    y_n[j]=newValues[j];
+	    j++;
+	  }
+	j=0;
 
-	// cout<<"results now"<<'\n';
-	// string aa;
-	// int a=0;
-	// for(uint16_t i=0; i<N; i++)
-	//   {
-	//     if(y_np1[i]!=0)
-	//       {
-	// 	aa+=std::to_string(y_np1[i])+";";
-	// 	a++;
-	//       }
-	//     if(a==2)
-	//       {
-	// 	cout<<aa<<'\n';
-	// 	aa="";
-	// 	a=0;
-	//       }
-	//     // cout<<y_np1[i]<<'\n';
-	//   }
+	cout<<"results now"<<'\n';
+	string aa;
+	int a=0;
+	for(uint16_t i=0; i<N; i++)
+	  {
+	    if(y_np1[i]!=0)
+	      {
+		aa+=std::to_string(y_np1[i])+";";
+		a++;
+	      }
+	    if(a==2)
+	      {
+		cout<<aa<<'\n';
+		aa="";
+		a=0;
+	      }
+	    // cout<<y_np1[i]<<'\n';
+	  }
 	cout<<"------------------------------"<<'\n';
 	t+=stepSize;
 	n++;
