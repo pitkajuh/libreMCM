@@ -32,7 +32,6 @@ map<string, double> FileGraph::SetInitialValueName(vector<string> &ivs)
 
 void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equations, const vector<uint16_t> &noivs, const vector<uint16_t> &noOfInitialValue)
 {
-  // vertexNamesMap[edge.from], vertexNamesMap[edge.to]
   for(const auto &[i, j]: vertexEquationsAddSubtract)
     {
       Edge2 e(j.first.size(), j.second.size());
@@ -49,38 +48,6 @@ void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equa
       edgesNew2.emplace_back(e);
     }
   vertexEquationsAddSubtract.clear();
-
-  // std::set<std::pair<uint16_t, uint16_t>> aa;
-  // for(const auto &[name, id]: vertexNamesMap)
-  //   {
-  //     cout<<"Find "<<name<<'\n';
-  //     int i=0;
-  //     for(const auto &edge: edges)
-  // 	{
-  // 	  // auto from=edge.from;
-  // 	  cout<<i<<" "<<edge.from<<" "<<edge.to<<" "<<edge.equationName<<'\n';
-  // 	  // if(name==from) cout<<"FOUND from "<<name<<" "<<edge.equationName<<'\n';
-  // 	  i++;
-  // 	}
-
-  //     // for(const auto &edge: edges)
-  //     // 	{
-  //     // 	  auto to=edge.to;
-
-  //     // 	  if(name==to) cout<<"to "<<name<<'\n';
-  //     // 	}
-  //     cout<<" "<<'\n';
-  //   }
-  // for(const auto &edge: edges)
-  //   {
-  //     Edge e(&equations.equations[equationNames[edge.equationName]], vertexNamesMap[edge.from], vertexNamesMap[edge.to], noivs, noOfInitialValue);
-  //     edgesNew.emplace_back(e);
-  //     // aa.insert(e.p1);
-  //     // aa.insert(e.p2);
-  //   }
-  // // cout<<aa.size()<<'\n';
-  // // for(const auto &i: aa){cout<<"AA "<<i.first<<" "<<i.second<<'\n';}
-  // edges.clear();
 }
 
 void FileGraph::CreateEdges(const vector<string> &v)

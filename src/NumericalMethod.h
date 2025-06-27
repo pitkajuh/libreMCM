@@ -4,10 +4,9 @@
 class NumericalMethod
 {
 public:
-  double *y_np1=nullptr; // results
-  double *y_n=nullptr; // gets automatically substituted to the equations
+  double *y_np1=nullptr;
+  double *y_n=nullptr;
   double *newValues=nullptr;
-  vector<uint16_t> noOfInitialValue;
   uint16_t timeStart=0;
   uint16_t timeEnd=0;
   uint16_t stepSize=0;
@@ -16,7 +15,7 @@ public:
   uint16_t ny=0;
 
   NumericalMethod(){}
-  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge2> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations, const uint16_t N, const vector<uint16_t> &noivs)=0;
+  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge2> &edges,  Equations &equations, const uint16_t N)=0;
   virtual ~NumericalMethod()
   {
     delete [] newValues;
@@ -103,53 +102,28 @@ private:
     double *k2=new double[nx];
     double *k3=new double[nx];
     double *k4=new double[nx];
-    // double *r=new double[equations.equations.size()*nx];
-    // double *d=new double[nx];
-    cout<<" "<<'\n';
-    cout<<"NY "<<ny<<" N="<<N<<'\n';
 
-    // print(y_n);
-    // print(y_np1);
-    // for(const auto &i: noOfInitialValue)
-    //   {
-    // 	cout<<"I="<<i<<'\n';
-    //   }
     while(n<(timeEnd-timeStart)/stepSize)
       {
 	cout<<"t="<<t<<'\n';
-	// for(auto &e: edges)
-	//   {
-	//     cout<<&e<<'\n';
-	//   }
-	for(uint16_t i=0; i<noOfInitialValue.size(); i++)
-	  {
-	    cout<<"FROM "<<noOfInitialValue[i]<<" TO "<<noOfInitialValue[i]+1<<'\n';
-	    // const uint16_t fromFrom=noOfInitialValue[i];
-	    // const uint16_t toFrom=noOfInitialValue[i]+1;
-	    // const uint16_t fromFrom=0;
-	    // const uint16_t toFrom=nx;
-	    // auto e=edges[i];
-	    cout<<"-----------k0-----------"<<'\n';
-	    k0(edges, k1);
-	    cout<<" "<<'\n';
-	    cout<<"-----------k1-----------"<<'\n';
-	    k(edges, k2, 0.5, k1);
-	    cout<<" "<<'\n';
-	    cout<<"-----------k2-----------"<<'\n';
-	    k(edges, k3, 0.5, k2);
-	    cout<<"-------------k3-----------"<<'\n';
-	    k(edges, k4, 1, k3);
 
-	    for(uint16_t i=0; i<nx; i++)
-	      {
-		// cout<<"i="<<i<<" "<<newValues[i]+(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6<<'\n';
-		newValues[i]+=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
-		cout<<newValues[i]<<'\n';
-	      }
-	    break;
+	cout<<"-----------k0-----------"<<'\n';
+	k0(edges, k1);
+	cout<<" "<<'\n';
+	cout<<"-----------k1-----------"<<'\n';
+	k(edges, k2, 0.5, k1);
+	cout<<" "<<'\n';
+	cout<<"-----------k2-----------"<<'\n';
+	k(edges, k3, 0.5, k2);
+	cout<<"-------------k3-----------"<<'\n';
+	k(edges, k4, 1, k3);
+
+	for(uint16_t j=0; j<nx; j++)
+	  {
+	    newValues[j]+=(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
+	    cout<<newValues[j]<<'\n';
 	  }
 
-	cout<<"++++++++++++++++++++++++++++++ "<<(n)*nx<<" "<<(n+1)*nx<<" n="<<n<<'\n';
 	uint16_t j=0;
 
 	for(uint16_t i=n*nx; i<(n+1)*nx; i++)
@@ -177,7 +151,6 @@ private:
 		aa="";
 		a=0;
 	      }
-	    // cout<<y_np1[i]<<'\n';
 	  }
 	cout<<"------------------------------"<<'\n';
 	t+=stepSize;
@@ -188,47 +161,25 @@ private:
     delete [] k2;
     delete [] k3;
     delete [] k4;
-    // delete [] r;
-    // delete [] d;
   }
 public:
-  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge2> &edges, const vector<uint16_t> &noOfInitialValue, Equations &equations, const uint16_t N, const vector<uint16_t> &noivs)
+  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge2> &edges, Equations &equations, const uint16_t N)
   {
     std::copy(y_n, y_n+nx, newValues);
-    // this->noOfInitialValue=noOfInitialValue;
     this->timeStart=timeStart;
     this->timeEnd=timeEnd;
     this->stepSize=stepSize;
     this->N=N;
     this->ny=(timeEnd-timeStart)/stepSize;
-
-    for(uint16_t i=0; i<noivs.size(); i++)
-      {
-	// cout<<noOfInitialValue[i]-noivs[i]<<'\n';
-	this->noOfInitialValue.emplace_back(noOfInitialValue[i]-noivs[i]);
-      }
-
     RK4(edges, equations);
-
-
-
-    // for(const Edge &e: edges)
-    //   {
-    // 	cout<<"From "<<e.from<<" To "<<e.to<<'\n';
-    // 	RK4(e.from, e.to, e.equation);
-    // 	break;
-    //   }
   }
 
   RungeKutta4(){}
   RungeKutta4(const uint16_t nx)
   {
     this->nx=nx;
-    cout<<"nx "<<nx<<'\n';
     y_n=new double[nx];
     newValues=new double[nx];
-    // y_n=new double[N];
-    // newValues=new double[N];
   }
   ~RungeKutta4(){}
 };
