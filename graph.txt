@@ -1,32 +1,21 @@
 edges
 {
-// r, sink, prey;
-// f, sink, predator;
-
   source, r, prey_birth;
   r, sink, prey_death;
   source, f, predator_birth;
   f, sink, predator_death;
-
-  // // zzzzz, sink, prey_death;
-  // // source, zzzzz, predator_birth;
-  // // f, r, predator_death;
 }
 
 vertex r
 {
   r0=400;
-  // r1=30;
-  // r2=6;
+  r1=400;
 }
 
 vertex f
 {
   f0=2;
-  // f1=6;
-  // f2=3;
-  // r3=10;
-  // a1=3;
+  f1=2;
 }
 
 

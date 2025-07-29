@@ -123,12 +123,22 @@ void FileGraph::InitResults(double *&results)
 
   for(auto &[name, value]: all)
     {
+      cout<<name<<'\n';
       for(const auto&[v1, v2]: value)
 	{
 	  results[i]=v2;
+	  cout<<v1<<" "<<v2<<'\n';
 	  i++;
 	}
     }
+
+  for(auto i=all.begin(); i!=all.end(); i++)
+    {
+      // cout<<all[i].first<<'\n';
+    }
+
+
+
   all.clear();
 }
 
