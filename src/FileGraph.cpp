@@ -115,6 +115,7 @@ void FileGraph::InitResults(double *&results)
   cout<<"N "<<N<<" "<<nx<<" "<<ny<<'\n';
   results=new double[N];
   uint16_t i=0;
+  // uint16_t j=0;
 
   for(uint16_t i=0; i<N; i++)
     {
@@ -123,21 +124,82 @@ void FileGraph::InitResults(double *&results)
 
   for(auto &[name, value]: all)
     {
-      cout<<name<<'\n';
+      // cout<<name<<'\n';
       for(const auto&[v1, v2]: value)
 	{
 	  results[i]=v2;
-	  cout<<v1<<" "<<v2<<'\n';
+	  // cout<<v1<<" "<<v2<<'\n';
 	  i++;
 	}
     }
 
-  for(auto i=all.begin(); i!=all.end(); i++)
+  // for(auto i=all.begin(); i!=all.end(); i++)
+  //   {
+  //     cout<<i->first<<" "<<all.size()<<'\n';
+
+  //     // for(auto j=i->second.begin(); j!=i->second.end(); j++)
+  //     while(j!=i.second.size())
+  // 	{
+  // 	  cout<<j->first<<" "<<j->second<<'\n';
+  // 	  break;
+  // 	  // j++;
+  // 	}
+  //     j++;
+  //     // i++;
+  //   }
+  // std::swap(results[0], results[2]);
+  // std::swap(results[1], results[3]);
+
+
+
+
+
+  for(uint16_t i=0; i<nx; i++)
     {
-      // cout<<all[i].first<<'\n';
+      cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
     }
+  cout<<" "<<'\n';
 
 
+  // cout<<"swap "<<2<<" "<<0<<'\n';
+  // std::swap(results[2], results[0]);
+  // std::swap(results[3], results[1]);
+  // std::swap(results[2], results[1]);
+
+
+  // for(uint16_t i=0; i<nx; i++)
+  //   {
+  //     cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
+  //   }
+  // cout<<"swap "<<3<<" "<<1<<'\n';
+  // std::swap(results[3], results[2]);
+  // std::swap(results[2], results[3]);
+  // std::swap(results[2], results[3]);
+
+  // std::swap(results[3], results[2]);
+  cout<<all.size()<<'\n';
+  // for(size_t i=1; i<(nx/2); i++)
+  //   {
+  //     // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
+  //     cout<<i<<" "<<i+(nx/2-1)<<'\n';
+  //     // std::swap(results[i], results[i+(nx/2-1)]);
+  //   }
+
+
+  for (std::size_t i=1; i+1<nx; i+=all.size()) {
+    cout<<i<<" "<<i+1<<'\n';
+    std::swap(results[i+nx/all.size()], results[i+1]);
+  }
+  cout<<" "<<'\n';
+    // for (std::size_t i=0; i+1<nx; i+=2) {
+    //   cout<<i<<" "<<i+1<<'\n';
+    //     std::swap(results[i], results[i+1]);
+    // }
+
+  for(uint16_t i=0; i<nx; i++)
+    {
+      cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
+    }
 
   all.clear();
 }
