@@ -219,42 +219,14 @@ void FileGraph::InitResults(double *&results)
     {
       cout<<"even"<<'\n';
       i=1;
+
       while(i<nx)
 	{
-	  // cout<<j*all.size()<<" "<<j<<'\n';
-	  // cout<<j+delta<<" "<<i<<'\n';
-	  // std::copy(results+j, results+j+1, test+j*all.size());
-	  // std::copy(results+delta+j, results+delta+j+1, test+i);
-	  // cout<<" "<<'\n';
 	  test[j*all.size()]=results[j];
 	  test[i]=results[delta+j];
 	  i+=all.size();
 	  j++;
 	}
-
-
-      // while(i<nx)
-      // 	{
-      // 	  test[j]=results[i];
-      // 	  test[j+all.size()]=results[i+1];
-      // 	  i+=delta;
-      // 	  j++;
-      // 	}
-
-      // for(uint16_t i=0; i<nx-delta; i++)
-      // 	{
-      // 	  // to1=i*delta-i;
-      // 	  // to2=(i+1)*delta-2-i;
-
-      // 	  cout<<"("<<i<<", "<<i+1<<") value "<<results[i]<<" to "<<to1<<'\n';
-      // 	  cout<<"("<<i+delta<<", "<<i+1+delta<<") value "<<results[i+delta]<<" to "<<to2<<'\n';
-
-      // 	  std::copy(results+i, results+i+1, test+to1);
-      // 	  std::copy(results+i+delta, results+i+delta+1, test+to2);
-      // 	  to1+=all.size();
-      // 	  to2+=all.size();
-      // 	  cout<<" "<<'\n';
-      // 	}
 
       for(uint16_t i=0; i<nx; i++)
 	{
@@ -266,7 +238,8 @@ void FileGraph::InitResults(double *&results)
   else
     {
       cout<<"not even"<<'\n';
-
+      i=0;
+      j=0;
       while(i<nx)
 	{
 	  test[j]=results[i];
@@ -274,58 +247,6 @@ void FileGraph::InitResults(double *&results)
 	  i+=delta;
 	  j++;
 	}
-
-
-      // while(i<nx)
-      // 	{
-      // 	  test[j*all.size()]=results[j];
-      // 	  test[i]=results[delta+j];
-      // 	  i+=all.size();
-      // 	  j++;
-      // 	}
-
-      // to1=0;
-      // to2=1;
-
-      // for(uint16_t i=0; i<nx; i+=2)
-      // 	{
-      // 	  // to1=i*delta-i;
-      // 	  // to2=(i+1)*delta-2-i;
-      // 	  from1=i*delta;
-      // 	  from2=i+delta;
-      // 	  cout<<"i="<<i<<'\n';
-      // 	  cout<<from1<<" to "<<to1<<'\n';
-      // 	  // cout<<from2<<" to "<<to2<<'\n';
-
-      // 	  // std::copy(results+i, results+i+1, test+to1);
-      // 	  // std::copy(results+i+delta, results+i+delta+1, test+to2);
-      // 	  to1+=delta;
-      // 	  to2+=delta;
-      // 	  cout<<" "<<'\n';
-      // 	}
-
-      // for(uint16_t i=0; i<all.size()-1; i++)
-      // 	{
-      // 	  // to1=i*delta-i;
-      // 	  // to2=(i+1)*delta-2-i;
-
-      // 	  // for(uint16_t j=0; j<all.size(); j++)
-      // 	  //   {
-
-      // 	  //   }
-
-      // 	  cout<<i*delta<<" to "<<to1<<'\n';
-      // 	  cout<<(i+1)*delta<<" to "<<to2<<'\n';
-
-      // 	  std::copy(results+i*delta, results+i*delta+1, test+to1);
-      // 	  std::copy(results+i+delta, results+i+delta+1, test+to2);
-      // 	  // to1+=1;
-      // 	  // to2+=1;
-      // 	  to1+=delta;
-      // 	  to2=i+1;
-
-      // 	  cout<<" "<<'\n';
-      // 	}
 
       for(uint16_t i=0; i<nx; i++)
 	{
