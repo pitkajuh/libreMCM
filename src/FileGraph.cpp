@@ -207,25 +207,39 @@ void FileGraph::InitResults(double *&results)
 
   double *test = new double[nx];
   const uint16_t delta=nx/all.size();
-  uint16_t to1=0, to2=1, from1=0, from2=0;
-  cout<<nx<<" "<<all.size()<<" "<<delta<<'\n';
-  cout<<all.size()%2<<" "<<nx%2<<" "<<delta%2<<" "<<delta%3<<'\n';
+  // uint16_t to1=0, to2=1, from1=0, from2=0;
+  cout<<"nx "<<nx<<" all "<<all.size()<<" delta "<<delta<<'\n';
+
   // uint16_t i=0;
   uint16_t j=0;
-  i=0;
-  // If nx is odd, fix from above where initial values are initialized.
 
+  // If nx is odd, fix from above where initial values are initialized.
+  cout<<" "<<'\n';
   if(all.size()%2==0)
     {
       cout<<"even"<<'\n';
-
+      i=1;
       while(i<nx)
 	{
-	  test[j]=results[i];
-	  test[j+all.size()]=results[i+1];
-	  i+=delta;
+	  // cout<<j*all.size()<<" "<<j<<'\n';
+	  // cout<<j+delta<<" "<<i<<'\n';
+	  // std::copy(results+j, results+j+1, test+j*all.size());
+	  // std::copy(results+delta+j, results+delta+j+1, test+i);
+	  // cout<<" "<<'\n';
+	  test[j*all.size()]=results[j];
+	  test[i]=results[delta+j];
+	  i+=all.size();
 	  j++;
 	}
+
+
+      // while(i<nx)
+      // 	{
+      // 	  test[j]=results[i];
+      // 	  test[j+all.size()]=results[i+1];
+      // 	  i+=delta;
+      // 	  j++;
+      // 	}
 
       // for(uint16_t i=0; i<nx-delta; i++)
       // 	{
@@ -255,11 +269,20 @@ void FileGraph::InitResults(double *&results)
 
       while(i<nx)
 	{
-	  test[j*all.size()]=results[j];
-	  test[i]=results[delta+j];
-	  i+=all.size();
+	  test[j]=results[i];
+	  test[j+all.size()]=results[i+1];
+	  i+=delta;
 	  j++;
 	}
+
+
+      // while(i<nx)
+      // 	{
+      // 	  test[j*all.size()]=results[j];
+      // 	  test[i]=results[delta+j];
+      // 	  i+=all.size();
+      // 	  j++;
+      // 	}
 
       // to1=0;
       // to2=1;
