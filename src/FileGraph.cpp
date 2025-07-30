@@ -154,11 +154,11 @@ void FileGraph::InitResults(double *&results)
 
 
 
-  for(uint16_t i=0; i<nx; i++)
-    {
-      cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
-    }
-  cout<<" "<<'\n';
+  // for(uint16_t i=0; i<nx; i++)
+  //   {
+  //     cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
+  //   }
+  // cout<<" "<<'\n';
 
 
   // cout<<"swap "<<2<<" "<<0<<'\n';
@@ -177,7 +177,7 @@ void FileGraph::InitResults(double *&results)
   // std::swap(results[2], results[3]);
 
   // std::swap(results[3], results[2]);
-  cout<<all.size()<<'\n';
+  // cout<<all.size()<<'\n';
   // for(size_t i=1; i<(nx/2); i++)
   //   {
   //     // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
@@ -186,19 +186,130 @@ void FileGraph::InitResults(double *&results)
   //   }
 
 
-  for (std::size_t i=1; i+1<nx; i+=all.size()) {
-    cout<<i<<" "<<i+1<<'\n';
-    std::swap(results[i+nx/all.size()], results[i+1]);
-  }
-  cout<<" "<<'\n';
-    // for (std::size_t i=0; i+1<nx; i+=2) {
-    //   cout<<i<<" "<<i+1<<'\n';
-    //     std::swap(results[i], results[i+1]);
-    // }
+  // for (std::size_t i=1; i+1<nx; i+=all.size()) {
+  //   cout<<i<<" "<<i+1<<'\n';
+  //   std::swap(results[i+nx/all.size()], results[i+1]);
+  // }
+  // cout<<" "<<'\n';
+  //   // for (std::size_t i=0; i+1<nx; i+=2) {
+  //   //   cout<<i<<" "<<i+1<<'\n';
+  //   //     std::swap(results[i], results[i+1]);
+  //   // }
+
+
 
   for(uint16_t i=0; i<nx; i++)
     {
+      // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
       cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
+    }
+
+
+  double *test = new double[nx];
+  const uint16_t delta=nx/all.size();
+  uint16_t to1=0, to2=1, from1=0, from2=0;
+  cout<<nx<<" "<<all.size()<<" "<<delta<<'\n';
+  cout<<all.size()%2<<" "<<nx%2<<" "<<delta%2<<" "<<delta%3<<'\n';
+  // uint16_t i=0;
+  uint16_t j=0;
+  i=0;
+  // If nx is odd, fix from above where initial values are initialized.
+
+  if(all.size()%2==0)
+    {
+      cout<<"even"<<'\n';
+
+      while(i<nx)
+	{
+	  test[j]=results[i];
+	  test[j+all.size()]=results[i+1];
+	  i+=delta;
+	  j++;
+	}
+
+      // for(uint16_t i=0; i<nx-delta; i++)
+      // 	{
+      // 	  // to1=i*delta-i;
+      // 	  // to2=(i+1)*delta-2-i;
+
+      // 	  cout<<"("<<i<<", "<<i+1<<") value "<<results[i]<<" to "<<to1<<'\n';
+      // 	  cout<<"("<<i+delta<<", "<<i+1+delta<<") value "<<results[i+delta]<<" to "<<to2<<'\n';
+
+      // 	  std::copy(results+i, results+i+1, test+to1);
+      // 	  std::copy(results+i+delta, results+i+delta+1, test+to2);
+      // 	  to1+=all.size();
+      // 	  to2+=all.size();
+      // 	  cout<<" "<<'\n';
+      // 	}
+
+      for(uint16_t i=0; i<nx; i++)
+	{
+	  // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
+	  cout<<"i="<<i<<" "<<test[i]<<" "<<&test[i]<<'\n';
+	}
+      delete [] test;
+    }
+  else
+    {
+      cout<<"not even"<<'\n';
+
+      while(i<nx)
+	{
+	  test[j*all.size()]=results[j];
+	  test[i]=results[delta+j];
+	  i+=all.size();
+	  j++;
+	}
+
+      // to1=0;
+      // to2=1;
+
+      // for(uint16_t i=0; i<nx; i+=2)
+      // 	{
+      // 	  // to1=i*delta-i;
+      // 	  // to2=(i+1)*delta-2-i;
+      // 	  from1=i*delta;
+      // 	  from2=i+delta;
+      // 	  cout<<"i="<<i<<'\n';
+      // 	  cout<<from1<<" to "<<to1<<'\n';
+      // 	  // cout<<from2<<" to "<<to2<<'\n';
+
+      // 	  // std::copy(results+i, results+i+1, test+to1);
+      // 	  // std::copy(results+i+delta, results+i+delta+1, test+to2);
+      // 	  to1+=delta;
+      // 	  to2+=delta;
+      // 	  cout<<" "<<'\n';
+      // 	}
+
+      // for(uint16_t i=0; i<all.size()-1; i++)
+      // 	{
+      // 	  // to1=i*delta-i;
+      // 	  // to2=(i+1)*delta-2-i;
+
+      // 	  // for(uint16_t j=0; j<all.size(); j++)
+      // 	  //   {
+
+      // 	  //   }
+
+      // 	  cout<<i*delta<<" to "<<to1<<'\n';
+      // 	  cout<<(i+1)*delta<<" to "<<to2<<'\n';
+
+      // 	  std::copy(results+i*delta, results+i*delta+1, test+to1);
+      // 	  std::copy(results+i+delta, results+i+delta+1, test+to2);
+      // 	  // to1+=1;
+      // 	  // to2+=1;
+      // 	  to1+=delta;
+      // 	  to2=i+1;
+
+      // 	  cout<<" "<<'\n';
+      // 	}
+
+      for(uint16_t i=0; i<nx; i++)
+	{
+	  // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
+	  cout<<"i="<<i<<" "<<test[i]<<" "<<&test[i]<<'\n';
+	}
+      delete [] test;
     }
 
   all.clear();

@@ -27,21 +27,21 @@ public:
 class RungeKutta4: public NumericalMethod
 {
 private:
-  void print(const double *k)
+  void print(const double *k, const uint16_t from, const uint16_t to)
   {
     string a;
 
-    for(uint16_t i=0; i<nx; i++)
+    for(uint16_t i=from; i<to; i++)
       {
 	a+=std::to_string(k[i])+";";
       }
     cout<<a<<'\n';
   }
-  void EquationSubstitute(const double constant, const double *kPrevious)
+  void EquationSubstitute(const double constant, const double *kPrevious, const uint16_t from, const uint16_t to)
   {
     // cout<<"SUBSTITUTING"<<'\n';
     // print(kPrevious);
-    for(uint16_t i=0; i<nx; i++)
+    for(uint16_t i=from; i<to; i++)
       {
 	auto aa=y_n[i];
 	// y_n[i]=y_n[i]+constant*kPrevious[i];
@@ -49,7 +49,7 @@ private:
 	// cout<<"y_n[i] "<<aa<<"+"<<constant<<"*"<<kPrevious[i]<<"="<<y_n[i]<<'\n';
       }
     cout<<"SUBSTITUTING"<<'\n';
-    print(y_n);
+    print(y_n, from, to);
   }
 
   void EquationCalculate(vector<Edge> &equation, double *&k, const double constant)
@@ -73,14 +73,12 @@ private:
 	    cout<<"k[i] "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
 	  }
       }
-
-
   }
 
   void k(vector<Edge> &equation, double *&k, const double constant, double *kPrevious)
   {
     // Replace values in y_n
-    EquationSubstitute(constant, kPrevious);
+    EquationSubstitute(constant, kPrevious, 0, nx);
     EquationCalculate(equation, k, constant);
 
     // copy from newValues to y_n
@@ -102,24 +100,14 @@ private:
 
     for(uint16_t i=0; i<equation.size(); i++)
       {
-	// j=0;
-	while(j<nx)
+	for(uint16_t j=0; j<nx; j++)
 	  {
-	    cout<<j<<'\n';
-	    j+=equation.size();
-	    // j-=1;
+	    auto a1=equation[i].Calculate();
+	    k[j]=stepSize*a1;
+	    cout<<j<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[j]<<'\n';
+	    // cout<<""<<'\n';
+	    // break;
 	  }
-	// for(uint16_t j=0; j<nx; (nx-1)++)
-	//   {
-	//     cout<<j-1<<'\n';
-	//     // auto a1=equation[i].Calculate();
-	//     // k[j]=stepSize*a1;
-	//     // cout<<j<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[j]<<'\n';
-	//     // cout<<""<<'\n';
-	//     break;
-	//   }
-	j-=equation.size();
-	// j+=1;
 	cout<<" "<<'\n';
 	// break;
       }
