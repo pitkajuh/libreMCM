@@ -138,6 +138,7 @@ void FileGraph::InitResults(double *&results)
   double *test = new double[nx];
   const uint16_t delta=nx/all.size();
   cout<<"nx "<<nx<<" all "<<all.size()<<" delta "<<delta<<'\n';
+  // cout<<all.size()
 
   uint16_t j=0;
 
@@ -160,45 +161,50 @@ void FileGraph::InitResults(double *&results)
 	{
 	  // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
 	  cout<<"i="<<i<<" "<<test[i]<<" "<<&test[i]<<'\n';
-	  // results[i]=test[i];
+	  results[i]=test[i];
 	}
       delete [] test;
     }
+  // else if()
+  //   {
+
+  //   }
   else
     {
       // cout<<"not even"<<'\n';
       i=0;
 
-      // while(i<nx)
-      // 	{
-      // 	  cout<<j<<" "<<i<<'\n';
-      // 	  // cout<<j+all.size()<<" "<<i+1<<'\n';
-      // 	  cout<<" "<<'\n';
-      // 	  test[j]=results[i];
-      // 	  test[j+all.size()]=results[i+1];
-      // 	  i+=delta;
-      // 	  j++;
-      // 	}
-
       while(i<nx)
 	{
 	  // cout<<j<<" "<<i<<'\n';
 	  // cout<<j+all.size()<<" "<<i+1<<'\n';
-	  // cout<<j+all.size()+delta<<" "<<i+2<<'\n';
-	  // cout<<j+all.size()<<" "<<i+1<<'\n';
 	  // cout<<" "<<'\n';
 	  test[j]=results[i];
 	  test[j+all.size()]=results[i+1];
-	  test[j+all.size()+delta]=results[i+2];
 	  i+=delta;
 	  j++;
 	}
 
-      // for(uint16_t i=0; i<nx; i++)
+      // while(i<nx)
       // 	{
-      // 	  // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
-      // 	  cout<<"i="<<i<<" "<<test[i]<<" "<<&test[i]<<'\n';
+      // 	  // cout<<j<<" "<<i<<'\n';
+      // 	  // cout<<j+all.size()<<" "<<i+1<<'\n';
+      // 	  // cout<<j+all.size()+delta<<" "<<i+2<<'\n';
+      // 	  // cout<<j+all.size()<<" "<<i+1<<'\n';
+      // 	  // cout<<" "<<'\n';
+      // 	  test[j]=results[i];
+      // 	  test[j+all.size()]=results[i+1];
+      // 	  test[j+all.size()+delta]=results[i+2];
+      // 	  i+=delta;
+      // 	  j++;
       // 	}
+
+      for(uint16_t i=0; i<nx; i++)
+	{
+	  // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
+	  cout<<"i="<<i<<" "<<test[i]<<" "<<&test[i]<<'\n';
+	  results[i]=test[i];
+	}
       delete [] test;
     }
   all.clear();
@@ -249,6 +255,7 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
   for(const string &name: vertexNames)
     {
       vertexNamesMap[name]=n;
+      cout<<"n "<<n<<'\n';
       n++;
     }
   vertexNames.clear();

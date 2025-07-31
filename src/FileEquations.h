@@ -25,6 +25,19 @@ public:
 
   MathOperator *GetOperator(const string &o)
   {
+    // switch(o)
+    //   {
+    //   case "+":
+    // 	return add;
+    //   case "-":
+    // 	return subtract;
+    //   case "*":
+    // 	return multiply;
+    //   case "/":
+    // 	return divide;
+    //   default:
+    // 	return power;
+    //   }
     if(o=="+") return add;
     else if(o=="-") return subtract;
     else if(o=="*") return multiply;
