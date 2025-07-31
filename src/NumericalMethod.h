@@ -119,15 +119,24 @@ private:
     // 	// break;
     //   }
 
-    for(uint16_t i=0; i<nx; i++)
+    for(uint16_t j=0; j<nx; j+=equation.size())
       {
-	auto a1=equation[i].Calculate();
-	// k[i]=stepSize*equation.Calculate();
-	k[i]=stepSize*a1;
-	cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
-	cout<<"@@"<<'\n';
-      }
+	for(uint16_t i=0; i<equation.size(); i++)
+	  {
+	    auto a1=equation[i].Calculate();
+	    // k[i]=stepSize*equation.Calculate();
+	    k[i]=stepSize*a1;
+	    cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
+	    cout<<"@@"<<'\n';
+	  }
+	// substitute
+	for(uint16_t k=0; k<nx; k++)
+	  {
+	    cout<<y_n[k]<<'\n';
 
+
+	  }
+      }
     // for(uint16_t i=0; i<nx; i++)
     //   {
     // 	auto a1=equation[i].Calculate();
@@ -154,14 +163,14 @@ private:
 	cout<<"-----------k0-----------"<<'\n';
 	k0(edges, k1, noOfInitialValue);
 	cout<<" "<<'\n';
-	cout<<"-----------k1-----------"<<'\n';
-	k(edges, k2, 0.5, k1);
-	cout<<" "<<'\n';
-	cout<<"-----------k2-----------"<<'\n';
-	k(edges, k3, 0.5, k2);
-	cout<<"-------------k3-----------"<<'\n';
-	k(edges, k4, 1, k3);
-	// break;
+	// cout<<"-----------k1-----------"<<'\n';
+	// k(edges, k2, 0.5, k1);
+	// cout<<" "<<'\n';
+	// cout<<"-----------k2-----------"<<'\n';
+	// k(edges, k3, 0.5, k2);
+	// cout<<"-------------k3-----------"<<'\n';
+	// k(edges, k4, 1, k3);
+	break;
 	for(uint16_t j=0; j<nx; j++)
 	  {
 	    newValues[j]+=(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;

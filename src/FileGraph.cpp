@@ -143,51 +143,60 @@ void FileGraph::InitResults(double *&results)
   // cout<<" "<<'\n';
   if(nx!=all.size())
     {
-  double *test = new double[nx];
-  const uint16_t delta=nx/all.size();
-  cout<<"nx "<<nx<<" all "<<all.size()<<" delta "<<delta<<'\n';
-  // cout<<all.size()
-  if(all.size()%2==0)
-    {
-      cout<<"even"<<'\n';
-      i=1;
-
-      while(i<nx)
+      double *test = new double[nx];
+      const uint16_t delta=nx/all.size();
+      cout<<"nx "<<nx<<" all "<<all.size()<<" delta "<<delta<<'\n';
+      // cout<<all.size()
+      if(all.size()%2==0)
 	{
-	  test[j*all.size()]=results[j];
-	  test[i]=results[delta+j];
-	  i+=all.size();
-	  j++;
-	}
+	  cout<<"even"<<'\n';
+	  i=1;
 
-      for(uint16_t i=0; i<nx; i++)
+	  while(i<nx)
+	    {
+	      test[j*all.size()]=results[j];
+	      test[i]=results[delta+j];
+	      i+=all.size();
+	      j++;
+	    }
+
+	  for(uint16_t i=0; i<nx; i++)
+	    {
+	      // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
+	      cout<<"i="<<i<<" "<<test[i]<<" "<<&test[i]<<'\n';
+	      results[i]=test[i];
+	    }
+	  delete [] test;
+	}
+      // else if()
+      //   {
+
+      //   }
+      else
 	{
-	  // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
-	  cout<<"i="<<i<<" "<<test[i]<<" "<<&test[i]<<'\n';
-	  results[i]=test[i];
-	}
-      delete [] test;
-    }
-  // else if()
-  //   {
+	  cout<<"not even"<<'\n';
+	  i=0;
 
-  //   }
-  else
-    {
-      cout<<"not even"<<'\n';
-      i=0;
+	  while(i<nx)
+	    {
+	      // cout<<j<<" "<<i<<'\n';
+	      // cout<<j+all.size()<<" "<<i+1<<'\n';
+	      // cout<<" "<<'\n';
+	      test[j]=results[i];
+	      test[j+all.size()]=results[i+1];
+	      i+=delta;
+	      j++;
+	    }
 
-      while(i<nx)
-	{
-	  // cout<<j<<" "<<i<<'\n';
-	  // cout<<j+all.size()<<" "<<i+1<<'\n';
-	  // cout<<" "<<'\n';
-	  test[j]=results[i];
-	  test[j+all.size()]=results[i+1];
-	  i+=delta;
-	  j++;
+	  for(uint16_t i=0; i<nx; i++)
+	    {
+	      // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
+	      cout<<"i="<<i<<" "<<test[i]<<" "<<&test[i]<<'\n';
+	      results[i]=test[i];
+	    }
+	  delete [] test;
+
 	}
-    }
       // while(i<nx)
       // 	{
       // 	  // cout<<j<<" "<<i<<'\n';
@@ -202,13 +211,7 @@ void FileGraph::InitResults(double *&results)
       // 	  j++;
       // 	}
 
-      for(uint16_t i=0; i<nx; i++)
-	{
-	  // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
-	  cout<<"i="<<i<<" "<<test[i]<<" "<<&test[i]<<'\n';
-	  results[i]=test[i];
-	}
-      delete [] test;
+
     }
   all.clear();
 }
