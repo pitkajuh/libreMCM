@@ -64,74 +64,74 @@ void ReadInitialData(const string &directory)
       cout<<"I="<<i<<" "<<&numMethod.y_n[i]<<" "<<numMethod.y_n[i]<<'\n';
     }
 
-  // std::unordered_set<double*> aoea;
+  std::unordered_set<double*> aoea;
 
-  // Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.y_n, test1.noOfInitialValue, test1.nx);
+  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.y_n, test1.noOfInitialValue, test1.nx);
 
-  // test1.CreateEdge(test3.equationNames, equations);
+  test1.CreateEdge(test3.equationNames, equations);
 
-  // numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew2, equations, test1.N);
-
-
-  // // equations.Calculate();
-
-  // cout<<"Start clearing"<<'\n';
-  // // int k=0;
-  // for(auto &i: equations.equations)
-  //   {
-  //     for(auto &j: i.vertices)
-  // 	{
-  // 	  // cout<<k<<'\n';
-  // 	  if(j.value1!=nullptr)
-  // 	    {
-  // 	      auto a12=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value1);
-
-  // 	      if(a12!=j.value1)
-  // 		{
-  // 		  // cout<<"a12!=j.value1; "<<j.value1<<" "<<*j.value1<<'\n';
-  // 		  aoea.insert(j.value1);
-  // 		  // delete j.value1;
-  // 		}
-  // 	    }
-
-  // 	  if(j.value2!=nullptr)
-  // 	    {
-  // 	      auto a13=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value2);
-
-  // 	      if(a13!=j.value2)
-  // 		{
-  // 		  // cout<<"a13!=j.value2 "<<j.value2<<" "<<*j.value2<<'\n';
-  // 		  aoea.insert(j.value2);
-  // 		  // delete j.value2;
-  // 		}
-  // 	    }
-
-  // 	  if(j.result!=nullptr)
-  // 	    {
-  // 	      auto a14=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.result);
-
-  // 	      if(a14!=j.result)
-  // 		{
-  // 		  // cout<<"a14!=j.result "<<j.result<<" "<<*j.result<<'\n';
-  // 		  aoea.insert(j.result);
-  // 		  // delete j.result;
-  // 		}
-  // 	    }
-  // 	  // k++;
-  // 	  // cout<<" "<<'\n';
-  // 	}
+  numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew2, equations, test1.N);
 
 
-  //   }
+  // equations.Calculate();
 
-  // // delete [] y_np1;
-  // // delete numMethod;
+  cout<<"Start clearing"<<'\n';
+  // int k=0;
+  for(auto &i: equations.equations)
+    {
+      for(auto &j: i.vertices)
+	{
+	  // cout<<k<<'\n';
+	  if(j.value1!=nullptr)
+	    {
+	      auto a12=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value1);
 
-  // for(auto k: aoea)
-  //   {
-  //     // cout<<"k="<<k<<'\n';
-  //     delete k;
-  //   }
+	      if(a12!=j.value1)
+		{
+		  // cout<<"a12!=j.value1; "<<j.value1<<" "<<*j.value1<<'\n';
+		  aoea.insert(j.value1);
+		  // delete j.value1;
+		}
+	    }
+
+	  if(j.value2!=nullptr)
+	    {
+	      auto a13=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value2);
+
+	      if(a13!=j.value2)
+		{
+		  // cout<<"a13!=j.value2 "<<j.value2<<" "<<*j.value2<<'\n';
+		  aoea.insert(j.value2);
+		  // delete j.value2;
+		}
+	    }
+
+	  if(j.result!=nullptr)
+	    {
+	      auto a14=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.result);
+
+	      if(a14!=j.result)
+		{
+		  // cout<<"a14!=j.result "<<j.result<<" "<<*j.result<<'\n';
+		  aoea.insert(j.result);
+		  // delete j.result;
+		}
+	    }
+	  // k++;
+	  // cout<<" "<<'\n';
+	}
+
+
+    }
+
+  // delete [] y_np1;
+  // delete numMethod;
+
+  for(auto k: aoea)
+    {
+      // cout<<"k="<<k<<'\n';
+      delete k;
+    }
 }
 
 int main(int argc, char** argv)

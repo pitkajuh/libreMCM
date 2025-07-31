@@ -16,7 +16,7 @@ public:
       {
 	vertex.Calculate();
       }
-    cout<<"----------------"<<'\n';
+    // cout<<"----------------"<<'\n';
 
     return *vertices.back().result;
   }
