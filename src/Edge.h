@@ -22,6 +22,7 @@ public:
       {
 	result-=equationSubtract.Calculate();
       }
+
     return result;
   }
 

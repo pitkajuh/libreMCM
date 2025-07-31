@@ -135,18 +135,21 @@ void FileGraph::InitResults(double *&results)
 
 
 
-  double *test = new double[nx];
-  const uint16_t delta=nx/all.size();
-  cout<<"nx "<<nx<<" all "<<all.size()<<" delta "<<delta<<'\n';
-  // cout<<all.size()
+
 
   uint16_t j=0;
 
   // If nx is odd, fix from above where initial values are initialized.
   // cout<<" "<<'\n';
+  if(nx!=all.size())
+    {
+  double *test = new double[nx];
+  const uint16_t delta=nx/all.size();
+  cout<<"nx "<<nx<<" all "<<all.size()<<" delta "<<delta<<'\n';
+  // cout<<all.size()
   if(all.size()%2==0)
     {
-      // cout<<"even"<<'\n';
+      cout<<"even"<<'\n';
       i=1;
 
       while(i<nx)
@@ -171,7 +174,7 @@ void FileGraph::InitResults(double *&results)
   //   }
   else
     {
-      // cout<<"not even"<<'\n';
+      cout<<"not even"<<'\n';
       i=0;
 
       while(i<nx)
@@ -184,7 +187,7 @@ void FileGraph::InitResults(double *&results)
 	  i+=delta;
 	  j++;
 	}
-
+    }
       // while(i<nx)
       // 	{
       // 	  // cout<<j<<" "<<i<<'\n';
@@ -245,7 +248,8 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
 
   for(auto &[i, j]: all)
     {
-      noOfInitialValue.emplace_back(j.size()+nx);
+      // noOfInitialValue.emplace_back(j.size()+nx);
+      noOfInitialValue.emplace_back(j.size());
       nx+=j.size();
       cout<<"nx "<<nx<<" "<<j.size()<<'\n';
     }
