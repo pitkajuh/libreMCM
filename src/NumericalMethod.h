@@ -55,24 +55,24 @@ private:
   void EquationCalculate(vector<Edge> &equation, double *&k, const double constant)
   {
     // print(k);
-    // for(uint16_t i=0; i<nx; i++)
-    //   {
-    // 	auto a1=equation[i].Calculate();
-    // 	// k[i]=stepSize*equation.Calculate();
-    // 	// k[i]=kPrevious[i]+stepSize*a1;
-    // 	k[i]=stepSize*a1;
-    // 	cout<<"k[i] "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
-    //   }
-
-    for(uint16_t i=0; i<equation.size(); i++)
+    for(uint16_t i=0; i<nx; i++)
       {
-	for(uint16_t j=0; j<nx; j++)
-	  {
-	    auto a1=equation[i].Calculate();
-	    k[j]=stepSize*a1;
-	    cout<<"k[i] "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
-	  }
+	auto a1=equation[i].Calculate();
+	// k[i]=stepSize*equation.Calculate();
+	// k[i]=kPrevious[i]+stepSize*a1;
+	k[i]=stepSize*a1;
+	cout<<"k[i] "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
       }
+
+    // for(uint16_t i=0; i<equation.size(); i++)
+    //   {
+    // 	for(uint16_t j=0; j<nx; j++)
+    // 	  {
+    // 	    auto a1=equation[i].Calculate();
+    // 	    k[j]=stepSize*a1;
+    // 	    cout<<"k[i] "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
+    // 	  }
+    //   }
   }
 
   void k(vector<Edge> &equation, double *&k, const double constant, double *kPrevious)
@@ -154,14 +154,14 @@ private:
 	cout<<"-----------k0-----------"<<'\n';
 	k0(edges, k1, noOfInitialValue);
 	cout<<" "<<'\n';
-	// cout<<"-----------k1-----------"<<'\n';
-	// k(edges, k2, 0.5, k1);
-	// cout<<" "<<'\n';
-	// cout<<"-----------k2-----------"<<'\n';
-	// k(edges, k3, 0.5, k2);
-	// cout<<"-------------k3-----------"<<'\n';
-	// k(edges, k4, 1, k3);
-	break;
+	cout<<"-----------k1-----------"<<'\n';
+	k(edges, k2, 0.5, k1);
+	cout<<" "<<'\n';
+	cout<<"-----------k2-----------"<<'\n';
+	k(edges, k3, 0.5, k2);
+	cout<<"-------------k3-----------"<<'\n';
+	k(edges, k4, 1, k3);
+	// break;
 	for(uint16_t j=0; j<nx; j++)
 	  {
 	    newValues[j]+=(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
