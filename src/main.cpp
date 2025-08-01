@@ -49,7 +49,7 @@ void ReadInitialData(const string &directory)
   FileEquations test3(directory+"bin");
 
   FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
-  RungeKutta4 numMethod(test1.nx);
+  RungeKutta4 numMethod(test1.nx, test1.noOfInitialValue.size());
   // double *y_np1=nullptr;
   test1.InitResults(numMethod.y_np1);
 
@@ -58,15 +58,16 @@ void ReadInitialData(const string &directory)
   cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
 
   std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
+  std::copy(numMethod.y_np1, numMethod.y_np1+test1.noOfInitialValue.size(), numMethod.valuesSubstitute);
 
-  for(int i=0; i<test1.nx; i++)
+  for(int i=0; i<test1.noOfInitialValue.size(); i++)
     {
-      cout<<"I="<<i<<" "<<&numMethod.y_n[i]<<" "<<numMethod.y_n[i]<<'\n';
+      cout<<"I="<<i<<" "<<&numMethod.valuesSubstitute[i]<<" "<<numMethod.valuesSubstitute[i]<<'\n';
     }
 
   std::unordered_set<double*> aoea;
 
-  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.y_n, test1.noOfInitialValue, test1.nx);
+  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.valuesSubstitute, test1.noOfInitialValue, test1.nx);
 
   test1.CreateEdge(test3.equationNames, equations);
 
@@ -84,7 +85,8 @@ void ReadInitialData(const string &directory)
 	  // cout<<k<<'\n';
 	  if(j.value1!=nullptr)
 	    {
-	      auto a12=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value1);
+	      // auto a12=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value1);
+	      auto a12=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+test1.noOfInitialValue.size(), *j.value1);
 
 	      if(a12!=j.value1)
 		{
@@ -96,7 +98,8 @@ void ReadInitialData(const string &directory)
 
 	  if(j.value2!=nullptr)
 	    {
-	      auto a13=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value2);
+	      // auto a13=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value2);
+	      auto a13=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+test1.noOfInitialValue.size(), *j.value2);
 
 	      if(a13!=j.value2)
 		{
@@ -108,7 +111,8 @@ void ReadInitialData(const string &directory)
 
 	  if(j.result!=nullptr)
 	    {
-	      auto a14=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.result);
+	      // auto a14=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.result);
+	      auto a14=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+test1.noOfInitialValue.size(), *j.result);
 
 	      if(a14!=j.result)
 		{

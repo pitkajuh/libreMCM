@@ -141,11 +141,12 @@ void FileGraph::InitResults(double *&results)
 
   // If nx is odd, fix from above where initial values are initialized.
   // cout<<" "<<'\n';
+  cout<<"nx "<<nx<<" all "<<all.size()<<" delta "<<nx/all.size()<<'\n';
   if(nx!=all.size())
     {
       double *test = new double[nx];
       const uint16_t delta=nx/all.size();
-      cout<<"nx "<<nx<<" all "<<all.size()<<" delta "<<delta<<'\n';
+
       // cout<<all.size()
       if(all.size()%2==0)
 	{

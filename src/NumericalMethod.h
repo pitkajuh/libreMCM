@@ -7,6 +7,7 @@ public:
   double *y_np1=nullptr;
   double *y_n=nullptr;
   double *newValues=nullptr;
+  double *valuesSubstitute=nullptr;
   uint16_t timeStart=0;
   uint16_t timeEnd=0;
   uint16_t stepSize=0;
@@ -21,6 +22,7 @@ public:
     delete [] newValues;
     delete [] y_n;
     delete [] y_np1;
+    delete [] valuesSubstitute;
   }
 };
 
@@ -228,11 +230,12 @@ public:
   }
 
   RungeKutta4(){}
-  RungeKutta4(const uint16_t nx)
+  RungeKutta4(const uint16_t nx, const uint16_t nv)
   {
     this->nx=nx;
     y_n=new double[nx];
     newValues=new double[nx];
+    valuesSubstitute=new double[nv];
   }
   ~RungeKutta4(){}
 };
