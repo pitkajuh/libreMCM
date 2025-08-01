@@ -126,6 +126,12 @@ private:
     uint16_t to=0;
     cout<<"nValue "<<nValue<<" "<<nx/nValue<<'\n';
     // for(uint16_t j=0; j<nx; j+=equation.size())
+
+
+
+
+
+
     for(uint16_t j=0; j<nx; j+=nx/nValue)
       {
 	cout<<"from "<<a<<" to "<<a+nx/nValue<<'\n';
