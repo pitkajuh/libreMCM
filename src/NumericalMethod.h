@@ -128,11 +128,16 @@ private:
     // for(uint16_t j=0; j<nx; j+=equation.size())
 
 
+    for(uint16_t i=0; i<equation.size(); i++)
+      {
+	auto a1=equation[i].Calculate();
+	// k[i]=stepSize*equation.Calculate();
+	k[i]=stepSize*a1;
+	cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
+	cout<<"@@"<<'\n';
+      }
 
-
-
-
-    for(uint16_t j=0; j<nx; j+=nx/nValue)
+    for(uint16_t j=1; j<nx; j+=nx/nValue)
       {
 	cout<<"from "<<a<<" to "<<a+nx/nValue<<'\n';
 	for(uint16_t k=a; k<a+nx/nValue; k++)
@@ -152,16 +157,7 @@ private:
 	    cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
 	    cout<<"@@"<<'\n';
 	  }
-	// substitute
-	// cout<<"j"<<j<<'\n';
-	// cout<<"from "<<a<<" to "<<a+nx/nValue<<'\n';
-	// for(uint16_t k=a; k<a+nx/nValue; k++)
-	//   {
-	//     // cout<<k<<" "<<y_n[k]<<'\n';
-	//     cout<<"k="<<k<<" "<<y_n[k]<<'\n';
-	//     valuesSubstitute[to]=y_n[k];
-	//     to++;
-	//   }
+
 	to=0;
 	a+=nx/nValue;
 	cout<<" "<<'\n';
