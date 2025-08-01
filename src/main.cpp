@@ -58,9 +58,9 @@ void ReadInitialData(const string &directory)
   cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
 
   std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
-  std::copy(numMethod.y_np1, numMethod.y_np1+test1.noOfInitialValue.size(), numMethod.valuesSubstitute);
+  std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
 
-  for(int i=0; i<test1.noOfInitialValue.size(); i++)
+  for(int i=0; i<numMethod.nValue; i++)
     {
       cout<<"I="<<i<<" "<<&numMethod.valuesSubstitute[i]<<" "<<numMethod.valuesSubstitute[i]<<'\n';
     }
@@ -86,7 +86,7 @@ void ReadInitialData(const string &directory)
 	  if(j.value1!=nullptr)
 	    {
 	      // auto a12=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value1);
-	      auto a12=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+test1.noOfInitialValue.size(), *j.value1);
+	      auto a12=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.value1);
 
 	      if(a12!=j.value1)
 		{
@@ -99,7 +99,7 @@ void ReadInitialData(const string &directory)
 	  if(j.value2!=nullptr)
 	    {
 	      // auto a13=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value2);
-	      auto a13=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+test1.noOfInitialValue.size(), *j.value2);
+	      auto a13=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.value2);
 
 	      if(a13!=j.value2)
 		{
@@ -112,7 +112,7 @@ void ReadInitialData(const string &directory)
 	  if(j.result!=nullptr)
 	    {
 	      // auto a14=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.result);
-	      auto a14=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+test1.noOfInitialValue.size(), *j.result);
+	      auto a14=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.result);
 
 	      if(a14!=j.result)
 		{

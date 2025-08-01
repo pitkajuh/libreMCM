@@ -14,6 +14,7 @@ public:
   uint16_t nx=0;
   uint16_t N=0;
   uint16_t ny=0;
+  uint16_t nValue=0;
 
   NumericalMethod(){}
   virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, Equations &equations, const uint16_t N, const vector<uint16_t> &noOfInitialValue)=0;
@@ -132,7 +133,8 @@ private:
 	    cout<<"@@"<<'\n';
 	  }
 	// substitute
-	for(uint16_t k=0; k<nx; k++)
+	cout<<"j"<<j<<'\n';
+	for(uint16_t k=0; k<nValue; k++)
 	  {
 	    cout<<y_n[k]<<'\n';
 
@@ -233,6 +235,7 @@ public:
   RungeKutta4(const uint16_t nx, const uint16_t nv)
   {
     this->nx=nx;
+    this->nValue=nv;
     y_n=new double[nx];
     newValues=new double[nx];
     valuesSubstitute=new double[nv];
