@@ -122,8 +122,22 @@ private:
     // 	// break;
     //   }
 
-    for(uint16_t j=0; j<nx; j+=equation.size())
+    uint16_t a=0;
+    uint16_t to=0;
+    cout<<"nValue "<<nValue<<" "<<nx/nValue<<'\n';
+    // for(uint16_t j=0; j<nx; j+=equation.size())
+    for(uint16_t j=0; j<nx; j+=nx/nValue)
       {
+	cout<<"from "<<a<<" to "<<a+nx/nValue<<'\n';
+	for(uint16_t k=a; k<a+nx/nValue; k++)
+	  {
+	    // cout<<k<<" "<<y_n[k]<<'\n';
+	    cout<<"k="<<k<<" "<<y_n[k]<<'\n';
+	    valuesSubstitute[to]=y_n[k];
+	    to++;
+	  }
+
+	cout<<"j="<<j<<"/"<<nx<<'\n';
 	for(uint16_t i=0; i<equation.size(); i++)
 	  {
 	    auto a1=equation[i].Calculate();
@@ -133,14 +147,20 @@ private:
 	    cout<<"@@"<<'\n';
 	  }
 	// substitute
-	cout<<"j"<<j<<'\n';
-	for(uint16_t k=0; k<nValue; k++)
-	  {
-	    cout<<y_n[k]<<'\n';
-
-
-	  }
+	// cout<<"j"<<j<<'\n';
+	// cout<<"from "<<a<<" to "<<a+nx/nValue<<'\n';
+	// for(uint16_t k=a; k<a+nx/nValue; k++)
+	//   {
+	//     // cout<<k<<" "<<y_n[k]<<'\n';
+	//     cout<<"k="<<k<<" "<<y_n[k]<<'\n';
+	//     valuesSubstitute[to]=y_n[k];
+	//     to++;
+	//   }
+	to=0;
+	a+=nx/nValue;
+	cout<<" "<<'\n';
       }
+
     // for(uint16_t i=0; i<nx; i++)
     //   {
     // 	auto a1=equation[i].Calculate();
@@ -234,11 +254,12 @@ public:
   RungeKutta4(){}
   RungeKutta4(const uint16_t nx, const uint16_t nv)
   {
+    cout<<nx/nv<<'\n';
     this->nx=nx;
     this->nValue=nv;
     y_n=new double[nx];
     newValues=new double[nx];
-    valuesSubstitute=new double[nv];
+    valuesSubstitute=new double[nx/nv];
   }
   ~RungeKutta4(){}
 };
