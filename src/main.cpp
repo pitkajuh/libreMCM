@@ -35,6 +35,7 @@ static struct option const options[]=
 
 void ReadInitialData(const string &directory)
 {
+  cout<<"Start"<<'\n';
   FileSettings test2(directory+"sim_params");
   const uint16_t timeStart=std::stoi(test2.set[test2.settingsNames["time_start"]]);
   const uint16_t timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
@@ -58,17 +59,17 @@ void ReadInitialData(const string &directory)
   cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
 
   std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
-  std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nx/numMethod.nValue, numMethod.valuesSubstitute);
+  // std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nx/numMethod.nValue, numMethod.valuesSubstitute);
+  std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
 
   for(int i=0; i<numMethod.nx/numMethod.nValue; i++)
     {
-      cout<<i<<'\n';
       cout<<"I="<<i<<" "<<&numMethod.valuesSubstitute[i]<<" "<<numMethod.valuesSubstitute[i]<<'\n';
     }
-
+  cout<<"ok"<<'\n';
   std::unordered_set<double*> aoea;
 
-  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.valuesSubstitute, test1.noOfInitialValue, test1.nx);
+  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.valuesSubstitute, test1.noOfInitialValue, test1.noOfInitialValue.size());
 
   test1.CreateEdge(test3.equationNames, equations);
 
