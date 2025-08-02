@@ -61,7 +61,7 @@ void ReadInitialData(const string &directory)
   std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
   // std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nx/numMethod.nValue, numMethod.valuesSubstitute);
   std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
-
+  cout<<numMethod.nx/numMethod.nValue<<" "<<numMethod.nValue<<" "<<std::min(1, 2)<<'\n';
   for(int i=0; i<numMethod.nx/numMethod.nValue; i++)
     {
       cout<<"I="<<i<<" "<<&numMethod.valuesSubstitute[i]<<" "<<numMethod.valuesSubstitute[i]<<'\n';
