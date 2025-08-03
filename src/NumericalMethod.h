@@ -179,7 +179,7 @@ private:
 	cout<<" "<<'\n';
       }
 
-    EquationSubstitute1(0, this->nValue, k, this->valuesSubstitute);
+    // EquationSubstitute1(0, this->nValue, k, this->valuesSubstitute);
 
     // for(uint16_t i=0; i<this->nx; i++)
     //   {
