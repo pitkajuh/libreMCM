@@ -81,12 +81,15 @@ private:
     //   }
   }
 
-  void EquationSubstitute1(const uint16_t from)
+  void EquationSubstitute1(const uint16_t from, const uint16_t to, double *kFrom, double *&kTo)
   {
-    for(uint16_t i=from; i<from+this->nValue; i++)
+    // for(uint16_t i=from; i<from+this->nValue; i++)
+    for(uint16_t i=from; i<to; i++)
       {
-	cout<<"i="<<i<<" "<<this->y_n[i]<<'\n';
-	this->valuesSubstitute[i-from]=this->y_n[i];
+	// cout<<"i="<<i<<" "<<this->y_n[i]<<'\n';
+	// this->valuesSubstitute[i-from]=this->y_n[i];
+	cout<<"i="<<i<<" "<<kFrom[i]<<'\n';
+	kTo[i-from]=kFrom[i];
       }
   }
 
@@ -125,7 +128,7 @@ private:
       {
 	cout<<"j="<<j<<"/"<<this->nx-1<<'\n';
 
-	EquationSubstitute1(j);
+	EquationSubstitute1(j, j+this->nValue, this->y_n, this->valuesSubstitute);
 
 	for(uint16_t i=0; i<equation.size(); i++)
 	  {
@@ -136,6 +139,8 @@ private:
 	  }
 	cout<<" "<<'\n';
       }
+
+    EquationSubstitute1(0, this->nValue, k, this->valuesSubstitute);
 
     // for(uint16_t i=0; i<this->nx; i++)
     //   {
