@@ -122,7 +122,6 @@ private:
     // 	// break;
     //   }
 
-    uint16_t a=nx/nValue;
     uint16_t to=0;
     cout<<"nValue "<<nValue<<" "<<nx/nValue<<'\n';
     // for(uint16_t j=0; j<nx; j+=equation.size())
@@ -138,12 +137,27 @@ private:
     cout<<" "<<'\n';
     // a+=nValue;
     // a+=nx/nValue;
+    uint16_t a=nx/nValue;
+    uint16_t aoe=nx/nValue;
+    uint16_t delta1=nx/nValue;
+    if(aoe<nValue)
+      {
+	aoe=nValue;
+	// delta1=nValue;
+	// a=nValue;
+      }
     // for(uint16_t j=1; j<nx; j+=nx/nValue)
-    for(uint16_t j=nValue; j<nx; j+=nValue)
+    // for(uint16_t j=nValue; j<nx; j+=nValue)
+
+
+    // for(uint16_t j=nValue; j<nx; j+=aoe)
+    // for(uint16_t j=aoe; j<nx; j+=aoe)
+    for(uint16_t j=nx/nValue; j<nx; j+=aoe)
       {
 	cout<<"BB"<<'\n';
-	cout<<"from "<<a<<" to "<<a+nx/nValue<<'\n';
-	for(uint16_t k=a; k<a+nx/nValue; k++)
+	cout<<"from "<<a<<" to "<<a+nx/nValue<<", "<<nx<<'\n';
+	// for(uint16_t k=a; k<a+nx/nValue; k++)
+	for(uint16_t k=a; k<a+delta1; k++)
 	  {
 	    // cout<<k<<" "<<y_n[k]<<'\n';
 	    cout<<"k="<<k<<" "<<y_n[k]<<'\n';
@@ -153,7 +167,7 @@ private:
 
 	to=0;
 
-	cout<<"j="<<j<<"/"<<nx<<'\n';
+	cout<<"j="<<j<<"/"<<nx-1<<'\n';
 	for(uint16_t i=0; i<equation.size(); i++)
 	  {
 	    auto a1=equation[i].Calculate();
