@@ -50,19 +50,32 @@ void ReadInitialData(const string &directory)
   FileEquations test3(directory+"bin");
 
   FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
-  RungeKutta4 numMethod(test1.nx, test1.noOfInitialValue.size());
+
+  uint16_t a1=test1.nx/test1.noOfInitialValue.size();
+  if(a1<test1.noOfInitialValue.size()) a1=test1.noOfInitialValue.size();
+
+  // RungeKutta4 numMethod(test1.nx, test1.noOfInitialValue.size());
+  RungeKutta4 numMethod(test1.nx, a1);
+
   // double *y_np1=nullptr;
   test1.InitResults(numMethod.y_np1);
 
   MathOperators operators;
 
-  cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<'\n';
+  cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<" "<<test1.noOfInitialValue.size()<<'\n';
 
   std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
   // std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nx/numMethod.nValue, numMethod.valuesSubstitute);
   std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
   cout<<numMethod.nx/numMethod.nValue<<" "<<numMethod.nValue<<" "<<std::min(1, 2)<<'\n';
-  for(int i=0; i<numMethod.nx/numMethod.nValue; i++)
+
+  // for(int i=0; i<numMethod.nx/numMethod.nValue; i++)
+  // for(int i=0; i<std::min(numMethod.nValue, a1); i++)
+  cout<<"a1 "<<a1<<'\n';
+  // if(a1<numMethod.nValue) a1=numMethod.nValue;
+
+  // for(int i=0; i<numMethod.nValue; i++)
+  for(int i=0; i<a1; i++)
     {
       cout<<"I="<<i<<" "<<&numMethod.valuesSubstitute[i]<<" "<<numMethod.valuesSubstitute[i]<<'\n';
     }
