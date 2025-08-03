@@ -81,13 +81,10 @@ private:
     //   }
   }
 
-  void EquationSubstitute1(const uint16_t from, const uint16_t to, double *kFrom, double *&kTo)
+  void EquationSubstitute1(const uint16_t from, const uint16_t to, const double *kFrom, double *kTo)
   {
-    // for(uint16_t i=from; i<from+this->nValue; i++)
     for(uint16_t i=from; i<to; i++)
       {
-	// cout<<"i="<<i<<" "<<this->y_n[i]<<'\n';
-	// this->valuesSubstitute[i-from]=this->y_n[i];
 	cout<<"i="<<i<<" "<<kFrom[i]<<'\n';
 	kTo[i-from]=kFrom[i];
       }
@@ -95,23 +92,65 @@ private:
 
   void k(vector<Edge> &equation, double *&k, const double constant, double *kPrevious)
   {
-    // Replace values in y_n
-    EquationSubstitute(constant, kPrevious, 0, nx);
-    EquationCalculate(equation, k, constant);
 
-    // copy from newValues to y_n
+    cout<<"this->nx "<<this->nx<<" no of equations "<<equation.size()<<'\n';
+    cout<<"this->nValue "<<this->nValue<<" "<<this->nx/this->nValue<<'\n';
 
     for(uint16_t i=0; i<nx; i++)
       {
-	cout<<"Replace "<<y_n[i]<<" "<<newValues[i]<<'\n';
-	// newValues[i]=y_n[i];
-	y_n[i]=newValues[i];
-	// y_n[i]=k[i];
-	// cout<<"Replace "<<y_n[i]<<" "<<newValues[i]<<'\n';
+	k[i]=constant*kPrevious[i];
       }
+
+    EquationSubstitute1(0, this->nValue, k, this->valuesSubstitute);
+
+    for(uint16_t i=0; i<equation.size(); i++)
+      {
+	auto a1=equation[i].Calculate();
+	k[i]=this->stepSize*a1;
+	cout<<i<<" k1 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
+      }
+    cout<<" "<<'\n';
+
+    for(uint16_t j=this->nValue; j<this->nx; j+=this->nValue)
+      {
+	cout<<"j="<<j<<"/"<<this->nx-1<<'\n';
+
+	EquationSubstitute1(j, j+this->nValue, kPrevious, this->valuesSubstitute);
+
+	for(uint16_t i=0; i<equation.size(); i++)
+	  {
+	    auto a1=equation[i].Calculate();
+	    // k[i]=stepSize*equation.Calculate();
+	    k[i+j]=this->stepSize*a1;
+	    cout<<i+j<<" k1 "<<stepSize<<"*"<<a1<<"="<<k[i+j]<<'\n';
+	  }
+	cout<<" "<<'\n';
+      }
+
+
+    // EquationSubstitute1(0, this->nValue, k, this->valuesSubstitute);
+
+
+
+
+
+    // // Replace values in y_n
+    // EquationSubstitute(constant, kPrevious, 0, nx);
+    // EquationCalculate(equation, k, constant);
+
+    // // copy from newValues to y_n
+
+    // for(uint16_t i=0; i<nx; i++)
+    //   {
+    // 	cout<<"Replace "<<y_n[i]<<" "<<newValues[i]<<'\n';
+    // 	// newValues[i]=y_n[i];
+    // 	y_n[i]=newValues[i];
+    // 	// y_n[i]=k[i];
+    // 	// cout<<"Replace "<<y_n[i]<<" "<<newValues[i]<<'\n';
+    //   }
   }
 
-  void k0(vector<Edge> &equation, double *&k, const vector<uint16_t> &noOfInitialValue)
+  void k0(vector<Edge> &equation, double *k, const vector<uint16_t> &noOfInitialValue)
   {
     cout<<"this->nx "<<this->nx<<" no of equations "<<equation.size()<<'\n';
     cout<<"this->nValue "<<this->nValue<<" "<<this->nx/this->nValue<<'\n';
@@ -168,8 +207,8 @@ private:
 	cout<<"-----------k0-----------"<<'\n';
 	k0(edges, k1, noOfInitialValue);
 	cout<<" "<<'\n';
-	// cout<<"-----------k1-----------"<<'\n';
-	// k(edges, k2, 0.5, k1);
+	cout<<"-----------k1-----------"<<'\n';
+	k(edges, k2, 0.5, k1);
 	// cout<<" "<<'\n';
 	// cout<<"-----------k2-----------"<<'\n';
 	// k(edges, k3, 0.5, k2);
