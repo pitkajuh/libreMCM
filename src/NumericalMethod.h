@@ -152,7 +152,10 @@ private:
 
     // for(uint16_t j=nValue; j<nx; j+=aoe)
     // for(uint16_t j=aoe; j<nx; j+=aoe)
-    for(uint16_t j=nx/nValue; j<nx; j+=aoe)
+
+
+    // for(uint16_t j=nx/nValue; j<nx; j+=aoe)
+    for(uint16_t j=nx/nValue; j<nx; j+=nx/nValue)
       {
 	cout<<"BB"<<'\n';
 	cout<<"from "<<a<<" to "<<a+nx/nValue<<", "<<nx<<'\n';
