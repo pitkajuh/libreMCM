@@ -154,6 +154,7 @@ private:
 	// delta1=nValue;
 	// a=nValue;
       }
+
     // for(uint16_t j=1; j<nx; j+=nx/nValue)
     // for(uint16_t j=nValue; j<nx; j+=nValue)
 
