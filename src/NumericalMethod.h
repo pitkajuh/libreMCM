@@ -154,7 +154,7 @@ private:
 	// delta1=nValue;
 	// a=nValue;
       }
-
+    a=nValue;
     // for(uint16_t j=1; j<nx; j+=nx/nValue)
     // for(uint16_t j=nValue; j<nx; j+=nValue)
 
@@ -165,12 +165,12 @@ private:
 
     // for(uint16_t j=nx/nValue; j<nx; j+=aoe)
     // for(uint16_t j=nx/nValue; j<nx; j+=nx/nValue)
-    for(uint16_t j=delta; j<nx; j+=delta)
+    for(uint16_t j=nValue; j<nx; j+=nValue)
       {
 	cout<<"BB"<<'\n';
-	cout<<"from "<<a<<" to1 "<<a+nx/nValue<<", "<<nx<<'\n';
+	cout<<"j="<<j<<"/"<<nx-1<<'\n';
 	// for(uint16_t k=a; k<a+nx/nValue; k++)
-	for(uint16_t k=a; k<a+delta1; k++)
+	for(uint16_t k=a; k<a+nValue; k++)
 	  {
 	    // cout<<k<<" "<<y_n[k]<<'\n';
 	    cout<<"k="<<k<<" "<<y_n[k]<<'\n';
@@ -180,7 +180,7 @@ private:
 
 	to1=0;
 
-	cout<<"j="<<j<<"/"<<nx-1<<'\n';
+
 	for(uint16_t i=0; i<equation.size(); i++)
 	  {
 	    auto a1=equation[i].Calculate();
@@ -190,7 +190,7 @@ private:
 	    cout<<"-----"<<'\n';
 	  }
 
-	a+=delta;
+	a+=nValue;
 	// a+=nx/nValue;
 	// a+=nValue;
 	cout<<" "<<'\n';
@@ -293,11 +293,12 @@ public:
     this->nValue=nv;
     this->delta=nx/nv;
 
-    if(delta>nv) delta=nv;
+    // if(delta>nv) delta=nv;
 
     y_n=new double[nx];
     newValues=new double[nx];
-    valuesSubstitute=new double[delta];
+    // valuesSubstitute=new double[delta];
+    valuesSubstitute=new double[nv];
   }
   ~RungeKutta4(){}
 };
