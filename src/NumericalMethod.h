@@ -249,10 +249,12 @@ private:
 	//   }
 
 	uint16_t j=0;
-
-	for(uint16_t i=n*this->nx; i<(n+1)*this->nx; i++)
+	cout<<(n-1)*this->nValue<<" "<<(n)*this->nValue<<'\n';
+	// for(uint16_t i=n*this->nx; i<(n+1)*this->nx; i++)
+	for(uint16_t i=(n-1)*this->nValue; i<(n)*this->nValue; i++)
 	  {
 	    cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<newValues[j]<<'\n';
+	    cout<<j<<'\n';
 	    y_np1[i]=newValues[j];
 	    y_n[j]=newValues[j];
 	    valuesSubstitute[j]=newValues[j];
@@ -292,7 +294,7 @@ private:
 		aa+=std::to_string(y_np1[i])+";";
 		a++;
 	      }
-	    if(a==2)
+	    if(a==this->nValue)
 	      {
 		cout<<aa<<'\n';
 		aa="";
