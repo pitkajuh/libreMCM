@@ -15,6 +15,9 @@ public:
   uint16_t N=0;
   uint16_t ny=0;
   uint16_t nValue=0;
+  uint16_t from=0;
+  uint16_t to=0;
+  uint16_t delta=0;
 
   NumericalMethod(){}
   virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, Equations &equations, const uint16_t N, const vector<uint16_t> &noOfInitialValue)=0;
@@ -122,7 +125,7 @@ private:
     // 	// break;
     //   }
 
-    uint16_t to=0;
+    uint16_t to1=0;
     cout<<"nValue "<<nValue<<" "<<nx/nValue<<'\n';
     // for(uint16_t j=0; j<nx; j+=equation.size())
 
@@ -140,6 +143,11 @@ private:
     uint16_t a=nx/nValue;
     uint16_t aoe=nx/nValue;
     uint16_t delta1=nx/nValue;
+
+    a=delta;
+    aoe=delta;
+    delta1=delta;
+
     if(aoe<nValue)
       {
 	aoe=nValue;
@@ -155,20 +163,21 @@ private:
 
 
     // for(uint16_t j=nx/nValue; j<nx; j+=aoe)
-    for(uint16_t j=nx/nValue; j<nx; j+=nx/nValue)
+    // for(uint16_t j=nx/nValue; j<nx; j+=nx/nValue)
+    for(uint16_t j=delta; j<nx; j+=delta)
       {
 	cout<<"BB"<<'\n';
-	cout<<"from "<<a<<" to "<<a+nx/nValue<<", "<<nx<<'\n';
+	cout<<"from "<<a<<" to1 "<<a+nx/nValue<<", "<<nx<<'\n';
 	// for(uint16_t k=a; k<a+nx/nValue; k++)
 	for(uint16_t k=a; k<a+delta1; k++)
 	  {
 	    // cout<<k<<" "<<y_n[k]<<'\n';
 	    cout<<"k="<<k<<" "<<y_n[k]<<'\n';
-	    valuesSubstitute[to]=y_n[k];
-	    to++;
+	    valuesSubstitute[to1]=y_n[k];
+	    to1++;
 	  }
 
-	to=0;
+	to1=0;
 
 	cout<<"j="<<j<<"/"<<nx-1<<'\n';
 	for(uint16_t i=0; i<equation.size(); i++)
@@ -180,8 +189,8 @@ private:
 	    cout<<"-----"<<'\n';
 	  }
 
-
-	a+=nx/nValue;
+	a+=delta;
+	// a+=nx/nValue;
 	// a+=nValue;
 	cout<<" "<<'\n';
       }
@@ -281,9 +290,13 @@ public:
   {
     this->nx=nx;
     this->nValue=nv;
+    this->delta=nx/nv;
+
+    if(delta>nv) delta=nv;
+
     y_n=new double[nx];
     newValues=new double[nx];
-    valuesSubstitute=new double[nv];
+    valuesSubstitute=new double[delta];
   }
   ~RungeKutta4(){}
 };

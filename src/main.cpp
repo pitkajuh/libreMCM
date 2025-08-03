@@ -54,8 +54,8 @@ void ReadInitialData(const string &directory)
   uint16_t a1=test1.nx/test1.noOfInitialValue.size();
   if(a1<test1.noOfInitialValue.size()) a1=test1.noOfInitialValue.size();
 
-  // RungeKutta4 numMethod(test1.nx, test1.noOfInitialValue.size());
-  RungeKutta4 numMethod(test1.nx, a1);
+  RungeKutta4 numMethod(test1.nx, test1.noOfInitialValue.size());
+  // RungeKutta4 numMethod(test1.nx, a1);
 
   // double *y_np1=nullptr;
   test1.InitResults(numMethod.y_np1);
@@ -66,7 +66,12 @@ void ReadInitialData(const string &directory)
 
   std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
   // std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nx/numMethod.nValue, numMethod.valuesSubstitute);
-  std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
+
+
+  // std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
+  std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.delta, numMethod.valuesSubstitute);
+
+
   cout<<numMethod.nx/numMethod.nValue<<" "<<numMethod.nValue<<" "<<std::min(1, 2)<<'\n';
 
   // for(int i=0; i<numMethod.nx/numMethod.nValue; i++)
@@ -75,7 +80,8 @@ void ReadInitialData(const string &directory)
   // if(a1<numMethod.nValue) a1=numMethod.nValue;
 
   // for(int i=0; i<numMethod.nValue; i++)
-  for(int i=0; i<a1; i++)
+  // for(int i=0; i<a1; i++)
+  for(int i=0; i<numMethod.delta; i++)
     {
       cout<<"I="<<i<<" "<<&numMethod.valuesSubstitute[i]<<" "<<numMethod.valuesSubstitute[i]<<'\n';
     }
