@@ -15,9 +15,9 @@ public:
   uint16_t N=0;
   uint16_t ny=0;
   uint16_t nValue=0;
-  uint16_t from=0;
-  uint16_t to=0;
-  uint16_t delta=0;
+  // uint16_t from=0;
+  // uint16_t to=0;
+  // uint16_t delta=0;
 
   NumericalMethod(){}
   virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, Equations &equations, const uint16_t N, const vector<uint16_t> &noOfInitialValue)=0;
@@ -140,7 +140,7 @@ private:
       {
 	cout<<"AA"<<'\n';
 	auto a1=equation[i].Calculate();
-	k[i]=stepSize*a1;
+	k[i]=this->stepSize*a1;
 	cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
       }
     cout<<" "<<'\n';
@@ -156,7 +156,7 @@ private:
 	  {
 	    auto a1=equation[i].Calculate();
 	    // k[i]=stepSize*equation.Calculate();
-	    k[i]=stepSize*a1;
+	    k[i]=this->stepSize*a1;
 	    cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
 	    cout<<"-----"<<'\n';
 	  }
@@ -244,7 +244,7 @@ private:
 public:
   void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, Equations &equations, const uint16_t N, const vector<uint16_t> &noOfInitialValue)
   {
-    std::copy(y_n, y_n+this->nx, newValues);
+    std::copy(this->y_n, this->y_n+this->nx, this->newValues);
     this->timeStart=timeStart;
     this->timeEnd=timeEnd;
     this->stepSize=stepSize;
@@ -258,7 +258,7 @@ public:
   {
     this->nx=nx;
     this->nValue=nv;
-    this->delta=nx/nv;
+    // this->delta=nx/nv;
 
     // if(delta>nv) delta=nv;
 
