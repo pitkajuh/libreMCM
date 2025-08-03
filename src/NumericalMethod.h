@@ -111,34 +111,10 @@ private:
   void k0(vector<Edge> &equation, double *&k, const vector<uint16_t> &noOfInitialValue)
   {
     cout<<"this->nx "<<this->nx<<" no of equations "<<equation.size()<<'\n';
-    // uint16_t j=0;
-
-    // for(const auto &i: noOfInitialValue)
-    //   {
-    // 	cout<<i<<'\n';
-    //   }
-
-    // for(uint16_t i=0; i<equation.size(); i++)
-    //   {
-    // 	for(uint16_t j=0; j<nx; j++)
-    // 	  {
-    // 	    auto a1=equation[i].Calculate();
-    // 	    k[j]=stepSize*a1;
-    // 	    cout<<j<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[j]<<'\n';
-    // 	    cout<<y_n[j]<<'\n';
-    // 	    // cout<<""<<'\n';
-    // 	    // break;
-    // 	  }
-    // 	// EquationSubstitute()
-    // 	cout<<" "<<'\n';
-    // 	// break;
-    //   }
-
     cout<<"this->nValue "<<this->nValue<<" "<<this->nx/this->nValue<<'\n';
 
     for(uint16_t i=0; i<equation.size(); i++)
       {
-	cout<<"AA"<<'\n';
 	auto a1=equation[i].Calculate();
 	k[i]=this->stepSize*a1;
 	cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
@@ -156,9 +132,8 @@ private:
 	  {
 	    auto a1=equation[i].Calculate();
 	    // k[i]=stepSize*equation.Calculate();
-	    k[i]=this->stepSize*a1;
-	    cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
-	    cout<<"-----"<<'\n';
+	    k[i+j]=this->stepSize*a1;
+	    cout<<i+j<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<" "<<i+j<<'\n';
 	  }
 	cout<<" "<<'\n';
       }

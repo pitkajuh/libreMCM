@@ -17,7 +17,7 @@ public:
   void Calculate()
   {
     *result=mathOperator->Calculate(*value1, *value2);
-    cout<<*value1<<mathOperator->GetOp()<<*value2<<"="<<*result<<'\n';
+    // cout<<*value1<<mathOperator->GetOp()<<*value2<<"="<<*result<<'\n';
   }
 
   Vertex(){}
