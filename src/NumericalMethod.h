@@ -81,6 +81,15 @@ private:
     //   }
   }
 
+  void EquationSubstitute1(const uint16_t from)
+  {
+    for(uint16_t i=from; i<from+this->nValue; i++)
+      {
+	cout<<"i="<<i<<" "<<this->y_n[i]<<'\n';
+	this->valuesSubstitute[i-from]=this->y_n[i];
+      }
+  }
+
   void k(vector<Edge> &equation, double *&k, const double constant, double *kPrevious)
   {
     // Replace values in y_n
@@ -101,7 +110,7 @@ private:
 
   void k0(vector<Edge> &equation, double *&k, const vector<uint16_t> &noOfInitialValue)
   {
-    cout<<"nx "<<nx<<" no of equations "<<equation.size()<<'\n';
+    cout<<"this->nx "<<this->nx<<" no of equations "<<equation.size()<<'\n';
     // uint16_t j=0;
 
     // for(const auto &i: noOfInitialValue)
@@ -125,10 +134,7 @@ private:
     // 	// break;
     //   }
 
-    uint16_t to1=0;
-    cout<<"nValue "<<nValue<<" "<<nx/nValue<<'\n';
-    // for(uint16_t j=0; j<nx; j+=equation.size())
-
+    cout<<"this->nValue "<<this->nValue<<" "<<this->nx/this->nValue<<'\n';
 
     for(uint16_t i=0; i<equation.size(); i++)
       {
@@ -138,48 +144,13 @@ private:
 	cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
       }
     cout<<" "<<'\n';
-    // a+=nValue;
-    // a+=nx/nValue;
-    uint16_t a=nx/nValue;
-    uint16_t aoe=nx/nValue;
-    uint16_t delta1=nx/nValue;
 
-    a=delta;
-    aoe=delta;
-    delta1=delta;
-
-    if(aoe<nValue)
-      {
-	aoe=nValue;
-	// delta1=nValue;
-	// a=nValue;
-      }
-    a=nValue;
-    // for(uint16_t j=1; j<nx; j+=nx/nValue)
-    // for(uint16_t j=nValue; j<nx; j+=nValue)
-
-
-    // for(uint16_t j=nValue; j<nx; j+=aoe)
-    // for(uint16_t j=aoe; j<nx; j+=aoe)
-
-
-    // for(uint16_t j=nx/nValue; j<nx; j+=aoe)
-    // for(uint16_t j=nx/nValue; j<nx; j+=nx/nValue)
-    for(uint16_t j=nValue; j<nx; j+=nValue)
+    for(uint16_t j=this->nValue; j<this->nx; j+=this->nValue)
       {
 	cout<<"BB"<<'\n';
-	cout<<"j="<<j<<"/"<<nx-1<<'\n';
-	// for(uint16_t k=a; k<a+nx/nValue; k++)
-	for(uint16_t k=a; k<a+nValue; k++)
-	  {
-	    // cout<<k<<" "<<y_n[k]<<'\n';
-	    cout<<"k="<<k<<" "<<y_n[k]<<'\n';
-	    valuesSubstitute[to1]=y_n[k];
-	    to1++;
-	  }
+	cout<<"j="<<j<<"/"<<this->nx-1<<'\n';
 
-	to1=0;
-
+	EquationSubstitute1(j);
 
 	for(uint16_t i=0; i<equation.size(); i++)
 	  {
@@ -189,14 +160,10 @@ private:
 	    cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
 	    cout<<"-----"<<'\n';
 	  }
-
-	a+=nValue;
-	// a+=nx/nValue;
-	// a+=nValue;
 	cout<<" "<<'\n';
       }
 
-    // for(uint16_t i=0; i<nx; i++)
+    // for(uint16_t i=0; i<this->nx; i++)
     //   {
     // 	auto a1=equation[i].Calculate();
     // 	// k[i]=stepSize*equation.Calculate();
@@ -210,10 +177,10 @@ private:
   {
     uint16_t t=stepSize;
     uint16_t n=1;
-    double *k1=new double[nx];
-    double *k2=new double[nx];
-    double *k3=new double[nx];
-    double *k4=new double[nx];
+    double *k1=new double[this->nx];
+    double *k2=new double[this->nx];
+    double *k3=new double[this->nx];
+    double *k4=new double[this->nx];
 
     while(n<(timeEnd-timeStart)/stepSize)
       {
@@ -230,7 +197,7 @@ private:
 	// cout<<"-------------k3-----------"<<'\n';
 	// k(edges, k4, 1, k3);
 	break;
-	for(uint16_t j=0; j<nx; j++)
+	for(uint16_t j=0; j<this->nx; j++)
 	  {
 	    newValues[j]+=(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
 	    cout<<newValues[j]<<'\n';
@@ -238,7 +205,7 @@ private:
 
 	uint16_t j=0;
 
-	for(uint16_t i=n*nx; i<(n+1)*nx; i++)
+	for(uint16_t i=n*this->nx; i<(n+1)*this->nx; i++)
 	  {
 	    cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<newValues[j]<<'\n';
 	    y_np1[i]=newValues[j];
@@ -277,7 +244,7 @@ private:
 public:
   void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, Equations &equations, const uint16_t N, const vector<uint16_t> &noOfInitialValue)
   {
-    std::copy(y_n, y_n+nx, newValues);
+    std::copy(y_n, y_n+this->nx, newValues);
     this->timeStart=timeStart;
     this->timeEnd=timeEnd;
     this->stepSize=stepSize;
