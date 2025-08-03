@@ -123,7 +123,6 @@ private:
 
     for(uint16_t j=this->nValue; j<this->nx; j+=this->nValue)
       {
-	cout<<"BB"<<'\n';
 	cout<<"j="<<j<<"/"<<this->nx-1<<'\n';
 
 	EquationSubstitute1(j);

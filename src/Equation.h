@@ -12,11 +12,9 @@ public:
 
   double Calculate()
   {
-    int i=0;
     for(Vertex &vertex: vertices)
       {
 	vertex.Calculate();
-	i++;
       }
     // cout<<"----------------"<<'\n';
 
