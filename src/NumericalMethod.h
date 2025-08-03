@@ -133,7 +133,7 @@ private:
 	    auto a1=equation[i].Calculate();
 	    // k[i]=stepSize*equation.Calculate();
 	    k[i+j]=this->stepSize*a1;
-	    cout<<i+j<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<" "<<i+j<<'\n';
+	    cout<<i+j<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i+j]<<'\n';
 	  }
 	cout<<" "<<'\n';
       }
