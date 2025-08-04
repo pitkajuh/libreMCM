@@ -236,21 +236,9 @@ private:
 	    cout<<newValues[j]<<'\n';
 	  }
 
-	// for(uint16_t j=nValue; j<this->nx; j++)
-	//   {
-	//     newValues[j]+=(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
-	//     cout<<newValues[j]<<'\n';
-	//   }
-
-	// for(uint16_t j=0; j<this->nx; j++)
-	//   {
-	//     newValues[j]+=(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
-	//     cout<<newValues[j]<<'\n';
-	//   }
-
 	uint16_t j=0;
 	cout<<(n-1)*this->nValue<<" "<<(n)*this->nValue<<'\n';
-	// for(uint16_t i=n*this->nx; i<(n+1)*this->nx; i++)
+
 	for(uint16_t i=(n-1)*this->nValue; i<(n)*this->nValue; i++)
 	  {
 	    cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<newValues[j]<<'\n';
