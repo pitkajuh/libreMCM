@@ -227,9 +227,9 @@ private:
 	k(edges, k3, 0.5, k2);
 	cout<<"-------------k4-----------"<<'\n';
 	k(edges, k4, 1, k3);
-	// break;
 
-	for(uint16_t j=0; j<nValue; j++)
+	// for(uint16_t j=0; j<nValue; j++)
+	for(uint16_t j=0; j<nx; j++)
 	  {
 	    newValues[j]+=(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6;
 	    // valuesSubstitute[j]=newValues[j];
@@ -240,6 +240,7 @@ private:
 	cout<<(n-1)*this->nValue<<" "<<(n)*this->nValue<<'\n';
 
 	for(uint16_t i=(n-1)*this->nValue; i<(n)*this->nValue; i++)
+	// for(uint16_t i=(n-1)*this->nx; i<(n)*this->nx; i++)
 	  {
 	    cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<newValues[j]<<'\n';
 	    cout<<j<<'\n';
