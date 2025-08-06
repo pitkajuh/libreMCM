@@ -82,25 +82,17 @@ private:
 	cout<<"now "<<valuesSubstitute[i]<<'\n';
       }
 
-    Calculate(equation, k);
-
-    for(uint16_t i=this->nValue; i<this->nx; i+=this->nValue)
-      {
-	// cout<<"i="<<i<<"/"<<this->nx-1<<'\n';
-
-	EquationSubstitute(i, i+this->nValue, kPrevious, this->valuesSubstitute);
-	Calculate1(equation, k, i);
-      }
+    k0(equation, k, kPrevious);
   }
 
-  void k0(vector<Edge> &equation, double *k)
+  void k0(vector<Edge> &equation, double *k, double *k1)
   {
     Calculate(equation, k);
 
     for(uint16_t i=this->nValue; i<this->nx; i+=this->nValue)
       {
 	// cout<<"i="<<i<<"/"<<this->nx-1<<'\n';
-	EquationSubstitute(i, i+this->nValue, this->y_n, this->valuesSubstitute);
+	EquationSubstitute(i, i+this->nValue, k1, this->valuesSubstitute);
 	Calculate1(equation, k, i);
       }
   }
@@ -123,7 +115,7 @@ private:
 	cout<<"t="<<t<<'\n';
 
 	cout<<"-----------k1-----------"<<'\n';
-	k0(edges, k1);
+	k0(edges, k1, this->y_n);
 	cout<<" "<<'\n';
 	cout<<"-----------k2-----------"<<'\n';
 	k(edges, k2, 0.5, k1);
