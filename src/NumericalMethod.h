@@ -174,9 +174,46 @@ private:
 public:
   void WriteResults()
   {
-    for(uint16_t i=0; i<N; i++)
+    string aa="";
+    uint16_t to=0;
+    uint16_t i=to;
+    uint16_t j=0;
+    uint16_t k=1;
+
+    // for(uint16_t i=0; i<N; i++)
+    cout<<N/nValue<<" "<<N<<'\n';
+    // i=1;
+
+    // for(uint16_t i=0; i<N; i++)
+    //   {
+    // 	cout<<y_np1[i]<<'\n';
+    //   }
+    cout<<" "<<'\n';
+    // while(i<this->N/this->nValue)
+    while(j<this->nValue)
       {
-	cout<<y_np1[i]<<'\n';
+	if(i>=this->N/this->nValue-this->nValue)
+	  {
+	    // cout<<j<<" "<<i<<'\n';
+	    cout<<" "<<'\n';
+	    // i=1;
+	    // i++;
+	    to++;
+	    i=to;
+	    j++;
+	    aa="";
+	  }
+	if(k==this->nValue)
+	  {
+	    // cout<<"new line"<<'\n';
+	    cout<<aa<<'\n';
+	    aa="";
+	    k=1;
+	  }
+	k++;
+	i+=this->nValue;
+	// cout<<i<<" "<<y_np1[i]<<" "<<nx<<'\n';
+	aa+=std::to_string(y_np1[i])+";";
       }
   }
 
