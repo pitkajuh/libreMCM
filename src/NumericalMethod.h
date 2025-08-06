@@ -43,43 +43,6 @@ private:
       }
     cout<<a<<'\n';
   }
-  void EquationSubstitute(const double constant, const double *kPrevious, const uint16_t from, const uint16_t to)
-  {
-    // cout<<"SUBSTITUTING"<<'\n';
-    // print(kPrevious);
-    for(uint16_t i=from; i<to; i++)
-      {
-	auto aa=y_n[i];
-	// y_n[i]=y_n[i]+constant*kPrevious[i];
-	y_n[i]+=constant*kPrevious[i];
-	// cout<<"y_n[i] "<<aa<<"+"<<constant<<"*"<<kPrevious[i]<<"="<<y_n[i]<<'\n';
-      }
-    cout<<"SUBSTITUTING"<<'\n';
-    print(y_n, from, to);
-  }
-
-  void EquationCalculate(vector<Edge> &equation, double *&k, const double constant)
-  {
-    // print(k);
-    for(uint16_t i=0; i<nx; i++)
-      {
-	auto a1=equation[i].Calculate();
-	// k[i]=stepSize*equation.Calculate();
-	// k[i]=kPrevious[i]+stepSize*a1;
-	k[i]=stepSize*a1;
-	cout<<"k[i] "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
-      }
-
-    // for(uint16_t i=0; i<equation.size(); i++)
-    //   {
-    // 	for(uint16_t j=0; j<nx; j++)
-    // 	  {
-    // 	    auto a1=equation[i].Calculate();
-    // 	    k[j]=stepSize*a1;
-    // 	    cout<<"k[i] "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
-    // 	  }
-    //   }
-  }
 
   void EquationSubstitute1(const uint16_t from, const uint16_t to, const double *kFrom, double *kTo)
   {
@@ -92,18 +55,6 @@ private:
 
   void k(vector<Edge> &equation, double *&k, const double constant, double *kPrevious)
   {
-
-    // cout<<"this->nx "<<this->nx<<" no of equations "<<equation.size()<<'\n';
-    // cout<<"this->nValue "<<this->nValue<<" "<<this->nx/this->nValue<<'\n';
-
-    // for(uint16_t i=0; i<nx; i++)
-    //   {
-    // 	// k[i]+=constant*kPrevious[i];
-    // 	cout<<k[i]<<'\n';
-    // 	k[i]=k[i]+constant*kPrevious[i];
-    // 	cout<<k[i]<<'\n';
-    //   }
-
     for(uint16_t i=0; i<nValue; i++)
       {
 	// cout<<"subs "<<valuesSubstitute[i]<<"+"<<constant<<"*"<<kPrevious[i]<<"="<<valuesSubstitute[i]+constant*kPrevious[i]<<'\n';
@@ -137,44 +88,17 @@ private:
 	    k[i+j]=this->stepSize*a1;
 	    // cout<<i+j<<" k1 "<<stepSize<<"*"<<a1<<"="<<k[i+j]<<'\n';
 	  }
-	// cout<<" "<<'\n';
       }
-
-
-    // EquationSubstitute1(0, this->nValue, k, this->valuesSubstitute);
-
-
-
-
-
-    // // Replace values in y_n
-    // EquationSubstitute(constant, kPrevious, 0, nx);
-    // EquationCalculate(equation, k, constant);
-
-    // // copy from newValues to y_n
-
-    // for(uint16_t i=0; i<nx; i++)
-    //   {
-    // 	cout<<"Replace "<<y_n[i]<<" "<<newValues[i]<<'\n';
-    // 	// newValues[i]=y_n[i];
-    // 	y_n[i]=newValues[i];
-    // 	// y_n[i]=k[i];
-    // 	// cout<<"Replace "<<y_n[i]<<" "<<newValues[i]<<'\n';
-    //   }
   }
 
   void k0(vector<Edge> &equation, double *k, const vector<uint16_t> &noOfInitialValue)
   {
-    // cout<<"this->nx "<<this->nx<<" no of equations "<<equation.size()<<'\n';
-    // cout<<"this->nValue "<<this->nValue<<" "<<this->nx/this->nValue<<'\n';
-
     for(uint16_t i=0; i<equation.size(); i++)
       {
 	auto a1=equation[i].Calculate();
 	k[i]=this->stepSize*a1;
 	cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
       }
-    // cout<<" "<<'\n';
 
     for(uint16_t j=this->nValue; j<this->nx; j+=this->nValue)
       {
@@ -191,17 +115,6 @@ private:
 	  }
 	// cout<<" "<<'\n';
       }
-
-    // EquationSubstitute1(0, this->nValue, k, this->valuesSubstitute);
-
-    // for(uint16_t i=0; i<this->nx; i++)
-    //   {
-    // 	auto a1=equation[i].Calculate();
-    // 	// k[i]=stepSize*equation.Calculate();
-    // 	k[i]=stepSize*a1;
-    // 	cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
-    // 	cout<<"@@"<<'\n';
-    //   }
   }
 
   void RK4(vector<Edge> &edges, Equations &equations, const vector<uint16_t> &noOfInitialValue)
@@ -242,8 +155,7 @@ private:
 	for(uint16_t i=(n-1)*this->nValue; i<(n)*this->nValue; i++)
 	// for(uint16_t i=(n-1)*this->nx; i<(n)*this->nx; i++)
 	  {
-	    cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<newValues[j]<<'\n';
-	    cout<<j<<'\n';
+	    cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<newValues[j]<<" "<<j<<'\n';
 	    y_np1[i]=newValues[j];
 	    y_n[j]=newValues[j];
 	    valuesSubstitute[j]=newValues[j];
@@ -251,23 +163,7 @@ private:
 	  }
 	j=0;
 
-	// cout<<"results now"<<'\n';
-	// string aa;
-	// int a=0;
-	// for(uint16_t i=0; i<N; i++)
-	//   {
-	//     if(y_np1[i]!=0)
-	//       {
-	// 	aa+=std::to_string(y_np1[i])+";";
-	// 	a++;
-	//       }
-	//     if(a==2)
-	//       {
-	// 	cout<<aa<<'\n';
-	// 	aa="";
-	// 	a=0;
-	//       }
-	//   }
+	// break;
 	cout<<"------------------------------"<<'\n';
 	t+=stepSize;
 	n++;
