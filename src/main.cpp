@@ -92,7 +92,7 @@ void ReadInitialData(const string &directory)
 
   test1.CreateEdge(test3.equationNames, equations);
 
-  numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew2, equations, test1.N, test1.noOfInitialValue);
+  numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew2, equations, test1.N);
 
 
   // equations.Calculate();
