@@ -8,16 +8,13 @@ public:
   double *y_n=nullptr;
   double *newValues=nullptr;
   double *valuesSubstitute=nullptr;
-  // uint16_t timeStart=0;
-  // uint16_t timeEnd=0;
-  // uint16_t stepSize=0;
   uint16_t nx=0;
   uint16_t N=0;
   uint16_t ny=0;
   uint16_t nValue=0;
 
   NumericalMethod(){}
-  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, Equations &equations, const uint16_t N)=0;
+  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const uint16_t N)=0;
   virtual ~NumericalMethod()
   {
     delete [] newValues;
@@ -96,10 +93,10 @@ private:
       }
   }
 
-  void RK4(vector<Edge> &edges, Equations &equations, const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize)
+  void RK4(vector<Edge> &edges, const uint16_t stepSize)
   {
-    uint16_t t=stepSize;
-    uint16_t n=1;
+    double t=stepSize;
+    uint16_t n=2;
     double *k1=new double[this->nx];
     double *k2=new double[this->nx];
     double *k3=new double[this->nx];
@@ -109,7 +106,7 @@ private:
     // double *k3=new double[this->nValue];
     // double *k4=new double[this->nValue];
 
-    while(n<(timeEnd-timeStart)/stepSize)
+    while(n<ny+1)
       {
 	cout<<"t="<<t<<'\n';
 
@@ -151,23 +148,23 @@ private:
 	n++;
       }
 
-	cout<<"results now"<<'\n';
-	string aa;
-	int a=0;
-	for(uint16_t i=0; i<N; i++)
-	  {
-	    if(y_np1[i]!=0)
-	      {
-		aa+=std::to_string(y_np1[i])+";";
-		a++;
-	      }
-	    if(a==this->nValue)
-	      {
-		cout<<aa<<'\n';
-		aa="";
-		a=0;
-	      }
-	  }
+	// cout<<"results now"<<'\n';
+	// string aa;
+	// int a=0;
+	// for(uint16_t i=0; i<N; i++)
+	//   {
+	//     if(y_np1[i]!=0)
+	//       {
+	// 	aa+=std::to_string(y_np1[i])+";";
+	// 	a++;
+	//       }
+	//     if(a==this->nValue)
+	//       {
+	// 	cout<<aa<<'\n';
+	// 	aa="";
+	// 	a=0;
+	//       }
+	//   }
 
 	delete [] k1;
 	delete [] k2;
@@ -175,15 +172,22 @@ private:
 	delete [] k4;
   }
 public:
-  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, Equations &equations, const uint16_t N)
+  void WriteResults()
+  {
+    for(uint16_t i=0; i<N; i++)
+      {
+	cout<<y_np1[i]<<'\n';
+      }
+  }
+
+  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const uint16_t N)
   {
     std::copy(this->y_n, this->y_n+this->nx, this->newValues);
-    // this->timeStart=timeStart;
-    // this->timeEnd=timeEnd;
-    // this->stepSize=stepSize;
+    cout<<y_n[0]<<" "<<y_n[1]<<'\n';
     this->N=N;
     this->ny=(timeEnd-timeStart)/stepSize;
-    RK4(edges, equations, timeStart, timeEnd, stepSize);
+    RK4(edges, stepSize);
+    WriteResults();
   }
 
   RungeKutta4(){}

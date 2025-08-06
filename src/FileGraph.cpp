@@ -115,7 +115,6 @@ void FileGraph::InitResults(double *&results)
   cout<<"N "<<N<<" "<<nx<<" "<<ny<<'\n';
   results=new double[N];
   uint16_t i=0;
-  // uint16_t j=0;
 
   for(uint16_t i=0; i<N; i++)
     {
@@ -133,10 +132,6 @@ void FileGraph::InitResults(double *&results)
 	}
     }
 
-
-
-
-
   uint16_t j=0;
 
   // If nx is odd, fix from above where initial values are initialized.
@@ -147,7 +142,6 @@ void FileGraph::InitResults(double *&results)
       double *test = new double[nx];
       const uint16_t delta=nx/all.size();
 
-      // cout<<all.size()
       if(all.size()%2==0)
 	{
 	  cout<<"even"<<'\n';
