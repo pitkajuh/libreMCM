@@ -172,48 +172,34 @@ private:
 	delete [] k4;
   }
 public:
-  void WriteResults()
+  void WriteResults1(const uint16_t vertex)
   {
     string aa="";
     uint16_t to=0;
-    uint16_t i=to;
+    uint16_t i=vertex;
     uint16_t j=0;
     uint16_t k=1;
+    std::ofstream file1(std::to_string(vertex)+".txt");
 
-    // for(uint16_t i=0; i<N; i++)
-    cout<<N/nValue<<" "<<N<<'\n';
-    // i=1;
-
-    // for(uint16_t i=0; i<N; i++)
-    //   {
-    // 	cout<<y_np1[i]<<'\n';
-    //   }
-    cout<<" "<<'\n';
-    // while(i<this->N/this->nValue)
-    while(j<this->nValue)
+    while(i<this->N)
       {
-	if(i>=this->N/this->nValue-this->nValue)
-	  {
-	    // cout<<j<<" "<<i<<'\n';
-	    cout<<" "<<'\n';
-	    // i=1;
-	    // i++;
-	    to++;
-	    i=to;
-	    j++;
-	    aa="";
-	  }
 	if(k==this->nValue)
 	  {
-	    // cout<<"new line"<<'\n';
-	    cout<<aa<<'\n';
-	    aa="";
+	    file1<<'\n';
 	    k=1;
 	  }
-	k++;
+	file1<<y_np1[i];
 	i+=this->nValue;
-	// cout<<i<<" "<<y_np1[i]<<" "<<nx<<'\n';
-	aa+=std::to_string(y_np1[i])+";";
+	k++;
+      }
+    file1.close();
+  }
+
+  void WriteResults()
+  {
+    for(uint16_t i=0; i<this->nValue; i++)
+      {
+	WriteResults1(i);
       }
   }
 
