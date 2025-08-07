@@ -14,7 +14,7 @@ public:
   uint16_t nValue=0;
 
   NumericalMethod(){}
-  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const uint16_t N)=0;
+  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const uint16_t N, const vector<uint16_t> &noOfInitialValue)=0;
   virtual ~NumericalMethod()
   {
     delete [] newValues;
@@ -148,52 +148,62 @@ private:
     delete [] k4;
   }
 public:
-  void WriteResultsSub(const uint16_t vertex)
+  void WriteResultsSubSub(std::ofstream &file1, const uint16_t vertex, const uint16_t iv, const uint16_t ivt)
   {
     string aa="";
     uint16_t to=0;
     uint16_t i=vertex;
     uint16_t j=0;
     uint16_t k=1;
-    std::ofstream file1(std::to_string(vertex)+".txt");
-
+    cout<<ivt<<'\n';
     while(i<this->N)
       {
-	if(k==this->nValue)
+	// if(k==this->nValue+1)
+	if(k==ivt+1)
 	  {
+	    cout<<" "<<'\n';
 	    file1<<'\n';
 	    k=1;
 	  }
-	// cout<<y_np1[i]<<" "<<y_np1[i+nx]<<'\n';
+	cout<<i<<" y "<<y_np1[i]<<'\n';
 	file1<<y_np1[i];
+
+	if(k<ivt) file1<<";";
+
 	i+=this->nValue;
 	// i+=this->nx;
+	// i++;
+	// i+=this->nx;
 	k++;
+      }
+  }
+
+  void WriteResultsSub(const uint16_t vertex, const uint16_t initialValues)
+  {
+    std::ofstream file1(std::to_string(vertex)+".txt");
+
+    for(uint16_t i=0; i<initialValues; i++)
+      {
+	WriteResultsSubSub(file1, vertex, i, initialValues);
       }
     file1.close();
   }
 
-  void WriteResults()
+  void WriteResults(const vector<uint16_t> &noOfInitialValue)
   {
     for(uint16_t i=0; i<this->nValue; i++)
       {
-	WriteResultsSub(i);
-	// break;
+	WriteResultsSub(i, noOfInitialValue[i]);
       }
   }
 
-  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const uint16_t N)
+  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const uint16_t N, const vector<uint16_t> &noOfInitialValue)
   {
     std::copy(this->y_n, this->y_n+this->nx, this->newValues);
-    cout<<y_n[0]<<" "<<y_n[1]<<'\n';
     this->N=N;
     this->ny=(timeEnd-timeStart)/stepSize;
     RK4(edges, stepSize);
-    // for(uint16_t i=0; i<N; i++)
-    //   {
-    // 	cout<<y_np1[i]<<'\n';
-    //   }
-    WriteResults();
+    WriteResults(noOfInitialValue);
   }
 
   RungeKutta4(){}
@@ -201,14 +211,8 @@ public:
   {
     this->nx=nx;
     this->nValue=nv;
-    // this->delta=nx/nv;
-
-    // if(delta>nv) delta=nv;
-
     y_n=new double[nx];
     newValues=new double[nx];
-    // newValues=new double[nv];
-    // valuesSubstitute=new double[delta];
     valuesSubstitute=new double[nv];
   }
   ~RungeKutta4(){}
