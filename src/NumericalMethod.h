@@ -44,17 +44,19 @@ private:
       {
 	auto a1=equation[i].Calculate();
 	k[i]=stepSize*a1;
-	cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
+	// cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
       }
   }
 
   void Calculate1(vector<Edge> &equation, double *k, const uint16_t j, const uint16_t stepSize)
   {
     for(uint16_t i=0; i<equation.size(); i++)
+    // for(uint16_t i=0; i<equation.size(); i+=1+j)
       {
 	auto a1=equation[i].Calculate();
 	k[i+j]=stepSize*a1;
-	cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
+	// k[i]=stepSize*a1;
+	// cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
       }
   }
 
@@ -69,14 +71,14 @@ private:
 
   void k(vector<Edge> &equation, double *k, const double constant, double *kPrevious, const uint16_t stepSize)
   {
-    for(uint16_t i=0; i<nValue; i++)
+    for(uint16_t i=0; i<this->nValue; i++)
       {
 	// cout<<"subs "<<valuesSubstitute[i]<<"+"<<constant<<"*"<<kPrevious[i]<<"="<<valuesSubstitute[i]+constant*kPrevious[i]<<'\n';
 	// const double a=valuesSubstitute[i]+constant*kPrevious[i];
 	const double a=this->y_n[i]+constant*kPrevious[i];
-	valuesSubstitute[i]=a;
+	this->valuesSubstitute[i]=a;
 	// valuesSubstitute[i]=+constant*kPrevious[i];
-	cout<<"now "<<valuesSubstitute[i]<<'\n';
+	// cout<<"now "<<valuesSubstitute[i]<<'\n';
       }
     k0(equation, k, kPrevious, stepSize);
   }
@@ -97,6 +99,7 @@ private:
   {
     double t=stepSize;
     uint16_t n=2;
+    n=this->nValue;
     double *k1=new double[this->nx];
     double *k2=new double[this->nx];
     double *k3=new double[this->nx];
@@ -108,42 +111,64 @@ private:
 
     while(n<ny+1)
       {
-	cout<<"t="<<t<<'\n';
+	// cout<<"t="<<t<<'\n';
 
-	cout<<"-----------k1-----------"<<'\n';
+	// cout<<"-----------k1-----------"<<'\n';
 	k0(edges, k1, this->y_n, stepSize);
-	cout<<" "<<'\n';
-	cout<<"-----------k2-----------"<<'\n';
+	// cout<<" "<<'\n';
+	// cout<<"-----------k2-----------"<<'\n';
 	k(edges, k2, 0.5, k1, stepSize);
-	cout<<" "<<'\n';
-	cout<<"-----------k3-----------"<<'\n';
+	// cout<<" "<<'\n';
+	// cout<<"-----------k3-----------"<<'\n';
 	k(edges, k3, 0.5, k2, stepSize);
-	cout<<"-------------k4-----------"<<'\n';
+	// cout<<"-------------k4-----------"<<'\n';
 	k(edges, k4, 1, k3, stepSize);
 
-	for(uint16_t i=0; i<nValue; i++)
-	// for(uint16_t i=0; i<nx; i++)
+	// for(uint16_t i=0; i<nValue; i++)
+	for(uint16_t i=0; i<this->nx; i++)
 	  {
-	    newValues[i]+=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
-	    // valuesSubstitute[i]=newValues[i];
-	    cout<<"result "<<newValues[i]<<'\n';
+	    this->newValues[i]+=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+	    // valuesSubstitute[i]=this->newValues[i];
+	    // cout<<"result "<<this->newValues[i]<<'\n';
 	  }
 
 	uint16_t j=0;
 
-	for(uint16_t i=(n-1)*this->nValue; i<n*this->nValue; i++)
+	// for(uint16_t i=(n-1)*this->nValue; i<n*this->nValue; i++)
+
+	// for(uint16_t i=0; i<nx; i++)
+	//   {
+	//     cout<<"i "<<i<<" "<<this->newValues[i]<<'\n';
+	//   }
+
+	for(uint16_t i=(n-1)*this->nx; i<n*this->nx; i++)
 	  {
-	    cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<newValues[j]<<" "<<j<<" "<<i<<'\n';
-	    y_np1[i]=newValues[j];
-	    y_n[j]=newValues[j];
-	    valuesSubstitute[j]=newValues[j];
+	    // cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<this->newValues[j]<<" "<<j<<" "<<i<<'\n';
+	    // cout<<"i "<<j<<" "<<this->newValues[j]<<'\n';
+	    // cout<<"i "<<i<<" "<<n*this->nValue<<'\n';
+	    // cout<<i<<" "<<this->newValues[j]<<'\n';
+	    this->y_np1[i]=this->newValues[j];
+	    this->y_n[j]=this->newValues[j];
+	    // valuesSubstitute[j]=newValues[j];
 	    j++;
 	  }
-
 	j=0;
+	// for(uint16_t i=(n-this->nValue)*this->nx+this->nValue; i<(n-1)*this->nx; i++)
+	// for(uint16_t i=(n-this->nValue)*this->nx; i<(n-this->nValue)*this->nx+this->nValue; i++)
+	//   {
+	//     // valuesSubstitute[i]=newValues[];
+	//     cout<<i<<" "<<i+nx<<'\n';
+	//   }
+	// EquationSubstitute((n-this->nValue)*this->nx, (n-this->nValue)*this->nx+this->nValue, this->newValues, this->valuesSubstitute);
+	EquationSubstitute(0, this->nValue, this->newValues, this->valuesSubstitute);
+	// for(uint16_t i=)
 
 	// break;
-	cout<<"------------------------------"<<'\n';
+	// cout<<" "<<'\n';
+
+
+	// break;
+	// cout<<"------------------------------"<<'\n';
 	t+=stepSize;
 	n++;
       }
@@ -188,8 +213,10 @@ public:
 	    file1<<'\n';
 	    k=1;
 	  }
+	// cout<<y_np1[i]<<" "<<y_np1[i+nx]<<'\n';
 	file1<<y_np1[i];
 	i+=this->nValue;
+	// i+=this->nx;
 	k++;
       }
     file1.close();
@@ -200,6 +227,7 @@ public:
     for(uint16_t i=0; i<this->nValue; i++)
       {
 	WriteResults1(i);
+	// break;
       }
   }
 
@@ -210,6 +238,10 @@ public:
     this->N=N;
     this->ny=(timeEnd-timeStart)/stepSize;
     RK4(edges, stepSize);
+    // for(uint16_t i=0; i<N; i++)
+    //   {
+    // 	cout<<y_np1[i]<<'\n';
+    //   }
     WriteResults();
   }
 
