@@ -51,7 +51,7 @@ private:
   void Calculate1(vector<Edge> &equation, double *k, const uint16_t j, const uint16_t stepSize)
   {
     for(uint16_t i=0; i<equation.size(); i++)
-    // for(uint16_t i=0; i<equation.size(); i+=1+j)
+      // for(uint16_t i=0; i<equation.size(); i+=1+j)
       {
 	auto a1=equation[i].Calculate();
 	k[i+j]=stepSize*a1;
@@ -124,80 +124,31 @@ private:
 	// cout<<"-------------k4-----------"<<'\n';
 	k(edges, k4, 1, k3, stepSize);
 
-	// for(uint16_t i=0; i<nValue; i++)
 	for(uint16_t i=0; i<this->nx; i++)
 	  {
 	    this->newValues[i]+=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
-	    // valuesSubstitute[i]=this->newValues[i];
-	    // cout<<"result "<<this->newValues[i]<<'\n';
 	  }
 
 	uint16_t j=0;
 
-	// for(uint16_t i=(n-1)*this->nValue; i<n*this->nValue; i++)
-
-	// for(uint16_t i=0; i<nx; i++)
-	//   {
-	//     cout<<"i "<<i<<" "<<this->newValues[i]<<'\n';
-	//   }
-
 	for(uint16_t i=(n-1)*this->nx; i<n*this->nx; i++)
 	  {
-	    // cout<<"i="<<i<<" "<<y_np1[i]<<" "<<y_n[j]<<" "<<this->newValues[j]<<" "<<j<<" "<<i<<'\n';
-	    // cout<<"i "<<j<<" "<<this->newValues[j]<<'\n';
-	    // cout<<"i "<<i<<" "<<n*this->nValue<<'\n';
-	    // cout<<i<<" "<<this->newValues[j]<<'\n';
 	    this->y_np1[i]=this->newValues[j];
 	    this->y_n[j]=this->newValues[j];
-	    // valuesSubstitute[j]=newValues[j];
 	    j++;
 	  }
 	j=0;
-	// for(uint16_t i=(n-this->nValue)*this->nx+this->nValue; i<(n-1)*this->nx; i++)
-	// for(uint16_t i=(n-this->nValue)*this->nx; i<(n-this->nValue)*this->nx+this->nValue; i++)
-	//   {
-	//     // valuesSubstitute[i]=newValues[];
-	//     cout<<i<<" "<<i+nx<<'\n';
-	//   }
-	// EquationSubstitute((n-this->nValue)*this->nx, (n-this->nValue)*this->nx+this->nValue, this->newValues, this->valuesSubstitute);
 	EquationSubstitute(0, this->nValue, this->newValues, this->valuesSubstitute);
-	// for(uint16_t i=)
-
-	// break;
-	// cout<<" "<<'\n';
-
-
-	// break;
-	// cout<<"------------------------------"<<'\n';
 	t+=stepSize;
 	n++;
       }
-
-	// cout<<"results now"<<'\n';
-	// string aa;
-	// int a=0;
-	// for(uint16_t i=0; i<N; i++)
-	//   {
-	//     if(y_np1[i]!=0)
-	//       {
-	// 	aa+=std::to_string(y_np1[i])+";";
-	// 	a++;
-	//       }
-	//     if(a==this->nValue)
-	//       {
-	// 	cout<<aa<<'\n';
-	// 	aa="";
-	// 	a=0;
-	//       }
-	//   }
-
-	delete [] k1;
-	delete [] k2;
-	delete [] k3;
-	delete [] k4;
+    delete [] k1;
+    delete [] k2;
+    delete [] k3;
+    delete [] k4;
   }
 public:
-  void WriteResults1(const uint16_t vertex)
+  void WriteResultsSub(const uint16_t vertex)
   {
     string aa="";
     uint16_t to=0;
@@ -226,7 +177,7 @@ public:
   {
     for(uint16_t i=0; i<this->nValue; i++)
       {
-	WriteResults1(i);
+	WriteResultsSub(i);
 	// break;
       }
   }
