@@ -150,30 +150,21 @@ private:
 public:
   void WriteResultsSubSub(std::ofstream &file1, const uint16_t vertex, const uint16_t iv, const uint16_t ivt)
   {
-    string aa="";
-    uint16_t to=0;
     uint16_t i=vertex;
-    uint16_t j=0;
     uint16_t k=1;
-    cout<<ivt<<'\n';
+
     while(i<this->N)
       {
-	// if(k==this->nValue+1)
 	if(k==ivt+1)
 	  {
-	    cout<<" "<<'\n';
 	    file1<<'\n';
 	    k=1;
 	  }
-	cout<<i<<" y "<<y_np1[i]<<'\n';
 	file1<<y_np1[i];
 
 	if(k<ivt) file1<<";";
 
 	i+=this->nValue;
-	// i+=this->nx;
-	// i++;
-	// i+=this->nx;
 	k++;
       }
   }
