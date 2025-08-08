@@ -196,7 +196,7 @@ private:
 	j=0;
 	EquationSubstitute1(0, this->nValue, this->newValues, this->valuesSubstitute);
 	// EquationSubstitute1(this->nValue, this->nx, this->newValues, this->valuesSubstitute);
-	break;
+	// break;
 	t+=stepSize;
 	n++;
       }
@@ -214,23 +214,23 @@ public:
     // while(i<this->N/ivt)
     while(i<this->N)
       {
-	// if(k==ivt+1)
-	//   {
-	//     file1<<'\n';
-	//     k=1;
-	//   }
-	// file1<<y_np1[i];
-	// if(k<ivt) file1<<";";
-
-
+	if(k==ivt+1)
+	  {
+	    file1<<'\n';
+	    k=1;
+	  }
 	file1<<y_np1[i];
-	file1<<'\n';
+	if(k<ivt) file1<<";";
+
+
+	// file1<<y_np1[i];
+	// file1<<'\n';
 
 
 
-	// i+=this->nValue;
+	i+=this->nValue;
 
-	i+=this->nx;
+	// i+=this->nx;
 	// i++;
 	k++;
       }
@@ -258,7 +258,7 @@ public:
     for(uint16_t i=0; i<this->nValue; i++)
       {
 	WriteResultsSub(i, noOfInitialValue[i]);
-	break;
+	// break;
       }
   }
 
