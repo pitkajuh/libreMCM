@@ -57,7 +57,7 @@ private:
 	auto a1=equation[i].Calculate();
 	k[i+j]=stepSize*a1;
 	// k[i]=stepSize*a1;
-	cout<<i<<" k01 "<<stepSize<<"*"<<a1<<"="<<k[i+j]<<'\n';
+	cout<<i+j<<" k01 "<<stepSize<<"*"<<a1<<"="<<k[i+j]<<'\n';
 	cout<<" "<<'\n';
 
       }
@@ -83,20 +83,46 @@ private:
 
   }
 
+  // void k(vector<Edge> &equation, double *k, const double constant, double *kPrevious, const uint16_t stepSize)
+  // {
+  //   for(uint16_t i=0; i<this->nx; i++)
+  //     {
+  // 	// cout<<"subs "<<valuesSubstitute[i]<<"+"<<constant<<"*"<<kPrevious[i]<<"="<<valuesSubstitute[i]+constant*kPrevious[i]<<'\n';
+  // 	// const double a=valuesSubstitute[i]+constant*kPrevious[i];
+  // 	kPrevious[i]=this->y_n[i]+constant*kPrevious[i];
+  // 	// const double a=this->y_n[i]+constant*kPrevious[i];
+  // 	// y_n[i]+=constant*kPrevious[i];
+  // 	// const double a=this->y_np1[i]+constant*kPrevious[i];
+  // 	// this->valuesSubstitute[i]=a;
+  // 	// this->valuesSubstitute[i-this->nValue]=a;
+
+  // 	// valuesSubstitute[i]=+constant*kPrevious[i];
+  // 	// cout<<"now "<<valuesSubstitute[i]<<'\n';
+  //     }
+  //   EquationSubstitute(this->nValue, this->nx, kPrevious, this->valuesSubstitute);
+  //   k0(equation, k, kPrevious, stepSize);
+  // }
+
   void k(vector<Edge> &equation, double *k, const double constant, double *kPrevious, const uint16_t stepSize)
   {
     for(uint16_t i=0; i<this->nValue; i++)
+    // for(uint16_t i=this->nValue; i<this->nx; i++)
+    // for(uint16_t i=0; i<this->nx; i++)
       {
 	// cout<<"subs "<<valuesSubstitute[i]<<"+"<<constant<<"*"<<kPrevious[i]<<"="<<valuesSubstitute[i]+constant*kPrevious[i]<<'\n';
 	// const double a=valuesSubstitute[i]+constant*kPrevious[i];
 
 	const double a=this->y_n[i]+constant*kPrevious[i];
+	cout<<i<<" "<<this->y_n[i]<<"+"<<constant<<"*"<<kPrevious[i]<<"="<<a<<'\n';
+	// y_n[i]+=constant*kPrevious[i];
 	// const double a=this->y_np1[i]+constant*kPrevious[i];
 	this->valuesSubstitute[i]=a;
+	// this->valuesSubstitute[i-this->nValue]=a;
 
 	// valuesSubstitute[i]=+constant*kPrevious[i];
 	// cout<<"now "<<valuesSubstitute[i]<<'\n';
       }
+    // EquationSubstitute(0, this->nValue, this->y_n, this->valuesSubstitute);
     k0(equation, k, kPrevious, stepSize);
   }
 
@@ -109,6 +135,7 @@ private:
     // for(uint16_t i=this->nValue-1; i<this->nx; i+=this->nValue) // crash
       {
 	// cout<<"ii="<<i<<"/"<<this->nx-1<<'\n';
+	cout<<i<<" "<<i+this->nValue<<'\n';
 	EquationSubstitute(i, i+this->nValue, k1, this->valuesSubstitute);
 	Calculate1(equation, k, i, stepSize);
       }

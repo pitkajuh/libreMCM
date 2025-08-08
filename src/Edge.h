@@ -22,7 +22,6 @@ public:
       {
 	result-=equationSubtract.Calculate();
       }
-    cout<<result<<'\n';
     return result;
   }
 
