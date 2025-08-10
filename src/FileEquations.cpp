@@ -57,7 +57,7 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
     }
 }
 
-void FileEquations::RemoveVertex(const uint8_t id, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, const Vertex &v, const uint8_t n, const uint8_t size, const uint8_t size2, const Vertex &v0, const vector<Vertex> &vv, double *data, const uint16_t N)
+void FileEquations::RemoveMathOperation(const uint8_t id, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, const MathOperation &v, const uint8_t n, const uint8_t size, const uint8_t size2, const MathOperation &v0, const vector<MathOperation> &vv, double *data, const uint16_t N)
 {
   if(v.value1!=v0.value1)
     {
@@ -72,9 +72,9 @@ void FileEquations::RemoveVertex(const uint8_t id, std::set<uint8_t> &removeIndi
     }
 }
 
-void FileEquations::CreateVertex(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<Vertex> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, uint8_t n, const uint8_t size, const uint16_t N)
+void FileEquations::CreateMathOperation(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<MathOperation> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, uint8_t n, const uint8_t size, const uint16_t N)
 {
-  Vertex v0;
+  MathOperation v0;
 
   if(b1.variable and b2.variable)
     {
@@ -210,8 +210,8 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
     {
       const uint8_t id1=stoi(s1.substr(1));
       const uint8_t id2=stoi(s2.substr(1));
-      const Vertex v1=vv[id1];
-      const Vertex v2=vv[id2];
+      const MathOperation v1=vv[id1];
+      const MathOperation v2=vv[id2];
 
       if(!std::isnan(*v1.result) and !std::isnan(*v2.result))
 	{
@@ -221,8 +221,8 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.result=new double(notSet);
 	  v0.Calculate();
 
-	  RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
-	  RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
+	  RemoveMathOperation(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
+	  RemoveMathOperation(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
 	}
       else if(!std::isnan(*v1.result))
 	{
@@ -230,7 +230,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.mathOperator=operators.GetOperator(mathOperator);
 	  v0.value1=v1.result;
 	  v0.value2=v2.result;
-	  RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
+	  RemoveMathOperation(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
 	}
       else if(!std::isnan(*v2.result))
 	{
@@ -238,7 +238,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.mathOperator=operators.GetOperator(mathOperator);
 	  v0.value1=v1.result;
 	  v0.value2=v2.result;
-	  RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
+	  RemoveMathOperation(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
 	}
       else
 	{
@@ -260,9 +260,9 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	}
       else v0.value2=new double(constants[constantNames[s2]]);
       const uint8_t id1=stoi(s1.substr(1));
-      const Vertex v1=vv[id1];
+      const MathOperation v1=vv[id1];
 
-      if(!std::isnan(*v1.result)) RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
+      if(!std::isnan(*v1.result)) RemoveMathOperation(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
       v0.value1=v1.result;
     }
   else if(b1.math and b2.variable)
@@ -280,15 +280,15 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 
       v0.mathOperator=operators.GetOperator(mathOperator);
       const uint8_t id1=stoi(s1.substr(1));
-      const Vertex v1=vv[id1];
+      const MathOperation v1=vv[id1];
 
-      if(!std::isnan(*v1.result)) RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
+      if(!std::isnan(*v1.result)) RemoveMathOperation(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
       v0.value1=v1.result;
     }
   else if(b1.numeric and b2.math)
     {
       const uint8_t id2=stoi(s2.substr(1));
-      const Vertex v2=vv[id2];
+      const MathOperation v2=vv[id2];
 
       if(!std::isnan(*v2.result))
 	{
@@ -297,7 +297,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value1=new double(stod(s1));
 	  v0.result=new double(notSet);
 	  v0.Calculate();
-	  RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
+	  RemoveMathOperation(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
 	}
       else
 	{
@@ -312,7 +312,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       v0.result=new double(notSet);
       v0.mathOperator=operators.GetOperator(mathOperator);
       const uint8_t id2=stoi(s2.substr(1));
-      const Vertex v2=vv[id2];
+      const MathOperation v2=vv[id2];
 
       if(b1.negative)
 	{
@@ -321,13 +321,13 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	}
       else v0.value1=new double(constants[constantNames[s1]]);
 
-      if(!std::isnan(*v2.result)) RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
+      if(!std::isnan(*v2.result)) RemoveMathOperation(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
       v0.value2=v2.result;
     }
   else if(b2.math and b1.variable)
     {
       const uint8_t id2=stoi(s2.substr(1));
-      const Vertex v2=vv[id2];
+      const MathOperation v2=vv[id2];
       const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
       const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
 
@@ -337,13 +337,13 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
       v0.value1Negative=b1.negative;
 
       v0.value1=&variableValue[from1];
-      if(!std::isnan(*v2.result)) RemoveVertex(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
+      if(!std::isnan(*v2.result)) RemoveMathOperation(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
       v0.value2=v2.result;
     }
   else if(b2.numeric and b1.math)
     {
       const uint8_t id1=stoi(s1.substr(1));
-      const Vertex v1=vv[id1];
+      const MathOperation v1=vv[id1];
 
       if(!std::isnan(*v1.result))
 	{
@@ -351,7 +351,7 @@ void FileEquations::CreateVertex(const string &s1, const string &s2, const strin
 	  v0.value1=v1.result;
 	  v0.value2=new double(stod(s2));
 	  v0.result=new double(notSet);
-	  RemoveVertex(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
+	  RemoveMathOperation(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
 	}
       else
 	{
@@ -397,7 +397,7 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
 	  // cout<<"i="<<std::to_string(i)<<"/"<<equation.size()-1<<'\n';
 	  const Bools b1(eq.str1, data, constantNames);
 	  const Bools b2(eq.str2, data, constantNames);
-	  CreateVertex(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data, removeIndices, removeAddress, i, equation.size(), N);
+	  CreateMathOperation(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data, removeIndices, removeAddress, i, equation.size(), N);
 	  i++;
 	}
 

@@ -1,7 +1,7 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#include "MathOperator.h"
+// #include "MathOperator.h"
 
 struct Vertex
 {

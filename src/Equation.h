@@ -2,13 +2,13 @@
 #define EQUATION_H
 
 #include <cstdint>
-#include "Vertex.h"
+#include "MathOperation.h"
 
 struct Equation
 {
 public:
   uint16_t id;
-  vector<Vertex> vertices;
+  vector<MathOperation> vertices;
   uint16_t size1;
 
   double Calculate()
@@ -26,14 +26,6 @@ struct Equations
 public:
   vector<Equation> equations;
 
-  void Calculate()
-  {
-    cout<<"EQUATIONS"<<'\n';
-    for(Equation &equation: equations)
-      {
-	equation.Calculate();
-      }
-  }
 };
 
 #endif

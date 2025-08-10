@@ -3,6 +3,7 @@
 #include "FileGraph.h"
 #include "Equation.h"
 #include "Edge.h"
+#include "Vertex.h"
 
 const string source="source";
 const string sink="sink";
