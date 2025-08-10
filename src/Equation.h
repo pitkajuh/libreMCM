@@ -9,12 +9,13 @@ struct Equation
 public:
   uint16_t id;
   vector<Vertex> vertices;
+  uint16_t size1;
 
   double Calculate()
   {
-    for(Vertex &vertex: vertices)
+    for(uint16_t i=0; i<this->size1; i++)
       {
-	vertex.Calculate();
+	vertices[i].Calculate();
       }
     return *vertices.back().result;
   }
@@ -27,6 +28,7 @@ public:
 
   void Calculate()
   {
+    cout<<"EQUATIONS"<<'\n';
     for(Equation &equation: equations)
       {
 	equation.Calculate();

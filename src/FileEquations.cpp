@@ -390,6 +390,7 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
       std::unordered_set<double*> removeAddress;
       Equation equationNew;
       equationNew.id=id;
+
       uint8_t i=0;
       for(const TestStr &eq: equation)
 	{
@@ -408,6 +409,8 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
 	  equationNew.vertices.erase(equationNew.vertices.begin()+i-j);
 	  j++;
 	}
+
+      equationNew.size1=equationNew.vertices.size();
 
       for(const auto &i: removeAddress)
 	{
