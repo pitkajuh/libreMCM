@@ -169,10 +169,8 @@ private:
 public:
   void WriteResultsSubSub(std::ofstream &file1, const uint16_t vertex, const uint16_t iv, const uint16_t ivt)
   {
-    // uint16_t i=vertex;
     uint16_t k=1;
 
-    // while(i<this->N)
     for(uint16_t i=vertex; i<this->N; i+=this->nValue)
       {
 	if(k==ivt+1)

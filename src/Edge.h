@@ -8,27 +8,32 @@ struct Edge
 public:
   vector<Equation> equationsAdd;
   vector<Equation> equationsSubtract;
+  uint16_t sizeAdd;
+  uint16_t sizeSubtract;
 
   double Calculate()
   {
     double result=0;
 
-    for(Equation &equationAdd: equationsAdd)
+    for(uint16_t i=0; i<this->sizeAdd; i++)
       {
-	result+=equationAdd.Calculate();
+	result+=this->equationsAdd[i].Calculate();
       }
 
-    for(Equation &equationSubtract: equationsSubtract)
+    for(uint16_t i=0; i<this->sizeSubtract; i++)
       {
-	result-=equationSubtract.Calculate();
+	result-=this->equationsSubtract[i].Calculate();
       }
+
     return result;
   }
 
   Edge(const uint16_t sizeAdd, const uint16_t sizeSubtract)
   {
-    equationsAdd.reserve(sizeAdd);
-    equationsSubtract.reserve(sizeSubtract);
+    this->sizeAdd=sizeAdd;
+    this->sizeSubtract=sizeSubtract;
+    this->equationsAdd.reserve(sizeAdd);
+    this->equationsSubtract.reserve(sizeSubtract);
   }
 
   Edge(){}
