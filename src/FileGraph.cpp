@@ -158,7 +158,7 @@ void FileGraph::InitResults(double *&results)
 	  for(uint16_t i=0; i<nx; i++)
 	    {
 	      // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
-	      cout<<"i="<<i<<" "<<test[i]<<" "<<&test[i]<<'\n';
+	      // cout<<"i="<<i<<" "<<test[i]<<" "<<&test[i]<<'\n';
 	      results[i]=test[i];
 	    }
 	  delete [] test;

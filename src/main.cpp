@@ -43,6 +43,7 @@ void ReadInitialData(const string &directory)
 
   if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
   if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
+  if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
 
   // Get other parameters here before clearing.
   test2.set.clear();
@@ -89,11 +90,11 @@ void ReadInitialData(const string &directory)
   std::unordered_set<double*> aoea;
 
   Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.valuesSubstitute, test1.noOfInitialValue, test1.noOfInitialValue.size());
-
+  cout<<"ok1"<<'\n';
   test1.CreateEdge(test3.equationNames, equations);
-
+  cout<<"ok2"<<'\n';
   numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew2, test1.N, test1.noOfInitialValue);
-
+  cout<<"ok3"<<'\n';
 
   // equations.Calculate();
 

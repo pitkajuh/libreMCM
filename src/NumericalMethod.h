@@ -1,6 +1,8 @@
 #ifndef NUMERICALMETHOD_H
 #define NUMERICALMETHOD_H
 
+#include <cassert>
+
 class NumericalMethod
 {
 public:
@@ -40,7 +42,10 @@ private:
 
   void Calculate(vector<Edge> &equation, double *k, const uint16_t stepSize)
   {
-    for(uint16_t i=0; i<equation.size(); i++)
+    const uint16_t size=equation.size();
+
+#pragma omp parallel for
+    for(uint16_t i=0; i<size; i++)
       {
 	auto a1=equation[i].Calculate();
 	k[i]=stepSize*a1;
@@ -64,6 +69,8 @@ private:
 
   void EquationSubstitute1(const uint16_t from, const uint16_t to, const double *kFrom, double *kTo)
   {
+    // cout<<from<<" "<<to<<'\n';
+#pragma omp parallel for
     for(uint16_t i=from; i<to; i++)
       {
 	// cout<<"i2="<<i<<" "<<kFrom[i]<<'\n';
@@ -74,6 +81,7 @@ private:
 
   void EquationSubstitute(const uint16_t from, const uint16_t to, const double *kFrom, double *kTo)
   {
+    // cout<<from<<" "<<to<<'\n';
     for(uint16_t i=from; i<to; i++)
       {
 	// cout<<"i2="<<i<<" "<<kFrom[i]<<'\n';
@@ -84,6 +92,7 @@ private:
 
   void k(vector<Edge> &equation, double *k, const double constant, double *kPrevious, const uint16_t stepSize)
   {
+#pragma omp parallel for
     for(uint16_t i=0; i<this->nx; i+=this->nValue)
       {
 	for(uint16_t j=i; j<i+this->nValue; j++)
@@ -100,6 +109,7 @@ private:
   {
     Calculate(equation, k, stepSize);
 
+#pragma omp parallel for
     for(uint16_t i=this->nValue; i<this->nx; i+=this->nValue)
       {
 	// cout<<"I="<<i<<" "<<i+this->nValue<<'\n';
@@ -111,13 +121,13 @@ private:
   void RK4(vector<Edge> &edges, const uint16_t stepSize)
   {
     double t=stepSize;
-    uint16_t n=this->nValue;
     double *k1=new double[this->nx];
     double *k2=new double[this->nx];
     double *k3=new double[this->nx];
     double *k4=new double[this->nx];
 
-    while(n<ny+1)
+// #pragma omp parallel for
+    for(uint16_t n=this->nValue; n<ny+1; n++)
       {
 	// cout<<"t="<<t<<'\n';
 
@@ -130,6 +140,7 @@ private:
 	// cout<<"-------------k4-----------"<<'\n';
 	k(edges, k4, 1, k3, stepSize);
 	// break;
+#pragma omp parallel for
 	for(uint16_t i=0; i<this->nx; i++)
 	  {
 	    double aa=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
@@ -138,7 +149,7 @@ private:
 	  }
 	// print(newValues, 0, nx);
 	uint16_t j=0;
-
+// #pragma omp parallel for
 	for(uint16_t i=(n-1)*this->nx; i<n*this->nx; i++)
 	  {
 	    // cout<<i<<" "<<n*this->nx<<" value before is "<<y_np1[i]<<'\n';
@@ -148,7 +159,7 @@ private:
 	  }
 	EquationSubstitute1(0, this->nValue, this->newValues, this->valuesSubstitute);
 	t+=stepSize;
-	n++;
+	// n++;
       }
     delete [] k1;
     delete [] k2;
@@ -158,10 +169,11 @@ private:
 public:
   void WriteResultsSubSub(std::ofstream &file1, const uint16_t vertex, const uint16_t iv, const uint16_t ivt)
   {
-    uint16_t i=vertex;
+    // uint16_t i=vertex;
     uint16_t k=1;
 
-    while(i<this->N)
+    // while(i<this->N)
+    for(uint16_t i=vertex; i<this->N; i+=this->nValue)
       {
 	if(k==ivt+1)
 	  {
@@ -171,7 +183,7 @@ public:
 	file1<<y_np1[i];
 	if(k<ivt) file1<<";";
 
-	i+=this->nValue;
+	// i+=this->nValue;
 	k++;
       }
   }
@@ -189,6 +201,7 @@ public:
 
   void WriteResults(const vector<uint16_t> &noOfInitialValue)
   {
+#pragma omp parallel for
     for(uint16_t i=0; i<this->nValue; i++)
       {
 	WriteResultsSub(i, noOfInitialValue[i]);
@@ -199,6 +212,7 @@ public:
   {
     std::copy(this->y_n, this->y_n+this->nx, this->newValues);
     this->N=N;
+    assert(stepSize>0);
     this->ny=(timeEnd-timeStart)/stepSize;
     RK4(edges, stepSize);
     WriteResults(noOfInitialValue);
@@ -207,6 +221,7 @@ public:
   RungeKutta4(){}
   RungeKutta4(const uint16_t nx, const uint16_t nv)
   {
+    cout<<"nv "<<nv<<'\n';
     this->nx=nx;
     this->nValue=nv;
     y_n=new double[nx];
