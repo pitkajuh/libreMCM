@@ -9,6 +9,7 @@
 #include "FileGraph.h"
 #include "FileEquations.h"
 #include "NumericalMethod.h"
+#include "Vertex.h"
 
 #define GetCurrentDir getcwd
 
@@ -59,7 +60,7 @@ void ReadInitialData(const string &directory)
   // RungeKutta4 numMethod(test1.nx, a1);
 
   // double *y_np1=nullptr;
-  test1.InitResults(numMethod.y_np1);
+  Vertex *vertices=test1.CreateVertices(numMethod.y_np1);
 
   MathOperators operators;
 
@@ -158,6 +159,7 @@ void ReadInitialData(const string &directory)
       // cout<<"k="<<k<<'\n';
       delete k;
     }
+  delete [] vertices;
 }
 
 int main(int argc, char** argv)

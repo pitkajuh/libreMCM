@@ -107,7 +107,7 @@ streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
   return from;
 }
 
-void FileGraph::InitResults(double *&results)
+Vertex *FileGraph::CreateVertices(double *&results)
 {
   // Results from the simulation are added to an array of doubles.
   // The initial values, provided by the user are added to the results
@@ -133,11 +133,26 @@ void FileGraph::InitResults(double *&results)
 	}
     }
 
+  Vertex *vertices=new Vertex[all.size()];
+
+  for(auto &[name, value]: all)
+    {
+      Vertex v(this->N, value.size());
+      uint16_t i=0;
+
+      for(const auto &[v1, v2]: value)
+	{
+	  v.values[i]=v2;
+	  i++;
+	}
+    }
+
   uint16_t j=0;
 
   // If nx is odd, fix from above where initial values are initialized.
   // cout<<" "<<'\n';
   cout<<"nx "<<nx<<" all "<<all.size()<<" delta "<<nx/all.size()<<'\n';
+  cout<<all.size()<<'\n';
   if(nx!=all.size())
     {
       double *test = new double[nx];
@@ -210,6 +225,7 @@ void FileGraph::InitResults(double *&results)
 
     }
   all.clear();
+  return vertices;
 }
 
 void FileGraph::InitInitialValues()

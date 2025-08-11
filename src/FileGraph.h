@@ -4,6 +4,7 @@
 #include "File.h"
 #include "Edge.h"
 #include "Equation.h"
+#include "Vertex.h"
 
 using std::set;
 
@@ -37,7 +38,7 @@ public:
   vector<Edge> edgesNew2;
 
   void CreateEdge(map<string, uint16_t> &equationNames, Equations &equations);
-  void InitResults(double *&results);
+  Vertex *CreateVertices(double *&results);
   FileGraph(const string &fileName, const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize);
 
   FileGraph(){}
