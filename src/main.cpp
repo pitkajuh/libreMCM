@@ -58,7 +58,7 @@ void ReadInitialData(const string &directory)
 
   RungeKutta4 numMethod(test1.nx, test1.noOfInitialValue.size());
   // RungeKutta4 numMethod(test1.nx, a1);
-
+  const uint16_t nv=test1.all.size();
   // double *y_np1=nullptr;
   Vertex *vertices=test1.CreateVertices(numMethod.y_np1);
 
@@ -94,7 +94,7 @@ void ReadInitialData(const string &directory)
   cout<<"ok1"<<'\n';
   test1.CreateEdge(test3.equationNames, equations);
   cout<<"ok2"<<'\n';
-  numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew2, test1.N, test1.noOfInitialValue);
+  numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew2, test1.N, test1.noOfInitialValue, vertices, nv);
   cout<<"ok3"<<'\n';
 
   // equations.Calculate();

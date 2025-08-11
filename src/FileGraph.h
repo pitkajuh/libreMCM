@@ -19,7 +19,7 @@ public:
 class FileGraph: public File
 {
 protected:
-  map<string, map<string, double>> all;
+
 
   string GetVertexName(string line);
   map<string, double> SetInitialValueName(vector<string> &ivs);
@@ -27,6 +27,7 @@ protected:
   void CreateEdges(const vector<string> &v);
   void InitInitialValues();
 public:
+  map<string, map<string, double>> all;
   uint16_t nx=0;
   uint16_t ny=0;
   uint16_t N=0;
