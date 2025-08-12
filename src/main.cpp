@@ -77,12 +77,13 @@ void ReadInitialData(const string &directory)
   }
 
   test1.Create(timeStart, timeEnd, stepSize);
-  numMethod.Create(test1.nx, test1.noOfInitialValue.size());
+
   nv=test1.all.size();
   vertices=test1.CreateVertices(numMethod.y_np1);
 
   cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<" "<<test1.noOfInitialValue.size()<<'\n';
 
+  numMethod.Create(test1.nx, test1.noOfInitialValue.size());
   std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
   std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
 
