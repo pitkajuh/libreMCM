@@ -76,10 +76,20 @@ void ReadInitialData(const string &directory)
     }
   }
 
-  test1.Create(timeStart, timeEnd, stepSize);
+#pragma omp taskgroup
+  {
+#pragma task shared(test1, nv)
+    {
+      test1.Create(timeStart, timeEnd, stepSize);
+      nv=test1.all.size();
+    }
+#pragma task shard(vertices)
+    {
+      vertices=test1.CreateVertices(numMethod.y_np1);
+    }
+  }
 
-  nv=test1.all.size();
-  vertices=test1.CreateVertices(numMethod.y_np1);
+
 
   cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<" "<<test1.noOfInitialValue.size()<<'\n';
 
