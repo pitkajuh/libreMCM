@@ -575,3 +575,8 @@ FileEquations::FileEquations(const string &fileName)
 {
   ReadFile(fileName);
 }
+
+void FileEquations::Read(const string &fileName)
+{
+  ReadFile(fileName);
+}

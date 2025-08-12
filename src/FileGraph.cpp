@@ -133,6 +133,7 @@ Vertex *FileGraph::CreateVertices(double *&results)
 	}
     }
 
+
   Vertex *vertices=new Vertex[all.size()];
 
   for(auto &[name, value]: all)
@@ -256,6 +257,31 @@ void FileGraph::InitInitialValues()
 }
 
 FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize)
+{
+  ny=(timeEnd-timeStart)/stepSize;
+  ReadFile(fileName);
+  InitInitialValues();
+
+  for(auto &[i, j]: all)
+    {
+      // noOfInitialValue.emplace_back(j.size()+nx);
+      noOfInitialValue.emplace_back(j.size());
+      nx+=j.size();
+      cout<<"nx "<<nx<<" "<<j.size()<<'\n';
+    }
+
+  uint16_t n=0;
+
+  for(const string &name: vertexNames)
+    {
+      vertexNamesMap[name]=n;
+      cout<<"n "<<n<<'\n';
+      n++;
+    }
+  vertexNames.clear();
+}
+
+void FileGraph::Read(const string &fileName, const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize)
 {
   ny=(timeEnd-timeStart)/stepSize;
   ReadFile(fileName);

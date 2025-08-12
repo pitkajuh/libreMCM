@@ -213,6 +213,16 @@ public:
     WriteResults(noOfInitialValue);
   }
 
+  void Create(const uint16_t nx, const uint16_t nv)
+  {
+    cout<<"nv "<<nv<<'\n';
+    this->nx=nx;
+    this->nValue=nv;
+    y_n=new double[nx];
+    newValues=new double[nx];
+    valuesSubstitute=new double[nv];
+  }
+
   RungeKutta4(){}
   RungeKutta4(const uint16_t nx, const uint16_t nv)
   {

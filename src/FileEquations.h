@@ -76,6 +76,7 @@ public:
   map<string, uint16_t> constantNames;
 
   Equations ParseEquations(map<string, uint16_t> &data, MathOperators &operators, double *variableValue, const vector<uint16_t> &noOfInitialValue, const uint16_t N);
+  void Read(const string &fileName);
 
   FileEquations(const string &fileName);
   FileEquations(){}

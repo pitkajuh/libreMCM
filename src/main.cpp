@@ -37,126 +37,98 @@ static struct option const options[]=
 void ReadInitialData(const string &directory)
 {
   cout<<"Start"<<'\n';
-  FileSettings test2(directory+"sim_params");
-  const uint16_t timeStart=std::stoi(test2.set[test2.settingsNames["time_start"]]);
-  const uint16_t timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
-  const uint16_t stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
-
-  if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
-  if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
-  if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
-
-  // Get other parameters here before clearing.
-  test2.set.clear();
-
-  FileEquations test3(directory+"bin");
-
-  FileGraph test1(directory+"graph.txt", timeStart, timeEnd, stepSize);
-
-  uint16_t a1=test1.nx/test1.noOfInitialValue.size();
-  if(a1<test1.noOfInitialValue.size()) a1=test1.noOfInitialValue.size();
-
-  RungeKutta4 numMethod(test1.nx, test1.noOfInitialValue.size());
-  // RungeKutta4 numMethod(test1.nx, a1);
-  const uint16_t nv=test1.all.size();
-  // double *y_np1=nullptr;
-  Vertex *vertices=test1.CreateVertices(numMethod.y_np1);
-
+  uint16_t timeStart;
+  uint16_t timeEnd;
+  uint16_t stepSize;
+  FileEquations test3;
+  FileGraph test1;
+  Vertex *vertices;
   MathOperators operators;
-
-  cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<" "<<test1.noOfInitialValue.size()<<'\n';
-
-  std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
-  // std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nx/numMethod.nValue, numMethod.valuesSubstitute);
-
-
-  std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
-  // std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.delta, numMethod.valuesSubstitute);
-
-
-  cout<<numMethod.nx/numMethod.nValue<<" "<<numMethod.nValue<<" "<<std::min(1, 2)<<'\n';
-
-  // for(int i=0; i<numMethod.nx/numMethod.nValue; i++)
-  // for(int i=0; i<std::min(numMethod.nValue, a1); i++)
-  cout<<"a1 "<<a1<<'\n';
-  // if(a1<numMethod.nValue) a1=numMethod.nValue;
-
-  // for(int i=0; i<numMethod.nValue; i++)
-  // for(int i=0; i<a1; i++)
-  for(int i=0; i<numMethod.nValue; i++)
-    {
-      cout<<"I="<<i<<" "<<&numMethod.valuesSubstitute[i]<<" "<<numMethod.valuesSubstitute[i]<<'\n';
-    }
-  cout<<"ok"<<'\n';
+  RungeKutta4 numMethod;
+  uint16_t nv;
+  Equations equations;
   std::unordered_set<double*> aoea;
 
-  Equations equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.valuesSubstitute, test1.noOfInitialValue, test1.noOfInitialValue.size());
-  cout<<"ok1"<<'\n';
-  test1.CreateEdge(test3.equationNames, equations);
-  cout<<"ok2"<<'\n';
+  #pragma omp taskgroup
+  {
+    #pragma omp taskwait
+    {
+      FileSettings test2(directory+"sim_params");
+      timeStart=std::stoi(test2.set[test2.settingsNames["time_start"]]);
+      if(timeStart<0) throw std::invalid_argument("Starting time cannot be negative");
+      timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
+      if(timeEnd<0) throw std::invalid_argument("Ending time cannot be negative");
+      stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
+
+      if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
+      if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
+      if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
+
+      // Get other parameters here before clearing.
+      test2.set.clear();
+    }
+#pragma omp taskwait
+    {
+      test3.Read(directory+"bin");
+    }
+#pragma omp taskwait
+    {
+      test1.Read(directory+"graph.txt", timeStart, timeEnd, stepSize);
+
+      numMethod.Create(test1.nx, test1.noOfInitialValue.size());
+      nv=test1.all.size();
+      vertices=test1.CreateVertices(numMethod.y_np1);
+
+
+      cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<" "<<test1.noOfInitialValue.size()<<'\n';
+
+      std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
+      std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
+
+      equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.valuesSubstitute, test1.noOfInitialValue, test1.noOfInitialValue.size());
+      cout<<"ok1"<<'\n';
+      test1.CreateEdge(test3.equationNames, equations);
+      cout<<"ok2"<<'\n';
+    }
+  }
+
   numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew2, test1.N, test1.noOfInitialValue, vertices, nv);
   cout<<"ok3"<<'\n';
 
-  // equations.Calculate();
-
   cout<<"Start clearing"<<'\n';
-  // int k=0;
+
   for(auto &i: equations.equations)
     {
       for(auto &j: i.vertices)
 	{
-	  // cout<<k<<'\n';
 	  if(j.value1!=nullptr)
 	    {
-	      // auto a12=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value1);
 	      auto a12=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.value1);
 
-	      if(a12!=j.value1)
-		{
-		  // cout<<"a12!=j.value1; "<<j.value1<<" "<<*j.value1<<'\n';
-		  aoea.insert(j.value1);
-		  // delete j.value1;
-		}
+	      if(a12!=j.value1) aoea.insert(j.value1);
+
 	    }
 
 	  if(j.value2!=nullptr)
 	    {
-	      // auto a13=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.value2);
 	      auto a13=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.value2);
 
-	      if(a13!=j.value2)
-		{
-		  // cout<<"a13!=j.value2 "<<j.value2<<" "<<*j.value2<<'\n';
-		  aoea.insert(j.value2);
-		  // delete j.value2;
-		}
+	      if(a13!=j.value2) aoea.insert(j.value2);
+
 	    }
 
 	  if(j.result!=nullptr)
 	    {
-	      // auto a14=std::find(numMethod.y_n, numMethod.y_n+test1.nx, *j.result);
 	      auto a14=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.result);
 
-	      if(a14!=j.result)
-		{
-		  // cout<<"a14!=j.result "<<j.result<<" "<<*j.result<<'\n';
-		  aoea.insert(j.result);
-		  // delete j.result;
-		}
+	      if(a14!=j.result) aoea.insert(j.result);
+
 	    }
-	  // k++;
-	  // cout<<" "<<'\n';
 	}
-
-
     }
-
-  // delete [] y_np1;
-  // delete numMethod;
 
   for(auto k: aoea)
     {
-      // cout<<"k="<<k<<'\n';
       delete k;
     }
   delete [] vertices;
