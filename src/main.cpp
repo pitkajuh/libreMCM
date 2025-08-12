@@ -76,37 +76,51 @@ void ReadInitialData(const string &directory)
     }
   }
 
-#pragma omp taskgroup
-  {
-#pragma task shared(test1, nv)
-    {
+// #pragma omp taskgroup
+//   {
+// #pragma omp task shared(test1, nv)
+//     {
       test1.Create(timeStart, timeEnd, stepSize);
       nv=test1.all.size();
-    }
-#pragma task shard(vertices)
-    {
+      test1.InitInitialValues();
+//     }
+// #pragma omp task shared(vertices, test1)
+//     {
+
       vertices=test1.CreateVertices(numMethod.y_np1);
-    }
-  }
+  //   }
+  // }
+
+// #pragma omp taskgroup
+//   {
+// #pragma omp task
+//     {
+      cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<" "<<test1.noOfInitialValue.size()<<'\n';
+
+      numMethod.Create(test1.nx, test1.noOfInitialValue.size());
+      std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
+      std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
+ //    }
+// #pragma omp task
+//     {
+      equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.valuesSubstitute, test1.noOfInitialValue, test1.noOfInitialValue.size());
+      cout<<"ok1"<<'\n';
+      test1.CreateEdge(test3.equationNames, equations);
+      cout<<"ok2"<<'\n';
+  //   }
+  // }
 
 
-
-  cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<" "<<test1.noOfInitialValue.size()<<'\n';
-
-  numMethod.Create(test1.nx, test1.noOfInitialValue.size());
-  std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
-  std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
-
-
-  equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.valuesSubstitute, test1.noOfInitialValue, test1.noOfInitialValue.size());
-  cout<<"ok1"<<'\n';
-  test1.CreateEdge(test3.equationNames, equations);
-  cout<<"ok2"<<'\n';
 
   numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew2, test1.N, test1.noOfInitialValue, vertices, nv);
   cout<<"ok3"<<'\n';
 
+// #pragma omp taskgroup
+//   {
+//   #pragma omp task
+//     {
   cout<<"Start clearing"<<'\n';
+
 
   for(auto &i: equations.equations)
     {
@@ -134,12 +148,16 @@ void ReadInitialData(const string &directory)
 	    }
 	}
     }
-
+    // }
+    // #pragma omp task
+    // {
   for(auto k: aoea)
     {
       delete k;
     }
   delete [] vertices;
+  //   }
+  // }
 }
 
 int main(int argc, char** argv)

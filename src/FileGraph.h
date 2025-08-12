@@ -25,7 +25,6 @@ protected:
   map<string, double> SetInitialValueName(vector<string> &ivs);
   streampos SA(ifstream &file, streampos from, const string &line);
   void CreateEdges(const vector<string> &v);
-  void InitInitialValues();
 public:
   map<string, map<string, double>> all;
   uint16_t nx=0;
@@ -37,6 +36,7 @@ public:
   map<string, std::pair<set<string>, set<string>>> vertexEquationsAddSubtract;
   vector<EdgeStruct> edges;
   vector<Edge> edgesNew2;
+  void InitInitialValues();
 
   void CreateEdge(map<string, uint16_t> &equationNames, Equations &equations);
   Vertex *CreateVertices(double *&results);
