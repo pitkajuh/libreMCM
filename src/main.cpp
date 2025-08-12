@@ -66,8 +66,9 @@ void ReadInitialData(const string &directory)
 
   test3.Read(directory+"bin");
 
-  test1.Read(directory+"graph.txt", timeStart, timeEnd, stepSize);
+  test1.Read(directory+"graph.txt");
 
+  test1.Create(timeStart, timeEnd, stepSize);
   numMethod.Create(test1.nx, test1.noOfInitialValue.size());
   nv=test1.all.size();
   vertices=test1.CreateVertices(numMethod.y_np1);

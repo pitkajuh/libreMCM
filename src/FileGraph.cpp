@@ -281,10 +281,14 @@ FileGraph::FileGraph(const string &fileName, const uint16_t timeStart, const uin
   vertexNames.clear();
 }
 
-void FileGraph::Read(const string &fileName, const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize)
+void FileGraph::Read(const string &fileName)
+{
+  ReadFile(fileName);
+}
+
+void FileGraph::Create(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize)
 {
   ny=(timeEnd-timeStart)/stepSize;
-  ReadFile(fileName);
   InitInitialValues();
 
   for(auto &[i, j]: all)
