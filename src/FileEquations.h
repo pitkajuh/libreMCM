@@ -10,7 +10,7 @@ struct TestStr
 {
 public:
   string str1;
-  string op;
+  char op;
   string str2;
 };
 
@@ -23,26 +23,21 @@ public:
   MathOperator *divide=new Div;
   MathOperator *power=new Exp;
 
-  MathOperator *GetOperator(const string &o)
+  MathOperator *GetOperator(const char o)
   {
-    // switch(o)
-    //   {
-    //   case '+':
-    // 	return add;
-    //   case '-':
-    // 	return subtract;
-    //   case '*':
-    // 	return multiply;
-    //   case '/':
-    // 	return divide;
-    //   default:
-    // 	return power;
-    //   }
-    if(o=="+") return add;
-    else if(o=="-") return subtract;
-    else if(o=="*") return multiply;
-    else if(o=="/") return divide;
-    else return power;
+    switch(o)
+      {
+      case '+':
+	return add;
+      case '-':
+	return subtract;
+      case '*':
+	return multiply;
+      case '/':
+	return divide;
+      default:
+	return power;
+      }
   }
 
   MathOperators(){}
@@ -60,7 +55,7 @@ class FileEquations: public File
 {
 protected:
   void RemoveMathOperation(const uint8_t id, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, const MathOperation &v, const uint8_t n, const uint8_t size, const uint8_t size2, const MathOperation &v0, const vector<MathOperation> &vv, double *data, const uint16_t N);
-  void CreateMathOperation(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<MathOperation> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, uint8_t n, const uint8_t size, const uint16_t N);
+  void CreateMathOperation(const string &s1, const string &s2, const char mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<MathOperation> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, uint8_t n, const uint8_t size, const uint16_t N);
   void GetOrder(string &str, uint8_t &id, vector<TestStr> &a);
   void RemoveOpenClose(string &equation, uint8_t &id, vector<TestStr> &a);
   void Convert(const map<uint16_t, string> &map);

@@ -19,8 +19,6 @@ public:
 class FileGraph: public File
 {
 protected:
-
-
   string GetVertexName(string line);
   map<string, double> SetInitialValueName(vector<string> &ivs);
   streampos SA(ifstream &file, streampos from, const string &line);

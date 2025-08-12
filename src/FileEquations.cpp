@@ -72,7 +72,7 @@ void FileEquations::RemoveMathOperation(const uint8_t id, std::set<uint8_t> &rem
     }
 }
 
-void FileEquations::CreateMathOperation(const string &s1, const string &s2, const string &mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<MathOperation> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, uint8_t n, const uint8_t size, const uint16_t N)
+void FileEquations::CreateMathOperation(const string &s1, const string &s2, const char mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<MathOperation> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, uint8_t n, const uint8_t size, const uint16_t N)
 {
   MathOperation v0;
 
@@ -531,7 +531,7 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
       const uint8_t to=GetRight(RHS);
       RHS=RHS.substr(0, to);
       const uint8_t size2=at+RHS.size()+1;
-      const string a3{str[at]};
+      const char a3{str[at]};
       const TestStr LHS1{LHS, a3, RHS};
 
       a.emplace_back(LHS1);
@@ -556,7 +556,7 @@ vector<TestStr> FileEquations::ToVector(string &eq)
   if(a.size()==0)
     {
       a.reserve(1);
-      const TestStr mo{eq, "+", "0"};
+      const TestStr mo{eq, '+', "0"};
       a.emplace_back(mo);
     }
   // cout<<" "<<'\n';
