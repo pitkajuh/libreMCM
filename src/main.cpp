@@ -58,12 +58,14 @@ void ReadInitialData(const string &directory)
       if(timeStart<0) throw std::invalid_argument("Starting time cannot be negative");
       timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
       if(timeEnd<0) throw std::invalid_argument("Ending time cannot be negative");
+      if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
+
       stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
 
-      if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
       if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
       if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
       // Get other parameters here before clearing.
+      // Get algorithm type, e.g. RK4
       test2.set.clear();
     }
 #pragma omp task shared(test3)
@@ -76,51 +78,23 @@ void ReadInitialData(const string &directory)
     }
   }
 
-// #pragma omp taskgroup
-//   {
-// #pragma omp task shared(test1, nv)
-//     {
-      test1.Create(timeStart, timeEnd, stepSize);
-      nv=test1.all.size();
-      test1.InitInitialValues();
-//     }
-// #pragma omp task shared(vertices, test1)
-//     {
+  test1.Create(timeStart, timeEnd, stepSize);
+  nv=test1.all.size();
+  test1.InitInitialValues();
+  vertices=test1.CreateVertices(numMethod.y_np1);
 
-      vertices=test1.CreateVertices(numMethod.y_np1);
-  //   }
-  // }
+  cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<" "<<test1.noOfInitialValue.size()<<'\n';
 
-// #pragma omp taskgroup
-//   {
-// #pragma omp task
-//     {
-      cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<" "<<test1.noOfInitialValue.size()<<'\n';
+  numMethod.Create(test1.nx, test1.noOfInitialValue.size());
+  std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
+  std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
 
-      numMethod.Create(test1.nx, test1.noOfInitialValue.size());
-      std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
-      std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
- //    }
-// #pragma omp task
-//     {
-      equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.valuesSubstitute, test1.noOfInitialValue, test1.noOfInitialValue.size());
-      cout<<"ok1"<<'\n';
-      test1.CreateEdge(test3.equationNames, equations);
-      cout<<"ok2"<<'\n';
-  //   }
-  // }
-
-
+  equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.valuesSubstitute, test1.noOfInitialValue, test1.noOfInitialValue.size());
+  test1.CreateEdge(test3.equationNames, equations);
 
   numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew2, test1.N, test1.noOfInitialValue, vertices, nv);
-  cout<<"ok3"<<'\n';
 
-// #pragma omp taskgroup
-//   {
-//   #pragma omp task
-//     {
   cout<<"Start clearing"<<'\n';
-
 
   for(auto &i: equations.equations)
     {
@@ -148,16 +122,12 @@ void ReadInitialData(const string &directory)
 	    }
 	}
     }
-    // }
-    // #pragma omp task
-    // {
+
   for(auto k: aoea)
     {
       delete k;
     }
   delete [] vertices;
-  //   }
-  // }
 }
 
 int main(int argc, char** argv)

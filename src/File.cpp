@@ -27,17 +27,9 @@ map<uint16_t, string> File::GetSettings(const vector<string> &ivs, map<string, u
 {
   uint16_t n=0;
   map<uint16_t, string> result;
-  uint16_t size=ivs.size();
+
   for(const auto &iv: ivs)
-// #pragma omp parallel for
-  // for(uint16_t i=0; i<size; i++)
     {
-      // const uint16_t at=ivs[i].find("=");
-      // const string name=ivs[i].substr(0, at);
-      // const string value=ivs[i].substr(at+1, ivs[i].size()-1);
-      // result[n]=value;
-      // nameMap[name]=n;
-      // n++;
       const uint16_t at=iv.find("=");
       const string name=iv.substr(0, at);
       const string value=iv.substr(at+1, iv.size()-1);
@@ -113,6 +105,5 @@ void File::ReadFile(const string &fileName)
       if(line.size()==0 or LineCommented(line)) continue;
       from=SA(file, from, line);
     }
-
   file.close();
 }

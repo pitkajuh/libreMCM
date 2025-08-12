@@ -1,8 +1,6 @@
 #ifndef NUMERICALMETHOD_H
 #define NUMERICALMETHOD_H
 
-#include <cassert>
-
 class NumericalMethod
 {
 public:
@@ -207,7 +205,6 @@ public:
   {
     std::copy(this->y_n, this->y_n+this->nx, this->newValues);
     this->N=N;
-    assert(stepSize>0);
     this->ny=(timeEnd-timeStart)/stepSize;
     RK4(edges, stepSize, vertices, nv);
     WriteResults(noOfInitialValue);
@@ -218,21 +215,12 @@ public:
     cout<<"nv "<<nv<<'\n';
     this->nx=nx;
     this->nValue=nv;
-    y_n=new double[nx];
-    newValues=new double[nx];
-    valuesSubstitute=new double[nv];
+    this->y_n=new double[nx];
+    this->newValues=new double[nx];
+    this->valuesSubstitute=new double[nv];
   }
 
   RungeKutta4(){}
-  RungeKutta4(const uint16_t nx, const uint16_t nv)
-  {
-    cout<<"nv "<<nv<<'\n';
-    this->nx=nx;
-    this->nValue=nv;
-    y_n=new double[nx];
-    newValues=new double[nx];
-    valuesSubstitute=new double[nv];
-  }
   ~RungeKutta4(){}
 };
 

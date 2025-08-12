@@ -27,13 +27,13 @@ public:
   {
     // switch(o)
     //   {
-    //   case "+":
+    //   case '+':
     // 	return add;
-    //   case "-":
+    //   case '-':
     // 	return subtract;
-    //   case "*":
+    //   case '*':
     // 	return multiply;
-    //   case "/":
+    //   case '/':
     // 	return divide;
     //   default:
     // 	return power;
