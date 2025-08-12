@@ -49,30 +49,37 @@ void ReadInitialData(const string &directory)
   Equations equations;
   std::unordered_set<double*> aoea;
 
+#pragma omp taskgroup
+  {
+#pragma omp task shared(timeStart, timeEnd, stepSize)
+    {
+      FileSettings test2(directory+"sim_params");
+      timeStart=std::stoi(test2.set[test2.settingsNames["time_start"]]);
+      if(timeStart<0) throw std::invalid_argument("Starting time cannot be negative");
+      timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
+      if(timeEnd<0) throw std::invalid_argument("Ending time cannot be negative");
+      stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
 
-  FileSettings test2(directory+"sim_params");
-  timeStart=std::stoi(test2.set[test2.settingsNames["time_start"]]);
-  if(timeStart<0) throw std::invalid_argument("Starting time cannot be negative");
-  timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
-  if(timeEnd<0) throw std::invalid_argument("Ending time cannot be negative");
-  stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
-
-  if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
-  if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
-  if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
-
-  // Get other parameters here before clearing.
-  test2.set.clear();
-
-  test3.Read(directory+"bin");
-
-  test1.Read(directory+"graph.txt");
+      if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
+      if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
+      if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
+      // Get other parameters here before clearing.
+      test2.set.clear();
+    }
+#pragma omp task shared(test3)
+    {
+      test3.Read(directory+"bin");
+    }
+#pragma omp task shared(test1)
+    {
+      test1.Read(directory+"graph.txt");
+    }
+  }
 
   test1.Create(timeStart, timeEnd, stepSize);
   numMethod.Create(test1.nx, test1.noOfInitialValue.size());
   nv=test1.all.size();
   vertices=test1.CreateVertices(numMethod.y_np1);
-
 
   cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<" "<<test1.noOfInitialValue.size()<<'\n';
 
@@ -99,7 +106,6 @@ void ReadInitialData(const string &directory)
 	      auto a12=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.value1);
 
 	      if(a12!=j.value1) aoea.insert(j.value1);
-
 	    }
 
 	  if(j.value2!=nullptr)
@@ -107,7 +113,6 @@ void ReadInitialData(const string &directory)
 	      auto a13=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.value2);
 
 	      if(a13!=j.value2) aoea.insert(j.value2);
-
 	    }
 
 	  if(j.result!=nullptr)
@@ -115,7 +120,6 @@ void ReadInitialData(const string &directory)
 	      auto a14=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.result);
 
 	      if(a14!=j.result) aoea.insert(j.result);
-
 	    }
 	}
     }
