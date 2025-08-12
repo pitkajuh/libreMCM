@@ -49,48 +49,40 @@ void ReadInitialData(const string &directory)
   Equations equations;
   std::unordered_set<double*> aoea;
 
-  #pragma omp taskgroup
-  {
-    #pragma omp taskwait
-    {
-      FileSettings test2(directory+"sim_params");
-      timeStart=std::stoi(test2.set[test2.settingsNames["time_start"]]);
-      if(timeStart<0) throw std::invalid_argument("Starting time cannot be negative");
-      timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
-      if(timeEnd<0) throw std::invalid_argument("Ending time cannot be negative");
-      stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
 
-      if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
-      if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
-      if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
+  FileSettings test2(directory+"sim_params");
+  timeStart=std::stoi(test2.set[test2.settingsNames["time_start"]]);
+  if(timeStart<0) throw std::invalid_argument("Starting time cannot be negative");
+  timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
+  if(timeEnd<0) throw std::invalid_argument("Ending time cannot be negative");
+  stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
 
-      // Get other parameters here before clearing.
-      test2.set.clear();
-    }
-#pragma omp taskwait
-    {
-      test3.Read(directory+"bin");
-    }
-#pragma omp taskwait
-    {
-      test1.Read(directory+"graph.txt", timeStart, timeEnd, stepSize);
+  if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
+  if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
+  if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
 
-      numMethod.Create(test1.nx, test1.noOfInitialValue.size());
-      nv=test1.all.size();
-      vertices=test1.CreateVertices(numMethod.y_np1);
+  // Get other parameters here before clearing.
+  test2.set.clear();
+
+  test3.Read(directory+"bin");
+
+  test1.Read(directory+"graph.txt", timeStart, timeEnd, stepSize);
+
+  numMethod.Create(test1.nx, test1.noOfInitialValue.size());
+  nv=test1.all.size();
+  vertices=test1.CreateVertices(numMethod.y_np1);
 
 
-      cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<" "<<test1.noOfInitialValue.size()<<'\n';
+  cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<" "<<test1.noOfInitialValue.size()<<'\n';
 
-      std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
-      std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
+  std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
+  std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
 
-      equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.valuesSubstitute, test1.noOfInitialValue, test1.noOfInitialValue.size());
-      cout<<"ok1"<<'\n';
-      test1.CreateEdge(test3.equationNames, equations);
-      cout<<"ok2"<<'\n';
-    }
-  }
+
+  equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.valuesSubstitute, test1.noOfInitialValue, test1.noOfInitialValue.size());
+  cout<<"ok1"<<'\n';
+  test1.CreateEdge(test3.equationNames, equations);
+  cout<<"ok2"<<'\n';
 
   numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew2, test1.N, test1.noOfInitialValue, vertices, nv);
   cout<<"ok3"<<'\n';
