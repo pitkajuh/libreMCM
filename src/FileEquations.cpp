@@ -127,16 +127,9 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
     }
   else if(b1.constant and b2.variable)
     {
-      // cout<<"b1.constant and b2.variable from "<<s2<<'\n';
       v0.value2Negative=b2.negative;
       const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
-      // cout<<std::to_string(id2)<<" at, "<<" size "<<N<<'\n';
-      // const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
-      // cout<<"b1.constant and b2.variable from "<<std::to_string(from2)<<" "<<s2<<" value "<<variableValue[id2]<<'\n';
-      // v0.value2=&variableValue[from2];
-      // cout<<"value "<<variableValue[id2]<<'\n';
       v0.value2=&variableValue[id2];
-
       v0.result=new double(notSet);
       v0.mathOperator=operators.GetOperator(mathOperator);
 
@@ -267,17 +260,10 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
     }
   else if(b1.math and b2.variable)
     {
-      // cout<<"b1.math and b2.variable from "<<s2<<'\n';
       v0.result=new double(notSet);
       v0.value2Negative=b2.negative;
       const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
-      // cout<<std::to_string(id2)<<" "<<noOfInitialValue.size()<<" "<<N<<'\n';
-      // const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
-      // cout<<"b1.math and b2.variable from "<<std::to_string(from2)<<" "<<s2<<" value "<<variableValue[id2]<<'\n';
-      // v0.value2=&variableValue[from2];
-      // cout<<"value "<<variableValue[id2]<<'\n';
       v0.value2=&variableValue[id2];
-
       v0.mathOperator=operators.GetOperator(mathOperator);
       const uint8_t id1=stoi(s1.substr(1));
       const MathOperation v1=vv[id1];
@@ -394,7 +380,6 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
       uint8_t i=0;
       for(const TestStr &eq: equation)
 	{
-	  // cout<<"i="<<std::to_string(i)<<"/"<<equation.size()-1<<'\n';
 	  const Bools b1(eq.str1, data, constantNames);
 	  const Bools b2(eq.str2, data, constantNames);
 	  CreateMathOperation(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data, removeIndices, removeAddress, i, equation.size(), N);
@@ -405,7 +390,6 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
 
       for(const auto &i: removeIndices)
 	{
-	  // cout<<"Remove "<<std::to_string(i)<<'\n';
 	  equationNew.vertices.erase(equationNew.vertices.begin()+i-j);
 	  j++;
 	}
@@ -414,7 +398,6 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
 
       for(const auto &i: removeAddress)
 	{
-	  // cout<<"Delete "<<i<<'\n';
 	  delete i;
 	}
 
@@ -423,8 +406,6 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
 
       equationNew.vertices.reserve(equationNew.vertices.size());
       equationsNew.equations.emplace_back(equationNew);
-      // cout<<"size "<<equationNew.vertices.size()<<'\n';
-      // cout<<" "<<'\n';
     }
   equationsNew.equations.reserve(equationsNew.equations.size());
   equations.clear();
@@ -500,7 +481,6 @@ uint8_t FileEquations::GetLeft(string &str)
 void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
 {
   uint8_t at=0;
-  // cout<<"GetOrder "<<str<<'\n';
 
   while(str.size()>2)
     {
@@ -539,7 +519,6 @@ void FileEquations::GetOrder(string &str, uint8_t &id, vector<TestStr> &a)
       str.replace(str.begin()+size1-LHS.size(), str.begin()+size2, "@"+to_string(id));
       id++;
     }
-  // cout<<"-------------------------------------"<<'\n';
 }
 
 vector<TestStr> FileEquations::ToVector(string &eq)
@@ -549,7 +528,6 @@ vector<TestStr> FileEquations::ToVector(string &eq)
   uint8_t id=0;
 
   RemoveOpenClose(eq, id, a);
-  // cout<<"EQ "<<eq<<'\n';
   GetOrder(eq, id, a);
   a.reserve(id);
 
@@ -559,15 +537,6 @@ vector<TestStr> FileEquations::ToVector(string &eq)
       const TestStr mo{eq, '+', "0"};
       a.emplace_back(mo);
     }
-  // cout<<" "<<'\n';
-
-  // int j=0;
-
-  // for(const auto &i: a)
-  //   {
-  //     // cout<<"@"<<j<<" "<<i.str1<<i.op<<i.str2<<'\n';
-  //     j++;
-  //   }
   return a;
 }
 

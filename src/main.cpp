@@ -53,19 +53,19 @@ void ReadInitialData(const string &directory)
   {
 #pragma omp task shared(timeStart, timeEnd, stepSize)
     {
-      FileSettings test2(directory+"sim_params");
-      timeStart=std::stoi(test2.set[test2.settingsNames["time_start"]]);
+      FileSettings simulationParameters(directory+"sim_params");
+      timeStart=std::stoi(simulationParameters.set[simulationParameters.settingsNames["time_start"]]);
       if(timeStart<0) throw std::invalid_argument("Starting time cannot be negative");
-      timeEnd=std::stoi(test2.set[test2.settingsNames["time_end"]]);
+      timeEnd=std::stoi(simulationParameters.set[simulationParameters.settingsNames["time_end"]]);
       if(timeEnd<0) throw std::invalid_argument("Ending time cannot be negative");
       if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
 
-      stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
+      stepSize=std::stoi(simulationParameters.set[simulationParameters.settingsNames["step_size"]]);
       if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
       if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
       // Get other parameters here before clearing.
       // Get algorithm type, e.g. RK4
-      test2.set.clear();
+      simulationParameters.set.clear();
     }
 #pragma omp task shared(equationsFromFile)
     {
@@ -73,7 +73,7 @@ void ReadInitialData(const string &directory)
     }
 #pragma omp task shared(graphFromFile)
     {
-      graphFromFile.Read(directory+"graph2.txt");
+      graphFromFile.Read(directory+"graph.txt");
     }
   }
 
@@ -82,8 +82,6 @@ void ReadInitialData(const string &directory)
   graphFromFile.InitInitialValues();
   vertices=graphFromFile.CreateVertices(numMethod.y_np1);
 
-  cout<<"main.cpp "<<graphFromFile.N<<" "<<graphFromFile.nx<<" "<<graphFromFile.ny<<" "<<graphFromFile.noOfInitialValue.size()<<'\n';
-
   numMethod.Create(graphFromFile.nx, graphFromFile.noOfInitialValue.size());
   std::copy(numMethod.y_np1, numMethod.y_np1+graphFromFile.nx, numMethod.y_n);
   std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
@@ -91,7 +89,7 @@ void ReadInitialData(const string &directory)
   equations=equationsFromFile.ParseEquations(graphFromFile.vertexNamesMap, operators, numMethod.valuesSubstitute, graphFromFile.noOfInitialValue, graphFromFile.noOfInitialValue.size());
   graphFromFile.CreateEdge(equationsFromFile.equationNames, equations);
 
-  numMethod.Calculate(timeStart, timeEnd, stepSize, graphFromFile.edgesNew2, graphFromFile.N, graphFromFile.noOfInitialValue, vertices, nv);
+  numMethod.Calculate(timeStart, timeEnd, stepSize, graphFromFile.edgesNew2, graphFromFile.N, graphFromFile.noOfInitialValue, vertices, nv, directory);
 
   cout<<"Start clearing"<<'\n';
 
@@ -131,45 +129,18 @@ void ReadInitialData(const string &directory)
 
 int main(int argc, char** argv)
 {
-  // if(argc<2)
-  //   {
-  //     cout<<"Provide arguments."<<'\n';
-  //     return 0;
-  //   }
-  // else
-  //   {
+  if(argc>2)
+    {
+      cout<<"Too many arguments."<<'\n';
+      return 0;
+    }
+  else
+    {
       // Get current working directory.
       char buff[FILENAME_MAX];
       GetCurrentDir(buff, FILENAME_MAX);
       string directory(buff);
-      directory=directory+"/";
-      // int c;
-
-      // while((c=getopt_long(argc, argv, "dp", options, NULL))!=-1)
-      // 	{
-      // 	  switch(c)
-      // 	    {
-      // 	    case 'd':
-      // 	      run_deterministic_sim=true;
-      // 	      break;
-      // 	    case NUM_METHOD_OPTION:
-      // 	      break;
-      // 	    case TIME_START_OPTION:
-      // 	      break;
-      // 	    case TIME_END_OPTION:
-      // 	      break;
-      // 	    case STEP_SIZE_OPTION:
-      // 	      break;
-      // 	    default:
-      // 	      exit(1);
-      // 	    }
-      // 	}
-      // ReadInitialData(directory);
-
-      // if(run_deterministic_sim)
-      // 	{
-      // 	  ReadInitialData(directory);
-      //
+      directory=directory+"/"+argv[1];
 
       cout<<"Starting "<<directory<<'\n';
       auto begin=std::chrono::high_resolution_clock::now();
@@ -182,7 +153,7 @@ int main(int argc, char** argv)
 
       cout<<"Runtime: "<<duration.count()/1000<<" milliseconds "<<(double)duration.count()/1e6<<" seconds"<<'\n';
       cout<<"################################################################"<<'\n';
-    // }
+    }
   return 0;
 
 }

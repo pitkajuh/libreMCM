@@ -96,6 +96,12 @@ void File::ReadFile(const string &fileName)
   streampos from=0;
   string line;
   ifstream file(fileName);
+  if(file.fail())
+    {
+      std::cerr<<fileName<<" not found. Exiting."<<'\n';
+      exit(1);
+    }
+
   file.seekg(from);
 
   while(getline(file, line))

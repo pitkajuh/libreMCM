@@ -14,7 +14,7 @@ public:
   uint16_t nValue=0;
 
   NumericalMethod(){}
-  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const uint16_t N, const vector<uint16_t> &noOfInitialValue, Vertex *vertices, const uint16_t nv)=0;
+  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const uint16_t N, const vector<uint16_t> &noOfInitialValue, Vertex *vertices, const uint16_t nv, const string directory)=0;
   virtual ~NumericalMethod()
   {
     delete [] newValues;
@@ -47,8 +47,6 @@ private:
       {
 	auto a1=equation[i].Calculate();
 	k[i]=stepSize*a1;
-	// cout<<i<<" k0 "<<stepSize<<"*"<<a1<<"="<<k[i]<<'\n';
-	// cout<<" "<<'\n';
       }
   }
 
@@ -58,31 +56,22 @@ private:
       {
 	auto a1=equation[i].Calculate();
 	k[i+j]=stepSize*a1;
-	// k[i]=stepSize*a1;
-	// cout<<i+j<<" k01 "<<stepSize<<"*"<<a1<<"="<<k[i+j]<<'\n';
-	// cout<<" "<<'\n';
-
       }
   }
 
   void EquationSubstitute1(const uint16_t from, const uint16_t to, const double *kFrom, double *kTo)
   {
-    // cout<<from<<" "<<to<<'\n';
 #pragma omp parallel for
     for(uint16_t i=from; i<to; i++)
       {
-	// cout<<"i2="<<i<<" "<<kFrom[i]<<'\n';
 	kTo[i-from]=kFrom[i];
       }
-    // cout<<" "<<'\n';
   }
 
   void EquationSubstitute(const uint16_t from, const uint16_t to, const double *kFrom, double *kTo)
   {
-    // cout<<from<<" "<<to<<'\n';
     for(uint16_t i=from; i<to; i++)
       {
-	// cout<<"i2="<<i<<" "<<kFrom[i]<<'\n';
 	kTo[i-from]=kFrom[i];
       }
 
@@ -96,7 +85,6 @@ private:
 	for(uint16_t j=i; j<i+this->nValue; j++)
 	  {
 	    const double a=this->y_n[j]+constant*kPrevious[j];
-	    // cout<<j<<" "<<this->y_n[j]<<"+"<<constant<<"*"<<kPrevious[j]<<"="<<a<<'\n';
 	    this->valuesSubstitute[j-i]=a;
 	  }
 	Calculate1(equation, k, i, stepSize);
@@ -110,7 +98,6 @@ private:
 #pragma omp parallel for
     for(uint16_t i=this->nValue; i<this->nx; i+=this->nValue)
       {
-	// cout<<"I="<<i<<" "<<i+this->nValue<<'\n';
 	EquationSubstitute(i, i+this->nValue, k1, this->valuesSubstitute);
 	Calculate1(equation, k, i, stepSize);
       }
@@ -126,30 +113,20 @@ private:
 // #pragma omp parallel for
     for(uint16_t n=this->nValue; n<ny+1; n++)
       {
-	// cout<<"t="<<t<<'\n';
-
-	// cout<<"-----------k1-----------"<<'\n';
 	k0(edges, k1, this->y_n, stepSize);
-	// cout<<"-----------k2-----------"<<'\n';
 	k(edges, k2, 0.5, k1, stepSize);
-	// cout<<"-----------k3-----------"<<'\n';
 	k(edges, k3, 0.5, k2, stepSize);
-	// cout<<"-------------k4-----------"<<'\n';
 	k(edges, k4, 1, k3, stepSize);
-	// break;
 #pragma omp parallel for
 	for(uint16_t i=0; i<this->nx; i++)
 	  {
 	    double aa=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
 	    this->newValues[i]+=aa;
-	    // cout<<aa<<" "<<k1[i]<<" "<<k2[i]<<" "<<k3[i]<<" "<<k4[i]<<"="<<newValues[i]<<'\n';
 	  }
-	// print(newValues, 0, nx);
 	uint16_t j=0;
 // #pragma omp parallel for
 	for(uint16_t i=(n-1)*this->nx; i<n*this->nx; i++)
 	  {
-	    // cout<<i<<" "<<n*this->nx<<" value before is "<<y_np1[i]<<'\n';
 	    this->y_np1[i]=this->newValues[j];
 	    this->y_n[j]=this->newValues[j];
 	    j++;
@@ -176,14 +153,13 @@ public:
 	file1<<y_np1[i];
 	if(k<ivt) file1<<";";
 
-	// i+=this->nValue;
 	k++;
       }
   }
 
-  void WriteResultsSub(const uint16_t vertex, const uint16_t initialValues)
+  void WriteResultsSub(const uint16_t vertex, const uint16_t initialValues, const string directory)
   {
-    std::ofstream file1(std::to_string(vertex)+".txt");
+    std::ofstream file1(directory+std::to_string(vertex)+".txt");
 
     for(uint16_t i=0; i<initialValues; i++)
       {
@@ -192,27 +168,26 @@ public:
     file1.close();
   }
 
-  void WriteResults(const vector<uint16_t> &noOfInitialValue)
+  void WriteResults(const vector<uint16_t> &noOfInitialValue, const string directory)
   {
 #pragma omp parallel for
     for(uint16_t i=0; i<this->nValue; i++)
       {
-	WriteResultsSub(i, noOfInitialValue[i]);
+	WriteResultsSub(i, noOfInitialValue[i], directory);
       }
   }
 
-  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const uint16_t N, const vector<uint16_t> &noOfInitialValue, Vertex *vertices, const uint16_t nv)
+  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const uint16_t N, const vector<uint16_t> &noOfInitialValue, Vertex *vertices, const uint16_t nv, const string directory)
   {
     std::copy(this->y_n, this->y_n+this->nx, this->newValues);
     this->N=N;
     this->ny=(timeEnd-timeStart)/stepSize;
     RK4(edges, stepSize, vertices, nv);
-    WriteResults(noOfInitialValue);
+    WriteResults(noOfInitialValue, directory);
   }
 
   void Create(const uint16_t nx, const uint16_t nv)
   {
-    cout<<"nv "<<nv<<'\n';
     this->nx=nx;
     this->nValue=nv;
     this->y_n=new double[nx];

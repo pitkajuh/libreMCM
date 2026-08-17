@@ -113,7 +113,6 @@ Vertex *FileGraph::CreateVertices(double *&results)
   // The initial values, provided by the user are added to the results
   // because they represent the status of the system at t=timeStart.
   N=nx*ny;
-  cout<<"N "<<N<<" "<<nx<<" "<<ny<<'\n';
   results=new double[N];
   uint16_t i=0;
 
@@ -124,11 +123,9 @@ Vertex *FileGraph::CreateVertices(double *&results)
 
   for(auto &[name, value]: all)
     {
-      // cout<<name<<'\n';
       for(const auto&[v1, v2]: value)
 	{
 	  results[i]=v2;
-	  // cout<<v1<<" "<<v2<<'\n';
 	  i++;
 	}
     }
@@ -151,9 +148,6 @@ Vertex *FileGraph::CreateVertices(double *&results)
   uint16_t j=0;
 
   // If nx is odd, fix from above where initial values are initialized.
-  // cout<<" "<<'\n';
-  cout<<"nx "<<nx<<" all "<<all.size()<<" delta "<<nx/all.size()<<'\n';
-  cout<<all.size()<<'\n';
   if(nx!=all.size())
     {
       double *test = new double[nx];
@@ -161,7 +155,6 @@ Vertex *FileGraph::CreateVertices(double *&results)
 
       if(all.size()%2==0)
 	{
-	  cout<<"even"<<'\n';
 	  i=1;
 
 	  while(i<nx)
@@ -174,26 +167,16 @@ Vertex *FileGraph::CreateVertices(double *&results)
 
 	  for(uint16_t i=0; i<nx; i++)
 	    {
-	      // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
-	      // cout<<"i="<<i<<" "<<test[i]<<" "<<&test[i]<<'\n';
 	      results[i]=test[i];
 	    }
 	  delete [] test;
 	}
-      // else if()
-      //   {
-
-      //   }
       else
 	{
-	  cout<<"not even"<<'\n';
 	  i=0;
 
 	  while(i<nx)
 	    {
-	      // cout<<j<<" "<<i<<'\n';
-	      // cout<<j+all.size()<<" "<<i+1<<'\n';
-	      // cout<<" "<<'\n';
 	      test[j]=results[i];
 	      test[j+all.size()]=results[i+1];
 	      i+=delta;
@@ -202,28 +185,11 @@ Vertex *FileGraph::CreateVertices(double *&results)
 
 	  for(uint16_t i=0; i<nx; i++)
 	    {
-	      // cout<<"i="<<i<<" "<<results[i]<<" "<<&results[i]<<'\n';
-	      cout<<"i="<<i<<" "<<test[i]<<" "<<&test[i]<<'\n';
 	      results[i]=test[i];
 	    }
 	  delete [] test;
 
 	}
-      // while(i<nx)
-      // 	{
-      // 	  // cout<<j<<" "<<i<<'\n';
-      // 	  // cout<<j+all.size()<<" "<<i+1<<'\n';
-      // 	  // cout<<j+all.size()+delta<<" "<<i+2<<'\n';
-      // 	  // cout<<j+all.size()<<" "<<i+1<<'\n';
-      // 	  // cout<<" "<<'\n';
-      // 	  test[j]=results[i];
-      // 	  test[j+all.size()]=results[i+1];
-      // 	  test[j+all.size()+delta]=results[i+2];
-      // 	  i+=delta;
-      // 	  j++;
-      // 	}
-
-
     }
   all.clear();
   return vertices;
@@ -267,10 +233,8 @@ void FileGraph::Create(const uint16_t timeStart, const uint16_t timeEnd, const u
 
   for(auto &[i, j]: all)
     {
-      // noOfInitialValue.emplace_back(j.size()+nx);
       noOfInitialValue.emplace_back(j.size());
       nx+=j.size();
-      cout<<"nx "<<nx<<" "<<j.size()<<'\n';
     }
 
   uint16_t n=0;
@@ -278,7 +242,6 @@ void FileGraph::Create(const uint16_t timeStart, const uint16_t timeEnd, const u
   for(const string &name: vertexNames)
     {
       vertexNamesMap[name]=n;
-      cout<<"n "<<n<<'\n';
       n++;
     }
   vertexNames.clear();
