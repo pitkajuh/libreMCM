@@ -40,14 +40,14 @@ void ReadInitialData(const string &directory)
   uint16_t timeStart;
   uint16_t timeEnd;
   uint16_t stepSize;
-  FileEquations test3;
-  FileGraph test1;
+  FileEquations equationsFromFile;
+  FileGraph graphFromFile;
   Vertex *vertices;
   MathOperators operators;
   RungeKutta4 numMethod;
   uint16_t nv;
   Equations equations;
-  std::unordered_set<double*> aoea;
+  std::unordered_set<double*> memoryToClear;
 
 #pragma omp taskgroup
   {
@@ -67,31 +67,31 @@ void ReadInitialData(const string &directory)
       // Get algorithm type, e.g. RK4
       test2.set.clear();
     }
-#pragma omp task shared(test3)
+#pragma omp task shared(equationsFromFile)
     {
-      test3.Read(directory+"bin");
+      equationsFromFile.Read(directory+"bin");
     }
-#pragma omp task shared(test1)
+#pragma omp task shared(graphFromFile)
     {
-      test1.Read(directory+"graph.txt");
+      graphFromFile.Read(directory+"graph2.txt");
     }
   }
 
-  test1.Create(timeStart, timeEnd, stepSize);
-  nv=test1.all.size();
-  test1.InitInitialValues();
-  vertices=test1.CreateVertices(numMethod.y_np1);
+  graphFromFile.Create(timeStart, timeEnd, stepSize);
+  nv=graphFromFile.all.size();
+  graphFromFile.InitInitialValues();
+  vertices=graphFromFile.CreateVertices(numMethod.y_np1);
 
-  cout<<"main.cpp "<<test1.N<<" "<<test1.nx<<" "<<test1.ny<<" "<<test1.noOfInitialValue.size()<<'\n';
+  cout<<"main.cpp "<<graphFromFile.N<<" "<<graphFromFile.nx<<" "<<graphFromFile.ny<<" "<<graphFromFile.noOfInitialValue.size()<<'\n';
 
-  numMethod.Create(test1.nx, test1.noOfInitialValue.size());
-  std::copy(numMethod.y_np1, numMethod.y_np1+test1.nx, numMethod.y_n);
+  numMethod.Create(graphFromFile.nx, graphFromFile.noOfInitialValue.size());
+  std::copy(numMethod.y_np1, numMethod.y_np1+graphFromFile.nx, numMethod.y_n);
   std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
 
-  equations=test3.ParseEquations(test1.vertexNamesMap, operators, numMethod.valuesSubstitute, test1.noOfInitialValue, test1.noOfInitialValue.size());
-  test1.CreateEdge(test3.equationNames, equations);
+  equations=equationsFromFile.ParseEquations(graphFromFile.vertexNamesMap, operators, numMethod.valuesSubstitute, graphFromFile.noOfInitialValue, graphFromFile.noOfInitialValue.size());
+  graphFromFile.CreateEdge(equationsFromFile.equationNames, equations);
 
-  numMethod.Calculate(timeStart, timeEnd, stepSize, test1.edgesNew2, test1.N, test1.noOfInitialValue, vertices, nv);
+  numMethod.Calculate(timeStart, timeEnd, stepSize, graphFromFile.edgesNew2, graphFromFile.N, graphFromFile.noOfInitialValue, vertices, nv);
 
   cout<<"Start clearing"<<'\n';
 
@@ -103,26 +103,26 @@ void ReadInitialData(const string &directory)
 	    {
 	      auto a12=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.value1);
 
-	      if(a12!=j.value1) aoea.insert(j.value1);
+	      if(a12!=j.value1) memoryToClear.insert(j.value1);
 	    }
 
 	  if(j.value2!=nullptr)
 	    {
 	      auto a13=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.value2);
 
-	      if(a13!=j.value2) aoea.insert(j.value2);
+	      if(a13!=j.value2) memoryToClear.insert(j.value2);
 	    }
 
 	  if(j.result!=nullptr)
 	    {
 	      auto a14=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.result);
 
-	      if(a14!=j.result) aoea.insert(j.result);
+	      if(a14!=j.result) memoryToClear.insert(j.result);
 	    }
 	}
     }
 
-  for(auto k: aoea)
+  for(auto k: memoryToClear)
     {
       delete k;
     }
