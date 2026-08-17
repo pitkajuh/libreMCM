@@ -61,7 +61,6 @@ void ReadInitialData(const string &directory)
       if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
 
       stepSize=std::stoi(test2.set[test2.settingsNames["step_size"]]);
-
       if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
       if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
       // Get other parameters here before clearing.
