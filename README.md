@@ -18,7 +18,7 @@ In order to build libreMCM on Linux, run the following commands
 ```shell
 mkdir build
 cd build/
-cmake ..
+cmake -DCMAKE_BUILD_TYPE=RELEASE ../libreMCM
 make
 ```
 
