@@ -6,3 +6,9 @@ compartments
 sim_params
 1.txt
 0.txt
+tutorials/test/
+build/
+libreMCM (1).tar.gz
+libreMCM.tar.gz
+progs
+testing/

@@ -42,9 +42,20 @@ map<uint16_t, string> File::GetSettings(const vector<string> &ivs, map<string, u
 
 void File::AddLine(vector<string> &content, string &line)
 {
-  while(line.size()>1)
+  uint16_t at=line.find(";");
+
+  if(at>line.size())
     {
-      const uint16_t at=line.find(";");
+      std::cerr<<"Missing \";\" in line "<<line<<'\n';
+      exit(1);
+    }
+
+  content.emplace_back(line.substr(0, at));
+  line.erase(line.begin(), line.begin()+at+1);
+
+  while(at<line.size())
+    {
+      at=line.find(";");
       content.emplace_back(line.substr(0, at));
       line.erase(line.begin(), line.begin()+at+1);
     }
