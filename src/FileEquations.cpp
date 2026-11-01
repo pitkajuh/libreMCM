@@ -72,7 +72,7 @@ void FileEquations::RemoveMathOperation(const uint8_t id, std::set<uint8_t> &rem
     }
 }
 
-void FileEquations::CreateMathOperation(const string &s1, const string &s2, const char mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<MathOperation> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress)
+void FileEquations::CreateMathOperation(const string &s1, const string &s2, const char mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<MathOperation> &vv, vector<double> &variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress)
 {
   MathOperation v0;
 
@@ -361,7 +361,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
   vv.emplace_back(v0);
 }
 
-Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &operators, double *variableValue, const vector<uint16_t> &noOfInitialValue)
+Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &operators, vector<double> &variableValue, const vector<uint16_t> &noOfInitialValue)
 {
   // Set calculation order of an equation according to order of operations:
 

@@ -81,8 +81,8 @@ void ReadInitialData(const string &directory)
   vertices=graphFromFile.CreateVertices(numMethod.y_np1);
 
   numMethod.Create(graphFromFile.nx, graphFromFile.noOfInitialValue.size());
-  std::copy(numMethod.y_np1, numMethod.y_np1+graphFromFile.nx, numMethod.y_n);
-  std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
+  std::copy(numMethod.y_np1.begin(), numMethod.y_np1.begin()+graphFromFile.nx, numMethod.y_n.begin());
+  std::copy(numMethod.y_np1.begin(), numMethod.y_np1.begin()+numMethod.nValue, numMethod.valuesSubstitute.begin());
 
   equations=equationsFromFile.ParseEquations(graphFromFile.vertexNamesMap, operators, numMethod.valuesSubstitute, graphFromFile.noOfInitialValue);
   graphFromFile.CreateEdge(equationsFromFile.equationNames, equations);
@@ -97,23 +97,23 @@ void ReadInitialData(const string &directory)
 	{
 	  if(j.value1!=nullptr)
 	    {
-	      auto a12=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.value1);
+	      auto a12=std::find(numMethod.valuesSubstitute.begin(), numMethod.valuesSubstitute.begin()+numMethod.nValue, *j.value1);
 
-	      if(a12!=j.value1) memoryToClear.insert(j.value1);
+	      if(&*a12!=&*j.value1) memoryToClear.insert(j.value1);
 	    }
 
 	  if(j.value2!=nullptr)
 	    {
-	      auto a13=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.value2);
+	      auto a13=std::find(numMethod.valuesSubstitute.begin(), numMethod.valuesSubstitute.begin()+numMethod.nValue, *j.value2);
 
-	      if(a13!=j.value2) memoryToClear.insert(j.value2);
+	      if(&*a13!=&*j.value2) memoryToClear.insert(j.value2);
 	    }
 
 	  if(j.result!=nullptr)
 	    {
-	      auto a14=std::find(numMethod.valuesSubstitute, numMethod.valuesSubstitute+numMethod.nValue, *j.result);
+	      auto a14=std::find(numMethod.valuesSubstitute.begin(), numMethod.valuesSubstitute.begin()+numMethod.nValue, *j.result);
 
-	      if(a14!=j.result) memoryToClear.insert(j.result);
+	      if(&*a14!=&*j.result) memoryToClear.insert(j.result);
 	    }
 	}
     }

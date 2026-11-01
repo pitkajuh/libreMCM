@@ -4,11 +4,10 @@
 class NumericalMethod
 {
 public:
-  vector<double> y_np1;
-  vector<double> y_n;
+  vector<double> y_np1; // y_{n+1}
+  vector<double> y_n; // y_{n}
   vector<double> valuesSubstitute;
   vector<double> newValues;
-  // double *valuesSubstitute=nullptr;
   uint16_t nx=0;
   uint16_t N=0;
   uint16_t ny=0;
@@ -104,18 +103,10 @@ private:
 
   void RK4(vector<Edge> &edges, const uint16_t stepSize)
   {
-    // double *k1=new double[this->nx];
-    // double *k2=new double[this->nx];
-    // double *k3=new double[this->nx];
-    // double *k4=new double[this->nx];
-    vector<double> k1;
-    vector<double> k2;
-    vector<double> k3;
-    vector<double> k4;
-    k1.reserve(this->nx);
-    k2.reserve(this->nx);
-    k3.reserve(this->nx);
-    k4.reserve(this->nx);
+    vector<double> k1(this->nx);
+    vector<double> k2(this->nx);
+    vector<double> k3(this->nx);
+    vector<double> k4(this->nx);
 
 // #pragma omp parallel for
     for(uint16_t n=this->nValue; n<ny+1; n++)
@@ -140,10 +131,6 @@ private:
 	  }
 	EquationSubstitute1(0, this->nValue, this->newValues, this->valuesSubstitute);
       }
-    // delete [] k1;
-    // delete [] k2;
-    // delete [] k3;
-    // delete [] k4;
   }
 public:
   void WriteResultsSubSub(std::ofstream &file1, const uint16_t vertex, const uint16_t ivt)
@@ -186,7 +173,7 @@ public:
 
   void Calculate(const double timeStart, const double timeEnd, const double stepSize, vector<Edge> &edges, const uint16_t N1, const vector<uint16_t> &noOfInitialValue, const string &directory)
   {
-    std::copy(this->y_n, this->y_n+this->nx, this->newValues);
+    std::copy(this->y_n.begin(), this->y_n.begin()+this->nx, this->newValues.begin());
     this->N=N1;
     this->ny=(timeEnd-timeStart)/stepSize;
     RK4(edges, stepSize);
@@ -197,9 +184,9 @@ public:
   {
     this->nx=nx1;
     this->nValue=nv;
-    this->y_n=new double[nx1];
-    this->newValues=new double[nx1];
-    this->valuesSubstitute=new double[nv];
+    this->y_n.reserve(nx1);
+    this->newValues.reserve(nx1);
+    this->valuesSubstitute.reserve(nv);
   }
 
   RungeKutta4(){}
