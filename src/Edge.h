@@ -28,12 +28,12 @@ public:
     return result;
   }
 
-  Edge(const uint16_t sizeAdd, const uint16_t sizeSubtract)
+  Edge(const uint16_t sizeAdd1, const uint16_t sizeSubtract1)
   {
-    this->sizeAdd=sizeAdd;
-    this->sizeSubtract=sizeSubtract;
-    this->equationsAdd.reserve(sizeAdd);
-    this->equationsSubtract.reserve(sizeSubtract);
+    this->sizeAdd=sizeAdd1;
+    this->sizeSubtract=sizeSubtract1;
+    this->equationsAdd.reserve(sizeAdd1);
+    this->equationsSubtract.reserve(sizeSubtract1);
   }
 
   Edge(){}

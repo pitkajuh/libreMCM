@@ -61,7 +61,7 @@ void File::AddLine(vector<string> &content, string &line)
     }
 }
 
-const bool File::LineCommented(const string &line){return line[0]=='/' and line[1]=='/';}
+bool File::LineCommented(const string &line){return line[0]=='/' and line[1]=='/';}
 
 pair<streampos, vector<string>> File::ReadContentSub(ifstream &file, streampos from)
 {

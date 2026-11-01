@@ -14,7 +14,7 @@ public:
   uint16_t nValue=0;
 
   NumericalMethod(){}
-  virtual void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const uint16_t N, const vector<uint16_t> &noOfInitialValue, Vertex *vertices, const uint16_t nv, const string directory)=0;
+  virtual void Calculate(const double timeStart, const double timeEnd, const double stepSize, vector<Edge> &edges, const uint16_t N, const vector<uint16_t> &noOfInitialValue, const string directory)=0;
   virtual ~NumericalMethod()
   {
     delete [] newValues;
@@ -103,7 +103,7 @@ private:
       }
   }
 
-  void RK4(vector<Edge> &edges, const uint16_t stepSize, Vertex *vertices, const uint16_t nv)
+  void RK4(vector<Edge> &edges, const uint16_t stepSize)
   {
     double *k1=new double[this->nx];
     double *k2=new double[this->nx];
@@ -139,7 +139,7 @@ private:
     delete [] k4;
   }
 public:
-  void WriteResultsSubSub(std::ofstream &file1, const uint16_t vertex, const uint16_t iv, const uint16_t ivt)
+  void WriteResultsSubSub(std::ofstream &file1, const uint16_t vertex, const uint16_t ivt)
   {
     uint16_t k=1;
 
@@ -163,7 +163,7 @@ public:
 
     for(uint16_t i=0; i<initialValues; i++)
       {
-	WriteResultsSubSub(file1, vertex, i, initialValues);
+	WriteResultsSubSub(file1, vertex, initialValues);
       }
     file1.close();
   }
@@ -177,21 +177,21 @@ public:
       }
   }
 
-  void Calculate(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize, vector<Edge> &edges, const uint16_t N, const vector<uint16_t> &noOfInitialValue, Vertex *vertices, const uint16_t nv, const string directory)
+  void Calculate(const double timeStart, const double timeEnd, const double stepSize, vector<Edge> &edges, const uint16_t N1, const vector<uint16_t> &noOfInitialValue, const string directory)
   {
     std::copy(this->y_n, this->y_n+this->nx, this->newValues);
-    this->N=N;
+    this->N=N1;
     this->ny=(timeEnd-timeStart)/stepSize;
-    RK4(edges, stepSize, vertices, nv);
+    RK4(edges, stepSize);
     WriteResults(noOfInitialValue, directory);
   }
 
-  void Create(const uint16_t nx, const uint16_t nv)
+  void Create(const uint16_t nx1, const uint16_t nv)
   {
-    this->nx=nx;
+    this->nx=nx1;
     this->nValue=nv;
-    this->y_n=new double[nx];
-    this->newValues=new double[nx];
+    this->y_n=new double[nx1];
+    this->newValues=new double[nx1];
     this->valuesSubstitute=new double[nv];
   }
 

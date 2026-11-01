@@ -3,5 +3,5 @@ simulation_settings
   num_method=rk4;
   time_start=0;
   time_end=300;
-  step_size=1;
+  step_size=1.0;
 }

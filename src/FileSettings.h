@@ -10,7 +10,10 @@ protected:
 public:
   map<uint16_t, string> set;
   map<string, uint16_t> settingsNames;
-
+  double GetSetting(const string &setting);
+  double GetTimeStart();
+  double GetTimeEnd();
+  double GetStepSize();
   FileSettings(const string &fileName);
   FileSettings(){}
   ~FileSettings(){}

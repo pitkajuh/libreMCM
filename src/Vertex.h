@@ -9,11 +9,11 @@ public:
   double *values=nullptr;
 
   Vertex(){}
-  Vertex(const uint16_t n, const uint16_t nx)
+  Vertex(const uint16_t n1, const uint16_t nx1)
   {
-    this->n=n;
-    this->nx=nx;
-    values=new double[n];
+    this->n=n1;
+    this->nx=nx1;
+    values=new double[n1];
   }
   ~Vertex(){delete [] values;}
 };

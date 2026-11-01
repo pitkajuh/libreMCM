@@ -37,15 +37,14 @@ static struct option const options[]=
 void ReadInitialData(const string &directory)
 {
   cout<<"Start"<<'\n';
-  uint16_t timeStart;
-  uint16_t timeEnd;
-  uint16_t stepSize;
+  double timeStart;
+  double timeEnd;
+  double stepSize;
   FileEquations equationsFromFile;
   FileGraph graphFromFile;
   Vertex *vertices;
   MathOperators operators;
   RungeKutta4 numMethod;
-  uint16_t nv;
   Equations equations;
   std::unordered_set<double*> memoryToClear;
 
@@ -54,13 +53,13 @@ void ReadInitialData(const string &directory)
 #pragma omp task shared(timeStart, timeEnd, stepSize)
     {
       FileSettings simulationParameters(directory+"sim_params");
-      timeStart=std::stoi(simulationParameters.set[simulationParameters.settingsNames["time_start"]]);
+      timeStart=simulationParameters.GetTimeStart();
+
       if(timeStart<0) throw std::invalid_argument("Starting time cannot be negative");
-      timeEnd=std::stoi(simulationParameters.set[simulationParameters.settingsNames["time_end"]]);
+      timeEnd=simulationParameters.GetTimeEnd();
       if(timeEnd<0) throw std::invalid_argument("Ending time cannot be negative");
       if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
-
-      stepSize=std::stoi(simulationParameters.set[simulationParameters.settingsNames["step_size"]]);
+      stepSize=simulationParameters.GetStepSize();
       if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
       if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
       // Get other parameters here before clearing.
@@ -78,7 +77,6 @@ void ReadInitialData(const string &directory)
   }
 
   graphFromFile.Create(timeStart, timeEnd, stepSize);
-  nv=graphFromFile.all.size();
   graphFromFile.InitInitialValues();
   vertices=graphFromFile.CreateVertices(numMethod.y_np1);
 
@@ -86,10 +84,10 @@ void ReadInitialData(const string &directory)
   std::copy(numMethod.y_np1, numMethod.y_np1+graphFromFile.nx, numMethod.y_n);
   std::copy(numMethod.y_np1, numMethod.y_np1+numMethod.nValue, numMethod.valuesSubstitute);
 
-  equations=equationsFromFile.ParseEquations(graphFromFile.vertexNamesMap, operators, numMethod.valuesSubstitute, graphFromFile.noOfInitialValue, graphFromFile.noOfInitialValue.size());
+  equations=equationsFromFile.ParseEquations(graphFromFile.vertexNamesMap, operators, numMethod.valuesSubstitute, graphFromFile.noOfInitialValue);
   graphFromFile.CreateEdge(equationsFromFile.equationNames, equations);
 
-  numMethod.Calculate(timeStart, timeEnd, stepSize, graphFromFile.edgesNew2, graphFromFile.N, graphFromFile.noOfInitialValue, vertices, nv, directory);
+  numMethod.Calculate(timeStart, timeEnd, stepSize, graphFromFile.edgesNew2, graphFromFile.N, graphFromFile.noOfInitialValue, directory);
 
   cout<<"Start clearing"<<'\n';
 

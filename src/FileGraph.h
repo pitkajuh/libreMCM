@@ -38,9 +38,9 @@ public:
 
   void CreateEdge(map<string, uint16_t> &equationNames, Equations &equations);
   Vertex *CreateVertices(double *&results);
-  FileGraph(const string &fileName, const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize);
+  FileGraph(const string &fileName, const double timeStart, const double timeEnd, const double stepSize);
   void Read(const string &fileName);
-  void Create(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize);
+  void Create(const double timeStart, const double timeEnd, const double stepSize);
 
   FileGraph(){}
   ~FileGraph(){}

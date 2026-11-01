@@ -227,7 +227,7 @@ void FileGraph::Read(const string &fileName)
   ReadFile(fileName);
 }
 
-void FileGraph::Create(const uint16_t timeStart, const uint16_t timeEnd, const uint16_t stepSize)
+void FileGraph::Create(const double timeStart, const double timeEnd, const double stepSize)
 {
   ny=(timeEnd-timeStart)/stepSize;
 

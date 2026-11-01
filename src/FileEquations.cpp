@@ -57,7 +57,7 @@ void FileEquations::RemoveOpenClose(string &equation, uint8_t &id, vector<TestSt
     }
 }
 
-void FileEquations::RemoveMathOperation(const uint8_t id, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, const MathOperation &v, const uint8_t n, const uint8_t size, const uint8_t size2, const MathOperation &v0, const vector<MathOperation> &vv, double *data, const uint16_t N)
+void FileEquations::RemoveMathOperation(const uint8_t id, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, const MathOperation &v, const MathOperation &v0)
 {
   if(v.value1!=v0.value1)
     {
@@ -72,7 +72,7 @@ void FileEquations::RemoveMathOperation(const uint8_t id, std::set<uint8_t> &rem
     }
 }
 
-void FileEquations::CreateMathOperation(const string &s1, const string &s2, const char mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<MathOperation> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, uint8_t n, const uint8_t size, const uint16_t N)
+void FileEquations::CreateMathOperation(const string &s1, const string &s2, const char mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<MathOperation> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress)
 {
   MathOperation v0;
 
@@ -105,7 +105,10 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
       const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
       v0.value1=&variableValue[from1];
 
-      // if(b1.negative)????
+      if(b1.negative)
+	{
+	  throw std::invalid_argument("b1.negative is true, i don't know what to do.");
+	}
       if(b2.negative)
 	{
 	  v0.value2Negative=-1;
@@ -214,8 +217,8 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
 	  v0.result=new double(notSet);
 	  v0.Calculate();
 
-	  RemoveMathOperation(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
-	  RemoveMathOperation(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
+	  RemoveMathOperation(id1, removeIndices, removeAddress, v1, v0);
+	  RemoveMathOperation(id2, removeIndices, removeAddress, v2, v0);
 	}
       else if(!std::isnan(*v1.result))
 	{
@@ -223,7 +226,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
 	  v0.mathOperator=operators.GetOperator(mathOperator);
 	  v0.value1=v1.result;
 	  v0.value2=v2.result;
-	  RemoveMathOperation(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
+	  RemoveMathOperation(id1, removeIndices, removeAddress, v1, v0);
 	}
       else if(!std::isnan(*v2.result))
 	{
@@ -231,7 +234,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
 	  v0.mathOperator=operators.GetOperator(mathOperator);
 	  v0.value1=v1.result;
 	  v0.value2=v2.result;
-	  RemoveMathOperation(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
+	  RemoveMathOperation(id2, removeIndices, removeAddress, v2, v0);
 	}
       else
 	{
@@ -255,7 +258,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
       const uint8_t id1=stoi(s1.substr(1));
       const MathOperation v1=vv[id1];
 
-      if(!std::isnan(*v1.result)) RemoveMathOperation(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
+      if(!std::isnan(*v1.result)) RemoveMathOperation(id1, removeIndices, removeAddress, v1, v0);
       v0.value1=v1.result;
     }
   else if(b1.math and b2.variable)
@@ -268,7 +271,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
       const uint8_t id1=stoi(s1.substr(1));
       const MathOperation v1=vv[id1];
 
-      if(!std::isnan(*v1.result)) RemoveMathOperation(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
+      if(!std::isnan(*v1.result)) RemoveMathOperation(id1, removeIndices, removeAddress, v1, v0);
       v0.value1=v1.result;
     }
   else if(b1.numeric and b2.math)
@@ -283,7 +286,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
 	  v0.value1=new double(stod(s1));
 	  v0.result=new double(notSet);
 	  v0.Calculate();
-	  RemoveMathOperation(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
+	  RemoveMathOperation(id2, removeIndices, removeAddress, v2,  v0);
 	}
       else
 	{
@@ -307,7 +310,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
 	}
       else v0.value1=new double(constants[constantNames[s1]]);
 
-      if(!std::isnan(*v2.result)) RemoveMathOperation(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
+      if(!std::isnan(*v2.result)) RemoveMathOperation(id2, removeIndices, removeAddress, v2,  v0);
       v0.value2=v2.result;
     }
   else if(b2.math and b1.variable)
@@ -323,7 +326,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
       v0.value1Negative=b1.negative;
 
       v0.value1=&variableValue[from1];
-      if(!std::isnan(*v2.result)) RemoveMathOperation(id2, removeIndices, removeAddress, v2, n, size, vv.size(), v0, vv, variableValue, N);
+      if(!std::isnan(*v2.result)) RemoveMathOperation(id2, removeIndices, removeAddress, v2,  v0);
       v0.value2=v2.result;
     }
   else if(b2.numeric and b1.math)
@@ -337,7 +340,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
 	  v0.value1=v1.result;
 	  v0.value2=new double(stod(s2));
 	  v0.result=new double(notSet);
-	  RemoveMathOperation(id1, removeIndices, removeAddress, v1, n, size, vv.size(), v0, vv, variableValue, N);
+	  RemoveMathOperation(id1, removeIndices, removeAddress, v1, v0);
 	}
       else
 	{
@@ -358,7 +361,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
   vv.emplace_back(v0);
 }
 
-Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &operators, double *variableValue, const vector<uint16_t> &noOfInitialValue, const uint16_t N)
+Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &operators, double *variableValue, const vector<uint16_t> &noOfInitialValue)
 {
   // Set calculation order of an equation according to order of operations:
 
@@ -377,13 +380,11 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
       Equation equationNew;
       equationNew.id=id;
 
-      uint8_t i=0;
       for(const TestStr &eq: equation)
 	{
 	  const Bools b1(eq.str1, data, constantNames);
 	  const Bools b2(eq.str2, data, constantNames);
-	  CreateMathOperation(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data, removeIndices, removeAddress, i, equation.size(), N);
-	  i++;
+	  CreateMathOperation(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data, removeIndices, removeAddress);
 	}
 
       uint8_t j=0;

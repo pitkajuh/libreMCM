@@ -54,8 +54,8 @@ public:
 class FileEquations: public File
 {
 protected:
-  void RemoveMathOperation(const uint8_t id, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, const MathOperation &v, const uint8_t n, const uint8_t size, const uint8_t size2, const MathOperation &v0, const vector<MathOperation> &vv, double *data, const uint16_t N);
-  void CreateMathOperation(const string &s1, const string &s2, const char mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<MathOperation> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, uint8_t n, const uint8_t size, const uint16_t N);
+  void RemoveMathOperation(const uint8_t id, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress, const MathOperation &v, const MathOperation &v0);
+  void CreateMathOperation(const string &s1, const string &s2, const char mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<MathOperation> &vv, double *variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress);
   void GetOrder(string &str, uint8_t &id, vector<TestStr> &a);
   void RemoveOpenClose(string &equation, uint8_t &id, vector<TestStr> &a);
   void Convert(const map<uint16_t, string> &map);
@@ -70,7 +70,7 @@ public:
   map<string, uint16_t> equationNames;
   map<string, uint16_t> constantNames;
 
-  Equations ParseEquations(map<string, uint16_t> &data, MathOperators &operators, double *variableValue, const vector<uint16_t> &noOfInitialValue, const uint16_t N);
+  Equations ParseEquations(map<string, uint16_t> &data, MathOperators &operators, double *variableValue, const vector<uint16_t> &noOfInitialValue);
   void Read(const string &fileName);
 
   FileEquations(const string &fileName);

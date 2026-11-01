@@ -27,7 +27,7 @@ protected:
   void EraseLine(string &line);
   map<uint16_t, string> GetSettings(const vector<string> &ivs, map<string, uint16_t> &nameMap);
   void AddLine(vector<string> &content, string &line);
-  const bool LineCommented(const string &line);
+  bool LineCommented(const string &line);
 
   pair<streampos, vector<string>> ReadContentSub(ifstream &file, streampos from);
 
