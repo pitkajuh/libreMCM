@@ -9,7 +9,7 @@
 #include "FileGraph.h"
 #include "FileEquations.h"
 #include "NumericalMethod.h"
-#include "Vertex.h"
+#include "Graph.h"
 
 #define GetCurrentDir getcwd
 

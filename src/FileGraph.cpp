@@ -88,19 +88,17 @@ void FileGraph::CreateEdges(const vector<string> &v)
 streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
 {
   pair<streampos, vector<string>> result;
-  const string vertex="vertex";
-  const string edges="edges";
 
-  if(line.substr(0, 6)==vertex)
+  if(line.substr(0, 6)=="vertex")
     {
       const string vertexName=GetVertexName(line);
       vertexNames.insert(vertexName);
-      result=ReadContent(file, from, vertex, 6);
+      result=ReadContent(file, from, "vertex", 6);
       all[vertexName]=SetInitialValueName(result.second);
     }
-  else if(line.substr(0, 5)==edges)
+  else if(line.substr(0, 5)=="edges")
     {
-      result=ReadContent(file, from, edges, 5);
+      result=ReadContent(file, from, "edges", 5);
       CreateEdges(result.second);
     }
   from=result.first;
@@ -114,22 +112,23 @@ Vertex *FileGraph::CreateVertices(vector<double> &results)
   // because they represent the status of the system at t=timeStart.
   N=nx*ny;
   results.reserve(N);
-  uint16_t i=0;
 
-  for(uint16_t i=0; i<N; i++)
+
+  for(uint16_t k=0; k<N; k++)
     {
-      results[i]=0;
+      results[k]=0;
     }
+
+  uint16_t j=0;
 
   for(auto &[name, value]: all)
     {
       for(const auto&[v1, v2]: value)
 	{
-	  results[i]=v2;
-	  i++;
+	  results[j]=v2;
+	  j++;
 	}
     }
-
 
   Vertex *vertices=new Vertex[all.size()];
 
@@ -145,7 +144,7 @@ Vertex *FileGraph::CreateVertices(vector<double> &results)
 	}
     }
 
-  uint16_t j=0;
+  uint16_t i=0;
 
   // If nx is odd, fix from above where initial values are initialized.
   if(nx!=all.size())
@@ -165,9 +164,9 @@ Vertex *FileGraph::CreateVertices(vector<double> &results)
 	      j++;
 	    }
 
-	  for(uint16_t i=0; i<nx; i++)
+	  for(uint16_t i1=0; i1<nx; i1++)
 	    {
-	      results[i]=test[i];
+	      results[i1]=test[i1];
 	    }
 	  delete [] test;
 	}
@@ -183,9 +182,9 @@ Vertex *FileGraph::CreateVertices(vector<double> &results)
 	      j++;
 	    }
 
-	  for(uint16_t i=0; i<nx; i++)
+	  for(uint16_t i2=0; i2<nx; i2++)
 	    {
-	      results[i]=test[i];
+	      results[i2]=test[i2];
 	    }
 	  delete [] test;
 
