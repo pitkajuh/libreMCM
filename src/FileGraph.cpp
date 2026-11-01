@@ -107,13 +107,13 @@ streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
   return from;
 }
 
-Vertex *FileGraph::CreateVertices(double *&results)
+Vertex *FileGraph::CreateVertices(vector<double> &results)
 {
   // Results from the simulation are added to an array of doubles.
   // The initial values, provided by the user are added to the results
   // because they represent the status of the system at t=timeStart.
   N=nx*ny;
-  results=new double[N];
+  results.reserve(N);
   uint16_t i=0;
 
   for(uint16_t i=0; i<N; i++)
@@ -208,7 +208,6 @@ void FileGraph::InitInitialValues()
       // Initialize values for vertices, other than sink and source.
       if(edge.from!=source and edge.to!=sink)
 	{
-	  cout<<"size "<<all[edge.to].size()<<" "<<all[edge.from].size()<<'\n';
 	  for(const auto &[name, value]: all[edge.to])
 	    {
 	      all[edge.from][name];
