@@ -39,12 +39,12 @@ void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equa
 
       for(const auto &equationName: j.first)
 	{
-	  e.equationsAdd.emplace_back(equations.equations[equationNames[equationName]]);
+	  e.AddToEquationsAdding(equations.equations[equationNames[equationName]]);
 	}
 
       for(const auto &equationName: j.second)
 	{
-	  e.equationsSubtract.emplace_back(equations.equations[equationNames[equationName]]);
+	  e.AddToEquationsSubtracting(equations.equations[equationNames[equationName]]);
 	}
       edgesNew2.emplace_back(e);
     }

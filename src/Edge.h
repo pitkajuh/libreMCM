@@ -5,24 +5,34 @@
 
 struct Edge
 {
-public:
+private:
+  // Equations adding to vertex.
   vector<Equation> equationsAdd;
+  // Equations subtracting from vertex.
   vector<Equation> equationsSubtract;
-  uint16_t sizeAdd;
-  uint16_t sizeSubtract;
+public:
+  void AddToEquationsAdding(const Equation &e)
+  {
+    equationsAdd.emplace_back(e);
+  }
+
+  void AddToEquationsSubtracting(const Equation &e)
+  {
+    equationsSubtract.emplace_back(e);
+  }
 
   double Calculate()
   {
     double result=0;
 
-    for(uint16_t i=0; i<this->sizeAdd; i++)
+    for(Equation &e: equationsAdd)
       {
-	result+=this->equationsAdd[i].Calculate();
+	result+=e.Calculate();
       }
 
-    for(uint16_t i=0; i<this->sizeSubtract; i++)
+    for(Equation &e: equationsSubtract)
       {
-	result-=this->equationsSubtract[i].Calculate();
+	result-=e.Calculate();
       }
 
     return result;
@@ -30,8 +40,6 @@ public:
 
   Edge(const uint16_t sizeAdd1, const uint16_t sizeSubtract1)
   {
-    this->sizeAdd=sizeAdd1;
-    this->sizeSubtract=sizeSubtract1;
     this->equationsAdd.reserve(sizeAdd1);
     this->equationsSubtract.reserve(sizeSubtract1);
   }
