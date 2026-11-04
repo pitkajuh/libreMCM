@@ -105,7 +105,7 @@ streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
   return from;
 }
 
-Vertex *FileGraph::CreateVertices(vector<double> &results)
+vector<Vertex> FileGraph::CreateVertices(vector<double> &results)
 {
   // Results from the simulation are added to an array of doubles.
   // The initial values, provided by the user are added to the results
@@ -114,10 +114,10 @@ Vertex *FileGraph::CreateVertices(vector<double> &results)
   results.reserve(N);
 
 
-  for(uint16_t k=0; k<N; k++)
-    {
-      results[k]=0;
-    }
+  // for(uint16_t k=0; k<N; k++)
+  //   {
+  //     results[k]=0;
+  //   }
 
   uint16_t j=0;
 
@@ -130,7 +130,8 @@ Vertex *FileGraph::CreateVertices(vector<double> &results)
 	}
     }
 
-  Vertex *vertices=new Vertex[all.size()];
+  // Vertex *vertices=new Vertex[all.size()];
+  vector<Vertex> vertices(all.size());
 
   for(auto &[name, value]: all)
     {
@@ -192,6 +193,12 @@ Vertex *FileGraph::CreateVertices(vector<double> &results)
     }
   all.clear();
   return vertices;
+}
+
+void FileGraph::CreateGraph(const double timeStart, const double timeEnd, const double stepSize)
+{
+  Create(timeStart, timeEnd, stepSize);
+  InitInitialValues();
 }
 
 void FileGraph::InitInitialValues()

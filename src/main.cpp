@@ -37,12 +37,10 @@ static struct option const options[]=
 void ReadInitialData(const string &directory)
 {
   cout<<"Start"<<'\n';
-  double timeStart;
-  double timeEnd;
-  double stepSize;
   FileEquations equationsFromFile;
   FileGraph graphFromFile;
-  Vertex *vertices;
+  FileSettings simulationParameters;
+  vector<Vertex> vertices;
   MathOperators operators;
   RungeKutta4 numMethod;
   Equations equations;
@@ -50,21 +48,9 @@ void ReadInitialData(const string &directory)
 
 #pragma omp taskgroup
   {
-#pragma omp task shared(timeStart, timeEnd, stepSize)
+#pragma omp task shared(simulationParameters)
     {
-      FileSettings simulationParameters(directory+"sim_params");
-      timeStart=simulationParameters.GetTimeStart();
-
-      if(timeStart<0) throw std::invalid_argument("Starting time cannot be negative");
-      timeEnd=simulationParameters.GetTimeEnd();
-      if(timeEnd<0) throw std::invalid_argument("Ending time cannot be negative");
-      if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
-      stepSize=simulationParameters.GetStepSize();
-      if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
-      if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
-      // Get other parameters here before clearing.
-      // Get algorithm type, e.g. RK4
-      simulationParameters.set.clear();
+      simulationParameters.Read(directory+"sim_params");
     }
 #pragma omp task shared(equationsFromFile)
     {
@@ -76,8 +62,7 @@ void ReadInitialData(const string &directory)
     }
   }
 
-  graphFromFile.Create(timeStart, timeEnd, stepSize);
-  graphFromFile.InitInitialValues();
+  graphFromFile.CreateGraph(simulationParameters.timeStart, simulationParameters.timeEnd, simulationParameters.stepSize);
   vertices=graphFromFile.CreateVertices(numMethod.y_np1);
 
   numMethod.Create(graphFromFile.nx, graphFromFile.noOfInitialValue.size());
@@ -87,7 +72,7 @@ void ReadInitialData(const string &directory)
   equations=equationsFromFile.ParseEquations(graphFromFile.vertexNamesMap, operators, numMethod.valuesSubstitute, graphFromFile.noOfInitialValue);
   graphFromFile.CreateEdge(equationsFromFile.equationNames, equations);
 
-  numMethod.Calculate(timeStart, timeEnd, stepSize, graphFromFile.edgesNew2, graphFromFile.N, graphFromFile.noOfInitialValue, directory);
+  numMethod.Calculate(simulationParameters.timeStart, simulationParameters.timeEnd, simulationParameters.stepSize, graphFromFile.edgesNew2, graphFromFile.N, graphFromFile.noOfInitialValue, directory);
 
   cout<<"Start clearing"<<'\n';
 
@@ -122,7 +107,7 @@ void ReadInitialData(const string &directory)
     {
       delete k;
     }
-  delete [] vertices;
+
 }
 
 int main(int argc, char** argv)

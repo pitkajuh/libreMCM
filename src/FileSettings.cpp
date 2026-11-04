@@ -36,7 +36,19 @@ double FileSettings::GetStepSize()
   return GetSetting("step_size");
 }
 
-FileSettings::FileSettings(const string &fileName)
+void FileSettings::Read(const string &fileName)
 {
   ReadFile(fileName);
+  timeStart=GetTimeStart();
+
+  if(timeStart<0) throw std::invalid_argument("Starting time cannot be negative");
+  timeEnd=GetTimeEnd();
+  if(timeEnd<0) throw std::invalid_argument("Ending time cannot be negative");
+  if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
+  stepSize=GetStepSize();
+  if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
+  if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
+  // Get other parameters here before clearing.
+  // Get algorithm type, e.g. RK4
+  set.clear();
 }

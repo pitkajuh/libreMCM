@@ -35,9 +35,9 @@ public:
   vector<EdgeStruct> edges;
   vector<Edge> edgesNew2;
   void InitInitialValues();
-
+  void CreateGraph(const double timeStart, const double timeEnd, const double stepSize);
   void CreateEdge(map<string, uint16_t> &equationNames, Equations &equations);
-  Vertex *CreateVertices(vector<double> &results);
+  vector<Vertex> CreateVertices(vector<double> &results);
   FileGraph(const string &fileName, const double timeStart, const double timeEnd, const double stepSize);
   void Read(const string &fileName);
   void Create(const double timeStart, const double timeEnd, const double stepSize);
