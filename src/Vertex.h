@@ -13,7 +13,7 @@ struct Vertex
 {
 private:
   string name;
-  uint8_t id;
+  uint16_t id;
 public:
 
   uint16_t n;

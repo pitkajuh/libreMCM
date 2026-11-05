@@ -31,10 +31,7 @@ public:
   uint16_t ny=0;
   uint16_t N=0;
   vector<uint16_t> noOfInitialValue;
-
   set<string> vertexNames;
-  map<string, uint16_t> vertexNamesMap;
-
   map<string, std::pair<set<string>, set<string>>> vertexEquationsAddSubtract;
   vector<EdgeStruct> edges;
   void InitInitialValues();

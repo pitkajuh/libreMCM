@@ -125,7 +125,7 @@ void FileGraph::CreateVertices(Graph &graph, vector<double> &results)
 	}
     }
 
-  uint8_t id=0;
+  uint16_t id=0;
 
   for(auto &[name, value]: vertexInitialValueMap)
     {
@@ -135,7 +135,6 @@ void FileGraph::CreateVertices(Graph &graph, vector<double> &results)
 	{
 	  v.AddValue(v2);
 	}
-            // std::cout<<"a "<<n<<" "<<name<<'\n';
       graph.AddVertex(v);
       id++;
     }
@@ -234,14 +233,4 @@ void FileGraph::Create(const FileSettings &simulationParameters)
       noOfInitialValue.emplace_back(j.size());
       nx+=j.size();
     }
-
-  uint16_t n=0;
-
-  for(const string &name: vertexNames)
-    {
-      std::cout<<"a "<<n<<" "<<name<<'\n';
-      vertexNamesMap[name]=n;
-      n++;
-    }
-  vertexNames.clear();
 }
