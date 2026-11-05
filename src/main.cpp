@@ -37,10 +37,10 @@ static struct option const options[]=
 void ReadInitialData(const string &directory)
 {
   cout<<"Start"<<'\n';
+  Graph graph;
   FileEquations equationsFromFile;
   FileGraph graphFromFile;
   FileSettings simulationParameters;
-  vector<Vertex> vertices;
   MathOperators operators;
   RungeKutta4 numMethod;
   Equations equations;
@@ -63,16 +63,16 @@ void ReadInitialData(const string &directory)
   }
 
   graphFromFile.CreateGraph(simulationParameters);
-  vertices=graphFromFile.CreateVertices(numMethod.y_np1);
+  graphFromFile.CreateVertices(graph, numMethod.y_np1);
 
   numMethod.Create(graphFromFile.nx, graphFromFile.noOfInitialValue.size());
   std::copy(numMethod.y_np1.begin(), numMethod.y_np1.begin()+graphFromFile.nx, numMethod.y_n.begin());
   std::copy(numMethod.y_np1.begin(), numMethod.y_np1.begin()+numMethod.nValue, numMethod.valuesSubstitute.begin());
 
   equations=equationsFromFile.ParseEquations(graphFromFile.vertexNamesMap, operators, numMethod.valuesSubstitute, graphFromFile.noOfInitialValue);
-  graphFromFile.CreateEdge(equationsFromFile.equationNames, equations);
+  graphFromFile.CreateEdge(graph, equationsFromFile.equationNames, equations);
 
-  numMethod.Calculate(simulationParameters, graphFromFile.edgesNew2, graphFromFile.N, graphFromFile.noOfInitialValue, directory);
+  numMethod.Calculate(simulationParameters, graph, graphFromFile.N, graphFromFile.noOfInitialValue, directory);
 
   cout<<"Start clearing"<<'\n';
 

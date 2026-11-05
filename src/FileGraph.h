@@ -6,6 +6,7 @@
 #include "Equation.h"
 #include "Vertex.h"
 #include "FileSettings.h"
+#include "Graph.h"
 
 using std::set;
 
@@ -25,20 +26,22 @@ protected:
   streampos SA(ifstream &file, streampos from, const string &line);
   void CreateEdges(const vector<string> &v);
 public:
-  map<string, map<string, double>> all;
+  map<string, map<string, double>> vertexInitialValueMap;
   uint16_t nx=0;
   uint16_t ny=0;
   uint16_t N=0;
   vector<uint16_t> noOfInitialValue;
+
   set<string> vertexNames;
   map<string, uint16_t> vertexNamesMap;
+
   map<string, std::pair<set<string>, set<string>>> vertexEquationsAddSubtract;
   vector<EdgeStruct> edges;
   vector<Edge> edgesNew2;
   void InitInitialValues();
   void CreateGraph(const FileSettings &simulationParameters);
-  void CreateEdge(map<string, uint16_t> &equationNames, Equations &equations);
-  vector<Vertex> CreateVertices(vector<double> &results);
+  void CreateEdge(Graph &graph, map<string, uint16_t> &equationNames, Equations &equations);
+  void CreateVertices(Graph &graph, vector<double> &results);
   FileGraph(const string &fileName, const FileSettings &simulationParameters);
   void Read(const string &fileName);
   void Create(const FileSettings &simulationParameters);

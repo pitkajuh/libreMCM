@@ -58,8 +58,10 @@ void FileSettings::Read(const string &fileName)
 
   if(timeStart<0) throw std::invalid_argument("Starting time cannot be negative");
   timeEnd=SetTimeEnd();
+
   if(timeEnd<0) throw std::invalid_argument("Ending time cannot be negative");
   if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
+
   stepSize=SetStepSize();
   if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
   if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");

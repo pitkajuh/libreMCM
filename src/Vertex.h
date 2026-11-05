@@ -3,10 +3,23 @@
 
 struct Vertex
 {
+private:
+  string name;
 public:
+
   uint16_t n;
   uint16_t nx;
   vector<double> values;
+
+  string& GetName()
+  {
+    return name;
+  }
+
+  void AddValue(const double value)
+  {
+    values.emplace_back(value);
+  }
 
   Vertex(){}
   Vertex(const uint16_t n1, const uint16_t nx1)

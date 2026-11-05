@@ -20,8 +20,13 @@ public:
     edges.emplace_back(e);
   }
 
+  vector<Edge>& GetEdges()
+  {
+    return edges;
+  }
+
   Graph(){}
-  virtual ~Graph(){}
+  ~Graph(){}
 };
 
 #endif

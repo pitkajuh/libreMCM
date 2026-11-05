@@ -4,7 +4,7 @@
 #include "FileSettings.h"
 #include "Equation.h"
 #include "Edge.h"
-#include "Vertex.h"
+#include "Graph.h"
 
 const string source="source";
 const string sink="sink";
@@ -32,7 +32,7 @@ map<string, double> FileGraph::SetInitialValueName(vector<string> &ivs)
   return result;
 }
 
-void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equations)
+void FileGraph::CreateEdge(Graph &graph, map<string, uint16_t> &equationNames, Equations &equations)
 {
   for(const auto &[i, j]: vertexEquationsAddSubtract)
     {
@@ -47,7 +47,7 @@ void FileGraph::CreateEdge(map<string, uint16_t> &equationNames, Equations &equa
 	{
 	  e.AddToEquationsSubtracting(equations.equations[equationNames[equationName]]);
 	}
-      edgesNew2.emplace_back(e);
+      graph.AddEdge(e);
     }
   vertexEquationsAddSubtract.clear();
 }
@@ -95,7 +95,7 @@ streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
       const string vertexName=GetVertexName(line);
       vertexNames.insert(vertexName);
       result=ReadContent(file, from, "vertex", 6);
-      all[vertexName]=SetInitialValueName(result.second);
+      vertexInitialValueMap[vertexName]=SetInitialValueName(result.second);
     }
   else if(line.substr(0, 5)=="edges")
     {
@@ -106,7 +106,7 @@ streampos FileGraph::SA(ifstream &file, streampos from, const string &line)
   return from;
 }
 
-vector<Vertex> FileGraph::CreateVertices(vector<double> &results)
+void FileGraph::CreateVertices(Graph &graph, vector<double> &results)
 {
   // Results from the simulation are added to an array of doubles.
   // The initial values, provided by the user are added to the results
@@ -114,15 +114,9 @@ vector<Vertex> FileGraph::CreateVertices(vector<double> &results)
   N=nx*ny;
   results.reserve(N);
 
-
-  // for(uint16_t k=0; k<N; k++)
-  //   {
-  //     results[k]=0;
-  //   }
-
   uint16_t j=0;
 
-  for(auto &[name, value]: all)
+  for(auto &[name, value]: vertexInitialValueMap)
     {
       for(const auto&[v1, v2]: value)
 	{
@@ -131,38 +125,34 @@ vector<Vertex> FileGraph::CreateVertices(vector<double> &results)
 	}
     }
 
-  // Vertex *vertices=new Vertex[all.size()];
-  vector<Vertex> vertices(all.size());
-
-  for(auto &[name, value]: all)
+  for(auto &[name, value]: vertexInitialValueMap)
     {
       Vertex v(this->N, value.size());
-      uint16_t i=0;
 
       for(const auto &[v1, v2]: value)
 	{
-	  v.values[i]=v2;
-	  i++;
+	  v.AddValue(v2);
 	}
+      graph.AddVertex(v);
     }
 
   uint16_t i=0;
 
   // If nx is odd, fix from above where initial values are initialized.
-  if(nx!=all.size())
+  if(nx!=vertexInitialValueMap.size())
     {
       double *test = new double[nx];
-      const uint16_t delta=nx/all.size();
+      const uint16_t delta=nx/vertexInitialValueMap.size();
 
-      if(all.size()%2==0)
+      if(vertexInitialValueMap.size()%2==0)
 	{
 	  i=1;
 
 	  while(i<nx)
 	    {
-	      test[j*all.size()]=results[j];
+	      test[j*vertexInitialValueMap.size()]=results[j];
 	      test[i]=results[delta+j];
-	      i+=all.size();
+	      i+=vertexInitialValueMap.size();
 	      j++;
 	    }
 
@@ -179,7 +169,7 @@ vector<Vertex> FileGraph::CreateVertices(vector<double> &results)
 	  while(i<nx)
 	    {
 	      test[j]=results[i];
-	      test[j+all.size()]=results[i+1];
+	      test[j+vertexInitialValueMap.size()]=results[i+1];
 	      i+=delta;
 	      j++;
 	    }
@@ -189,11 +179,9 @@ vector<Vertex> FileGraph::CreateVertices(vector<double> &results)
 	      results[i2]=test[i2];
 	    }
 	  delete [] test;
-
 	}
     }
-  all.clear();
-  return vertices;
+  vertexInitialValueMap.clear();
 }
 
 void FileGraph::CreateGraph(const FileSettings &simulationParameters)
@@ -215,14 +203,14 @@ void FileGraph::InitInitialValues()
       // Initialize values for vertices, other than sink and source.
       if(edge.from!=source and edge.to!=sink)
 	{
-	  for(const auto &[name, value]: all[edge.to])
+	  for(const auto &[name, value]: vertexInitialValueMap[edge.to])
 	    {
-	      all[edge.from][name];
+	      vertexInitialValueMap[edge.from][name];
 	    }
 
-	  for(const auto &[name, value]: all[edge.from])
+	  for(const auto &[name, value]: vertexInitialValueMap[edge.from])
 	    {
-	      all[edge.to][name];
+	      vertexInitialValueMap[edge.to][name];
 	    }
 	}
     }
@@ -237,7 +225,7 @@ void FileGraph::Create(const FileSettings &simulationParameters)
 {
   ny=(simulationParameters.timeEnd-simulationParameters.timeStart)/simulationParameters.stepSize;
 
-  for(auto &[i, j]: all)
+  for(auto &[i, j]: vertexInitialValueMap)
     {
       noOfInitialValue.emplace_back(j.size());
       nx+=j.size();
