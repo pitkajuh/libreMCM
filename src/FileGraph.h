@@ -37,7 +37,6 @@ public:
 
   map<string, std::pair<set<string>, set<string>>> vertexEquationsAddSubtract;
   vector<EdgeStruct> edges;
-  vector<Edge> edgesNew2;
   void InitInitialValues();
   void CreateGraph(const FileSettings &simulationParameters);
   void CreateEdge(Graph &graph, map<string, uint16_t> &equationNames, Equations &equations);
