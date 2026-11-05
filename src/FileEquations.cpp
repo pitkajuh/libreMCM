@@ -72,7 +72,7 @@ void FileEquations::RemoveMathOperation(const uint8_t id, std::set<uint8_t> &rem
     }
 }
 
-void FileEquations::CreateMathOperation(const string &s1, const string &s2, const char mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<MathOperation> &vv, vector<double> &variableValue, const vector<uint16_t> &noOfInitialValue, map<string, uint16_t> &data, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress)
+void FileEquations::CreateMathOperation(const string &s1, const string &s2, const char mathOperator, const Bools &b1, const Bools &b2, MathOperators &operators, vector<MathOperation> &vv, vector<double> &variableValue, const vector<uint16_t> &noOfInitialValue, Graph &graph, std::set<uint8_t> &removeIndices, std::unordered_set<double*> &removeAddress)
 {
   MathOperation v0;
 
@@ -83,11 +83,11 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
       v0.value1Negative=b1.negative;
       v0.value2Negative=b2.negative;
 
-      const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
+      const uint8_t id1=graph.GetVertex((b1.negative)?s1.substr(1):s1).GetId();
       const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
       const uint8_t to1=noOfInitialValue[id1];
 
-      const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
+      const uint8_t id2=graph.GetVertex((b2.negative)?s2.substr(1):s2).GetId();
       const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
       const uint8_t to2=noOfInitialValue[id2];
 
@@ -101,7 +101,8 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
     {
       v0.result=new double(notSet);
       v0.value1Negative=b1.negative;
-      const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
+
+      const uint8_t id1=graph.GetVertex((b1.negative)?s1.substr(1):s1).GetId();
       const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
       v0.value1=&variableValue[from1];
 
@@ -122,7 +123,8 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
     {
       v0.result=new double(notSet);
       v0.value1Negative=b1.negative;
-      const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
+
+      const uint8_t id1=graph.GetVertex((b1.negative)?s1.substr(1):s1).GetId();
       const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
       v0.value1=&variableValue[from1];
       v0.value2=new double(stod(s2));
@@ -131,7 +133,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
   else if(b1.constant and b2.variable)
     {
       v0.value2Negative=b2.negative;
-      const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
+      const uint8_t id2=graph.GetVertex((b2.negative)?s2.substr(1):s2).GetId();
       v0.value2=&variableValue[id2];
       v0.result=new double(notSet);
       v0.mathOperator=operators.GetOperator(mathOperator);
@@ -180,7 +182,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
       v0.result=new double(notSet);
       v0.value1=new double(stod(s1));
       v0.value2Negative=b2.negative;
-      const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
+      const uint8_t id2=graph.GetVertex((b2.negative)?s2.substr(1):s2).GetId();
       const uint8_t from2=(id2==0)?0:noOfInitialValue[id2-1];
       v0.value2=&variableValue[from2];
       v0.mathOperator=operators.GetOperator(mathOperator);
@@ -265,7 +267,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
     {
       v0.result=new double(notSet);
       v0.value2Negative=b2.negative;
-      const uint8_t id2=data[(b2.negative)?s2.substr(1):s2];
+      const uint8_t id2=graph.GetVertex((b2.negative)?s2.substr(1):s2).GetId();
       v0.value2=&variableValue[id2];
       v0.mathOperator=operators.GetOperator(mathOperator);
       const uint8_t id1=stoi(s1.substr(1));
@@ -317,7 +319,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
     {
       const uint8_t id2=stoi(s2.substr(1));
       const MathOperation v2=vv[id2];
-      const uint8_t id1=data[(b1.negative)?s1.substr(1):s1];
+      const uint8_t id1=graph.GetVertex((b1.negative)?s1.substr(1):s1).GetId();
       const uint8_t from1=(id1==0)?0:noOfInitialValue[id1-1];
 
       v0.result=new double(notSet);
@@ -361,7 +363,7 @@ void FileEquations::CreateMathOperation(const string &s1, const string &s2, cons
   vv.emplace_back(v0);
 }
 
-Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperators &operators, vector<double> &variableValue, const vector<uint16_t> &noOfInitialValue)
+Equations FileEquations::ParseEquations(Graph &graph, MathOperators &operators, vector<double> &variableValue, const vector<uint16_t> &noOfInitialValue)
 {
   // Set calculation order of an equation according to order of operations:
 
@@ -382,9 +384,9 @@ Equations FileEquations::ParseEquations(map<string, uint16_t> &data, MathOperato
 
       for(const TestStr &eq: equation)
 	{
-	  const Bools b1(eq.str1, data, constantNames);
-	  const Bools b2(eq.str2, data, constantNames);
-	  CreateMathOperation(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, data, removeIndices, removeAddress);
+	  const Bools b1(eq.str1, graph, constantNames);
+	  const Bools b2(eq.str2, graph, constantNames);
+	  CreateMathOperation(eq.str1, eq.str2, eq.op, b1, b2, operators, equationNew.vertices, variableValue, noOfInitialValue, graph, removeIndices, removeAddress);
 	}
 
       uint8_t j=0;

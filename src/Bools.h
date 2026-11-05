@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <string>
 #include <map>
+#include "Graph.h"
 
 using std::map;
 using std::string;
@@ -17,9 +18,9 @@ public:
   bool math=0;
   bool negative=0;
 
-  Bools(const string &s1, const map<string, uint16_t> &variables, const map<string, uint16_t> &constants)
+  Bools(const string &s1, Graph &graph, const map<string, uint16_t> &constants)
   {
-    variable=variables.find(s1)!=variables.end();
+    variable=graph.FindVertex(s1);
     negative=s1[0]=='-';
     constant=(negative)?constants.find(s1.substr(1))!=constants.end():constants.find(s1)!=constants.end();
     math=(s1.substr(0, 1)=="@")?1:0;
