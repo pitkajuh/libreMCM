@@ -5,6 +5,7 @@
 #include "Edge.h"
 #include "Equation.h"
 #include "Vertex.h"
+#include "FileSettings.h"
 
 using std::set;
 
@@ -35,12 +36,12 @@ public:
   vector<EdgeStruct> edges;
   vector<Edge> edgesNew2;
   void InitInitialValues();
-  void CreateGraph(const double timeStart, const double timeEnd, const double stepSize);
+  void CreateGraph(const FileSettings &simulationParameters);
   void CreateEdge(map<string, uint16_t> &equationNames, Equations &equations);
   vector<Vertex> CreateVertices(vector<double> &results);
-  FileGraph(const string &fileName, const double timeStart, const double timeEnd, const double stepSize);
+  FileGraph(const string &fileName, const FileSettings &simulationParameters);
   void Read(const string &fileName);
-  void Create(const double timeStart, const double timeEnd, const double stepSize);
+  void Create(const FileSettings &simulationParameters);
 
   FileGraph(){}
   ~FileGraph(){}

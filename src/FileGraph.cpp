@@ -1,6 +1,7 @@
 #include <cstdint>
 #include <limits>
 #include "FileGraph.h"
+#include "FileSettings.h"
 #include "Equation.h"
 #include "Edge.h"
 #include "Vertex.h"
@@ -195,9 +196,9 @@ vector<Vertex> FileGraph::CreateVertices(vector<double> &results)
   return vertices;
 }
 
-void FileGraph::CreateGraph(const double timeStart, const double timeEnd, const double stepSize)
+void FileGraph::CreateGraph(const FileSettings &simulationParameters)
 {
-  Create(timeStart, timeEnd, stepSize);
+  Create(simulationParameters);
   InitInitialValues();
 }
 
@@ -232,9 +233,9 @@ void FileGraph::Read(const string &fileName)
   ReadFile(fileName);
 }
 
-void FileGraph::Create(const double timeStart, const double timeEnd, const double stepSize)
+void FileGraph::Create(const FileSettings &simulationParameters)
 {
-  ny=(timeEnd-timeStart)/stepSize;
+  ny=(simulationParameters.timeEnd-simulationParameters.timeStart)/simulationParameters.stepSize;
 
   for(auto &[i, j]: all)
     {

@@ -18,6 +18,9 @@ public:
   double GetTimeStart();
   double GetTimeEnd();
   double GetStepSize();
+  double SetTimeStart();
+  double SetTimeEnd();
+  double SetStepSize();
   FileSettings(){}
   ~FileSettings(){}
 };

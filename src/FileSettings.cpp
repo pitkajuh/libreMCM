@@ -21,31 +21,46 @@ double FileSettings::GetSetting(const string &setting)
   return std::stod(aa);
 }
 
-double FileSettings::GetTimeStart()
+double FileSettings::SetTimeStart()
 {
   return GetSetting("time_start");
 }
 
-double FileSettings::GetTimeEnd()
+double FileSettings::SetTimeEnd()
 {
   return GetSetting("time_end");
 }
 
-double FileSettings::GetStepSize()
+double FileSettings::SetStepSize()
 {
   return GetSetting("step_size");
+}
+
+double FileSettings::GetTimeStart()
+{
+  return timeStart;
+}
+
+double FileSettings::GetTimeEnd()
+{
+  return timeEnd;
+}
+
+double FileSettings::GetStepSize()
+{
+  return stepSize;
 }
 
 void FileSettings::Read(const string &fileName)
 {
   ReadFile(fileName);
-  timeStart=GetTimeStart();
+  timeStart=SetTimeStart();
 
   if(timeStart<0) throw std::invalid_argument("Starting time cannot be negative");
-  timeEnd=GetTimeEnd();
+  timeEnd=SetTimeEnd();
   if(timeEnd<0) throw std::invalid_argument("Ending time cannot be negative");
   if(timeStart>timeEnd) throw std::invalid_argument("Starting time is larger than ending time");
-  stepSize=GetStepSize();
+  stepSize=SetStepSize();
   if(stepSize==0) throw std::invalid_argument("Step size cannot be zero");
   if(stepSize>=timeEnd) throw std::invalid_argument("Step size is too large.");
   // Get other parameters here before clearing.

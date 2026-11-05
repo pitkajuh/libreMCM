@@ -62,7 +62,7 @@ void ReadInitialData(const string &directory)
     }
   }
 
-  graphFromFile.CreateGraph(simulationParameters.timeStart, simulationParameters.timeEnd, simulationParameters.stepSize);
+  graphFromFile.CreateGraph(simulationParameters);
   vertices=graphFromFile.CreateVertices(numMethod.y_np1);
 
   numMethod.Create(graphFromFile.nx, graphFromFile.noOfInitialValue.size());
@@ -72,7 +72,7 @@ void ReadInitialData(const string &directory)
   equations=equationsFromFile.ParseEquations(graphFromFile.vertexNamesMap, operators, numMethod.valuesSubstitute, graphFromFile.noOfInitialValue);
   graphFromFile.CreateEdge(equationsFromFile.equationNames, equations);
 
-  numMethod.Calculate(simulationParameters.timeStart, simulationParameters.timeEnd, simulationParameters.stepSize, graphFromFile.edgesNew2, graphFromFile.N, graphFromFile.noOfInitialValue, directory);
+  numMethod.Calculate(simulationParameters, graphFromFile.edgesNew2, graphFromFile.N, graphFromFile.noOfInitialValue, directory);
 
   cout<<"Start clearing"<<'\n';
 
