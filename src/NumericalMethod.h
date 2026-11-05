@@ -103,7 +103,7 @@ private:
       }
   }
 
-  void RK4(vector<Edge> &edges, const uint16_t stepSize)
+  void RK4(Graph &graph, const uint16_t stepSize)
   {
     vector<double> k1(this->nx);
     vector<double> k2(this->nx);
@@ -113,10 +113,10 @@ private:
 // #pragma omp parallel for
     for(uint16_t n=this->nValue; n<ny+1; n++)
       {
-	k0(edges, k1, this->y_n, stepSize);
-	k(edges, k2, 0.5, k1, stepSize);
-	k(edges, k3, 0.5, k2, stepSize);
-	k(edges, k4, 1, k3, stepSize);
+	k0(graph.GetEdges(), k1, this->y_n, stepSize);
+	k(graph.GetEdges(), k2, 0.5, k1, stepSize);
+	k(graph.GetEdges(), k3, 0.5, k2, stepSize);
+	k(graph.GetEdges(), k4, 1, k3, stepSize);
 #pragma omp parallel for
 	for(uint16_t i=0; i<this->nx; i++)
 	  {
@@ -178,7 +178,7 @@ public:
     std::copy(this->y_n.begin(), this->y_n.begin()+this->nx, this->newValues.begin());
     this->N=N1;
     this->ny=(simulationParameters.GetTimeEnd()-simulationParameters.GetTimeStart())/simulationParameters.GetStepSize();
-    RK4(graph.GetEdges(), simulationParameters.GetStepSize());
+    RK4(graph, simulationParameters.GetStepSize());
     WriteResults(noOfInitialValue, directory);
   }
 

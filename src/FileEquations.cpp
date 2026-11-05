@@ -397,8 +397,6 @@ Equations FileEquations::ParseEquations(Graph &graph, MathOperators &operators, 
 	  j++;
 	}
 
-      equationNew.size1=equationNew.vertices.size();
-
       for(const auto &i: removeAddress)
 	{
 	  delete i;

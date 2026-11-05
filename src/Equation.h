@@ -9,13 +9,12 @@ struct Equation
 public:
   uint16_t id;
   vector<MathOperation> vertices;
-  uint16_t size1;
 
   double Calculate()
   {
-    for(uint16_t i=0; i<this->size1; i++)
+    for(auto &i: vertices)
       {
-	vertices[i].Calculate();
+	i.Calculate();
       }
     return *vertices.back().result;
   }
