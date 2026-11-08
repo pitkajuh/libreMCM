@@ -77,7 +77,7 @@ private:
 
   }
 
-  void k(vector<Edge> &equation, vector<double> &k, const double constant, vector<double> &kPrevious, const uint16_t stepSize)
+  void k(vector<Edge> &equation, vector<double> &k, const double constant, vector<double> &kPrevious, const uint16_t stepSize, Graph &graph)
   {
 #pragma omp parallel for
     for(uint16_t i=0; i<this->nx; i+=this->nValue)
@@ -91,7 +91,7 @@ private:
       }
   }
 
-  void k0(vector<Edge> &equation, vector<double> &k, vector<double> &k1, const uint16_t stepSize)
+  void k0(vector<Edge> &equation, vector<double> &k, vector<double> &k1, const uint16_t stepSize, Graph &graph)
   {
     Calculate(equation, k, stepSize);
 
@@ -113,10 +113,10 @@ private:
 // #pragma omp parallel for
     for(uint16_t n=this->nValue; n<ny+1; n++)
       {
-	k0(graph.GetEdges(), k1, this->y_n, stepSize);
-	k(graph.GetEdges(), k2, 0.5, k1, stepSize);
-	k(graph.GetEdges(), k3, 0.5, k2, stepSize);
-	k(graph.GetEdges(), k4, 1, k3, stepSize);
+	k0(graph.GetEdges(), k1, this->y_n, stepSize, graph);
+	k(graph.GetEdges(), k2, 0.5, k1, stepSize, graph);
+	k(graph.GetEdges(), k3, 0.5, k2, stepSize, graph);
+	k(graph.GetEdges(), k4, 1, k3, stepSize, graph);
 #pragma omp parallel for
 	for(uint16_t i=0; i<this->nx; i++)
 	  {

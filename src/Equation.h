@@ -24,7 +24,6 @@ struct Equations
 {
 public:
   vector<Equation> equations;
-
 };
 
 #endif
