@@ -14,11 +14,11 @@ struct Vertex
 private:
   string name;
   uint16_t id;
+  vector<double> values;
 public:
 
   uint16_t n;
   uint16_t nx;
-  vector<double> values;
 
   void PrintVertex()
   {
@@ -31,12 +31,22 @@ public:
     std::cout<<" "<<'\n';
   }
 
+  vector<double>& GetValues()
+  {
+    return values;
+  }
+
+  double GetLastValue() const
+  {
+    return values.back();
+  }
+
   const string& GetName() const
   {
     return name;
   }
 
-  uint8_t GetId()
+  uint8_t GetId() const
   {
     return id;
   }

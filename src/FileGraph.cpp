@@ -21,7 +21,7 @@ string FileGraph::GetVertexName(string line)
 map<string, double> FileGraph::SetInitialValueName(vector<string> &ivs)
 {
   map<string, double> result;
-
+#pragma omp parallel for
   for(auto &iv: ivs)
     {
       const uint16_t at=iv.find("=");
@@ -185,6 +185,7 @@ void FileGraph::CreateVertices(Graph &graph, vector<double> &results)
 	}
     }
   vertexInitialValueMap.clear();
+  // graph.SetSize();
 }
 
 void FileGraph::CreateGraph(const FileSettings &simulationParameters)
@@ -200,7 +201,7 @@ void FileGraph::InitInitialValues()
   // vertex B={b1=5, b2=2}, initial values a1 and a2 must be initialized
   // with value of zero in B, so B={a1=0, a2=0 b1=5, b2=2}. Sink and
   // source are skipped
-
+#pragma omp parallel for
   for(const auto &edge: edges)
     {
       // Initialize values for vertices, other than sink and source.

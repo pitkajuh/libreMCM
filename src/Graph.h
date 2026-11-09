@@ -2,6 +2,7 @@
 #define GRAPH_H
 
 #include <algorithm>
+#include <fstream>
 #include "Vertex.h"
 #include "Edge.h"
 
@@ -19,6 +20,49 @@ public:
       }
   }
 
+  double GetResult(const uint16_t vertex_id) const
+  {
+    return vertices[vertex_id].GetLastValue();
+  }
+
+  vector<double> GetLatestResults()
+  {
+    vector<double> latestResults(GetNumberOfVertices());
+
+    for(uint16_t vertex_id=0; vertex_id<GetNumberOfVertices(); vertex_id++)
+      {
+	latestResults[vertex_id]=vertices[vertex_id].GetLastValue();
+      }
+    return latestResults;
+  }
+
+  uint16_t GetNumberOfVertices() const
+  {
+    return vertices.size();
+  }
+
+  void WriteResults()
+  {
+    for(Vertex &vertex: vertices)
+      {
+	std::ofstream file(vertex.GetName()+".txt");
+
+	for(double d: vertex.GetValues())
+	  {
+	    file<<d;
+	  }
+	file.close();
+      }
+  }
+
+  void SaveResults(const vector<double> &results)
+  {
+    for(uint16_t vertex_id=0; vertex_id<GetNumberOfVertices(); vertex_id++)
+      {
+	vertices[vertex_id].AddValue(results[vertex_id]);
+      }
+  }
+
   Vertex& GetVertex(const string &name)
   {
     return *std::find_if(vertices.begin(), vertices.end(),
@@ -26,7 +70,7 @@ public:
 			);
   }
 
-  Vertex& GetVertex(const uint8_t &id)
+  Vertex& GetVertex(const uint16_t &id)
   {
     return *std::find_if(vertices.begin(), vertices.end(),
 			[id](Vertex &v){return v.GetId()==id;}
@@ -40,14 +84,14 @@ public:
 			)!=vertices.end();
   }
 
-  void AddVertex(const Vertex &v)
+  void AddVertex(const Vertex &vertex)
   {
-    vertices.emplace_back(v);
+    vertices.emplace_back(vertex);
   }
 
-  void AddEdge(const Edge &e)
+  void AddEdge(const Edge &edge)
   {
-    edges.emplace_back(e);
+    edges.emplace_back(edge);
   }
 
   vector<Edge>& GetEdges()
