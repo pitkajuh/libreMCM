@@ -27,11 +27,22 @@ public:
 class RungeKutta4: public NumericalMethod
 {
 private:
-  void print(const double *k, const uint16_t from, const uint16_t to)
+  void print(const vector<double> &k, int from, int to)
   {
     string a;
 
     for(uint16_t i=from; i<to; i++)
+      {
+	a+=std::to_string(k[i])+";";
+      }
+    cout<<a<<'\n';
+  }
+
+  void print(const vector<double> &k)
+  {
+    string a;
+
+    for(uint16_t i=0; i<k.size(); i++)
       {
 	a+=std::to_string(k[i])+";";
       }
@@ -64,7 +75,8 @@ private:
 #pragma omp parallel for
     for(uint16_t i=from; i<to; i++)
       {
-	kTo[i-from]=kFrom[i];
+	// kTo[i-from]=kFrom[i];
+	kTo[i]=kFrom[i];
       }
   }
 
@@ -72,19 +84,19 @@ private:
   {
     for(uint16_t i=from; i<to; i++)
       {
-	kTo[i-from]=kFrom[i];
+	// kTo[i-from]=kFrom[i];
+	kTo[i]=kFrom[i];
       }
-
   }
 
-  void k(vector<Edge> &equation, vector<double> &k, const double constant, vector<double> &kPrevious, const uint16_t stepSize)
+  void k(vector<Edge> &equation, vector<double> &k, const double constant, vector<double> &kPrevious, const uint16_t stepSize, const vector<double> &calc_result)
   {
 #pragma omp parallel for
     for(uint16_t i=0; i<this->nx; i+=this->nValue)
       {
 	for(uint16_t j=i; j<i+this->nValue; j++)
 	  {
-	    const double a=this->y_n[j]+constant*kPrevious[j];
+	    const double a=calc_result[j]+constant*kPrevious[j];
 	    this->valuesSubstitute[j-i]=a;
 	  }
 	Calculate1(equation, k, i, stepSize);
@@ -97,8 +109,10 @@ private:
 
 #pragma omp parallel for
     for(uint16_t i=this->nValue; i<this->nx; i+=this->nValue)
+    // for(uint16_t i=0; i<this->nx; i+=1)
       {
-	EquationSubstitute(i, i+this->nValue, k1, this->valuesSubstitute);
+	// EquationSubstitute(i, i+this->nValue, k1, this->valuesSubstitute);
+	EquationSubstitute(0, this->nx, k1, this->valuesSubstitute);
 	Calculate1(equation, k, i, stepSize);
       }
   }
@@ -115,21 +129,62 @@ private:
 // #pragma omp parallel for
     for(uint16_t n1=0; n1<ny; n1++)
       {
-	k0(graph.GetEdges(), k1, this->y_n, stepSize);
-	k(graph.GetEdges(), k2, 0.5, k1, stepSize);
-	k(graph.GetEdges(), k3, 0.5, k2, stepSize);
-	k(graph.GetEdges(), k4, 1, k3, stepSize);
+	k0(graph.GetEdges(), k1, calc_result, stepSize);
+	k(graph.GetEdges(), k2, 0.5, k1, stepSize, calc_result);
+	k(graph.GetEdges(), k3, 0.5, k2, stepSize, calc_result);
+	k(graph.GetEdges(), k4, 1, k3, stepSize, calc_result);
 
 #pragma omp parallel for
 	for(uint16_t i=0; i<graph.GetNumberOfVertices(); i++)
 	  {
 	    double aa=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
 	    calc_result[i]+=aa;
-	    std::cout<<calc_result[i]<<'\n';
+	    // std::cout<<calc_result[i]<<'\n';
+	  }
+	// print(calc_result);
+
+	// graph.AddResults(calc_result);
+
+
+	for(uint16_t j=0; j<graph.GetNumberOfVertices(); j++)
+	  {
+	    // std::cout<< this->valuesSubstitute[j]<<" "<<calc_result[j]<<'\n';
+	    this->valuesSubstitute[j]=calc_result[j];
 	  }
 
-	// graph.SaveResults(calc_result);
-	break;
+	EquationSubstitute1(0, graph.GetNumberOfVertices(), calc_result, this->valuesSubstitute);
+
+	graph.AddResults(calc_result);
+
+      }
+
+//     std::cout<<" "<<'\n';
+//     k1.clear();
+//     k2.clear();
+//     k3.clear();
+//     k4.clear();
+// #pragma omp parallel for
+
+
+
+//     for(uint16_t n=this->nValue; n<ny+1; n++)
+//       {
+// 	k0(graph.GetEdges(), k1, this->y_n, stepSize);
+// 	k(graph.GetEdges(), k2, 0.5, k1, stepSize);
+// 	k(graph.GetEdges(), k3, 0.5, k2, stepSize);
+// 	k(graph.GetEdges(), k4, 1, k3, stepSize);
+
+// #pragma omp parallel for
+// 	for(uint16_t i=0; i<this->nx; i++)
+// 	  {
+// 	    double aa=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
+// 	    this->newValues[i]+=aa;
+// 	    // std::cout<<this->newValues[i]<<'\n';
+// 	  }
+// 	// print(calc_result(n-1)*this->nx, i<n*this->nx);
+// 	// break;
+
+
 
 
 // 	uint16_t j=0;
@@ -141,43 +196,7 @@ private:
 // 	    j++;
 // 	  }
 // 	EquationSubstitute1(0, this->nValue, this->newValues, this->valuesSubstitute);
-      }
-
-    std::cout<<" "<<'\n';
-    k1.clear();
-    k2.clear();
-    k3.clear();
-    k4.clear();
-// #pragma omp parallel for
-    for(uint16_t n=this->nValue; n<ny+1; n++)
-      {
-	k0(graph.GetEdges(), k1, this->y_n, stepSize);
-	k(graph.GetEdges(), k2, 0.5, k1, stepSize);
-	k(graph.GetEdges(), k3, 0.5, k2, stepSize);
-	k(graph.GetEdges(), k4, 1, k3, stepSize);
-
-#pragma omp parallel for
-	for(uint16_t i=0; i<this->nx; i++)
-	  {
-	    double aa=(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6;
-	    this->newValues[i]+=aa;
-	    std::cout<<this->newValues[i]<<'\n';
-	  }
-	break;
-
-
-
-
-	uint16_t j=0;
-// #pragma omp parallel for
-	for(uint16_t i=(n-1)*this->nx; i<n*this->nx; i++)
-	  {
-	    this->y_np1[i]=this->newValues[j];
-	    this->y_n[j]=this->newValues[j];
-	    j++;
-	  }
-	EquationSubstitute1(0, this->nValue, this->newValues, this->valuesSubstitute);
-      }
+//       }
   }
 public:
   void WriteResultsSubSub(std::ofstream &file1, const uint16_t vertex, const uint16_t ivt)

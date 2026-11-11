@@ -16,7 +16,6 @@ private:
   uint16_t id;
   vector<double> values;
 public:
-
   uint16_t n;
   uint16_t nx;
 

@@ -55,7 +55,7 @@ public:
       }
   }
 
-  void SaveResults(const vector<double> &results)
+  void AddResults(const vector<double> &results)
   {
     for(uint16_t vertex_id=0; vertex_id<GetNumberOfVertices(); vertex_id++)
       {
