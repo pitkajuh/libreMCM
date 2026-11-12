@@ -141,7 +141,7 @@ private:
 	    calc_result[i]+=aa;
 	    // std::cout<<calc_result[i]<<'\n';
 	  }
-	// print(calc_result);
+	print(calc_result);
 
 	// graph.AddResults(calc_result);
 
