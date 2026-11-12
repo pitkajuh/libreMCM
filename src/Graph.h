@@ -41,15 +41,16 @@ public:
     return vertices.size();
   }
 
-  void WriteResults()
+  void WriteResults(const string &directory)
   {
     for(Vertex &vertex: vertices)
       {
-	std::ofstream file(vertex.GetName()+".txt");
+	std::ofstream file(directory+"/"+vertex.GetName()+".txt");
 
-	for(double d: vertex.GetValues())
+	for(const double d: vertex.GetValues())
 	  {
 	    file<<d;
+	    file<<'\n';
 	  }
 	file.close();
       }

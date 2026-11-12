@@ -16,7 +16,7 @@ public:
   uint16_t nValue=0;
 
   NumericalMethod(){}
-  virtual void Calculate(FileSettings &simulationParameters, Graph &graph, const uint16_t N, const vector<uint16_t> &noOfInitialValue, const string &directory)=0;
+  virtual void Calculate(FileSettings &simulationParameters, Graph &graph, const uint16_t N, const string &directory)=0;
   virtual ~NumericalMethod()
   {
     // delete [] newValues;
@@ -237,13 +237,13 @@ public:
       }
   }
 
-  void Calculate(FileSettings &simulationParameters, Graph &graph, const uint16_t N1, const vector<uint16_t> &noOfInitialValue, const string &directory)
+  void Calculate(FileSettings &simulationParameters, Graph &graph, const uint16_t N1, const string &directory)
   {
     std::copy(this->y_n.begin(), this->y_n.begin()+this->nx, this->newValues.begin());
     this->N=N1;
     this->ny=(simulationParameters.GetTimeEnd()-simulationParameters.GetTimeStart())/simulationParameters.GetStepSize();
     RK4(graph, simulationParameters.GetStepSize());
-    WriteResults(noOfInitialValue, directory);
+    graph.WriteResults(directory);
   }
 
   void Create(const uint16_t nx1, const uint16_t nv)

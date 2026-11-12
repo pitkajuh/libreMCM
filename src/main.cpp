@@ -74,7 +74,7 @@ void ReadInitialData(const string &directory)
   equations=equationsFromFile.ParseEquations(graph, operators, numMethod.valuesSubstitute, graphFromFile.noOfInitialValue);
   graphFromFile.CreateEdge(graph, equationsFromFile.equationNames, equations);
 
-  numMethod.Calculate(simulationParameters, graph, graphFromFile.N, graphFromFile.noOfInitialValue, directory);
+  numMethod.Calculate(simulationParameters, graph, graphFromFile.N, directory);
 
   cout<<"Start clearing"<<'\n';
 
