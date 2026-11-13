@@ -2,10 +2,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-time=np.arange(0, 300, 1)
-x=np.loadtxt("0.txt")
-y=np.loadtxt("1.txt")
-plt.plot(time, x, label="0, libreMCM")
-plt.plot(time, y, label="1, libreMCM")
+time=np.arange(0, 301, 1)
+x=np.loadtxt("r.txt")
+y=np.loadtxt("f.txt")
+plt.plot(time, x, label="r, libreMCM")
+plt.plot(time, y, label="f, libreMCM")
 plt.legend()
 plt.show()

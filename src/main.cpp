@@ -66,7 +66,7 @@ void ReadInitialData(const string &directory)
   graphFromFile.CreateVertices(graph, numMethod.y_np1);
   numMethod.Create(graphFromFile.nx, graphFromFile.noOfInitialValue.size());
 
-  graph.PrintGraph();
+  // graph.PrintGraph();
 
   std::copy(numMethod.y_np1.begin(), numMethod.y_np1.begin()+graphFromFile.nx, numMethod.y_n.begin());
   std::copy(numMethod.y_np1.begin(), numMethod.y_np1.begin()+numMethod.nValue, numMethod.valuesSubstitute.begin());

@@ -45,7 +45,7 @@ public:
   {
     for(Vertex &vertex: vertices)
       {
-	std::ofstream file(directory+"/"+vertex.GetName()+".txt");
+	std::ofstream file(directory+vertex.GetName()+".txt");
 
 	for(const double d: vertex.GetValues())
 	  {
